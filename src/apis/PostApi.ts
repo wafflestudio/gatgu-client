@@ -8,9 +8,6 @@ export interface PostProps {
   description: string;
 }
 
-export function getAllPost(token: string): Promise<AxiosResponse<PostProps>> {
-  const config: AxiosRequestConfig = {
-    headers: { Authorization: `Token ${token}` },
-  };
-  return axios.get('/board/list/', config);
+export function getAllPost(): Promise<AxiosResponse<PostProps>> {
+  return axios.get('/board/list/');
 }
