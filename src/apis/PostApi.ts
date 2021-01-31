@@ -1,5 +1,5 @@
-import { AxiosResponse } from 'axios';
-import axios from './axios';
+import { AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios from './BaseInstance';
 
 export interface PostProps {
   id: number;
@@ -8,10 +8,9 @@ export interface PostProps {
   description: string;
 }
 
-export async function getAllPost(
-  token: string
-): Promise<AxiosResponse<PostProps>> {
-  const config = { headers: { Authorization: `Token ${token}` } };
-  const response = await axios.get('/board/list/', config);
-  return response;
+export function getAllPost(token: string): Promise<AxiosResponse<PostProps>> {
+  const config: AxiosRequestConfig = {
+    headers: { Authorization: `Token ${token}` },
+  };
+  return axios.get('/board/list/', config);
 }
