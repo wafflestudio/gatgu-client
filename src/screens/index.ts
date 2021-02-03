@@ -1,1 +1,3 @@
-export { default as UserScreen } from './UserScreen';
+export { default as Chatting } from './Chatting';
+export { default as Home } from './Home';
+export { default as Profile } from './Profile';

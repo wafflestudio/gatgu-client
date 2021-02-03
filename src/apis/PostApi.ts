@@ -1,4 +1,4 @@
-import { AxiosResponse, AxiosRequestConfig } from 'axios';
+import { AxiosResponse } from 'axios';
 import axios from './BaseInstance';
 
 export interface PostProps {
