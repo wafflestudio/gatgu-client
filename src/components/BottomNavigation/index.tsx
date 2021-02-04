@@ -29,7 +29,7 @@ function BottomNavigationTab() {
       <Tab.Screen
         name={Profile.name}
         component={Profile.component}
-        options={options[Chatting.name]}
+        options={options[Profile.name]}
       />
     </Tab.Navigator>
   );
@@ -39,19 +39,19 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
   Home: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-home" style={{ color, fontSize: 27 }} />
+      <Icon name="ios-home" style={{ color, fontSize: 25 }} />
     ),
   },
   Profile: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-add-circle" style={{ color, fontSize: 27 }} />
+      <Icon name="ios-add-circle" style={{ color, fontSize: 25 }} />
     ),
   },
   Chatting: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-heart" style={{ color, fontSize: 27 }} />
+      <Icon name="ios-heart" style={{ color, fontSize: 25 }} />
     ),
   },
 };
