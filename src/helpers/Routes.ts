@@ -1,10 +1,1 @@
-import { UserScreen } from '@/screens';
-
-const routes = {
-  User: {
-    path: 'User',
-    screen: UserScreen,
-  },
-};
-
-export default routes;
+// 이 파일이 있어야 하는지 논의

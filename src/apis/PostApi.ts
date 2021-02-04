@@ -1,5 +1,5 @@
-import { AxiosResponse, AxiosRequestConfig } from 'axios';
-import axios from './BaseInstance';
+import { AxiosResponse } from 'axios';
+import requester from './BaseInstance';
 
 export interface PostProps {
   id: number;
@@ -9,5 +9,5 @@ export interface PostProps {
 }
 
 export function getAllPost(): Promise<AxiosResponse<PostProps>> {
-  return axios.get('/board/list/');
+  return requester.get('/board/list/');
 }
