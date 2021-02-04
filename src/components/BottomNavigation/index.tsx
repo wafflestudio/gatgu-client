@@ -13,7 +13,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const { Home, Chatting, Profile, tarBarOption } = navigationRoute;
 
-export default function BottomNavigationTab() {
+function BottomNavigationTab() {
   return (
     <Tab.Navigator tabBarPosition="bottom" tabBarOptions={tarBarOption}>
       <Tab.Screen
@@ -55,3 +55,5 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
     ),
   },
 };
+
+export default BottomNavigationTab;

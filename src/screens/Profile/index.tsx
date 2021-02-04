@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function Profile() {
+function Profile() {
   return (
     <View style={styles.container}>
       <Text>this is Profile</Text>
@@ -16,3 +16,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default Profile;
