@@ -1,10 +1,8 @@
 import React from 'react';
-
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabNavigationOptions,
 } from '@react-navigation/material-top-tabs';
-
 import { Icon } from 'native-base';
 
 import navigationRoute from './navigationRoute';
