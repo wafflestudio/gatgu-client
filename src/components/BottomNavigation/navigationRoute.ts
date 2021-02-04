@@ -9,6 +9,9 @@ export default {
     indicatorStyle: {
       backgroundColor: 'white',
     },
+    style: {
+      height: 60,
+    },
   },
   Home: {
     name: 'Home',
