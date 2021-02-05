@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const infoStyle = StyleSheet.create({
+  // container
   container: {
     height: 170,
     justifyContent: 'center',
@@ -8,6 +9,8 @@ const infoStyle = StyleSheet.create({
     textAlign: 'center',
     flexDirection: 'row',
   },
+
+  // profile image
   profileImg: {
     height: 100,
     width: 100,
@@ -15,16 +18,22 @@ const infoStyle = StyleSheet.create({
     overflow: 'hidden',
     marginRight: 25,
   },
+
+  // detail
   detail: {
     height: 90,
     width: 100,
     justifyContent: 'space-between',
   },
+
+  // content
   content: {
     height: 90,
     width: 120,
     justifyContent: 'space-between',
   },
+
+  // detail & content common
   detailText: {
     fontSize: 20,
     color: 'gray',

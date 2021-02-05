@@ -75,7 +75,31 @@ const Profile = () => {
       <View style={styles.grade.header}>
         <Text style={styles.grade.headerText}>등급</Text>
       </View>
-      <View style={styles.grade.graph}></View>
+      <View style={styles.grade.graph}>
+        <View style={styles.grade.graphNumbers}>
+          {[-100, 0, 100, 200, 300, 400, 500, 600].map((item, i) => (
+            <Text key={i} style={styles.grade.graphNumber}>
+              {item}
+            </Text>
+          ))}
+        </View>
+        <View style={styles.grade.graphBoxes}>
+          {['천민', '하수', '초수', '중수', '고수', '지존', '지름'].map(
+            (item, i) =>
+              i === dummyInfo.grade ? (
+                <View key={i} style={styles.grade.pointBox}>
+                  <View style={styles.grade.pointArrow} />
+                  <Text style={styles.grade.pointBoxText}>{item}</Text>
+                  <Text style={styles.grade.pointText}>내 등급</Text>
+                </View>
+              ) : (
+                <View key={i} style={styles.grade.graphBox}>
+                  <Text style={styles.grade.graphBoxText}>{item}</Text>
+                </View>
+              )
+          )}
+        </View>
+      </View>
       <View style={styles.grade.detail}>
         <View style={styles.grade.detailElem}>
           <Text style={styles.grade.detailElemTitle}>등급지수</Text>
