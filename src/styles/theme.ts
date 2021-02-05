@@ -1,4 +1,4 @@
-//색과 font 정보는 여기서 정의
+// 색과 font 정보는 여기서 정의
 
 const theme = {
   palette: {
