@@ -36,9 +36,9 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@types/node": "^14.14.22",
     "@types/react": "~16.9.35",
     "@types/react-dom": "~16.9.8",
-    "@types/node": "^14.14.22",
     "@types/react-native": "~0.63.2",
     "@types/react-redux": "^7.1.16",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
@@ -49,6 +49,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.3.8",
+    "json-server": "^0.16.3",
     "lint-staged": "^10.5.3",
     "prettier": "2.2.1",
     "typescript": "~4.0.0"
