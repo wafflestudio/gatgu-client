@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import rootReducer from '@/store';
 
-import BottomNavigation from '@/components/BottomNavigation';
+import BottomNavigation from '@/components/MainNavigatior';
 
 const store = configureStore({
   reducer: rootReducer,
