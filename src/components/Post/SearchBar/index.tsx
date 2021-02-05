@@ -13,7 +13,7 @@ export default function SearchBar() {
 
   return (
     <View style={styles.outerBox}>
-      <Icon name="ios-search" style={{ paddingLeft: 10 }} />
+      <Icon name="ios-search" style={styles.searchIcon} />
       <Input
         value={input}
         onChangeText={setInput}
