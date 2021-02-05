@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'TempApp' do
+target 'gatgu' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'TempAppTests' do
+  target 'gatguTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'TempApp' do
   end
 end
 
-target 'TempApp-tvOS' do
-  # Pods for TempApp-tvOS
+target 'gatgu-tvOS' do
+  # Pods for gatgu-tvOS
 
-  target 'TempApp-tvOSTests' do
+  target 'gatgu-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
