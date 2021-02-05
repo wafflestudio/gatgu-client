@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+
+import HomeTemplate from './template';
 
 function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text>this is home</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <HomeTemplate />
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
