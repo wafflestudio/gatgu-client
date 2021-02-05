@@ -5,8 +5,8 @@ import { flexRow } from '@/styles/basic';
 
 const styles = StyleSheet.create({
   outerBox: {
-    backgroundColor: palette.white,
     ...flexRow,
+    backgroundColor: palette.white,
     width: '90%',
     height: 50,
     borderRadius: 10,
@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
+  },
+  searchIcon: {
+    paddingLeft: 10,
   },
 });
 
