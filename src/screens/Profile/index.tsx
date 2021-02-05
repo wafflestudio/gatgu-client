@@ -1,20 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Profile } from '@/components';
 
-function Profile() {
-  return (
-    <View style={styles.container}>
-      <Text>this is Profile</Text>
-    </View>
-  );
+function ProfilePage() {
+  return <Profile />;
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
-export default Profile;
+export default ProfilePage;
