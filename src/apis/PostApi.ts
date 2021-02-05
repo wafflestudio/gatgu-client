@@ -8,6 +8,11 @@ export interface PostProps {
   description: string;
 }
 
-export function getAllPost(): Promise<AxiosResponse<PostProps>> {
-  return requester.get('/board/list/');
+const postApi = {
+  getAll: (): Promise<AxiosResponse<PostProps>> => {
+    // TODO change: board/list/ 아님
+    return requester.get('/board/list/');
+  }
 }
+
+export default postApi;

@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 // axios 객체
-export default axios.create({
+// TODO: write base URL
+const requester = axios.create({
   baseURL: '',
-  params: {},
 });
+
+export default requester;

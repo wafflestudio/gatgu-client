@@ -13,6 +13,7 @@
     "@react-navigation/material-top-tabs": "^5.3.13",
     "@react-navigation/native": "^5.9.2",
     "@reduxjs/toolkit": "^1.5.0",
+    "axios": "^0.21.1",
     "native-base": "^2.15.2",
     "react": "16.13.1",
     "react-native": "0.63.4",
