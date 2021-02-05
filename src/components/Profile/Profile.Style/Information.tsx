@@ -3,8 +3,6 @@ import { StyleSheet } from 'react-native';
 const infoStyle = StyleSheet.create({
   container: {
     height: 170,
-    borderColor: 'black',
-    borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',

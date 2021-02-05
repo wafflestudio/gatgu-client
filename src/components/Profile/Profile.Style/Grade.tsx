@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 
 const gradeStyle = StyleSheet.create({
   container: {
-    backgroundColor: 'yellow',
+    borderWidth: 1,
+    borderColor: 'black',
     height: 320,
   },
 });

@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground, TouchableHighlight } from 'react-native';
 import styles from './Profile.Style';
 import React from 'react';
 
@@ -13,10 +13,24 @@ const dummyInfo = {
 const Profile = () => {
   const profileImg = { uri: dummyInfo.profileUrl };
 
+  const goBack = () => {
+    console.log('뒤로가기 어케하냐');
+  };
+
+  const showOptions = () => {
+    console.log('모달 띄울거임');
+  };
+
   return (
     <>
       <View style={styles.header.container}>
-        <Text>Hi</Text>
+        <TouchableHighlight style={styles.header.button} onPress={goBack}>
+          <Text style={styles.header.title}>뒤로</Text>
+        </TouchableHighlight>
+        <Text style={styles.header.title}>더 보기</Text>
+        <TouchableHighlight style={styles.header.button} onPress={showOptions}>
+          <Text style={styles.header.title}>...</Text>
+        </TouchableHighlight>
       </View>
       <View style={styles.info.container}>
         <ImageBackground source={profileImg} style={styles.info.profileImg} />
