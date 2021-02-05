@@ -5,32 +5,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  circleContainer: {
-    height: 70,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  circle1: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 7,
-    width: 14,
-    height: 14,
-    borderWidth: 1,
-    margin: 6,
-  },
-  circle2: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 7,
-    width: 14,
-    height: 14,
-    backgroundColor: 'black',
-    margin: 6,
-  },
   photo: {
-    width: 350,
+    width: '100%',
     height: 250,
   },
   recruitHalfContainer: {
@@ -53,7 +29,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  descriptionContainer: {
+  bigContainer: {
     height: 175,
     borderWidth: 1,
   },
