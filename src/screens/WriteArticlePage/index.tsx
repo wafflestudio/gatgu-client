@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { WriteArticle } from '@/components'
+import { WriteArticle } from '@/components';
 
 function WriteArticlePage() {
   return (
     <View style={styles.container}>
-      <WriteArticle/>
+      <WriteArticle />
     </View>
-  )
+  );
 }
 const styles = StyleSheet.create({
   container: {

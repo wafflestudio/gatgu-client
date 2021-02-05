@@ -9,7 +9,13 @@ import navigationRoute from './navigationRoute';
 
 const Tab = createMaterialTopTabNavigator();
 
-const { WriteArticlePage, Home, Chatting, Profile, tarBarOption } = navigationRoute;
+const {
+  Home,
+  Chatting,
+  Profile,
+  WriteArticlePage,
+  tarBarOption,
+} = navigationRoute;
 
 function BottomNavigationTab() {
   return (
@@ -58,10 +64,13 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
     ),
   },
   WriteArticlePage: {
+    // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
       <Icon name="ios-book" style={{ color, fontSize: 25 }} />
     ),
   },
 };
+
+BottomNavigationTab.displayName = 'BottomNavigationTab';
 
 export default BottomNavigationTab;

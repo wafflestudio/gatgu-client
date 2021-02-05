@@ -28,5 +28,5 @@ export default {
   WriteArticlePage: {
     name: 'WriteArticlePage',
     component: WriteArticlePage,
-  }
+  },
 };

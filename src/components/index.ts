@@ -1,2 +1,2 @@
 export { default as Button } from './Button';
-export { default as WriteArticle } from './WriteArticle'
+export { default as WriteArticle } from './WriteArticle';
