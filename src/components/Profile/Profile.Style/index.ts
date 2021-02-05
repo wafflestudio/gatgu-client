@@ -1,3 +1,6 @@
+// exporter file
+// this folder is only for styling
+
 import headerStyle from './Header';
 import infoStyle from './Information';
 import gradeStyle from './Grade';
