@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Header from '@/components/Header';
 import styles from './style';
-
+import { TagArray } from '@/constants/Enum';
 // TODO:
 //  - remove dummy
 //  - change displaying image to adding image --> find which library
@@ -27,24 +27,6 @@ const dummyArticle = {
   link:
     'How do I open a link?? Need to study Linking: https://reactnative.dev/docs/linking',
 };
-
-const TagArray = [
-  [
-    { id: 1, tag: '운동' },
-    { id: 2, tag: '음식' },
-    { id: 3, tag: '가구' },
-  ],
-  [
-    { id: 4, tag: '컴공' },
-    { id: 5, tag: '기계' },
-    { id: 6, tag: '전기' },
-  ],
-  [
-    { id: 7, tag: '방탄' },
-    { id: 8, tag: '엑소' },
-    { id: 9, tag: '빅뱅' },
-  ],
-];
 
 const WriteArticle = () => {
   const Title = (
@@ -93,9 +75,9 @@ const WriteArticle = () => {
       <Label style={[styles.label, inline.padding]}>태그</Label>
       {TagArray.map((arr, k) => (
         <View key={k} style={inline.outer}>
-          {arr.map((tag, i) => (
+          {arr.map((tag) => (
             <View key={tag.id} style={inline.inner}>
-              <Text key={tag.id}>{tag.tag}</Text>
+              <Text>{tag.tag}</Text>
             </View>
           ))}
         </View>
@@ -103,18 +85,22 @@ const WriteArticle = () => {
     </View>
   );
 
+  const AddImage = (
+    <View>
+      <Image
+        style={styles.photo}
+        source={{
+          uri: dummyArticle.dummyImage,
+        }}
+      />
+    </View>
+  );
+
   return (
     <ScrollView>
       <Header title="글 쓰기" left={true} right={false} />
       {Tags}
-      <View>
-        <Image
-          style={styles.photo}
-          source={{
-            uri: dummyArticle.dummyImage,
-          }}
-        />
-      </View>
+      {AddImage}
       {Title}
       {Recruiting}
       {Location}
