@@ -1,12 +1,21 @@
-// thema 저장 공간
+// 색과 font 정보는 여기서 정의
 
 const theme = {
   palette: {
-    dark: '',
+    dark: '#000',
+    gray: 'gray',
+    white: 'white',
   },
-  typography: {
-    title: {},
+  typo: {
+    semiTitle: {
+      lineHeight: 30,
+      fontSize: 20,
+    },
+    description: {
+      lineHeight: 20,
+      fontSize: 15,
+    },
   },
 };
 
-export default theme;
+export const { palette, typo } = theme;

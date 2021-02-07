@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+
+import HomeTemplate from './template';
 
 function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text>this is home</Text>
+      <HomeTemplate />
     </View>
   );
 }
