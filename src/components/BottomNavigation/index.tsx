@@ -71,6 +71,4 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
   },
 };
 
-BottomNavigationTab.displayName = 'BottomNavigationTab';
-
 export default BottomNavigationTab;
