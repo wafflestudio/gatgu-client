@@ -1,9 +1,12 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, Action } from '@reduxjs/toolkit';
+import { ThunkAction } from 'redux-thunk';
 
 import postReducer from './postReducer';
 
+export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
+
 const rootReducer = combineReducers({
-  post: postReducer,
+  posts: postReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
