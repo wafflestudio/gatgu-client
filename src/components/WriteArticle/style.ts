@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { flexCol, flexRow } from '@/styles/basic';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
   recruitHalfContainer: {
     borderWidth: 1,
     height: 60,
-    width: '50%',
+    flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -26,12 +27,17 @@ const styles = StyleSheet.create({
   subContainer: {
     height: 60,
     borderWidth: 1,
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   bigContainer: {
     height: 175,
     borderWidth: 1,
+    width: '100%',
+  },
+  text: {
+    flexWrap: 'wrap',
+    flex: 1,
   },
 });
 

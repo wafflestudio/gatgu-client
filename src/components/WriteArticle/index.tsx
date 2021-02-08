@@ -59,7 +59,7 @@ const WriteArticle = () => {
   const Link = (
     <View style={styles.subContainer}>
       <Label style={styles.label}>구매처 링크: </Label>
-      <Text>{dummyArticle.link}</Text>
+      <Text style={styles.text}>{dummyArticle.link}</Text>
     </View>
   );
 
