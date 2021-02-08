@@ -1,13 +1,8 @@
 import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
+import { IPostProps } from '@/types/post';
 
-export interface PostProps {
-  id: number;
-  created_at: number;
-  title: string;
-  description: string;
-}
-
-export function getAllPost(): Promise<AxiosResponse<PostProps>> {
-  return requester.get('/board/list/');
+export function getPosts(page: number): Promise<AxiosResponse<IPostProps[]>> {
+  const url = 'http://localhost:3001/posts?_limit=8&_page=' + page;
+  return requester.get(url);
 }
