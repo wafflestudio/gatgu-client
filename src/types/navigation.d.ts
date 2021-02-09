@@ -4,3 +4,9 @@ export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
 };
+
+export type TagType = {
+  id: number;
+  tag: string;
+  selected: boolean;
+};

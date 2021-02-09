@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { red100 } from 'react-native-paper/lib/typescript/styles/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,6 +34,11 @@ const styles = StyleSheet.create({
     height: 175,
     borderWidth: 1,
   },
+  text: {
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  button: {},
 });
 
 export default styles;
