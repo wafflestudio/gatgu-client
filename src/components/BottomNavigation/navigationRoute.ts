@@ -1,4 +1,4 @@
-import { Chatting, Home, Profile } from '@/screens';
+import { WriteArticlePage, Chatting, Home, Profile } from '@/screens';
 
 export default {
   tarBarOption: {
@@ -24,5 +24,9 @@ export default {
   Chatting: {
     name: 'Chatting',
     component: Chatting,
+  },
+  WriteArticlePage: {
+    name: 'WriteArticlePage',
+    component: WriteArticlePage,
   },
 };
