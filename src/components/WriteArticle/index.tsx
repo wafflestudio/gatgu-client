@@ -17,7 +17,7 @@ import { TagArray } from '@/constants/Enum';
 import { TapGestureHandler } from 'react-native-gesture-handler';
 import { TagType } from '@/types/navigation';
 import { useDispatch } from 'react-redux';
-import { putArticles } from '@/store/articleSlice';
+import { postArticle } from '@/store/articleSlice';
 
 // TODO:
 //  - remove dummy
@@ -78,14 +78,14 @@ function WriteArticle() {
     const temp_author_id = 0;
 
     dispatch(
-      putArticles({
+      postArticle({
         title,
         people_count,
         price,
         location,
         description,
         product_url,
-        thumbnail_url,
+        // thumbnail_url,
         temp_author_id,
       })
     );

@@ -18,6 +18,6 @@ export type ArticleType = {
   location: string;
   description: string;
   product_url: string;
-  thumbnail_url: string[];
+  // thumbnail_url: string[];
   temp_author_id: number; // made this temp because not included in actual endpoint
 };
