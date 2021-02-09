@@ -16,6 +16,9 @@ import styles from './style';
 import { TagArray } from '@/constants/Enum';
 import { TapGestureHandler } from 'react-native-gesture-handler';
 import { TagType } from '@/types/navigation';
+import { useDispatch } from 'react-redux';
+import { putArticles } from '@/store/articleSlice';
+
 // TODO:
 //  - remove dummy
 //  - change displaying image to adding image --> find which library
@@ -23,6 +26,7 @@ import { TagType } from '@/types/navigation';
 //  - add code for deleting all non numeric for people, price
 //  - 위치 입력을 우편번호, 상세주소 형태로 받기
 //  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
+//  - tag 선택되면 배경 색 바꾸기
 
 const dummyArticle = {
   dummyImage: 'https://reactnative.dev/img/tiny_logo.png',
@@ -44,12 +48,14 @@ const flatArray = flatten(TagArray);
 
 function WriteArticle() {
   const [title, setTitle] = useState('');
-  const [people, setPeople] = useState('');
-  const [price, setPrice] = useState('');
+  const [need_people, setPeople] = useState('');
+  const [need_price, setPrice] = useState('');
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
+  const [images, addImage] = useState([]);
   const [tags, toggleTags] = useState(flatArray);
+  const dispatch = useDispatch();
 
   const changeNumber = (txt: string, num: number) => {
     // code for dismissing all letters
@@ -62,6 +68,26 @@ function WriteArticle() {
       tags.map((tag) =>
         tag.tag == str ? { ...tag, selected: !tag.selected } : tag
       )
+    );
+  };
+  const submit = () => {
+    const people_count = parseInt(need_people);
+    const price = parseInt(need_price);
+    const product_url = link;
+    const thumbnail_url = images;
+    const temp_author_id = 0;
+
+    dispatch(
+      putArticles({
+        title,
+        people_count,
+        price,
+        location,
+        description,
+        product_url,
+        thumbnail_url,
+        temp_author_id,
+      })
     );
   };
 
@@ -86,7 +112,7 @@ function WriteArticle() {
           keyboardType="number-pad"
           placeholder="모집인원"
           onChangeText={(txt) => changeNumber(txt, 0)}
-          value={people}
+          value={need_people}
           maxLength={5}
         />
       </View>
@@ -97,7 +123,7 @@ function WriteArticle() {
           keyboardType="number-pad"
           placeholder="모집금액"
           onChangeText={(txt) => changeNumber(txt, 1)}
-          value={price}
+          value={need_price}
           maxLength={10}
         />
       </View>
@@ -186,7 +212,7 @@ function WriteArticle() {
       {Location}
       {Description}
       {Link}
-      <Button title="완료" onPress={() => Alert.alert('Complete!')} />
+      <Button title="완료" onPress={() => submit()} />
     </ScrollView>
   );
 }
