@@ -1,6 +1,7 @@
 import { View, Text, ImageBackground, TouchableHighlight } from 'react-native';
 import styles from './Profile.Style';
 import React, { useState } from 'react';
+import { Button } from '@/components';
 
 // TODO: remove this
 const dummyInfo = {
@@ -132,7 +133,11 @@ const Profile = () => {
   // History JSX: 거래내역 목록 버튼
   const History = (
     <View style={styles.history.container}>
-      <Text style={styles.history.text}>거래내역 목록</Text>
+      <Button
+        style={styles.history.text}
+        title="거래내역 목록"
+        onPress={() => alert('asdf')}
+      />
     </View>
   );
 
