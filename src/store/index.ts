@@ -1,4 +1,4 @@
-import { combineReducers, ThunkAction } from '@reduxjs/toolkit';
+import { combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
 
 import postReducer from './postReducer';
 

@@ -19,7 +19,7 @@ export type UserType = {
     address: string;
     phonenumber: string;
   };
-  created_at: time;
-  updated_at: time;
+  created_at: any;
+  updated_at: any;
   is_active: boolean;
 };
