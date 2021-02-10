@@ -2,6 +2,7 @@ import { ArticleType } from '@/types/navigation';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { postArticleApi } from '@/apis/ArticleApi';
 import { AppThunk } from '@/store';
+import requester from '@/apis/BaseInstance';
 
 const initialState = {
   title: '',
@@ -29,6 +30,7 @@ const articleSlice = createSlice({
       // state.thumbnail_url = action.payload.thumbnail_url;
       state.temp_author_id = action.payload.temp_author_id;
     },
+    // getArticles(state, action: PayloadAction<)
   },
 });
 
@@ -39,18 +41,12 @@ export default articleSlice.reducer;
 export const postArticle = (article: ArticleType): AppThunk => {
   return async (dispatch) => {
     console.log('Thunk function');
-    console.log(article);
     try {
       const res = await postArticleApi(article);
-      console.log(res);
+      console.log('log results');
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
-    // return await postArticleApi(article)
-    //     .then((res) => {
-    //       console.log(res)
-    //       dispatch(putArticles(article))
-    //     }, (error) => console.log(error))
-    // console.log("Dispatching to reducer")
   };
 };

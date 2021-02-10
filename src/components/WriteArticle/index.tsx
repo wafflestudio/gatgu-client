@@ -1,5 +1,5 @@
 import { Label, Title } from 'native-base';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   View,
@@ -17,7 +17,7 @@ import { TagArray } from '@/constants/Enum';
 import { TapGestureHandler } from 'react-native-gesture-handler';
 import { TagType } from '@/types/navigation';
 import { useDispatch } from 'react-redux';
-import { postArticle } from '@/store/articleSlice';
+import { postArticle, fetchIssue } from '@/store/articleSlice';
 
 // TODO:
 //  - remove dummy
@@ -38,6 +38,13 @@ const dummyArticle = {
   link:
     'How do I open a link?? Need to study Linking: https://reactnative.dev/docs/linking',
 };
+
+interface IDProps {
+  org: string;
+  repo: string;
+  issueId: number;
+  showIssuesList: () => void;
+}
 
 const flatten = (arr: TagType[][]) => {
   const newarr: TagType[] = [];

@@ -6,14 +6,12 @@ import { ArticleType } from '@/types/navigation';
 export interface ArticleReturnType {
   id: number;
   title: string;
-  created_at: string;
+  // created_at: string;
 }
 
 // added baseURL here instead of in BaseInstance because not fixed yet
-export function postArticleApi(
-  article: ArticleType
-): Promise<ArticleReturnType> {
+export async function postArticleApi(article: ArticleType) {
   console.log('axios');
-  console.log(article);
-  return requester.post('/article', article);
+  const res = await requester.post('http://localhost:3000/article/', article);
+  return res;
 }
