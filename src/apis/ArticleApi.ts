@@ -5,7 +5,6 @@ import { ArticleType } from '@/types/navigation';
 
 // added baseURL here instead of in BaseInstance because not fixed yet
 export const postArticleApi = (article: ArticleType) => {
-  console.log('axios');
   const res = requester.post('http://localhost:3000/article/', article);
   return res;
 };

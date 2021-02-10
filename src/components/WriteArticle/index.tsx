@@ -63,7 +63,7 @@ function WriteArticle() {
     tags.forEach((arr) => {
       const temp: TagType[] = [];
       arr.forEach((tag) => {
-        if (tag.id == id) tag.selected = !tag.selected;
+        if (tag.id === id) tag.selected = !tag.selected;
         temp.push(tag);
       });
       newarr.push(temp);
