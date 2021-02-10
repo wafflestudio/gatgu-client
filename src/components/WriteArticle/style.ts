@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
   },
-  button: {},
 });
 
 export default styles;

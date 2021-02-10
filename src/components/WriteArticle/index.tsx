@@ -20,7 +20,6 @@ import { postArticle } from '@/store/articleSlice';
 import * as ImagePicker from 'expo-image-picker';
 
 // TODO:
-//  - change displaying image to adding image --> find which library
 //  - circle css 하나로 합치기 (페이지 번호)
 //  - add code for deleting all non numeric for people, price
 //  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
@@ -199,15 +198,9 @@ function WriteArticle() {
           {arr.map((tag) => (
             <View key={tag.id} style={inline.margin}>
               <TouchableHighlight onPress={() => handleTag(tag.id)}>
-                {tag.selected ? (
-                  <View style={[inline.inner, inline.selected]}>
-                    <Text>{tag.tag}</Text>
-                  </View>
-                ) : (
-                  <View style={[inline.inner]}>
-                    <Text>{tag.tag}</Text>
-                  </View>
-                )}
+                <View style={[inline.inner, tag.selected && inline.selected]}>
+                  <Text>{tag.tag}</Text>
+                </View>
               </TouchableHighlight>
             </View>
           ))}
