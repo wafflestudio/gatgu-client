@@ -1,14 +1,15 @@
-// thunk functions that return promises
-import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
 
-export interface ArticleReturnType {
-  id: number;
-  title: string;
-  // created_at: string;
-}
-
-// added baseURL here instead of in BaseInstance because not fixed yet
 export const getInfo = () => {
   console.log('not implemented');
 };
+
+export const logout = () => {
+  console.log('not implemented');
+};
+
+export const login = () => {
+  console.log('not implemented');
+};
+
+// TODO: add more functions about user
