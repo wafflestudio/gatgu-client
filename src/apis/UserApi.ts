@@ -9,8 +9,11 @@ const user = {
   logout: () => {
     console.log('not implemented');
   },
-  login: (id: string, pw: string): Promise<AxiosResponse<UserType>> => {
-    return requester.put('user/login/');
+  login: (
+    username: string,
+    password: string
+  ): Promise<AxiosResponse<UserType>> => {
+    return requester.put('user/login/', { username, password });
   },
   // TODO: add more functions about user
 };
