@@ -30,9 +30,21 @@ const Profile = () => {
   };
 
   // "..." button onClick
-  const showOptions = () => {
-    console.log('모달 띄울거임');
+  const toggleOptions = () => {
+    setOpOpen(!opOpen);
   };
+
+  const goToHistory = () => {
+    alert('asdf');
+  };
+
+  // Header Modal: 수정하기, 로그아웃하기
+  const HeaderModal = (
+    <View style={styles.header.modalContainer}>
+      <Text style={styles.header.modalText}>수정하기</Text>
+      <Text style={styles.header.modalText}>로그아웃하기</Text>
+    </View>
+  );
 
   // Header JSX: 뒤로, 더보기, ...
   const Header = (
@@ -41,9 +53,10 @@ const Profile = () => {
         <Text style={styles.header.title}>뒤로</Text>
       </TouchableHighlight>
       <Text style={styles.header.title}>더 보기</Text>
-      <TouchableHighlight style={styles.header.button} onPress={showOptions}>
+      <TouchableHighlight style={styles.header.button} onPress={toggleOptions}>
         <Text style={styles.header.title}>...</Text>
       </TouchableHighlight>
+      {opOpen === true ? HeaderModal : <></>}
     </View>
   );
 
@@ -133,11 +146,7 @@ const Profile = () => {
   // History JSX: 거래내역 목록 버튼
   const History = (
     <View style={styles.history.container}>
-      <Button
-        style={styles.history.text}
-        title="거래내역 목록"
-        onPress={() => alert('asdf')}
-      />
+      <Button color="black" title="거래내역 목록" onPress={goToHistory} />
     </View>
   );
 
