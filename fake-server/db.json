@@ -5,5 +5,25 @@
     "gatherLeft": "5명/10명",
     "location": "사운드 마인드",
     "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png"
-  }]
+  }],
+  "users":[
+    {
+      "id": 1,
+      "username": "iamuser",
+      "password": "iampassword",
+      "email": "iamemail",
+      "first_name": "iamfirst_name",
+      "last_name": "iamlast_name",
+      "userprofile": {
+        "profile_id": 1,
+        "picture": "iam picture url",
+        "nickname": "iamnickname",
+        "address": "iamaddress",
+        "phonenumber": "000-0000-0000"
+      },
+      "created_at": "iamcreated time (time)",
+      "updated_at": "iamupdated time (time)",
+      "is_active": true
+    }
+  ]
 }
