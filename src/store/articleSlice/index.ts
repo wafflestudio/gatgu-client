@@ -1,5 +1,10 @@
 import { ArticleType } from '@/types/navigation';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  CombinedState,
+  createSlice,
+  PayloadAction,
+  ThunkDispatch,
+} from '@reduxjs/toolkit';
 import { postArticleApi } from '@/apis/ArticleApi';
 import { AppThunk } from '@/store';
 import requester from '@/apis/BaseInstance';
@@ -20,7 +25,6 @@ const articleSlice = createSlice({
   initialState,
   reducers: {
     putArticles(state, action: PayloadAction<ArticleType>) {
-      console.log('reducer');
       state.title = action.payload.title;
       state.people_count = action.payload.people_count;
       state.price = action.payload.price;
@@ -30,7 +34,6 @@ const articleSlice = createSlice({
       // state.thumbnail_url = action.payload.thumbnail_url;
       state.temp_author_id = action.payload.temp_author_id;
     },
-    // getArticles(state, action: PayloadAction<)
   },
 });
 
@@ -38,15 +41,13 @@ export const { putArticles } = articleSlice.actions;
 export default articleSlice.reducer;
 
 // thunk function
-export const postArticle = (article: ArticleType): AppThunk => {
-  return async (dispatch) => {
-    console.log('Thunk function');
-    try {
-      const res = await postArticleApi(article);
-      console.log('log results');
-      console.log(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+export const postArticle = (article: ArticleType): AppThunk => async (
+  dispatch
+) => {
+  try {
+    const res = await postArticleApi(article);
+    dispatch(putArticles(res.data));
+  } catch (err) {
+    console.log(err);
+  }
 };

@@ -91,8 +91,12 @@ function WriteArticle() {
     );
   };
   const pickImage = async () => {
-    (async () => {
+    // Get permission to access photo gallery
+    async () => {
+      // confirm that the platform is on ios or android
       if (Platform.OS !== 'web') {
+        // asynchronously ask for permission, receive status (whether granted permission or not)
+        // status can either be 'granted', 'undetermined' or 'denied
         const {
           status,
         } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -100,19 +104,21 @@ function WriteArticle() {
           alert('Sorry, we need camera roll permissions to make this work!');
         }
       }
-    })();
+    };
+
+    // show window to select photo from gallery
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      mediaTypes: ImagePicker.MediaTypeOptions.All, // which type of media that can be picked (in this case, images and videos)
+      allowsEditing: true, // whether we can crop the image, trim the video
+      aspect: [4, 3], // aspect ratio that is kept when editing
+      quality: 1, // maximum quality of compression
     });
 
-    console.log(result);
-
+    // if user didn't cancel while picking an image, set state to the picked image's uri
     if (!result.cancelled) {
       setImage(result.uri);
     }
+    // else do nothing
   };
 
   const Title = (
@@ -235,7 +241,7 @@ function WriteArticle() {
       {Location}
       {Description}
       {Link}
-      <Button title="완료" onPress={() => submit()} />
+      <Button title="완료" onPress={submit} />
     </ScrollView>
   );
 }
