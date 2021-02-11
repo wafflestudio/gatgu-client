@@ -3,11 +3,11 @@ import { AxiosResponse } from 'axios';
 import { UserType } from '../types/navigation';
 
 const user = {
-  getInfo: () => {
-    console.log('not implemented');
+  getMyInfo: (): Promise<AxiosResponse<UserType>> => {
+    return requester.get('user/me/');
   },
-  logout: () => {
-    console.log('not implemented');
+  logout: (): Promise<AxiosResponse<UserType>> => {
+    return requester.put('user/logout/', {});
   },
   login: (
     username: string,

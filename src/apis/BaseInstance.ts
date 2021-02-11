@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // 원래 axios 객체
-// TODO: 이거 빼고 다 날려야 함
+// TODO: fakeRequester 지우고 이거로 대체
 /*
 const requester = axios.create({
   baseURL: '',
@@ -9,6 +9,16 @@ const requester = axios.create({
 
 export default requester;
 */
+
+export const setToken = (token: string): void => {
+  fakeRequester.defaults.headers['Authorization'] = `${token}`;
+  // TODO: replace with
+  // requester.defaults.headers['Authorization'] = `${token}`;
+};
+
+export const removeToken = (): void => {
+  fakeRequester.defaults.headers['Authorization'] = null;
+};
 
 // TODO: 날려야 함
 const fakeRequester = axios.create({
@@ -21,14 +31,17 @@ const fakeRequester = axios.create({
 const fakeRequesterWrapper = {
   get: (uri: string) => {
     switch (uri) {
+      // GET user/me/
+      case 'user/me/':
+        return fakeRequester.get('users/1');
       default:
-        return null;
+        throw new Error('Code is wrong');
     }
   },
   post: (uri: string, body: any) => {
     switch (uri) {
       default:
-        return null;
+        throw new Error('Code is wrong');
     }
   },
   put: (uri: string, body: any) => {
@@ -36,14 +49,16 @@ const fakeRequesterWrapper = {
       // PUT user/login/
       case 'user/login/':
         return fakeRequester.get('users/1');
+      case 'user/logout/':
+        return fakeRequester.get('users/1');
       default:
-        return null;
+        throw new Error('Code is wrong');
     }
   },
   delete: (uri: string, body: any) => {
     switch (uri) {
       default:
-        return null;
+        throw new Error('Code is wrong');
     }
   },
 };
