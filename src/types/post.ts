@@ -9,3 +9,9 @@ export interface IPostProps {
   created: string;
   money: boolean;
 }
+
+export interface IPageLimitRes {
+  pageLimit: {
+    limit: number;
+  };
+}
