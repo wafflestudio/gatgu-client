@@ -10,6 +10,8 @@ import {
   TextInput,
   TouchableHighlight,
   Platform,
+  ViewStyle,
+  StyleProp,
 } from 'react-native';
 import Header from '@/components/Header';
 import styles from './style';
@@ -33,13 +35,6 @@ interface IDProps {
   issueId: number;
   showIssuesList: () => void;
 }
-
-const flatten = (arr: TagType[][]) => {
-  const newarr: TagType[] = [];
-  arr.forEach((sub) => sub.forEach((tag) => newarr.push(tag)));
-  return newarr;
-};
-const flatArray = flatten(TagArray);
 
 function WriteArticle() {
   const [title, setTitle] = useState('');
@@ -120,17 +115,32 @@ function WriteArticle() {
     }
     // else do nothing
   };
+  const InputContainerProducer = (
+    outerStyle: StyleProp<ViewStyle>,
+    label: string,
+    placeholder: string,
+    funct: (txt: string) => void,
+    value: string
+  ) => {
+    return (
+      <View style={outerStyle}>
+        <Label style={styles.label}>{label}</Label>
+        <TextInput
+          style={styles.text}
+          placeholder={placeholder}
+          onChangeText={funct}
+          value={value}
+        />
+      </View>
+    );
+  };
 
-  const Title = (
-    <View style={styles.subContainer}>
-      <Label style={styles.label}>제목: </Label>
-      <TextInput
-        style={styles.text}
-        placeholder="제목"
-        onChangeText={(txt) => setTitle(txt)}
-        value={title}
-      />
-    </View>
+  const Title = InputContainerProducer(
+    styles.subContainer,
+    '제목: ',
+    '제목',
+    setTitle,
+    title
   );
 
   const Recruiting = (
@@ -160,40 +170,28 @@ function WriteArticle() {
     </View>
   );
 
-  const Location = (
-    <View style={styles.subContainer}>
-      <Label style={styles.label}>위치: </Label>
-      <TextInput
-        style={styles.text}
-        placeholder="상세주소"
-        onChangeText={(txt) => setLocation(txt)}
-        value={location}
-      />
-    </View>
+  const Location = InputContainerProducer(
+    styles.subContainer,
+    '위치: ',
+    '상세주소',
+    setLocation,
+    location
   );
 
-  const Link = (
-    <View style={styles.subContainer}>
-      <Label style={styles.label}>구매처 링크: </Label>
-      <TextInput
-        style={[styles.description, styles.text]}
-        placeholder="구매링크"
-        onChangeText={(txt) => setLink(txt)}
-        value={link}
-      />
-    </View>
+  const Link = InputContainerProducer(
+    styles.subContainer,
+    '구매처 링크: ',
+    '구매링크',
+    setLink,
+    link
   );
 
-  const Description = (
-    <View style={styles.bigContainer}>
-      <Label style={styles.label}>내용: </Label>
-      <TextInput
-        style={[styles.description, styles.text]}
-        placeholder="내용"
-        onChangeText={(txt) => setDescription(txt)}
-        value={description}
-      />
-    </View>
+  const Description = InputContainerProducer(
+    styles.bigContainer,
+    '내용: ',
+    '내용',
+    setDescription,
+    description
   );
 
   const Tags = (
