@@ -1,59 +1,61 @@
-// import React from 'react';
-// import { FlatList, View, Text } from 'react-native';
-// import { connect, useSelector } from 'react-redux';
+import React, { useEffect, useMemo } from 'react';
+import { FlatList, View, Text, Button } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
-// import PostBox from '@/components/Post/PostBox';
-// import styles from './style';
-// import { IPostProps } from '@/types/post';
-// import { RootState } from '@/store';
-// import { AppDispatch } from '@/store/rootStore';
-// import { getPostsPerPage, IPostSlice } from '@/store/postReducer';
+import PostBox from '@/components/Post/PostBox';
+import styles from './style';
+import { IPostProps } from '@/types/post';
+import { RootState } from '@/store';
+import { getPostsPerPage, IPostSlice } from '@/store/postReducer';
 
-// mock data
-// const posts: IPostProps[] = new Array(15).fill({
-//   title: '다이슨 청소기 공구',
-//   dayLeft: '5일 남음',
-//   created: '3분 전',
-//   goal: '25,000원',
-//   location: '사운드 마인드',
-//   percent: 40,
-//   uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-//   money: false,
-// });
+function HomeTemplate() {
+  const dispatch = useDispatch();
 
-// interface IHomeTemplateProps {
-//   getPostsPerPage: AppDispatch;
-//   posts: IPostSlice;
-// }
+  const { data: posts, hasError, page, pageLimit } = useSelector(
+    (state: RootState) => state.post
+  );
 
-// 누군가는 헤더 컴포넌트 만들었을 것 같아 view로 해놨다.
-// function HomeTemplate({ posts, getPostsPerPage }: IHomeTemplateProps) {
-// useEffect(() => {
-//   return;
-// }, []);
+  // 초기에 7개 렌더링
+  useEffect(() => {
+    dispatch(getPostsPerPage(page));
+  }, []);
 
-//   const renderPost = ({ item }: { item: IPostProps }) => <PostBox {...item} />;
+  const renderPost = ({ item }: { item: IPostProps }) => <PostBox {...item} />;
 
-//   return (
-//     <>
-//       <View style={styles.header}>
-//         <Text>이것은 헤더입니다^^</Text>
-//       </View>
-//       <FlatList
-//         data={[]}
-//         renderItem={renderPost}
-//         keyExtractor={(_, ind) => String(ind)}
-//       />
-//     </>
-//   );
-// }
+  const ErrorMsg = useMemo(
+    () => (
+      <View>
+        <Text> 서비스 연결이 불완전합니다. 다시 시도해주세요</Text>
+      </View>
+    ),
+    []
+  );
 
-// const selectPosts = useSelector((state: RootState) => state.posts);
+  // posts가 바뀌는 경우만 재 렌더링, 0.9 threshold에 다다르면 그 다음 페이지에 해당하는
+  // 포스트를 받아온다.
+  const PostList = useMemo(
+    () => (
+      <FlatList
+        data={posts}
+        renderItem={renderPost}
+        keyExtractor={(_, ind) => String(ind)}
+        onEndReached={() => {
+          getPostsPerPage(page);
+        }}
+        onEndReachedThreshold={0.9}
+      />
+    ),
+    [posts]
+  );
 
-// const mapStateToProps = () => ({
-// posts: selectPosts,
-// });
+  return (
+    <>
+      <View style={styles.header}>
+        <Text>이것은 헤더입니다^^</Text>
+      </View>
+      {hasError ? ErrorMsg : PostList}
+    </>
+  );
+}
 
-// const mapDispatchToProps = { getPostsPerPage };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(HomeTemplate);
+export default HomeTemplate;
