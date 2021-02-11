@@ -1,20 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getPosts } from '@/apis/PostApi';
+import { _getPosts, _getPageLimit } from '@/apis/PostApi';
 import { IPostProps } from '@/types/post';
 import { AppThunk } from '@/store';
 
 export interface IPostSlice {
+  page: number;
   hasError: boolean;
   data: IPostProps[];
+  pageLimit: number;
 }
 
 interface IPostsPayload {
   data: IPostProps[];
 }
 
+interface IPageLimitPayload {
+  pageLimit: {
+    limit: number;
+  };
+}
+
 const initialState: IPostSlice = {
+  page: 1,
   hasError: false,
   data: [],
+  pageLimit: 1,
 };
 
 // post store + basic action
@@ -26,24 +36,38 @@ const postsSlice = createSlice({
     getPostsSuccess: (state, { payload }: PayloadAction<IPostsPayload>) => {
       state.data.push(...payload.data);
       state.hasError = false;
+      state.page += 1;
     },
 
     // if getting data fail, show error screen by hasError state.
     getPostsFailure: (state) => {
       state.hasError = true;
     },
+
+    setPageLimit: (state, { payload }: PayloadAction<IPageLimitPayload>) => {
+      state.pageLimit = payload.pageLimit.limit;
+    },
   },
 });
 
-const { getPostsSuccess, getPostsFailure } = postsSlice.actions;
+const { getPostsSuccess, getPostsFailure, setPageLimit } = postsSlice.actions;
 
 // Asynchronous thunk action
 export const getPostsPerPage = (page: number): AppThunk => async (dispatch) => {
   try {
-    const response = await getPosts(page);
+    const response = await _getPosts(page);
     dispatch(getPostsSuccess({ data: response.data }));
-  } catch (error) {
+  } catch (err) {
     dispatch(getPostsFailure());
+  }
+};
+
+export const getPageLimit = (): AppThunk => async (dispatch) => {
+  try {
+    const response = await _getPageLimit();
+    dispatch(setPageLimit(response.data));
+  } catch (err) {
+    console.log(err);
   }
 };
 
