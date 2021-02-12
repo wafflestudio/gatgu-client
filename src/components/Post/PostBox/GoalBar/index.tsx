@@ -10,9 +10,7 @@ interface IGoalBarProps {
 }
 
 function GoalBar({ percent, goal, money }: IGoalBarProps) {
-  const percentWidth = useMemo(() => {
-    return `${percent}%`;
-  }, [percent]);
+  const percentWidth = useMemo(() => `${percent}%`, [percent]);
 
   const backgroundColor = useMemo(() => (money ? styles.blue : styles.yellow), [
     money,
