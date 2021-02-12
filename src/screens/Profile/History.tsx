@@ -4,7 +4,7 @@ import React from 'react';
 import { Button } from '@/components';
 
 // History JSX: 거래내역 목록 버튼
-function HistoryList() {
+function HistoryList(): JSX.Element {
   const goToHistory = () => {
     alert('not implemented');
   };

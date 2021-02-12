@@ -3,7 +3,7 @@ import styles from './Profile.Style';
 import React, { useState } from 'react';
 import { Button } from '@/components';
 
-function Header() {
+function Header(): JSX.Element {
   // if option is open
   const [opOpen, setOpOpen] = useState(false);
 
@@ -28,8 +28,8 @@ function Header() {
   // Header Modal: 수정하기, 로그아웃하기
   const HeaderModal = (
     <View style={styles.header.modalContainer}>
-      <Button title="수정하기" onPress={() => null}></Button>
-      <Button title="로그아웃하기" onPress={() => null}></Button>
+      <Button title="수정하기" onPress={modify}></Button>
+      <Button title="로그아웃하기" onPress={logout}></Button>
     </View>
   );
 

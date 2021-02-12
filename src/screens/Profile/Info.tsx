@@ -4,7 +4,7 @@ import React from 'react';
 
 // Info JSX: 유저 이름 ~ 인증 여부
 // TODO: API 확정되고 User Type 완성되면 any 치워야 됨
-function Info({ dummyInfo }: any) {
+function Info({ dummyInfo }: any): JSX.Element {
   const profileImg = { uri: dummyInfo.profileUrl };
 
   return (

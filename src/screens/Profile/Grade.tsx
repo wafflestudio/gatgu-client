@@ -4,7 +4,7 @@ import React from 'react';
 
 // Gragde JSX: 등급 있는 그 칸
 // TODO: API 확정되고 User Type 완성되면 any 치워야 됨
-function Grade({ dummyInfo }: any) {
+function Grade({ dummyInfo }: any): JSX.Element {
   return (
     <View style={styles.grade.container}>
       <View style={styles.grade.header}>
