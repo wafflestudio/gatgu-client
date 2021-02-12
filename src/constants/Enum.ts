@@ -4,18 +4,18 @@ export const PI = 3.14;
 
 export const TagArray = [
   [
-    { id: 1, tag: '운동' },
-    { id: 2, tag: '음식' },
-    { id: 3, tag: '가구' },
+    { id: 1, tag: '운동', selected: false },
+    { id: 2, tag: '음식', selected: false },
+    { id: 3, tag: '가구', selected: false },
   ],
   [
-    { id: 4, tag: '컴공' },
-    { id: 5, tag: '기계' },
-    { id: 6, tag: '전기' },
+    { id: 4, tag: '컴공', selected: false },
+    { id: 5, tag: '기계', selected: false },
+    { id: 6, tag: '전기', selected: false },
   ],
   [
-    { id: 7, tag: '방탄' },
-    { id: 8, tag: '엑소' },
-    { id: 9, tag: '빅뱅' },
+    { id: 7, tag: '방탄', selected: false },
+    { id: 8, tag: '엑소', selected: false },
+    { id: 9, tag: '빅뱅', selected: false },
   ],
 ];

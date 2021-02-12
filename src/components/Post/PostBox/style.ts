@@ -4,39 +4,34 @@ import { flexRow, flexCol } from '@/styles/basic';
 import { typo, palette } from '@/styles/theme';
 
 const styles = StyleSheet.create({
-  outerBox: {
-    height: 150,
-    margin: 0,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    borderBottomStartRadius: 10,
-    borderBottomEndRadius: 10,
-  },
   articleBox: {
     ...flexCol,
-    flex: 2,
-
-    marginLeft: 30,
+    marginLeft: '5.3%',
     justifyContent: 'flex-start',
   },
   Head: {
     ...typo.semiTitle,
     color: palette.dark,
-    marginBottom: 15,
-    marginTop: 10,
+    width: 200,
+    flexWrap: 'wrap',
   },
   description: {
-    ...typo.description,
+    ...typo.info,
     color: palette.gray,
   },
-  subArticle3: {
+  postBox: {
     ...flexRow,
-    marginVertical: 5,
-    flex: 1,
+    marginRight: '7.9%',
+    height: 141,
+    borderBottomColor: palette.borderGray,
+    borderBottomWidth: 1,
+    paddingVertical: 17,
+    paddingHorizontal: 20,
   },
-  innerBox: {
+  infoWrapper: {
     ...flexRow,
-    height: '100%',
+    height: 19,
+    marginTop: '1.6%',
   },
 });
 
