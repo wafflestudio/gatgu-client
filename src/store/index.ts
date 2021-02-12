@@ -10,7 +10,6 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-export type UserThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 
 export default rootReducer;

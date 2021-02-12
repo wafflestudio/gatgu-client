@@ -1,26 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserType } from '@/types/navigation';
 import { user } from '@/apis';
-import { UserThunk } from '@/store';
+import { AppThunk } from '@/store';
 import { setToken, removeToken } from '@/apis/BaseInstance';
 
 const initialState = {
-  id: 0,
-  username: '',
-  password: '',
-  email: '',
-  first_name: '',
-  last_name: '',
-  userprofile: {
-    profile_id: 0,
-    picture: '',
-    nickname: '',
-    address: '',
-    phonenumber: '',
+  info: {
+    id: 0,
+    username: '',
+    password: '',
+    email: '',
+    first_name: '',
+    last_name: '',
+    userprofile: {
+      profile_id: 0,
+      picture: '',
+      nickname: '',
+      address: '',
+      phonenumber: '',
+    },
+    created_at: null,
+    updated_at: null,
+    is_active: false,
   },
-  created_at: null,
-  updated_at: null,
-  is_active: false,
+  logged: false,
 };
 
 const userSlice = createSlice({
@@ -28,12 +31,15 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setInfo(state, action: PayloadAction<UserType>) {
-      state = { ...action.payload };
+      state.info = { ...action.payload };
       // TODO: set session storage info
     },
     clearInfo(state) {
       state = { ...initialState };
       // TODO: remove session storage info
+    },
+    setLogged(state, action) {
+      state.logged = action.payload;
     },
   },
 });
@@ -42,22 +48,32 @@ export const { setInfo, clearInfo } = userSlice.actions;
 export default userSlice.reducer;
 
 // thunk function
-export const login = (id: string, pw: string): UserThunk => (dispatch) => {
+export const login = (id: string, pw: string): AppThunk => (dispatch) => {
   user
     .login(id, pw)
     .then((response) => {
       setToken(response.data.token);
       dispatch(setInfo(response.data));
     })
-    .catch((err: any) => console.error(err));
+    .catch((err) => {
+      console.error(err);
+      // 에러 종류에 따라 추가적인 로직이 필요:
+      // 1. 존재하지 않는 아이디
+      // 2. 비밀번호 틀림
+      // 3. 통신 오류
+      // 각각 alert로 처리할 예정인데 백엔드에서 200 OK밖에 안 정해주셔서 error code api가 확정되어야 구현 가능
+    });
 };
 
-export const logout = (): UserThunk => (dispatch) => {
+export const logout = (): AppThunk => (dispatch) => {
   user
     .logout()
     .then(() => {
       removeToken();
       dispatch(clearInfo());
     })
-    .catch((err: any) => console.log(err));
+    .catch((err: any) => {
+      console.error(err);
+      // login과 동일한 상황
+    });
 };
