@@ -50,21 +50,19 @@ function WriteArticle() {
   const changeNumber = (txt: string, num: number) => {
     // code for dismissing all letters
     // code for max limit
-    if (num == 0) setPeople(txt);
+    if (num === 0) setPeople(txt);
     else setPrice(txt);
   };
   const handleTag = (id: number) => {
-    const newarr: TagType[][] = [];
-    tags.forEach((arr) => {
-      const temp: TagType[] = [];
-      arr.forEach((tag) => {
-        if (tag.id === id) tag.selected = !tag.selected;
-        temp.push(tag);
-      });
-      newarr.push(temp);
-    });
-    toggleTags(newarr);
+    const newTags = tags.map((arr) =>
+      arr.map((tag) => {
+        const selected = tag.id === id ? !tag.selected : tag.selected;
+        return { ...tag, selected };
+      })
+    );
+    toggleTags(newTags);
   };
+
   const submit = () => {
     const people_count = parseInt(need_people);
     const price = parseInt(need_price);
@@ -121,19 +119,17 @@ function WriteArticle() {
     placeholder: string,
     funct: (txt: string) => void,
     value: string
-  ) => {
-    return (
-      <View style={outerStyle}>
-        <Label style={styles.label}>{label}</Label>
-        <TextInput
-          style={styles.text}
-          placeholder={placeholder}
-          onChangeText={funct}
-          value={value}
-        />
-      </View>
-    );
-  };
+  ) => (
+    <View style={outerStyle}>
+      <Label style={styles.label}>{label}</Label>
+      <TextInput
+        style={styles.text}
+        placeholder={placeholder}
+        onChangeText={funct}
+        value={value}
+      />
+    </View>
+  );
 
   const Title = InputContainerProducer(
     styles.subContainer,
