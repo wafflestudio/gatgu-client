@@ -12,7 +12,7 @@ interface IGoalBarProps {
 function GoalBar({ percent, goal, money }: IGoalBarProps) {
   const percentWidth = `${percent}%`;
 
-  const backgroundColor =money ? styles.blue : styles.yellow;
+  const backgroundColor = money ? styles.blue : styles.yellow;
   return (
     <>
       <View style={styles.wrapper}>
