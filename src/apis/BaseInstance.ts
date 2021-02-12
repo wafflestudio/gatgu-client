@@ -35,7 +35,7 @@ const fakeRequester = axios.create({
 //  근데 더러운 건 이 파일 안에서 다 끝내 주세요: 백엔드 연동할 때 이 파일만 고치면 되도록
 
 const fakeRequesterWrapper = {
-  get: (uri: string) => {
+  get: (uri: string): any => {
     switch (uri) {
       // GET user/me/
       case 'user/me/':
@@ -48,13 +48,13 @@ const fakeRequesterWrapper = {
         }
     }
   },
-  post: (uri: string, body: any) => {
+  post: (uri: string, body: any): any => {
     switch (uri) {
       default:
         throw new Error('Code is wrong');
     }
   },
-  put: (uri: string, body: any) => {
+  put: (uri: string, body: any): any => {
     switch (uri) {
       // PUT user/login/
       case 'user/login/':
@@ -65,7 +65,7 @@ const fakeRequesterWrapper = {
         throw new Error('Code is wrong');
     }
   },
-  delete: (uri: string, body: any) => {
+  delete: (uri: string, body: any): any => {
     switch (uri) {
       default:
         throw new Error('Code is wrong');
