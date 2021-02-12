@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FlatList, View, Text } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 
 import PostBox from '@/components/Post/PostBox';
 import styles from './style';
@@ -12,7 +12,8 @@ function HomeTemplate() {
   const dispatch = useDispatch();
 
   const { data: posts, hasError, page, pageLimit } = useSelector(
-    (state: RootState) => state.post
+    (state: RootState) => state.post,
+    shallowEqual
   );
 
   // 초기에 7개 렌더링
