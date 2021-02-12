@@ -1,17 +1,22 @@
 import React from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import rootReducer from '@/store';
-
+import {
+  useFonts,
+  NotoSansKR_500Medium,
+  NotoSansKR_400Regular,
+} from '@expo-google-fonts/noto-sans-kr';
 import BottomNavigation from '@/components/BottomNavigation';
-
-const store = configureStore({
-  reducer: rootReducer,
-});
+import store from '@/store/rootStore';
+import { Loading } from '@/screens';
 
 export default function App() {
+  let [fontsLoaded] = useFonts({ NotoSansKR_500Medium, NotoSansKR_400Regular });
+
+  if (!fontsLoaded) {
+    return <Loading />;
+  }
   return (
     <Provider store={store}>
       <NavigationContainer>

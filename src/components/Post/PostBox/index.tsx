@@ -1,39 +1,35 @@
 import React from 'react';
-import { View } from 'react-native';
-import { CardItem, Text } from 'native-base';
+import { View, TouchableOpacity } from 'react-native';
+import { Text } from 'native-base';
 
 import styles from './style';
 
 import Thumbnail from '../Thumbnail';
-
-export interface IPostProps {
-  title: string;
-  dayLeft: string;
-  gatherLeft: string;
-  location: string;
-  uri: string;
-}
+import GoalBar from './GoalBar';
+import { IPostProps } from '@/types/post';
 
 export default function PostBox({
   title,
   dayLeft,
-  gatherLeft,
+  goal,
+  percent,
+  created,
   location,
   uri,
+  money,
 }: IPostProps) {
   return (
-    <View style={styles.outerBox}>
-      <CardItem style={styles.innerBox} button onPress={() => alert('not yet')}>
-        <Thumbnail uri={uri} flex={1} />
-        <View style={styles.articleBox}>
-          <Text style={styles.Head}>{title}</Text>
-          <Text style={styles.description}>{dayLeft}</Text>
-          <View style={styles.subArticle3}>
-            <Text style={styles.description}>{gatherLeft}</Text>
-            <Text style={styles.description}>{location}</Text>
-          </View>
+    <TouchableOpacity style={styles.postBox} onPress={() => alert('not yet')}>
+      <Thumbnail uri={uri} w={107} h={107} />
+      <View style={styles.articleBox}>
+        <Text style={styles.Head}>{title}</Text>
+        <View style={styles.infoWrapper}>
+          <Text style={styles.description}>{created} · </Text>
+          <Text style={styles.description}>{dayLeft} · </Text>
+          <Text style={styles.description}>{location}</Text>
         </View>
-      </CardItem>
-    </View>
+        <GoalBar percent={percent} goal={goal} money={money} />
+      </View>
+    </TouchableOpacity>
   );
 }

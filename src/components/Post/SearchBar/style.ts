@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
+
   searchIcon: { paddingLeft: 10 },
 });
 
