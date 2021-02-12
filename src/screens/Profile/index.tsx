@@ -35,14 +35,22 @@ const Profile = () => {
   };
 
   const goToHistory = () => {
-    alert('asdf');
+    alert('not implemented');
+  };
+
+  const modify = () => {
+    alert('not implemented');
+  };
+
+  const logout = () => {
+    alert('not implemented');
   };
 
   // Header Modal: 수정하기, 로그아웃하기
   const HeaderModal = (
     <View style={styles.header.modalContainer}>
-      <Text style={styles.header.modalText}>수정하기</Text>
-      <Text style={styles.header.modalText}>로그아웃하기</Text>
+      <Button title="수정하기" onPress={() => null}></Button>
+      <Button title="로그아웃하기" onPress={() => null}></Button>
     </View>
   );
 

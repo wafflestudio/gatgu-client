@@ -10,8 +10,9 @@ import {
 import BottomNavigation from '@/components/BottomNavigation';
 import store from '@/store/rootStore';
 import { Loading } from '@/screens';
+import { SafeAreaView } from 'react-native';
 
-export default function App() {
+function App() {
   let [fontsLoaded] = useFonts({ NotoSansKR_500Medium, NotoSansKR_400Regular });
 
   if (!fontsLoaded) {
@@ -20,8 +21,12 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <BottomNavigation />
+        <SafeAreaView style={{ flex: 1 }}>
+          <BottomNavigation />
+        </SafeAreaView>
       </NavigationContainer>
     </Provider>
   );
 }
+
+export default App;

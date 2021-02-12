@@ -35,7 +35,11 @@ const fakeRequesterWrapper = {
       case 'user/me/':
         return fakeRequester.get('users/1');
       default:
-        throw new Error('Code is wrong');
+        if (uri.includes('posts?_limit=7&_page=')) {
+          return fakeRequester.get(uri);
+        } else {
+          throw new Error('Code is wrong');
+        }
     }
   },
   post: (uri: string, body: any) => {

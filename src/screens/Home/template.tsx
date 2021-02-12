@@ -25,7 +25,7 @@ function HomeTemplate() {
   const ErrorMsg = useMemo(
     () => (
       <View>
-        <Text> 서비스 연결이 불완전합니다. 다시 시도해주세요</Text>
+        <Text> 서비스 연결이 불안정합니다. 다시 시도해주세요</Text>
       </View>
     ),
     []
