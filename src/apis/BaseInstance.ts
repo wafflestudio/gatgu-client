@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { Dictionary } from 'lodash';
+import { Platform } from 'react-native';
 
 // 원래 axios 객체
 // TODO: fakeRequester 지우고 이거로 대체
@@ -20,9 +22,13 @@ export const removeToken = (): void => {
   fakeRequester.defaults.headers['Authorization'] = null;
 };
 
+const fakeHosts: Dictionary<string> = {};
+fakeHosts['android'] = 'http://10.0.2.2:4000/';
+fakeHosts['ios'] = 'http://localhost:4000/';
+
 // TODO: 날려야 함
 const fakeRequester = axios.create({
-  baseURL: 'http://localhost:4000/',
+  baseURL: fakeHosts[Platform.OS],
 });
 
 // TODO: 알아서 추가하세용 코드 더러워도 상관없음 어차피 날릴 거
