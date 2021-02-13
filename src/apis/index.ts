@@ -1,4 +1,4 @@
-import user from './UserApi';
-import article from './ArticleApi';
+import userAPI from './UserApi';
+import articleAPI from './ArticleApi';
 
-export { user, article };
+export { userAPI, articleAPI };

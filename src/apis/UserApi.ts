@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { UserType } from '../types/navigation';
 
 const user = {
-  getMyInfo: (): Promise<AxiosResponse<UserType>> => {
+  readMyInfo: (): Promise<AxiosResponse<UserType>> => {
     return requester.get('user/me/');
   },
   logout: (): Promise<AxiosResponse<UserType>> => {

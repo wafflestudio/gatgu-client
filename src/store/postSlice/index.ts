@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { _getPosts, _getPageLimit } from '@/apis/PostApi';
+import { articleAPI } from '@/apis';
 import { IPostProps } from '@/types/post';
 import { AppThunk } from '@/store';
 
@@ -55,7 +55,7 @@ const { getPostsSuccess, getPostsFailure, setPageLimit } = postsSlice.actions;
 // Asynchronous thunk action
 export const getPostsPerPage = (page: number): AppThunk => async (dispatch) => {
   try {
-    const response = await _getPosts(page);
+    const response = await articleAPI.readAll(page);
     dispatch(getPostsSuccess({ data: response.data }));
   } catch (err) {
     console.error(err);
@@ -65,7 +65,7 @@ export const getPostsPerPage = (page: number): AppThunk => async (dispatch) => {
 
 export const getPageLimit = (): AppThunk => async (dispatch) => {
   try {
-    const response = await _getPageLimit();
+    const response = await articleAPI.readPageLimit();
     dispatch(setPageLimit(response.data));
   } catch (err) {
     console.log(err);

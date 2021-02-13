@@ -5,9 +5,8 @@ import {
   PayloadAction,
   ThunkDispatch,
 } from '@reduxjs/toolkit';
-import { postArticleApi } from '@/apis/ArticleApi';
+import { articleAPI } from '@/apis';
 import { AppThunk } from '@/store';
-import requester from '@/apis/BaseInstance';
 
 const initialState = {
   title: '',
@@ -38,7 +37,7 @@ export const postArticle = (article: ArticleType): AppThunk => async (
   dispatch
 ) => {
   try {
-    const res = await postArticleApi(article);
+    const res = await articleAPI.create(article);
     dispatch(putArticles(res.data));
   } catch (err) {
     console.log(err);
