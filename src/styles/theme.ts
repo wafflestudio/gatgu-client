@@ -11,6 +11,11 @@ const theme = {
     blue: '#114093',
   },
   typo: {
+    bigTitle: {
+      fontFamily: 'NotoSansKR_700Bold', // can't find NotoSansCJKkr-Medium
+      lineHeight: 27,
+      fontSize: 18,
+    },
     semiTitle: {
       fontFamily: 'NotoSansKR_400Regular',
       lineHeight: 22,
