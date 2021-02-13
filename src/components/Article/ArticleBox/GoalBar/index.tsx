@@ -1,18 +1,18 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 
-import styles from './style';
+import styles from './GoalBar.style';
 
 interface IGoalBarProps {
   percent: number;
   goal: string;
-  money?: boolean;
+  isMoney?: boolean;
 }
 
-function GoalBar({ percent, goal, money }: IGoalBarProps) {
+function GoalBar({ percent, goal, isMoney }: IGoalBarProps): JSX.Element {
   const percentWidth = `${percent}%`;
+  const backgroundColor = isMoney ? styles.blue : styles.yellow;
 
-  const backgroundColor = money ? styles.blue : styles.yellow;
   return (
     <>
       <View style={styles.wrapper}>

@@ -8,7 +8,7 @@
     "location": "사운드 마인드",
     "percent": 10,
     "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-    "money":true
+    "isMoney":true
   },{
     "id":2,
     "title": "알고리즘 문제 해결 전략",
@@ -18,7 +18,7 @@
     "location": "사운드 마인드",
     "percent": 40,
     "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-    "money":true
+    "isMoney":true
   },{
     "id":3,
     "title": "통계학",
@@ -28,7 +28,7 @@
     "location": "사운드 마인드",
     "percent": 20,
     "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-    "money":true
+    "isMoney":true
   },{
     "id":4,
     "title": "다이슨 청소기 공구",
@@ -38,7 +38,7 @@
     "location": "사운드 마인드",
     "percent": 66,
     "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-    "money":false
+    "isMoney":false
   }
 ,{
   "id":5,
@@ -49,7 +49,7 @@
   "location": "사운드 마인드",
   "percent": 90,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":true
+  "isMoney":true
 },{
   "id":6,
   "title": "다이슨 청소기 공구",
@@ -59,7 +59,7 @@
   "location": "사운드 마인드",
   "percent": 40,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":false
+  "isMoney":false
 },{
   "id":7,
   "title": "다이슨 청소기 공구",
@@ -69,7 +69,7 @@
   "location": "사운드 마인드",
   "percent": 40,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":true
+  "isMoney":true
 },
 {
   "id":8,
@@ -80,7 +80,7 @@
   "location": "사운드 마인드",
   "percent": 40,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":false
+  "isMoney":false
 },
 {
   "id":9,
@@ -91,7 +91,7 @@
   "location": "사운드 마인드",
   "percent": 40,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":true
+  "isMoney":true
 },
 {
   "id":10,
@@ -102,7 +102,7 @@
   "location": "사운드 마인드",
   "percent": 40,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":true
+  "isMoney":true
 },
 {
   "id":11,
@@ -113,7 +113,7 @@
   "location": "사운드 마인드",
   "percent": 40,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":true
+  "isMoney":true
 },{
   "id":12,
   "title": "다이슨 청소기 공구2",
@@ -123,7 +123,7 @@
   "location": "사운드 마인드",
   "percent": 40,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":true
+  "isMoney":true
 },{
   "id":13,
   "title": "다이슨 청소기 공구3",
@@ -133,7 +133,7 @@
   "location": "사운드 마인드",
   "percent": 40,
   "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
-  "money":true
+  "isMoney":true
 }],
   "pageLimit":{
     "limit":2

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Input, Icon } from 'native-base';
 
-import styles from './style';
+import styles from './SearchBar.style';
 
-export default function SearchBar() {
+function SearchBar(): JSX.Element {
   const [input, setInput] = useState('');
 
   const onSubmit = () => {
@@ -23,3 +23,5 @@ export default function SearchBar() {
     </View>
   );
 }
+
+export default SearchBar;

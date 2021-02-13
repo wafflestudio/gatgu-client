@@ -1,5 +1,5 @@
 import { View, Text, TouchableHighlight } from 'react-native';
-import styles from './Profile.Style';
+import styles from './Header.style';
 import React, { useState } from 'react';
 import { Button } from '@/components';
 
@@ -27,20 +27,20 @@ function Header(): JSX.Element {
 
   // Header Modal: 수정하기, 로그아웃하기
   const HeaderModal = (
-    <View style={styles.header.modalContainer}>
+    <View style={styles.modalContainer}>
       <Button title="수정하기" onPress={modify}></Button>
       <Button title="로그아웃하기" onPress={logout}></Button>
     </View>
   );
 
   return (
-    <View style={styles.header.container}>
-      <TouchableHighlight style={styles.header.button} onPress={goBack}>
-        <Text style={styles.header.title}>뒤로</Text>
+    <View style={styles.container}>
+      <TouchableHighlight style={styles.button} onPress={goBack}>
+        <Text style={styles.title}>뒤로</Text>
       </TouchableHighlight>
-      <Text style={styles.header.title}>더 보기</Text>
-      <TouchableHighlight style={styles.header.button} onPress={toggleOptions}>
-        <Text style={styles.header.title}>...</Text>
+      <Text style={styles.title}>더 보기</Text>
+      <TouchableHighlight style={styles.button} onPress={toggleOptions}>
+        <Text style={styles.title}>...</Text>
       </TouchableHighlight>
       {opOpen === true ? HeaderModal : <></>}
     </View>

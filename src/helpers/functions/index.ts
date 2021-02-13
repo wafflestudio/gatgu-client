@@ -1,1 +1,1 @@
-export { default as customObj } from './Object';
+export { default as customObj } from './object';

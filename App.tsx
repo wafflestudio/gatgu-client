@@ -13,7 +13,10 @@ import { Loading } from '@/screens';
 import { SafeAreaView } from 'react-native';
 
 function App() {
-  let [fontsLoaded] = useFonts({ NotoSansKR_500Medium, NotoSansKR_400Regular });
+  const [fontsLoaded] = useFonts({
+    NotoSansKR_500Medium,
+    NotoSansKR_400Regular,
+  });
 
   if (!fontsLoaded) {
     return <Loading />;

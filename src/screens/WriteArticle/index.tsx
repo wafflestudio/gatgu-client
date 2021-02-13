@@ -1,5 +1,5 @@
-import { Label, Title } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import { Label } from 'native-base';
+import React, { useState } from 'react';
 import {
   ScrollView,
   View,
@@ -14,12 +14,10 @@ import {
   StyleProp,
 } from 'react-native';
 import Header from '@/components/Header';
-import styles from './style';
+import styles from './WriteArticle.style';
 import { TagArray } from '@/constants/Enum';
-import { TagType } from '@/types/navigation';
-import { useDispatch } from 'react-redux';
-import { postArticle } from '@/store/articleSlice';
 import * as ImagePicker from 'expo-image-picker';
+import { articleAPI } from '@/apis';
 
 // TODO:
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -36,7 +34,9 @@ interface IDProps {
   showIssuesList: () => void;
 }
 
-function WriteArticle() {
+// TODO: check
+// 이거 컴포넌트 분리해주세요!
+function WriteArticleTemplate(): JSX.Element {
   const [title, setTitle] = useState('');
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
@@ -45,7 +45,6 @@ function WriteArticle() {
   const [link, setLink] = useState('');
   const [image, setImage] = useState('');
   const [tags, toggleTags] = useState(TagArray);
-  const dispatch = useDispatch();
 
   const changeNumber = (txt: string, num: number) => {
     // code for dismissing all letters
@@ -53,6 +52,7 @@ function WriteArticle() {
     if (num === 0) setPeople(txt);
     else setPrice(txt);
   };
+
   const handleTag = (id: number) => {
     const newTags = tags.map((arr) =>
       arr.map((tag) => {
@@ -70,8 +70,8 @@ function WriteArticle() {
     const thumbnail_url = image;
     const temp_author_id = 0;
 
-    dispatch(
-      postArticle({
+    articleAPI
+      .create({
         title,
         people_count,
         price,
@@ -81,8 +81,12 @@ function WriteArticle() {
         // thumbnail_url,
         temp_author_id,
       })
-    );
+      .then(() => {
+        // TODO: check
+        // then 필요할지 안필요할지 몰라서 넣어는 놨습니다
+      });
   };
+
   const pickImage = async () => {
     // Get permission to access photo gallery
     async () => {
@@ -113,6 +117,7 @@ function WriteArticle() {
     }
     // else do nothing
   };
+
   const InputContainerProducer = (
     outerStyle: StyleProp<ViewStyle>,
     label: string,
@@ -240,6 +245,8 @@ function WriteArticle() {
   );
 }
 
+// TODO: check
+// 이거도 styles 파일로 옮겨야 하는데 어디서 쓰는 건지 모르겠어서 @김현수 컨벤션 맞춰서 수정 부탁드립니다!
 const inline = StyleSheet.create({
   outer: {
     flexDirection: 'row',
@@ -261,4 +268,4 @@ const inline = StyleSheet.create({
   },
 });
 
-export default WriteArticle;
+export default WriteArticleTemplate;

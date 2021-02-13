@@ -1,6 +1,6 @@
-import { WriteArticlePage, Chatting, Home, Profile } from '@/screens';
+import { WriteArticle, Chatting, Home, Profile } from '@/screens';
 
-export default {
+const routes = {
   tarBarOption: {
     showIcon: true,
     showLabel: false,
@@ -25,8 +25,10 @@ export default {
     name: 'Chatting',
     component: Chatting,
   },
-  WriteArticlePage: {
-    name: 'WriteArticlePage',
-    component: WriteArticlePage,
+  WriteArticle: {
+    name: 'WriteArticle',
+    component: WriteArticle,
   },
 };
+
+export default routes;

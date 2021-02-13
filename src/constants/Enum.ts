@@ -4,6 +4,8 @@ export const PI = 3.14;
 
 export const TagArray = [
   [
+    // TODO: check
+    // 여기 selected 안 없어졌네요?
     { id: 1, tag: '운동', selected: false },
     { id: 2, tag: '음식', selected: false },
     { id: 3, tag: '가구', selected: false },
