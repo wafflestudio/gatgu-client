@@ -6,7 +6,7 @@ import PostBox from '@/components/Post/PostBox';
 import styles from './style';
 import { IPostProps } from '@/types/post';
 import { RootState } from '@/store';
-import { getPostsPerPage } from '@/store/postReducer';
+import { getPostsPerPage } from '@/store/postSlice';
 
 function HomeTemplate() {
   const dispatch = useDispatch();

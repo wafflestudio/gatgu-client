@@ -1,6 +1,6 @@
 import { combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
 
-import postReducer from './postReducer';
+import postReducer from './postSlice';
 import articleReducer from './articleSlice';
 
 const rootReducer = combineReducers({

@@ -12,14 +12,18 @@ const requester = axios.create({
 export default requester;
 */
 
+// set user auth token
 export const setToken = (token: string): void => {
   fakeRequester.defaults.headers['Authorization'] = `${token}`;
   // TODO: replace with
   // requester.defaults.headers['Authorization'] = `${token}`;
 };
 
+// remove user auth token
 export const removeToken = (): void => {
   fakeRequester.defaults.headers['Authorization'] = null;
+  // TODO: replace with
+  // requester.defaults.headers['Authorization'] = `${token}`;
 };
 
 const fakeHosts: Dictionary<string> = {};
