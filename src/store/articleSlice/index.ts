@@ -16,7 +16,7 @@ const initialState = {
   location: '',
   description: '',
   product_url: '',
-  thumbnail_url: [''],
+  // thumbnail_url: [''],
   temp_author_id: 0,
 };
 
@@ -25,14 +25,7 @@ const articleSlice = createSlice({
   initialState,
   reducers: {
     putArticles(state, action: PayloadAction<ArticleType>) {
-      state.title = action.payload.title;
-      state.people_count = action.payload.people_count;
-      state.price = action.payload.price;
-      state.location = action.payload.location;
-      state.description = action.payload.description;
-      state.product_url = action.payload.product_url;
-      // state.thumbnail_url = action.payload.thumbnail_url;
-      state.temp_author_id = action.payload.temp_author_id;
+      state = action.payload;
     },
   },
 });

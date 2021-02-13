@@ -58,6 +58,7 @@ export const getPostsPerPage = (page: number): AppThunk => async (dispatch) => {
     const response = await _getPosts(page);
     dispatch(getPostsSuccess({ data: response.data }));
   } catch (err) {
+    console.error(err);
     dispatch(getPostsFailure());
   }
 };
