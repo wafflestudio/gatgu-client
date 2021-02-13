@@ -19,6 +19,17 @@ function BottomNavigation(): JSX.Element {
         component={Home.component}
         options={options[Home.name]}
       />
+      {/* TODO: modify below to search screen */}
+      <Tab.Screen
+        name={WriteArticle.name}
+        component={WriteArticle.component}
+        options={options[WriteArticle.name]}
+      />
+      <Tab.Screen
+        name={WriteArticle.name}
+        component={WriteArticle.component}
+        options={options[WriteArticle.name]}
+      />
       <Tab.Screen
         name={Chatting.name}
         component={Chatting.component}
@@ -28,11 +39,6 @@ function BottomNavigation(): JSX.Element {
         name={Profile.name}
         component={Profile.component}
         options={options[Profile.name]}
-      />
-      <Tab.Screen
-        name={WriteArticle.name}
-        component={WriteArticle.component}
-        options={options[WriteArticle.name]}
       />
     </Tab.Navigator>
   );

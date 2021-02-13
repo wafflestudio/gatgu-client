@@ -17,17 +17,17 @@ const routes = {
     name: 'Home',
     component: Home,
   },
-  Profile: {
-    name: 'Profile',
-    component: Profile,
+  WriteArticle: {
+    name: 'WriteArticle',
+    component: WriteArticle,
   },
   Chatting: {
     name: 'Chatting',
     component: Chatting,
   },
-  WriteArticle: {
-    name: 'WriteArticle',
-    component: WriteArticle,
+  Profile: {
+    name: 'Profile',
+    component: Profile,
   },
 };
 
