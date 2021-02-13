@@ -13,6 +13,7 @@ import { palette, typo } from '@/styles/theme';
 // - change styles when clicked on (chatting button)
 // - 남은 시간 어떻게 표시할지 + 계산하는 함수 작성
 // - implement golden bar (take from home page)
+// - implement side bar
 
 const dummyArticle = {
   id: 'article_id (integer)',
