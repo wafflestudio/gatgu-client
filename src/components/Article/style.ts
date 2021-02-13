@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   chattingButton: {
-    // need advice: how to make float at right-end of screen
     borderWidth: 1,
     borderRadius: 15,
     padding: 8,

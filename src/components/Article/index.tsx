@@ -65,65 +65,78 @@ function Article() {
     [dummyArticle.created_at, new Date()]
   );
 
+  const Images = (
+    <Image style={styles.image} source={{ uri: dummyArticle.product_url[0] }} />
+  );
+  const Profile = (
+    <View style={styles.profile}>
+      <Image
+        style={styles.profileImg}
+        source={{ uri: dummyArticle.writer.picture }}
+      />
+      <Text style={{ ...typo.semiTitle }}>{dummyArticle.writer.nickname}</Text>
+    </View>
+  );
+  const Chat = (
+    <TouchableHighlight onPress={chattingRedirect}>
+      <View style={styles.chattingButton}>
+        <Text style={styles.chattingText}>구매 채팅으로 가기</Text>
+      </View>
+    </TouchableHighlight>
+  );
+  const Profile_Chat = (
+    <View style={styles.userContainer}>
+      {Profile}
+      {Chat}
+    </View>
+  );
+  const Title = (
+    <View style={styles.subContainer}>
+      <View style={styles.subConNoBorder}>
+        <Label
+          style={[styles.label, { color: palette.yellow, ...typo.bigTitle }]}
+        >
+          판매
+        </Label>
+        <Text style={{ ...typo.bigTitle }}>{dummyArticle.title}</Text>
+      </View>
+      <View style={[styles.subConNoBorder, { paddingLeft: 15 }]}>
+        <Text style={styles.subText}>{timeBefore}분 전 · </Text>
+        <Text style={styles.subText}>{timeLeft}일 남음</Text>
+      </View>
+    </View>
+  );
+  const Info = (
+    <View style={styles.subContainer}>
+      <View style={styles.subConNoBorder}>
+        <Label style={styles.label}>거래 지역</Label>
+        <Text style={{ ...typo.info }}>기숙사</Text>
+      </View>
+      <View style={styles.subConNoBorder}>
+        <Label style={styles.label}>모집 인원</Label>
+        <Text>Golden Bar</Text>
+      </View>
+    </View>
+  );
+  const Title_Info = (
+    <View style={styles.bigContainer}>
+      {Title}
+      {Info}
+    </View>
+  );
+  const Desc = (
+    <View>
+      <Text style={styles.descText}>{dummyArticle.description}</Text>
+    </View>
+  );
+
   return (
     <ScrollView>
       <Header title={dummyArticle.title} left={true} right={true} />
-
-      <Image
-        style={styles.image}
-        source={{ uri: dummyArticle.product_url[0] }}
-      />
-
-      <View style={styles.userContainer}>
-        <View style={styles.profile}>
-          <Image
-            style={styles.profileImg}
-            source={{ uri: dummyArticle.writer.picture }}
-          />
-          <Text style={{ ...typo.semiTitle }}>
-            {dummyArticle.writer.nickname}
-          </Text>
-        </View>
-        <TouchableHighlight onPress={chattingRedirect}>
-          <View style={styles.chattingButton}>
-            <Text style={styles.chattingText}>구매 채팅으로 가기</Text>
-          </View>
-        </TouchableHighlight>
-      </View>
-
-      <View style={styles.bigContainer}>
-        <View style={styles.subContainer}>
-          <View style={styles.subConNoBorder}>
-            <Label
-              style={[
-                styles.label,
-                { color: palette.yellow, ...typo.bigTitle },
-              ]}
-            >
-              판매
-            </Label>
-            <Text style={{ ...typo.bigTitle }}>{dummyArticle.title}</Text>
-          </View>
-          <View style={[styles.subConNoBorder, { paddingLeft: 15 }]}>
-            <Text style={styles.subText}>{timeBefore}분 전 · </Text>
-            <Text style={styles.subText}>{timeLeft}일 남음</Text>
-          </View>
-        </View>
-        <View style={styles.subContainer}>
-          <View style={styles.subConNoBorder}>
-            <Label style={styles.label}>거래 지역</Label>
-            <Text style={{ ...typo.info }}>기숙사</Text>
-          </View>
-          <View style={styles.subConNoBorder}>
-            <Label style={styles.label}>모집 인원</Label>
-            <Text>Golden Bar</Text>
-          </View>
-        </View>
-      </View>
-
-      <View>
-        <Text style={styles.descText}>{dummyArticle.description}</Text>
-      </View>
+      {Images}
+      {Profile_Chat}
+      {Title_Info}
+      {Desc}
     </ScrollView>
   );
 }
