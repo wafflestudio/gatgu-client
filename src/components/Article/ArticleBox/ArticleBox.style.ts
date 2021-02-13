@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { flexRow, flexCol } from '@/styles/basic';
-import { typo, palette } from '@/styles/theme';
+import { flexRow, flexCol } from '@/styles/wrapper';
+import { typo, palette } from '@/styles';
 
-const styles = StyleSheet.create({
+const PostBoxStyles = StyleSheet.create({
   articleBox: {
     ...flexCol,
     marginLeft: '5.3%',
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default PostBoxStyles;

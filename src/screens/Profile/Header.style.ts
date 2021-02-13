@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const headerStyle = StyleSheet.create({
+const HeaderStyle = StyleSheet.create({
   container: {
     borderColor: 'black',
     borderWidth: 1,
@@ -44,4 +44,4 @@ const headerStyle = StyleSheet.create({
   },
 });
 
-export default headerStyle;
+export default HeaderStyle;

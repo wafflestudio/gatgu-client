@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from './Header';
-import Info from './Info';
+import Info from './Information';
 import Grade from './Grade';
-import History from './History';
+import History from './HistoryList';
 
 // TODO: remove this after API 확정
 const dummyInfo = {
@@ -18,7 +18,7 @@ const dummyInfo = {
 };
 
 // Profile Component
-function ProfileTemplate() {
+function ProfileTemplate(): JSX.Element {
   return (
     <>
       <Header />

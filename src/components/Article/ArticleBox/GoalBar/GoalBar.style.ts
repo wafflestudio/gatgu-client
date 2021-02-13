@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { typo, palette } from '@/styles/theme';
+import { typo, palette } from '@/styles';
 
-const styles = StyleSheet.create({
+const GoalBarStyles = StyleSheet.create({
   wrapper: {
     width: '53.3%',
     position: 'absolute',
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default GoalBarStyles;

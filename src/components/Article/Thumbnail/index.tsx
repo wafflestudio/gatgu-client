@@ -9,11 +9,13 @@ interface IUriProps {
 }
 
 // thumnail custom
-export default function CustomThumbnail({
+function CustomThumbnail({
   uri,
   w: width,
   h: height,
   ...rest
-}: IUriProps) {
+}: IUriProps): JSX.Element {
   return <Thumbnail source={{ uri }} style={{ width, height }} {...rest} />;
 }
+
+export default CustomThumbnail;
