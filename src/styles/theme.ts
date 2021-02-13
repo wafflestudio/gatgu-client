@@ -3,17 +3,23 @@
 const theme = {
   palette: {
     dark: '#000',
-    gray: 'gray',
+    gray: '#8D8D8D',
     white: 'white',
+    whiteGray: '#F0F0F0',
+    borderGray: '#C9C9C9',
+    yellow: '#FFDC48',
+    blue: '#114093',
   },
   typo: {
     semiTitle: {
-      lineHeight: 30,
-      fontSize: 20,
-    },
-    description: {
-      lineHeight: 20,
+      fontFamily: 'NotoSansKR_400Regular',
+      lineHeight: 22,
       fontSize: 15,
+    },
+    info: {
+      fontFamily: 'NotoSansKR_400Regular',
+      lineHeight: 19,
+      fontSize: 13,
     },
   },
 };

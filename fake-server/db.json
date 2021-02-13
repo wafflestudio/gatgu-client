@@ -1,34 +1,151 @@
 {
-  "posts": [
-    {
-      "title": "다이슨 청소기 공구",
-      "dayLeft": "5일 남았습니다.",
-      "gatherLeft": "5명/10명",
-      "location": "사운드 마인드",
-      "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png"
-    }
-  ],
-  "article": [
+  "posts":[{
+    "id":1,
+    "title": "다이슨 청소기 공구",
+    "dayLeft": "5일 남음",
+    "created": "3분 전",
+    "goal": "25,000원",
+    "location": "사운드 마인드",
+    "percent": 10,
+    "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "money":true
+  },{
+    "id":2,
+    "title": "알고리즘 문제 해결 전략",
+    "dayLeft": "6일 남음",
+    "created": "3분 전",
+    "goal": "26,000원",
+    "location": "사운드 마인드",
+    "percent": 40,
+    "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "money":true
+  },{
+    "id":3,
+    "title": "통계학",
+    "dayLeft": "7일 남음",
+    "created": "3분 전",
+    "goal": "22,000원",
+    "location": "사운드 마인드",
+    "percent": 20,
+    "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "money":true
+  },{
+    "id":4,
+    "title": "다이슨 청소기 공구",
+    "dayLeft": "1일 남음",
+    "created": "3분 전",
+    "goal": "3명",
+    "location": "사운드 마인드",
+    "percent": 66,
+    "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "money":false
+  }
+,{
+  "id":5,
+  "title": "다이슨 청소기 공구",
+  "dayLeft": "2일 남음",
+  "created": "3분 전",
+  "goal": "25,000원",
+  "location": "사운드 마인드",
+  "percent": 90,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":true
+},{
+  "id":6,
+  "title": "다이슨 청소기 공구",
+  "dayLeft": "3일 남음",
+  "created": "3분 전",
+  "goal": "39명",
+  "location": "사운드 마인드",
+  "percent": 40,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":false
+},{
+  "id":7,
+  "title": "다이슨 청소기 공구",
+  "dayLeft": "4일 남음",
+  "created": "3분 전",
+  "goal": "25,000원",
+  "location": "사운드 마인드",
+  "percent": 40,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":true
+},
+{
+  "id":8,
+  "title": "다이슨 청소기 공구",
+  "dayLeft": "5일 남음",
+  "created": "3분 전",
+  "goal": "2명",
+  "location": "사운드 마인드",
+  "percent": 40,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":false
+},
+{
+  "id":9,
+  "title": "다이슨 청소기 공구",
+  "dayLeft": "5일 남음",
+  "created": "3분 전",
+  "goal": "25,000원",
+  "location": "사운드 마인드",
+  "percent": 40,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":true
+},
+{
+  "id":10,
+  "title": "다이슨 청소기 공구",
+  "dayLeft": "5일 남음",
+  "created": "3분 전",
+  "goal": "25,000원",
+  "location": "사운드 마인드",
+  "percent": 40,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":true
+},
+{
+  "id":11,
+  "title": "다이슨 청소기 공구1",
+  "dayLeft": "5일 남음",
+  "created": "3분 전",
+  "goal": "25,000원",
+  "location": "사운드 마인드",
+  "percent": 40,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":true
+},{
+  "id":12,
+  "title": "다이슨 청소기 공구2",
+  "dayLeft": "5일 남음",
+  "created": "3분 전",
+  "goal": "25,000원",
+  "location": "사운드 마인드",
+  "percent": 40,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":true
+},{
+  "id":13,
+  "title": "다이슨 청소기 공구3",
+  "dayLeft": "5일 남음",
+  "created": "3분 전",
+  "goal": "25,000원",
+  "location": "사운드 마인드",
+  "percent": 40,
+  "uri": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+  "money":true
+}],
+  "pageLimit":{
+    "limit":2
+   },
+  "comments": [
     {
       "id": 1,
-      "title": "다이슨 청소기 공구",
-      "people_count": "10",
-      "price": "10000",
-      "location": "rhks",
-      "description": "Hello!",
-      "product_url": "uurl.com",
-      "thumbnail_url": "hello.com",
-      "temp_author_id": 1
-    },
-    {
-      "title": "Fdsfsfs",
-      "people_count": 2,
-      "price": 10000,
-      "location": "관악구 글로벌생활관",
-      "description": "You know nothing",
-      "product_url": "google.com",
-      "temp_author_id": 0,
-      "id": 2
+      "body": "some comment",
+      "postId": 1
     }
-  ]
+  ],
+  "profile": {
+    "name": "typicode"
+  }
 }
