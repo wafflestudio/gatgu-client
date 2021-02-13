@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import styles from './Chatting.style';
+import styles from './ChattingList.style';
 
-function ChattingTemplate(): JSX.Element {
+function ChattingListTemplate(): JSX.Element {
   return (
     <View style={styles.container}>
       <Text>this is chatting</Text>
@@ -11,4 +11,4 @@ function ChattingTemplate(): JSX.Element {
   );
 }
 
-export default ChattingTemplate;
+export default ChattingListTemplate;

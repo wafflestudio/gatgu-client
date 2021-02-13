@@ -11,7 +11,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const {
   Home,
-  Chatting,
+  ChattingList,
   Profile,
   WriteArticle,
   AppLoading,
@@ -38,9 +38,9 @@ function BottomNavigation(): JSX.Element {
         options={options[WriteArticle.name]}
       />
       <Tab.Screen
-        name={Chatting.name}
-        component={Chatting.component}
-        options={options[Chatting.name]}
+        name={ChattingList.name}
+        component={ChattingList.component}
+        options={options[ChattingList.name]}
       />
       <Tab.Screen
         name={Profile.name}
@@ -71,7 +71,7 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
       <Icon name="ios-book" style={{ color, fontSize: 25 }} />
     ),
   },
-  Chatting: {
+  ChattingList: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
       <Icon name="ios-heart" style={{ color, fontSize: 25 }} />
