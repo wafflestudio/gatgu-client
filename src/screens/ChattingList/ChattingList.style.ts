@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const ChattingStyles = StyleSheet.create({
+const ChattingListStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -9,4 +9,4 @@ const ChattingStyles = StyleSheet.create({
   },
 });
 
-export default ChattingStyles;
+export default ChattingListStyles;
