@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typo, palette } from '@/styles/theme';
+import { typo, palette } from '@/styles';
 
 const GoalBarStyles = StyleSheet.create({
   wrapper: {

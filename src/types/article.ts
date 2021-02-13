@@ -1,4 +1,4 @@
-export interface IPostProps {
+export interface IArticleProps {
   id: number;
   title: string;
   dayLeft: string;

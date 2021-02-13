@@ -1,13 +1,11 @@
 import { combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
 
-import postReducer from './postSlice';
 import articleReducer from './articleSlice';
-import { useReducer } from 'react';
+import userReducer from './userSlice';
 
 const rootReducer = combineReducers({
-  post: postReducer,
   article: articleReducer,
-  user: useReducer,
+  user: userReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
