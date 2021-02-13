@@ -15,7 +15,6 @@ const user = {
   ): Promise<AxiosResponse<UserType>> => {
     return requester.put('user/login/', { username, password });
   },
-  // TODO: add more functions about user
 };
 
 export default user;
