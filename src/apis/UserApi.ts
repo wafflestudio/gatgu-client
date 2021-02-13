@@ -6,9 +6,11 @@ const user = {
   readMyInfo: (): Promise<AxiosResponse<UserType>> => {
     return requester.get('user/me/');
   },
+
   logout: (): Promise<AxiosResponse<UserType>> => {
     return requester.put('user/logout/', {});
   },
+
   login: (
     username: string,
     password: string

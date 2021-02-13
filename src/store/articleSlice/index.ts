@@ -69,6 +69,8 @@ export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
     });
 };
 
+// TODO: check
+// pagination하면 원래 페이지 크기도 오나요?
 export const getPageLimit = (): AppThunk => (dispatch) => {
   articleAPI
     .readPageLimit()

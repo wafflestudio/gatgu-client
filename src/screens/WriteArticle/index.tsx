@@ -16,9 +16,8 @@ import {
 import Header from '@/components/Header';
 import styles from './WriteArticle.style';
 import { TagArray } from '@/constants/Enum';
-import { useDispatch } from 'react-redux';
-import { postArticle } from '@/store/articleSlice';
 import * as ImagePicker from 'expo-image-picker';
+import { articleAPI } from '@/apis';
 
 // TODO:
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -46,7 +45,6 @@ function WriteArticleTemplate(): JSX.Element {
   const [link, setLink] = useState('');
   const [image, setImage] = useState('');
   const [tags, toggleTags] = useState(TagArray);
-  const dispatch = useDispatch();
 
   const changeNumber = (txt: string, num: number) => {
     // code for dismissing all letters
@@ -72,8 +70,8 @@ function WriteArticleTemplate(): JSX.Element {
     const thumbnail_url = image;
     const temp_author_id = 0;
 
-    dispatch(
-      postArticle({
+    articleAPI
+      .create({
         title,
         people_count,
         price,
@@ -83,7 +81,10 @@ function WriteArticleTemplate(): JSX.Element {
         // thumbnail_url,
         temp_author_id,
       })
-    );
+      .then(() => {
+        // TODO: check
+        // then 필요할지 안필요할지 몰라서 넣어는 놨습니다
+      });
   };
 
   const pickImage = async () => {
@@ -244,6 +245,8 @@ function WriteArticleTemplate(): JSX.Element {
   );
 }
 
+// TODO: check
+// 이거도 styles 파일로 옮겨야 하는데 어디서 쓰는 건지 모르겠어서 @김현수 컨벤션 맞춰서 수정 부탁드립니다!
 const inline = StyleSheet.create({
   outer: {
     flexDirection: 'row',

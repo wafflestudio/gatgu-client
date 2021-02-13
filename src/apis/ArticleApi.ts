@@ -12,6 +12,7 @@ const article = {
     const url = `posts?_limit=7&_page=${page}`;
     return requester.get(url);
   },
+
   readPageLimit: (): Promise<AxiosResponse<IPageLimitRes>> => {
     // TODO: check
     // 이거 있는 API인가요? 없으면 차라리 자주 변하는 정보도 아니고 @/constants/에 두는 게 나을 듯
