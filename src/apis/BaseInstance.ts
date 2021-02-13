@@ -61,6 +61,9 @@ const fakeRequesterWrapper = {
   },
   post: (uri: string, body: any): any => {
     switch (uri) {
+      // POST article
+      case 'post':
+        return fakeRequester.post('article', body);
       default:
         throw new Error('Code is wrong');
     }
