@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { customObj } from '@/helpers/functions';
 import Error from '@/components/Error';
 import defaultErrorMsg from '@/constants/Error';
@@ -16,14 +16,18 @@ interface IErrorMsg {
   {hasError?Error(Errorcode):<Component />} 
 
 */
+type TuseError = (errMsg?: IErrorMsg) => TuseErrorReturn;
+type TuseErrorReturn = [(status: number) => JSX.Element, IErrorMsg];
 
-const useError = (customErrorMsg: IErrorMsg = {}) =>
-  useCallback(() => {
-    const errorMsg: IErrorMsg = defaultErrorMsg;
-    customObj
-      .entries(customErrorMsg)
-      .forEach(([status, msg]) => (errorMsg[status] = msg));
-    return [(status: number) => <Error status={status} />, errorMsg];
-  }, [])();
+const useError: TuseError = (customErrorMsg: IErrorMsg = {}) => {
+  const errorMsg: IErrorMsg = defaultErrorMsg;
+  customObj
+    .entries(customErrorMsg)
+    .forEach(([status, msg]) => (errorMsg[status] = msg));
+  return [
+    (status: number) => <Error status={status} />,
+    errorMsg,
+  ] as TuseErrorReturn;
+};
 
 export default useError;

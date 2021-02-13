@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { FlatList, View, Text } from 'react-native';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 
@@ -7,11 +7,13 @@ import styles from './Home.style';
 import { IArticleProps } from '@/types/article';
 import { RootState } from '@/store';
 import { getArticlesPerPage } from '@/store/articleSlice';
+import { useError } from '@/helpers/hooks';
 
 // TODO: check
 // 왜인지 헤더가 엄청 내려왔는데 헤더 적용할 때 수정 부탁드립니다 희수님
 function HomeTemplate(): JSX.Element {
   const dispatch = useDispatch();
+  const [Error] = useError();
 
   const { data: posts, hasError, page } = useSelector(
     (state: RootState) => state.article,
@@ -27,12 +29,6 @@ function HomeTemplate(): JSX.Element {
     <ArticleBox {...item} />
   );
 
-  const ErrorMsg = (
-    <View>
-      <Text> 서비스 연결이 불안정합니다. 다시 시도해주세요</Text>
-    </View>
-  );
-
   // posts가 바뀌는 경우만 재 렌더링, 0.9 threshold에 다다르면 그 다음 페이지에 해당하는
   // 포스트를 받아온다.
   const ArticleList = (
@@ -43,7 +39,7 @@ function HomeTemplate(): JSX.Element {
       onEndReached={() => {
         getArticlesPerPage(page);
       }}
-      onEndReachedThreshold={0.9}
+      onEndReachedThreshold={0.5}
     />
   );
 
@@ -52,7 +48,8 @@ function HomeTemplate(): JSX.Element {
       <View style={styles.header}>
         <Text>이것은 헤더입니다^^</Text>
       </View>
-      {hasError ? ErrorMsg : ArticleList}
+      {/* Error 안에 error status code 넣기 */}
+      {hasError ? Error(401) : ArticleList}
     </View>
   );
 }
