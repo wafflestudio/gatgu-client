@@ -4,7 +4,7 @@ import { Text } from 'native-base';
 
 import styles from './ArticleBox.style';
 
-import Thumbnail from '../Thumbnail';
+import { Thumbnail } from '@/components';
 import GoalBar from './GoalBar';
 import { IArticleProps } from '@/types/article';
 
