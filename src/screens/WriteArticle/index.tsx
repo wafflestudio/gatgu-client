@@ -19,6 +19,7 @@ import { set } from 'react-native-reanimated';
 //  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
 //  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
 //  - tag 정보 넘기기 (submit할때)
+//  - redirect after submit
 
 const dummyImage = 'https://reactnative.dev/img/tiny_logo.png';
 
@@ -57,8 +58,7 @@ function WriteArticleTemplate(): JSX.Element {
         temp_author_id,
       })
       .then(() => {
-        // TODO: check
-        // then 필요할지 안필요할지 몰라서 넣어는 놨습니다
+        // TODO: redirect
       });
   };
 
