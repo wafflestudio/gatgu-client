@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { palette } from '@/styles/theme';
-import { flexRow } from '@/styles/basic';
+import { palette } from '@/styles';
+import { flexRow } from '@/styles/wrapper';
 
-const styles = StyleSheet.create({
+const SearchBarStyles = StyleSheet.create({
   outerBox: {
     ...flexRow,
     backgroundColor: palette.white,
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   searchIcon: { paddingLeft: 10 },
 });
 
-export default styles;
+export default SearchBarStyles;

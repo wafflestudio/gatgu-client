@@ -1,6 +1,6 @@
 import requester from './BaseInstance';
 import { AxiosResponse } from 'axios';
-import { UserType } from '../types/navigation';
+import { UserType } from '../types/user';
 
 const user = {
   readMyInfo: (): Promise<AxiosResponse<UserType>> => {

@@ -1,5 +1,5 @@
-import { Label, Title } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import { Label } from 'native-base';
+import React, { useState } from 'react';
 import {
   ScrollView,
   View,
@@ -14,9 +14,8 @@ import {
   StyleProp,
 } from 'react-native';
 import Header from '@/components/Header';
-import styles from './style';
+import styles from './WriteArticle.style';
 import { TagArray } from '@/constants/Enum';
-import { TagType } from '@/types/navigation';
 import { useDispatch } from 'react-redux';
 import { postArticle } from '@/store/articleSlice';
 import * as ImagePicker from 'expo-image-picker';
@@ -36,7 +35,9 @@ interface IDProps {
   showIssuesList: () => void;
 }
 
-function WriteArticle() {
+// TODO: check
+// 이거 컴포넌트 분리해주세요!
+function WriteArticleTemplate(): JSX.Element {
   const [title, setTitle] = useState('');
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
@@ -53,6 +54,7 @@ function WriteArticle() {
     if (num === 0) setPeople(txt);
     else setPrice(txt);
   };
+
   const handleTag = (id: number) => {
     const newTags = tags.map((arr) =>
       arr.map((tag) => {
@@ -83,6 +85,7 @@ function WriteArticle() {
       })
     );
   };
+
   const pickImage = async () => {
     // Get permission to access photo gallery
     async () => {
@@ -113,6 +116,7 @@ function WriteArticle() {
     }
     // else do nothing
   };
+
   const InputContainerProducer = (
     outerStyle: StyleProp<ViewStyle>,
     label: string,
@@ -261,4 +265,4 @@ const inline = StyleSheet.create({
   },
 });
 
-export default WriteArticle;
+export default WriteArticleTemplate;

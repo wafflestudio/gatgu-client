@@ -7,7 +7,7 @@ export interface IPostProps {
   percent: number;
   uri: string;
   created: string;
-  money: boolean;
+  isMoney: boolean;
 }
 
 export interface IPageLimitRes {

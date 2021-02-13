@@ -2,13 +2,13 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
 
-import styles from './style';
+import styles from './PostBox.style';
 
 import Thumbnail from '../Thumbnail';
 import GoalBar from './GoalBar';
 import { IPostProps } from '@/types/post';
 
-export default function PostBox({
+function PostBox({
   title,
   dayLeft,
   goal,
@@ -16,8 +16,8 @@ export default function PostBox({
   created,
   location,
   uri,
-  money,
-}: IPostProps) {
+  isMoney,
+}: IPostProps): JSX.Element {
   return (
     <TouchableOpacity style={styles.postBox} onPress={() => alert('not yet')}>
       <Thumbnail uri={uri} w={107} h={107} />
@@ -28,8 +28,10 @@ export default function PostBox({
           <Text style={styles.description}>{dayLeft} · </Text>
           <Text style={styles.description}>{location}</Text>
         </View>
-        <GoalBar percent={percent} goal={goal} money={money} />
+        <GoalBar percent={percent} goal={goal} isMoney={isMoney} />
       </View>
     </TouchableOpacity>
   );
 }
+
+export default PostBox;

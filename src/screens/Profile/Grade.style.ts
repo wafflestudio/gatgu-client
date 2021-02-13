@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const gradeStyle = StyleSheet.create({
+const GradeStyle = StyleSheet.create({
   // container
   container: {
     borderWidth: 1,
@@ -114,4 +114,4 @@ const gradeStyle = StyleSheet.create({
   },
 });
 
-export default gradeStyle;
+export default GradeStyle;

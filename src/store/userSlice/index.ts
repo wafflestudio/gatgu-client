@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserType } from '@/types/navigation';
-import { user } from '@/apis';
+import { UserType } from '@/types/user';
+import { userAPI } from '@/apis';
 import { AppThunk } from '@/store';
 import { setToken, removeToken } from '@/apis/BaseInstance';
 
@@ -49,7 +49,7 @@ export default userSlice.reducer;
 
 // thunk function
 export const login = (id: string, pw: string): AppThunk => (dispatch) => {
-  user
+  userAPI
     .login(id, pw)
     .then((response) => {
       setToken(response.data.token);
@@ -66,7 +66,7 @@ export const login = (id: string, pw: string): AppThunk => (dispatch) => {
 };
 
 export const logout = (): AppThunk => (dispatch) => {
-  user
+  userAPI
     .logout()
     .then(() => {
       removeToken();

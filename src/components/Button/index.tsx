@@ -7,6 +7,8 @@ interface ButtonProps {
   [x: string]: any;
 }
 
-export default function Button({ title, onPress, ...rest }: ButtonProps) {
+function Button({ title, onPress, ...rest }: ButtonProps): JSX.Element {
   return <DefualtButton title={title} onPress={onPress} {...rest} />;
 }
+
+export default Button;

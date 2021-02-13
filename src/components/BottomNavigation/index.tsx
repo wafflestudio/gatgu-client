@@ -9,15 +9,9 @@ import navigationRoute from './navigationRoute';
 
 const Tab = createMaterialTopTabNavigator();
 
-const {
-  Home,
-  Chatting,
-  Profile,
-  WriteArticlePage,
-  tarBarOption,
-} = navigationRoute;
+const { Home, Chatting, Profile, WriteArticle, tarBarOption } = navigationRoute;
 
-function BottomNavigationTab() {
+function BottomNavigation(): JSX.Element {
   return (
     <Tab.Navigator tabBarPosition="bottom" tabBarOptions={tarBarOption}>
       <Tab.Screen
@@ -36,9 +30,9 @@ function BottomNavigationTab() {
         options={options[Profile.name]}
       />
       <Tab.Screen
-        name={WriteArticlePage.name}
-        component={WriteArticlePage.component}
-        options={options[WriteArticlePage.name]}
+        name={WriteArticle.name}
+        component={WriteArticle.component}
+        options={options[WriteArticle.name]}
       />
     </Tab.Navigator>
   );
@@ -63,7 +57,7 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
       <Icon name="ios-heart" style={{ color, fontSize: 25 }} />
     ),
   },
-  WriteArticlePage: {
+  WriteArticle: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
       <Icon name="ios-book" style={{ color, fontSize: 25 }} />
@@ -71,4 +65,4 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
   },
 };
 
-export default BottomNavigationTab;
+export default BottomNavigation;

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const historyStyle = StyleSheet.create({
+const HistoryListStyle = StyleSheet.create({
   container: {
     justifyContent: 'center',
     height: 80,
@@ -9,4 +9,4 @@ const historyStyle = StyleSheet.create({
   },
 });
 
-export default historyStyle;
+export default HistoryListStyle;

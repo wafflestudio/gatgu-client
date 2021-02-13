@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
-function Chatting() {
+import styles from './Chatting.style';
+
+function ChattingTemplate(): JSX.Element {
   return (
     <View style={styles.container}>
       <Text>this is chatting</Text>
@@ -9,13 +11,4 @@ function Chatting() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default Chatting;
+export default ChattingTemplate;
