@@ -29,6 +29,7 @@ const routes = {
     name: 'Profile',
     component: Profile,
   },
+  // TODO: modify to Search
   AppLoading: {
     name: 'AppLoading',
     component: AppLoading,
