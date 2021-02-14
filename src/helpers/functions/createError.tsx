@@ -1,7 +1,7 @@
 import React from 'react';
 import { customObj } from '@/helpers/functions';
 import Error from '@/components/Error';
-import defaultErrorMsg from '@/constants/Error';
+import defaultErrorMsg from '@/constants/ErrorCode';
 
 interface IErrorMsg {
   [x: number]: string;
@@ -21,9 +21,9 @@ type TErrorReturn = [(status: number) => JSX.Element, IErrorMsg];
 
 const createError: TCreateError = (customErrorMsg: IErrorMsg = {}) => {
   const errorMsg: IErrorMsg = defaultErrorMsg;
-  customObj
-    .entries(customErrorMsg)
-    .forEach(([status, msg]) => (errorMsg[status] = msg));
+  customObj.entries(customErrorMsg).forEach(([status, msg]) => {
+    errorMsg[status] = msg;
+  });
   return [
     (status: number) => <Error status={status} />,
     errorMsg,

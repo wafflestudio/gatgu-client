@@ -5,7 +5,7 @@ interface IErrorProps {
   status: number;
 }
 
-function Error({ status }: IErrorProps) {
+function Error({ status }: IErrorProps): JSX.Element {
   return (
     <View style={ErrorStyles.container}>
       <Text>{status}</Text>

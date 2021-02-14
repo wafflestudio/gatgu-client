@@ -7,3 +7,5 @@ function remainTime(deadline: string): string {
 
   return dayLeft ? `${dayLeft}일 남았습니다.` : '오늘 마감입니다.';
 }
+
+export { remainTime };

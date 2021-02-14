@@ -9,7 +9,7 @@ import { RootState } from '@/store';
 import { getArticlesPerPage } from '@/store/articleSlice';
 import { createError } from '@/helpers/functions';
 
-const Error = createError();
+const [Error] = createError();
 
 function HomeTemplate(): JSX.Element {
   const dispatch = useDispatch();
@@ -48,6 +48,7 @@ function HomeTemplate(): JSX.Element {
         <Text>이것은 헤더입니다^^</Text>
       </View>
       {/* Error 안에 error status code 넣기 */}
+      {/* 임시로 401 넣어 놓음 */}
       {hasError ? Error(401) : ArticleList}
     </View>
   );
