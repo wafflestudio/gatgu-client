@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { palette } from '@/styles';
+import { pullAll } from 'lodash';
 
 const ProfileChatStyles = StyleSheet.create({
   profile: {
@@ -35,6 +36,7 @@ const ProfileChatStyles = StyleSheet.create({
   userContainer: {
     height: 60,
     borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 10,

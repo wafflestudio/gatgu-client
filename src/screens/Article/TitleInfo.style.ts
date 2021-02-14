@@ -4,6 +4,7 @@ import { palette, typo } from '@/styles';
 const TitleInfoStyles = StyleSheet.create({
   bigContainer: {
     borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
   },
 
   subContainer: {
