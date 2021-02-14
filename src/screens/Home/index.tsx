@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { FlatList, View, Text } from 'react-native';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 
-import ArticleBox from '@/components/Article/ArticleBox';
+import { ArticleBox } from './Article';
 import styles from './Home.style';
 import { IArticleProps } from '@/types/article';
 import { RootState } from '@/store';

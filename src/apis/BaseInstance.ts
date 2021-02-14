@@ -6,7 +6,7 @@ import { Platform } from 'react-native';
 // TODO: fakeRequester 지우고 이거로 대체
 /*
 const requester = axios.create({
-  baseURL: '',
+  baseURL: 'https://gatgu.com/v1/',
 });
 
 export default requester;
@@ -61,6 +61,9 @@ const fakeRequesterWrapper = {
   },
   post: (uri: string, body: any): any => {
     switch (uri) {
+      // POST article
+      case 'article/':
+        return fakeRequester.post('article', body);
       default:
         throw new Error('Code is wrong');
     }

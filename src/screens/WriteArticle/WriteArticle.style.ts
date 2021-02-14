@@ -44,6 +44,29 @@ const WriteArticleStyles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
   },
+
+  outer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+
+  inner: {
+    borderWidth: 1,
+    padding: 10,
+  },
+
+  padding: {
+    marginTop: 7,
+    marginBottom: 6,
+  },
+
+  margin: {
+    margin: 5,
+  },
+
+  selected: {
+    backgroundColor: 'grey',
+  },
 });
 
 export default WriteArticleStyles;

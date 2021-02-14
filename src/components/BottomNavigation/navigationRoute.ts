@@ -1,4 +1,10 @@
-import { WriteArticle, Chatting, Home, Profile } from '@/screens';
+import {
+  WriteArticle,
+  ChattingList,
+  Home,
+  Profile,
+  AppLoading,
+} from '@/screens';
 
 const routes = {
   tarBarOption: {
@@ -17,17 +23,22 @@ const routes = {
     name: 'Home',
     component: Home,
   },
+  WriteArticle: {
+    name: 'WriteArticle',
+    component: WriteArticle,
+  },
+  ChattingList: {
+    name: 'ChattingList',
+    component: ChattingList,
+  },
   Profile: {
     name: 'Profile',
     component: Profile,
   },
-  Chatting: {
-    name: 'Chatting',
-    component: Chatting,
-  },
-  WriteArticle: {
-    name: 'WriteArticle',
-    component: WriteArticle,
+  // TODO: modify to Search
+  AppLoading: {
+    name: 'AppLoading',
+    component: AppLoading,
   },
 };
 
