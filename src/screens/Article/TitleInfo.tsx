@@ -1,7 +1,7 @@
 import { Label, View } from 'native-base';
 import React, { useMemo } from 'react';
 import { Text } from 'react-native';
-import styles from './Title_Info.style';
+import styles from './TitleInfo.style';
 import { palette, typo } from '@/styles/theme';
 import { calcTimeDiff } from '@/helpers/functions/index';
 

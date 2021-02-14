@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { palette, typo } from '@/styles/theme';
 
-const styles = StyleSheet.create({
+const TitleInfoStyles = StyleSheet.create({
   bigContainer: {
     borderBottomWidth: 1,
   },
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default TitleInfoStyles;

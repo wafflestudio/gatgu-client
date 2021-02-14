@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { palette } from '@/styles/theme';
 
-const styles = StyleSheet.create({
+const ProfileChatStyles = StyleSheet.create({
   profile: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default ProfileChatStyles;

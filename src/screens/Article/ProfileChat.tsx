@@ -1,7 +1,7 @@
 import { View } from 'native-base';
 import React from 'react';
 import { Text, Image } from 'react-native';
-import styles from './Profile_Chat.style';
+import styles from './ProfileChat.style';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { typo } from '@/styles/theme';
 

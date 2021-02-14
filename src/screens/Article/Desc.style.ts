@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 import { typo } from '@/styles/theme';
 
-const styles = StyleSheet.create({
+const DescStyles = StyleSheet.create({
   descText: {
     ...typo.info,
     padding: 15,
   },
 });
 
-export default styles;
+export default DescStyles;
