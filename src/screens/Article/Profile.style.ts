@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { palette } from '@/styles';
 
-const ProfileChatStyles = StyleSheet.create({
+const ProfileStyles = StyleSheet.create({
   profile: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -15,16 +15,6 @@ const ProfileChatStyles = StyleSheet.create({
     marginRight: 12,
     marginLeft: 15,
   },
-
-  userContainer: {
-    height: 60,
-    borderBottomWidth: 1,
-    borderBottomColor: palette.borderGray,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
 });
 
-export default ProfileChatStyles;
+export default ProfileStyles;

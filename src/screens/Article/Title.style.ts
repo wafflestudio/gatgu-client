@@ -2,11 +2,6 @@ import { StyleSheet } from 'react-native';
 import { palette, typo } from '@/styles';
 
 const TitleStyles = StyleSheet.create({
-  bigContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: palette.borderGray,
-  },
-
   subContainer: {
     paddingBottom: 10,
     paddingTop: 10,

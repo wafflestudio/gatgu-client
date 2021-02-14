@@ -1,11 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Desc from './Desc';
-import Profile from './Profile';
-import Chat from './Chat';
+import ProfileChat from './ProfileChat';
 import ProductImages from './ProductImages';
-import Title from './Title';
-import Info from './Info';
+import TitleInfo from './TitleInfo';
 import Header from '@/components/Header';
 
 // TODO:
@@ -51,15 +49,14 @@ function ArticlePage(): JSX.Element {
       <ScrollView>
         <Header title={dummyArticle.title} left={true} right={true} />
         <ProductImages dummyArticle={dummyArticle} />
-        <Profile dummyArticle={dummyArticle} />
-        <Chat />
-        <Title dummyArticle={dummyArticle} />
-        <Info dummyArticle={dummyArticle} />
+        <ProfileChat dummyArticle={dummyArticle} />
+        <TitleInfo dummyArticle={dummyArticle} />
         <Desc dummyArticle={dummyArticle} />
       </ScrollView>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
