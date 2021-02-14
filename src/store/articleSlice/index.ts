@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { articleAPI } from '@/apis';
-import { IArticleProps } from '@/types/article';
+import { IArticleSumProps } from '@/types/article';
 import { AppThunk } from '@/store';
 
 export interface IArticleSlice {
   page: number;
   hasError: boolean;
-  data: IArticleProps[];
+  data: IArticleSumProps[];
   pageLimit: number;
 }
 
 interface IArticlePayload {
-  data: IArticleProps[];
+  data: IArticleSumProps[];
 }
 
 interface IPageLimitPayload {

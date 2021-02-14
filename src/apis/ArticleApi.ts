@@ -2,12 +2,12 @@
 import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
 import { ArticleType } from '@/types/navigation';
-import { IArticleProps, IPageLimitRes } from '@/types/article';
+import { IArticleSumProps, IPageLimitRes } from '@/types/article';
 
 // for home page
 export const readAll = (
   page: number
-): Promise<AxiosResponse<IArticleProps[]>> => {
+): Promise<AxiosResponse<IArticleSumProps[]>> => {
   // TODO: check
   // pagination 이렇게 안하는데, 백엔드와 논의 필요
   const url = `posts?_limit=7&_page=${page}`;
