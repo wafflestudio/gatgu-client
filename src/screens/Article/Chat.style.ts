@@ -1,22 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { palette } from '@/styles';
-import { pullAll } from 'lodash';
 
-const ProfileChatStyles = StyleSheet.create({
-  profile: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingRight: 80,
-  },
-
-  profileImg: {
-    width: 43,
-    height: 43,
-    borderRadius: 43 / 2,
-    marginRight: 12,
-    marginLeft: 15,
-  },
-
+const ChatStyles = StyleSheet.create({
   chattingButton: {
     borderWidth: 1,
     borderRadius: 15,
@@ -44,4 +29,4 @@ const ProfileChatStyles = StyleSheet.create({
   },
 });
 
-export default ProfileChatStyles;
+export default ChatStyles;
