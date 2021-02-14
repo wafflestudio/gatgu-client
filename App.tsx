@@ -17,6 +17,7 @@ function App() {
   const [fontsLoaded] = useFonts({
     NotoSansKR_500Medium,
     NotoSansKR_400Regular,
+    NotoSansKR_700Bold
   });
 
   if (!fontsLoaded) {
