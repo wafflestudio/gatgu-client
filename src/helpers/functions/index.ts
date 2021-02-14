@@ -7,3 +7,9 @@ export const remainTime = (deadline: string): string => {
 
   return dayLeft ? `${dayLeft}일 남았습니다.` : '오늘 마감입니다.';
 };
+
+// TODO: Will change after discussing how to display time
+export const calcTimeDiff = (start: Date, end: Date) => {
+  // do calculations to convert accordingly
+  return end.valueOf() - start.valueOf();
+};
