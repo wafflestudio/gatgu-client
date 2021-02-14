@@ -1,4 +1,4 @@
-export interface IArticleProps {
+export interface IArticleSumProps {
   id: number;
   title: string;
   dayLeft: string;
