@@ -1,8 +1,11 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
-import { ArticleType } from '@/types/navigation';
-import { IArticleSumProps, IPageLimitRes } from '@/types/article';
+import {
+  IArticleSumProps,
+  IPageLimitRes,
+  IArticleProps,
+} from '@/types/article';
 
 // for home page
 export const readAll = (
@@ -22,7 +25,7 @@ export const readPageLimit = (): Promise<AxiosResponse<IPageLimitRes>> => {
 
 // for article page
 export const create = (
-  article: ArticleType
-): Promise<AxiosResponse<ArticleType>> => {
+  article: IArticleProps
+): Promise<AxiosResponse<IArticleProps>> => {
   return requester.post('article/', article);
 };
