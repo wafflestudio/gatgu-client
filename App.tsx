@@ -12,7 +12,7 @@ import store from '@/store/rootStore';
 import { AppLoading } from '@/screens';
 import { SafeAreaView } from 'react-native';
 
-function App() {
+function App(): JSX.Element {
   const [fontsLoaded] = useFonts({
     NotoSansKR_500Medium,
     NotoSansKR_400Regular,
@@ -21,6 +21,7 @@ function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
   return (
     <Provider store={store}>
       <NavigationContainer>
