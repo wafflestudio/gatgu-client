@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserType } from '@/types/user';
+import { IUserProps } from '@/types/user';
 import { userAPI } from '@/apis';
 import { AppThunk } from '@/store';
 import { setToken, removeToken } from '@/apis/BaseInstance';
@@ -30,7 +30,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setInfo(state, action: PayloadAction<UserType>) {
+    setInfo(state, action: PayloadAction<IUserProps>) {
       state.info = { ...action.payload };
       // TODO: set session storage info
     },
