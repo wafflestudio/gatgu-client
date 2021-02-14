@@ -4,6 +4,7 @@ import {
   Home,
   Profile,
   AppLoading,
+  Article,
 } from '@/screens';
 
 const routes = {
@@ -39,6 +40,11 @@ const routes = {
   AppLoading: {
     name: 'AppLoading',
     component: AppLoading,
+  },
+  // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
+  Article: {
+    name: 'Article',
+    component: Article,
   },
 };
 

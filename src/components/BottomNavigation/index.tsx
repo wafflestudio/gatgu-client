@@ -16,6 +16,7 @@ const {
   WriteArticle,
   AppLoading,
   tarBarOption,
+  Article,
 } = navigationRoute;
 
 function BottomNavigation(): JSX.Element {
@@ -46,6 +47,12 @@ function BottomNavigation(): JSX.Element {
         name={Profile.name}
         component={Profile.component}
         options={options[Profile.name]}
+      />
+      {/* WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation*/}
+      <Tab.Screen
+        name={Article.name}
+        component={Article.component}
+        options={options[Article.name]}
       />
     </Tab.Navigator>
   );
@@ -81,6 +88,13 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
       <Icon name="ios-add-circle" style={{ color, fontSize: 25 }} />
+    ),
+  },
+  // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
+  Article: {
+    // eslint-disable-next-line react/display-name
+    tabBarIcon: ({ color }: any): JSX.Element => (
+      <Icon name="ios-alert" style={{ color, fontSize: 25 }} />
     ),
   },
 };
