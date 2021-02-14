@@ -1,53 +1,83 @@
-import { ArticleType } from '@/types/navigation';
-import {
-  CombinedState,
-  createSlice,
-  PayloadAction,
-  ThunkDispatch,
-} from '@reduxjs/toolkit';
-import { postArticleApi } from '@/apis/ArticleApi';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { articleAPI } from '@/apis';
+import { IArticleProps } from '@/types/article';
 import { AppThunk } from '@/store';
-import requester from '@/apis/BaseInstance';
 
-const initialState = {
-  title: '',
-  people_count: 0,
-  price: 0,
-  location: '',
-  description: '',
-  product_url: '',
-  thumbnail_url: [''],
-  temp_author_id: 0,
+export interface IArticleSlice {
+  page: number;
+  hasError: boolean;
+  data: IArticleProps[];
+  pageLimit: number;
+}
+
+interface IArticlePayload {
+  data: IArticleProps[];
+}
+
+interface IPageLimitPayload {
+  pageLimit: {
+    limit: number;
+  };
+}
+
+const initialState: IArticleSlice = {
+  page: 1,
+  hasError: false,
+  data: [],
+  pageLimit: 1,
 };
 
+// article store + basic action
 const articleSlice = createSlice({
   name: 'article',
   initialState,
   reducers: {
-    putArticles(state, action: PayloadAction<ArticleType>) {
-      state.title = action.payload.title;
-      state.people_count = action.payload.people_count;
-      state.price = action.payload.price;
-      state.location = action.payload.location;
-      state.description = action.payload.description;
-      state.product_url = action.payload.product_url;
-      // state.thumbnail_url = action.payload.thumbnail_url;
-      state.temp_author_id = action.payload.temp_author_id;
+    // if getting data  successfully
+    getArticleSuccess: (state, { payload }: PayloadAction<IArticlePayload>) => {
+      state.data.push(...payload.data);
+      state.hasError = false;
+      state.page += 1;
+    },
+
+    // if getting data fail, show error screen by hasError state.
+    getArticleFailure: (state) => {
+      state.hasError = true;
+    },
+
+    setPageLimit: (state, { payload }: PayloadAction<IPageLimitPayload>) => {
+      state.pageLimit = payload.pageLimit.limit;
     },
   },
 });
 
-export const { putArticles } = articleSlice.actions;
-export default articleSlice.reducer;
+const {
+  getArticleSuccess,
+  getArticleFailure,
+  setPageLimit,
+} = articleSlice.actions;
 
-// thunk function
-export const postArticle = (article: ArticleType): AppThunk => async (
-  dispatch
-) => {
-  try {
-    const res = await postArticleApi(article);
-    dispatch(putArticles(res.data));
-  } catch (err) {
-    console.log(err);
-  }
+// Asynchronous thunk action
+export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
+  articleAPI
+    .readAll(page)
+    .then((response) => {
+      dispatch(getArticleSuccess({ data: response.data }));
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch(getArticleFailure());
+    });
 };
+
+// TODO: check
+// pagination하면 원래 페이지 크기도 오나요?
+export const getPageLimit = (): AppThunk => (dispatch) => {
+  articleAPI
+    .readPageLimit()
+    .then((response) => {
+      dispatch(setPageLimit(response.data));
+    })
+    .catch((err) => console.log(err));
+};
+
+export default articleSlice.reducer;
