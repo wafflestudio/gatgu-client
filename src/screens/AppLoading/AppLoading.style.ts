@@ -11,13 +11,13 @@ const AppLoadingStyles = StyleSheet.create({
   mainLogo: {
     height: 132.13,
     width: 132.13,
-    backgroundColor: 'white',
     marginBottom: 43.43,
+    backgroundColor: 'black',
   },
   subLogo: {
     height: 60,
     width: 190,
-    backgroundColor: 'red',
+    backgroundColor: 'black',
   },
 });
 
