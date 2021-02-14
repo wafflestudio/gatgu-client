@@ -1,4 +1,4 @@
-import user from './UserApi';
-import * as post from './PostApi';
+import * as userAPI from './UserApi';
+import * as articleAPI from './ArticleApi';
 
-export { user, post };
+export { userAPI, articleAPI };
