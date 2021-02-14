@@ -1,9 +1,3 @@
-// deadline: date 객체가 string 형태로 들어옴.
-export const remainTime = (deadline: string): string => {
-  const deadlineDay: number = new Date(deadline).getDate();
-  const today: number = new Date().getDate();
-
-  const dayLeft: number = deadlineDay - today;
-
-  return dayLeft ? `${dayLeft}일 남았습니다.` : '오늘 마감입니다.';
-};
+export { default as customObj } from './object';
+export { default as createError } from './createError';
+export { remainTime } from './time';

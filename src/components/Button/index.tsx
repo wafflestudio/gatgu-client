@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as DefualtButton } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 interface ButtonProps {
   title: string;
@@ -8,7 +8,11 @@ interface ButtonProps {
 }
 
 function Button({ title, onPress, ...rest }: ButtonProps): JSX.Element {
-  return <DefualtButton title={title} onPress={onPress} {...rest} />;
+  return (
+    <TouchableOpacity onPress={onPress} {...rest}>
+      <Text>{title}</Text>
+    </TouchableOpacity>
+  );
 }
 
 export default Button;
