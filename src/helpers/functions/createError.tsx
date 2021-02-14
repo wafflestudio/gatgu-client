@@ -16,10 +16,10 @@ interface IErrorMsg {
   {hasError?Error(Errorcode):<Component />} 
 
 */
-type TuseError = (errMsg?: IErrorMsg) => TuseErrorReturn;
-type TuseErrorReturn = [(status: number) => JSX.Element, IErrorMsg];
+type TCreateError = (errMsg?: IErrorMsg) => TErrorReturn;
+type TErrorReturn = [(status: number) => JSX.Element, IErrorMsg];
 
-const useError: TuseError = (customErrorMsg: IErrorMsg = {}) => {
+const createError: TCreateError = (customErrorMsg: IErrorMsg = {}) => {
   const errorMsg: IErrorMsg = defaultErrorMsg;
   customObj
     .entries(customErrorMsg)
@@ -27,7 +27,7 @@ const useError: TuseError = (customErrorMsg: IErrorMsg = {}) => {
   return [
     (status: number) => <Error status={status} />,
     errorMsg,
-  ] as TuseErrorReturn;
+  ] as TErrorReturn;
 };
 
-export default useError;
+export default createError;

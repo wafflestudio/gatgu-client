@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, View, Text } from 'react-native';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 
@@ -7,13 +7,12 @@ import styles from './Home.style';
 import { IArticleProps } from '@/types/article';
 import { RootState } from '@/store';
 import { getArticlesPerPage } from '@/store/articleSlice';
-import { useError } from '@/helpers/hooks';
+import { createError } from '@/helpers/functions';
 
-// TODO: check
-// 왜인지 헤더가 엄청 내려왔는데 헤더 적용할 때 수정 부탁드립니다 희수님
+const Error = createError();
+
 function HomeTemplate(): JSX.Element {
   const dispatch = useDispatch();
-  const [Error] = useError();
 
   const { data: posts, hasError, page } = useSelector(
     (state: RootState) => state.article,
