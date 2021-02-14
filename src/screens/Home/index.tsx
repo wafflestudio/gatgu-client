@@ -4,7 +4,7 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 
 import { ArticleBox } from './Article';
 import styles from './Home.style';
-import { IArticleProps } from '@/types/article';
+import { IArticleSumProps } from '@/types/article';
 import { RootState } from '@/store';
 import { getArticlesPerPage } from '@/store/articleSlice';
 
@@ -23,7 +23,7 @@ function HomeTemplate(): JSX.Element {
     dispatch(getArticlesPerPage(page));
   }, []);
 
-  const renderArticle = ({ item }: { item: IArticleProps }) => (
+  const renderArticle = ({ item }: { item: IArticleSumProps }) => (
     <ArticleBox {...item} />
   );
 
