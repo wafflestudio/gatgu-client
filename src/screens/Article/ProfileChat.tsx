@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, Image } from 'react-native';
 import styles from './ProfileChat.style';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { typo } from '@/styles/theme';
+import { typo } from '@/styles';
 
 // TODO: change input type
 function Profile_Chat({ dummyArticle }: any): JSX.Element {

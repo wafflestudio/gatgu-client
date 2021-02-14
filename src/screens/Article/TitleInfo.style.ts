@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { palette, typo } from '@/styles/theme';
+import { palette, typo } from '@/styles';
 
 const TitleInfoStyles = StyleSheet.create({
   bigContainer: {

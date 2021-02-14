@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { typo } from '@/styles/theme';
+import { typo } from '@/styles';
 
 const DescStyles = StyleSheet.create({
   descText: {

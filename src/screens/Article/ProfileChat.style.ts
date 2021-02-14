@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { palette } from '@/styles/theme';
+import { palette } from '@/styles';
 
 const ProfileChatStyles = StyleSheet.create({
   profile: {
