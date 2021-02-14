@@ -8,6 +8,17 @@ const AppLoadingStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  mainLogo: {
+    height: 132.13,
+    width: 132.13,
+    backgroundColor: 'white',
+    marginBottom: 43.43,
+  },
+  subLogo: {
+    height: 60,
+    width: 190,
+    backgroundColor: 'red',
+  },
 });
 
 export default AppLoadingStyles;
