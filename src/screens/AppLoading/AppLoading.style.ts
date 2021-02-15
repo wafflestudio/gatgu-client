@@ -12,12 +12,10 @@ const AppLoadingStyles = StyleSheet.create({
     height: 132.13,
     width: 132.13,
     marginBottom: 43.43,
-    backgroundColor: 'black',
   },
   subLogo: {
     height: 60,
     width: 190,
-    backgroundColor: 'black',
   },
 });
 
