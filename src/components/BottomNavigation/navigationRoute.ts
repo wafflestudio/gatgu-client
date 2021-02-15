@@ -4,6 +4,7 @@ import {
   Home,
   Profile,
   AppLoading,
+  Notification,
 } from '@/screens';
 
 const routes = {
@@ -39,6 +40,11 @@ const routes = {
   AppLoading: {
     name: 'AppLoading',
     component: AppLoading,
+  },
+  // TODO :remove this
+  Notification: {
+    name: 'Notification',
+    component: Notification,
   },
 };
 
