@@ -5,9 +5,10 @@ import styles from './Chat.style';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
 // TODO: change input type
-function Chat(): JSX.Element {
+function Chat({ navigation }: any): JSX.Element {
   const chattingRedirect = () => {
-    alert('Redirect to chatting room');
+    // alert('Redirect to chatting room');
+    navigation.navigate('ChatRoom');
   };
 
   return (

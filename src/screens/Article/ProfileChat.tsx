@@ -5,11 +5,11 @@ import Profile from './Profile';
 import Chat from './Chat';
 
 // TODO: change input type
-function ProfileChat({ dummyArticle }: any): JSX.Element {
+function ProfileChat({ dummyArticle, navigation }: any): JSX.Element {
   return (
     <View style={styles.userContainer}>
       <Profile dummyArticle={dummyArticle} />
-      <Chat />
+      <Chat navigation={navigation} />
     </View>
   );
 }

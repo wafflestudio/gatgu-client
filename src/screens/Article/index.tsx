@@ -43,13 +43,13 @@ const dummyArticle = {
   dueDate: new Date('2021-03-02'), // always in days, not in api but added it anyways bc in design
 };
 
-function ArticlePage(): JSX.Element {
+function ArticlePage({ navigation }: any): JSX.Element {
   return (
     <View style={styles.container}>
       <ScrollView>
         <Header title={dummyArticle.title} left={true} right={true} />
         <ProductImages dummyArticle={dummyArticle} />
-        <ProfileChat dummyArticle={dummyArticle} />
+        <ProfileChat dummyArticle={dummyArticle} navigation={navigation} />
         <TitleInfo dummyArticle={dummyArticle} />
         <Desc dummyArticle={dummyArticle} />
       </ScrollView>

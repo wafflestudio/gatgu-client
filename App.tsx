@@ -8,10 +8,12 @@ import {
   NotoSansKR_400Regular,
   NotoSansKR_700Bold
 } from '@expo-google-fonts/noto-sans-kr';
-import BottomNavigation from '@/components/BottomNavigation';
 import store from '@/store/rootStore';
 import { AppLoading } from '@/screens';
 import { SafeAreaView } from 'react-native';
+import Router from '@/helpers/router/Router';
+import { BottomNavigation } from '@/components';
+
 
 function App() {
   const [fontsLoaded] = useFonts({
@@ -27,7 +29,8 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <SafeAreaView style={{ flex: 1 }}>
-          <BottomNavigation />
+          <Router/>
+          {/* <BottomNavigation/> */}
         </SafeAreaView>
       </NavigationContainer>
     </Provider>

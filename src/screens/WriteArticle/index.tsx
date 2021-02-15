@@ -29,7 +29,7 @@ interface IDProps {
   showIssuesList: () => void;
 }
 
-function WriteArticleTemplate(): JSX.Element {
+function WriteArticleTemplate({ navigation }: any): JSX.Element {
   const [image, setImage] = useState('');
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
@@ -59,6 +59,7 @@ function WriteArticleTemplate(): JSX.Element {
       .then(() => {
         // TODO: redirect
       });
+    navigation.navigate('ArticleDrawer');
   };
 
   return (
