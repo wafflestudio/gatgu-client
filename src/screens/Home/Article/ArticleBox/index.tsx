@@ -6,7 +6,7 @@ import styles from './ArticleBox.style';
 
 import { Thumbnail } from '@/components';
 import GoalBar from './GoalBar';
-import { IArticleProps } from '@/types/article';
+import { IArticleSumProps } from '@/types/article';
 
 function ArticleBox({
   title,
@@ -17,7 +17,7 @@ function ArticleBox({
   location,
   uri,
   isMoney,
-}: IArticleProps): JSX.Element {
+}: IArticleSumProps): JSX.Element {
   return (
     <TouchableOpacity style={styles.postBox} onPress={() => alert('not yet')}>
       <Thumbnail uri={uri} w={107} h={107} />
