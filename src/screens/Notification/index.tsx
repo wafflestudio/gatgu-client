@@ -24,7 +24,7 @@ const mockData: INotifyItem[] = [
   },
 ];
 
-function Notification() {
+function Notification(): JSX.Element {
   const renderItem = ({ item }: { item: INotifyItem }) => (
     <InfoContainer>
       <Thumbnail

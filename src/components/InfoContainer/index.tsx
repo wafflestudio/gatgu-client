@@ -6,7 +6,7 @@ interface IInfoContainerProps {
   children: ReactNode;
 }
 
-function InfoContainer({ children }: IInfoContainerProps) {
+function InfoContainer({ children }: IInfoContainerProps): JSX.Element {
   return <View style={InfoContainerStyle.container}>{children}</View>;
 }
 
