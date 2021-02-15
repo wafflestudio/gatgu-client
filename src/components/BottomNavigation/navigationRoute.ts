@@ -1,12 +1,9 @@
 import {
-  WriteArticle,
-  ChattingList,
-  Profile,
-  AppLoading,
-  Article,
-} from '@/screens';
-
-import { HomeStackScreen } from '@/helpers/routes';
+  HomeStackScreen,
+  ProfileStackScreen,
+  WriteArticleStackScreen,
+  ChattingStackScreen,
+} from '@/screens/StackScreens';
 
 const routes = {
   tarBarOption: {
@@ -27,27 +24,17 @@ const routes = {
   },
   WriteArticle: {
     name: 'WriteArticle',
-    component: WriteArticle,
+    component: WriteArticleStackScreen,
   },
   ChattingList: {
     name: 'ChattingList',
-    component: ChattingList,
+    component: ChattingStackScreen,
   },
   Profile: {
     name: 'Profile',
-    component: Profile,
+    component: ProfileStackScreen,
   },
   // TODO: modify to Search
-  AppLoading: {
-    name: 'AppLoading',
-    component: AppLoading,
-  },
-
-  // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
-  Article: {
-    name: 'Article',
-    component: Article,
-  },
 };
 
 export default routes;

@@ -1,14 +1,12 @@
 import React from 'react';
 import {
-  createMaterialTopTabNavigator,
-  MaterialTopTabNavigationOptions,
-} from '@react-navigation/material-top-tabs';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Icon } from 'native-base';
-import { NavigationContainer } from '@react-navigation/native';
+  createBottomTabNavigator,
+  BottomTabNavigationOptions,
+} from '@react-navigation/bottom-tabs';
 
+import { Icon } from 'native-base';
 import navigationRoute from './navigationRoute';
-// const Tab = createMaterialTopTabNavigator();
+
 const Tab = createBottomTabNavigator();
 
 const {
@@ -16,14 +14,11 @@ const {
   ChattingList,
   Profile,
   WriteArticle,
-  AppLoading,
   tarBarOption,
-  Article,
 } = navigationRoute;
 
 function BottomNavigation(): JSX.Element {
   return (
-    // <NavigationContainer>
     <Tab.Navigator tabBarOptions={tarBarOption}>
       <Tab.Screen
         name={Home.name}
@@ -32,9 +27,9 @@ function BottomNavigation(): JSX.Element {
       />
       {/* TODO: modify below to search screen */}
       <Tab.Screen
-        name={AppLoading.name}
-        component={AppLoading.component}
-        options={options[AppLoading.name]}
+        name={'Search'}
+        component={Home.component}
+        options={options['Search']}
       />
       <Tab.Screen
         name={WriteArticle.name}
@@ -51,18 +46,11 @@ function BottomNavigation(): JSX.Element {
         component={Profile.component}
         options={options[Profile.name]}
       />
-      {/* WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation*/}
-      <Tab.Screen
-        name={Article.name}
-        component={Article.component}
-        options={options[Article.name]}
-      />
     </Tab.Navigator>
-    // </NavigationContainer>
   );
 }
 
-const options: { [x: string]: MaterialTopTabNavigationOptions } = {
+const options: { [x: string]: BottomTabNavigationOptions } = {
   Home: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
@@ -70,10 +58,10 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
     ),
   },
   /* TODO: modify below to search screen */
-  AppLoading: {
+  Search: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-home" style={{ color, fontSize: 25 }} />
+      <Icon name="ios-search" style={{ color, fontSize: 25 }} />
     ),
   },
   WriteArticle: {
@@ -92,13 +80,6 @@ const options: { [x: string]: MaterialTopTabNavigationOptions } = {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
       <Icon name="ios-add-circle" style={{ color, fontSize: 25 }} />
-    ),
-  },
-  // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
-  Article: {
-    // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-alert" style={{ color, fontSize: 25 }} />
     ),
   },
 };
