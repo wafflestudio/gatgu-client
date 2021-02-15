@@ -4,9 +4,3 @@ export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
 };
-
-export type TTagType = {
-  id: number;
-  tag: string;
-  selected: boolean;
-};

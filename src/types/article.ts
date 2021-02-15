@@ -26,3 +26,9 @@ export interface IArticleProps {
   // thumbnail_url: string[];
   temp_author_id: number; // made this temp because not included in actual endpoint
 }
+
+export interface ITagType {
+  id: number;
+  tag: string;
+  selected: boolean;
+}

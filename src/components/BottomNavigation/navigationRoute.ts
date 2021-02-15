@@ -5,6 +5,7 @@ import {
   Profile,
   AppLoading,
   Notification,
+  Article,
 } from '@/screens';
 
 const routes = {
@@ -45,6 +46,11 @@ const routes = {
   Notification: {
     name: 'Notification',
     component: Notification,
+  },
+  // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
+  Article: {
+    name: 'Article',
+    component: Article,
   },
 };
 
