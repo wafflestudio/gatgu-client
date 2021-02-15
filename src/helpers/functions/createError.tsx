@@ -1,5 +1,5 @@
 import React from 'react';
-import { customObj } from '@/helpers/functions';
+import customObj from '@/helpers/functions/object';
 import Error from '@/components/Error';
 import defaultErrorMsg from '@/constants/ErrorCode';
 
