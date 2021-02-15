@@ -6,18 +6,21 @@ import {
   useFonts,
   NotoSansKR_500Medium,
   NotoSansKR_400Regular,
-  NotoSansKR_700Bold
+  NotoSansKR_700Bold,
 } from '@expo-google-fonts/noto-sans-kr';
-import BottomNavigation from '@/components/BottomNavigation';
+import { createStackNavigator } from '@react-navigation/stack';
 import store from '@/store/rootStore';
 import { AppLoading } from '@/screens';
 import { SafeAreaView } from 'react-native';
+import BottomNavigation from '@/components/BottomNavigation';
+
+const Stack = createStackNavigator();
 
 function App() {
   const [fontsLoaded] = useFonts({
     NotoSansKR_500Medium,
     NotoSansKR_400Regular,
-    NotoSansKR_700Bold
+    NotoSansKR_700Bold,
   });
 
   if (!fontsLoaded) {
@@ -27,7 +30,13 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <SafeAreaView style={{ flex: 1 }}>
-          <BottomNavigation />
+          <Stack.Navigator>
+            <Stack.Screen
+              name="BottomNavigation"
+              component={BottomNavigation}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
         </SafeAreaView>
       </NavigationContainer>
     </Provider>

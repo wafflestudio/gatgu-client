@@ -3,6 +3,8 @@ import { View, Text, FlatList } from 'react-native';
 import { InfoContainer, Thumbnail, Header } from '@/components';
 import NotificationStyle from './Notification.style';
 
+import { createStackNavigator } from '@react-navigation/stack';
+
 interface INotifyItem {
   uri: string;
   title: string;
@@ -24,6 +26,8 @@ const mockData: INotifyItem[] = [
   },
 ];
 
+const Stack = createStackNavigator();
+
 function Notification(): JSX.Element {
   const renderItem = ({ item }: { item: INotifyItem }) => (
     <InfoContainer>
@@ -44,7 +48,6 @@ function Notification(): JSX.Element {
 
   return (
     <View>
-      <Header title={'알림'} left={false} right={false} />
       <FlatList
         data={mockData}
         renderItem={renderItem}

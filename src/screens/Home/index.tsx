@@ -44,9 +44,6 @@ function HomeTemplate(): JSX.Element {
 
   return (
     <View style={styles.root}>
-      <View style={styles.header}>
-        <Text>이것은 헤더입니다^^</Text>
-      </View>
       {/* Error 안에 error status code 넣기 */}
       {/* 임시로 401 넣어 놓음 */}
       {hasError ? Error(401) : ArticleList}
