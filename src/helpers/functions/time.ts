@@ -1,4 +1,5 @@
 // deadline: date 객체가 string 형태로 들어옴.
+
 export const remainTime = (deadline: string): string => {
   const deadlineDay: number = new Date(deadline).getDate();
   const today: number = new Date().getDate();
