@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { InfoContainer, Thumbnail, Header } from '@/components';
+import { InfoContainer, Thumbnail } from '@/components';
 import NotificationStyle from './Notification.style';
-
-import { createStackNavigator } from '@react-navigation/stack';
 
 interface INotifyItem {
   uri: string;
@@ -25,8 +23,6 @@ const mockData: INotifyItem[] = [
     time: 2,
   },
 ];
-
-const Stack = createStackNavigator();
 
 function Notification(): JSX.Element {
   const renderItem = ({ item }: { item: INotifyItem }) => (
