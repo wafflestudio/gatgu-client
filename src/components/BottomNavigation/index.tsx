@@ -3,11 +3,13 @@ import {
   createMaterialTopTabNavigator,
   MaterialTopTabNavigationOptions,
 } from '@react-navigation/material-top-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
 
 import navigationRoute from './navigationRoute';
-
-const Tab = createMaterialTopTabNavigator();
+// const Tab = createMaterialTopTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const {
   Home,
@@ -16,13 +18,13 @@ const {
   WriteArticle,
   AppLoading,
   tarBarOption,
-  Notification,
   Article,
 } = navigationRoute;
 
 function BottomNavigation(): JSX.Element {
   return (
-    <Tab.Navigator tabBarPosition="bottom" tabBarOptions={tarBarOption}>
+    // <NavigationContainer>
+    <Tab.Navigator tabBarOptions={tarBarOption}>
       <Tab.Screen
         name={Home.name}
         component={Home.component}
@@ -49,11 +51,6 @@ function BottomNavigation(): JSX.Element {
         component={Profile.component}
         options={options[Profile.name]}
       />
-      <Tab.Screen
-        name={Notification.name}
-        component={Notification.component}
-        options={options[Profile.name]}
-      />
       {/* WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation*/}
       <Tab.Screen
         name={Article.name}
@@ -61,6 +58,7 @@ function BottomNavigation(): JSX.Element {
         options={options[Article.name]}
       />
     </Tab.Navigator>
+    // </NavigationContainer>
   );
 }
 

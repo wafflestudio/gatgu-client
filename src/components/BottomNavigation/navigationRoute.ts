@@ -1,12 +1,12 @@
 import {
   WriteArticle,
   ChattingList,
-  Home,
   Profile,
   AppLoading,
-  Notification,
   Article,
 } from '@/screens';
+
+import { HomeStackScreen } from '@/helpers/routes';
 
 const routes = {
   tarBarOption: {
@@ -23,7 +23,7 @@ const routes = {
   },
   Home: {
     name: 'Home',
-    component: Home,
+    component: HomeStackScreen,
   },
   WriteArticle: {
     name: 'WriteArticle',
@@ -42,11 +42,7 @@ const routes = {
     name: 'AppLoading',
     component: AppLoading,
   },
-  // TODO :remove this
-  Notification: {
-    name: 'Notification',
-    component: Notification,
-  },
+
   // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
   Article: {
     name: 'Article',
