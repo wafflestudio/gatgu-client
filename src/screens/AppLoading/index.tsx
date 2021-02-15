@@ -1,10 +1,18 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Image } from 'react-native';
+import styles from './AppLoading.style';
 
 function AppLoadingTemplate(): JSX.Element {
   return (
-    <View>
-      <Text>로딩중</Text>
+    <View style={styles.container}>
+      <Image
+        style={styles.mainLogo}
+        source={require('@/assets/Logo/Logo13.svg')}
+      />
+      <Image
+        style={styles.subLogo}
+        source={require('@/assets/Logo/Logo15.svg')}
+      />
     </View>
   );
 }
