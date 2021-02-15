@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './AppLoading.style';
-import { logo } from '@/styles';
+import logo from '@/assets/Logo';
 
 function AppLoadingTemplate(): JSX.Element {
   return (
