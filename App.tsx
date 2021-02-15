@@ -6,6 +6,7 @@ import {
   useFonts,
   NotoSansKR_500Medium,
   NotoSansKR_400Regular,
+  NotoSansKR_700Bold
 } from '@expo-google-fonts/noto-sans-kr';
 import BottomNavigation from '@/components/BottomNavigation';
 import store from '@/store/rootStore';
@@ -16,6 +17,7 @@ function App() {
   const [fontsLoaded] = useFonts({
     NotoSansKR_500Medium,
     NotoSansKR_400Regular,
+    NotoSansKR_700Bold
   });
 
   if (!fontsLoaded) {

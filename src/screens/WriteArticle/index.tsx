@@ -11,7 +11,6 @@ import Link from './Link';
 import Description from './Description';
 import Location from './Location';
 import Recruiting from './Recruiting';
-import { set } from 'react-native-reanimated';
 
 // TODO:
 //  - circle css 하나로 합치기 (페이지 번호)
