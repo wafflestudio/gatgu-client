@@ -1,9 +1,8 @@
 import { Label } from 'native-base';
 import React, { useState } from 'react';
-import { ScrollView, Button } from 'react-native';
+import { ScrollView, Button, Text } from 'react-native';
 import Header from '@/components/Header';
 import styles from './WriteArticle.style';
-import { articleAPI } from '@/apis';
 import Tags from './Tags';
 import AddImage from './AddImage';
 import Title from './Title';
@@ -11,6 +10,7 @@ import Link from './Link';
 import Description from './Description';
 import Location from './Location';
 import Recruiting from './Recruiting';
+import RightHeader from './RightHeader';
 
 // TODO:
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -29,7 +29,7 @@ interface IDProps {
   showIssuesList: () => void;
 }
 
-function WriteArticleTemplate({ navigation }: any): JSX.Element {
+function WriteArticleTemplate(): JSX.Element {
   const [image, setImage] = useState('');
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
@@ -38,32 +38,19 @@ function WriteArticleTemplate({ navigation }: any): JSX.Element {
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
 
-  const submit = () => {
-    const people_count = parseInt(need_people);
-    const price = parseInt(need_price);
-    const product_url = link;
-    const thumbnail_url = image;
-    const temp_author_id = 0;
-
-    articleAPI
-      .create({
-        title,
-        people_count,
-        price,
-        location,
-        description,
-        product_url,
-        // thumbnail_url,
-        temp_author_id,
-      })
-      .then(() => {
-        // TODO: redirect
-      });
-    navigation.navigate('Article');
+  const article = {
+    title: title,
+    people_count: parseInt(need_people),
+    price: parseInt(need_price),
+    location: location,
+    description: description,
+    product_url: link,
+    temp_author_id: 0,
   };
 
   return (
     <ScrollView>
+      <Header title="글쓰기" rightHeader={RightHeader(article)} />
       {Tags}
       <AddImage image={image} setImage={setImage} />
       <Title title={title} setTitle={setTitle} />
@@ -76,7 +63,7 @@ function WriteArticleTemplate({ navigation }: any): JSX.Element {
       <Location location={location} setLocation={setLocation} />
       <Description description={description} setDescription={setDescription} />
       <Link link={link} setLink={setLink} />
-      <Button title="완료" onPress={submit} />
+      {/* <Button title="완료" onPress={submit} /> */}
     </ScrollView>
   );
 }

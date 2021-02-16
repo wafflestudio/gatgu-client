@@ -101,17 +101,18 @@ function WriteArticleStackScreen(): JSX.Element {
       <WriteArticleStack.Screen
         name={WriteArticle.name}
         component={WriteArticle.component}
-        options={{
-          headerTitleAlign: 'center',
-          // eslint-disable-next-line react/display-name
-          headerRight: () => (
-            // TODO: must modify; this does only routing but doesn't post article...
-            <Button
-              title="완료"
-              onPress={() => navigation.navigate('Article')}
-            />
-          ),
-        }}
+        options={{ headerShown: false }}
+        // options={{
+        //   headerTitleAlign: 'center',
+        //   // eslint-disable-next-line react/display-name
+        //   headerRight: () => (
+        //     // TODO: must modify; this does only routing but doesn't post article...
+        //     <Button
+        //       title="완료"
+        //       onPress={() => navigation.navigate('Article')}
+        //     />
+        //   ),
+        // }}
       />
     </WriteArticleStack.Navigator>
   );
