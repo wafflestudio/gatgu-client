@@ -5,6 +5,7 @@ import {
   Profile,
   AppLoading,
   Article,
+  Search,
 } from '@/screens';
 
 const routes = {
@@ -39,7 +40,7 @@ const routes = {
   // TODO: modify to Search
   AppLoading: {
     name: 'AppLoading',
-    component: AppLoading,
+    component: Search,
   },
   // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
   Article: {
