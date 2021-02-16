@@ -9,6 +9,9 @@ interface Props {
   setImage: Dispatch<SetStateAction<string>>;
 }
 
+// TODO:
+// - modify to adding multiple images (using image-crop-picker) after ejection
+
 function AddImage({ image, setImage }: Props): JSX.Element {
   const pickImage = async () => {
     // Get permission to access photo gallery
