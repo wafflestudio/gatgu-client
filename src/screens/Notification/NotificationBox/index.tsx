@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+
 import { InfoContainer, Thumbnail } from '@/components';
 import NotificationBoxStyle from './NotificationBox.style';
 import { INotifyItem } from '@/types/Notification';
