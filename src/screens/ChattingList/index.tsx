@@ -1,18 +1,10 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { InfoContainer, Thumbnail, Header } from '@/components';
+import { View, FlatList } from 'react-native';
 
-import ChattingListStyles from './ChattingList.style';
+import { IChattingRoom } from '@/types/chat';
+import ChattingBox from './ChattingBox';
 
-interface INotifyItem {
-  uri: string;
-  title: string;
-  chat: string;
-  time: number;
-  nickName: string;
-}
-
-const mockData: INotifyItem[] = [
+const mockData: IChattingRoom[] = [
   {
     uri:
       'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2F736x%2Fe6%2F24%2F6b%2Fe6246b2b4032b3d26d8ca49d49001694.jpg&type=ofullfill340_600',
@@ -41,37 +33,8 @@ const mockData: INotifyItem[] = [
 ];
 
 function ChattingListTemplate(): JSX.Element {
-  const renderItem = ({ item }: { item: INotifyItem }) => (
-    <InfoContainer>
-      <Thumbnail
-        uri={item.uri}
-        w={64}
-        h={64}
-        style={ChattingListStyles.thunmnail}
-      />
-      <View style={ChattingListStyles.textWrapper}>
-        <View style={ChattingListStyles.writerTimeWrapper}>
-          <Text style={ChattingListStyles.Head}>{item.nickName}</Text>
-          <Text style={ChattingListStyles.description}>{item.time}시간 전</Text>
-        </View>
-        <View style={ChattingListStyles.Box}>
-          <Text
-            style={ChattingListStyles.Head}
-            ellipsizeMode={'tail'}
-            numberOfLines={1}
-          >
-            {item.chat}
-          </Text>
-          <Text
-            style={ChattingListStyles.description}
-            ellipsizeMode={'tail'}
-            numberOfLines={1}
-          >
-            {item.title}
-          </Text>
-        </View>
-      </View>
-    </InfoContainer>
+  const renderItem = ({ item }: { item: IChattingRoom }) => (
+    <ChattingBox item={item} />
   );
 
   return (

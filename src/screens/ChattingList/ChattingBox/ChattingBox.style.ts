@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { typo, palette } from '@/styles';
-import { flexRow } from '@/styles/wrapper';
 
 const ChattingListStyles = StyleSheet.create({
   Head: {
