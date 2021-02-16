@@ -1,10 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { TouchableHighlight, Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import routes from '@/helpers/routes';
+import { Icon } from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Button } from '@/components';
 
 const {
   Home,
@@ -21,9 +24,9 @@ const ChattingStack = createStackNavigator();
 const WriteArticleStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function ArticleDrawer() {
+function ArticleDrawer(): JSX.Element {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator drawerPosition="right">
       <Drawer.Screen name={Article.name} component={Article.component} />
       {/* TODO: Add this screen: 
       <Drawer.Screen name="ArticleEdit" component={ArticleEditScreen} /> */}
@@ -62,13 +65,21 @@ function HomeStackScreen(): JSX.Element {
         component={ArticleDrawer}
         options={{
           headerTitleAlign: 'center',
+          // eslint-disable-next-line react/display-name
+          headerRight: () => (
+            <TouchableHighlight
+              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+            >
+              <Icon name="menu" />
+            </TouchableHighlight>
+          ),
         }}
       />
     </HomeStack.Navigator>
   );
 }
 
-function ProfileStackScreen() {
+function ProfileStackScreen(): JSX.Element {
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen
@@ -82,7 +93,9 @@ function ProfileStackScreen() {
   );
 }
 
-function WriteArticleStackScreen() {
+function WriteArticleStackScreen(): JSX.Element {
+  const navigation = useNavigation();
+
   return (
     <WriteArticleStack.Navigator>
       <WriteArticleStack.Screen
@@ -90,13 +103,21 @@ function WriteArticleStackScreen() {
         component={WriteArticle.component}
         options={{
           headerTitleAlign: 'center',
+          // eslint-disable-next-line react/display-name
+          headerRight: () => (
+            // TODO: must modify; this does only routing but doesn't post article...
+            <Button
+              title="완료"
+              onPress={() => navigation.navigate('Article')}
+            />
+          ),
         }}
       />
     </WriteArticleStack.Navigator>
   );
 }
 
-function ChattingStackScreen() {
+function ChattingStackScreen(): JSX.Element {
   return (
     <ChattingStack.Navigator>
       <ChattingStack.Screen

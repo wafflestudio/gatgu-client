@@ -64,7 +64,6 @@ function WriteArticleTemplate({ navigation }: any): JSX.Element {
 
   return (
     <ScrollView>
-      <Header title="글 쓰기" left={true} right={false} />
       {Tags}
       <AddImage image={image} setImage={setImage} />
       <Title title={title} setTitle={setTitle} />
