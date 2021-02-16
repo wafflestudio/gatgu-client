@@ -17,7 +17,8 @@ const LocationStyle = StyleSheet.create({
   },
 
   subContainer: {
-    height: 60,
+    minHeight: 60,
+    maxHeight: 100,
     borderBottomWidth: 1,
     borderBottomColor: palette.borderGray,
     flexDirection: 'row',

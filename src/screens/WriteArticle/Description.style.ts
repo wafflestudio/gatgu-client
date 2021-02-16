@@ -22,6 +22,7 @@ const DescriptionStyle = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: palette.borderGray,
     maxHeight: 500,
+    minHeight: 175,
   },
 });
 

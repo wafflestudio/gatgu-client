@@ -1,19 +1,26 @@
+import { typo, palette } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const LinkStyle = StyleSheet.create({
   text: {
-    flex: 1,
+    ...typo.semiTitle,
     flexWrap: 'wrap',
+    color: 'black',
+    padding: 20,
+    paddingTop: 20,
   },
 
-  label: {
-    marginRight: 10,
-    marginLeft: 10,
+  placeHolder: {
+    ...typo.semiTitle,
+    color: palette.gray,
+    marginLeft: 20,
   },
 
   subContainer: {
-    height: 60,
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
+    maxHeight: 100,
+    minHeight: 60,
     flexDirection: 'row',
     alignItems: 'center',
   },

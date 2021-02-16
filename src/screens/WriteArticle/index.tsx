@@ -73,8 +73,8 @@ function WriteArticleTemplate(): JSX.Element {
         setPrice={setPrice}
       />
       <Location location={location} setLocation={setLocation} />
-      <Description description={description} setDescription={setDescription} />
       <Link link={link} setLink={setLink} />
+      <Description description={description} setDescription={setDescription} />
       <Button title="완료" onPress={submit} />
     </ScrollView>
   );
