@@ -1,5 +1,5 @@
-export { Profile } from './Profile';
 export { default as Button } from './Button';
-
-// 글 쓰기 관련:
-export { default as WriteArticle } from './WriteArticle';
+export { default as Header } from './Header';
+export { default as SearchBar } from './SearchBar';
+export { default as BottomNavigation } from './BottomNavigation';
+export { default as Thumbnail } from './Thumbnail';

@@ -1,7 +1,6 @@
-export { default as Chatting } from './Chatting';
+export { default as ChattingList } from './ChattingList';
 export { default as Home } from './Home';
 export { default as Profile } from './Profile';
-export { default as Loading } from './Loading';
-
-// exports for WriteArticle
-export { default as WriteArticlePage } from './WriteArticlePage';
+export { default as AppLoading } from './AppLoading';
+export { default as WriteArticle } from './WriteArticle';
+export { default as Article } from './Article';

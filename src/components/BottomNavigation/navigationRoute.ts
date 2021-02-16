@@ -1,6 +1,13 @@
-import { WriteArticlePage, Chatting, Home, Profile } from '@/screens';
+import {
+  WriteArticle,
+  ChattingList,
+  Home,
+  Profile,
+  AppLoading,
+  Article,
+} from '@/screens';
 
-export default {
+const routes = {
   tarBarOption: {
     showIcon: true,
     showLabel: false,
@@ -17,16 +24,28 @@ export default {
     name: 'Home',
     component: Home,
   },
+  WriteArticle: {
+    name: 'WriteArticle',
+    component: WriteArticle,
+  },
+  ChattingList: {
+    name: 'ChattingList',
+    component: ChattingList,
+  },
   Profile: {
     name: 'Profile',
     component: Profile,
   },
-  Chatting: {
-    name: 'Chatting',
-    component: Chatting,
+  // TODO: modify to Search
+  AppLoading: {
+    name: 'AppLoading',
+    component: AppLoading,
   },
-  WriteArticlePage: {
-    name: 'WriteArticlePage',
-    component: WriteArticlePage,
+  // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
+  Article: {
+    name: 'Article',
+    component: Article,
   },
 };
+
+export default routes;
