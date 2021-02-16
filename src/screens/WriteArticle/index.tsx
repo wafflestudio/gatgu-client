@@ -60,7 +60,7 @@ function WriteArticleTemplate(): JSX.Element {
         // TODO: redirect
       });
   };
-
+  // change
   return (
     <ScrollView>
       <Header title="글 쓰기" left={true} right={false} />
