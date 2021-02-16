@@ -30,7 +30,7 @@ const routes = {
     component: AppLoading,
   },
   Article: {
-    name: 'Article',
+    name: 'ArticlePage',
     component: Article,
   },
   Notification: {

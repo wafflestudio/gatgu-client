@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableHighlight, Text } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import routes from '@/helpers/routes';
 
@@ -18,6 +19,17 @@ const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const ChattingStack = createStackNavigator();
 const WriteArticleStack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function ArticleDrawer() {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name={Article.name} component={Article.component} />
+      {/* TODO: Add this screen: 
+      <Drawer.Screen name="ArticleEdit" component={ArticleEditScreen} /> */}
+    </Drawer.Navigator>
+  );
+}
 
 function HomeStackScreen(): JSX.Element {
   const navigation = useNavigation();
@@ -46,8 +58,8 @@ function HomeStackScreen(): JSX.Element {
         }}
       />
       <HomeStack.Screen
-        name={Article.name}
-        component={Article.component}
+        name="Article"
+        component={ArticleDrawer}
         options={{
           headerTitleAlign: 'center',
         }}
