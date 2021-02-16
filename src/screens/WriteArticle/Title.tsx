@@ -2,6 +2,7 @@ import { Label } from 'native-base';
 import React, { Dispatch, SetStateAction } from 'react';
 import { View, TextInput } from 'react-native';
 import styles from './Title.style';
+import { StringInput } from '@/components';
 
 interface Props {
   title: string;
@@ -10,12 +11,12 @@ interface Props {
 function Title({ title, setTitle }: Props): JSX.Element {
   return (
     <View style={styles.subContainer}>
-      <Label style={styles.label}>제목: </Label>
-      <TextInput
+      <StringInput
+        value={title}
         style={styles.text}
         placeholder="제목"
+        placeholderStyle={styles.placeHolder}
         onChangeText={setTitle}
-        value={title}
       />
     </View>
   );

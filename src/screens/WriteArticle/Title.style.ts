@@ -1,19 +1,25 @@
+import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const TitleStyle = StyleSheet.create({
   text: {
+    ...typo.bigTitle,
     flex: 1,
     flexWrap: 'wrap',
+    color: 'black',
+    marginLeft: 20,
   },
 
-  label: {
-    marginRight: 10,
-    marginLeft: 10,
+  placeHolder: {
+    ...typo.bigTitle,
+    color: palette.gray,
+    marginLeft: 20,
   },
 
   subContainer: {
     height: 60,
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
     flexDirection: 'row',
     alignItems: 'center',
   },

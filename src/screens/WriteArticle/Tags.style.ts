@@ -1,4 +1,4 @@
-import { palette } from '@/styles';
+import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const TagsStyle = StyleSheet.create({
@@ -24,9 +24,8 @@ const TagsStyle = StyleSheet.create({
   },
 
   label: {
+    ...typo.bigTitle,
     marginLeft: 20,
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 
   selected: {
