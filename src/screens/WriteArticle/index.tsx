@@ -11,6 +11,7 @@ import Link from './Link';
 import Description from './Description';
 import Location from './Location';
 import Recruiting from './Recruiting';
+import { useNavigation } from '@react-navigation/native';
 
 // TODO:
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -29,7 +30,7 @@ interface IDProps {
   showIssuesList: () => void;
 }
 
-function WriteArticleTemplate({ navigation }: any): JSX.Element {
+function WriteArticleTemplate(): JSX.Element {
   const [image, setImage] = useState('');
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
@@ -37,6 +38,7 @@ function WriteArticleTemplate({ navigation }: any): JSX.Element {
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
+  const navigation = useNavigation();
 
   const submit = () => {
     const people_count = parseInt(need_people);
