@@ -2,7 +2,6 @@ import { Label } from 'native-base';
 import React, { useState } from 'react';
 import { ScrollView, Button } from 'react-native';
 import Header from '@/components/Header';
-import styles from './WriteArticle.style';
 import { articleAPI } from '@/apis';
 import Tags from './Tags';
 import AddImage from './AddImage';
@@ -62,9 +61,9 @@ function WriteArticleTemplate(): JSX.Element {
   };
   // change
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: 'white' }}>
       <Header title="글 쓰기" left={true} right={false} />
-      {Tags}
+      <Tags />
       <AddImage image={image} setImage={setImage} />
       <Title title={title} setTitle={setTitle} />
       <Recruiting

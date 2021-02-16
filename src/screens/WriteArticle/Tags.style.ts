@@ -1,9 +1,12 @@
+import { palette } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const TagsStyle = StyleSheet.create({
   bigContainer: {
-    height: 175,
-    borderWidth: 1,
+    height: 75,
+    borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
+    justifyContent: 'center',
   },
 
   outer: {
@@ -16,18 +19,14 @@ const TagsStyle = StyleSheet.create({
     padding: 10,
   },
 
-  padding: {
-    marginTop: 7,
-    marginBottom: 6,
-  },
-
   margin: {
     margin: 5,
   },
 
   label: {
-    marginRight: 10,
-    marginLeft: 10,
+    marginLeft: 20,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 
   selected: {

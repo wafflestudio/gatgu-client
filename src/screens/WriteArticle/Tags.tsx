@@ -37,8 +37,8 @@ function Tags(): JSX.Element {
 
   return (
     <View style={styles.bigContainer}>
-      <Label style={[styles.label, styles.padding]}>태그</Label>
-      {tags.map((arr, k) => (
+      <Label style={styles.label}>태그</Label>
+      {/* {tags.map((arr, k) => (
         <View key={k} style={styles.outer}>
           {arr.map((tag) => (
             <View key={tag.id} style={styles.margin}>
@@ -50,7 +50,7 @@ function Tags(): JSX.Element {
             </View>
           ))}
         </View>
-      ))}
+      ))} */}
     </View>
   );
 }
