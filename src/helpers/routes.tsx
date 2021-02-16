@@ -6,6 +6,7 @@ import {
   Article,
   Home,
   Notification,
+  ChattingRoom,
 } from '@/screens';
 
 const routes = {
@@ -36,6 +37,10 @@ const routes = {
   Notification: {
     name: 'Notification',
     component: Notification,
+  },
+  ChattingRoom: {
+    name: 'ChattingRoom',
+    component: ChattingRoom,
   },
 };
 

@@ -13,6 +13,9 @@ import store from '@/store/rootStore';
 import { AppLoading } from '@/screens';
 import { SafeAreaView } from 'react-native';
 import BottomNavigation from '@/components/BottomNavigation';
+import routes from '@/helpers/routes';
+
+const {ChattingRoom} = routes;
 
 const Stack = createStackNavigator();
 
@@ -35,6 +38,10 @@ function App() {
               name="BottomNavigation"
               component={BottomNavigation}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={ChattingRoom.name}
+              component={ChattingRoom.component}
             />
           </Stack.Navigator>
         </SafeAreaView>
