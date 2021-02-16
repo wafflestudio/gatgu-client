@@ -1,13 +1,8 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { InfoContainer, Thumbnail, Header } from '@/components';
-import NotificationStyle from './Notification.style';
+import { View, FlatList } from 'react-native';
 
-interface INotifyItem {
-  uri: string;
-  title: string;
-  time: number;
-}
+import NotificationBox from './NotificationBox';
+import { INotifyItem } from '@/types/Notification';
 
 const mockData: INotifyItem[] = [
   {
@@ -26,25 +21,11 @@ const mockData: INotifyItem[] = [
 
 function Notification(): JSX.Element {
   const renderItem = ({ item }: { item: INotifyItem }) => (
-    <InfoContainer>
-      <Thumbnail
-        uri={item.uri}
-        w={64}
-        h={64}
-        style={NotificationStyle.thunmnail}
-      />
-      <View style={NotificationStyle.textWrapper}>
-        <Text style={NotificationStyle.Head}>
-          {`쓰니님이 "${item.title}" 글에 채팅을 요청했습니다`}
-        </Text>
-        <Text style={NotificationStyle.description}>{item.time}시간 전</Text>
-      </View>
-    </InfoContainer>
+    <NotificationBox item={item} />
   );
 
   return (
     <View>
-      <Header title={'알림'} left={false} right={false} />
       <FlatList
         data={mockData}
         renderItem={renderItem}
