@@ -18,7 +18,7 @@ import Recruiting from './Recruiting';
 //  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
 //  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
 //  - tag 정보 넘기기 (submit할때)
-//  - redirect after submit
+//  - Add props to redirection
 
 const dummyImage = 'https://reactnative.dev/img/tiny_logo.png';
 
@@ -29,7 +29,7 @@ interface IDProps {
   showIssuesList: () => void;
 }
 
-function WriteArticleTemplate(): JSX.Element {
+function WriteArticleTemplate({ navigation }: any): JSX.Element {
   const [image, setImage] = useState('');
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
@@ -59,6 +59,7 @@ function WriteArticleTemplate(): JSX.Element {
       .then(() => {
         // TODO: redirect
       });
+    navigation.navigate('Article');
   };
 
   return (
