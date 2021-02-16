@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableHighlight, Text } from 'react-native';
 
-import routes from '@/helpers/routes';
+import screenRoutes from './screenRoutes';
 
 const {
   Home,
@@ -12,20 +12,18 @@ const {
   Profile,
   WriteArticle,
   ChattingList,
-} = routes;
+} = screenRoutes;
 
-const HomeStack = createStackNavigator();
-const ProfileStack = createStackNavigator();
-const ChattingStack = createStackNavigator();
-const WriteArticleStack = createStackNavigator();
-
-function HomeStackScreen(): JSX.Element {
+// TODO: debate
+// 이거 거의 스크린마다 하나씩 있는 꼴일 텐데 한 파일에 이렇게 써도 될까요?
+export function HomeStackScreen(): JSX.Element {
+  const Stack = createStackNavigator();
   const navigation = useNavigation();
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen
+    <Stack.Navigator>
+      <Stack.Screen
         name={Home.name}
-        component={Home.component}
+        component={Home.screen}
         options={{
           headerTitleAlign: 'center',
           // eslint-disable-next-line react/display-name
@@ -38,69 +36,65 @@ function HomeStackScreen(): JSX.Element {
           ),
         }}
       />
-      <HomeStack.Screen
+      <Stack.Screen
         name={Notification.name}
-        component={Notification.component}
+        component={Notification.screen}
         options={{
           headerTitleAlign: 'center',
         }}
       />
-      <HomeStack.Screen
+      <Stack.Screen
         name={Article.name}
-        component={Article.component}
+        component={Article.screen}
         options={{
           headerTitleAlign: 'center',
         }}
       />
-    </HomeStack.Navigator>
+    </Stack.Navigator>
   );
 }
 
-function ProfileStackScreen() {
+export function ProfileStackScreen(): JSX.Element {
+  const Stack = createStackNavigator();
   return (
-    <ProfileStack.Navigator>
-      <ProfileStack.Screen
+    <Stack.Navigator>
+      <Stack.Screen
         name={Profile.name}
-        component={Profile.component}
+        component={Profile.screen}
         options={{
           headerTitleAlign: 'center',
         }}
       />
-    </ProfileStack.Navigator>
+    </Stack.Navigator>
   );
 }
 
-function WriteArticleStackScreen() {
+export function WriteArticleStackScreen(): JSX.Element {
+  const Stack = createStackNavigator();
   return (
-    <WriteArticleStack.Navigator>
-      <WriteArticleStack.Screen
+    <Stack.Navigator>
+      <Stack.Screen
         name={WriteArticle.name}
-        component={WriteArticle.component}
+        component={WriteArticle.screen}
         options={{
           headerTitleAlign: 'center',
         }}
       />
-    </WriteArticleStack.Navigator>
+    </Stack.Navigator>
   );
 }
 
-function ChattingStackScreen() {
+export function ChattingStackScreen(): JSX.Element {
+  const Stack = createStackNavigator();
   return (
-    <ChattingStack.Navigator>
-      <ChattingStack.Screen
+    <Stack.Navigator>
+      <Stack.Screen
         name={ChattingList.name}
-        component={ChattingList.component}
+        component={ChattingList.screen}
         options={{
           headerTitleAlign: 'center',
         }}
       />
-    </ChattingStack.Navigator>
+    </Stack.Navigator>
   );
 }
-
-export {
-  HomeStackScreen,
-  ProfileStackScreen,
-  WriteArticleStackScreen,
-  ChattingStackScreen,
-};

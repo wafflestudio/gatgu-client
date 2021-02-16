@@ -8,35 +8,35 @@ import {
   Notification,
 } from '@/screens';
 
-const routes = {
+export const screenRoutes = {
   Home: {
     name: 'Home',
-    component: Home,
+    screen: Home,
   },
   WriteArticle: {
     name: 'WriteArticle',
-    component: WriteArticle,
+    screen: WriteArticle,
   },
   ChattingList: {
     name: 'ChattingList',
-    component: ChattingList,
+    screen: ChattingList,
   },
   Profile: {
     name: 'Profile',
-    component: Profile,
+    screen: Profile,
   },
   AppLoading: {
     name: 'AppLoading',
-    component: AppLoading,
+    screen: AppLoading,
   },
   Article: {
     name: 'Article',
-    component: Article,
+    screen: Article,
   },
   Notification: {
     name: 'Notification',
-    component: Notification,
+    screen: Notification,
   },
 };
 
-export default routes;
+export default screenRoutes;
