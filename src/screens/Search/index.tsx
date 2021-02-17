@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 import SearchedList from './SearchedList';
 import SearchStyle from './Search.style';
 
-function Search() {
+function Search(): JSX.Element {
   return (
     <View style={SearchStyle.wrapper}>
       <SearchBar />
