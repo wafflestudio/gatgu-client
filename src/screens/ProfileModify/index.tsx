@@ -25,7 +25,10 @@ function ProfileModify(): JSX.Element {
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
-        <ImageBackground source={profileImg} style={styles.profileImg} />
+        <View style={styles.profileImgWrap}>
+          <ImageBackground source={profileImg} style={styles.profileImg} />
+          <View style={styles.imgPickBtn}></View>
+        </View>
       </View>
       <View style={styles.nickContainer}>
         <TextInput

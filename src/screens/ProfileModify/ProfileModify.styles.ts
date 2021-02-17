@@ -1,3 +1,5 @@
+import { calcTimeDiff } from '@/helpers/functions';
+
 const ProfileModifyStyles = {
   container: {
     flex: 1,
@@ -8,11 +10,24 @@ const ProfileModifyStyles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  profileImgWrap: {
+    width: 160,
+    height: 160,
+  },
   profileImg: {
     width: 160,
     height: 160,
     borderRadius: 80,
     overflow: 'hidden',
+  },
+  imgPickBtn: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    right: -10,
+    bottom: -10,
+    borderRadius: 30,
+    backgroundColor: 'yellow',
   },
   // nickname
   nickContainer: {
