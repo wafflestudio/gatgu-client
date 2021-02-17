@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 
 import styles from './ArticleBox.style';
-
-import { Thumbnail } from '@/components';
+import Thumbnail from '@/components/Thumbnail';
 import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
 
@@ -18,8 +18,12 @@ function ArticleBox({
   uri,
   isMoney,
 }: IArticleSumProps): JSX.Element {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.postBox} onPress={() => alert('not yet')}>
+    <TouchableOpacity
+      style={styles.postBox}
+      onPress={() => navigation.navigate('Article')}
+    >
       <Thumbnail uri={uri} w={107} h={107} />
       <View style={styles.articleBox}>
         <Text style={styles.Head}>{title}</Text>
