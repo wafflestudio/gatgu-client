@@ -15,6 +15,7 @@ const {
   WriteArticle,
   AppLoading,
   tarBarOption,
+  Notification,
   Article,
 } = navigationRoute;
 
@@ -45,6 +46,11 @@ function BottomNavigation(): JSX.Element {
       <Tab.Screen
         name={Profile.name}
         component={Profile.component}
+        options={options[Profile.name]}
+      />
+      <Tab.Screen
+        name={Notification.name}
+        component={Notification.component}
         options={options[Profile.name]}
       />
       {/* WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation*/}
