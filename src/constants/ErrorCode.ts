@@ -7,4 +7,6 @@ const defaultErrorMsg = {
   502: '서버에 문제가 있습니다. 잠시 후에 다시 시도해주세요',
 };
 
+export const UNKNOWN_ERR = -100;
+
 export default defaultErrorMsg;
