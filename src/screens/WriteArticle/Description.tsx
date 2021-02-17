@@ -3,12 +3,15 @@ import { View } from 'react-native';
 import styles from './Description.style';
 import { StringInput } from '@/components';
 
-interface Props {
+interface IDescriptionStateProps {
   description: string;
   setDescription: Dispatch<SetStateAction<string>>;
 }
 
-function Description({ description, setDescription }: Props): JSX.Element {
+function Description({
+  description,
+  setDescription,
+}: IDescriptionStateProps): JSX.Element {
   return (
     <View style={styles.bigContainer}>
       <StringInput
