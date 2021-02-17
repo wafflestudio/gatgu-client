@@ -4,7 +4,7 @@ import { Text } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import styles from './ArticleBox.style';
-import { Thumbnail } from '@/components';
+import Thumbnail from '@/components/Thumbnail';
 import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
 
