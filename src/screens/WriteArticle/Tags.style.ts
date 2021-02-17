@@ -24,10 +24,6 @@ const TagsStyle = StyleSheet.create({
     ...typo.semiTitle,
   },
 
-  margin: {
-    margin: 5,
-  },
-
   label: {
     ...typo.bigTitle,
     marginLeft: 20,

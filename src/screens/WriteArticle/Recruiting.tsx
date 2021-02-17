@@ -1,10 +1,7 @@
-import { Label } from 'native-base';
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 import styles from './Recruiting.style';
-import SwitchSelector, {
-  ISwitchSelectorOption,
-} from 'react-native-switch-selector';
+import SwitchSelector from 'react-native-switch-selector';
 import { palette, typo } from '@/styles';
 import { StringInput } from '@/components';
 

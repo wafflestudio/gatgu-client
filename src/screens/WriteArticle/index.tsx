@@ -1,4 +1,3 @@
-import { Label } from 'native-base';
 import React, { useState } from 'react';
 import { ScrollView, Button } from 'react-native';
 import Header from '@/components/Header';

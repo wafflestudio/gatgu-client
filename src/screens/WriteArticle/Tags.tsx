@@ -1,6 +1,6 @@
-import { View, Text, TouchableHighlight, Button, FlatList } from 'react-native';
+import { View, Text, TouchableHighlight } from 'react-native';
 import { Label } from 'native-base';
-import React, { useState, useRef, createRef } from 'react';
+import React, { useState, createRef } from 'react';
 import styles from './Tags.style';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { palette } from '@/styles';

@@ -1,6 +1,6 @@
 import { Label } from 'native-base';
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { View, TextInput } from 'react-native';
+import React, { Dispatch, SetStateAction } from 'react';
+import { View } from 'react-native';
 import styles from './Link.style';
 import { StringInput } from '@/components';
 
