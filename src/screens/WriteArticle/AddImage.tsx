@@ -46,7 +46,7 @@ function AddImage({ image, setImage }: Props): JSX.Element {
   return (
     <View style={styles.container}>
       <TouchableHighlight onPress={pickImage}>
-        {image == '' ? (
+        {image === '' ? (
           <View style={styles.photoContainer}>
             <PlusSign style={styles.defaultPhoto} />
           </View>

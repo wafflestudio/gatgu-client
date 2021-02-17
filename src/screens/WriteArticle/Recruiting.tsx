@@ -40,7 +40,7 @@ function Recruiting({
           keyboardType="number-pad"
           placeholder={str}
           onChangeText={(txt) => changeNumber(txt, selected)}
-          value={selected == 0 ? need_people : need_price}
+          value={selected === 0 ? need_people : need_price}
           maxLength={maxL}
         />
       </View>
@@ -56,7 +56,7 @@ function Recruiting({
           {...switchSelector}
         />
       </View>
-      {selected == 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
+      {selected === 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
     </View>
   );
 }
