@@ -4,6 +4,7 @@ import {
   WriteArticleStackScreen,
   ChattingStackScreen,
 } from '@/screens/StackScreens';
+import { Search } from '@/screens';
 
 const routes = {
   tarBarOption: {
@@ -35,6 +36,10 @@ const routes = {
     component: ProfileStackScreen,
   },
   // TODO: modify to Search
+  AppLoading: {
+    name: 'AppLoading',
+    component: Search,
+  },
 };
 
 export default routes;

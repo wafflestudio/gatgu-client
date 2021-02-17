@@ -3,7 +3,6 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
 } from '@react-navigation/bottom-tabs';
-
 import { Icon } from 'native-base';
 import navigationRoute from './navigationRoute';
 
