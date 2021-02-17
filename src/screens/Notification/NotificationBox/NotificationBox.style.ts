@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { typo, palette } from '@/styles';
 
-const NotificationStyle = StyleSheet.create({
+const NotificationBoxStyle = StyleSheet.create({
   Head: {
     ...typo.semiTitle,
     width: '70%',
@@ -20,4 +20,4 @@ const NotificationStyle = StyleSheet.create({
   },
 });
 
-export default NotificationStyle;
+export default NotificationBoxStyle;
