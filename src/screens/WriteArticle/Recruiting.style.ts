@@ -1,3 +1,4 @@
+import { palette } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const TitleStyle = StyleSheet.create({
@@ -6,24 +7,32 @@ const TitleStyle = StyleSheet.create({
     flexWrap: 'wrap',
   },
 
-  recruitHalfContainer: {
-    borderWidth: 1,
-    height: 60,
-    width: '50%',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-
-  label: {
-    marginRight: 10,
-    marginLeft: 10,
+  bigContainer: {
+    height: 130,
   },
 
   subContainer: {
     height: 60,
-    borderWidth: 1,
-    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
+    paddingLeft: 20,
+  },
+
+  switchContainer: {
+    width: '100%',
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingTop: 20,
     alignItems: 'center',
+    marginTop: 10,
+    height: 60,
+  },
+
+  selectedBox: {
+    borderColor: palette.borderGray,
+    borderWidth: 1,
+    borderRadius: 7,
+    height: 30,
   },
 });
 
