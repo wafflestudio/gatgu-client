@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { articleAPI } from '@/apis';
-import { IArticleSumProps } from '@/types/article';
+import { IArticleSumProps, IGetSuccessPayload } from '@/types/article';
 import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
 
@@ -9,10 +9,6 @@ export interface IArticleSlice {
   hasError: boolean;
   data: IArticleSumProps[];
   pageLimit: number;
-}
-
-interface IArticlePayload {
-  data: IArticleSumProps[];
 }
 
 interface IPageLimitPayload {
@@ -34,7 +30,10 @@ const articleSlice = createSlice({
   initialState,
   reducers: {
     // if getting data  successfully
-    getArticleSuccess: (state, { payload }: PayloadAction<IArticlePayload>) => {
+    getArticleSuccess: (
+      state,
+      { payload }: PayloadAction<IGetSuccessPayload>
+    ) => {
       state.data.push(...payload.data);
       state.hasError = false;
       state.page += 1;
