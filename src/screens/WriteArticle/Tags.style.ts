@@ -9,14 +9,19 @@ const TagsStyle = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  outer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  labelContainer: {
+    height: 50,
   },
 
-  inner: {
-    borderWidth: 1,
-    padding: 10,
+  tagContainer: {
+    paddingLeft: 10,
+    height: 40,
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+
+  tagText: {
+    ...typo.semiTitle,
   },
 
   margin: {
@@ -29,7 +34,7 @@ const TagsStyle = StyleSheet.create({
   },
 
   selected: {
-    backgroundColor: 'grey',
+    backgroundColor: palette.gray,
   },
 });
 
