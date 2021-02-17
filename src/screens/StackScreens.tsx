@@ -6,7 +6,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import routes from '@/helpers/routes';
 import { Icon } from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Button } from '@/components';
 
 const {

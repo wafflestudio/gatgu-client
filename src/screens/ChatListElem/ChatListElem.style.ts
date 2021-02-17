@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const ChattingRoomStyles = StyleSheet.create({
+const ChatListElemStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -9,4 +9,4 @@ const ChattingRoomStyles = StyleSheet.create({
   },
 });
 
-export default ChattingRoomStyles;
+export default ChatListElemStyles;

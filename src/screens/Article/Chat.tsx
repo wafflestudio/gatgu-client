@@ -9,7 +9,7 @@ function Chat(): JSX.Element {
   const navigation = useNavigation();
 
   const chattingRedirect = () => {
-    navigation.navigate('ChattingRoom');
+    navigation.navigate('ChatListElem');
   };
 
   return (

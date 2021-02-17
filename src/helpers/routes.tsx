@@ -6,7 +6,7 @@ import {
   Article,
   Home,
   Notification,
-  ChattingRoom,
+  ChatListElem,
 } from '@/screens';
 
 const routes = {
@@ -38,9 +38,9 @@ const routes = {
     name: 'Notification',
     component: Notification,
   },
-  ChattingRoom: {
-    name: 'ChattingRoom',
-    component: ChattingRoom,
+  ChatListElem: {
+    name: 'ChatListElem',
+    component: ChatListElem,
   },
 };
 
