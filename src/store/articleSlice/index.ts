@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { articleAPI } from '@/apis';
 import { IArticleSumProps } from '@/types/article';
 import { AppThunk } from '@/store';
+import { AxiosResponse, AxiosError } from 'axios';
 
 export interface IArticleSlice {
   page: number;
@@ -60,10 +61,10 @@ const {
 export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
   articleAPI
     .readAll(page)
-    .then((response) => {
+    .then((response: AxiosResponse) => {
       dispatch(getArticleSuccess({ data: response.data }));
     })
-    .catch((err) => {
+    .catch((err: AxiosError) => {
       console.error(err);
       dispatch(getArticleFailure());
     });
@@ -74,10 +75,10 @@ export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
 export const getPageLimit = (): AppThunk => (dispatch) => {
   articleAPI
     .readPageLimit()
-    .then((response) => {
+    .then((response: AxiosResponse) => {
       dispatch(setPageLimit(response.data));
     })
-    .catch((err) => console.log(err));
+    .catch((err: AxiosError) => console.log(err));
 };
 
 export default articleSlice.reducer;
