@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ImageBackground } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import styles from './ProfileModify.styles';
+import React from 'react';
 
 // TODO: remove this after API 확정
 const dummyInfo = {
@@ -22,12 +23,17 @@ function ProfileModify(): JSX.Element {
   const profileImg = { uri: dummyInfo.profileUrl };
 
   return (
-    <View>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.imgContainer}>
         <ImageBackground source={profileImg} style={styles.profileImg} />
       </View>
-      <View>
-        <TextInput value={nickname} onChangeText={(e) => setNickname(e)} />
+      <View style={styles.nickContainer}>
+        <TextInput
+          style={styles.nickInput}
+          value={nickname}
+          onChangeText={(e) => setNickname(e)}
+          placeholder="별명"
+        />
       </View>
     </View>
   );
