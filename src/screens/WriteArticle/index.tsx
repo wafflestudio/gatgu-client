@@ -11,6 +11,7 @@ import Description from './Description';
 import Location from './Location';
 import Recruiting from './Recruiting';
 import RightHeader from './RightHeader';
+import { useNavigation } from '@react-navigation/native';
 
 // TODO:
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -37,6 +38,7 @@ function WriteArticleTemplate(): JSX.Element {
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
+  const navigation = useNavigation();
 
   const article = {
     title: title,
