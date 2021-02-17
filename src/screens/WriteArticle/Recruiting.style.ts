@@ -1,4 +1,4 @@
-import { palette } from '@/styles';
+import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const TitleStyle = StyleSheet.create({
@@ -37,3 +37,16 @@ const TitleStyle = StyleSheet.create({
 });
 
 export default TitleStyle;
+
+export const switchSelector = {
+  initial: 0,
+  height: 30,
+  backgroundColor: palette.whiteGray,
+  buttonColor: palette.white,
+  selectedColor: 'black',
+  borderRadius: 7,
+  selectedTextContainerStyle: TitleStyle.selectedBox,
+  textStyle: { ...typo.semiTitle },
+  selectedTextStyle: { ...typo.semiTitle },
+  style: { width: '90%' },
+};

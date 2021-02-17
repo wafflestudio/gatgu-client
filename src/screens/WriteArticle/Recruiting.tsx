@@ -1,8 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
-import styles from './Recruiting.style';
+import styles, { switchSelector } from './Recruiting.style';
 import SwitchSelector from 'react-native-switch-selector';
-import { palette, typo } from '@/styles';
 import { StringInput } from '@/components';
 
 interface Props {
@@ -53,17 +52,8 @@ function Recruiting({
       <View style={styles.switchContainer}>
         <SwitchSelector
           options={options}
-          initial={0}
           onPress={(value) => setSelected(value as number)}
-          height={30}
-          textStyle={{ ...typo.semiTitle }}
-          selectedTextStyle={{ ...typo.semiTitle }}
-          backgroundColor={palette.whiteGray}
-          buttonColor={palette.white}
-          selectedColor={'black'}
-          borderRadius={7}
-          style={{ width: '90%' }}
-          selectedTextContainerStyle={styles.selectedBox}
+          {...switchSelector}
         />
       </View>
       {selected == 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
