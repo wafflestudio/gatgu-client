@@ -66,8 +66,8 @@ function WriteArticleTemplate(): JSX.Element {
       <AddImage image={image} setImage={setImage} />
       <Title title={title} setTitle={setTitle} />
       <Recruiting
-        need_people={need_people}
-        need_price={need_price}
+        needPeople={need_people}
+        needPrice={need_price}
         setPeople={setPeople}
         setPrice={setPrice}
       />

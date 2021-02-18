@@ -4,12 +4,12 @@ import { View } from 'react-native';
 import styles from './Link.style';
 import { StringInput } from '@/components';
 
-interface Props {
+interface LinkProps {
   link: string;
   setLink: Dispatch<SetStateAction<string>>;
 }
 
-function Link({ link, setLink }: Props): JSX.Element {
+function Link({ link, setLink }: LinkProps): JSX.Element {
   return (
     <View style={styles.subContainer}>
       <StringInput

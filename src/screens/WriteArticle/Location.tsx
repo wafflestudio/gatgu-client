@@ -3,12 +3,12 @@ import { View } from 'react-native';
 import styles from './Location.style';
 import { StringInput } from '@/components';
 
-interface Props {
+interface LocationProps {
   location: string;
   setLocation: Dispatch<SetStateAction<string>>;
 }
 
-function Location({ location, setLocation }: Props): JSX.Element {
+function Location({ location, setLocation }: LocationProps): JSX.Element {
   return (
     <View style={styles.subContainer}>
       <StringInput

@@ -1,22 +1,22 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState, Dispatch, SetStateAction, useMemo } from 'react';
 import { View } from 'react-native';
 import styles, { switchSelector } from './Recruiting.style';
 import SwitchSelector from 'react-native-switch-selector';
 import { StringInput } from '@/components';
 
-interface Props {
-  need_people: string;
-  need_price: string;
+interface RecruitingProps {
+  needPeople: string;
+  needPrice: string;
   setPeople: Dispatch<SetStateAction<string>>;
   setPrice: Dispatch<SetStateAction<string>>;
 }
 
 function Recruiting({
-  need_people,
-  need_price,
+  needPeople,
+  needPrice,
   setPeople,
   setPrice,
-}: Props): JSX.Element {
+}: RecruitingProps): JSX.Element {
   const [selected, setSelected] = useState(0);
 
   const options = [
@@ -40,7 +40,7 @@ function Recruiting({
           keyboardType="number-pad"
           placeholder={str}
           onChangeText={(txt) => changeNumber(txt, selected)}
-          value={selected === 0 ? need_people : need_price}
+          value={selected === 0 ? needPeople : needPrice}
           maxLength={maxL}
         />
       </View>
@@ -56,7 +56,8 @@ function Recruiting({
           {...switchSelector}
         />
       </View>
-      {selected === 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
+      {/* Below code won't work with === because selected becomes string because 'value' is string*/}
+      {selected == 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
     </View>
   );
 }

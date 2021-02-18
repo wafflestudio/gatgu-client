@@ -3,11 +3,11 @@ import { View, TextInput } from 'react-native';
 import styles from './Title.style';
 import { StringInput } from '@/components';
 
-interface Props {
+interface TitleProps {
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
 }
-function Title({ title, setTitle }: Props): JSX.Element {
+function Title({ title, setTitle }: TitleProps): JSX.Element {
   return (
     <View style={styles.subContainer}>
       <StringInput

@@ -1,9 +1,10 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
 import styles from './Description.style';
+import WAStyles from './WriteArticle.style';
 import { StringInput } from '@/components';
 
-interface IDescriptionStateProps {
+interface DescriptionProps {
   description: string;
   setDescription: Dispatch<SetStateAction<string>>;
 }
@@ -11,7 +12,7 @@ interface IDescriptionStateProps {
 function Description({
   description,
   setDescription,
-}: IDescriptionStateProps): JSX.Element {
+}: DescriptionProps): JSX.Element {
   return (
     <View style={styles.bigContainer}>
       <StringInput

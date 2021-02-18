@@ -8,7 +8,6 @@ const DescriptionStyle = StyleSheet.create({
     color: 'black',
     padding: 20,
     paddingTop: 20,
-    width: '100%',
   },
 
   placeHolder: {

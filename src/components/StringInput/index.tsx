@@ -26,7 +26,9 @@ function StringInput({
 
   return (
     <TextInput
-      onChangeText={(inp) => handleInput(inp)}
+      onChangeText={(inp) => {
+        handleInput(inp);
+      }}
       style={!changed ? placeholderStyle : style}
       value={value}
       {...rest}

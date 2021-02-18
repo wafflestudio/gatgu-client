@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import styles from './AddImage.style';
 import PlusSign from '@/assets/PlusSign';
 
-interface Props {
+interface AddImageProps {
   image: string;
   setImage: Dispatch<SetStateAction<string>>;
 }
@@ -12,7 +12,7 @@ interface Props {
 // TODO:
 // - modify to adding multiple images (using image-crop-picker) after ejection
 
-function AddImage({ image, setImage }: Props): JSX.Element {
+function AddImage({ image, setImage }: AddImageProps): JSX.Element {
   const pickImage = async () => {
     // Get permission to access photo gallery
     async () => {
