@@ -1,7 +1,7 @@
-import { Label } from 'native-base';
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { View, TextInput } from 'react-native';
+import React, { Dispatch, SetStateAction } from 'react';
+import { View } from 'react-native';
 import styles from './Location.style';
+import { StringInput } from '@/components';
 
 interface Props {
   location: string;
@@ -11,12 +11,12 @@ interface Props {
 function Location({ location, setLocation }: Props): JSX.Element {
   return (
     <View style={styles.subContainer}>
-      <Label style={styles.label}>위치: </Label>
-      <TextInput
-        style={styles.text}
-        placeholder="상세주소"
-        onChangeText={setLocation}
+      <StringInput
         value={location}
+        style={styles.text}
+        placeholder="거래지역"
+        placeholderStyle={styles.placeHolder}
+        onChangeText={setLocation}
       />
     </View>
   );

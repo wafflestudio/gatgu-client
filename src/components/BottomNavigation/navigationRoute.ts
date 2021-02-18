@@ -1,13 +1,10 @@
 import {
-  WriteArticle,
-  ChattingList,
-  Home,
-  Profile,
-  AppLoading,
-  Notification,
-  Article,
-  Search,
-} from '@/screens';
+  HomeStackScreen,
+  ProfileStackScreen,
+  WriteArticleStackScreen,
+  ChattingStackScreen,
+} from '@/screens/StackScreens';
+import { Search } from '@/screens';
 
 const routes = {
   tarBarOption: {
@@ -24,34 +21,24 @@ const routes = {
   },
   Home: {
     name: 'Home',
-    component: Home,
+    component: HomeStackScreen,
   },
   WriteArticle: {
     name: 'WriteArticle',
-    component: WriteArticle,
+    component: WriteArticleStackScreen,
   },
   ChattingList: {
     name: 'ChattingList',
-    component: ChattingList,
+    component: ChattingStackScreen,
   },
   Profile: {
     name: 'Profile',
-    component: Profile,
+    component: ProfileStackScreen,
   },
   // TODO: modify to Search
   AppLoading: {
     name: 'AppLoading',
     component: Search,
-  },
-  // TODO :remove this
-  Notification: {
-    name: 'Notification',
-    component: Notification,
-  },
-  // WILL REMOVE: temporarily added it to visualize layout without bothering myself with naviation
-  Article: {
-    name: 'Article',
-    component: Article,
   },
 };
 

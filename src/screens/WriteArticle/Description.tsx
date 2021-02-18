@@ -1,22 +1,26 @@
-import { Label } from 'native-base';
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { View, TextInput } from 'react-native';
+import React, { Dispatch, SetStateAction } from 'react';
+import { View } from 'react-native';
 import styles from './Description.style';
+import { StringInput } from '@/components';
 
-interface Props {
+interface IDescriptionStateProps {
   description: string;
   setDescription: Dispatch<SetStateAction<string>>;
 }
 
-function Description({ description, setDescription }: Props): JSX.Element {
+function Description({
+  description,
+  setDescription,
+}: IDescriptionStateProps): JSX.Element {
   return (
     <View style={styles.bigContainer}>
-      <Label style={styles.label}>내용: </Label>
-      <TextInput
+      <StringInput
+        value={description}
         style={styles.text}
         placeholder="내용"
+        placeholderStyle={styles.placeHolder}
         onChangeText={setDescription}
-        value={description}
+        multiline={true}
       />
     </View>
   );

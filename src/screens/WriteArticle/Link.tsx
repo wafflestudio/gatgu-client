@@ -1,7 +1,8 @@
 import { Label } from 'native-base';
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { View, TextInput } from 'react-native';
+import React, { Dispatch, SetStateAction } from 'react';
+import { View } from 'react-native';
 import styles from './Link.style';
+import { StringInput } from '@/components';
 
 interface Props {
   link: string;
@@ -11,12 +12,13 @@ interface Props {
 function Link({ link, setLink }: Props): JSX.Element {
   return (
     <View style={styles.subContainer}>
-      <Label style={styles.label}>구매처 링크: </Label>
-      <TextInput
+      <StringInput
+        value={link}
         style={styles.text}
         placeholder="구매링크"
+        placeholderStyle={styles.placeHolder}
         onChangeText={setLink}
-        value={link}
+        multiline={true}
       />
     </View>
   );

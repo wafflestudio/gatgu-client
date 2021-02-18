@@ -1,37 +1,36 @@
+import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const TagsStyle = StyleSheet.create({
   bigContainer: {
-    height: 175,
-    borderWidth: 1,
+    height: 75,
+    borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
+    justifyContent: 'center',
   },
 
-  outer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  labelContainer: {
+    height: 50,
   },
 
-  inner: {
-    borderWidth: 1,
-    padding: 10,
+  tagContainer: {
+    paddingLeft: 10,
+    height: 40,
+    justifyContent: 'center',
+    borderRadius: 5,
   },
 
-  padding: {
-    marginTop: 7,
-    marginBottom: 6,
-  },
-
-  margin: {
-    margin: 5,
+  tagText: {
+    ...typo.semiTitle,
   },
 
   label: {
-    marginRight: 10,
-    marginLeft: 10,
+    ...typo.bigTitle,
+    marginLeft: 20,
   },
 
   selected: {
-    backgroundColor: 'grey',
+    backgroundColor: palette.gray,
   },
 });
 

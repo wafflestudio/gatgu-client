@@ -3,11 +3,13 @@ import React from 'react';
 import { Text } from 'react-native';
 import styles from './Chat.style';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
-// TODO: change input type
 function Chat(): JSX.Element {
+  const navigation = useNavigation();
+
   const chattingRedirect = () => {
-    alert('Redirect to chatting room');
+    navigation.navigate('ChatListElem');
   };
 
   return (
