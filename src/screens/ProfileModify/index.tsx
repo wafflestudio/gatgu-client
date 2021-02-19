@@ -31,6 +31,7 @@ function ProfileModify(): JSX.Element {
         </View>
       </View>
       <View style={styles.nickContainer}>
+        {/* FIXME: StringInput으로 수정 */}
         <TextInput
           style={styles.nickInput}
           value={nickname}
