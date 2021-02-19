@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View, TextInput } from 'react-native';
 import styles from './Title.style';
+import waStyles from './WriteArticle.style';
 import { StringInput } from '@/components';
 
 interface TitleProps {
@@ -9,7 +10,7 @@ interface TitleProps {
 }
 function Title({ title, setTitle }: TitleProps): JSX.Element {
   return (
-    <View style={styles.subContainer}>
+    <View style={waStyles.subContainer}>
       <StringInput
         value={title}
         style={styles.text}

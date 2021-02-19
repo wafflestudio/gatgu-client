@@ -1,19 +1,10 @@
 import { typo, palette } from '@/styles';
+import waStyles from './WriteArticle.style';
 import { StyleSheet } from 'react-native';
 
 const DescriptionStyle = StyleSheet.create({
-  text: {
-    ...typo.semiTitle,
-    flexWrap: 'wrap',
-    color: 'black',
-    padding: 20,
-    paddingTop: 20,
-  },
-
   placeHolder: {
-    ...typo.semiTitle,
-    color: palette.gray,
-    marginLeft: 20,
+    ...waStyles.placeHolder,
     marginTop: 20,
   },
 

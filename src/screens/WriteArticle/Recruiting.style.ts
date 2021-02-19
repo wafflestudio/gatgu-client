@@ -2,20 +2,8 @@ import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const TitleStyle = StyleSheet.create({
-  text: {
-    flex: 1,
-    flexWrap: 'wrap',
-  },
-
   bigContainer: {
     height: 130,
-  },
-
-  subContainer: {
-    height: 60,
-    borderBottomWidth: 1,
-    borderBottomColor: palette.borderGray,
-    paddingLeft: 20,
   },
 
   switchContainer: {

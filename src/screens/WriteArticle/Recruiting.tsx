@@ -1,6 +1,7 @@
 import React, { useState, Dispatch, SetStateAction, useMemo } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import styles, { switchSelector } from './Recruiting.style';
+import waStyles from './WriteArticle.style';
 import SwitchSelector from 'react-native-switch-selector';
 import { StringInput } from '@/components';
 
@@ -33,10 +34,10 @@ function Recruiting({
 
   const Input = (str: string, maxL: number) => {
     return (
-      <View style={styles.subContainer}>
+      <View style={waStyles.subContainer}>
         <StringInput
-          style={styles.text}
-          placeholderStyle={styles.text}
+          style={waStyles.text}
+          placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
           onChangeText={(txt) => changeNumber(txt, selected)}
@@ -52,12 +53,11 @@ function Recruiting({
       <View style={styles.switchContainer}>
         <SwitchSelector
           options={options}
-          onPress={(value) => setSelected(value as number)}
+          onPress={(value) => setSelected(Number(value))}
           {...switchSelector}
         />
       </View>
-      {/* Below code won't work with === because selected becomes string because 'value' is string*/}
-      {selected == 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
+      {selected === 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
     </View>
   );
 }

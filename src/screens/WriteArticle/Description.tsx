@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
 import styles from './Description.style';
-import WAStyles from './WriteArticle.style';
+import waStyles from './WriteArticle.style';
 import { StringInput } from '@/components';
 
 interface DescriptionProps {
@@ -17,7 +17,7 @@ function Description({
     <View style={styles.bigContainer}>
       <StringInput
         value={description}
-        style={styles.text}
+        style={waStyles.text}
         placeholder="내용"
         placeholderStyle={styles.placeHolder}
         onChangeText={setDescription}

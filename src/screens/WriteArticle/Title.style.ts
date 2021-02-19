@@ -15,15 +15,6 @@ const TitleStyle = StyleSheet.create({
     color: palette.gray,
     marginLeft: 20,
   },
-
-  subContainer: {
-    minHeight: 60,
-    maxHeight: 100,
-    borderBottomWidth: 1,
-    borderBottomColor: palette.borderGray,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
 });
 
 export default TitleStyle;

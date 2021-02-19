@@ -1,7 +1,7 @@
 import { Label } from 'native-base';
 import React, { Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
-import styles from './Link.style';
+import waStyles from './WriteArticle.style';
 import { StringInput } from '@/components';
 
 interface LinkProps {
@@ -11,12 +11,12 @@ interface LinkProps {
 
 function Link({ link, setLink }: LinkProps): JSX.Element {
   return (
-    <View style={styles.subContainer}>
+    <View style={waStyles.subContainer}>
       <StringInput
         value={link}
-        style={styles.text}
+        style={waStyles.text}
         placeholder="구매링크"
-        placeholderStyle={styles.placeHolder}
+        placeholderStyle={waStyles.placeHolder}
         onChangeText={setLink}
         multiline={true}
       />
