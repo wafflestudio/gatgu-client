@@ -21,7 +21,7 @@ function Grade({ dummyInfo }: any): JSX.Element {
         <View style={styles.graphBoxes}>
           {['천민', '하수', '초수', '중수', '고수', '지존', '지름'].map(
             (item, i) =>
-              i === dummyInfo ? (
+              i === dummyInfo.grade ? (
                 <View key={i} style={styles.pointBox}>
                   <View style={styles.pointArrow} />
                   <Text style={styles.pointBoxText}>{item}</Text>

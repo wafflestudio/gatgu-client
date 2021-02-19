@@ -5,7 +5,7 @@ const GradeStyle = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderColor: 'black',
-    height: 320,
+    height: 267,
     padding: 20,
   },
 
@@ -16,7 +16,8 @@ const GradeStyle = StyleSheet.create({
     marginBottom: 10,
   },
   headerText: {
-    fontSize: 25,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 
   // graph
@@ -30,6 +31,8 @@ const GradeStyle = StyleSheet.create({
   graphNumber: {
     width: 45,
     textAlign: 'center',
+    fontSize: 10,
+    color: 'gray',
   },
   graphBoxes: {
     height: 90,
@@ -39,12 +42,14 @@ const GradeStyle = StyleSheet.create({
   graphBox: {
     borderColor: 'black',
     borderWidth: 1,
-    width: 45,
-    height: 45,
+    width: 43,
+    height: 40,
+    marginLeft: 1,
+    marginRight: 1,
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   graphBoxText: {
     fontSize: 20,
@@ -56,8 +61,10 @@ const GradeStyle = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     borderBottomWidth: 0,
-    width: 45,
-    height: 55,
+    width: 43,
+    height: 45,
+    marginRight: 1,
+    marginLeft: 1,
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
@@ -73,16 +80,16 @@ const GradeStyle = StyleSheet.create({
     height: 0,
     width: 0,
     backgroundColor: 'transparent',
-    bottom: -20,
+    bottom: -15,
     borderLeftWidth: 22.5,
     borderRightWidth: 22.5,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
-    borderTopWidth: 20,
+    borderTopWidth: 15,
     borderTopColor: 'black',
   },
   pointText: {
-    fontSize: 22,
+    fontSize: 15,
     position: 'absolute',
     height: 35,
     bottom: -55,
@@ -101,16 +108,16 @@ const GradeStyle = StyleSheet.create({
     width: 120,
   },
   detailElemTitle: {
-    fontSize: 23,
+    fontSize: 15,
     marginTop: 5,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   detailElemContent: {
-    fontSize: 23,
+    fontSize: 15,
     marginBottom: 12,
   },
   detailElemOption: {
-    fontSize: 12,
+    fontSize: 13,
   },
 });
 

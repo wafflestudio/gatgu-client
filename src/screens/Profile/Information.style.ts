@@ -37,6 +37,7 @@ const infoStyle = StyleSheet.create({
     fontSize: 18,
     color: 'black',
     margin: 2,
+    fontWeight: 'bold',
   },
   authView: {},
   textWrapper: {
