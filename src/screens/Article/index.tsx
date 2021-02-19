@@ -9,15 +9,15 @@ import { ArticleDrawerParamList } from '@/types/navigation';
 import { articleAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { IArticleProps } from '@/types/article';
+import { createError } from '@/helpers/functions';
 
 // TODO:
-// - display several images instead of one
+// - display several images instead of one (after eject --> crop-picker)
 // - add buttons to navigate through images
 // - change styles when clicked on (chatting button)
 // - 남은 시간 어떻게 표시할지 + 계산하는 함수 작성 (in helper file)
 // - implement golden bar (take from home page)
-// - implement side bar
-// - handle error appropriately
+// - navigate to user profile when Profile Pic pressed
 
 const initialArticle = {
   id: 'article_id (integer)',
@@ -45,8 +45,11 @@ const initialArticle = {
   dueDate: '2021-03-02', // always in days, not in api but added it anyways bc in design
 } as IArticleProps;
 
+const [Error] = createError();
+
 function ArticlePage(): JSX.Element {
   const [article, setArticle] = useState<IArticleProps>(initialArticle);
+  const [hasError, setError] = useState(false);
   const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
   const id = route.params.id;
 
@@ -56,20 +59,25 @@ function ArticlePage(): JSX.Element {
       .getSingleArticle(id)
       .then((response: AxiosResponse) => {
         setArticle(response.data);
+        setError(false);
       })
       .catch((err: AxiosError) => {
-        // handle error appropriately
+        setError(true);
       });
   }, []);
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <ProductImages {...article} />
-        <ProfileChat {...article} />
-        <TitleInfo {...article} />
-        <Desc {...article} />
-      </ScrollView>
+      {hasError ? (
+        Error(401)
+      ) : (
+        <ScrollView>
+          <ProductImages {...article} />
+          <ProfileChat {...article} />
+          <TitleInfo {...article} />
+          <Desc {...article} />
+        </ScrollView>
+      )}
     </View>
   );
 }
