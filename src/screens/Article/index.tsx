@@ -47,7 +47,6 @@ function ArticlePage(): JSX.Element {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Header title={dummyArticle.title} left={true} right={true} />
         <ProductImages dummyArticle={dummyArticle} />
         <ProfileChat dummyArticle={dummyArticle} />
         <TitleInfo dummyArticle={dummyArticle} />
