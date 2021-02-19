@@ -16,7 +16,6 @@ import { createError } from '@/helpers/functions';
 // - add buttons to navigate through images
 // - change styles when clicked on (chatting button)
 // - 남은 시간 어떻게 표시할지 + 계산하는 함수 작성 (in helper file)
-// - implement golden bar (take from home page)
 // - navigate to user profile when Profile Pic pressed
 
 const initialArticle = {
@@ -42,7 +41,12 @@ const initialArticle = {
   created_at: '2021-02-10',
   updated_at: '2021-02-10',
   deleted_at: '2021-02-15',
-  dueDate: '2021-03-02', // always in days, not in api but added it anyways bc in design
+  notInAPI: {
+    dueDate: '2021-03-02', // always in days, not in api but added it anyways bc in design
+    goal: '25,000원',
+    percent: 60,
+    isMoney: true,
+  },
 } as IArticleProps;
 
 const [Error] = createError();

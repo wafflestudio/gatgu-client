@@ -37,7 +37,12 @@ export interface IArticleProps {
   created_at: string; // should be date but json server doesn't accept Date
   updated_at: string;
   deleted_at: string;
-  dueDate: string; // something that I thought was necessary
+  notInAPI: {
+    dueDate: string; // something that I thought was necessary
+    goal: string;
+    percent: number;
+    isMoney: boolean;
+  };
 }
 
 export interface ITagType {

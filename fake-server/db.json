@@ -167,7 +167,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "25,000원",
+      "percent": 10,
+      "isMoney":true
+    }
   },{
     "id":2,
     "writer": {
@@ -187,7 +192,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "26,000원",
+      "percent": 40,
+      "isMoney":true
+    }
   },{
     "id":3,
     "writer": {
@@ -207,7 +217,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "22,000원",
+      "percent": 20,
+      "isMoney":true
+    }
   },{
     "id":4,
     "writer": {
@@ -227,7 +242,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "3명",
+      "percent": 66,
+      "isMoney":false
+    }
   },{
     "id":5,
     "writer": {
@@ -247,7 +267,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "25,000원",
+      "percent": 90,
+      "isMoney":true
+    }
   },{
     "id":6,
     "writer": {
@@ -267,7 +292,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "39명",
+      "percent": 40,
+      "isMoney":false
+    }
   },{
     "id":7,
     "writer": {
@@ -287,7 +317,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "25,000원",
+      "percent": 40,
+      "isMoney":true
+    }
   },{
     "id":8,
     "writer": {
@@ -307,7 +342,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "2명",
+      "percent": 40,
+      "isMoney":false
+    }
   },{
     "id":9,
     "writer": {
@@ -327,7 +367,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "25,000원",
+      "percent": 40,
+      "isMoney":true
+    }
   },{
     "id":10,
     "writer": {
@@ -347,7 +392,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "25,000원",
+      "percent": 40,
+      "isMoney":true
+    }
   },{
     "id":11,
     "writer": {
@@ -367,7 +417,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "25,000원",
+      "percent": 40,
+      "isMoney":true
+    }
   },{
     "id":12,
     "writer": {
@@ -387,7 +442,12 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "25,000원",
+      "percent": 40,
+      "isMoney":true
+    }
   },{
     "id":13,
     "writer": {
@@ -407,6 +467,11 @@
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "dueDate": "2021-03-10"
+    "notInAPI": {
+      "dueDate": "2021-03-10",
+      "goal": "25,000원",
+      "percent": 40,
+      "isMoney":true
+    }
   }]
 }

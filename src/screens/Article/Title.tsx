@@ -10,8 +10,12 @@ import { IArticleProps } from '@/types/article';
 function Title(article: IArticleProps): JSX.Element {
   // 남은 시간
   const timeLeft = useMemo(
-    () => calcTimeDiff(new Date(article.created_at), new Date(article.dueDate)),
-    [article.created_at, article.dueDate]
+    () =>
+      calcTimeDiff(
+        new Date(article.created_at),
+        new Date(article.notInAPI.dueDate)
+      ),
+    [article.created_at, article.notInAPI.dueDate]
   );
   // 몇 분 전
   const timeBefore = useMemo(
