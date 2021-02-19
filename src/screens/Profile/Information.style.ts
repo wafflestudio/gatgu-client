@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const infoStyle = StyleSheet.create({
   // container
   container: {
-    height: 170,
+    height: 111,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
@@ -12,31 +12,30 @@ const infoStyle = StyleSheet.create({
 
   // profile image
   profileImg: {
-    height: 100,
-    width: 100,
+    height: 71,
+    width: 71,
     borderRadius: 60,
     overflow: 'hidden',
     marginRight: 25,
   },
 
-  // detail
-  detail: {
-    height: 90,
-    width: 100,
-    justifyContent: 'space-between',
-  },
-
   // content
   content: {
-    height: 90,
+    height: 71,
     width: 120,
+    marginRight: 71,
     justifyContent: 'space-between',
   },
 
   // detail & content common
   detailText: {
-    fontSize: 20,
+    fontSize: 13,
     color: 'gray',
+    margin: 2,
+  },
+  detailNameText: {
+    fontSize: 18,
+    color: 'black',
     margin: 2,
   },
   authView: {},
