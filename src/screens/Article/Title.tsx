@@ -4,18 +4,19 @@ import { Text } from 'react-native';
 import styles from './Title.style';
 import { palette, typo } from '@/styles';
 import { calcTimeDiff } from '@/helpers/functions/index';
+import { IArticleProps } from '@/types/article';
 
 // will change input type
-function Title({ dummyArticle }: any): JSX.Element {
+function Title(article: IArticleProps): JSX.Element {
   // 남은 시간
   const timeLeft = useMemo(
-    () => calcTimeDiff(dummyArticle.created_at, dummyArticle.dueDate),
-    [dummyArticle.created_at, dummyArticle.dueDate]
+    () => calcTimeDiff(new Date(article.created_at), new Date(article.dueDate)),
+    [article.created_at, article.dueDate]
   );
   // 몇 분 전
   const timeBefore = useMemo(
-    () => calcTimeDiff(dummyArticle.created_at, new Date()),
-    [dummyArticle.created_at, new Date()]
+    () => calcTimeDiff(new Date(article.created_at), new Date()),
+    [article.created_at, new Date()]
   );
 
   return (
@@ -26,7 +27,7 @@ function Title({ dummyArticle }: any): JSX.Element {
         >
           판매
         </Label>
-        <Text style={{ ...typo.bigTitle }}>{dummyArticle.title}</Text>
+        <Text style={{ ...typo.bigTitle }}>{article.title}</Text>
       </View>
       <View style={[styles.subConNoBorder, { paddingLeft: 15 }]}>
         <Text style={styles.subText}>{timeBefore}분 전 · </Text>

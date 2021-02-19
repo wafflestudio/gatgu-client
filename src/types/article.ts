@@ -37,7 +37,7 @@ export interface IArticleProps {
   created_at: string; // should be date but json server doesn't accept Date
   updated_at: string;
   deleted_at: string;
-  dueDate: Date; // something that I thought was necessary
+  dueDate: string; // something that I thought was necessary
 }
 
 export interface ITagType {
