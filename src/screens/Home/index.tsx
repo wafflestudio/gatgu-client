@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 
 import { ArticleBox } from '@/components';
@@ -44,9 +44,6 @@ function HomeTemplate(): JSX.Element {
 
   return (
     <View style={styles.root}>
-      <View style={styles.header}>
-        <Text>이것은 헤더입니다^^</Text>
-      </View>
       {/* Error 안에 error status code 넣기 */}
       {/* 임시로 401 넣어 놓음 */}
       {hasError ? Error(401) : ArticleList}
