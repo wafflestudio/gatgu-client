@@ -5,22 +5,24 @@ import { useNavigation } from '@react-navigation/native';
 import SearchBarStyles from './SearchBar.style';
 import { StringInput } from '@/components';
 
-function SearchBar(): JSX.Element {
+interface ISearchBarProps {
+  inSearchedList: boolean;
+}
+
+function SearchBar({ inSearchedList }: ISearchBarProps): JSX.Element {
   const navigation = useNavigation();
 
   const [input, setInput] = useState('');
 
   const onSubmit = () => {
-    alert(`${input}을 검색하겠다!`);
+    navigation.navigate('SearchedArticle');
   };
 
   return (
-    <View
-      style={SearchBarStyles.outerBox}
-      // onTouchStart={() => navigation.navigate('SearchedArticle')}
-    >
+    <View style={SearchBarStyles.outerBox}>
       <Icon name="ios-search" style={SearchBarStyles.searchIcon} />
       <StringInput
+        onTouchStart={() => inSearchedList && navigation.navigate('Search')}
         value={input}
         onChangeText={setInput}
         onSubmitEditing={onSubmit}
