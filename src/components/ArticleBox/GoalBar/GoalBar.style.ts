@@ -3,9 +3,7 @@ import { typo, palette } from '@/styles';
 
 const GoalBarStyles = StyleSheet.create({
   wrapper: {
-    width: '53.3%',
-    position: 'absolute',
-    top: 79,
+    width: '100%',
   },
   goalBox: {
     width: '100%',

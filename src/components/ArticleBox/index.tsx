@@ -38,7 +38,9 @@ function ArticleBox({
           <Text style={styles.description}>{dayLeft} · </Text>
           <Text style={styles.description}>{location}</Text>
         </View>
-        <GoalBar percent={percent} goal={goal} isMoney={isMoney} />
+        <View style={styles.goalWrapper}>
+          <GoalBar percent={percent} goal={goal} isMoney={isMoney} />
+        </View>
       </View>
     </TouchableOpacity>
   );

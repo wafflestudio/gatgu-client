@@ -16,7 +16,9 @@ function Info({ location, notInAPI }: IArticleProps): JSX.Element {
       </View>
       <View style={styles.subConNoBorder}>
         <Label style={styles.label}>모집 인원</Label>
-        <GoalBar {...notInAPI} />
+        <View style={styles.goalWrapper}>
+          <GoalBar {...notInAPI} />
+        </View>
       </View>
     </View>
   );
