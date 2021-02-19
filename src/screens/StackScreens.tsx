@@ -15,12 +15,15 @@ const {
   Profile,
   WriteArticle,
   ChattingList,
+  Search,
+  SearchedArticle,
 } = routes;
 
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const ChattingStack = createStackNavigator();
 const WriteArticleStack = createStackNavigator();
+const SearchStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function ArticleDrawer(): JSX.Element {
@@ -130,9 +133,33 @@ function ChattingStackScreen(): JSX.Element {
   );
 }
 
+function SearchStackScreen(): JSX.Element {
+  return (
+    <SearchStack.Navigator>
+      <SearchStack.Screen
+        name={Search.name}
+        component={Search.component}
+        options={{
+          title: '검색',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <SearchStack.Screen
+        name={SearchedArticle.name}
+        component={SearchedArticle.component}
+        options={{
+          title: '검색결과',
+          headerTitleAlign: 'center',
+        }}
+      />
+    </SearchStack.Navigator>
+  );
+}
+
 export {
   HomeStackScreen,
   ProfileStackScreen,
   WriteArticleStackScreen,
   ChattingStackScreen,
+  SearchStackScreen,
 };

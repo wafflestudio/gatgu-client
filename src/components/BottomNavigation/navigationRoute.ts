@@ -3,21 +3,21 @@ import {
   ProfileStackScreen,
   WriteArticleStackScreen,
   ChattingStackScreen,
+  SearchStackScreen,
 } from '@/screens/StackScreens';
-import { Search } from '@/screens';
 
 const routes = {
   tarBarOption: {
     showIcon: true,
     showLabel: false,
-    activeTintColor: '#000',
-    inactiveTintColor: '#d1cece',
-    indicatorStyle: {
-      backgroundColor: 'white',
-    },
-    style: {
-      height: 60,
-    },
+    activeTintColor: 'black',
+    // inactiveTintColor: '#d1cece',
+    // indicatorStyle: {
+    // backgroundColor: 'white',
+    // },
+    // style: {
+    //   height: 60,
+    // },
   },
   Home: {
     name: 'Home',
@@ -35,10 +35,9 @@ const routes = {
     name: 'Profile',
     component: ProfileStackScreen,
   },
-  // TODO: modify to Search
-  AppLoading: {
-    name: 'AppLoading',
-    component: Search,
+  Search: {
+    name: 'Search',
+    component: SearchStackScreen,
   },
 };
 
