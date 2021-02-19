@@ -8,6 +8,7 @@ const SearchBarStyles = StyleSheet.create({
     ...flexRow,
     backgroundColor: palette.whiteGray,
     minWidth: '100%',
+    width: '100%',
     height: 37,
     alignItems: 'center',
   },
@@ -18,6 +19,7 @@ const SearchBarStyles = StyleSheet.create({
     color: palette.dark,
     height: 37,
     paddingLeft: 10,
+    width: '100%',
   },
   placeholder: {
     color: palette.gray,
