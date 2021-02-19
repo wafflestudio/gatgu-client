@@ -1,7 +1,7 @@
 import { Label } from 'native-base';
 import React, { Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
-import waStyles from './WriteArticle.style';
+import waStyles from '../WriteArticle.style';
 import { StringInput } from '@/components';
 
 interface LinkProps {

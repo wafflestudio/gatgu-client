@@ -1,5 +1,5 @@
 import { typo, palette } from '@/styles';
-import waStyles from './WriteArticle.style';
+import waStyles from '../WriteArticle.style';
 import { StyleSheet } from 'react-native';
 
 const DescriptionStyle = StyleSheet.create({

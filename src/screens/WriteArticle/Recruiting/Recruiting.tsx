@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction, useMemo } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles, { switchSelector } from './Recruiting.style';
-import waStyles from './WriteArticle.style';
+import waStyles from '../WriteArticle.style';
 import SwitchSelector from 'react-native-switch-selector';
 import { StringInput } from '@/components';
 

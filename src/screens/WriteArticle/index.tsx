@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { ScrollView, Button } from 'react-native';
 import Header from '@/components/Header';
 import { articleAPI } from '@/apis';
-import Tags from './Tags';
-import AddImage from './AddImage';
-import Title from './Title';
-import Link from './Link';
-import Description from './Description';
-import Location from './Location';
-import Recruiting from './Recruiting';
+import Tags from './Tags/Tags';
+import AddImage from './AddImage/AddImage';
+import Title from './Title/Title';
+import Link from './Link/Link';
+import Description from './Description/Description';
+import Location from './Location/Location';
+import Recruiting from './Recruiting/Recruiting';
 
 // TODO:
 //  - circle css 하나로 합치기 (페이지 번호)
