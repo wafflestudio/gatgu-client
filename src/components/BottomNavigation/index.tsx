@@ -3,8 +3,9 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
 } from '@react-navigation/bottom-tabs';
-import { Icon } from 'native-base';
+import TabIcon from '@/assets/TabIcon';
 import navigationRoute from './navigationRoute';
+import { Icon } from 'native-base';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,12 +54,16 @@ const options: { [x: string]: BottomTabNavigationOptions } = {
   Home: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
+      // <TabIcon.Search style={{ color, fontSize: 25, height: 25, width: 25 }} />
       <Icon name="ios-home" style={{ color, fontSize: 25 }} />
     ),
   },
   Search: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
+      // <TabIcon.ChatPressed
+      //   style={{ color, fontSize: 25, height: 25, width: 25 }}
+      // />
       <Icon name="ios-search" style={{ color, fontSize: 25 }} />
     ),
   },

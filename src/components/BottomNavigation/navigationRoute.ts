@@ -10,14 +10,14 @@ const routes = {
   tarBarOption: {
     showIcon: true,
     showLabel: false,
-    activeTintColor: '#000',
-    inactiveTintColor: '#d1cece',
-    indicatorStyle: {
-      backgroundColor: 'white',
-    },
-    style: {
-      height: 60,
-    },
+    activeTintColor: 'black',
+    // inactiveTintColor: '#d1cece',
+    // indicatorStyle: {
+    // backgroundColor: 'white',
+    // },
+    // style: {
+    //   height: 60,
+    // },
   },
   Home: {
     name: 'Home',
