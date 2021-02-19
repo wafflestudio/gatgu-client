@@ -4,3 +4,10 @@ export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
 };
+
+// type to use when using useRoute for ArticleDrawer screens
+export type ArticleDrawerParamList = {
+  ArticlePage: {
+    id: number;
+  };
+};

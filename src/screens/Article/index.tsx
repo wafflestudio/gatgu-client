@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Desc from './Desc';
 import ProfileChat from './ProfileChat';
 import ProductImages from './ProductImages';
 import TitleInfo from './TitleInfo';
-import Header from '@/components/Header';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { ArticleDrawerParamList } from '@/types/navigation';
+import { articleAPI } from '@/apis';
+import { AxiosError, AxiosResponse } from 'axios';
 
 // TODO:
 // - remove dummyArticle (connect with redux, server)
@@ -14,6 +17,7 @@ import Header from '@/components/Header';
 // - 남은 시간 어떻게 표시할지 + 계산하는 함수 작성 (in helper file)
 // - implement golden bar (take from home page)
 // - implement side bar
+// - handle error appropriately
 
 const dummyArticle = {
   id: 'article_id (integer)',
@@ -44,6 +48,24 @@ const dummyArticle = {
 };
 
 function ArticlePage(): JSX.Element {
+  const [article, setArticle] = useState();
+  const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
+  const id = route.params.id;
+
+  useEffect(() => {
+    // used API directly here because I don't think i'll need to use store
+    articleAPI
+      .getSingleArticle(id)
+      .then((response: AxiosResponse) => {
+        console.log(response.data);
+        setArticle(response.data);
+      })
+      .catch((err: AxiosError) => {
+        console.error(err);
+        // handle error appropriately
+      });
+  }, []);
+
   return (
     <View style={styles.container}>
       <ScrollView>

@@ -29,3 +29,10 @@ export const create = (
 ): Promise<AxiosResponse<IArticleProps>> => {
   return requester.post('article/', article);
 };
+
+// get a single article with its id
+export const getSingleArticle = (
+  id: number
+): Promise<AxiosResponse<IArticleProps>> => {
+  return requester.get(`article/${id}/`);
+};

@@ -54,6 +54,10 @@ const fakeRequesterWrapper = {
       default:
         if (uri.includes('posts?_limit=7&_page=')) {
           return fakeRequester.get(uri);
+        }
+        // test if uri is of form `article/${id}`
+        else if (/article\/\d+\//.test(uri) === true) {
+          return fakeRequester.get(uri);
         } else {
           throw new Error('Code is wrong');
         }

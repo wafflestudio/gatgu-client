@@ -147,5 +147,266 @@
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "article": [{
+    "id":1,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":2,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "알고리즘 문제 해결 전략",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":3,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "통계학",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":4,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":5,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":6,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":7,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":8,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":9,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":10,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":11,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":12,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  },{
+    "id":13,
+    "writer": {
+      "profile_id": 1,
+      "picture": "https://static01.nyt.com/images/2019/06/17/science/17DOGS/17DOGS-mobileMasterAt3x-v2.jpg",
+      "nickname": "nickname",
+      "address": "관악구 글로벌생활관 917동",
+      "phonenumber": "010-0000-0000"
+    },
+    "title": "다이슨 청소기 공구",
+    "description": "이상은 귀는 아름답고 쓸쓸한 그들의 위하여 동산에는 교향악이다. 실로 힘차게 이는 실현에 따뜻한 이것을 끓는다. 수 따뜻한 공자는 없으면, 것이다.보라, 얼마나 이것이다. 커다란 고행을 밥을 노래하며 칼이다. 동력은 꽃 천고에 사막이다. 가치를 산야에 불어 가장 힘있다. 반짝이는 구하기 영원히 뭇 위하여, 투명하되 유소년에게서 살 것은 보라. 청춘은 설산에서 사랑의 구하기 만물은 것이다. 영원히 열락의 충분히 이것이다. 인류의 위하여서, 든 청춘을 무엇이 있다.",
+    "location": "사운드 마인드",
+    "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
+    "price_min": 20000,
+    "people_count_min": 3,
+    "created_at": "2021-02-10",
+    "updated_at": "2021-02-11",
+    "deleted_at": "2021-02-15",
+    "dueDate": "2021-03-10"
+  }]
 }
