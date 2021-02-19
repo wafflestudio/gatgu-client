@@ -15,7 +15,6 @@ import { createError } from '@/helpers/functions';
 // - display several images instead of one (after eject --> crop-picker)
 // - add buttons to navigate through images
 // - change styles when clicked on (chatting button)
-// - 남은 시간 어떻게 표시할지 + 계산하는 함수 작성 (in helper file)
 // - navigate to user profile when Profile Pic pressed
 
 const initialArticle = {

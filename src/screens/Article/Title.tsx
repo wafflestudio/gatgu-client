@@ -6,10 +6,9 @@ import { palette, typo } from '@/styles';
 import { calcTimeDiff } from '@/helpers/functions/index';
 import { IArticleProps } from '@/types/article';
 
-// will change input type
 function Title(article: IArticleProps): JSX.Element {
   // 남은 시간
-  const timeLeft = useMemo(
+  const { diff: timeLeft, type: typeLeft } = useMemo(
     () =>
       calcTimeDiff(
         new Date(article.created_at),
@@ -18,7 +17,7 @@ function Title(article: IArticleProps): JSX.Element {
     [article.created_at, article.notInAPI.dueDate]
   );
   // 몇 분 전
-  const timeBefore = useMemo(
+  const { diff: timeBefore, type: typeBefore } = useMemo(
     () => calcTimeDiff(new Date(article.created_at), new Date()),
     [article.created_at, new Date()]
   );
@@ -34,8 +33,12 @@ function Title(article: IArticleProps): JSX.Element {
         <Text style={{ ...typo.bigTitle }}>{article.title}</Text>
       </View>
       <View style={[styles.subConNoBorder, { paddingLeft: 15 }]}>
-        <Text style={styles.subText}>{timeBefore}분 전 · </Text>
-        <Text style={styles.subText}>{timeLeft}일 남음</Text>
+        <Text style={styles.subText}>
+          {timeBefore} {typeBefore} 전 ·{' '}
+        </Text>
+        <Text style={styles.subText}>
+          {timeLeft} {typeLeft} 남음
+        </Text>
       </View>
     </View>
   );
