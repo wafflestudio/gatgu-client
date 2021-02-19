@@ -1,22 +1,30 @@
 import { StyleSheet } from 'react-native';
 
-import { palette } from '@/styles';
+import { palette, typo } from '@/styles';
 import { flexRow } from '@/styles/wrapper';
 
 const SearchBarStyles = StyleSheet.create({
   outerBox: {
     ...flexRow,
-    backgroundColor: palette.white,
-    width: '90%',
-    height: 50,
-    borderRadius: 10,
-    borderWidth: 1,
-    justifyContent: 'center',
+    backgroundColor: palette.whiteGray,
+    minWidth: '100%',
+    height: 37,
     alignItems: 'center',
-    marginBottom: 10,
   },
-
   searchIcon: { paddingLeft: 10 },
+  text: {
+    ...typo.semiTitle,
+    fontSize: 18,
+    color: palette.dark,
+    height: 37,
+    paddingLeft: 10,
+  },
+  placeholder: {
+    color: palette.gray,
+  },
+  searchText: {
+    color: palette.dark,
+  },
 });
 
 export default SearchBarStyles;
