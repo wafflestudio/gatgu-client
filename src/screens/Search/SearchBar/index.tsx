@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Icon } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import SearchBarStyles from './SearchBar.style';
 import { StringInput } from '@/components';
-import { setKeyword } from '@/store/searchedArticleSlice';
+import { useKeywordDispatch } from '@/helpers/hooks';
 
 interface ISearchBarProps {
   inSearchedList: boolean;
@@ -14,13 +13,17 @@ interface ISearchBarProps {
 }
 
 function SearchBar({ inSearchedList, keyword }: ISearchBarProps): JSX.Element {
-  const dispatch = useDispatch();
+  const keywordDispatch = useKeywordDispatch();
   const navigation = useNavigation();
 
   const [input, setInput] = useState(keyword);
 
+  useEffect(() => {
+    setInput(keyword);
+  }, [keyword]);
+
   const onSubmit = () => {
-    dispatch(setKeyword({ keyword: input }));
+    keywordDispatch(input);
     setInput('');
     navigation.navigate('SearchedArticle');
   };
@@ -38,7 +41,6 @@ function SearchBar({ inSearchedList, keyword }: ISearchBarProps): JSX.Element {
         placeholder={'키워드로 검색'}
         style={[SearchBarStyles.text, SearchBarStyles.searchText]}
         placeholderStyle={[SearchBarStyles.text, SearchBarStyles.placeholder]}
-        autoFocus={keyword.length !== 0}
       />
     </View>
   );
