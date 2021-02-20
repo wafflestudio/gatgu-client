@@ -5,13 +5,15 @@ import Desc from './Desc';
 import ProfileChat from './ProfileChat';
 import ProductImages from './ProductImages';
 import TitleInfo from './TitleInfo';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { ArticleDrawerParamList } from '@/types/navigation';
 import { articleAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { IArticleProps } from '@/types/article';
 import { createError } from '@/helpers/functions';
 import { initialArticle } from '@/constants/InitialState';
+import { getSingleArticle } from '@/store/articleSlice';
+import { RootState } from '@/store';
 // TODO:
 // - display several images instead of one (after eject --> crop-picker)
 // - add buttons to navigate through images
@@ -25,18 +27,17 @@ function ArticlePage(): JSX.Element {
   const [hasError, setError] = useState(false);
   const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
   const id = route.params.id;
+  const dispatch = useDispatch();
+
+  const currentArticle = useSelector(
+    (state: RootState) => state.article.currentArticle
+  );
 
   useEffect(() => {
-    // used API directly here because I don't think i'll need to use store
-    articleAPI
-      .getSingleArticle(id)
-      .then((response: AxiosResponse) => {
-        setArticle(response.data);
-        setError(false);
-      })
-      .catch((err: AxiosError) => {
-        setError(true);
-      });
+    dispatch(getSingleArticle(id));
+    setArticle(currentArticle);
+    setError(false);
+    // handle error true case
   }, []);
 
   return (
