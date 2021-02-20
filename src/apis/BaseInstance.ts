@@ -52,7 +52,6 @@ const fakeRequesterWrapper = {
       case 'user/me/':
         return fakeRequester.get('users/1');
       default:
-        console.log(uri);
         if (uri.includes('posts?_limit=7&_page=')) {
           return fakeRequester.get(uri);
         }
@@ -85,7 +84,6 @@ const fakeRequesterWrapper = {
       case 'user/logout/':
         return fakeRequester.get('users/1');
       default:
-        console.log(uri);
         // change status
         if (/chat\/\d+\//.test(uri) === true) {
           return fakeRequester.put(uri, body);
@@ -100,7 +98,6 @@ const fakeRequesterWrapper = {
         if (/article\/\d+\//.test(uri) === true) {
           return fakeRequester.delete(uri);
         } else {
-          console.log('cod');
           throw new Error('Code is wrong');
         }
     }
