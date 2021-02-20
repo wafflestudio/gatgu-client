@@ -1,20 +1,18 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import {
-  View,
-  Image,
-  Button,
-  TouchableHighlight,
-  Platform,
-} from 'react-native';
+import { View, Image, TouchableHighlight, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './AddImage.style';
+import PlusSign from '@/assets/PlusSign';
 
-interface Props {
+interface AddImageProps {
   image: string;
   setImage: Dispatch<SetStateAction<string>>;
 }
 
-function AddImage({ image, setImage }: Props): JSX.Element {
+// TODO:
+// - modify to adding multiple images (using image-crop-picker) after ejection
+
+function AddImage({ image, setImage }: AddImageProps): JSX.Element {
   const pickImage = async () => {
     // Get permission to access photo gallery
     async () => {
@@ -46,17 +44,22 @@ function AddImage({ image, setImage }: Props): JSX.Element {
   };
 
   return (
-    <View>
-      {!image && (
-        <Button title="Press here to add an image" onPress={pickImage} />
-      )}
+    <View style={styles.container}>
       <TouchableHighlight onPress={pickImage}>
-        <Image
-          style={styles.photo}
-          source={{
-            uri: image,
-          }}
-        />
+        {image === '' ? (
+          <View style={styles.photoContainer}>
+            <PlusSign style={styles.defaultPhoto} />
+          </View>
+        ) : (
+          <View style={styles.photoContainer}>
+            <Image
+              style={styles.photo}
+              source={{
+                uri: image,
+              }}
+            />
+          </View>
+        )}
       </TouchableHighlight>
     </View>
   );

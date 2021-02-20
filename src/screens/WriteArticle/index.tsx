@@ -1,16 +1,14 @@
-import { Label } from 'native-base';
 import React, { useState } from 'react';
 import { ScrollView, Button } from 'react-native';
 import Header from '@/components/Header';
-import styles from './WriteArticle.style';
 import { articleAPI } from '@/apis';
-import Tags from './Tags';
-import AddImage from './AddImage';
-import Title from './Title';
-import Link from './Link';
-import Description from './Description';
-import Location from './Location';
-import Recruiting from './Recruiting';
+import Tags from './Tags/Tags';
+import AddImage from './AddImage/AddImage';
+import Title from './Title/Title';
+import Link from './Link/Link';
+import Description from './Description/Description';
+import Location from './Location/Location';
+import Recruiting from './Recruiting/Recruiting';
 import { useNavigation } from '@react-navigation/native';
 
 // TODO:
@@ -63,21 +61,22 @@ function WriteArticleTemplate(): JSX.Element {
       });
     navigation.navigate('Article');
   };
-
+  // change
   return (
-    <ScrollView>
-      {Tags}
+    <ScrollView style={{ backgroundColor: 'white' }}>
+      <Header title="글 쓰기" left={true} right={false} />
+      <Tags />
       <AddImage image={image} setImage={setImage} />
       <Title title={title} setTitle={setTitle} />
       <Recruiting
-        need_people={need_people}
-        need_price={need_price}
+        needPeople={need_people}
+        needPrice={need_price}
         setPeople={setPeople}
         setPrice={setPrice}
       />
       <Location location={location} setLocation={setLocation} />
-      <Description description={description} setDescription={setDescription} />
       <Link link={link} setLink={setLink} />
+      <Description description={description} setDescription={setDescription} />
       <Button title="완료" onPress={submit} />
     </ScrollView>
   );
