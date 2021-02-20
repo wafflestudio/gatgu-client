@@ -9,7 +9,7 @@ function SearchListScreen(): JSX.Element {
   return (
     <View style={SearchStyle.wrapper}>
       <View style={SearchStyle.searchWrapper}>
-        <SearchBar inSearchedList={true} />
+        <SearchBar inSearchedList={true} keyword={''} />
       </View>
 
       <SearchedList />
