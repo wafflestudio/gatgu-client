@@ -1,19 +1,24 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Tag from '@/components/Button';
 import SearchStyle from '../../Search.style';
+import { useKeywordDispatch } from '@/helpers/hooks';
 
 interface IRecentSearchProps {
   tags: string[];
 }
 
 function RecentSearch({ tags }: IRecentSearchProps): JSX.Element {
+  const navigation = useNavigation();
+  const keywordDispatch = useKeywordDispatch();
   const renderedTags = tags.map((tag) => (
     <Tag
       title={tag}
       onPress={() => {
-        console.log('');
+        keywordDispatch(tag);
+        navigation.navigate('SearchedArticle');
       }}
       style={SearchStyle.tagBox}
       key={tag}
