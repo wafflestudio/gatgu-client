@@ -50,3 +50,7 @@ export interface ITagType {
   tag: string;
   selected: boolean;
 }
+
+export interface IMessageRet {
+  message: string;
+}
