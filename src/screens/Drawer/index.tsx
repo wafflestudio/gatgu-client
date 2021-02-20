@@ -1,6 +1,6 @@
 import { Button } from '@/components';
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './Drawer.style';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -11,13 +11,14 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { RootState } from '@/store';
-import { articleAPI, chatAPI } from '@/apis';
+import { articleAPI, chatAPI, userAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
 import { FlatList } from 'react-native-gesture-handler';
 import { changeStatus } from '@/apis/ChatApi';
 import routes from '@/helpers/routes';
+import Profile from '../Article/Profile';
 
 const [Error] = createError();
 
@@ -81,6 +82,20 @@ function DrawerTemplate(props: any): JSX.Element {
     }
   };
 
+  const participants = chatInfo?.participant.map((id, index) => {
+    // userAPI.getInfo(id)
+    return (
+      <View key={index}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Profile', { params: id })}
+        >
+          <Text>Image</Text>
+        </TouchableOpacity>
+        <Text>Participant {id}</Text>
+      </View>
+    );
+  });
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
@@ -90,9 +105,7 @@ function DrawerTemplate(props: any): JSX.Element {
       <Button title="신고하기" onPress={() => alert('not yet: 신고하기')} />
       <Text>------------------</Text>
       <Text>모집인원 목록</Text>
-      {/* <FlatList
-      /> */}
-      <DrawerItem label="Help" onPress={() => alert('Link to help')} />
+      {participants}
     </DrawerContentScrollView>
   );
 }
