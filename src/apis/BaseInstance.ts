@@ -52,11 +52,16 @@ const fakeRequesterWrapper = {
       case 'user/me/':
         return fakeRequester.get('users/1');
       default:
+        console.log(uri);
         if (uri.includes('posts?_limit=7&_page=')) {
           return fakeRequester.get(uri);
         }
         // test if uri is of form `article/${id}`
         else if (/article\/\d+\//.test(uri) === true) {
+          return fakeRequester.get(uri);
+        }
+        // GET chat info
+        else if (/chat\?article=\d+/.test(uri) === true) {
           return fakeRequester.get(uri);
         } else {
           throw new Error('Code is wrong');
@@ -80,13 +85,24 @@ const fakeRequesterWrapper = {
       case 'user/logout/':
         return fakeRequester.get('users/1');
       default:
-        throw new Error('Code is wrong');
+        console.log(uri);
+        // change status
+        if (/chat\/\d+\//.test(uri) === true) {
+          return fakeRequester.put(uri, body);
+        } else {
+          throw new Error('Code is wrong');
+        }
     }
   },
-  delete: (uri: string, body: any): any => {
+  delete: (uri: string, body?: any): any => {
     switch (uri) {
       default:
-        throw new Error('Code is wrong');
+        if (/article\/\d+\//.test(uri) === true) {
+          return fakeRequester.delete(uri);
+        } else {
+          console.log('cod');
+          throw new Error('Code is wrong');
+        }
     }
   },
 };
