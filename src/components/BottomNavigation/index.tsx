@@ -54,16 +54,12 @@ const options: { [x: string]: BottomTabNavigationOptions } = {
   Home: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      // <TabIcon.Search style={{ color, fontSize: 25, height: 25, width: 25 }} />
       <Icon name="ios-home" style={{ color, fontSize: 25 }} />
     ),
   },
   Search: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      // <TabIcon.ChatPressed
-      //   style={{ color, fontSize: 25, height: 25, width: 25 }}
-      // />
       <Icon name="ios-search" style={{ color, fontSize: 25 }} />
     ),
   },
