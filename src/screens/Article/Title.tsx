@@ -3,23 +3,19 @@ import React, { useMemo } from 'react';
 import { Text } from 'react-native';
 import styles from './Title.style';
 import { palette, typo } from '@/styles';
-import { calcTimeDiff } from '@/helpers/functions/index';
+import { calcTimeDiff } from '@/helpers/functions';
 import { IArticleProps } from '@/types/article';
 
 function Title(article: IArticleProps): JSX.Element {
   // 남은 시간
   const { diff: timeLeft, type: typeLeft } = useMemo(
-    () =>
-      calcTimeDiff(
-        new Date(article.created_at),
-        new Date(article.notInAPI.dueDate)
-      ),
+    () => calcTimeDiff(article.created_at, article.notInAPI.dueDate),
     [article.created_at, article.notInAPI.dueDate]
   );
   // 몇 분 전
   const { diff: timeBefore, type: typeBefore } = useMemo(
-    () => calcTimeDiff(new Date(article.created_at), new Date()),
-    [article.created_at, new Date()]
+    () => calcTimeDiff(article.created_at, 'current'),
+    [article.created_at]
   );
 
   return (

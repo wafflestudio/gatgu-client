@@ -1,5 +1,3 @@
-import { StringIterator } from 'lodash';
-
 export interface IArticleSumProps {
   id: number;
   title: string;
