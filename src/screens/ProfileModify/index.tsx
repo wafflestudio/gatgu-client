@@ -35,7 +35,7 @@ function ProfileModify(): JSX.Element {
         <TextInput
           style={styles.nickInput}
           value={nickname}
-          onChangeText={(e) => setNickname(e)}
+          onChangeText={setNickname}
           placeholder="별명"
         />
       </View>
