@@ -1,7 +1,7 @@
 import { IArticleProps } from '@/types/article';
 
 export const initialArticle = {
-  id: 'article_id (integer)',
+  id: '0',
   writer: {
     profile_id: 1,
     picture:
