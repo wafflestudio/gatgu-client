@@ -5,18 +5,12 @@ import PopularSearchStyle from './PopularSearch.style';
 import SearchStyle from '../../Search.style';
 import Tag from '@/components/Button';
 
-const mockData = [
-  '검색어1',
-  '검색어2',
-  '검색어3',
-  '검색어4',
-  '검색어5',
-  '검색어6',
-  '검색어7',
-];
+interface IPopularSearchProps {
+  tags: string[];
+}
 
-function PopularSearch(): JSX.Element {
-  const renderedTags = mockData.map((_,ind) => (
+function PopularSearch({ tags }: IPopularSearchProps): JSX.Element {
+  const renderedTags = tags.map((tag) => (
     <Tag
       title={tag}
       onPress={() => {
