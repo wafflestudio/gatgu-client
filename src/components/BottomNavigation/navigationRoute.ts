@@ -4,7 +4,7 @@ import {
   WriteArticleStackScreen,
   ChattingStackScreen,
 } from '@/screens/StackScreens';
-import { Search } from '@/screens';
+import { Login, Search } from '@/screens';
 
 const routes = {
   tarBarOption: {
