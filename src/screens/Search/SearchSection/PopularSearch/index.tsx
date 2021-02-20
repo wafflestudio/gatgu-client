@@ -16,7 +16,7 @@ const mockData = [
 ];
 
 function PopularSearch(): JSX.Element {
-  const renderedTags = mockData.map((tag) => (
+  const renderedTags = mockData.map((_,ind) => (
     <Tag
       title={tag}
       onPress={() => {
@@ -24,7 +24,7 @@ function PopularSearch(): JSX.Element {
       }}
       style={[SearchStyle.tagBox, PopularSearchStyle.tag]}
       textStyle={SearchStyle.tagText}
-      key={tag}
+      key={ind}
     />
   ));
   return (
