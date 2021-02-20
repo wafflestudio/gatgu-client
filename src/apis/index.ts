@@ -1,4 +1,4 @@
 import * as userAPI from './UserApi';
 import * as articleAPI from './ArticleApi';
-
-export { userAPI, articleAPI };
+import * as SearchAPI from './SearchApi';
+export { userAPI, articleAPI, SearchAPI };
