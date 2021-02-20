@@ -22,7 +22,7 @@ const GradeStyle = StyleSheet.create({
 
   // graph
   graph: {
-    height: 135,
+    height: 110,
   },
   graphNumbers: {
     flexDirection: 'row',

@@ -39,6 +39,7 @@ function Grade({ dummyInfo }: any): JSX.Element {
         <View style={styles.detailElem}>
           <Text style={styles.detailElemTitle}>등급지수</Text>
           <Text style={styles.detailElemContent}>{dummyInfo.emdrmqwltn}</Text>
+          <Text style={styles.detailElemOption}>중수까지 남았어요</Text>
         </View>
         <View style={styles.detailElem}>
           <Text style={styles.detailElemTitle}>응답률</Text>
