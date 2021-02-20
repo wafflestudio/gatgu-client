@@ -1,5 +1,3 @@
-import { calcTimeDiff } from '@/helpers/functions';
-
 const ProfileModifyStyles = {
   container: {
     flex: 1,
