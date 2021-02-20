@@ -7,9 +7,8 @@ import {
   IGetFailPayload,
 } from '@/types/article';
 import { AppThunk } from '@/store';
-
-import * as articleApi from '@/apis/ArticleApi';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
+import { articleAPI, SearchAPI } from '@/apis';
 
 export interface ISearchedArticleSlice {
   data: IArticleSumProps[];
@@ -19,11 +18,18 @@ export interface ISearchedArticleSlice {
   next: string;
   previous: string;
   keyword: string;
+  recentSearch: string[];
+  popularSearch: string[];
 }
 
 interface ISetKeywordPayload {
   keyword: string;
 }
+
+interface IKeywordListPayload {
+  data: string[];
+}
+// interface I
 
 const initialState: ISearchedArticleSlice = {
   data: [],
@@ -33,6 +39,8 @@ const initialState: ISearchedArticleSlice = {
   next: '',
   previous: '',
   keyword: '',
+  recentSearch: [],
+  popularSearch: [],
 };
 
 const searchedArticleSlice = createSlice({
@@ -57,6 +65,12 @@ const searchedArticleSlice = createSlice({
     setKeyword(state, { payload }: PayloadAction<ISetKeywordPayload>) {
       state.keyword = payload.keyword;
     },
+    setRecentSearch(state, { payload }: PayloadAction<IKeywordListPayload>) {
+      state.recentSearch = payload.data;
+    },
+    setPopularSearch(state, { payload }: PayloadAction<IKeywordListPayload>) {
+      state.popularSearch = payload.data;
+    },
   },
 });
 
@@ -65,14 +79,16 @@ const {
   getArticleFailure,
   setLoading,
   setKeyword,
+  setRecentSearch,
+  setPopularSearch,
 } = searchedArticleSlice.actions;
 
-export const searchArticles = (keyword: string): AppThunk => (dispatch) => {
+const searchArticles = (keyword: string): AppThunk => (dispatch) => {
   dispatch(setLoading());
   dispatch(setKeyword({ keyword }));
   // Todo
   // replace this with real api function.
-  articleApi
+  articleAPI
     .readAll(1)
     .then((res: AxiosResponse) => {
       dispatch(getArticleSuccess(res.data));
@@ -86,11 +102,11 @@ export const searchArticles = (keyword: string): AppThunk => (dispatch) => {
     });
 };
 
-export const loadNextArticles = (): AppThunk => (dispatch) => {
+const loadNextArticles = (): AppThunk => (dispatch) => {
   dispatch(setLoading());
   // Todo
   // replace this with real api function.
-  articleApi
+  articleAPI
     .readAll(2)
     .then((res: AxiosResponse) => {
       dispatch(getArticleSuccess(res.data));
@@ -103,5 +119,31 @@ export const loadNextArticles = (): AppThunk => (dispatch) => {
       }
     });
 };
+
+const initSearchData = (): AppThunk => (dispatch) => {
+  // TODO:
+  // use redux persist
+  dispatch(
+    setRecentSearch({
+      data: [
+        '검색어1',
+        '검색어2',
+        '검색어3',
+        '검색어4',
+        '검색어5',
+        '검색어6',
+        '검색어7',
+        '검색어8',
+        '검색어9',
+        '검색어10',
+      ],
+    })
+  );
+  SearchAPI.getPopularSearchKeyword().then((res) => {
+    dispatch(setPopularSearch({ data: res }));
+  });
+};
+
+export { setKeyword, searchArticles, loadNextArticles, initSearchData };
 
 export default searchedArticleSlice.reducer;
