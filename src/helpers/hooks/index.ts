@@ -1,1 +1,2 @@
-export { default as useShallowSelector } from './useShallowSelector';
+export { default as useSelector } from './useSelector';
+export { default as useKeywordDispatch } from './useKeywordDispatch';
