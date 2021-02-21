@@ -64,3 +64,7 @@ export interface IGetSuccessPayloadV1 {
   next: string;
   pervieous: string;
 }
+
+export interface IMessageRet {
+  message: string;
+}
