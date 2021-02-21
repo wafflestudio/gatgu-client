@@ -3,13 +3,14 @@ import React from 'react';
 import styles from './TitleInfo.style';
 import Title from './Title';
 import Info from './Info';
+import { IArticleProps } from '@/types/article';
 
 // will change input type
-function TitleInfo({ dummyArticle }: any): JSX.Element {
+function TitleInfo(article: IArticleProps): JSX.Element {
   return (
     <View style={styles.bigContainer}>
-      <Title dummyArticle={dummyArticle} />
-      <Info dummyArticle={dummyArticle} />
+      <Title {...article} />
+      <Info {...article} />
     </View>
   );
 }

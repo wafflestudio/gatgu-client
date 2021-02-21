@@ -17,14 +17,30 @@ export interface IPageLimitRes {
 }
 
 export interface IArticleProps {
+  id: string;
+  writer: {
+    profile_id: number;
+    picture: string;
+    nickname: string;
+    address: string;
+    phonenumber: string;
+  };
   title: string;
-  people_count: number;
-  price: number;
-  location: string;
   description: string;
+  location: string;
   product_url: string;
-  // thumbnail_url: string[];
-  temp_author_id: number; // made this temp because not included in actual endpoint
+  thumbnail_url: string;
+  price_min: number;
+  people_count_min: number;
+  created_at: string; // should be date but json server doesn't accept Date
+  updated_at: string;
+  deleted_at: string;
+  notInAPI: {
+    dueDate: string; // something that I thought was necessary
+    goal: string;
+    percent: number;
+    isMoney: boolean;
+  };
 }
 
 export interface ITagType {

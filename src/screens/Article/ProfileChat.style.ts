@@ -9,7 +9,6 @@ const ProfileChatStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 10,
-    paddingRight: 10,
   },
 });
 
