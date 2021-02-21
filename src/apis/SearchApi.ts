@@ -1,6 +1,6 @@
 import requester from './BaseInstance';
 
-export const getPopularSearchKeyword = async (): Promise<string[]> => {
+export const getPopularSearchKeyword = (): Promise<string[]> => {
   // TODO:
   // change after serach api docs are defined
   return new Promise((resolve) => {
@@ -18,7 +18,7 @@ export const getPopularSearchKeyword = async (): Promise<string[]> => {
   });
 };
 
-export const getArticlesWithKeyword = async ({
+export const getArticlesWithKeyword = ({
   keyword,
 }: {
   keyword: string;
