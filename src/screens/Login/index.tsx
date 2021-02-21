@@ -21,7 +21,8 @@ function LoginTemplate(): JSX.Element {
   }, [dispatch, navigation, id, pw]);
 
   const signUp = () => {
-    //
+    // TODO: 나중에 이름 정해지면 바꿔야됨
+    navigation.navigate('SignUp');
   };
 
   return (
