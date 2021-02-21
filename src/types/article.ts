@@ -48,3 +48,19 @@ export interface ITagType {
   tag: string;
   selected: boolean;
 }
+
+export interface IGetFailPayload {
+  errorStatus: number;
+}
+
+// Todo : combine interfaces after refactoring home screen feature
+
+export interface IGetSuccessPayload {
+  data: IArticleSumProps[];
+}
+
+export interface IGetSuccessPayloadV1 {
+  data: IArticleSumProps[];
+  next: string;
+  pervieous: string;
+}

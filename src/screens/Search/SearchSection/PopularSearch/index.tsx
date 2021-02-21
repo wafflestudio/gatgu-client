@@ -1,32 +1,32 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import PopularSearchStyle from './PopularSearch.style';
 import SearchStyle from '../../Search.style';
 import Tag from '@/components/Button';
+import { useKeywordDispatch } from '@/helpers/hooks';
 
-const mockData = [
-  '검색어1',
-  '검색어2',
-  '검색어3',
-  '검색어4',
-  '검색어5',
-  '검색어6',
-  '검색어7',
-];
+interface IPopularSearchProps {
+  tags: string[];
+}
 
-function PopularSearch(): JSX.Element {
-  const renderedTags = mockData.map((_,ind) => (
+function PopularSearch({ tags }: IPopularSearchProps): JSX.Element {
+  const navigation = useNavigation();
+  const keywordDispatch = useKeywordDispatch();
+  const renderedTags = tags.map((tag, ind) => (
     <Tag
       title={tag}
       onPress={() => {
-        console.log('');
+        keywordDispatch(tag);
+        navigation.navigate('SearchedArticle');
       }}
       style={[SearchStyle.tagBox, PopularSearchStyle.tag]}
       textStyle={SearchStyle.tagText}
       key={ind}
     />
   ));
+
   return (
     <View style={SearchStyle.sectionWrapper}>
       <Text style={SearchStyle.head}>인기 검색어</Text>

@@ -5,13 +5,15 @@ import { Keyboard } from 'react-native';
 import PopularSearch from './PopularSearch';
 import RecentSearch from './RecentSearch';
 import TagList from './TagList';
+import { useSelector } from '@/helpers/hooks';
 
 function SearchSection(): JSX.Element {
+  const { recentSearch, popularSearch } = useSelector((state) => state.search);
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <TagList />
-      <PopularSearch />
-      <RecentSearch />
+      <PopularSearch tags={popularSearch} />
+      <RecentSearch tags={recentSearch} />
     </TouchableWithoutFeedback>
   );
 }
