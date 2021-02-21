@@ -3,6 +3,7 @@ import { IUserProps } from '@/types/user';
 import { userAPI } from '@/apis';
 import { AppThunk } from '@/store';
 import { setToken, removeToken } from '@/apis/BaseInstance';
+import { NavigationProp } from '@react-navigation/native';
 
 const initialState = {
   info: {
@@ -32,14 +33,15 @@ const userSlice = createSlice({
   reducers: {
     setInfo(state, action: PayloadAction<IUserProps>) {
       state.info = { ...action.payload };
-      // TODO: set session storage info
+      // TODO: set asyncStorage info
     },
     clearInfo(state) {
-      state = { ...initialState };
-      // TODO: remove session storage info
+      state.info = { ...initialState.info };
+      state.logged = false;
+      // TODO: remove asyncStorage info
     },
     setLogged(state, action) {
-      state.logged = action.payload;
+      state.logged = { ...action.payload };
     },
   },
 });
@@ -48,15 +50,22 @@ export const { setInfo, clearInfo } = userSlice.actions;
 export default userSlice.reducer;
 
 // thunk function
-export const login = (id: string, pw: string): AppThunk => (dispatch) => {
+export const login = (
+  id: string,
+  pw: string,
+  navigation: NavigationProp<any>
+): AppThunk => (dispatch) => {
   userAPI
     .login(id, pw)
     .then((response) => {
       setToken(response.data.token);
       dispatch(setInfo(response.data));
+      navigation.goBack();
+      console.log('login succeed');
     })
     .catch((err) => {
       console.error(err);
+      alert(err);
       // 에러 종류에 따라 추가적인 로직이 필요:
       // 1. 존재하지 않는 아이디
       // 2. 비밀번호 틀림

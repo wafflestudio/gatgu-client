@@ -15,8 +15,10 @@ const {
   Profile,
   WriteArticle,
   ChattingList,
+  Login,
 } = routes;
 
+// TODO: 이거 여기서 정의하는 거보다 각 function 안에서 정의하는 게 낫지 않을까요
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const ChattingStack = createStackNavigator();
@@ -130,9 +132,25 @@ function ChattingStackScreen(): JSX.Element {
   );
 }
 
+function LoginStackScreen(): JSX.Element {
+  const LoginStack = createStackNavigator();
+  return (
+    <LoginStack.Navigator>
+      <LoginStack.Screen
+        name={Login.name}
+        component={Login.component}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+    </LoginStack.Navigator>
+  );
+}
+
 export {
   HomeStackScreen,
   ProfileStackScreen,
   WriteArticleStackScreen,
   ChattingStackScreen,
+  LoginStackScreen,
 };

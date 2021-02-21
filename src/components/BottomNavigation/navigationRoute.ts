@@ -3,8 +3,9 @@ import {
   ProfileStackScreen,
   WriteArticleStackScreen,
   ChattingStackScreen,
+  LoginStackScreen,
 } from '@/screens/StackScreens';
-import { Login, Search } from '@/screens';
+import { Search } from '@/screens';
 
 const routes = {
   tarBarOption: {
@@ -33,7 +34,7 @@ const routes = {
   },
   Profile: {
     name: 'Profile',
-    component: Login,
+    component: LoginStackScreen,
   },
   // TODO: modify to Search
   AppLoading: {
