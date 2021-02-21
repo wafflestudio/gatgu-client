@@ -14,6 +14,7 @@ const {
   Profile,
   WriteArticle,
   tarBarOption,
+  Search,
 } = navigationRoute;
 
 function BottomNavigation(): JSX.Element {
@@ -24,11 +25,10 @@ function BottomNavigation(): JSX.Element {
         component={Home.component}
         options={options[Home.name]}
       />
-      {/* TODO: modify below to search screen */}
       <Tab.Screen
-        name={'Search'}
-        component={Home.component}
-        options={options['Search']}
+        name={Search.name}
+        component={Search.component}
+        options={options[Search.name]}
       />
       <Tab.Screen
         name={WriteArticle.name}
@@ -56,7 +56,6 @@ const options: { [x: string]: BottomTabNavigationOptions } = {
       <Icon name="ios-home" style={{ color, fontSize: 25 }} />
     ),
   },
-  /* TODO: modify below to search screen */
   Search: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
