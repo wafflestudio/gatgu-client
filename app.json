@@ -18,10 +18,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "gatgu_ios"
+      "bundleIdentifier": "gatgu"
     },
     "android": {
-      "package": "gatgu_android",
+      "package": "gatgu",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
