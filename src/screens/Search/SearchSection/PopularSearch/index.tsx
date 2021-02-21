@@ -14,7 +14,7 @@ interface IPopularSearchProps {
 function PopularSearch({ tags }: IPopularSearchProps): JSX.Element {
   const navigation = useNavigation();
   const keywordDispatch = useKeywordDispatch();
-  const renderedTags = tags.map((tag) => (
+  const renderedTags = tags.map((tag, ind) => (
     <Tag
       title={tag}
       onPress={() => {
