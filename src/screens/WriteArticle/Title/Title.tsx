@@ -1,21 +1,22 @@
-import { Label } from 'native-base';
 import React, { Dispatch, SetStateAction } from 'react';
 import { View, TextInput } from 'react-native';
 import styles from './Title.style';
+import waStyles from '../WriteArticle.style';
+import { StringInput } from '@/components';
 
-interface Props {
+interface TitleProps {
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
 }
-function Title({ title, setTitle }: Props): JSX.Element {
+function Title({ title, setTitle }: TitleProps): JSX.Element {
   return (
-    <View style={styles.subContainer}>
-      <Label style={styles.label}>제목: </Label>
-      <TextInput
+    <View style={waStyles.subContainer}>
+      <StringInput
+        value={title}
         style={styles.text}
         placeholder="제목"
+        placeholderStyle={styles.placeHolder}
         onChangeText={setTitle}
-        value={title}
       />
     </View>
   );
