@@ -11,4 +11,4 @@ const PopularSearch = StyleSheet.create({
   },
 });
 
-export default Style;
+export default PopularSearch;
