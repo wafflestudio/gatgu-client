@@ -30,7 +30,7 @@ const articleSlice = createSlice({
   initialState,
   reducers: {
     // if getting data  successfully
-    getArticleSuccess: (
+    getArticleSumSuccess: (
       state,
       { payload }: PayloadAction<IGetSuccessPayload>
     ) => {
@@ -40,7 +40,7 @@ const articleSlice = createSlice({
     },
 
     // if getting data fail, show error screen by hasError state.
-    getArticleFailure: (state) => {
+    getArticleSumFailure: (state) => {
       state.hasError = true;
     },
 
@@ -51,8 +51,8 @@ const articleSlice = createSlice({
 });
 
 const {
-  getArticleSuccess,
-  getArticleFailure,
+  getArticleSumSuccess,
+  getArticleSumFailure,
   setPageLimit,
 } = articleSlice.actions;
 
@@ -61,11 +61,11 @@ export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
   articleAPI
     .readAll(page)
     .then((response: AxiosResponse) => {
-      dispatch(getArticleSuccess({ data: response.data }));
+      dispatch(getArticleSumSuccess({ data: response.data }));
     })
     .catch((err: AxiosError) => {
       console.error(err);
-      dispatch(getArticleFailure());
+      dispatch(getArticleSumFailure());
     });
 };
 
