@@ -7,6 +7,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import routes from '@/helpers/routes';
 import { Icon } from 'native-base';
 import { Button } from '@/components';
+import DrawerTemplate from './Drawer';
 
 const {
   Home,
@@ -25,7 +26,10 @@ const Drawer = createDrawerNavigator();
 
 function ArticleDrawer(): JSX.Element {
   return (
-    <Drawer.Navigator drawerPosition="right">
+    <Drawer.Navigator
+      drawerPosition="right"
+      drawerContent={(props) => <DrawerTemplate {...props} />}
+    >
       <Drawer.Screen name={Article.name} component={Article.component} />
       {/* TODO: Add this screen: 
       <Drawer.Screen name="ArticleEdit" component={ArticleEditScreen} /> */}
