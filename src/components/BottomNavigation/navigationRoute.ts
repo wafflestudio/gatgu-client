@@ -3,7 +3,6 @@ import {
   ProfileStackScreen,
   WriteArticleStackScreen,
   ChattingStackScreen,
-  LoginStackScreen,
 } from '@/screens/StackScreens';
 import { Search } from '@/screens';
 
@@ -34,7 +33,7 @@ const routes = {
   },
   Profile: {
     name: 'Profile',
-    component: LoginStackScreen,
+    component: ProfileStackScreen,
   },
   // TODO: modify to Search
   AppLoading: {
