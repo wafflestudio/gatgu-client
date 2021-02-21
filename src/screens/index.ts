@@ -8,3 +8,5 @@ export { default as Article } from './Article';
 export { default as ChatListElem } from './ChatListElem';
 export { default as Search } from './Search';
 export { default as SearchedArticle } from './Search/SearchedArticle';
+export { default as Login } from './Login';
+export { default as ProfileModify } from './ProfileModify';
