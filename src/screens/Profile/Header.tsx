@@ -2,10 +2,12 @@ import { View, Text, TouchableHighlight } from 'react-native';
 import styles from './Header.style';
 import React, { useState } from 'react';
 import { Button } from '@/components';
+import { useNavigation } from '@react-navigation/native';
 
 function Header(): JSX.Element {
   // if option is open
   const [opOpen, setOpOpen] = useState(false);
+  const navigation = useNavigation();
 
   // "뒤로" button onClick
   const goBack = () => {
@@ -22,7 +24,7 @@ function Header(): JSX.Element {
   };
 
   const logout = () => {
-    alert('not implemented');
+    navigation.navigate('Login');
   };
 
   // Header Modal: 수정하기, 로그아웃하기
