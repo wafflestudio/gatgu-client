@@ -2,18 +2,41 @@ export interface IArticleSumProps {
   id: number;
   title: string;
   dayLeft: string;
-  goal: string;
   location: string;
+  goal: string;
   percent: number;
   uri: string;
   created: string;
   isMoney: boolean;
 }
 
-export interface IPageLimitRes {
-  pageLimit: {
-    limit: number;
-  };
+export interface IArticleSumProps {
+  id: number;
+  title: string;
+  dayLeft: string;
+  location: string;
+  thumbnail_url: string;
+  price_min: string;
+  people_count_min: string;
+
+  // 다음 field model에는 없지만 추가적으로 필요합니다!
+  dueDate: string;
+  isMoney: boolean;
+}
+
+export interface IArticleSumSearchProps {
+  id: number;
+  title: string;
+  dayLeft: string;
+  location: string;
+  thumbnail_url: string;
+  price_min: string;
+  people_count_min: string;
+
+  // 다음 field model에는 없지만 추가적으로 필요합니다!
+  dueDate: string;
+  isMoney: boolean;
+  transactionStatus: string;
 }
 
 export interface IArticleProps {
@@ -53,7 +76,8 @@ export interface IGetFailPayload {
   errorStatus: number;
 }
 
-// Todo : combine interfaces after refactoring home screen feature
+// TODO:
+// combine interfaces after refactoring home screen feature
 
 export interface IGetSuccessPayload {
   data: IArticleSumProps[];

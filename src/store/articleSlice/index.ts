@@ -11,12 +11,6 @@ export interface IArticleSlice {
   pageLimit: number;
 }
 
-interface IPageLimitPayload {
-  pageLimit: {
-    limit: number;
-  };
-}
-
 const initialState: IArticleSlice = {
   page: 1,
   hasError: false,
@@ -43,18 +37,10 @@ const articleSlice = createSlice({
     getArticleSumFailure: (state) => {
       state.hasError = true;
     },
-
-    setPageLimit: (state, { payload }: PayloadAction<IPageLimitPayload>) => {
-      state.pageLimit = payload.pageLimit.limit;
-    },
   },
 });
 
-const {
-  getArticleSumSuccess,
-  getArticleSumFailure,
-  setPageLimit,
-} = articleSlice.actions;
+const { getArticleSumSuccess, getArticleSumFailure } = articleSlice.actions;
 
 // Asynchronous thunk action
 export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
@@ -67,17 +53,6 @@ export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
       console.error(err);
       dispatch(getArticleSumFailure());
     });
-};
-
-// TODO: check
-// Fix Me!!!
-export const getPageLimit = (): AppThunk => (dispatch) => {
-  articleAPI
-    .readPageLimit()
-    .then((response: AxiosResponse) => {
-      dispatch(setPageLimit(response.data));
-    })
-    .catch((err: AxiosError) => console.log(err));
 };
 
 export default articleSlice.reducer;
