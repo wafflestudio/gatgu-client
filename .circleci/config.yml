@@ -1,7 +1,25 @@
 version: 2.1
-orbs:
-  node: circleci/node@3.0.0
+jobs:
+  # build:
+  # for npm install and testing --> job macos-build will require build
+  #
+  # android-build
+  macos-build:
+    working_directory: ~/gatgu-client
+    macos:
+      xcode: 11.3.0
+    # environement
+    steps:
+      - checkout
+      - run: npm install
+      - run:
+        command: pod install
+        working_directory: ios
+      - run:
+        command: npm run ios
+        working_directory: ios
+
 workflows:
-  node-tests:
+  macos:
     jobs:
-      - node/test
+      - macos-build
