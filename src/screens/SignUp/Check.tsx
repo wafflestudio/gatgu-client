@@ -19,7 +19,7 @@ function Check({
   const navigation = useNavigation();
 
   const goToTOS = () => {
-    navigation.navigate('TOS');
+    navigation.navigate('TOS', { title });
   };
 
   return (
