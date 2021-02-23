@@ -13,7 +13,7 @@ import {
   ProfileModify,
   Login,
   SignUp,
-  Agreements,
+  TOS,
 } from '@/screens';
 
 const routes = {
@@ -73,9 +73,9 @@ const routes = {
     name: 'SignUp',
     component: SignUp,
   },
-  Agreements: {
-    name: 'Agreements',
-    component: Agreements,
+  TOS: {
+    name: 'TOS',
+    component: TOS,
   },
 };
 

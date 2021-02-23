@@ -1,3 +1,4 @@
+import { Button } from '@/components';
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import Check, { ICheckProps } from './Check';
@@ -21,6 +22,7 @@ function SignUpTemplate(): JSX.Element {
   const [a2, setA2] = useState(false);
   const [a3, setA3] = useState(false);
 
+  // TODO: useMemo
   const inputs: IInputProps[] = [
     {
       value: id,
@@ -95,10 +97,27 @@ function SignUpTemplate(): JSX.Element {
     },
   ];
 
+  // TODO: useMemo
+  // FIXME: onPress를 토글 함수로
   const checks: ICheckProps[] = [
-    { title: '같구 이용약관 동의', checked: a1, setCheck: setA1 },
-    { title: '개인정보 수집 및 이용 동의', checked: a2, setCheck: setA2 },
-    { title: '위치정보 이용약관 동의', checked: a3, setCheck: setA3 },
+    {
+      title: '같구 이용약관 동의',
+      checked: a1,
+      isOptional: false,
+      onPress: () => setA1(true),
+    },
+    {
+      title: '개인정보 수집 및 이용 동의',
+      checked: a2,
+      isOptional: false,
+      onPress: () => setA2(true),
+    },
+    {
+      title: '위치정보 이용약관 동의',
+      checked: a3,
+      isOptional: true,
+      onPress: () => setA3(true),
+    },
   ];
 
   return (
@@ -110,6 +129,8 @@ function SignUpTemplate(): JSX.Element {
       {checks.map((item, i) => (
         <Check {...item} key={i} />
       ))}
+      {/* FIXME: style & onPress */}
+      <Button title="가입하기" style={{}} onPress={() => true} />
     </View>
   );
 }
