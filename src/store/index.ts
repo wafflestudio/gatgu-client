@@ -2,10 +2,11 @@ import { combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
 
 import articleReducer from './articleSlice';
 import userReducer from './userSlice';
-
+import searchedReducer from './searchedArticleSlice';
 const rootReducer = combineReducers({
   article: articleReducer,
   user: userReducer,
+  search: searchedReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

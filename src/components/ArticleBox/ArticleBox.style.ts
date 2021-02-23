@@ -33,6 +33,11 @@ const PostBoxStyles = StyleSheet.create({
     height: 19,
     marginTop: '1.6%',
   },
+  goalWrapper: {
+    position: 'absolute',
+    top: 79,
+    width: '53.5%',
+  },
 });
 
 export default PostBoxStyles;

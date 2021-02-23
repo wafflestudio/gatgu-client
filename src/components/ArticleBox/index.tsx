@@ -9,6 +9,7 @@ import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
 
 function ArticleBox({
+  id,
   title,
   dayLeft,
   goal,
@@ -22,7 +23,12 @@ function ArticleBox({
   return (
     <TouchableOpacity
       style={styles.postBox}
-      onPress={() => navigation.navigate('Article')}
+      onPress={() =>
+        navigation.navigate('Article', {
+          screen: 'ArticlePage',
+          params: { id: id },
+        })
+      }
     >
       <Thumbnail uri={uri} w={107} h={107} />
       <View style={styles.articleBox}>
@@ -32,7 +38,9 @@ function ArticleBox({
           <Text style={styles.description}>{dayLeft} · </Text>
           <Text style={styles.description}>{location}</Text>
         </View>
-        <GoalBar percent={percent} goal={goal} isMoney={isMoney} />
+        <View style={styles.goalWrapper}>
+          <GoalBar percent={percent} goal={goal} isMoney={isMoney} />
+        </View>
       </View>
     </TouchableOpacity>
   );

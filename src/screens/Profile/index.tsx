@@ -8,7 +8,7 @@ import History from './HistoryList';
 const dummyInfo = {
   profileUrl: 'https://reactjs.org/logo-og.png',
   name: '같구',
-  date: '1920-10-80',
+  date: '1920.10.80',
   auth: false,
   grade: 2,
   emdrmqwltn: 128,
@@ -21,7 +21,6 @@ const dummyInfo = {
 function ProfileTemplate(): JSX.Element {
   return (
     <>
-      <Header />
       <Info dummyInfo={dummyInfo} />
       <Grade dummyInfo={dummyInfo} />
       <History />

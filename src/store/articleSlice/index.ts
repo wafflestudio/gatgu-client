@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { articleAPI } from '@/apis';
-import { IArticleSumProps } from '@/types/article';
+import { IArticleSumProps, IGetSuccessPayload } from '@/types/article';
 import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
 
@@ -9,10 +9,6 @@ export interface IArticleSlice {
   hasError: boolean;
   data: IArticleSumProps[];
   pageLimit: number;
-}
-
-interface IArticlePayload {
-  data: IArticleSumProps[];
 }
 
 interface IPageLimitPayload {
@@ -34,14 +30,17 @@ const articleSlice = createSlice({
   initialState,
   reducers: {
     // if getting data  successfully
-    getArticleSuccess: (state, { payload }: PayloadAction<IArticlePayload>) => {
+    getArticleSumSuccess: (
+      state,
+      { payload }: PayloadAction<IGetSuccessPayload>
+    ) => {
       state.data.push(...payload.data);
       state.hasError = false;
       state.page += 1;
     },
 
     // if getting data fail, show error screen by hasError state.
-    getArticleFailure: (state) => {
+    getArticleSumFailure: (state) => {
       state.hasError = true;
     },
 
@@ -52,8 +51,8 @@ const articleSlice = createSlice({
 });
 
 const {
-  getArticleSuccess,
-  getArticleFailure,
+  getArticleSumSuccess,
+  getArticleSumFailure,
   setPageLimit,
 } = articleSlice.actions;
 
@@ -62,11 +61,11 @@ export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
   articleAPI
     .readAll(page)
     .then((response: AxiosResponse) => {
-      dispatch(getArticleSuccess({ data: response.data }));
+      dispatch(getArticleSumSuccess({ data: response.data }));
     })
     .catch((err: AxiosError) => {
       console.error(err);
-      dispatch(getArticleFailure());
+      dispatch(getArticleSumFailure());
     });
 };
 

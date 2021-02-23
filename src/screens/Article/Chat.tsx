@@ -8,13 +8,9 @@ import { useNavigation } from '@react-navigation/native';
 function Chat(): JSX.Element {
   const navigation = useNavigation();
 
-  const chattingRedirect = () => {
-    navigation.navigate('ChatListElem');
-  };
-
   return (
     <View style={styles.userContainer}>
-      <TouchableHighlight onPress={chattingRedirect}>
+      <TouchableHighlight onPress={() => navigation.navigate('ChatListElem')}>
         <View style={styles.chattingButton}>
           <Text style={styles.chattingText}>구매 채팅으로 가기</Text>
         </View>

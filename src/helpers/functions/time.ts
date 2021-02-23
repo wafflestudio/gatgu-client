@@ -9,8 +9,23 @@ export const remainTime = (deadline: string): string => {
   return dayLeft ? `${dayLeft}일 남았습니다.` : '오늘 마감입니다.';
 };
 
-// TODO: Will change after discussing how to display time
-export const calcTimeDiff = (start: Date, end: Date) => {
-  // do calculations to convert accordingly
-  return end.valueOf() - start.valueOf();
+// for current date (new Date()), use 'current' as input
+export const calcTimeDiff = (start: string, end: string) => {
+  const startDate = start === 'current' ? new Date() : new Date(start);
+  const endDate = end === 'current' ? new Date() : new Date(end);
+
+  const miliseconds = startDate.valueOf() - endDate.valueOf();
+  const seconds = Math.trunc(miliseconds / 1000);
+  const min = Math.trunc(seconds / 60);
+  const hour = Math.trunc(min / 60);
+  const day = Math.trunc(hour / 24);
+
+  let result, type;
+  if (day !== 0) (result = day), (type = '일');
+  else if (hour !== 0) (result = hour), (type = '시간');
+  else if (min !== 0) (result = min), (type = '분');
+  else if (seconds !== 0) (result = seconds), (type = '초');
+  else (result = 0), (type = '초');
+
+  return { diff: result, type: type };
 };

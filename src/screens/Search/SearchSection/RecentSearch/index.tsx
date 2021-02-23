@@ -1,28 +1,24 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Tag from '@/components/Button';
 import SearchStyle from '../../Search.style';
+import { useKeywordDispatch } from '@/helpers/hooks';
 
-const mockData = [
-  '검색어1',
-  '검색어2',
-  '검색어3',
-  '검색어4',
-  '검색어5',
-  '검색어6',
-  '검색어7',
-  '검색어8',
-  '검색어9',
-  '검색어10',
-];
+interface IRecentSearchProps {
+  tags: string[];
+}
 
-function RecentSearch(): JSX.Element {
-  const renderedTags = mockData.map((tag) => (
+function RecentSearch({ tags }: IRecentSearchProps): JSX.Element {
+  const navigation = useNavigation();
+  const keywordDispatch = useKeywordDispatch();
+  const renderedTags = tags.map((tag) => (
     <Tag
       title={tag}
       onPress={() => {
-        console.log('');
+        keywordDispatch(tag);
+        navigation.navigate('SearchedArticle');
       }}
       style={SearchStyle.tagBox}
       key={tag}

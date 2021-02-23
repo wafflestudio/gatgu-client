@@ -7,6 +7,9 @@ const HistoryListStyle = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
   },
+  HistoryButton: {
+    fontSize: 18,
+  },
 });
 
 export default HistoryListStyle;
