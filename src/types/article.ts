@@ -1,3 +1,5 @@
+// TODO:
+// remove this
 export interface IArticleSumProps {
   id: number;
   title: string;
@@ -24,21 +26,25 @@ export interface IArticleSumProps {
   isMoney: boolean;
 }
 
-export interface IArticleSumSearchProps {
-  id: number;
-  title: string;
-  dayLeft: string;
-  location: string;
-  thumbnail_url: string;
-  price_min: string;
-  people_count_min: string;
-
-  // 다음 field model에는 없지만 추가적으로 필요합니다!
-  dueDate: string;
-  isMoney: boolean;
+export interface IArticleSumSearchProps extends IArticleSumProps {
   transactionStatus: string;
 }
 
+interface IPagination {
+  count: number;
+  next: string;
+  previous: string;
+}
+
+export interface IArticleSumResponse extends IPagination {
+  results: IArticleSumProps[];
+}
+
+export interface IArticleSumSearchResponse extends IPagination {
+  results: IArticleSumSearchProps[];
+}
+
+//article detail
 export interface IArticleProps {
   id: string;
   writer: {
