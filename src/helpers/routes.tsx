@@ -48,6 +48,7 @@ const routes = {
   Login: {
     name: 'Login',
     component: Login,
+  },
   Search: {
     name: 'Search',
     component: Search,
