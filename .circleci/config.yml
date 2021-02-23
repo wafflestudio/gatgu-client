@@ -13,11 +13,11 @@ jobs:
       - checkout
       - run: npm install
       - run:
-        command: pod install
-        working_directory: ios
+          command: pod install
+          working_directory: ios
       - run:
-        command: npm run ios
-        working_directory: ios
+          command: npm run ios
+          working_directory: ios
 
 workflows:
   macos:
