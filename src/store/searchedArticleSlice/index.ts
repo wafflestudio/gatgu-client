@@ -133,13 +133,13 @@ const loadNextArticles = (): AppThunk => (dispatch) => {
     });
 };
 
+// 초기에 popularSearch와 RecentSearch 설정
 const initSearchData = (): AppThunk => (dispatch) => {
   SearchAPI.getPopularSearchKeyword().then((res) => {
     dispatch(setPopularSearch({ data: res }));
   });
   AsyncStorage.getItem(asyncStoragekey.RECENT_SEARCH)
     .then((res) => {
-      // console.log(res);
       if (res === null) {
         dispatch(setRecentSearch({ data: [] }));
       } else {
