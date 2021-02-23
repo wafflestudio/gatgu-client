@@ -8,9 +8,9 @@ import Tag from '@/components/Button';
 import SearchStyle from '../../Search.style';
 import { useKeywordDispatch } from '@/helpers/hooks';
 import RecentSearchStyle from './RecentSearch.style';
-import { asyncStorageFunc } from '@/helpers/functions';
+import * as asyncStorageFunc from '@/helpers/functions/asyncStorage';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { removeKeyword } from '@/store/searchedArticleSlice';
+import { removeKeyword } from '@/store/searchSlice';
 
 interface IRecentSearchProps {
   tags: string[];
