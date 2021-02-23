@@ -1,21 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { articleAPI } from '@/apis';
-import { IArticleSumProps, IGetSuccessPayload } from '@/types/article';
+import {
+  IArticleSumProps,
+  IGetSuccessPayload,
+  IGetFailPayload,
+} from '@/types/article';
+import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
 
 export interface IArticleSlice {
-  page: number;
   hasError: boolean;
+  errorStatus: number;
   data: IArticleSumProps[];
-  pageLimit: number;
+  isLoading: boolean;
+  next: string;
+  previous: string;
 }
 
 const initialState: IArticleSlice = {
-  page: 1,
   hasError: false,
+  errorStatus: -100,
   data: [],
-  pageLimit: 1,
+  isLoading: false,
+  next: '',
+  previous: '',
 };
 
 // article store + basic action
@@ -30,28 +39,70 @@ const articleSlice = createSlice({
     ) => {
       state.data.push(...payload.data);
       state.hasError = false;
-      state.page += 1;
+      state.isLoading = false;
+      state.next = payload.next;
+      state.previous = payload.previous;
     },
 
     // if getting data fail, show error screen by hasError state.
-    getArticleSumFailure: (state) => {
+    getArticleSumFailure: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
       state.hasError = true;
+      state.isLoading = false;
+      state.errorStatus = payload.errorStatus;
+    },
+    setLoading(state) {
+      state.isLoading = true;
     },
   },
 });
 
-const { getArticleSumSuccess, getArticleSumFailure } = articleSlice.actions;
+const {
+  getArticleSumSuccess,
+  getArticleSumFailure,
+  setLoading,
+} = articleSlice.actions;
 
 // Asynchronous thunk action
-export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
+export const getArticlesPerPage = (): AppThunk => (dispatch) => {
+  dispatch(setLoading());
   articleAPI
-    .readAll(page)
+    // TODO:
+    // replace this with real api function.
+    .readAll(1)
     .then((response: AxiosResponse) => {
-      dispatch(getArticleSumSuccess({ data: response.data }));
+      dispatch(
+        getArticleSumSuccess({ data: response.data, next: '', previous: '' })
+      );
     })
     .catch((err: AxiosError) => {
-      console.error(err);
-      dispatch(getArticleSumFailure());
+      if (err.response) {
+        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
+      }
+    });
+};
+
+export const loadNextArticles = (): AppThunk => (dispatch) => {
+  dispatch(setLoading());
+  articleAPI
+    // TODO:
+    // replace this with real api function.
+    .readAll(2)
+    .then((res: AxiosResponse) => {
+      dispatch(
+        getArticleSumSuccess({ data: res.data, next: '', previous: '' })
+      );
+    })
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
+      }
     });
 };
 
