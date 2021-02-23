@@ -11,7 +11,12 @@ function HistoryList(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <Button color="black" title="거래내역 목록" onPress={goToHistory} />
+      <Button
+        color="black"
+        title="거래내역 목록"
+        onPress={goToHistory}
+        titleStyle={styles.HistoryButton}
+      />
     </View>
   );
 }
