@@ -1,4 +1,5 @@
 import requester from './BaseInstance';
+import { IArticleSumSearchResponse } from '@/types/article';
 
 export const getPopularSearchKeyword = (): Promise<string[]> => {
   // TODO:
@@ -18,13 +19,15 @@ export const getPopularSearchKeyword = (): Promise<string[]> => {
   });
 };
 
-export const getArticlesWithKeyword = ({
-  keyword,
-}: {
-  keyword: string;
-}): Promise<string[]> => {
-  // TODO:
-  // change url
-  const url = `posts?search=${keyword}`;
-  return requester.get(url);
+export const searchArticles = (
+  keyword: string
+): Promise<IArticleSumSearchResponse> => {
+  return requester.get(`articles/?search=${keyword}&page=1`);
+};
+
+export const loadMoreArticles = (
+  keyword: string,
+  url: string
+): Promise<IArticleSumSearchResponse> => {
+  return requester.get(url + `&search=${keyword}`);
 };
