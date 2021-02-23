@@ -17,6 +17,9 @@ const {
   ChattingList,
   Search,
   SearchedArticle,
+  ProfileModify,
+  Login,
+  SignUp,
 } = routes;
 
 // TODO: 이거 여기서 정의하는 거보다 각 function 안에서 정의하는 게 낫지 않을까요
@@ -88,6 +91,27 @@ function ProfileStackScreen(): JSX.Element {
       <ProfileStack.Screen
         name={Profile.name}
         component={Profile.component}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <ProfileStack.Screen
+        name={ProfileModify.name}
+        component={ProfileModify.component}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <ProfileStack.Screen
+        name={Login.name}
+        component={Login.component}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <ProfileStack.Screen
+        name={SignUp.name}
+        component={SignUp.component}
         options={{
           headerTitleAlign: 'center',
         }}
