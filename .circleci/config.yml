@@ -3,23 +3,33 @@ jobs:
   # build:
   # for npm install and testing --> job macos-build will require build
   #
-  # android-build
-  macos-build:
+  android-build:
     working_directory: ~/gatgu-client
-    macos:
-      xcode: 11.3.0
+    docker:
+      - image: circleci/android:api-27-node8-alpha
     # environement
     steps:
       - checkout
       - run: npm install
       - run:
-        command: pod install
-        working_directory: ios
-      - run:
-        command: npm run ios
-        working_directory: ios
+          command: npm run android
+          working_directory: android
+  # macos-build:
+  #   working_directory: ~/gatgu-client
+  #   macos:
+  #     xcode: 11.3.0
+  #   # environement
+  #   steps:
+  #     - checkout
+  #     - run: npm install
+  #     - run:
+  #         command: pod install
+  #         working_directory: ios
+  #     - run:
+  #         command: npm run ios
+  #         working_directory: ios
 
 workflows:
   macos:
     jobs:
-      - macos-build
+      - android-build
