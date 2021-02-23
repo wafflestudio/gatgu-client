@@ -1,7 +1,11 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
-import { IArticleSumProps, IArticleProps } from '@/types/article';
+import {
+  IArticleSumProps,
+  IArticleProps,
+  IArticleSumResponse,
+} from '@/types/article';
 
 // for home page
 export const readAll = (
@@ -10,6 +14,12 @@ export const readAll = (
   // TODO: check
   // pagination 이렇게 안하는데, 백엔드와 논의 필요
   const url = `posts?_limit=7&_page=${page}`;
+  return requester.get(url);
+};
+
+export const getArticleSummary = (
+  url: string
+): Promise<AxiosResponse<IArticleSumResponse>> => {
   return requester.get(url);
 };
 
