@@ -4,7 +4,13 @@ const RecentSearchStyle = StyleSheet.create({
   tagsWrapper: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    width: '100%',
+    alignItems: 'center',
+    paddingRight: 7,
+  },
+  Icon: {
+    fontSize: 15,
+    color: 'gray',
+    paddingLeft: 3,
   },
 });
 

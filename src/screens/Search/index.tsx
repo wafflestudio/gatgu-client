@@ -11,6 +11,7 @@ import { useSelector } from '@/helpers/hooks';
 function Search(): JSX.Element {
   const dispatch = useDispatch();
   const keyword = useSelector((state) => state.search.keyword);
+
   useEffect(() => {
     // set popular keyword, recent keyword
     dispatch(initSearchData());
