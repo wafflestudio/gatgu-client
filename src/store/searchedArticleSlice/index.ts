@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   IArticleSumProps,
-  IGetSuccessPayloadV1,
+  IGetSuccessPayload,
   IGetFailPayload,
 } from '@/types/article';
 import { AppThunk } from '@/store';
@@ -50,12 +50,12 @@ const searchedArticleSlice = createSlice({
   name: 'searchedArticle',
   initialState,
   reducers: {
-    getArticleSuccess(state, { payload }: PayloadAction<IGetSuccessPayloadV1>) {
+    getArticleSuccess(state, { payload }: PayloadAction<IGetSuccessPayload>) {
       state.data.push(...payload.data);
       state.isLoading = false;
       state.hasError = false;
       state.next = payload.next;
-      state.previous = payload.pervieous;
+      state.previous = payload.previous;
     },
     getArticleFailure(state, { payload }: PayloadAction<IGetFailPayload>) {
       state.isLoading = false;

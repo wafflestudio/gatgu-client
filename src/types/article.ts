@@ -82,15 +82,8 @@ export interface IGetFailPayload {
   errorStatus: number;
 }
 
-// TODO:
-// combine interfaces after refactoring home screen feature
-
 export interface IGetSuccessPayload {
   data: IArticleSumProps[];
-}
-
-export interface IGetSuccessPayloadV1 {
-  data: IArticleSumProps[];
   next: string;
-  pervieous: string;
+  previous: string;
 }
