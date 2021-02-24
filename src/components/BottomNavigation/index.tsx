@@ -3,9 +3,9 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
 } from '@react-navigation/bottom-tabs';
-import TabIcon from '@/assets/TabIcon';
 import navigationRoute from './navigationRoute';
 import { Icon } from 'native-base';
+import BottomNavigationStyle from './BottomNavigation.style';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,32 +54,45 @@ const options: { [x: string]: BottomTabNavigationOptions } = {
   Home: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-home" style={{ color, fontSize: 25 }} />
+      <Icon name="ios-home" style={[{ color }, BottomNavigationStyle.Icon]} />
     ),
+    tabBarLabel: '홈',
   },
   Search: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-search" style={{ color, fontSize: 25 }} />
+      <Icon name="ios-search" style={[{ color }, { fontSize: 30 }]} />
     ),
+    tabBarLabel: '검색',
   },
   WriteArticle: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-book" style={{ color, fontSize: 25 }} />
+      <Icon name="ios-add-circle" style={[{ color }, { fontSize: 31 }]} />
     ),
+    tabBarLabel: '글쓰기',
   },
   ChattingList: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-heart" style={{ color, fontSize: 25 }} />
+      <Icon
+        type={'Ionicons'}
+        name="chatbubble-outline"
+        style={[{ color }, BottomNavigationStyle.Icon]}
+      />
     ),
+    tabBarLabel: '채팅',
   },
   Profile: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-add-circle" style={{ color, fontSize: 25 }} />
+      <Icon
+        name="ellipsis-horizontal-circle"
+        type={'Ionicons'}
+        style={[{ color }, { fontSize: 32 }]}
+      />
     ),
+    tabBarLabel: '더보기',
   },
 };
 
