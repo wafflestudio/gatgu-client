@@ -13,9 +13,9 @@ jobs:
       - checkout:
           path: ~/gatgu-client
       - run: 
-        command: |
-          cd android
-          bundle install
+          command: |
+            cd android
+            bundle install
       - run:
           name: fastlane tests
           command: |
