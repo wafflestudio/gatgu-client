@@ -1,21 +1,50 @@
+// TODO:
+// remove this
 export interface IArticleSumProps {
   id: number;
   title: string;
   dayLeft: string;
-  goal: string;
   location: string;
+  goal: string;
   percent: number;
   uri: string;
   created: string;
   isMoney: boolean;
 }
 
-export interface IPageLimitRes {
-  pageLimit: {
-    limit: number;
-  };
+export interface IArticleSumProps {
+  id: number;
+  title: string;
+  dayLeft: string;
+  location: string;
+  thumbnail_url: string;
+  price_min: string;
+  people_count_min: string;
+
+  // 다음 field model에는 없지만 추가적으로 필요합니다!
+  dueDate: string;
+  isMoney: boolean;
 }
 
+export interface IArticleSumSearchProps extends IArticleSumProps {
+  transactionStatus: string;
+}
+
+interface IPagination {
+  count: number;
+  next: string;
+  previous: string;
+}
+
+export interface IArticleSumResponse extends IPagination {
+  results: IArticleSumProps[];
+}
+
+export interface IArticleSumSearchResponse extends IPagination {
+  results: IArticleSumSearchProps[];
+}
+
+//article detail
 export interface IArticleProps {
   id: string;
   writer: {
@@ -53,14 +82,8 @@ export interface IGetFailPayload {
   errorStatus: number;
 }
 
-// Todo : combine interfaces after refactoring home screen feature
-
 export interface IGetSuccessPayload {
   data: IArticleSumProps[];
-}
-
-export interface IGetSuccessPayloadV1 {
-  data: IArticleSumProps[];
   next: string;
-  pervieous: string;
+  previous: string;
 }
