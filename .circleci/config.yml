@@ -18,7 +18,7 @@ jobs:
           name: fastlane tests
           command: |
             cd android
-            bundle exec fastlane test
+            bundle exec fastlane beta
   # macos-build:
   #   working_directory: ~/gatgu-client
   #   macos:
