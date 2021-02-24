@@ -16,6 +16,7 @@ jobs:
       - run:
           name: fastlane tests
           command: |
+            cd android
             mkdir -p test-results/fastlane
             bundle exec fastlane test
             mv fastlane/report.xml test-results/fastlane
