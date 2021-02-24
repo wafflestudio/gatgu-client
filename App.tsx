@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native';
 import BottomNavigation from '@/components/BottomNavigation';
 import routes from '@/helpers/routes';
 
-const {ChatListElem} = routes;
+const { ChatListElem, Login } = routes;
 
 const Stack = createStackNavigator();
 
@@ -42,6 +42,11 @@ function App() {
             <Stack.Screen
               name={ChatListElem.name}
               component={ChatListElem.component}
+            />
+            <Stack.Screen
+              name={Login.name}
+              component={Login.component}
+              options={{ headerShown: false }}
             />
           </Stack.Navigator>
         </SafeAreaView>

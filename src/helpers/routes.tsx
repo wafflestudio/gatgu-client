@@ -7,6 +7,7 @@ import {
   Home,
   Notification,
   ChatListElem,
+  Login,
   Search,
   SearchedArticle,
 } from '@/screens';
@@ -43,6 +44,10 @@ const routes = {
   ChatListElem: {
     name: 'ChatListElem',
     component: ChatListElem,
+  },
+  Login: {
+    name: 'Login',
+    component: Login,
   },
   Search: {
     name: 'Search',
