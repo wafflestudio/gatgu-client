@@ -1,8 +1,9 @@
 import { Button } from '@/components';
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import Check, { ICheckProps } from './Check';
 import Input, { IInputProps } from './Input';
+import styles from './SignUp.style';
 
 function SignUpTemplate(): JSX.Element {
   // input
@@ -40,6 +41,7 @@ function SignUpTemplate(): JSX.Element {
       invalidString: '8자~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.',
       validString: '',
       isValid: false,
+      marginBottom: 6,
     },
     {
       value: pc,
@@ -72,6 +74,7 @@ function SignUpTemplate(): JSX.Element {
       invalidString: '필수정보입니다.',
       validString: '',
       isValid: false,
+      marginBottom: 6,
     },
     {
       value: cd,
@@ -122,17 +125,26 @@ function SignUpTemplate(): JSX.Element {
   ];
 
   return (
-    <View>
-      <Text>같구에 오신 것을 환영합니다.</Text>
-      {inputs.map((item, i) => (
-        <Input {...item} key={i} />
-      ))}
-      {checks.map((item, i) => (
-        <Check {...item} key={i} />
-      ))}
-      {/* FIXME: style & onPress */}
-      <Button title="가입하기" style={{}} onPress={() => true} />
-    </View>
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
+      <View>
+        {inputs.map((item, i) => (
+          <Input {...item} key={i} />
+        ))}
+      </View>
+      <View>
+        {checks.map((item, i) => (
+          <Check {...item} key={i} />
+        ))}
+      </View>
+      {/* FIXME: onPress */}
+      <Button
+        title="가입하기"
+        style={styles.confirmBtnCon}
+        textStyle={styles.confirmBtnText}
+        onPress={() => true}
+      />
+    </ScrollView>
   );
 }
 
