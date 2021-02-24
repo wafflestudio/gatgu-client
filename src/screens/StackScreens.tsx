@@ -1,12 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
-import { TouchableHighlight, Text } from 'react-native';
+import { TouchableHighlight } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import routes from '@/helpers/routes';
 import { Icon } from 'native-base';
 import { Button } from '@/components';
+import Logo from '@/assets/Logo';
 
 const {
   Home,
@@ -50,15 +51,20 @@ function HomeStackScreen(): JSX.Element {
         name={Home.name}
         component={Home.component}
         options={{
-          headerTitleAlign: 'center',
+          // eslint-disable-next-line react/display-name
+          headerTitle: () => (
+            <Logo.subLogo style={{ width: 94.4, height: 30 }} />
+          ),
           // eslint-disable-next-line react/display-name
           headerRight: () => (
             <TouchableHighlight
               onPress={() => navigation.navigate('Notification')}
             >
-              <Text>알림 아이콘</Text>
+              <Icon type={'Ionicons'} name="ios-notifications-outline" />
             </TouchableHighlight>
           ),
+          headerRightContainerStyle: { paddingRight: 10, paddingTop: 5 },
+          headerTitleAlign: 'center',
         }}
       />
       <HomeStack.Screen
