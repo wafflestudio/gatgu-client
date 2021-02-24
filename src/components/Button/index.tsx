@@ -1,9 +1,15 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleProp, TextStyle } from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  StyleProp,
+  TextStyle,
+  GestureResponderEvent,
+} from 'react-native';
 
 interface ButtonProps {
   title: string;
-  onPress: () => void;
+  onPress: (e: GestureResponderEvent) => void;
   textStyle?: StyleProp<TextStyle>;
   [x: string]: any;
 }
