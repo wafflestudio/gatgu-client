@@ -4,6 +4,7 @@ import { View, ScrollView, Text } from 'react-native';
 import Check, { ICheckProps } from './Check';
 import Input, { IInputProps } from './Input';
 import styles from './SignUp.style';
+import checkStyles from './Check.style';
 
 function SignUpTemplate(): JSX.Element {
   // input
@@ -19,9 +20,10 @@ function SignUpTemplate(): JSX.Element {
 
   // checkbox
   // FIXME: 변수명 추천받아요
-  const [a1, setA1] = useState(false);
-  const [a2, setA2] = useState(false);
-  const [a3, setA3] = useState(false);
+  const [cAll, setCAll] = useState(false);
+  const [c1, setC1] = useState(false);
+  const [c2, setC2] = useState(false);
+  const [c3, setC3] = useState(false);
 
   // TODO: useMemo
   const inputs: IInputProps[] = [
@@ -113,23 +115,27 @@ function SignUpTemplate(): JSX.Element {
   const checks: ICheckProps[] = [
     {
       title: '같구 이용약관 동의',
-      checked: a1,
+      checked: c1,
       isOptional: false,
-      onPress: () => setA1(true),
+      onPress: () => setC1(true),
     },
     {
       title: '개인정보 수집 및 이용 동의',
-      checked: a2,
+      checked: c2,
       isOptional: false,
-      onPress: () => setA2(true),
+      onPress: () => setC2(true),
     },
     {
       title: '위치정보 이용약관 동의',
-      checked: a3,
+      checked: c3,
       isOptional: true,
-      onPress: () => setA3(true),
+      onPress: () => setC3(true),
     },
   ];
+
+  const selectAll = () => {
+    // TODO: implement
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -138,6 +144,19 @@ function SignUpTemplate(): JSX.Element {
         {inputs.map((item, i) => (
           <Input {...item} key={i} />
         ))}
+      </View>
+      <View style={checkStyles.titleContainer}>
+        <Button
+          title=""
+          style={cAll ? checkStyles.buttonTrue : checkStyles.buttonFalse}
+          onPress={selectAll}
+        />
+        <View style={checkStyles.textWrapper}>
+          <Text style={checkStyles.allTitle}>
+            같구 이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에 모두
+            동의합니다.
+          </Text>
+        </View>
       </View>
       <View>
         {checks.map((item, i) => (

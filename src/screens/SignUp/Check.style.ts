@@ -14,6 +14,11 @@ const CheckStyle = StyleSheet.create({
     width: '100%',
     position: 'relative',
   },
+  titleContainer: {
+    marginBottom: 27,
+    width: '100%',
+    position: 'relative',
+  },
   buttonTrue: {
     ...button,
     backgroundColor: palette.blue,
@@ -29,9 +34,15 @@ const CheckStyle = StyleSheet.create({
     height: 19,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   title: {
     ...typo.boldInfo,
+  },
+  allTitle: {
+    ...typo.boldInfo,
+    textDecorationLine: 'underline',
+    marginTop: -10,
   },
   optional: {
     ...typo.info,
