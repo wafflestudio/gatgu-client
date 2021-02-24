@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   IArticleSumProps,
@@ -8,6 +9,7 @@ import {
 } from '@/types/article';
 import { AppThunk } from '@/store';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
+import { asyncStoragekey } from '@/constants/asyncStorage';
 import { articleAPI, SearchAPI } from '@/apis';
 
 export interface ISearchedArticleSlice {
@@ -29,6 +31,7 @@ interface ISetKeywordPayload {
 interface IKeywordListPayload {
   data: string[];
 }
+
 // interface I
 
 const initialState: ISearchedArticleSlice = {
@@ -68,6 +71,15 @@ const searchedArticleSlice = createSlice({
     setRecentSearch(state, { payload }: PayloadAction<IKeywordListPayload>) {
       state.recentSearch = payload.data;
     },
+    addRecentSearch(state, { payload }: PayloadAction<ISetKeywordPayload>) {
+      state.recentSearch.unshift(payload.keyword);
+    },
+    removeKeyword(state, { payload }: PayloadAction<ISetKeywordPayload>) {
+      const targetInd = state.recentSearch.indexOf(payload.keyword);
+      state.recentSearch = state.recentSearch.filter(
+        (_, ind) => ind !== targetInd
+      );
+    },
     setPopularSearch(state, { payload }: PayloadAction<IKeywordListPayload>) {
       state.popularSearch = payload.data;
     },
@@ -81,6 +93,8 @@ const {
   setKeyword,
   setRecentSearch,
   setPopularSearch,
+  addRecentSearch,
+  removeKeyword,
 } = searchedArticleSlice.actions;
 
 const searchArticles = (keyword: string): AppThunk => (dispatch) => {
@@ -120,30 +134,31 @@ const loadNextArticles = (): AppThunk => (dispatch) => {
     });
 };
 
+// 초기에 popularSearch와 RecentSearch 설정
 const initSearchData = (): AppThunk => (dispatch) => {
-  // TODO:
-  // use redux persist
-  dispatch(
-    setRecentSearch({
-      data: [
-        '검색어1',
-        '검색어2',
-        '검색어3',
-        '검색어4',
-        '검색어5',
-        '검색어6',
-        '검색어7',
-        '검색어8',
-        '검색어9',
-        '검색어10',
-      ],
-    })
-  );
   SearchAPI.getPopularSearchKeyword().then((res) => {
     dispatch(setPopularSearch({ data: res }));
   });
+  AsyncStorage.getItem(asyncStoragekey.RECENT_SEARCH)
+    .then((res) => {
+      if (res === null) {
+        dispatch(setRecentSearch({ data: [] }));
+      } else {
+        dispatch(setRecentSearch({ data: JSON.parse(res) }));
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
-export { setKeyword, searchArticles, loadNextArticles, initSearchData };
+export {
+  setKeyword,
+  addRecentSearch,
+  removeKeyword,
+  searchArticles,
+  loadNextArticles,
+  initSearchData,
+};
 
 export default searchedArticleSlice.reducer;
