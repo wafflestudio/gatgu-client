@@ -9,7 +9,7 @@ export interface ICheckProps {
   title: string;
   checked: boolean;
   isOptional: boolean;
-  onPress: () => void;
+  onPress: (e: any) => void;
 }
 
 function Check({

@@ -133,8 +133,8 @@ function SignUpTemplate(): JSX.Element {
     },
   ];
 
-  const selectAll = () => {
-    // TODO: implement
+  const select = (e) => {
+    console.log(e);
   };
 
   return (
@@ -149,7 +149,7 @@ function SignUpTemplate(): JSX.Element {
         <Button
           title=""
           style={cAll ? checkStyles.buttonTrue : checkStyles.buttonFalse}
-          onPress={selectAll}
+          onPress={select}
         />
         <View style={checkStyles.textWrapper}>
           <Text style={checkStyles.allTitle}>
@@ -168,7 +168,7 @@ function SignUpTemplate(): JSX.Element {
         title="가입하기"
         style={styles.confirmBtnCon}
         textStyle={styles.confirmBtnText}
-        onPress={() => true}
+        onPress={select}
       />
     </ScrollView>
   );
