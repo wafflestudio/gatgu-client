@@ -2,6 +2,8 @@ import { Button } from '@/components';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text } from 'native-base';
 import React from 'react';
+import styles from './Check.style';
+import { flexRow } from '@/styles/wrapper';
 
 export interface ICheckProps {
   title: string;
@@ -23,12 +25,27 @@ function Check({
   };
 
   return (
-    <View>
-      {/* FIXME: 틀만 잡아놨어요 */}
-      <Button title="" style={{}} onPress={onPress} />
-      <Text>{title}</Text>
-      <Text>{isOptional ? '(선택)' : '(필수)'}</Text>
-      <Button title="내용보기" style={{}} onPress={goToTOS} />
+    <View style={styles.container}>
+      <Button
+        title=""
+        style={checked ? styles.buttonTrue : styles.buttonFalse}
+        onPress={onPress}
+      />
+      <View style={styles.textWrapper}>
+        <View style={flexRow}>
+          <Text style={styles.title}>{title}</Text>
+          {isOptional ? (
+            <Text style={styles.optional}>(선택)</Text>
+          ) : (
+            <Text style={styles.mandatory}>(필수)</Text>
+          )}
+        </View>
+        <Button
+          title="내용보기"
+          textStyle={styles.contentBtn}
+          onPress={goToTOS}
+        />
+      </View>
     </View>
   );
 }

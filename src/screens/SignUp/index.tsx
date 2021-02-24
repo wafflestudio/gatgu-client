@@ -104,6 +104,7 @@ function SignUpTemplate(): JSX.Element {
       placeholder: '상세주소 (선택)',
       invalidString: '',
       validString: '',
+      marginBottom: 31,
     },
   ];
 

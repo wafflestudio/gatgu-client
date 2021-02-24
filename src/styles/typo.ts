@@ -18,6 +18,11 @@ export const typo = {
     lineHeight: 19,
     fontSize: 13,
   },
+  boldInfo: {
+    fontFamily: 'NotoSansKR_700Bold',
+    lineHeight: 19,
+    fontSize: 13,
+  },
   warningText: {
     fontFamily: 'NotoSansKR_400Regular',
     lineHeight: 15,
