@@ -18,11 +18,12 @@ const InputStyle = StyleSheet.create({
     borderRadius: 11,
   },
   warnText: {
-    ...typo.warningText,
+    ...typo.smallText,
+    color: palette.warnRed,
     paddingLeft: 11,
   },
   validText: {
-    ...typo.warningText,
+    ...typo.smallText,
     color: palette.blue,
     paddingLeft: 11,
   },

@@ -104,20 +104,6 @@ function ProfileStackScreen(): JSX.Element {
           headerTitleAlign: 'center',
         }}
       />
-      <ProfileStack.Screen
-        name={Login.name}
-        component={Login.component}
-        options={{
-          headerTitleAlign: 'center',
-        }}
-      />
-      <ProfileStack.Screen
-        name={SignUp.name}
-        component={SignUpStackScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
     </ProfileStack.Navigator>
   );
 }
@@ -210,4 +196,5 @@ export {
   WriteArticleStackScreen,
   ChattingStackScreen,
   SearchStackScreen,
+  SignUpStackScreen,
 };

@@ -23,10 +23,9 @@ export const typo = {
     lineHeight: 19,
     fontSize: 13,
   },
-  warningText: {
+  smallText: {
     fontFamily: 'NotoSansKR_400Regular',
     lineHeight: 15,
     fontSize: 10,
-    color: palette.warnRed,
   },
 };
