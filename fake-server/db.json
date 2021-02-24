@@ -502,5 +502,27 @@
       "percent": 40,
       "isMoney":true
     }
-  }]
+  }],
+  "chat": [
+    {
+      "id": 1,
+      "participant": [
+        1,
+        2
+      ],
+      "article": 1,
+      "orderStatus": "done",
+      "trackingNumber": "1234-5678-9000"
+    },
+    {
+      "id": 2,
+      "participant": [
+        1,
+        2
+      ],
+      "article": 2,
+      "orderStatus": "~ing",
+      "trackingNumber": "4321-5678-9000"
+    }
+  ]
 }

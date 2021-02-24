@@ -4,6 +4,7 @@ import requester from './BaseInstance';
 import {
   IArticleSumProps,
   IArticleProps,
+  IMessageRet,
   IArticleSumResponse,
 } from '@/types/article';
 
@@ -35,4 +36,10 @@ export const getSingleArticle = (
   id: number
 ): Promise<AxiosResponse<IArticleProps>> => {
   return requester.get(`article/${id}/`);
+};
+
+export const deleteArticle = (
+  id: number
+): Promise<AxiosResponse<IMessageRet>> => {
+  return requester.delete(`article/${id}/`);
 };

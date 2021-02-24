@@ -87,3 +87,7 @@ export interface IGetSuccessPayload {
   next: string;
   previous: string;
 }
+
+export interface IMessageRet {
+  message: string;
+}

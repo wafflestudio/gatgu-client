@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { articleAPI } from '@/apis';
 import {
+  IArticleProps,
   IArticleSumProps,
   IGetSuccessPayload,
   IGetFailPayload,
@@ -8,6 +9,11 @@ import {
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
+import { initialArticle } from '@/constants/InitialState';
+
+// CHECK:
+// 이 페이지 getArticleSucess --> getArticleSumSuccess 등으로 바꿔야할듯. (의견 코멘트로 남겨주면 수정할게요)
+// currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
 
 export interface IArticleSlice {
   hasError: boolean;
@@ -16,6 +22,7 @@ export interface IArticleSlice {
   isLoading: boolean;
   next: string;
   previous: string;
+  currentArticle: IArticleProps;
 }
 
 const initialState: IArticleSlice = {
@@ -25,6 +32,7 @@ const initialState: IArticleSlice = {
   isLoading: false,
   next: '',
   previous: '',
+  currentArticle: initialArticle,
 };
 
 // article store + basic action
@@ -56,6 +64,10 @@ const articleSlice = createSlice({
     setLoading(state) {
       state.isLoading = true;
     },
+
+    setCurrentArticle: (state, { payload }: PayloadAction<IArticleProps>) => {
+      state.currentArticle = payload;
+    },
   },
 });
 
@@ -63,6 +75,7 @@ const {
   getArticleSumSuccess,
   getArticleSumFailure,
   setLoading,
+  setCurrentArticle,
 } = articleSlice.actions;
 
 // Asynchronous thunk action
@@ -103,6 +116,18 @@ export const loadNextArticles = (): AppThunk => (dispatch) => {
       } else {
         dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
       }
+    });
+};
+
+// get single article
+export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
+  articleAPI
+    .getSingleArticle(id)
+    .then((response: AxiosResponse) => {
+      dispatch(setCurrentArticle(response.data));
+    })
+    .catch((err: AxiosError) => {
+      console.log(err);
     });
 };
 
