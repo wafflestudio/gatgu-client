@@ -13,7 +13,6 @@ import { articleAPI, chatAPI, userAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
-import routes from '@/helpers/routes';
 
 const [Error] = createError();
 
@@ -64,7 +63,7 @@ function DrawerTemplate(props: any): JSX.Element {
         .deleteArticle(chatInfo.id)
         .then((response: AxiosResponse) => {
           alert('Successfully deleted');
-          navigation.navigate(routes.Home.name);
+          navigation.navigate('Home');
         })
         .catch((err: AxiosError) => {
           alert("Couldn't delete article");
