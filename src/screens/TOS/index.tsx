@@ -9,16 +9,18 @@ import styles from './TOS.style';
 interface TOSProps {
   title: string;
   isOptional: boolean;
+  checked: boolean;
   onPress: () => void;
 }
 
 function TOSTemplate(): JSX.Element {
   const route = useRoute<RouteProp<SignUpStackParamList, 'TOS'>>();
-  const { title, isOptional, onPress }: TOSProps = route.params;
+  const { title, checked, isOptional, onPress }: TOSProps = route.params;
 
   const navigation = useNavigation();
 
   const confirm = () => {
+    if (checked) return;
     navigation.goBack();
     onPress();
   };
