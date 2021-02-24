@@ -75,8 +75,9 @@ const searchedArticleSlice = createSlice({
       state.recentSearch.unshift(payload.keyword);
     },
     removeKeyword(state, { payload }: PayloadAction<ISetKeywordPayload>) {
+      const targetInd = state.recentSearch.indexOf(payload.keyword);
       state.recentSearch = state.recentSearch.filter(
-        (elem: string) => elem !== payload.keyword
+        (_, ind) => ind !== targetInd
       );
     },
     setPopularSearch(state, { payload }: PayloadAction<IKeywordListPayload>) {
