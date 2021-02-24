@@ -12,8 +12,8 @@ jobs:
       - checkout
       - run: npm install
       - run: 
-        command: ./sdkmanager --licenses
-        working_directory:  ~/Library/Android/sdk/tools/bin/          
+          command: ./sdkmanager --licenses
+          working_directory:  ~/Library/Android/sdk/tools/bin/          
       - run:
           command: npm run android
           working_directory: android
