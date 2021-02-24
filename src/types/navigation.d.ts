@@ -11,3 +11,12 @@ export type ArticleDrawerParamList = {
     id: number;
   };
 };
+
+export type SignUpStackParamList = {
+  TOS: {
+    title: string;
+    content: string;
+    isOptional: boolean;
+    confirm: () => void;
+  };
+};

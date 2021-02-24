@@ -17,6 +17,10 @@ const {
   ChattingList,
   Search,
   SearchedArticle,
+  ProfileModify,
+  Login,
+  SignUp,
+  TOS,
 } = routes;
 
 // TODO: 이거 여기서 정의하는 거보다 각 function 안에서 정의하는 게 낫지 않을까요
@@ -25,6 +29,7 @@ const ProfileStack = createStackNavigator();
 const ChattingStack = createStackNavigator();
 const WriteArticleStack = createStackNavigator();
 const SearchStack = createStackNavigator();
+const SignUpStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function ArticleDrawer(): JSX.Element {
@@ -92,6 +97,27 @@ function ProfileStackScreen(): JSX.Element {
           headerTitleAlign: 'center',
         }}
       />
+      <ProfileStack.Screen
+        name={ProfileModify.name}
+        component={ProfileModify.component}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <ProfileStack.Screen
+        name={Login.name}
+        component={Login.component}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <ProfileStack.Screen
+        name={SignUp.name}
+        component={SignUpStackScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
     </ProfileStack.Navigator>
   );
 }
@@ -154,6 +180,27 @@ function SearchStackScreen(): JSX.Element {
         }}
       />
     </SearchStack.Navigator>
+  );
+}
+
+function SignUpStackScreen(): JSX.Element {
+  return (
+    <SignUpStack.Navigator>
+      <SignUpStack.Screen
+        name={SignUp.name}
+        component={SignUp.component}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+      <SignUpStack.Screen
+        name={TOS.name}
+        component={TOS.component}
+        options={{
+          headerTitleAlign: 'center',
+        }}
+      />
+    </SignUpStack.Navigator>
   );
 }
 

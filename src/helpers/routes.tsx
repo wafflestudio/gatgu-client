@@ -10,6 +10,10 @@ import {
   Login,
   Search,
   SearchedArticle,
+  ProfileModify,
+  Login,
+  SignUp,
+  TOS,
 } from '@/screens';
 
 const routes = {
@@ -56,6 +60,22 @@ const routes = {
   SearchedArticle: {
     name: 'SearchedArticle',
     component: SearchedArticle,
+  },
+  ProfileModify: {
+    name: 'ProfileModify',
+    component: ProfileModify,
+  },
+  Login: {
+    name: 'Login',
+    component: Login,
+  },
+  SignUp: {
+    name: 'SignUp',
+    component: SignUp,
+  },
+  TOS: {
+    name: 'TOS',
+    component: TOS,
   },
 };
 
