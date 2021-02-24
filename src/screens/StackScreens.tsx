@@ -176,6 +176,7 @@ function SignUpStackScreen(): JSX.Element {
         name={SignUp.name}
         component={SignUp.component}
         options={{
+          title: '회원가입',
           headerTitleAlign: 'center',
         }}
       />
@@ -183,6 +184,7 @@ function SignUpStackScreen(): JSX.Element {
         name={TOS.name}
         component={TOS.component}
         options={{
+          title: '약관 동의',
           headerTitleAlign: 'center',
         }}
       />
