@@ -26,6 +26,8 @@ const CheckStyle = StyleSheet.create({
   buttonFalse: {
     ...button,
     backgroundColor: palette.white,
+    borderColor: 'gray',
+    borderWidth: 1,
   },
   textWrapper: {
     position: 'absolute',
