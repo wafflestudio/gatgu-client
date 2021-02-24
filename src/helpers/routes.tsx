@@ -10,7 +10,6 @@ import {
   Search,
   SearchedArticle,
   ProfileModify,
-  Login,
   SignUp,
   TOS,
 } from '@/screens';
@@ -59,10 +58,6 @@ const routes = {
   ProfileModify: {
     name: 'ProfileModify',
     component: ProfileModify,
-  },
-  Login: {
-    name: 'Login',
-    component: Login,
   },
   SignUp: {
     name: 'SignUp',
