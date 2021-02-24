@@ -1,5 +1,7 @@
 // 색과 font 정보는 여기서 정의
 
+import { palette } from './palette';
+
 export const typo = {
   bigTitle: {
     fontFamily: 'NotoSansKR_700Bold', // can't find NotoSansCJKkr-Medium
@@ -15,5 +17,15 @@ export const typo = {
     fontFamily: 'NotoSansKR_400Regular',
     lineHeight: 19,
     fontSize: 13,
+  },
+  boldInfo: {
+    fontFamily: 'NotoSansKR_700Bold',
+    lineHeight: 19,
+    fontSize: 13,
+  },
+  smallText: {
+    fontFamily: 'NotoSansKR_400Regular',
+    lineHeight: 15,
+    fontSize: 10,
   },
 };

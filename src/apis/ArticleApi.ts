@@ -3,9 +3,9 @@ import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
 import {
   IArticleSumProps,
-  IPageLimitRes,
   IArticleProps,
   IMessageRet,
+  IArticleSumResponse,
 } from '@/types/article';
 
 // for home page
@@ -18,10 +18,10 @@ export const readAll = (
   return requester.get(url);
 };
 
-export const readPageLimit = (): Promise<AxiosResponse<IPageLimitRes>> => {
-  // TODO: check
-  // 이거 있는 API인가요? 없으면 차라리 자주 변하는 정보도 아니고 @/constants/에 두는 게 나을 듯
-  return requester.get('pageLimit');
+export const getArticleSummary = (
+  url: string
+): Promise<AxiosResponse<IArticleSumResponse>> => {
+  return requester.get(url);
 };
 
 // for article page

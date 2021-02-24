@@ -4,7 +4,9 @@ import {
   IArticleProps,
   IArticleSumProps,
   IGetSuccessPayload,
+  IGetFailPayload,
 } from '@/types/article';
+import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
 import { initialArticle } from '@/constants/InitialState';
@@ -14,24 +16,22 @@ import { initialArticle } from '@/constants/InitialState';
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
 
 export interface IArticleSlice {
-  page: number;
   hasError: boolean;
+  errorStatus: number;
   data: IArticleSumProps[];
-  pageLimit: number;
+  isLoading: boolean;
+  next: string;
+  previous: string;
   currentArticle: IArticleProps;
 }
 
-interface IPageLimitPayload {
-  pageLimit: {
-    limit: number;
-  };
-}
-
 const initialState: IArticleSlice = {
-  page: 1,
   hasError: false,
+  errorStatus: -100,
   data: [],
-  pageLimit: 1,
+  isLoading: false,
+  next: '',
+  previous: '',
   currentArticle: initialArticle,
 };
 
@@ -47,16 +47,22 @@ const articleSlice = createSlice({
     ) => {
       state.data.push(...payload.data);
       state.hasError = false;
-      state.page += 1;
+      state.isLoading = false;
+      state.next = payload.next;
+      state.previous = payload.previous;
     },
 
     // if getting data fail, show error screen by hasError state.
-    getArticleSumFailure: (state) => {
+    getArticleSumFailure: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
       state.hasError = true;
+      state.isLoading = false;
+      state.errorStatus = payload.errorStatus;
     },
-
-    setPageLimit: (state, { payload }: PayloadAction<IPageLimitPayload>) => {
-      state.pageLimit = payload.pageLimit.limit;
+    setLoading(state) {
+      state.isLoading = true;
     },
 
     setCurrentArticle: (state, { payload }: PayloadAction<IArticleProps>) => {
@@ -68,32 +74,49 @@ const articleSlice = createSlice({
 const {
   getArticleSumSuccess,
   getArticleSumFailure,
-  setPageLimit,
+  setLoading,
   setCurrentArticle,
 } = articleSlice.actions;
 
 // Asynchronous thunk action
-export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
+export const getArticlesPerPage = (): AppThunk => (dispatch) => {
+  dispatch(setLoading());
   articleAPI
-    .readAll(page)
+    // TODO:
+    // replace this with real api function.
+    .readAll(1)
     .then((response: AxiosResponse) => {
-      dispatch(getArticleSumSuccess({ data: response.data }));
+      dispatch(
+        getArticleSumSuccess({ data: response.data, next: '', previous: '' })
+      );
     })
     .catch((err: AxiosError) => {
-      console.error(err);
-      dispatch(getArticleSumFailure());
+      if (err.response) {
+        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
+      }
     });
 };
 
-// TODO: check
-// Fix Me!!!
-export const getPageLimit = (): AppThunk => (dispatch) => {
+export const loadNextArticles = (): AppThunk => (dispatch) => {
+  dispatch(setLoading());
   articleAPI
-    .readPageLimit()
-    .then((response: AxiosResponse) => {
-      dispatch(setPageLimit(response.data));
+    // TODO:
+    // replace this with real api function.
+    .readAll(2)
+    .then((res: AxiosResponse) => {
+      dispatch(
+        getArticleSumSuccess({ data: res.data, next: '', previous: '' })
+      );
     })
-    .catch((err: AxiosError) => console.log(err));
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
+      }
+    });
 };
 
 // get single article

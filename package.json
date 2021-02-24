@@ -1,9 +1,8 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint src --ext .ts,.tsx",
@@ -13,6 +12,7 @@
     "@expo-google-fonts/inter": "^0.1.0",
     "@expo-google-fonts/noto-sans-kr": "^0.1.0",
     "@expo/metro-config": "^0.1.54",
+    "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/drawer": "^5.12.3",
@@ -25,23 +25,28 @@
     "expo": "~40.0.0",
     "expo-font": "~8.4.0",
     "expo-image-picker": "~9.2.0",
+    "expo-splash-screen": "~0.8.0",
     "expo-status-bar": "~1.0.3",
+    "expo-updates": "~0.4.0",
     "lodash": "^4.17.20",
     "native-base": "^2.15.2",
     "npm-merge-driver": "^2.3.6",
+    "querystring": "^0.2.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-hook-form": "^6.14.2",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+    "react-native": "~0.63.4",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-paper": "^4.7.1",
     "react-native-raw-bottom-sheet": "^2.2.0",
     "react-native-reanimated": "^1.13.2",
+    "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "~2.15.2",
     "react-native-svg": "^12.1.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-native-switch-selector": "^2.0.6",
     "react-native-tab-view": "^2.15.2",
+    "react-native-unimodules": "~0.12.0",
     "react-native-vector-icons": "^8.0.0",
     "react-native-web": "~0.13.12",
     "react-native-windows": "^0.63.20",
@@ -67,7 +72,10 @@
     "json-server": "^0.16.3",
     "lint-staged": "^10.5.4",
     "prettier": "2.2.1",
-    "typescript": "~4.0.0"
+    "typescript": "~4.0.0",
+    "babel-jest": "~25.2.6",
+    "jest": "~25.2.6",
+    "react-test-renderer": "~16.13.1"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": "npm run lint:fix"
@@ -77,5 +85,7 @@
       "pre-commit": "lint-staged"
     }
   },
-  "private": true
+  "private": true,
+  "name": "gatgu-client",
+  "version": "1.0.0"
 }

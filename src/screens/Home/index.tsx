@@ -14,14 +14,14 @@ const [Error] = createError();
 function HomeTemplate(): JSX.Element {
   const dispatch = useDispatch();
 
-  const { data: posts, hasError, page } = useSelector(
+  const { data: posts, hasError } = useSelector(
     (state: RootState) => state.article,
     shallowEqual
   );
 
   // 초기에 7개 렌더링
   useEffect(() => {
-    dispatch(getArticlesPerPage(page));
+    dispatch(getArticlesPerPage());
   }, []);
 
   const renderArticle = ({ item }: { item: IArticleSumProps }) => (
@@ -36,7 +36,7 @@ function HomeTemplate(): JSX.Element {
       renderItem={renderArticle}
       keyExtractor={(_, ind) => String(ind)}
       onEndReached={() => {
-        getArticlesPerPage(page);
+        getArticlesPerPage();
       }}
       onEndReachedThreshold={0.5}
     />

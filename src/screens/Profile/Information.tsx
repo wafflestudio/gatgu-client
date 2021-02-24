@@ -10,15 +10,8 @@ function Info({ dummyInfo }: any): JSX.Element {
   return (
     <View style={styles.container}>
       <ImageBackground source={profileImg} style={styles.profileImg} />
-      <View style={styles.detail}>
-        <Text style={styles.detailText}>유저 이름</Text>
-        <View style={styles.authView}>
-          <Text style={styles.detailText}>가입일자</Text>
-          <Text style={styles.detailText}>인증 여부</Text>
-        </View>
-      </View>
       <View style={styles.content}>
-        <Text style={styles.detailText}>{dummyInfo.name}</Text>
+        <Text style={styles.detailNameText}>{dummyInfo.name}</Text>
         <View style={styles.authView}>
           <Text style={styles.detailText}>{dummyInfo.date}</Text>
           <Text style={styles.detailText}>
