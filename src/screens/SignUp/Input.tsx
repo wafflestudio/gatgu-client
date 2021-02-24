@@ -1,4 +1,4 @@
-import { StringInput } from '@/components';
+import { Button, StringInput } from '@/components';
 import { View, Text } from 'react-native';
 import React from 'react';
 
@@ -6,9 +6,9 @@ export interface IInputProps {
   value: string;
   onChangeText: React.Dispatch<React.SetStateAction<string>>;
   placeholder: string;
-  warnString: string;
-  checkString: string;
-  available?: boolean;
+  invalidString: string;
+  validString: string;
+  isValid?: boolean;
   buttonString?: string;
   buttonOnPress?: () => void;
 }
@@ -17,15 +17,15 @@ function Input({
   value,
   onChangeText,
   placeholder,
-  warnString,
-  checkString,
-  available,
+  invalidString,
+  validString,
+  isValid,
   buttonString,
   buttonOnPress,
 }: IInputProps): JSX.Element {
   return (
     <View>
-      <Text>{warnString}</Text>
+      <Text>{isValid ? validString : invalidString}</Text>
       <StringInput
         value={value}
         onChangeText={onChangeText}
@@ -41,6 +41,9 @@ function Input({
           }
         }
       />
+      {buttonString && buttonOnPress && (
+        <Button title={buttonString} onPress={buttonOnPress} style={{}} />
+      )}
     </View>
   );
 }
