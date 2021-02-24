@@ -1,8 +1,10 @@
 import { Button } from '@/components';
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import Check, { ICheckProps } from './Check';
 import Input, { IInputProps } from './Input';
+import styles from './SignUp.style';
+import checkStyles from './Check.style';
 
 function SignUpTemplate(): JSX.Element {
   // input
@@ -18,9 +20,10 @@ function SignUpTemplate(): JSX.Element {
 
   // checkbox
   // FIXME: 변수명 추천받아요
-  const [a1, setA1] = useState(false);
-  const [a2, setA2] = useState(false);
-  const [a3, setA3] = useState(false);
+  const [cAll, setCAll] = useState(false);
+  const [c1, setC1] = useState(false);
+  const [c2, setC2] = useState(false);
+  const [c3, setC3] = useState(false);
 
   // TODO: useMemo
   const inputs: IInputProps[] = [
@@ -40,6 +43,7 @@ function SignUpTemplate(): JSX.Element {
       invalidString: '8자~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.',
       validString: '',
       isValid: false,
+      marginBottom: 6,
     },
     {
       value: pc,
@@ -72,6 +76,9 @@ function SignUpTemplate(): JSX.Element {
       invalidString: '필수정보입니다.',
       validString: '',
       isValid: false,
+      marginBottom: 6,
+      buttonString: '인증',
+      buttonOnPress: () => true,
     },
     {
       value: cd,
@@ -80,6 +87,8 @@ function SignUpTemplate(): JSX.Element {
       invalidString: '인증번호가 올바르지 않습니다.',
       validString: '',
       isValid: false,
+      buttonString: '확인',
+      buttonOnPress: () => true,
     },
     {
       value: em,
@@ -88,6 +97,8 @@ function SignUpTemplate(): JSX.Element {
       invalidString: '필수정보입니다.',
       validString: '',
       isValid: false,
+      buttonString: '인증',
+      buttonOnPress: () => true,
     },
     {
       value: adr,
@@ -95,6 +106,7 @@ function SignUpTemplate(): JSX.Element {
       placeholder: '상세주소 (선택)',
       invalidString: '',
       validString: '',
+      marginBottom: 31,
     },
   ];
 
@@ -103,36 +115,62 @@ function SignUpTemplate(): JSX.Element {
   const checks: ICheckProps[] = [
     {
       title: '같구 이용약관 동의',
-      checked: a1,
+      checked: c1,
       isOptional: false,
-      onPress: () => setA1(true),
+      onPress: () => setC1(true),
     },
     {
       title: '개인정보 수집 및 이용 동의',
-      checked: a2,
+      checked: c2,
       isOptional: false,
-      onPress: () => setA2(true),
+      onPress: () => setC2(true),
     },
     {
       title: '위치정보 이용약관 동의',
-      checked: a3,
+      checked: c3,
       isOptional: true,
-      onPress: () => setA3(true),
+      onPress: () => setC3(true),
     },
   ];
 
+  const selectAll = () => {
+    // TODO: implement
+  };
+
   return (
-    <View>
-      <Text>같구에 오신 것을 환영합니다.</Text>
-      {inputs.map((item, i) => (
-        <Input {...item} key={i} />
-      ))}
-      {checks.map((item, i) => (
-        <Check {...item} key={i} />
-      ))}
-      {/* FIXME: style & onPress */}
-      <Button title="가입하기" style={{}} onPress={() => true} />
-    </View>
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
+      <View>
+        {inputs.map((item, i) => (
+          <Input {...item} key={i} />
+        ))}
+      </View>
+      <View style={checkStyles.titleContainer}>
+        <Button
+          title=""
+          style={cAll ? checkStyles.buttonTrue : checkStyles.buttonFalse}
+          onPress={selectAll}
+        />
+        <View style={checkStyles.textWrapper}>
+          <Text style={checkStyles.allTitle}>
+            같구 이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에 모두
+            동의합니다.
+          </Text>
+        </View>
+      </View>
+      <View>
+        {checks.map((item, i) => (
+          <Check {...item} key={i} />
+        ))}
+      </View>
+      {/* FIXME: onPress */}
+      <Button
+        title="가입하기"
+        style={styles.confirmBtnCon}
+        textStyle={styles.confirmBtnText}
+        onPress={() => true}
+      />
+    </ScrollView>
   );
 }
 

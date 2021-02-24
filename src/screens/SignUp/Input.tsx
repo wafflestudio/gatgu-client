@@ -1,6 +1,8 @@
 import { Button, StringInput } from '@/components';
 import { View, Text } from 'react-native';
 import React from 'react';
+import styles from './Input.style';
+import { palette } from '@/styles';
 
 export interface IInputProps {
   value: string;
@@ -11,6 +13,7 @@ export interface IInputProps {
   isValid?: boolean;
   buttonString?: string;
   buttonOnPress?: () => void;
+  marginBottom?: number;
 }
 
 function Input({
@@ -22,27 +25,33 @@ function Input({
   isValid,
   buttonString,
   buttonOnPress,
+  marginBottom,
 }: IInputProps): JSX.Element {
   return (
-    <View>
-      <Text>{isValid ? validString : invalidString}</Text>
+    <View style={{ ...styles.container, marginBottom: marginBottom || 24 }}>
+      {isValid ? (
+        <Text style={styles.validText}>{validString}</Text>
+      ) : (
+        <Text style={styles.warnText}>{invalidString}</Text>
+      )}
       <StringInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        style={
-          {
-            // TODO: design 단계에서 하겠습니다
-          }
-        }
-        placeholderStyle={
-          {
-            // TODO: design 단계에서 하겠습니다
-          }
-        }
+        style={styles.inputBox}
+        placeholderStyle={styles.inputBox}
+        placeholderTextColor={palette.gray}
       />
+      {placeholder.localeCompare('이메일') ? null : (
+        <Text style={styles.emailPostfix}>@snu.ac.kr</Text>
+      )}
       {buttonString && buttonOnPress && (
-        <Button title={buttonString} onPress={buttonOnPress} style={{}} />
+        <Button
+          title={buttonString}
+          onPress={buttonOnPress}
+          style={styles.inputButton}
+          textStyle={styles.inputButtonText}
+        />
       )}
     </View>
   );

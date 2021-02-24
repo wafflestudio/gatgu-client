@@ -14,8 +14,9 @@ import { AppLoading } from '@/screens';
 import { SafeAreaView } from 'react-native';
 import BottomNavigation from '@/components/BottomNavigation';
 import routes from '@/helpers/routes';
+import { SignUpStackScreen } from '@/screens/StackScreens';
 
-const { ChatListElem, Login } = routes;
+const { ChatListElem, Login, SignUp } = routes;
 
 const Stack = createStackNavigator();
 
@@ -47,6 +48,13 @@ function App() {
               name={Login.name}
               component={Login.component}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={SignUp.name}
+              component={SignUpStackScreen}
+              options={{
+                headerShown: false,
+              }}
             />
           </Stack.Navigator>
         </SafeAreaView>
