@@ -16,3 +16,27 @@ export const login = (
 ): Promise<AxiosResponse<IUserProps>> => {
   return requester.put('user/login/', { username, password });
 };
+
+export const signUp = (
+  username: string,
+  password: string,
+  address: string,
+  nickname: string,
+  picture: string,
+  phonenumber: string,
+  email: string,
+  first_name: string,
+  last_name: string
+): Promise<AxiosResponse<IUserProps>> => {
+  return requester.post('user/', {
+    username,
+    password,
+    address,
+    nickname,
+    picture,
+    phonenumber,
+    email,
+    first_name,
+    last_name,
+  });
+};
