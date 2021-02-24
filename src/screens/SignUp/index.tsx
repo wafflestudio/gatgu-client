@@ -75,6 +75,8 @@ function SignUpTemplate(): JSX.Element {
       validString: '',
       isValid: false,
       marginBottom: 6,
+      buttonString: '인증',
+      buttonOnPress: () => true,
     },
     {
       value: cd,
@@ -83,6 +85,8 @@ function SignUpTemplate(): JSX.Element {
       invalidString: '인증번호가 올바르지 않습니다.',
       validString: '',
       isValid: false,
+      buttonString: '확인',
+      buttonOnPress: () => true,
     },
     {
       value: em,
@@ -91,6 +95,8 @@ function SignUpTemplate(): JSX.Element {
       invalidString: '필수정보입니다.',
       validString: '',
       isValid: false,
+      buttonString: '인증',
+      buttonOnPress: () => true,
     },
     {
       value: adr,

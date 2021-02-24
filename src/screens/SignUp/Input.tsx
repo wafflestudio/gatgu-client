@@ -2,6 +2,7 @@ import { Button, StringInput } from '@/components';
 import { View, Text } from 'react-native';
 import React from 'react';
 import styles from './Input.style';
+import { palette } from '@/styles';
 
 export interface IInputProps {
   value: string;
@@ -37,11 +38,20 @@ function Input({
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        style={styles.InputBox}
-        placeholderStyle={styles.InputBox}
+        style={styles.inputBox}
+        placeholderStyle={styles.inputBox}
+        placeholderTextColor={palette.gray}
       />
+      {placeholder.localeCompare('이메일') ? null : (
+        <Text style={styles.emailPostfix}>@snu.ac.kr</Text>
+      )}
       {buttonString && buttonOnPress && (
-        <Button title={buttonString} onPress={buttonOnPress} style={{}} />
+        <Button
+          title={buttonString}
+          onPress={buttonOnPress}
+          style={styles.inputButton}
+          textStyle={styles.inputButtonText}
+        />
       )}
     </View>
   );
