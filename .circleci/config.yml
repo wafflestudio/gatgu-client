@@ -10,7 +10,9 @@ jobs:
     # environement
     steps:
       - checkout
-      - run: npm install
+      - run: 
+          command: npm install
+          working_directory: ~/gatgu-client
       - run: 
           command: |
             cd ~/Library/Android/sdk/tools/bin/
