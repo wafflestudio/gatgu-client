@@ -12,13 +12,11 @@ jobs:
     steps:
       - checkout:
           path: ~/gatgu-client
-      - run: 
-          command: |
-            cd android
-            bundle install
+      - run: bundle install
       - run:
           name: fastlane tests
           command: |
+            cd android
             bundle exec fastlane test
   # macos-build:
   #   working_directory: ~/gatgu-client
