@@ -184,7 +184,7 @@ function SignUpTemplate(): JSX.Element {
             break;
         }
       });
-  }, [id, pw, dispatch, navigation, signUpAble]);
+  }, [id, pw, nn, dispatch, navigation, signUpAble]);
 
   return (
     <ScrollView style={styles.container}>
