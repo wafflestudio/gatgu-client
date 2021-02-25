@@ -1,6 +1,6 @@
 import { Button, StringInput } from '@/components';
 import { View, Text } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Input.style';
 import { palette } from '@/styles';
 
@@ -10,7 +10,7 @@ export interface IInputProps {
   placeholder: string;
   invalidString: string;
   validString: string;
-  isValid?: boolean;
+  isValid: boolean;
   buttonString?: string;
   buttonOnPress?: () => void;
   marginBottom?: number;
@@ -27,16 +27,20 @@ function Input({
   buttonOnPress,
   marginBottom,
 }: IInputProps): JSX.Element {
+  const [typing, setTyping] = useState(false);
   return (
     <View style={{ ...styles.container, marginBottom: marginBottom || 24 }}>
-      {isValid ? (
-        <Text style={styles.validText}>{validString}</Text>
-      ) : (
+      {!isValid && typing ? (
         <Text style={styles.warnText}>{invalidString}</Text>
+      ) : (
+        <Text style={styles.warnText} />
       )}
       <StringInput
         value={value}
-        onChangeText={onChangeText}
+        onChangeText={(e) => {
+          setTyping(true);
+          onChangeText(e);
+        }}
         placeholder={placeholder}
         style={styles.inputBox}
         placeholderStyle={styles.inputBox}

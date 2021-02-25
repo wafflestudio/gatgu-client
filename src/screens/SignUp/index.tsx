@@ -18,6 +18,7 @@ function SignUpTemplate(): JSX.Element {
   const [pc, setPC] = useState(''); // Password Confirmation
   const [nn, setNN] = useState(''); // NickName
   const [em, setEM] = useState(''); // EMail
+  const [cd, setCD] = useState(''); // verification CoDe
 
   // checkboxes
   const [cAll, setCAll] = useState(false);
@@ -37,18 +38,16 @@ function SignUpTemplate(): JSX.Element {
         placeholder: '아이디',
         invalidString: '5자 이상으로 된 영문 소문자, 숫자만 사용 가능합니다.',
         validString: '사용 가능한 아이디입니다.',
-        isValid: /^[a-z0-9]{5,}$/.test(id),
+        isValid: /^[a-z0-9]{5,20}$/.test(id),
       }),
       [id, setID]
     ),
     useMemo(
       () => ({
-        // FIXME: feature 단계에서 수정: 비밀번호는 secure하게 해야 함
-        // FIXME: 허용할 특수문자 범위 지정 필요
         value: pw,
         onChangeText: setPW,
         placeholder: '비밀번호',
-        invalidString: '8자~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.',
+        invalidString: '8자~16자 영문 대소문자, 숫자를 모두 사용하세요.',
         validString: '사용 가능한 비밀번호입니다.',
         isValid: /^(?=.*[0-9])(?=.*[a-z]+)(?=.*[A-Z]+).{8,16}$/.test(pw),
         marginBottom: 6,
@@ -87,8 +86,23 @@ function SignUpTemplate(): JSX.Element {
         isValid: em.length >= 1,
         buttonString: '인증',
         buttonOnPress: () => true,
+        marginBottom: 6,
       }),
       [em, setEM]
+    ),
+    useMemo(
+      () => ({
+        value: cd,
+        onChangeText: setCD,
+        placeholder: '인증번호',
+        invalidString: '필수정보입니다.',
+        validString: '',
+        isValid: true,
+        buttonString: '확인',
+        buttonOnPress: () => true,
+        marginBottom: 40,
+      }),
+      [cd, setCD]
     ),
   ];
 
@@ -144,8 +158,15 @@ function SignUpTemplate(): JSX.Element {
     [c1, c2, c3, select]
   );
 
+  let signUpAble = true;
+  for (const item of inputs) {
+    signUpAble = signUpAble && item.isValid;
+  }
+  signUpAble = signUpAble && cAll;
+
   // FIXME: 백엔드와 디자인 사이 논의가 끝나고 나면 signUp에 들어갈 인자들 제대로 구현
   const signUp = useCallback(() => {
+    if (!signUpAble) return;
     userAPI
       .signUp('', '', '', '', '', '', '', '', '')
       .then(() => {
@@ -161,7 +182,7 @@ function SignUpTemplate(): JSX.Element {
             break;
         }
       });
-  }, [id, pw, dispatch, navigation]);
+  }, [id, pw, dispatch, navigation, signUpAble]);
 
   return (
     <ScrollView style={styles.container}>
@@ -191,7 +212,7 @@ function SignUpTemplate(): JSX.Element {
       </View>
       <Button
         title="가입하기"
-        style={styles.confirmBtnCon}
+        style={signUpAble ? styles.confirmBtnConO : styles.confirmBtnConX}
         textStyle={styles.confirmBtnText}
         onPress={signUp}
       />
