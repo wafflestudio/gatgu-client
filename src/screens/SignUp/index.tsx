@@ -8,6 +8,8 @@ import checkStyles from './Check.style';
 import { userAPI } from '@/apis';
 import { AxiosError } from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { login } from '@/store/userSlice';
 
 function SignUpTemplate(): JSX.Element {
   // input
@@ -16,10 +18,7 @@ function SignUpTemplate(): JSX.Element {
   const [pc, setPC] = useState(''); // Password Confirmation
   const [nn, setNN] = useState(''); // NickName
   const [nm, setNM] = useState(''); // NaMe
-  const [pn, setPN] = useState(''); // Phone Number
-  const [cd, setCD] = useState(''); // verification CoDe
   const [em, setEM] = useState(''); // EMail
-  const [adr, setADR] = useState(''); // ADRess
 
   // checkboxes
   const [cAll, setCAll] = useState(false);
@@ -28,6 +27,7 @@ function SignUpTemplate(): JSX.Element {
   const [c3, setC3] = useState(false);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   // TODO: API call 해서 중복 닉네임 | Id인지 확인
   const inputs: IInputProps[] = [
@@ -91,33 +91,6 @@ function SignUpTemplate(): JSX.Element {
     ),
     useMemo(
       () => ({
-        value: pn,
-        onChangeText: setPN,
-        placeholder: `전화번호 ('-') 제외`,
-        invalidString: '필수정보입니다.',
-        validString: '',
-        isValid: /[0-9]{10,11}/.test(pn),
-        marginBottom: 6,
-        buttonString: '인증',
-        buttonOnPress: () => true,
-      }),
-      [pn, setPN]
-    ),
-    useMemo(
-      () => ({
-        value: cd,
-        onChangeText: setCD,
-        placeholder: '인증번호',
-        invalidString: '인증번호가 올바르지 않습니다.',
-        validString: '',
-        isValid: false,
-        buttonString: '확인',
-        buttonOnPress: () => true,
-      }),
-      [cd, setCD]
-    ),
-    useMemo(
-      () => ({
         value: em,
         onChangeText: setEM,
         placeholder: '이메일',
@@ -128,17 +101,6 @@ function SignUpTemplate(): JSX.Element {
         buttonOnPress: () => true,
       }),
       [em, setEM]
-    ),
-    useMemo(
-      () => ({
-        value: adr,
-        onChangeText: setADR,
-        placeholder: '상세주소 (선택)',
-        invalidString: '',
-        validString: '',
-        marginBottom: 31,
-      }),
-      [adr, setADR]
     ),
   ];
 
@@ -195,13 +157,11 @@ function SignUpTemplate(): JSX.Element {
   );
 
   // FIXME: 백엔드와 디자인 사이 논의가 끝나고 나면 signUp에 들어갈 인자들 제대로 구현
-  const signUp = () => {
+  const signUp = useCallback(() => {
     userAPI
       .signUp('', '', '', '', '', '', '', '', '')
       .then(() => {
-        alert('회원가입에 성공하였습니다.');
-        // TODO: 논의 필요: 바로 로그인시킬 건지 로그인 창으로 보낼 건지
-        navigation.goBack();
+        dispatch(login(id, pw, navigation));
       })
       .catch((err: AxiosError) => {
         switch (err.code) {
@@ -213,7 +173,7 @@ function SignUpTemplate(): JSX.Element {
             break;
         }
       });
-  };
+  }, [id, pw, dispatch, navigation]);
 
   return (
     <ScrollView style={styles.container}>

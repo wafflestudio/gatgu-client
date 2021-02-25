@@ -60,8 +60,7 @@ export const login = (
     .then((response) => {
       setToken(response.data.token);
       dispatch(setInfo(response.data));
-      navigation.goBack();
-      console.log('login succeed');
+      navigation.navigate('Home');
     })
     .catch((err) => {
       console.error(err);
