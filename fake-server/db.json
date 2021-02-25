@@ -167,7 +167,7 @@
       "last_name": "gugat",
       "userprofile": {
         "profile_id": 1,
-        "picture": "",
+        "picture": "https://i.pinimg.com/originals/2d/c4/d3/2dc4d32fc36aab28865ad88b611ba5a9.jpg",
         "nickname": "gatgatgu",
         "address": "gatgu-si gatgu-dong",
         "phonenumber": "010-1010-1010"
@@ -175,6 +175,24 @@
       "created_at": null,
       "updated_at": null,
       "is_active": true
+    },
+    {
+      "id": 2,
+      "username": "gatgu2",
+      "password": "gatgu2",
+      "email": "gatgu2@gatgu.gatgu",
+      "first_name": "gatgu2",
+      "last_name": "gugat2",
+      "userprofile": {
+        "profile_id": 2,
+        "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjTz6-wJLWpFdAi6I-ymuQz9H8gW1eFNXV7Q&usqp=CAU",
+        "nickname": "gatgatgu2",
+        "address": "gatgu-si gatgu-dong2",
+        "phonenumber": "010-1010-1010"
+      },
+      "created_at": null,
+      "updated_at": null,
+      "is_active": false
     }
   ],
   "article": [{

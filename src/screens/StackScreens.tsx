@@ -38,6 +38,7 @@ function ArticleDrawer(): JSX.Element {
     <Drawer.Navigator
       drawerPosition="right"
       drawerContent={(props) => <DrawerTemplate {...props} />}
+      drawerStyle={{ width: '57%' }}
     >
       <Drawer.Screen name={Article.name} component={Article.component} />
       {/* TODO: Add this screen: 

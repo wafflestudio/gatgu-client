@@ -20,3 +20,9 @@ export interface IUserProps {
   is_active: boolean;
   token: string;
 }
+
+export interface IUserSumProps {
+  profile_id: number;
+  picture: string;
+  nickname: string;
+}

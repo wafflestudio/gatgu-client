@@ -1,6 +1,6 @@
 import requester from './BaseInstance';
 import { AxiosResponse } from 'axios';
-import { IUserProps } from '../types/user';
+import { IUserProps, IUserSumProps } from '../types/user';
 
 export const readMyInfo = (): Promise<AxiosResponse<IUserProps>> => {
   return requester.get('user/me/');
@@ -39,4 +39,10 @@ export const signUp = (
     first_name,
     last_name,
   });
+};
+
+export const getUser = (
+  profile_id: number
+): Promise<AxiosResponse<IUserProps>> => {
+  return requester.get(`users/${profile_id}/`); // TODO: change to user after back deploy
 };

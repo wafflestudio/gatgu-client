@@ -62,6 +62,11 @@ const fakeRequesterWrapper = {
         // GET chat info
         else if (/chat\?article=\d+/.test(uri) === true) {
           return fakeRequester.get(uri);
+        }
+        // GET user summary
+        else if (/users\/\d+\//.test(uri) === true) {
+          // TODO: change to user after back deploy
+          return fakeRequester.get(uri);
         } else {
           throw new Error('Code is wrong');
         }
