@@ -168,7 +168,7 @@ function SignUpTemplate(): JSX.Element {
   const signUp = useCallback(() => {
     if (!signUpAble) return;
     userAPI
-      .signUp('', '', '', '', '', '', '', '', '')
+      .signUp(id, pw, nn, '', '', '', '')
       .then(() => {
         dispatch(login(id, pw, navigation));
       })
@@ -179,6 +179,8 @@ function SignUpTemplate(): JSX.Element {
             break;
           default:
             alert('unknown error');
+            console.error('err');
+            console.error(err);
             break;
         }
       });

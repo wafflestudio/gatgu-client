@@ -20,9 +20,7 @@ export const login = (
 export const signUp = (
   username: string,
   password: string,
-  address: string,
   nickname: string,
-  picture: string,
   phonenumber: string,
   email: string,
   first_name: string,
@@ -31,9 +29,7 @@ export const signUp = (
   return requester.post('user/', {
     username,
     password,
-    address,
     nickname,
-    picture,
     phonenumber,
     email,
     first_name,
