@@ -87,7 +87,7 @@ function DrawerTemplate(props: any): JSX.Element {
 
   return (
     <DrawerContentScrollView {...props}>
-      <Button title="거래 완료하기" onPress={toggleStatus} />
+      <Button title="모집 완료하기" onPress={toggleStatus} />
       <Button title="수정하기" onPress={() => alert('navigate to edit page')} />
       <Button title="삭제하기" onPress={delArticle} />
       <Button title="신고하기" onPress={() => alert('not yet: 신고하기')} />
