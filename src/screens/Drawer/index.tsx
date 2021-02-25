@@ -9,7 +9,7 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import { RootState } from '@/store';
-import { articleAPI, chatAPI, userAPI } from '@/apis';
+import { articleAPI, chatAPI, userAPI } from '@/helpers/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
