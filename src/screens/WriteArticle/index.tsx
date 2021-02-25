@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, Button } from 'react-native';
 import Header from '@/components/Header';
-import { articleAPI } from '@/apis';
+import { articleAPI } from '@/helpers/apis';
 import Tags from './Tags/Tags';
 import AddImage from './AddImage/AddImage';
 import Title from './Title/Title';

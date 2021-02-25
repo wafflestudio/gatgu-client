@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { articleAPI } from '@/apis';
+import { articleAPI } from '@/helpers/apis';
 import {
   IArticleProps,
   IArticleSumProps,

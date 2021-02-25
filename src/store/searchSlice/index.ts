@@ -10,7 +10,7 @@ import {
 import { AppThunk } from '@/store';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { articleAPI, SearchAPI } from '@/apis';
+import { articleAPI, SearchAPI } from '@/helpers/apis';
 
 export interface ISearchedArticleSlice {
   data: IArticleSumProps[];

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProps } from '@/types/user';
-import { userAPI } from '@/apis';
+import { userAPI } from '@/helpers/apis';
 import { AppThunk } from '@/store';
-import { setToken, removeToken } from '@/apis/BaseInstance';
+import { setToken, removeToken } from '@/helpers/apis/BaseInstance';
 import { NavigationProp } from '@react-navigation/native';
 
 const initialState = {
