@@ -17,7 +17,6 @@ function SignUpTemplate(): JSX.Element {
   const [pw, setPW] = useState(''); // PassWord
   const [pc, setPC] = useState(''); // Password Confirmation
   const [nn, setNN] = useState(''); // NickName
-  const [nm, setNM] = useState(''); // NaMe
   const [em, setEM] = useState(''); // EMail
 
   // checkboxes
@@ -77,17 +76,6 @@ function SignUpTemplate(): JSX.Element {
         isValid: nn.length >= 1,
       }),
       [nn, setNN]
-    ),
-    useMemo(
-      () => ({
-        value: nm,
-        onChangeText: setNM,
-        placeholder: '이름',
-        invalidString: '필수정보입니다.',
-        validString: '',
-        isValid: nm.length >= 1,
-      }),
-      [nm, setNM]
     ),
     useMemo(
       () => ({
