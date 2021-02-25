@@ -13,6 +13,7 @@ import { articleAPI, chatAPI, userAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
+import { palette } from '@/styles';
 
 const [Error] = createError();
 
@@ -87,13 +88,32 @@ function DrawerTemplate(props: any): JSX.Element {
 
   return (
     <DrawerContentScrollView {...props}>
-      <Button title="모집 완료하기" onPress={toggleStatus} />
-      <Button title="수정하기" onPress={() => alert('navigate to edit page')} />
-      <Button title="삭제하기" onPress={delArticle} />
-      <Button title="신고하기" onPress={() => alert('not yet: 신고하기')} />
-      <Text>------------------</Text>
-      <Text>모집인원 목록</Text>
-      {participants}
+      <View style={styles.upperContainer}>
+        <Button
+          title="모집 완료하기"
+          onPress={toggleStatus}
+          textStyle={[styles.upperLabelText, { color: palette.blue }]}
+        />
+        <Button
+          title="수정하기"
+          onPress={() => alert('navigate to edit page')}
+          textStyle={styles.upperLabelText}
+        />
+        <Button
+          title="삭제하기"
+          onPress={delArticle}
+          textStyle={styles.upperLabelText}
+        />
+        <Button
+          title="신고하기"
+          onPress={() => alert('not yet: 신고하기')}
+          textStyle={styles.upperLabelText}
+        />
+      </View>
+      <View style={styles.lowerContainer}>
+        <Text style={styles.lowerLabelText}>모집인원 목록</Text>
+        {participants}
+      </View>
     </DrawerContentScrollView>
   );
 }
