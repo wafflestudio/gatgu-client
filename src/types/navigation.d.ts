@@ -15,8 +15,8 @@ export type ArticleDrawerParamList = {
 export type SignUpStackParamList = {
   TOS: {
     title: string;
-    content: string;
+    checked: boolean;
     isOptional: boolean;
-    confirm: () => void;
+    onPress: () => void;
   };
 };

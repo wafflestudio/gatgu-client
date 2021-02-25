@@ -14,13 +14,21 @@ const SignUpStyles = StyleSheet.create({
     height: 27,
     marginBottom: 14,
   },
-  confirmBtnCon: {
+  confirmBtnConO: {
     height: 46,
-    backgroundColor: palette.blue,
     alignItems: 'center',
     borderRadius: 11,
     marginBottom: 62,
     marginTop: 35,
+    backgroundColor: palette.blue,
+  },
+  confirmBtnConX: {
+    height: 46,
+    alignItems: 'center',
+    borderRadius: 11,
+    marginBottom: 62,
+    marginTop: 35,
+    backgroundColor: palette.gray,
   },
   confirmBtnText: {
     ...typo.bigTitle,

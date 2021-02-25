@@ -1,7 +1,7 @@
 import { View, Text, ScrollView } from 'react-native';
 import { Button } from '@/components';
 import React from 'react';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { SignUpStackParamList } from '@/types/navigation';
 import contents from './content';
 import styles from './TOS.style';
@@ -9,12 +9,21 @@ import styles from './TOS.style';
 interface TOSProps {
   title: string;
   isOptional: boolean;
-  confirm: () => void;
+  checked: boolean;
+  onPress: () => void;
 }
 
 function TOSTemplate(): JSX.Element {
   const route = useRoute<RouteProp<SignUpStackParamList, 'TOS'>>();
-  const { title, isOptional, confirm }: TOSProps = route.params;
+  const { title, checked, isOptional, onPress }: TOSProps = route.params;
+
+  const navigation = useNavigation();
+
+  const confirm = () => {
+    if (checked) return;
+    navigation.goBack();
+    onPress();
+  };
 
   return (
     <View style={styles.container}>

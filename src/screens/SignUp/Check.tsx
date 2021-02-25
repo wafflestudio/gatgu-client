@@ -21,7 +21,7 @@ function Check({
   const navigation = useNavigation();
 
   const goToTOS = () => {
-    navigation.navigate('TOS', { title, isOptional, onPress });
+    navigation.navigate('TOS', { title, checked, isOptional, onPress });
   };
 
   return (
