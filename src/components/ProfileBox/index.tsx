@@ -3,12 +3,14 @@ import React from 'react';
 import { Text, Image, TouchableOpacity } from 'react-native';
 import styles from './Profile.style';
 import { typo } from '@/styles';
-import { IArticleProps } from '@/types/article';
 import { useNavigation } from '@react-navigation/native';
+import { IUserSumProps } from '@/types/user';
 
 function Profile({
-  writer: { profile_id, picture, nickname },
-}: IArticleProps): JSX.Element {
+  profile_id,
+  picture,
+  nickname,
+}: IUserSumProps): JSX.Element {
   const navigation = useNavigation();
 
   return (

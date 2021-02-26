@@ -1,4 +1,4 @@
-import { Button } from '@/components';
+import { Button, Profile } from '@/components';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './Drawer.style';
@@ -56,18 +56,7 @@ function DrawerTemplate(props: any): JSX.Element {
           .getUser(part) // 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
           .then((response: AxiosResponse<IUserProps>) => {
             const user = response.data.userprofile;
-            tempArr = tempArr.concat(
-              <View key={ind}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('Profile', { params: user.profile_id })
-                  }
-                >
-                  <Image source={{ uri: user.picture }} style={styles.image} />
-                </TouchableOpacity>
-                <Text>Participant {user.nickname}</Text>
-              </View>
-            );
+            tempArr = tempArr.concat(<Profile {...user} />);
           })
           .then(() => {
             setParticipants(tempArr);

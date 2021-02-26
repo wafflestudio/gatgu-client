@@ -9,7 +9,9 @@ import { IArticleProps } from '@/types/article';
 function ProfileChat(article: IArticleProps): JSX.Element {
   return (
     <View style={styles.userContainer}>
-      <Profile {...article} />
+      <View style={styles.profileContainer}>
+        <Profile {...article.writer} />
+      </View>
       <Chat />
     </View>
   );

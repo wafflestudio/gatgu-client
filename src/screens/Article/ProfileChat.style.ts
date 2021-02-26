@@ -10,6 +10,10 @@ const ProfileChatStyles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 10,
   },
+  profileContainer: {
+    paddingRight: 80,
+    marginLeft: 15,
+  },
 });
 
 export default ProfileChatStyles;
