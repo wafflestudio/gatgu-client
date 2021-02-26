@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
-import { TouchableHighlight, Text } from 'react-native';
+import { TouchableHighlight, Text, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import routes from '@/helpers/routes';
 import { Icon } from 'native-base';
 import { Button } from '@/components';
 import DrawerTemplate from './Drawer';
+
+import { logout } from '@/store/userSlice';
+import { useDispatch } from 'react-redux';
 
 const {
   Home,
@@ -91,7 +94,18 @@ function HomeStackScreen(): JSX.Element {
   );
 }
 
+// FIXME: 그때 말했던 폴더 구조 관련된 큰 체인지가 필요해 보입니다
+//  일단 어디로든 옮겨질 파일이라 생각하고 여러 군데 흩뿌려놓으면 나중에 찾기 힘드니까 여기다 다 몰아놓을게요
+//  현재 더보기창 디자인도 진행중인 관계로 정확하게 디자인하진 않겠습니당
 function ProfileStackScreen(): JSX.Element {
+  const [show, setShow] = useState(false);
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const logoutReq = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen
@@ -100,6 +114,32 @@ function ProfileStackScreen(): JSX.Element {
         options={{
           title: '더보기',
           headerTitleAlign: 'center',
+          // eslint-disable-next-line react/display-name
+          headerRight: () => (
+            <View style={{ position: 'relative' }}>
+              <TouchableHighlight onPress={() => setShow(!show)}>
+                <Icon name="more" />
+              </TouchableHighlight>
+              {show ? (
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 50,
+                    width: 100,
+                    left: -100,
+                    backgroundColor: 'white',
+                    height: 50,
+                  }}
+                >
+                  <Button
+                    title="수정 창으로"
+                    onPress={() => navigation.navigate('ProfileModify')}
+                  />
+                  <Button title="로그아웃하기" onPress={logoutReq} />
+                </View>
+              ) : null}
+            </View>
+          ),
         }}
       />
       <ProfileStack.Screen
