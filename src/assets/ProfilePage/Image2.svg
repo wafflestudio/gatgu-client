@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="288" height="174" viewBox="0 0 288 174">
+    <defs>
+        <filter id="사각형_467" width="288" height="174" x="0" y="0" filterUnits="userSpaceOnUse">
+            <feOffset dy="3"/>
+            <feGaussianBlur result="blur" stdDeviation="4"/>
+            <feFlood flood-opacity=".161"/>
+            <feComposite in2="blur" operator="in"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <style>
+            .cls-13{fill:#fff;font-size:12px}.cls-14{font-family:NotoSansCJKkr-Regular,Noto Sans CJK KR}.cls-14,.cls-4,.cls-5{fill:#8d8d8d}.cls-4{font-size:6px}.cls-13,.cls-4,.cls-5{font-family:AppleSDGothicNeo-Regular,Apple SD Gothic Neo}.cls-5{font-size:7px}.cls-14{font-size:8px}
+        </style>
+    </defs>
+    <g id="그룹_83" transform="translate(-44 -399)">
+        <g filter="url(#사각형_467)" transform="translate(44 399)">
+            <rect id="사각형_467-2" width="264" height="150" fill="#fff" rx="15" transform="translate(12 9)"/>
+        </g>
+        <g id="그룹_42" transform="translate(55.917 386.103)">
+            <text id="등급" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-size="12px" font-weight="700" transform="translate(14.083 82.897)">
+                <tspan x="0" y="0">등급</tspan>
+            </text>
+            <text id="내_등급" font-family="NotoSansCJKkr-Regular, Noto Sans CJK KR" font-size="10px" transform="translate(100.083 163.897)">
+                <tspan x="-14.92" y="0">내 등급</tspan>
+            </text>
+            <text id="_100" class="cls-4" transform="translate(84.083 102.897)">
+                <tspan x="-4.851" y="0">100</tspan>
+            </text>
+            <text id="_-100" class="cls-4" transform="translate(20.083 102.897)">
+                <tspan x="-5.973" y="0">-100</tspan>
+            </text>
+            <text id="_200" class="cls-5" transform="translate(117.083 103.897)">
+                <tspan x="-6.258" y="0">200</tspan>
+            </text>
+            <text id="_300" class="cls-5" transform="translate(147.083 103.897)">
+                <tspan x="-6.286" y="0">300</tspan>
+            </text>
+            <text id="_400" class="cls-5" transform="translate(179.083 103.897)">
+                <tspan x="-6.352" y="0">400</tspan>
+            </text>
+            <text id="_500" class="cls-5" transform="translate(212.083 103.897)">
+                <tspan x="-6.156" y="0">500</tspan>
+            </text>
+            <text id="_600" class="cls-5" transform="translate(242.083 103.897)">
+                <tspan x="-6.332" y="0">600</tspan>
+            </text>
+            <text id="_0" class="cls-4" transform="translate(51.083 102.897)">
+                <tspan x="-1.89" y="0">0</tspan>
+            </text>
+            <path id="패스_1" fill="#f3c550" d="M0 0h30.206v33.482L15.9 42.265 0 33.482z" transform="translate(84.536 109.014)"/>
+            <path id="사각형_30" fill="#d4515d" d="M0 0H30V28H0z" transform="translate(20.084 108.897)"/>
+            <path id="사각형_31" fill="#e8914f" d="M0 0H31V28H0z" transform="translate(52.083 108.897)"/>
+            <path id="사각형_32" fill="#60bf70" d="M0 0H30V28H0z" transform="translate(117.083 108.897)"/>
+            <path id="사각형_33" fill="#60cdc8" d="M0 0H30V28H0z" transform="translate(149.084 108.897)"/>
+            <path id="사각형_34" fill="#4499e3" d="M0 0H31V28H0z" transform="translate(181.084 108.897)"/>
+            <path id="사각형_35" fill="#a45eae" d="M0 0H30V28H0z" transform="translate(214.083 108.897)"/>
+            <text id="초수" class="cls-13" transform="translate(100.083 127.897)">
+                <tspan x="-10.38" y="0">초수</tspan>
+            </text>
+            <text id="중수" class="cls-13" transform="translate(132.083 127.897)">
+                <tspan x="-10.38" y="0">중수</tspan>
+            </text>
+            <text id="고수" class="cls-13" transform="translate(163.083 127.897)">
+                <tspan x="-10.38" y="0">고수</tspan>
+            </text>
+            <text id="지존" class="cls-13" transform="translate(196.083 127.897)">
+                <tspan x="-10.38" y="0">지존</tspan>
+            </text>
+            <text id="같갓" class="cls-13" transform="translate(228.083 127.897)">
+                <tspan x="-10.38" y="0">같갓</tspan>
+            </text>
+            <text id="천민" class="cls-13" transform="translate(34.083 127.897)">
+                <tspan x="-10.38" y="0">천민</tspan>
+            </text>
+            <text id="하수" class="cls-13" transform="translate(67.083 127.897)">
+                <tspan x="-10.38" y="0">하수</tspan>
+            </text>
+        </g>
+        <text id="_2020.2.12." class="cls-14" transform="translate(155 415)">
+            <tspan x="0" y="0">2020.2.12.</tspan>
+        </text>
+        <text id="인증된_회원" class="cls-14" transform="translate(155 428)">
+            <tspan x="0" y="0">인증된 회원</tspan>
+        </text>
+        <path id="선_9" fill="none" stroke="#c9c9c9" d="M0 0L264 0" transform="translate(56 445)"/>
+        <path id="타원_27" fill="#f0f0f0" d="M49.941 26.732a25 25 0 0 1-49.894-.18z" transform="translate(90 381.448)"/>
+    </g>
+</svg>
