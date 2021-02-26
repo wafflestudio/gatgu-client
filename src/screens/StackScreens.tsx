@@ -10,7 +10,8 @@ import { Button } from '@/components';
 import DrawerTemplate from './Drawer';
 
 import { logout } from '@/store/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 const {
   Home,
@@ -99,6 +100,7 @@ function HomeStackScreen(): JSX.Element {
 //  현재 더보기창 디자인도 진행중인 관계로 정확하게 디자인하진 않겠습니당
 function ProfileStackScreen(): JSX.Element {
   const [show, setShow] = useState(false);
+  const logged = useSelector((state: RootState) => state.user.logged);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -115,31 +117,32 @@ function ProfileStackScreen(): JSX.Element {
           title: '더보기',
           headerTitleAlign: 'center',
           // eslint-disable-next-line react/display-name
-          headerRight: () => (
-            <View style={{ position: 'relative' }}>
-              <TouchableHighlight onPress={() => setShow(!show)}>
-                <Icon name="more" />
-              </TouchableHighlight>
-              {show ? (
-                <View
-                  style={{
-                    position: 'absolute',
-                    top: 50,
-                    width: 100,
-                    left: -100,
-                    backgroundColor: 'white',
-                    height: 50,
-                  }}
-                >
-                  <Button
-                    title="수정 창으로"
-                    onPress={() => navigation.navigate('ProfileModify')}
-                  />
-                  <Button title="로그아웃하기" onPress={logoutReq} />
-                </View>
-              ) : null}
-            </View>
-          ),
+          headerRight: () =>
+            logged ? (
+              <View style={{ position: 'relative' }}>
+                <TouchableHighlight onPress={() => setShow(!show)}>
+                  <Icon name="more" />
+                </TouchableHighlight>
+                {show ? (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 50,
+                      width: 100,
+                      left: -100,
+                      backgroundColor: 'white',
+                      height: 50,
+                    }}
+                  >
+                    <Button
+                      title="수정 창으로"
+                      onPress={() => navigation.navigate('ProfileModify')}
+                    />
+                    <Button title="로그아웃하기" onPress={logoutReq} />
+                  </View>
+                ) : null}
+              </View>
+            ) : null,
         }}
       />
       <ProfileStack.Screen
