@@ -3,6 +3,9 @@ import { Button } from '@/components';
 import { View, Text } from 'react-native';
 import styles from './FootTerms.style';
 
+/* ------------------------ */
+/*    약관 | 개인정보 처리방침   */
+/* ------------------------ */
 function FootTerms(): JSX.Element {
   return (
     <View style={styles.smalls}>
