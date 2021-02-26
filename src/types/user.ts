@@ -4,7 +4,6 @@
 export interface IUserProps {
   id: number;
   username: string;
-  password: string;
   email: string;
   first_name: string;
   last_name: string;
@@ -12,11 +11,10 @@ export interface IUserProps {
     profile_id: number;
     picture: string;
     nickname: string;
-    address: string;
-    phonenumber: string;
+    updated_at: any;
+    withdrew_at: any;
   };
-  created_at: any;
-  updated_at: any;
   is_active: boolean;
+  date_joined: any;
   token: string;
 }

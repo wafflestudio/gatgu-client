@@ -14,7 +14,7 @@ export const setToken = (token: string): void => {
 
 // remove user auth token
 export const removeToken = (): void => {
-  requester.defaults.headers['Authorization'] = null;
+  requester.defaults.headers['Authorization'] = undefined;
 };
 
 export default requester;

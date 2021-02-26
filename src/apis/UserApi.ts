@@ -6,7 +6,7 @@ export const readMyInfo = (): Promise<AxiosResponse<IUserProps>> => {
   return requester.get('user/me/');
 };
 
-export const logout = (): Promise<AxiosResponse<IUserProps>> => {
+export const logout = (): Promise<AxiosResponse<any>> => {
   return requester.put('user/logout/', {});
 };
 
@@ -21,18 +21,12 @@ export const signUp = (
   username: string,
   password: string,
   nickname: string,
-  phonenumber: string,
-  email: string,
-  first_name: string,
-  last_name: string
+  email: string
 ): Promise<AxiosResponse<IUserProps>> => {
   return requester.post('user/', {
     username,
     password,
     nickname,
-    phonenumber,
     email,
-    first_name,
-    last_name,
   });
 };
