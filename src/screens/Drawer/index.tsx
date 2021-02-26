@@ -4,17 +4,14 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './Drawer.style';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { RootState } from '@/store';
 import { articleAPI, chatAPI, userAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
 import { palette } from '@/styles';
-import { IUserProps, IUserSumProps } from '@/types/user';
+import { IUserProps } from '@/types/user';
 
 interface ElementArr {
   list: JSX.Element[];
@@ -102,32 +99,38 @@ function DrawerTemplate(props: any): JSX.Element {
 
   return (
     <DrawerContentScrollView {...props}>
-      <View style={styles.upperContainer}>
-        <Button
-          title="모집 완료하기"
-          onPress={toggleStatus}
-          textStyle={[styles.upperLabelText, { color: palette.blue }]}
-        />
-        <Button
-          title="수정하기"
-          onPress={() => alert('navigate to edit page')}
-          textStyle={styles.upperLabelText}
-        />
-        <Button
-          title="삭제하기"
-          onPress={delArticle}
-          textStyle={styles.upperLabelText}
-        />
-        <Button
-          title="신고하기"
-          onPress={() => alert('not yet: 신고하기')}
-          textStyle={styles.upperLabelText}
-        />
-      </View>
-      <View style={styles.lowerContainer}>
-        <Text style={styles.lowerLabelText}>모집 인원 목록</Text>
-        {participants}
-      </View>
+      {hasError ? (
+        <Text>Error</Text>
+      ) : (
+        <View>
+          <View style={styles.upperContainer}>
+            <Button
+              title="모집 완료하기"
+              onPress={toggleStatus}
+              textStyle={[styles.upperLabelText, { color: palette.blue }]}
+            />
+            <Button
+              title="수정하기"
+              onPress={() => alert('navigate to edit page')}
+              textStyle={styles.upperLabelText}
+            />
+            <Button
+              title="삭제하기"
+              onPress={delArticle}
+              textStyle={styles.upperLabelText}
+            />
+            <Button
+              title="신고하기"
+              onPress={() => alert('not yet: 신고하기')}
+              textStyle={styles.upperLabelText}
+            />
+          </View>
+          <View style={styles.lowerContainer}>
+            <Text style={styles.lowerLabelText}>모집 인원 목록</Text>
+            {participants}
+          </View>
+        </View>
+      )}
     </DrawerContentScrollView>
   );
 }
