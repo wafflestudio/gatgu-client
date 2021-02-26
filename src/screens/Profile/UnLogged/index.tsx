@@ -3,6 +3,7 @@ import { Button } from '@/components';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image } from 'react-native';
 import styles from './UnLogged.style';
+import { FootTerms } from '@/components';
 
 // Profile Component
 function ProfileTemplate(): JSX.Element {
@@ -35,21 +36,7 @@ function ProfileTemplate(): JSX.Element {
         textStyle={styles.signUpBtnText}
         onPress={() => navigation.navigate('SignUp')}
       />
-      <View style={styles.smalls}>
-        <Button
-          style={styles.smallBtn}
-          textStyle={styles.smallBtnText}
-          title="약관"
-          onPress={() => alert('not implemented')}
-        />
-        <Text style={styles.smallText}>|</Text>
-        <Button
-          style={styles.smallBtn}
-          textStyle={styles.smallBtnText}
-          title="개인정보 처리방침"
-          onPress={() => alert('not implemented')}
-        />
-      </View>
+      <FootTerms />
     </View>
   );
 }

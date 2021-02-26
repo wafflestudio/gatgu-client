@@ -98,6 +98,7 @@ function ProfileStackScreen(): JSX.Element {
         name={Profile.name}
         component={Profile.component}
         options={{
+          title: '더보기',
           headerTitleAlign: 'center',
         }}
       />
