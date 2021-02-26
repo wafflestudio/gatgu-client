@@ -1,31 +1,51 @@
 import React from 'react';
 import { Button } from '@/components';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text } from 'react-native';
-import { Image1, Image2 } from '@/assets/ProfilePage';
+import { View, Text, Image } from 'react-native';
+import styles from './UnLogged.style';
 
 // Profile Component
 function ProfileTemplate(): JSX.Element {
   const navigation = useNavigation();
+
   return (
-    <View>
-      <Text>로그인으로</Text>
-      <Text>더 다양한 기능을 사용하세요.</Text>
-      <Text>채팅을 통해 거래하거나 나의 등급 등을 알 수 있어요.</Text>
-      <Image1 />
-      <Image2 />
+    <View style={styles.container}>
+      <Text style={styles.title}>로그인으로</Text>
+      <Text style={styles.title}>더 다양한 기능을 사용하세요.</Text>
+      <Text style={styles.info}>
+        채팅을 통해 거래하거나 나의 등급 등을 알 수 있어요.
+      </Text>
+      <Image
+        style={styles.image}
+        source={require('@/assets/ProfilePage/Image1.png')}
+      />
+      <Image
+        style={styles.image}
+        source={require('@/assets/ProfilePage/Image2.png')}
+      />
       <Button
-        title="로그인 창으로"
+        title="로그인하러 가기"
+        style={styles.loginBtn}
+        textStyle={styles.loginBtnText}
         onPress={() => navigation.navigate('Login')}
       />
       <Button
-        title="회원가입 창으로"
+        title="회원가입하러 가기"
+        style={styles.signUpBtn}
+        textStyle={styles.signUpBtnText}
         onPress={() => navigation.navigate('SignUp')}
       />
-      <View>
-        <Button title="약관" onPress={() => alert('not implemented')} />
-        <Text>|</Text>
+      <View style={styles.smalls}>
         <Button
+          style={styles.smallBtn}
+          textStyle={styles.smallBtnText}
+          title="약관"
+          onPress={() => alert('not implemented')}
+        />
+        <Text style={styles.smallText}>|</Text>
+        <Button
+          style={styles.smallBtn}
+          textStyle={styles.smallBtnText}
           title="개인정보 처리방침"
           onPress={() => alert('not implemented')}
         />
