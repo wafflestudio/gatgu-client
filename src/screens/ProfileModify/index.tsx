@@ -1,26 +1,15 @@
-import { View } from 'native-base';
 import { useState } from 'react';
-import { ImageBackground } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { ImageBackground, View, Text } from 'react-native';
 import styles from './ProfileModify.styles';
 import React from 'react';
-
-// TODO: remove this after API 확정
-const dummyInfo = {
-  profileUrl: 'https://reactjs.org/logo-og.png',
-  name: '같구',
-  date: '1920-10-80',
-  auth: false,
-  grade: 2,
-  emdrmqwltn: 128,
-  dmdekqfbf: 97,
-  e_response_time: 10,
-  worjfogmlakdfbf: 100,
-};
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { StringInput } from '@/components';
 
 function ProfileModify(): JSX.Element {
   const [nickname, setNickname] = useState('');
-  const profileImg = { uri: dummyInfo.profileUrl };
+  const { info } = useSelector((state: RootState) => state.user);
+  const profileImg = { uri: info.userprofile.picture };
 
   return (
     <View style={styles.container}>
@@ -31,14 +20,18 @@ function ProfileModify(): JSX.Element {
         </View>
       </View>
       <View style={styles.nickContainer}>
-        {/* FIXME: StringInput으로 수정 */}
-        <TextInput
+        <StringInput
           style={styles.nickInput}
+          placeholderStyle={styles.nickInput}
           value={nickname}
           onChangeText={setNickname}
           placeholder="별명"
         />
       </View>
+      <Text>
+        아마도 디자인이 아직 덜 나온 스크린인 듯 하다 대체 완료 버튼은 어디에
+        있는 것인가
+      </Text>
     </View>
   );
 }
