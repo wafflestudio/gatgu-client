@@ -1,6 +1,5 @@
-import { View, Text } from 'native-base';
 import { useState } from 'react';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, View, Text } from 'react-native';
 import styles from './ProfileModify.styles';
 import React from 'react';
 import { useSelector } from 'react-redux';

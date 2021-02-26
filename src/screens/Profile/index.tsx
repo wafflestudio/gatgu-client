@@ -5,9 +5,9 @@ import LoggedProfile from './Logged';
 import UnloggedProfile from './UnLogged';
 
 function Profile(): JSX.Element {
-  const { logged } = useSelector((state: RootState) => state.user);
-  if (logged) return <LoggedProfile />;
-  else return <UnloggedProfile />;
+  const logged = useSelector((state: RootState) => state.user.logged);
+
+  return logged ? <LoggedProfile /> : <UnloggedProfile />;
 }
 
 export default Profile;

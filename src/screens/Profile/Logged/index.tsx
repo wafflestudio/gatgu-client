@@ -16,7 +16,7 @@ export interface IProfileProps {
 // Profile Component
 function ProfileTemplate(): JSX.Element {
   const navigation = useNavigation();
-  const { info } = useSelector((state: RootState) => state.user);
+  const info = useSelector((state: RootState) => state.user.info);
   const dispatch = useDispatch();
 
   const logoutReq = useCallback(() => {
