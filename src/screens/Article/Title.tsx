@@ -8,14 +8,14 @@ import { IArticleProps } from '@/types/article';
 
 function Title(article: IArticleProps): JSX.Element {
   // 남은 시간
-  const { diff: timeLeft, type: typeLeft } = useMemo(
-    () => calcTimeDiff(article.created_at, article.time_max),
-    [article.created_at, article.time_max]
+  const { diff: timeLeft, type: typeLeft } = calcTimeDiff(
+    article.created_at,
+    article.time_max
   );
   // 몇 분 전
-  const { diff: timeBefore, type: typeBefore } = useMemo(
-    () => calcTimeDiff(article.created_at, 'current'),
-    [article.created_at]
+  const { diff: timeBefore, type: typeBefore } = calcTimeDiff(
+    article.created_at,
+    'current'
   );
 
   return (
