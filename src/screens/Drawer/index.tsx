@@ -43,7 +43,7 @@ function DrawerTemplate(props: any): JSX.Element {
           setError(true);
         });
     }
-  }, [currentArticle]);
+  }, []);
 
   useEffect(() => {
     if (chatInfo?.id !== 0) {
@@ -53,7 +53,7 @@ function DrawerTemplate(props: any): JSX.Element {
           .getUser(part) // 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
           .then((response: AxiosResponse<IUserProps>) => {
             const user = response.data.userprofile;
-            tempArr = tempArr.concat(<Profile {...user} />);
+            tempArr = tempArr.concat(<Profile key={ind} {...user} />);
           })
           .then(() => {
             setParticipants(tempArr);

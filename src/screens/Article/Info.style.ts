@@ -18,12 +18,6 @@ const InfoStyles = StyleSheet.create({
     color: palette.gray,
     ...typo.info,
   },
-
-  goalWrapper: {
-    alignItems: 'center',
-    width: '79%',
-    paddingTop: 4,
-  },
 });
 
 export default InfoStyles;

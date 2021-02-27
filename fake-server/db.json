@@ -209,17 +209,14 @@
     "location": "사운드 마인드",
     "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
     "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
-    "price_min": 20000,
+    "need_type": 0,
+    "price_min": 25000,
     "people_count_min": 3,
+    "time_max": "2021-02-28",
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "notInAPI": {
-      "dueDate": "2021-03-10",
-      "goal": "25,000원",
-      "percent": 10,
-      "isMoney":true
-    }
+    "current": 5000
   },{
     "id":2,
     "writer": {
