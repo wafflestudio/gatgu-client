@@ -1,9 +1,10 @@
-import { palette } from '@/styles';
+import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const LoginStyle = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: palette.white,
   },
   logo: {
     marginTop: 133,
@@ -11,7 +12,6 @@ const LoginStyle = StyleSheet.create({
     marginRight: 'auto',
     width: 190,
     height: 60,
-    backgroundColor: 'yellow',
     marginBottom: 55.6,
   },
   input: {
@@ -19,7 +19,7 @@ const LoginStyle = StyleSheet.create({
     height: 42,
     padding: 10,
     borderWidth: 1,
-    borderColor: palette.borderGray,
+    borderColor: palette.gray,
     borderRadius: 10,
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -38,6 +38,10 @@ const LoginStyle = StyleSheet.create({
     color: palette.white,
     fontSize: 18,
   },
+  loginBtnText: {
+    ...typo.bigTitle,
+    color: palette.white,
+  },
   signUpBtn: {
     width: 56,
     height: 22,
@@ -47,6 +51,11 @@ const LoginStyle = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 30,
+  },
+  signUpBtnText: {
+    ...typo.semiTitle,
+    color: palette.gray,
+    textDecorationLine: 'underline',
   },
 });
 

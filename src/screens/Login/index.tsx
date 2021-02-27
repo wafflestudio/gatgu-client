@@ -6,6 +6,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import styles from './Login.style';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import logo from '@/assets/Logo';
+import { palette } from '@/styles';
 
 function LoginTemplate(): JSX.Element {
   const [id, setID] = useState('');
@@ -21,19 +23,19 @@ function LoginTemplate(): JSX.Element {
   }, [dispatch, navigation, id, pw]);
 
   const signUp = () => {
-    // TODO: 나중에 이름 정해지면 바꿔야됨
     navigation.navigate('SignUp');
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.logo}></View>
+      <logo.subLogo style={styles.logo} />
       <View>
         <TextInput
           style={styles.input}
           value={id}
           placeholder="아이디"
           onChangeText={setID}
+          placeholderTextColor={palette.gray}
         />
         {/* FIXME: value={"*" * pw.length} */}
         <TextInput
@@ -41,10 +43,21 @@ function LoginTemplate(): JSX.Element {
           value={pw}
           placeholder="비밀번호"
           onChangeText={setPW}
+          placeholderTextColor={palette.gray}
         />
       </View>
-      <Button title="로그인" onPress={loginReq} style={styles.loginBtn} />
-      <Button title="회원가입" onPress={signUp} style={styles.signUpBtn} />
+      <Button
+        title="로그인"
+        onPress={loginReq}
+        style={styles.loginBtn}
+        textStyle={styles.loginBtnText}
+      />
+      <Button
+        title="회원가입"
+        onPress={signUp}
+        style={styles.signUpBtn}
+        textStyle={styles.signUpBtnText}
+      />
     </View>
   );
 }

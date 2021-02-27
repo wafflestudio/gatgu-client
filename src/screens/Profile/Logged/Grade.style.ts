@@ -1,12 +1,14 @@
+import { palette } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const GradeStyle = StyleSheet.create({
   // container
   container: {
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: palette.borderGray,
     height: 267,
     padding: 20,
+    backgroundColor: palette.white,
   },
 
   // header

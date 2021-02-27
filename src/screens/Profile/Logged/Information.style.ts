@@ -1,3 +1,4 @@
+import { palette } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const infoStyle = StyleSheet.create({
@@ -8,6 +9,8 @@ const infoStyle = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
     flexDirection: 'row',
+    backgroundColor: palette.white,
+    borderColor: palette.borderGray,
   },
 
   // profile image

@@ -8,7 +8,7 @@ import { StringInput } from '@/components';
 
 function ProfileModify(): JSX.Element {
   const [nickname, setNickname] = useState('');
-  const { info } = useSelector((state: RootState) => state.user);
+  const info = useSelector((state: RootState) => state.user.info);
   const profileImg = { uri: info.userprofile.picture };
 
   return (
