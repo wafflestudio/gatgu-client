@@ -10,7 +10,11 @@ export const remainTime = (deadline: string): string => {
 };
 
 // for current date (new Date()), use 'current' as input
-export const calcTimeDiff = (start: string, end: string) => {
+interface timeDiff {
+  diff: number;
+  type: string;
+}
+export const calcTimeDiff = (start: string, end: string): timeDiff => {
   const startDate = start === 'current' ? new Date() : new Date(start);
   const endDate = end === 'current' ? new Date() : new Date(end);
 

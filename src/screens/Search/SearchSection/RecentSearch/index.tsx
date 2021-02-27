@@ -25,7 +25,7 @@ function RecentSearch({ tags }: IRecentSearchProps): JSX.Element {
   const onPressXIcon = useCallback((tag: string) => {
     asyncStorageFunc.removePropArrElem(asyncStoragekey.RECENT_SEARCH, tag);
     dispatch(removeKeyword({ keyword: tag }));
-  }, []);
+  }, []); // LINT: React Hook useCallback has a missing dependency: 'dispatch'. Either include it or remove the dependency array
 
   const renderedTags = tags.map((tag, ind) => (
     <View key={ind} style={[SearchStyle.tagBox, RecentSearchStyle.tagsWrapper]}>

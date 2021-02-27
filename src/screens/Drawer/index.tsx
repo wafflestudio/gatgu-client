@@ -1,15 +1,11 @@
 import { Button } from '@/components';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import styles from './Drawer.style';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { RootState } from '@/store';
-import { articleAPI, chatAPI, userAPI } from '@/apis';
+import { articleAPI, chatAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
@@ -35,6 +31,7 @@ function DrawerTemplate(props: any): JSX.Element {
           setError(false);
         })
         .catch((err: AxiosError) => {
+          console.log(err);
           setError(true);
         });
     }
@@ -52,6 +49,7 @@ function DrawerTemplate(props: any): JSX.Element {
           alert(`Successfully changed status to "${temp}"`);
         })
         .catch((err: AxiosError) => {
+          console.log(err);
           alert("Couldn't change status");
         });
     }
@@ -61,11 +59,12 @@ function DrawerTemplate(props: any): JSX.Element {
     if (chatInfo !== undefined) {
       articleAPI
         .deleteArticle(chatInfo.id)
-        .then((response: AxiosResponse) => {
+        .then(() => {
           alert('Successfully deleted');
           navigation.navigate('Home');
         })
         .catch((err: AxiosError) => {
+          console.log(err);
           alert("Couldn't delete article");
         });
     }
@@ -85,7 +84,9 @@ function DrawerTemplate(props: any): JSX.Element {
     );
   });
 
-  return (
+  return hasError ? (
+    <Text>Error</Text>
+  ) : (
     <DrawerContentScrollView {...props}>
       <Button title="거래 완료하기" onPress={toggleStatus} />
       <Button title="수정하기" onPress={() => alert('navigate to edit page')} />

@@ -19,15 +19,6 @@ import { useNavigation } from '@react-navigation/native';
 //  - tag 정보 넘기기 (submit할때)
 //  - Add props to redirection
 
-const dummyImage = 'https://reactnative.dev/img/tiny_logo.png';
-
-interface IDProps {
-  org: string;
-  repo: string;
-  issueId: number;
-  showIssuesList: () => void;
-}
-
 function WriteArticleTemplate(): JSX.Element {
   const [image, setImage] = useState('');
   const [need_people, setPeople] = useState('');
@@ -42,7 +33,6 @@ function WriteArticleTemplate(): JSX.Element {
     const people_count = parseInt(need_people);
     const price = parseInt(need_price);
     const product_url = link;
-    const thumbnail_url = image;
     const temp_author_id = 0;
 
     articleAPI

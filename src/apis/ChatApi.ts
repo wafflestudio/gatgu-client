@@ -1,11 +1,6 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
-import {
-  IArticleSumProps,
-  IPageLimitRes,
-  IArticleProps,
-} from '@/types/article';
 import { IChattingRoom, IChangeStatusRet } from '@/types/chat';
 
 // for chat info

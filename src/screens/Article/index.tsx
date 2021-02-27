@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Desc from './Desc';
 import ProfileChat from './ProfileChat';
 import ProductImages from './ProductImages';
 import TitleInfo from './TitleInfo';
-import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { ArticleDrawerParamList } from '@/types/navigation';
-import { articleAPI } from '@/apis';
-import { AxiosError, AxiosResponse } from 'axios';
 import { IArticleProps } from '@/types/article';
 import { createError } from '@/helpers/functions';
 import { initialArticle } from '@/constants/InitialState';

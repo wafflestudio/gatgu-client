@@ -21,7 +21,6 @@ function Input({
   onChangeText,
   placeholder,
   invalidString,
-  validString,
   isValid,
   buttonString,
   buttonOnPress,

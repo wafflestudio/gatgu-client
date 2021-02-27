@@ -15,7 +15,7 @@ function Search(): JSX.Element {
   useEffect(() => {
     // set popular keyword, recent keyword
     dispatch(initSearchData());
-  }, []);
+  }, []); // LINT: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array
 
   return (
     <View style={SearchStyle.wrapper}>

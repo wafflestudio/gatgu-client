@@ -19,7 +19,6 @@ const {
   Search,
   SearchedArticle,
   ProfileModify,
-  Login,
   SignUp,
   TOS,
 } = routes;
