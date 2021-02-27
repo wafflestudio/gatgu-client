@@ -21,14 +21,12 @@ function TopBubble({
   end,
   pEnd,
 }: ITopBubbleProps): JSX.Element {
-  const percent = (current / goal) * 100;
   const [width, setWidth] = useState(0);
 
   const getCoorBar = (event: any) => {
     const ev = event.nativeEvent.layout;
     setWidth(ev.width);
   };
-  // useMemo?callBack
   const calcLeft = useMemo(() => {
     let left: number;
     let side:
@@ -56,6 +54,7 @@ function TopBubble({
     }
     return { left, side, sliderPos };
   }, [pEnd, end, width]);
+
   return (
     <View style={{ alignSelf: calcLeft.side, left: calcLeft.left }}>
       <View style={styles.box} onLayout={getCoorBar}>
@@ -70,6 +69,3 @@ function TopBubble({
   );
 }
 export default TopBubble;
-
-// {width: `${percent}%`}
-// {left: `${percent-1.5}%`}
