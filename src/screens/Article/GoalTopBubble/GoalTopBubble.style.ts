@@ -12,6 +12,10 @@ const GoalTopBubbleStyles = StyleSheet.create({
     width: '100%',
     paddingTop: 6,
   },
+
+  bubbleWrapper: {
+    paddingTop: 6,
+  },
 });
 
 export default GoalTopBubbleStyles;
