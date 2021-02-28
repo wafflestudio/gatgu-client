@@ -7,6 +7,7 @@ import navigationRoute from './navigationRoute';
 import { Icon } from 'native-base';
 import BottomNavigationStyle from './BottomNavigation.style';
 import BottomTabIcon from '@/assets/Icon/BottomTab';
+
 const Tab = createBottomTabNavigator();
 
 const {
