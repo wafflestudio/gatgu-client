@@ -6,7 +6,7 @@ import {
   Article,
   Home,
   Notification,
-  ChatListElem,
+  ChattingRoom,
   Search,
   SearchedArticle,
   ProfileModify,
@@ -44,9 +44,9 @@ const routes = {
     name: 'Notification',
     component: Notification,
   },
-  ChatListElem: {
-    name: 'ChatListElem',
-    component: ChatListElem,
+  ChattingRoom: {
+    name: 'ChattingRoom',
+    component: ChattingRoom,
   },
   Search: {
     name: 'Search',
