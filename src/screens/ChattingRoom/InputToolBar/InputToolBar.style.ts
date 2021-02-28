@@ -1,4 +1,4 @@
-import { palette, typo } from '@/styles';
+import { palette } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const commonStyle = StyleSheet.create({

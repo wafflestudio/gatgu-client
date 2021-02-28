@@ -21,8 +21,6 @@ const MessageStyle = StyleSheet.create({
     backgroundColor: palette.yellow,
   },
   msgContainer: {
-    // marginRight: 20,
-    // marginLeft: 20,
     backgroundColor: palette.whiteGray,
   },
   chatText: {
