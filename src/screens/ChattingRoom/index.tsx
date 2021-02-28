@@ -14,7 +14,7 @@ import {
   renderMessage,
   renderMessageText,
   renderDay,
-} from './MsgContainer';
+} from './ChatRender';
 import initialMessages from './messages';
 import ChattingRoomStyle from './ChattingRoom.style';
 
