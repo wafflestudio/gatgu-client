@@ -12,6 +12,7 @@ import DrawerTemplate from './Drawer';
 import { logout } from '@/store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import Logo from '@/assets/Logo';
 
 const {
   Home,

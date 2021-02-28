@@ -6,7 +6,7 @@ import {
 import navigationRoute from './navigationRoute';
 import { Icon } from 'native-base';
 import BottomNavigationStyle from './BottomNavigation.style';
-
+import BottomTabIcon from '@/assets/Icon/BottomTab';
 const Tab = createBottomTabNavigator();
 
 const {
@@ -54,7 +54,8 @@ const options: { [x: string]: BottomTabNavigationOptions } = {
   Home: {
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-home" style={[{ color }, BottomNavigationStyle.Icon]} />
+      // <Icon name="ios-home" style={[{ color }, BottomNavigationStyle.Icon]} />
+      <BottomTabIcon.home />
     ),
     tabBarLabel: '홈',
   },

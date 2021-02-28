@@ -12,6 +12,7 @@ import {
   ProfileModify,
   SignUp,
   TOS,
+  Login,
 } from '@/screens';
 
 const routes = {
@@ -66,6 +67,10 @@ const routes = {
   TOS: {
     name: 'TOS',
     component: TOS,
+  },
+  Login: {
+    name: 'Login',
+    component: Login,
   },
 };
 
