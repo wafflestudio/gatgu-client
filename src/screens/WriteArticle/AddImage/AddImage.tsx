@@ -4,8 +4,8 @@ import { View, Image, TouchableHighlight, Text } from 'react-native';
 import styles from './AddImage.style';
 import PlusSign from '@/assets/PlusSign';
 import ImagePicker from 'react-native-image-crop-picker';
-import { ScrollView } from 'react-native-gesture-handler';
-import { palette } from '@/styles';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import XSign from '@/assets/CrossSign';
 
 interface AddImageProps {
   images: string[];
@@ -76,6 +76,13 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
       });
   };
 
+  const deleteImage = (key: number) => {
+    const tempArrSend = images.filter((_, ind) => ind !== key);
+    const tempArrPrev = prev.filter((_, ind) => ind !== key);
+    setImages(tempArrSend);
+    setPrev(tempArrPrev);
+  };
+
   const previews =
     images[0] !== '' &&
     prev.map(
@@ -85,6 +92,14 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
             style={styles.photo}
             source={{ uri: `data:${item.mime};base64,${item.data}` }}
           />
+          <TouchableHighlight
+            style={styles.buttonContainer}
+            onPress={() => deleteImage(key)}
+          >
+            <View style={styles.button}>
+              <XSign />
+            </View>
+          </TouchableHighlight>
         </View>
       )
     );
