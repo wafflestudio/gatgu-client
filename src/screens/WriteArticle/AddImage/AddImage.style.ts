@@ -3,11 +3,25 @@ import { StyleSheet } from 'react-native';
 
 const AddImageStyle = StyleSheet.create({
   container: {
+    flex: 1,
     width: '100%',
     height: 100,
+    justifyContent: 'center',
     borderBottomColor: palette.borderGray,
     borderBottomWidth: 1,
+  },
+
+  subContainer: { height: '70%' },
+
+  plusSignCon: {
+    height: '100%',
+    borderWidth: 1,
+    paddingLeft: 25,
+    paddingRight: 25,
+    borderColor: palette.borderGray,
     justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 25,
   },
 
   defaultPhoto: {
@@ -17,17 +31,12 @@ const AddImageStyle = StyleSheet.create({
 
   photo: {
     width: '100%',
-    height: '100%',
   },
 
   photoContainer: {
-    width: '25%',
-    height: '80%',
-    marginLeft: 20,
-    marginTop: 8,
+    width: 100,
     borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginLeft: 20,
     borderColor: palette.borderGray,
   },
 });

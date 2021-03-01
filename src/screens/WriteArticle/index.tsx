@@ -29,7 +29,7 @@ interface IDProps {
 }
 
 function WriteArticleTemplate(): JSX.Element {
-  const [image, setImage] = useState('');
+  const [images, setImages] = useState<string[]>(['']);
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
   const [title, setTitle] = useState('');
@@ -42,7 +42,7 @@ function WriteArticleTemplate(): JSX.Element {
     const people_count = parseInt(need_people);
     const price = parseInt(need_price);
     const product_url = link;
-    const thumbnail_url = image;
+    const thumbnail_url = images;
     const temp_author_id = 0;
 
     articleAPI
@@ -66,7 +66,7 @@ function WriteArticleTemplate(): JSX.Element {
     <ScrollView style={{ backgroundColor: 'white' }}>
       <Header title="글 쓰기" left={true} right={false} />
       <Tags />
-      <AddImage image={image} setImage={setImage} />
+      <AddImage images={images} setImages={setImages} />
       <Title title={title} setTitle={setTitle} />
       <Recruiting
         needPeople={need_people}
