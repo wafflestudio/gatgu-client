@@ -55,7 +55,6 @@ const AddImageStyle = StyleSheet.create({
     position: 'absolute',
     top: -10,
     right: -10,
-    // backgroundColor: 'red'
   },
 
   button: {
