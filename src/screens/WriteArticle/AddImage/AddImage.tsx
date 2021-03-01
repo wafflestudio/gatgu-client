@@ -98,6 +98,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
               <PlusSign style={styles.defaultPhoto} />
             </View>
           </TouchableHighlight>
+          {console.log(previews)}
           {images[0] !== '' && previews}
         </ScrollView>
       </View>
