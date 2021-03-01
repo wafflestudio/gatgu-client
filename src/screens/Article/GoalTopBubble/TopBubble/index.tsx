@@ -1,10 +1,11 @@
 import { Label, View } from 'native-base';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Text } from 'react-native';
+import { LayoutChangeEvent, Text } from 'react-native';
 import styles from './TopBubble.style';
 import { typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
 import GoalBar from '@/components/ArticleBox/GoalBar';
+import { IS_MONEY } from '@/constants/Enum';
 
 interface ITopBubbleProps {
   current: number;
@@ -23,7 +24,7 @@ function TopBubble({
 }: ITopBubbleProps): JSX.Element {
   const [width, setWidth] = useState(0);
 
-  const getCoorBar = (event: any) => {
+  const getCoorBar = (event: LayoutChangeEvent) => {
     const ev = event.nativeEvent.layout;
     setWidth(ev.width);
   };
@@ -59,7 +60,7 @@ function TopBubble({
     <View style={{ alignSelf: calcLeft.side, left: calcLeft.left }}>
       <View style={styles.box} onLayout={getCoorBar}>
         <Text style={styles.text}>{`${goal} 중 ${current}${
-          type === 0 ? '원' : '명'
+          type === IS_MONEY ? '원' : '명'
         } 모였어요!`}</Text>
       </View>
       <View style={{ width: width }}>

@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import styles from './GoalTopBubble.style';
 import GoalBar from '@/components/ArticleBox/GoalBar';
 import TopBubble from './TopBubble';
+import { LayoutChangeEvent } from 'react-native';
+import { IS_MONEY } from '@/constants/Enum';
 
 interface IGoalTopBubbleProps {
   current: number;
@@ -19,12 +21,12 @@ function GoalTopBubble({
   const [pEnd, setPend] = useState<number>(0);
 
   const percent = (current / goal) * 100;
-  const isMoney = type === 0 ? true : false;
+  const isMoney = type === IS_MONEY;
 
-  const getEnd = (event: any) => {
+  const getEnd = (event: LayoutChangeEvent) => {
     setEnd(event.nativeEvent.layout.width);
   };
-  const getPend = (event: any) => {
+  const getPend = (event: LayoutChangeEvent) => {
     setPend(event.nativeEvent.layout.width);
   };
 
@@ -43,7 +45,7 @@ function GoalTopBubble({
         <View style={{ width: `${percent}%` }} onLayout={getPend} />
         <GoalBar
           percent={percent}
-          goal={`${goal}${type === 0 ? '원' : '명'}`}
+          goal={`${goal}${type === IS_MONEY ? '원' : '명'}`}
           isMoney={isMoney}
         />
       </View>

@@ -59,7 +59,7 @@ export interface IArticleProps {
   location: string;
   product_url: string;
   thumbnail_url: string;
-  need_type: number; // 0: money, 1: people
+  need_type: number; // 1: money, 2: people
   price_min: number;
   people_count_min: number;
   time_max: string;
