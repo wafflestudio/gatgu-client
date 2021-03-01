@@ -31,6 +31,7 @@ const AddImageStyle = StyleSheet.create({
 
   photo: {
     width: '100%',
+    height: '100%',
   },
 
   photoContainer: {
