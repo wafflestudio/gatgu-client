@@ -29,7 +29,7 @@ interface IDProps {
 }
 
 function WriteArticleTemplate(): JSX.Element {
-  const [images, setImages] = useState<string[]>(['']);
+  const [images, setImages] = useState<string | null | undefined[]>([]);
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
   const [title, setTitle] = useState('');
@@ -64,7 +64,6 @@ function WriteArticleTemplate(): JSX.Element {
   // change
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
-      <Header title="글 쓰기" left={true} right={false} />
       <Tags />
       <AddImage images={images} setImages={setImages} />
       <Title title={title} setTitle={setTitle} />

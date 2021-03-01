@@ -11,22 +11,30 @@ const AddImageStyle = StyleSheet.create({
     borderBottomWidth: 1,
   },
 
-  subContainer: { height: '70%' },
+  subContainer: {
+    height: '80%',
+    justifyContent: 'center',
+  },
 
   plusSignCon: {
-    height: '100%',
+    height: '80%',
+    width: '80%',
     borderWidth: 1,
     paddingLeft: 25,
     paddingRight: 25,
+    paddingTop: 10,
+    paddingBottom: 10,
     borderColor: palette.borderGray,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 25,
+    marginTop: 7,
+    marginBottom: 7,
   },
 
   defaultPhoto: {
-    width: 50,
-    height: 50,
+    width: 37,
+    height: 37,
   },
 
   photo: {
@@ -39,6 +47,25 @@ const AddImageStyle = StyleSheet.create({
     borderWidth: 1,
     marginLeft: 20,
     borderColor: palette.borderGray,
+    marginTop: 7,
+    marginBottom: 7,
+  },
+
+  buttonContainer: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    // backgroundColor: 'red'
+  },
+
+  button: {
+    margin: 5,
+    width: 20,
+    height: 20,
+    backgroundColor: 'rgba(0,0,0, 0.75)',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
