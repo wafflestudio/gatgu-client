@@ -1,10 +1,9 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { View, Image, TouchableHighlight, Text } from 'react-native';
-// import * as ImagePicker from 'expo-image-picker';
 import styles from './AddImage.style';
 import PlusSign from '@/assets/PlusSign';
 import ImagePicker from 'react-native-image-crop-picker';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import XSign from '@/assets/CrossSign';
 
 interface AddImageProps {
@@ -12,42 +11,10 @@ interface AddImageProps {
   setImages: Dispatch<SetStateAction<string | null | undefined>[]>;
 }
 
-// TODO:
-// - modify to adding multiple images (using image-crop-picker) after ejection
-
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
   const [prev, setPrev] = useState<
     { mime: string; data: string | null | undefined }[]
   >([]);
-  // const pickImage = async () => {
-  //   // Get permission to access photo gallery
-  //   async () => {
-  //     // confirm that the platform is on ios or android
-  //     if (Platform.OS !== 'web') {
-  //       // asynchronously ask for permission, receive status (whether granted permission or not)
-  //       // status can either be 'granted', 'undetermined' or 'denied
-  //       const {
-  //         status,
-  //       } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //       if (status !== 'granted') {
-  //         alert('Sorry, we need camera roll permissions to make this work!');
-  //       }
-  //     }
-  //   };
-  //   // show window to select photo from gallery
-  //   const result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.All, // which type of media that can be picked (in this case, images and videos)
-  //     allowsEditing: true, // whether we can crop the image, trim the video
-  //     aspect: [4, 3], // aspect ratio that is kept when editing
-  //     quality: 1, // maximum quality of compression
-  //   });
-
-  //   // if user didn't cancel while picking an image, set state to the picked image's uri
-  //   if (!result.cancelled) {
-  //     setImage(result.uri);
-  //   }
-  //   // else do nothing
-  // };
 
   const pickImage = () => {
     const tempArrPrev: { mime: string; data: string | null | undefined }[] = [];
@@ -122,19 +89,3 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
 }
 
 export default AddImage;
-
-/*<ScrollView horizontal contentContainerStyle={styles.container} scrollEnabled={true}>
-        <TouchableHighlight onPress={() => pickImage()}>
-          <View style={styles.plusSignCon}>
-            <PlusSign style={styles.defaultPhoto} />
-          </View>
-        </TouchableHighlight>
-        {/* {console.log(previews)} }
-        {images[0] !== '' && previews}
-        {/* <Text style={{marginRight: 10, paddingRight: 30, backgroundColor: 'blue', height: 100}}>Hello1</Text>
-        <Text style={{marginRight: 10, paddingRight: 30, backgroundColor: 'blue'}}>Hello2</Text>
-        <Text style={{marginRight: 10, paddingRight: 30, backgroundColor: 'blue'}}>Hello3</Text>
-        <Text style={{marginRight: 10, paddingRight: 30, backgroundColor: 'blue'}}>Hello4</Text>
-        <Text style={{marginRight: 10, paddingRight: 30, backgroundColor: 'blue'}}>Hello5</Text>
-        <Text style={{marginRight: 10, paddingRight: 30, backgroundColor: 'blue'}}>Hello6</Text> }
-      </ScrollView>*/
