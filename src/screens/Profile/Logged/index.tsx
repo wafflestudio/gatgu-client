@@ -12,14 +12,15 @@ import { View } from 'react-native';
 function ProfileTemplate(): JSX.Element {
   const info = useSelector((state: RootState) => state.user.info);
 
-  const getColor = useMemo(() => {
-    // FIXME: proper 수식
-    return 'null';
-  }, []);
+  const { point } = info.userprofile;
+
+  const myColor = useMemo(() => {
+    return `#555555`;
+  }, [point]);
 
   return (
     <>
-      <Info profile={info} color={getColor} />
+      <Info profile={info} color={myColor} />
       <Grade />
       <Force />
       <History />

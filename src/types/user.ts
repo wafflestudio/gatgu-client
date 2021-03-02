@@ -11,6 +11,8 @@ export interface IUserProps {
     profile_id: number;
     picture: string;
     nickname: string;
+    grade: number;
+    point: number;
     updated_at: any;
     withdrew_at: any;
   };
