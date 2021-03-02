@@ -29,7 +29,6 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     })
       .then((images) => {
         images.forEach((item) => {
-          console.log(item.data?.substring(0, 20));
           tempArrPrev.push({ mime: item.mime, data: item.data });
           tempArrSend.push(item.data);
         });
@@ -80,7 +79,6 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
               <PlusSign style={styles.defaultPhoto} />
             </View>
           </TouchableHighlight>
-          {console.log(previews)}
           {images[0] !== '' && previews}
         </ScrollView>
       </View>

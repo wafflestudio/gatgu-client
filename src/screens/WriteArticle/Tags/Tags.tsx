@@ -27,7 +27,6 @@ function Tags(): JSX.Element {
       const selected = tag.id === id ? !tag.selected : tag.selected;
       return { ...tag, selected };
     });
-    console.log(newTags);
     toggleTags(newTags);
   };
 
