@@ -22,7 +22,6 @@ function ProductImages({
 
   return (
     <View>
-      {images != undefined && console.log(images)}
       <Swiper
         style={styles.swiper}
         loop={false}

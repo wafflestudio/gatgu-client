@@ -20,7 +20,6 @@ function StringInput({
 
   const handleInput = (inp: string) => {
     setChanged(true);
-    // console.log(inp)
     onChangeText(inp);
   };
 
