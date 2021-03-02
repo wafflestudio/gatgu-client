@@ -1,23 +1,28 @@
-import { Button } from '@/components';
+import { Button, Profile } from '@/components';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './Drawer.style';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { RootState } from '@/store';
 import { articleAPI, chatAPI, userAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
+import { palette } from '@/styles';
+import { IUserProps } from '@/types/user';
+
+interface ElementArr {
+  list: JSX.Element[];
+}
 
 const [Error] = createError();
 
 function DrawerTemplate(props: any): JSX.Element {
   const [chatInfo, setChatInfo] = useState<IChattingRoom>();
+  const [participants, setParticipants] = useState<JSX.Element[]>([]);
+  const [tem, setTemp] = useState<number>(0);
   const [hasError, setError] = useState(false);
   const navigation = useNavigation();
 
@@ -38,7 +43,28 @@ function DrawerTemplate(props: any): JSX.Element {
           setError(true);
         });
     }
-  }, [currentArticle]);
+  }, []);
+
+  useEffect(() => {
+    if (chatInfo?.id !== 0) {
+      let tempArr: JSX.Element[] = [];
+      chatInfo?.participant.map((part, ind) => {
+        userAPI
+          .getUser(part) // 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
+          .then((response: AxiosResponse<IUserProps>) => {
+            const user = response.data.userprofile;
+            tempArr = tempArr.concat(<Profile key={ind} {...user} />);
+          })
+          .then(() => {
+            setParticipants(tempArr);
+          })
+          .catch((err: AxiosError) => {
+            console.log(err);
+            setError(true);
+          });
+      });
+    }
+  }, [chatInfo]);
 
   const toggleStatus = () => {
     // change status
@@ -71,29 +97,40 @@ function DrawerTemplate(props: any): JSX.Element {
     }
   };
 
-  const participants = chatInfo?.participant.map((id, index) => {
-    // userAPI.getInfo(id)
-    return (
-      <View key={index}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Profile', { params: id })}
-        >
-          <Text>Image</Text>
-        </TouchableOpacity>
-        <Text>Participant {id}</Text>
-      </View>
-    );
-  });
-
   return (
     <DrawerContentScrollView {...props}>
-      <Button title="거래 완료하기" onPress={toggleStatus} />
-      <Button title="수정하기" onPress={() => alert('navigate to edit page')} />
-      <Button title="삭제하기" onPress={delArticle} />
-      <Button title="신고하기" onPress={() => alert('not yet: 신고하기')} />
-      <Text>------------------</Text>
-      <Text>모집인원 목록</Text>
-      {participants}
+      {hasError ? (
+        <Text>Error</Text>
+      ) : (
+        <View>
+          <View style={styles.upperContainer}>
+            <Button
+              title="모집 완료하기"
+              onPress={toggleStatus}
+              textStyle={[styles.upperLabelText, { color: palette.blue }]}
+            />
+            <Button
+              title="수정하기"
+              onPress={() => alert('navigate to edit page')}
+              textStyle={styles.upperLabelText}
+            />
+            <Button
+              title="삭제하기"
+              onPress={delArticle}
+              textStyle={styles.upperLabelText}
+            />
+            <Button
+              title="신고하기"
+              onPress={() => alert('not yet: 신고하기')}
+              textStyle={styles.upperLabelText}
+            />
+          </View>
+          <View style={styles.lowerContainer}>
+            <Text style={styles.lowerLabelText}>모집 인원 목록</Text>
+            {participants}
+          </View>
+        </View>
+      )}
     </DrawerContentScrollView>
   );
 }

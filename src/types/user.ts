@@ -18,3 +18,9 @@ export interface IUserProps {
   date_joined: any;
   token: string;
 }
+
+export interface IUserSumProps {
+  profile_id: number;
+  picture: string;
+  nickname: string;
+}

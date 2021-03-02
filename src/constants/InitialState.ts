@@ -18,15 +18,14 @@ export const initialArticle = {
   product_url:
     'https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/unsplash-Josh-Earl.jpg',
   thumbnail_url: 'https://www.dw.com/image/43055387_403.jpg',
+  need_type: 0,
   price_min: 15000,
   people_count_min: 3,
+  time_max: '2021-02-28',
   created_at: '2021-02-10',
   updated_at: '2021-02-10',
   deleted_at: '2021-02-15',
   notInAPI: {
-    dueDate: '2021-03-02', // always in days, not in api but added it anyways bc in design
-    goal: '25,000원',
-    percent: 60,
-    isMoney: true,
+    current: 10000,
   },
 } as IArticleProps;

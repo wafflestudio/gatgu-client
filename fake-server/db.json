@@ -167,7 +167,7 @@
       "last_name": "gugat",
       "userprofile": {
         "profile_id": 1,
-        "picture": "",
+        "picture": "https://i.pinimg.com/originals/2d/c4/d3/2dc4d32fc36aab28865ad88b611ba5a9.jpg",
         "nickname": "gatgatgu",
         "address": "gatgu-si gatgu-dong",
         "phonenumber": "010-1010-1010"
@@ -175,6 +175,24 @@
       "created_at": null,
       "updated_at": null,
       "is_active": true
+    },
+    {
+      "id": 2,
+      "username": "gatgu2",
+      "password": "gatgu2",
+      "email": "gatgu2@gatgu.gatgu",
+      "first_name": "gatgu2",
+      "last_name": "gugat2",
+      "userprofile": {
+        "profile_id": 2,
+        "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjTz6-wJLWpFdAi6I-ymuQz9H8gW1eFNXV7Q&usqp=CAU",
+        "nickname": "gatgatgu2",
+        "address": "gatgu-si gatgu-dong2",
+        "phonenumber": "010-1010-1010"
+      },
+      "created_at": null,
+      "updated_at": null,
+      "is_active": false
     }
   ],
   "article": [{
@@ -191,17 +209,14 @@
     "location": "사운드 마인드",
     "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
     "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
-    "price_min": 20000,
+    "need_type": 0,
+    "price_min": 25000,
     "people_count_min": 3,
+    "time_max": "2021-02-28",
     "created_at": "2021-02-10",
     "updated_at": "2021-02-11",
     "deleted_at": "2021-02-15",
-    "notInAPI": {
-      "dueDate": "2021-03-10",
-      "goal": "25,000원",
-      "percent": 10,
-      "isMoney":true
-    }
+    "current": 5000
   },{
     "id":2,
     "writer": {
