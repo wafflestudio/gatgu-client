@@ -33,12 +33,13 @@ const userSlice = createSlice({
   reducers: {
     setInfo(state, action: PayloadAction<IUserProps>) {
       state.info = { ...action.payload };
+      state.logged = true;
       // TODO: set asyncStorage info
     },
     clearInfo(state) {
       state.info = { ...initialState.info };
       state.logged = false;
-      // TODO: remove asyncStorage info
+      // TODO: clear asyncStorage info
     },
     setLogged(state, action) {
       state.logged = { ...action.payload };
@@ -46,7 +47,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { setInfo, clearInfo } = userSlice.actions;
+export const { setInfo, clearInfo, setLogged } = userSlice.actions;
 export default userSlice.reducer;
 
 // thunk function
@@ -74,14 +75,6 @@ export const login = (
 };
 
 export const logout = (): AppThunk => (dispatch) => {
-  userAPI
-    .logout()
-    .then(() => {
-      removeToken();
-      dispatch(clearInfo());
-    })
-    .catch((err: any) => {
-      console.error(err);
-      // login과 동일한 상황
-    });
+  removeToken();
+  dispatch(clearInfo());
 };

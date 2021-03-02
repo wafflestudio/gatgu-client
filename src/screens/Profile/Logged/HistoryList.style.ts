@@ -1,14 +1,19 @@
+import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const HistoryListStyle = StyleSheet.create({
   container: {
     justifyContent: 'center',
     height: 80,
-    borderColor: 'black',
+    borderColor: palette.borderGray,
     borderWidth: 1,
+    backgroundColor: palette.white,
   },
-  HistoryButton: {
-    fontSize: 18,
+  historyBtn: {
+    paddingStart: 20,
+  },
+  historyBtnText: {
+    ...typo.bigTitle,
   },
 });
 

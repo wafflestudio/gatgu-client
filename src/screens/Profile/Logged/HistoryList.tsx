@@ -15,7 +15,8 @@ function HistoryList(): JSX.Element {
         color="black"
         title="거래내역 목록"
         onPress={goToHistory}
-        titleStyle={styles.HistoryButton}
+        style={styles.historyBtn}
+        textStyle={styles.historyBtnText}
       />
     </View>
   );

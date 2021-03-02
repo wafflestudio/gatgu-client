@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native';
 import styles from './Grade.style';
 import React from 'react';
+import { IProfileProps } from '.';
 
 // Gragde JSX: 등급 있는 그 칸
 // TODO: API 확정되고 User Type 완성되면 any 치워야 됨
-function Grade({ dummyInfo }: any): JSX.Element {
+function Grade({ profile }: IProfileProps): JSX.Element {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -21,7 +22,7 @@ function Grade({ dummyInfo }: any): JSX.Element {
         <View style={styles.graphBoxes}>
           {['천민', '하수', '초수', '중수', '고수', '지존', '지름'].map(
             (item, i) =>
-              i === dummyInfo.grade ? (
+              i === profile.grade ? (
                 <View key={i} style={styles.pointBox}>
                   <View style={styles.pointArrow} />
                   <Text style={styles.pointBoxText}>{item}</Text>
@@ -38,23 +39,23 @@ function Grade({ dummyInfo }: any): JSX.Element {
       <View style={styles.detail}>
         <View style={styles.detailElem}>
           <Text style={styles.detailElemTitle}>등급지수</Text>
-          <Text style={styles.detailElemContent}>{dummyInfo.emdrmqwltn}</Text>
+          <Text style={styles.detailElemContent}>{profile.emdrmqwltn}</Text>
           <Text style={styles.detailElemOption}>중수까지 남았어요</Text>
         </View>
         <View style={styles.detailElem}>
           <Text style={styles.detailElemTitle}>응답률</Text>
-          <Text style={styles.detailElemContent}>{dummyInfo.dmdekqfbf}%</Text>
+          <Text style={styles.detailElemContent}>{profile.dmdekqfbf}%</Text>
           <Text style={styles.detailElemOption}>
-            평균 {dummyInfo.e_response_time}분 안에 응답
+            평균 {profile.e_response_time}분 안에 응답
           </Text>
         </View>
         <View style={styles.detailElem}>
           <Text style={styles.detailElemTitle}>재거래희망률</Text>
           <Text style={styles.detailElemContent}>
-            {dummyInfo.worjfogmlakdfbf}%
+            {profile.worjfogmlakdfbf}%
           </Text>
           <Text style={styles.detailElemOption}>
-            10명 중 {(dummyInfo.worjfogmlakdfbf / 10).toFixed(1)}명이 만족
+            10명 중 {(profile.worjfogmlakdfbf / 10).toFixed(1)}명이 만족
           </Text>
         </View>
       </View>

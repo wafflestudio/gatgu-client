@@ -168,7 +168,7 @@ function SignUpTemplate(): JSX.Element {
   const signUp = useCallback(() => {
     if (!signUpAble) return;
     userAPI
-      .signUp('', '', '', '', '', '', '', '', '')
+      .signUp(id, pw, nn, em + '@snu.ac.kr')
       .then(() => {
         dispatch(login(id, pw, navigation));
       })
@@ -179,10 +179,12 @@ function SignUpTemplate(): JSX.Element {
             break;
           default:
             alert('unknown error');
+            console.error('err');
+            console.error(err);
             break;
         }
       });
-  }, [id, pw, dispatch, navigation, signUpAble]);
+  }, [id, pw, nn, em, dispatch, navigation, signUpAble]);
 
   return (
     <ScrollView style={styles.container}>
