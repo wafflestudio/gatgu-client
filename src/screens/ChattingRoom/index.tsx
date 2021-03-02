@@ -18,8 +18,10 @@ import {
 import initialMessages from './messages';
 import ChattingRoomStyle from './ChattingRoom.style';
 
-const Chats = () => {
+function ChattingRoom(): JSX.Element {
   const [text, setText] = useState('');
+  // FIXME:
+  // any -> message type
   const [messages, setMessages] = useState<any>([]);
 
   useEffect(() => {
@@ -74,6 +76,6 @@ const Chats = () => {
       ]}
     />
   );
-};
+}
 
-export default Chats;
+export default ChattingRoom;
