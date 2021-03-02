@@ -210,7 +210,7 @@
     "product_url": "https://facebook.github.io/react-native/docs/assets/favicon.png",
     "image_url": ["https://www.dw.com/image/43055387_403.jpg", "https://facebook.github.io/react-native/docs/assets/favicon.png","https://i.pinimg.com/originals/2d/c4/d3/2dc4d32fc36aab28865ad88b611ba5a9.jpg"],
     "thumbnail_url": "https://www.dw.com/image/43055387_403.jpg",
-    "need_type": 0,
+    "need_type": 2,
     "price_min": 25000,
     "people_count_min": 3,
     "time_max": "2021-02-28",
