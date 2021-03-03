@@ -1,47 +1,32 @@
-// TODO:
-// remove this
-export interface IArticleSumProps {
-  id: number;
-  title: string;
-  dayLeft: string;
-  location: string;
-  goal: string;
-  percent: number;
-  uri: string;
-  created: string;
-  isMoney: boolean;
-}
-
-export interface IArticleSumProps {
-  id: number;
-  title: string;
-  dayLeft: string;
-  location: string;
-  thumbnail_url: string;
-  price_min: string;
-  people_count_min: string;
-
-  // 다음 field model에는 없지만 추가적으로 필요합니다!
-  dueDate: string;
-  isMoney: boolean;
-}
-
-export interface IArticleSumSearchProps extends IArticleSumProps {
-  transactionStatus: string;
-}
-
 interface IPagination {
-  count: number;
   next: string;
   previous: string;
 }
 
-export interface IArticleSumResponse extends IPagination {
-  results: IArticleSumProps[];
+// article summary props
+export interface IArticleSumProps {
+  title: string;
+  location: string;
+  thumbnail_url: string;
+  need_type: string;
+  price_min: string;
+  people_min: string;
+  time_in: string;
+  created_at: string;
+  article_id: string;
 }
 
-export interface IArticleSumSearchResponse extends IPagination {
-  results: IArticleSumSearchProps[];
+interface IArticleDetail extends IArticleSumProps {
+  writer_id: number;
+  description: string;
+  product_url: string;
+  image: string;
+  tag: string[];
+  updated_at: string;
+}
+
+export interface IArticleSumRes extends IPagination {
+  results: IArticleDetail[];
 }
 
 //article detail
@@ -80,10 +65,8 @@ export interface IGetFailPayload {
   errorStatus: number;
 }
 
-export interface IGetSuccessPayload {
+export interface IGetSuccessPayload extends IPagination {
   data: IArticleSumProps[];
-  next: string;
-  previous: string;
 }
 
 export interface IMessageRet {
