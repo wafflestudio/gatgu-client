@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/userSlice';
 import { flexRow } from '@/styles/wrapper';
-import CheckStyle from './Check.style';
+import * as validate from '@/helpers/functions/validate';
 
 function SignUpTemplate(): JSX.Element {
   // input
@@ -40,7 +40,7 @@ function SignUpTemplate(): JSX.Element {
         title: '아이디',
         invalidString: '5자 이상으로 된 영문 소문자, 숫자만 사용 가능합니다.',
         validString: '사용 가능한 아이디입니다.',
-        isValid: /^[a-z0-9]{5,20}$/.test(id),
+        isValid: validate.validateID(id),
       }),
       [id, setID]
     ),
@@ -51,7 +51,7 @@ function SignUpTemplate(): JSX.Element {
         title: '비밀번호',
         invalidString: '8자~16자 영문 대소문자, 숫자를 모두 사용하세요.',
         validString: '사용 가능한 비밀번호입니다.',
-        isValid: /^(?=.*[0-9])(?=.*[a-z]+)(?=.*[A-Z]+).{8,16}$/.test(pw),
+        isValid: validate.validatePW(pw),
         marginBottom: 6,
       }),
       [pw, setPW]
@@ -63,7 +63,7 @@ function SignUpTemplate(): JSX.Element {
         title: '비밀번호 확인',
         invalidString: '입력한 정보가 올바르지 않습니다.',
         validString: '비밀번호가 일치합니다.',
-        isValid: pw.localeCompare(pc) === 0 && pw.length >= 1,
+        isValid: validate.validatePC(pw, pc),
       }),
       [pw, pc, setPC]
     ),
@@ -74,7 +74,7 @@ function SignUpTemplate(): JSX.Element {
         title: '닉네임',
         invalidString: '필수정보입니다.',
         validString: '사용 가능한 닉네임입니다.',
-        isValid: nn.length >= 1,
+        isValid: validate.validateNN(nn),
       }),
       [nn, setNN]
     ),
@@ -85,7 +85,7 @@ function SignUpTemplate(): JSX.Element {
         title: '이메일',
         invalidString: '필수정보입니다.',
         validString: '',
-        isValid: em.length >= 1,
+        isValid: validate.validateEM(em),
         buttonString: '인증',
         buttonOnPress: () => true,
         marginBottom: 6,
@@ -99,7 +99,7 @@ function SignUpTemplate(): JSX.Element {
         title: '인증번호',
         invalidString: '필수정보입니다.',
         validString: '',
-        isValid: true,
+        isValid: validate.validateCD(cd, cd),
         buttonString: '확인',
         buttonOnPress: () => true,
         marginBottom: 6,

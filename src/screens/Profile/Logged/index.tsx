@@ -11,6 +11,7 @@ import { View } from 'react-native';
 // Profile Component
 function ProfileTemplate(): JSX.Element {
   const info = useSelector((state: RootState) => state.user.info);
+  console.log(info);
 
   const { point } = info.userprofile;
 
@@ -21,7 +22,7 @@ function ProfileTemplate(): JSX.Element {
   return (
     <>
       <Info profile={info} color={myColor} />
-      <Grade />
+      {/*<Grade />*/}
       <Force />
       <History />
       {/* FIXME: 디자인 제대로 나오면 수정할게요 */}

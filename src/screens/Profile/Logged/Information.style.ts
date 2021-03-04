@@ -29,7 +29,6 @@ const infoStyle = StyleSheet.create({
     borderRadius: 35,
     overflow: 'hidden',
     marginRight: 25,
-    padding: 9,
   },
 
   // profile image
@@ -43,7 +42,8 @@ const infoStyle = StyleSheet.create({
     height: 71,
     width: 120,
     marginRight: 71,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   // detail & content common

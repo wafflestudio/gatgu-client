@@ -9,9 +9,10 @@ import { Icon } from 'native-base';
 import { Button } from '@/components';
 import DrawerTemplate from './Drawer';
 
-import { logout } from '@/store/userSlice';
+import { logout, modify } from '@/store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import { palette, typo } from '@/styles';
 
 const {
   Home,
@@ -23,7 +24,6 @@ const {
   Search,
   SearchedArticle,
   ProfileModify,
-  Login,
   SignUp,
   TOS,
 } = routes;
@@ -108,6 +108,10 @@ function ProfileStackScreen(): JSX.Element {
     dispatch(logout());
   }, [dispatch]);
 
+  const modifyReq = useCallback(() => {
+    //
+  }, [dispatch]);
+
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen
@@ -121,24 +125,38 @@ function ProfileStackScreen(): JSX.Element {
             logged ? (
               <View style={{ position: 'relative' }}>
                 <TouchableHighlight onPress={() => setShow(!show)}>
-                  <Icon name="more" />
+                  <Icon name="menu" />
                 </TouchableHighlight>
                 {show ? (
                   <View
                     style={{
                       position: 'absolute',
-                      top: 50,
-                      width: 100,
-                      left: -100,
+                      top: 40,
+                      width: 169,
+                      right: 2,
                       backgroundColor: 'white',
-                      height: 50,
+                      height: 127,
+                      borderRadius: 10,
+                      borderWidth: 1,
+                      borderColor: palette.borderGray,
+                      paddingLeft: 33,
+                      justifyContent: 'space-evenly',
                     }}
                   >
                     <Button
-                      title="수정 창으로"
+                      title="수정하기"
+                      textStyle={{
+                        ...typo.bigTitle,
+                      }}
                       onPress={() => navigation.navigate('ProfileModify')}
                     />
-                    <Button title="로그아웃하기" onPress={logoutReq} />
+                    <Button
+                      title="로그아웃하기"
+                      textStyle={{
+                        ...typo.bigTitle,
+                      }}
+                      onPress={logoutReq}
+                    />
                   </View>
                 ) : null}
               </View>
@@ -150,6 +168,15 @@ function ProfileStackScreen(): JSX.Element {
         component={ProfileModify.component}
         options={{
           headerTitleAlign: 'center',
+          // eslint-disable-next-line react/display-name
+          headerRight: () => (
+            <Button
+              title="완료"
+              onPress={() => {
+                modifyReq();
+              }}
+            />
+          ),
         }}
       />
     </ProfileStack.Navigator>

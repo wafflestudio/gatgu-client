@@ -30,3 +30,15 @@ export const signUp = (
     email,
   });
 };
+
+export const modify = (
+  nickname: string,
+  password: string,
+  picture: string
+): Promise<AxiosResponse<IUserProps>> => {
+  return requester.put('user/me/', {
+    nickname,
+    password,
+    picture,
+  });
+};
