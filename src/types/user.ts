@@ -7,16 +7,17 @@ export interface IUserProps {
   email: string;
   first_name: string;
   last_name: string;
+  date_joined: any;
+  last_login: any;
   userprofile: {
     profile_id: number;
     picture: string;
     nickname: string;
-    grade: number;
-    point: number;
     updated_at: any;
     withdrew_at: any;
   };
   is_active: boolean;
-  date_joined: any;
+  participated_count: number;
+  hosted_count: number;
   token: string;
 }

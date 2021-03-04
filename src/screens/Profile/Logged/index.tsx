@@ -23,7 +23,7 @@ function ProfileTemplate(): JSX.Element {
     <>
       <Info profile={info} color={myColor} />
       {/*<Grade />*/}
-      <Force />
+      <Force profile={info} />
       <History />
       {/* FIXME: 디자인 제대로 나오면 수정할게요 */}
       <View
