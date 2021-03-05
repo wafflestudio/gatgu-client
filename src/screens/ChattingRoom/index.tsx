@@ -1,12 +1,14 @@
 import React from 'react';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import ChatsContainer from './ChatsContainer';
 import messages from './mockChat';
 
 export default function ChattingRoom() {
   return (
-    <View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <ChatsContainer chatList={messages} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
