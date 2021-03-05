@@ -1,4 +1,5 @@
 import { IArticleProps } from '@/types/article';
+import { IS_MONEY } from './Enum';
 
 export const initialArticle = {
   id: '0',
@@ -18,7 +19,7 @@ export const initialArticle = {
   product_url:
     'https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/unsplash-Josh-Earl.jpg',
   thumbnail_url: 'https://www.dw.com/image/43055387_403.jpg',
-  need_type: 0,
+  need_type: IS_MONEY,
   price_min: 15000,
   people_count_min: 3,
   time_max: '2021-02-28',

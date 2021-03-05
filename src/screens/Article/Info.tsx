@@ -5,6 +5,7 @@ import styles from './Info.style';
 import { typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
 import GoalTopBubbleBar from './GoalTopBubble/index';
+import { IS_MONEY } from '@/constants/Enum';
 
 // will change input type (left it because will probably need it afterwards)
 function Info({
@@ -24,7 +25,7 @@ function Info({
         <Label style={styles.label}>모집 인원</Label>
         <GoalTopBubbleBar
           current={current}
-          goal={need_type === 0 ? price_min : people_count_min}
+          goal={need_type === IS_MONEY ? price_min : people_count_min}
           type={need_type}
         />
       </View>
