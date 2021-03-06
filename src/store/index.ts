@@ -3,6 +3,7 @@ import { combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
 import articleReducer from './articleSlice';
 import userReducer from './userSlice';
 import searchedReducer from './searchSlice';
+
 const rootReducer = combineReducers({
   article: articleReducer,
   user: userReducer,

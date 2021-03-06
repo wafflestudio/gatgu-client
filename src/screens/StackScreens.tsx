@@ -1,18 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { TouchableHighlight, Text, View } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
-import routes from '@/helpers/routes';
 import { Icon } from 'native-base';
-import { Button } from '@/components';
-import DrawerTemplate from './Drawer';
-
-import { logout } from '@/store/userSlice';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useNavigation, DrawerActions } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { Button } from '@/components';
+import routes from '@/helpers/routes';
 import { RootState } from '@/store';
+import { logout } from '@/store/userSlice';
 import { palette, typo } from '@/styles';
+
+import DrawerTemplate from './Drawer';
 
 const {
   Home,

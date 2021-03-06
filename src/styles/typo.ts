@@ -1,7 +1,5 @@
 // 색과 font 정보는 여기서 정의
 
-import { palette } from './palette';
-
 export const typo = {
   bigTitle: {
     fontFamily: 'NotoSansKR_700Bold', // can't find NotoSansCJKkr-Medium
