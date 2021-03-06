@@ -11,7 +11,6 @@ interface IProfileChat {
 }
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
-  console.log('profilechat', orderStatus);
   return (
     <View style={styles.userContainer}>
       <View style={styles.profileContainer}>

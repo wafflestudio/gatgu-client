@@ -76,7 +76,6 @@ function DrawerTemplate(props: any): JSX.Element {
     if (chatInfo !== undefined) {
       const temp = chatInfo.orderStatus === '~ing' ? 'done' : '~ing';
       const body = { ...chatInfo, orderStatus: temp as 'done' | '~ing' };
-      console.log('hd');
       chatAPI
         .changeStatus(chatInfo.article, body)
         .then(() => {
@@ -86,7 +85,7 @@ function DrawerTemplate(props: any): JSX.Element {
         .catch((err: AxiosError) => {
           alert("Couldn't change status");
         });
-    } else console.log('con');
+    }
   };
 
   const delArticle = () => {
