@@ -10,6 +10,8 @@ import { AxiosError } from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/userSlice';
+import { flexRow } from '@/styles/wrapper';
+import * as validate from '@/helpers/functions/validate';
 
 function SignUpTemplate(): JSX.Element {
   // input
@@ -35,10 +37,10 @@ function SignUpTemplate(): JSX.Element {
       () => ({
         value: id,
         onChangeText: setID,
-        placeholder: '아이디',
+        title: '아이디',
         invalidString: '5자 이상으로 된 영문 소문자, 숫자만 사용 가능합니다.',
         validString: '사용 가능한 아이디입니다.',
-        isValid: /^[a-z0-9]{5,20}$/.test(id),
+        isValid: validate.validateID(id),
       }),
       [id, setID]
     ),
@@ -46,10 +48,10 @@ function SignUpTemplate(): JSX.Element {
       () => ({
         value: pw,
         onChangeText: setPW,
-        placeholder: '비밀번호',
+        title: '비밀번호',
         invalidString: '8자~16자 영문 대소문자, 숫자를 모두 사용하세요.',
         validString: '사용 가능한 비밀번호입니다.',
-        isValid: /^(?=.*[0-9])(?=.*[a-z]+)(?=.*[A-Z]+).{8,16}$/.test(pw),
+        isValid: validate.validatePW(pw),
         marginBottom: 6,
       }),
       [pw, setPW]
@@ -58,10 +60,10 @@ function SignUpTemplate(): JSX.Element {
       () => ({
         value: pc,
         onChangeText: setPC,
-        placeholder: '비밀번호 확인',
+        title: '비밀번호 확인',
         invalidString: '입력한 정보가 올바르지 않습니다.',
         validString: '비밀번호가 일치합니다.',
-        isValid: pw.localeCompare(pc) === 0 && pw.length >= 1,
+        isValid: validate.validatePC(pw, pc),
       }),
       [pw, pc, setPC]
     ),
@@ -69,10 +71,10 @@ function SignUpTemplate(): JSX.Element {
       () => ({
         value: nn,
         onChangeText: setNN,
-        placeholder: '닉네임',
+        title: '닉네임',
         invalidString: '필수정보입니다.',
         validString: '사용 가능한 닉네임입니다.',
-        isValid: nn.length >= 1,
+        isValid: validate.validateNN(nn),
       }),
       [nn, setNN]
     ),
@@ -80,10 +82,10 @@ function SignUpTemplate(): JSX.Element {
       () => ({
         value: em,
         onChangeText: setEM,
-        placeholder: '이메일',
+        title: '이메일',
         invalidString: '필수정보입니다.',
         validString: '',
-        isValid: em.length >= 1,
+        isValid: validate.validateEM(em),
         buttonString: '인증',
         buttonOnPress: () => true,
         marginBottom: 6,
@@ -94,13 +96,13 @@ function SignUpTemplate(): JSX.Element {
       () => ({
         value: cd,
         onChangeText: setCD,
-        placeholder: '인증번호',
+        title: '인증번호',
         invalidString: '필수정보입니다.',
         validString: '',
-        isValid: true,
+        isValid: validate.validateCD(cd, cd),
         buttonString: '확인',
         buttonOnPress: () => true,
-        marginBottom: 40,
+        marginBottom: 6,
       }),
       [cd, setCD]
     ),
@@ -164,7 +166,6 @@ function SignUpTemplate(): JSX.Element {
   }
   signUpAble = signUpAble && cAll;
 
-  // FIXME: 백엔드와 디자인 사이 논의가 끝나고 나면 signUp에 들어갈 인자들 제대로 구현
   const signUp = useCallback(() => {
     if (!signUpAble) return;
     userAPI
@@ -173,13 +174,12 @@ function SignUpTemplate(): JSX.Element {
         dispatch(login(id, pw, navigation));
       })
       .catch((err: AxiosError) => {
-        switch (err.code) {
-          case '400':
+        switch (parseInt(err.code + '')) {
+          case 400:
             alert(err.message);
             break;
           default:
             alert('unknown error');
-            console.error('err');
             console.error(err);
             break;
         }
@@ -193,6 +193,22 @@ function SignUpTemplate(): JSX.Element {
         {inputs.map((item, i) => (
           <Input {...item} key={i} />
         ))}
+        <View style={styles.emailControl}>
+          <Text style={{ color: 'red' }}>유효시간 00분 00초</Text>
+          <View style={{ ...flexRow }}>
+            <Button
+              title="재발송"
+              textStyle={checkStyles.contentBtn}
+              onPress={() => alert('not implemented')}
+            />
+            <View style={{ width: 30 }} />
+            <Button
+              title="시간연장"
+              textStyle={checkStyles.contentBtn}
+              onPress={() => alert('not implemented')}
+            />
+          </View>
+        </View>
       </View>
       <View style={checkStyles.titleContainer}>
         <Button

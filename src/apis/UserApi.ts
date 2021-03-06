@@ -31,8 +31,14 @@ export const signUp = (
   });
 };
 
-export const getUser = (
-  profile_id: number
+export const modify = (
+  nickname: string,
+  password: string,
+  picture: string
 ): Promise<AxiosResponse<IUserProps>> => {
-  return requester.get(`users/${profile_id}/`); // TODO: change to user after back deploy
+  return requester.put('user/me/', {
+    nickname,
+    password,
+    picture,
+  });
 };

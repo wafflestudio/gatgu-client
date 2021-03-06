@@ -5,18 +5,31 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { StringInput } from '@/components';
+import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
+import ModifyButton from '@/assets/ProfileModifyPage/modifyButton.svg';
+import { validateNN } from '@/helpers/functions/validate';
 
 function ProfileModify(): JSX.Element {
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState<string>('');
+  const [nnTyping, setNNTypinig] = useState<boolean>(false);
   const info = useSelector((state: RootState) => state.user.info);
-  const profileImg = { uri: info.userprofile.picture };
+
+  const profileImgExist = !!info.userprofile.picture;
+  const profileImg = profileImgExist ? (
+    <ImageBackground
+      source={{ uri: info.userprofile.picture }}
+      style={styles.profileImg}
+    />
+  ) : (
+    <ProfileDummyImage width="121" height="121" />
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
         <View style={styles.profileImgWrap}>
-          <ImageBackground source={profileImg} style={styles.profileImg} />
-          <View style={styles.imgPickBtn}></View>
+          {profileImg}
+          <ModifyButton style={styles.imgPickBtn} />
         </View>
       </View>
       <View style={styles.nickContainer}>
@@ -24,14 +37,16 @@ function ProfileModify(): JSX.Element {
           style={styles.nickInput}
           placeholderStyle={styles.nickInput}
           value={nickname}
-          onChangeText={setNickname}
+          onChangeText={(e) => {
+            setNickname(e);
+            setNNTypinig(true);
+          }}
           placeholder="별명"
         />
+        {!validateNN(nickname) && nnTyping ? (
+          <Text style={styles.nickText}>사용 불가능한 닉네임입니다.</Text>
+        ) : null}
       </View>
-      <Text>
-        아마도 디자인이 아직 덜 나온 스크린인 듯 하다 대체 완료 버튼은 어디에
-        있는 것인가
-      </Text>
     </View>
   );
 }

@@ -47,7 +47,7 @@ function App() {
             <Stack.Screen
               name={Login.name}
               component={Login.component}
-              options={{ headerShown: false }}
+              options={{ title: '로그인' }}
             />
             <Stack.Screen
               name={SignUp.name}
