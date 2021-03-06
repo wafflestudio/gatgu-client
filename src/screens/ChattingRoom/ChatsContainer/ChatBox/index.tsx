@@ -37,31 +37,43 @@ function ChatBox({
   }, [sent_at]);
 
   // message + time
-  const renderedBubbleTime = (
-    <View
-      style={[
-        { alignItems: 'flex-end' },
-        isSelf ? ChatBoxStyle.row : ChatBoxStyle.row_reverse,
-      ]}
-    >
-      {!isSameTime && (
-        <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
-      )}
-      <Bubble message={message} isSelf={isSelf} />
-    </View>
+  const renderedBubbleTime = useMemo(
+    () => (
+      <View
+        style={[
+          { alignItems: 'flex-end' },
+          isSelf ? ChatBoxStyle.row : ChatBoxStyle.row_reverse,
+        ]}
+      >
+        {!isSameTime && (
+          <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
+        )}
+        <Bubble message={message} isSelf={isSelf} />
+      </View>
+    ),
+    [isSelf, isSameTime, message, sentTime]
   );
 
-  const renderedName = !isSelf && !isSameUser && (
-    <View>
-      <Text style={ChatBoxStyle.nameText}>{sent_by?.nickname}</Text>
-    </View>
+  const renderedName = useMemo(
+    () =>
+      !isSelf &&
+      !isSameUser && (
+        <View>
+          <Text style={ChatBoxStyle.nameText}>{sent_by?.nickname}</Text>
+        </View>
+      ),
+    [sent_by, isSelf, isSameUser]
   );
 
-  const renderedProfile = !isSelf && (
-    <Image
-      source={{ uri: !isSameUser ? sent_by?.picture : undefined }}
-      style={ChatBoxStyle.avatar}
-    ></Image>
+  const renderedProfile = useMemo(
+    () =>
+      !isSelf && (
+        <Image
+          source={{ uri: !isSameUser ? sent_by?.picture : undefined }}
+          style={ChatBoxStyle.avatar}
+        />
+      ),
+    [sent_by, isSameUser, isSelf]
   );
 
   return system ? (
