@@ -9,7 +9,7 @@ import { Icon } from 'native-base';
 import { Button } from '@/components';
 import DrawerTemplate from './Drawer';
 
-import { logout, modify } from '@/store/userSlice';
+import { logout } from '@/store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { palette, typo } from '@/styles';
@@ -28,15 +28,7 @@ const {
   TOS,
 } = routes;
 
-// TODO: 이거 여기서 정의하는 거보다 각 function 안에서 정의하는 게 낫지 않을까요
-const HomeStack = createStackNavigator();
-const ProfileStack = createStackNavigator();
-const ChattingStack = createStackNavigator();
-const WriteArticleStack = createStackNavigator();
-const SearchStack = createStackNavigator();
-const SignUpStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-
 function ArticleDrawer(): JSX.Element {
   return (
     <Drawer.Navigator
@@ -45,12 +37,16 @@ function ArticleDrawer(): JSX.Element {
       drawerStyle={{ width: '57%' }}
     >
       <Drawer.Screen name={Article.name} component={Article.component} />
-      {/* TODO: Add this screen: 
-      <Drawer.Screen name="ArticleEdit" component={ArticleEditScreen} /> */}
+      {/* 
+        TODO: @juimdpp 
+          Add this screen: 
+        <Drawer.Screen name="ArticleEdit" component={ArticleEditScreen} /> 
+      */}
     </Drawer.Navigator>
   );
 }
 
+const HomeStack = createStackNavigator();
 function HomeStackScreen(): JSX.Element {
   const navigation = useNavigation();
   return (
@@ -96,9 +92,11 @@ function HomeStackScreen(): JSX.Element {
   );
 }
 
-// FIXME: 그때 말했던 폴더 구조 관련된 큰 체인지가 필요해 보입니다
+// FIXME: @woohm402
+//  그때 말했던 폴더 구조 관련된 큰 체인지가 필요해 보입니다
 //  일단 어디로든 옮겨질 파일이라 생각하고 여러 군데 흩뿌려놓으면 나중에 찾기 힘드니까 여기다 다 몰아놓을게요
 //  현재 더보기창 디자인도 진행중인 관계로 정확하게 디자인하진 않겠습니당
+const ProfileStack = createStackNavigator();
 function ProfileStackScreen(): JSX.Element {
   const [show, setShow] = useState(false);
   const logged = useSelector((state: RootState) => state.user.logged);
@@ -184,6 +182,7 @@ function ProfileStackScreen(): JSX.Element {
   );
 }
 
+const WriteArticleStack = createStackNavigator();
 function WriteArticleStackScreen(): JSX.Element {
   const navigation = useNavigation();
 
@@ -196,7 +195,9 @@ function WriteArticleStackScreen(): JSX.Element {
           headerTitleAlign: 'center',
           // eslint-disable-next-line react/display-name
           headerRight: () => (
-            // TODO: must modify; this does only routing but doesn't post article...
+            // TODO: @juimdpp
+            //  must modify;
+            //  this does only routing but doesn't post article...
             <Button
               title="완료"
               onPress={() => navigation.navigate('Article')}
@@ -208,6 +209,7 @@ function WriteArticleStackScreen(): JSX.Element {
   );
 }
 
+const ChattingStack = createStackNavigator();
 function ChattingStackScreen(): JSX.Element {
   return (
     <ChattingStack.Navigator>
@@ -222,6 +224,7 @@ function ChattingStackScreen(): JSX.Element {
   );
 }
 
+const SearchStack = createStackNavigator();
 function SearchStackScreen(): JSX.Element {
   return (
     <SearchStack.Navigator>
@@ -245,6 +248,7 @@ function SearchStackScreen(): JSX.Element {
   );
 }
 
+const SignUpStack = createStackNavigator();
 function SignUpStackScreen(): JSX.Element {
   return (
     <SignUpStack.Navigator>

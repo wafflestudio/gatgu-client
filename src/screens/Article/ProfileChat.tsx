@@ -5,7 +5,8 @@ import { Profile } from '@/components';
 import Chat from './Chat';
 import { IArticleProps } from '@/types/article';
 
-// TODO: change input type
+// TODO: @ssu1018
+//   change input type
 function ProfileChat(article: IArticleProps): JSX.Element {
   return (
     <View style={styles.userContainer}>

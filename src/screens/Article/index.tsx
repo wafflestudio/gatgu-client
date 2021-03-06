@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Desc from './Desc';
 import ProfileChat from './ProfileChat';
 import ProductImages from './ProductImages';
 import TitleInfo from './TitleInfo';
-import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { ArticleDrawerParamList } from '@/types/navigation';
 import { IArticleProps } from '@/types/article';
 import { createError } from '@/helpers/functions';
 import { initialArticle } from '@/constants/InitialState';
 import { getSingleArticle } from '@/store/articleSlice';
 import { RootState } from '@/store';
-// TODO:
+// TODO: @ssu1018
 // - display several images instead of one (after eject --> crop-picker)
 // - add buttons to navigate through images
 // - change styles when clicked on (chatting button)

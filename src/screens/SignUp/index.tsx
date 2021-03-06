@@ -31,7 +31,8 @@ function SignUpTemplate(): JSX.Element {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // TODO: API call 해서 중복 닉네임 | Id인지 확인
+  // TODO: woohm402
+  //   API call 해서 중복 닉네임 | Id인지 확인
   const inputs: IInputProps[] = [
     useMemo(
       () => ({

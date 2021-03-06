@@ -13,19 +13,32 @@ function ProfileTemplate(): JSX.Element {
   const info = useSelector((state: RootState) => state.user.info);
   console.log(info);
 
+  /*
+  FIXME: @woohm402
+    현재 버전에서는 안 씀
+
   const { point } = info.userprofile;
 
   const myColor = useMemo(() => {
     return `#555555`;
   }, [point]);
+  */
 
   return (
     <>
-      <Info profile={info} color={myColor} />
-      {/*<Grade />*/}
+      <Info profile={info} />
+      {/*
+        FIXME: @woohm402
+        위에 줄 이걸로 수정해야 함
+        <Info profile={info} color={myColor} />
+        <Grade />
+      */}
       <Force profile={info} />
       <History />
-      {/* FIXME: 디자인 제대로 나오면 수정할게요 */}
+      {/*
+        FIXME: @woohm402
+        디자인 제대로 나오면 수정할게요 
+      */}
       <View
         style={{ height: 100, alignItems: 'center', justifyContent: 'center' }}
       >

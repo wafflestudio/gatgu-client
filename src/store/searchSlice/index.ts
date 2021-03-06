@@ -100,8 +100,8 @@ const {
 const searchArticles = (keyword: string): AppThunk => (dispatch) => {
   dispatch(setLoading());
   dispatch(setKeyword({ keyword }));
-  // Todo
-  // replace this with real api function.
+  // TODO: @ssu1018
+  //   replace this with real api function.
   articleAPI
     .readAll(1)
     .then((res: AxiosResponse) => {
@@ -118,8 +118,8 @@ const searchArticles = (keyword: string): AppThunk => (dispatch) => {
 
 const loadNextArticles = (): AppThunk => (dispatch) => {
   dispatch(setLoading());
-  // Todo
-  // replace this with real api function.
+  // TODO: @ssu1018
+  //   replace this with real api function.
   articleAPI
     .readAll(2)
     .then((res: AxiosResponse) => {
