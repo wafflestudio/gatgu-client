@@ -16,7 +16,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       <View style={styles.profileContainer}>
         <Profile {...article.writer} />
       </View>
-      <Chat />
+      <Chat {...orderStatus} />
     </View>
   );
 }

@@ -6,7 +6,12 @@ import { palette, typo } from '@/styles';
 import { calcTimeDiff } from '@/helpers/functions';
 import { IArticleProps } from '@/types/article';
 
-function Title(article: IArticleProps): JSX.Element {
+interface ITitleChat {
+  article: IArticleProps;
+  orderStatus: string;
+}
+
+function Title({ article, orderStatus }: ITitleChat): JSX.Element {
   // 남은 시간
   const { diff: timeLeft, type: typeLeft } = calcTimeDiff(
     article.created_at,
@@ -18,13 +23,19 @@ function Title(article: IArticleProps): JSX.Element {
     'current'
   );
 
+  const isDone = orderStatus === 'done';
+
   return (
     <View style={styles.subContainer}>
       <View style={styles.subConNoBorder}>
         <Label
-          style={[styles.label, { color: palette.yellow, ...typo.bigTitle }]}
+          style={[
+            styles.label,
+            { ...typo.bigTitle },
+            !isDone ? { color: palette.yellow } : { color: palette.gray },
+          ]}
         >
-          판매
+          {isDone ? '완료' : '판매'}
         </Label>
         <Text style={{ ...typo.bigTitle }}>{article.title}</Text>
       </View>

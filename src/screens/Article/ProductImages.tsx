@@ -1,7 +1,7 @@
 import { IArticleProps } from '@/types/article';
 import { IChattingRoom } from '@/types/chat';
 import React, { useEffect } from 'react';
-import { FlatList, Image, View } from 'react-native';
+import { FlatList, Image, View, Text } from 'react-native';
 import styles from './ProductImages.style';
 import Swiper from 'react-native-swiper';
 import { palette } from '@/styles';
@@ -30,15 +30,37 @@ function ProductImages({
 
   return (
     <View>
-      <Swiper
-        style={styles.swiper}
-        loop={false}
-        activeDotColor={palette.white}
-        dot={dot}
-        paginationStyle={styles.pageStyle}
+      {orderStatus === 'done' && (
+        <View
+          style={{
+            backgroundColor: palette.gray,
+            position: 'absolute',
+            top: '50%',
+            left: '47%',
+          }}
+        >
+          <Text style={{ color: palette.white }}>모집완료</Text>
+        </View>
+      )}
+
+      <View
+        style={
+          orderStatus === 'done' && {
+            backgroundColor: 'rgb(255, 255, 255)',
+            opacity: 0.8,
+          }
+        }
       >
-        {images}
-      </Swiper>
+        <Swiper
+          style={styles.swiper}
+          loop={false}
+          activeDotColor={palette.white}
+          dot={dot}
+          paginationStyle={styles.pageStyle}
+        >
+          {images}
+        </Swiper>
+      </View>
     </View>
   );
 }

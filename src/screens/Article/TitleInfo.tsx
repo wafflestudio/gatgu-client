@@ -11,9 +11,10 @@ interface ITitleChat {
 }
 // will change input type
 function TitleInfo({ article, orderStatus }: ITitleChat): JSX.Element {
+  const titleInfo = { article: article, orderStatus: orderStatus };
   return (
     <View style={styles.bigContainer}>
-      <Title {...article} />
+      <Title {...titleInfo} />
       <Info {...article} />
     </View>
   );
