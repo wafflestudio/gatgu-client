@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ScrollView, Button } from 'react-native';
-import Header from '@/components/Header';
 import { articleAPI } from '@/apis';
 import Tags from './Tags/Tags';
 import AddImage from './AddImage/AddImage';
@@ -11,13 +10,16 @@ import Location from './Location/Location';
 import Recruiting from './Recruiting/Recruiting';
 import { useNavigation } from '@react-navigation/native';
 
-// TODO:
+// TODO: @juimdpp
 //  - circle css 하나로 합치기 (페이지 번호)
 //  - add code for deleting all non numeric for people, price
 //  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
 //  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
 //  - tag 정보 넘기기 (submit할때)
 //  - Add props to redirection
+
+// TODO: @juimdpp
+//   @woohm402: 여기 unused declaration이 엄청 많아보이는데 확인 부탁드려요
 
 const dummyImage = 'https://reactnative.dev/img/tiny_logo.png';
 
@@ -57,7 +59,8 @@ function WriteArticleTemplate(): JSX.Element {
         temp_author_id,
       })
       .then(() => {
-        // TODO: redirect
+        // TODO: @juimdpp
+        //   redirect
       });
     navigation.navigate('Article');
   };

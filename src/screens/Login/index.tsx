@@ -11,7 +11,8 @@ import { palette } from '@/styles';
 
 function LoginTemplate(): JSX.Element {
   const [id, setID] = useState('');
-  // FIXME: pw는 암호화해야 함
+  // FIXME: @woohm402
+  //   pw는 암호화해야 함
   const [pw, setPW] = useState('');
 
   const dispatch = useDispatch();
@@ -37,7 +38,11 @@ function LoginTemplate(): JSX.Element {
           onChangeText={setID}
           placeholderTextColor={palette.gray}
         />
-        {/* FIXME: value={"*" * pw.length} */}
+        {/* 
+          FIXME: @woohm402
+            value={"*" * pw.length}
+            로 수정해야 합니다
+        */}
         <TextInput
           style={styles.input}
           value={pw}

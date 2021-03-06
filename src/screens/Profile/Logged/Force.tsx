@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import styles from './Force.style';
-import React, { useMemo } from 'react';
+import React from 'react';
 import Part from '@/assets/ProfilePage/participate.svg';
 import Open from '@/assets/ProfilePage/open.svg';
 import { IUserProps } from '@/types/user';
@@ -11,9 +11,15 @@ interface ForceProps {
 
 // Gragde JSX: 등급 있는 그 칸
 function Force({ profile }: ForceProps): JSX.Element {
+  /*
+  FIXME: @woohm402
+    현재 버전에서는 일단 없는 함수입니다
+    
   const getGrade = useMemo(() => {
-    // FIXME: get param and return grade in string
+    // FIXME: @woohm402
+    //   get param and return grade in string
   }, []);
+  */
 
   return (
     <View style={styles.container}>

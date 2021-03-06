@@ -1,4 +1,5 @@
-// FIXME: 컨텐츠 제대로 써 주기
+// FIXME: @woohm402
+//   컨텐츠 제대로 써 주기
 
 const contents: Record<string, string> = {
   '같구 이용약관 동의':

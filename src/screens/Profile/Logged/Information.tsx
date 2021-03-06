@@ -21,10 +21,11 @@ function Info({ profile, color }: IInfoProps): JSX.Element {
     <ProfileDummyImage style={styles.profileImg} />
   );
 
-  // FIXME: remove backgroundColor and replace with proper color
+  // FIXME: @woohm402
+  //   remove backgroundColor:white and replace with proper color
+  //   현재 버전에서는 안 고쳐도 됩니다
   return (
     <View style={styles.container}>
-      {/* FIXME: backgroundColor: color */}
       <View
         style={{ ...styles.profileImgOuterWrapper, backgroundColor: 'white' }}
       >
@@ -40,7 +41,9 @@ function Info({ profile, color }: IInfoProps): JSX.Element {
         <Text style={styles.detailNameText}>
           {profile.userprofile.nickname}
         </Text>
-        {/* FIXME: 나중에 결국 다시 생길 기능인데 지금은 빠짐
+        {/* 
+        FIXME: @woohm402
+          나중에 결국 다시 생길 기능인데 지금은 빠짐
         <View style={styles.authView}>
           <Text style={styles.detailText}>
             {profile.userprofile.updated_at}

@@ -5,9 +5,16 @@ import GradeBar from '@/assets/ProfilePage/GradeBar.svg';
 
 // Gragde JSX: 등급 있는 그 칸
 function Grade(): JSX.Element {
+  /*
+  FIXME: @woohm402
+    현재 버전에서는 일단 없는 함수
+
   const getPosition = useCallback(() => {
-    // FIXME: proper 수식
+    // FIXME: @woohm402
+    //   proper 수식
   }, []);
+
+  */
 
   return (
     <View style={styles.container}>
