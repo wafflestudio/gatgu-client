@@ -49,13 +49,19 @@ function ArticlePage(): JSX.Element {
     setError(false);
   }, [currentArticle, currentChatInfo]);
 
+  const productImageProps = {
+    thumbnail_url: article.thumbnail_url,
+    image_url: article.image_url,
+    orderStatus: chatInfo.orderStatus,
+  };
+
   return (
     <View style={styles.container}>
       {hasError ? (
         Error(401)
       ) : (
         <ScrollView>
-          <ProductImages {...article} />
+          <ProductImages {...productImageProps} />
           <ProfileChat {...article} />
           <TitleInfo {...article} />
           <Desc {...article} />
