@@ -1,7 +1,9 @@
-import { View } from 'react-native';
-import styles from './HistoryList.style';
 import React from 'react';
+import { View } from 'react-native';
+
 import { Button } from '@/components';
+
+import styles from './HistoryList.style';
 
 // History JSX: 거래내역 목록 버튼
 function HistoryList(): JSX.Element {

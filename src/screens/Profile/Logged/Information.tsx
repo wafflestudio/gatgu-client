@@ -1,8 +1,10 @@
-import { View, Text, ImageBackground } from 'react-native';
-import styles from './Information.style';
 import React from 'react';
-import { IUserProps } from '@/types/user';
+import { View, Text, ImageBackground } from 'react-native';
+
 import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
+import { IUserProps } from '@/types/user';
+
+import styles from './Information.style';
 
 interface IInfoProps {
   profile: IUserProps;

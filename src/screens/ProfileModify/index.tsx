@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ImageBackground, View, Text } from 'react-native';
-import styles from './ProfileModify.styles';
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
-import { StringInput } from '@/components';
+
 import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
 import ModifyButton from '@/assets/ProfileModifyPage/modifyButton.svg';
+import { StringInput } from '@/components';
 import { validateNN } from '@/helpers/functions/validate';
+import { RootState } from '@/store';
+
+import styles from './ProfileModify.styles';
 
 function ProfileModify(): JSX.Element {
   const [nickname, setNickname] = useState<string>('');

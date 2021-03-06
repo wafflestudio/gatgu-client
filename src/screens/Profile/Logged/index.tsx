@@ -1,11 +1,13 @@
 import React from 'react';
-import Info from './Information';
+import { View } from 'react-native';
+import { useSelector } from 'react-redux';
+
+import { FootTerms } from '@/components';
+import { RootState } from '@/store';
+
 import Force from './Force';
 import History from './HistoryList';
-import { FootTerms } from '@/components';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
-import { View } from 'react-native';
+import Info from './Information';
 
 // Profile Component
 function ProfileTemplate(): JSX.Element {

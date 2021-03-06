@@ -1,13 +1,15 @@
-import { login } from '@/store/userSlice';
-import { Button } from '@/components';
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import styles from './Login.style';
-import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+
 import logo from '@/assets/Logo';
+import { Button } from '@/components';
+import { login } from '@/store/userSlice';
 import { palette } from '@/styles';
+
+import styles from './Login.style';
 
 function LoginTemplate(): JSX.Element {
   const [id, setID] = useState('');

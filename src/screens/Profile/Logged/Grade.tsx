@@ -1,7 +1,9 @@
-import { View, Text } from 'react-native';
-import styles from './Grade.style';
 import React from 'react';
+import { View, Text } from 'react-native';
+
 import GradeBar from '@/assets/ProfilePage/GradeBar.svg';
+
+import styles from './Grade.style';
 
 // Gragde JSX: 등급 있는 그 칸
 function Grade(): JSX.Element {

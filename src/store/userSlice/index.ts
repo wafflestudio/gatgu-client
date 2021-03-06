@@ -1,11 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUserProps } from '@/types/user';
-import { userAPI } from '@/apis';
-import { AppThunk } from '@/store';
-import { setToken, removeToken } from '@/apis/BaseInstance';
-import { NavigationProp } from '@react-navigation/native';
-import { AxiosError } from 'axios';
 import { Alert } from 'react-native';
+import { AxiosError } from 'axios';
+import { NavigationProp } from '@react-navigation/native';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { userAPI } from '@/apis';
+import { setToken, removeToken } from '@/apis/BaseInstance';
+import { AppThunk } from '@/store';
+import { IUserProps } from '@/types/user';
 
 const initialState = {
   info: {
