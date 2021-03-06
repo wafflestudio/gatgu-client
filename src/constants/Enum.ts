@@ -5,7 +5,6 @@ export const PI = 3.14;
 export const IS_MONEY = 2;
 export const IS_PEOPLE = 1;
 
-<<<<<<< HEAD
 export enum Status {
   UNDEFINED_STATUS,
   WAITING_MEMBERS = 1,
@@ -17,8 +16,6 @@ export enum Status {
   GATGU_COMPLETE = 7,
 }
 
-=======
->>>>>>> 586c799... Refactor getArticleSum api
 // used in articleSum
 export const MAX_ARTICLE_NUM = 200;
 export const PAGE_SIZE = 10;

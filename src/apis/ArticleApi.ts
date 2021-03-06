@@ -24,11 +24,17 @@ export const getArticlesSummary = (
     page_size: PAGE_SIZE,
   });
 <<<<<<< HEAD
+<<<<<<< HEAD
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
   url =
     url?.slice(requester.defaults.baseURL?.length, url.length) || 'article/';
 =======
+=======
+
+  // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
+  // article로 request
+>>>>>>> d2a1a26... Add remark in articleApi
   url = url || 'article/';
 >>>>>>> 586c799... Refactor getArticleSum api
   return requester.get(`${url}?${query}`);
