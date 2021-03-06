@@ -30,13 +30,19 @@ function ArticlePage(): JSX.Element {
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
   );
+  const currentChatInfo = useSelector(
+    (state: RootState) => state.chat.currentChatInfo
+  );
 
   useEffect(() => {
     dispatch(getSingleArticle(id));
-    setArticle(currentArticle);
-    setError(false);
     // handle error true case
   }, []);
+
+  useEffect(() => {
+    setArticle(currentArticle);
+    setError(false);
+  }, [currentArticle]);
 
   return (
     <View style={styles.container}>
