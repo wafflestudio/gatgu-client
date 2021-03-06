@@ -11,7 +11,7 @@ interface IBubbleProps {
 function Bubble({ message, isSelf }: IBubbleProps): JSX.Element {
   return (
     <View style={isSelf ? BubbleStyle.rightBubble : BubbleStyle.leftBubble}>
-      <Text>{message}</Text>
+      <Text style={BubbleStyle.chatText}>{message}</Text>
     </View>
   );
 }

@@ -19,7 +19,17 @@ const messages: IChatMessage[] = [
     image: '',
     sent_at: '2021-03-05T12:25:41.188635Z',
     sent_by: {
-      nickname: '나 판매자',
+      nickname: '이제 자야지..',
+      picture: 'https://placeimg.com/140/140/any',
+    },
+  },
+  {
+    message: '알리바이, art gang money~',
+    system: false,
+    image: '',
+    sent_at: '2021-03-05T12:25:41.188635Z',
+    sent_by: {
+      nickname: '이제 자야지..',
       picture: 'https://placeimg.com/140/140/any',
     },
   },
@@ -34,7 +44,7 @@ const messages: IChatMessage[] = [
     image: 'https://placeimg.com/960/540/any',
   },
   {
-    message: '현민님이 입장하셨습니다.',
+    message: '희수 정 님이 입장하셨습니다.',
     sent_at: '2021-03-05T12:25:41.188635Z',
     system: true,
     image: '',

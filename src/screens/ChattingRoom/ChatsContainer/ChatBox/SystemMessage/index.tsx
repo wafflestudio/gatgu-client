@@ -1,14 +1,23 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import SystemStyle from './SystemMessage.style';
 
 interface ISystemMessageProps {
   message: string;
+  previousSystem?: boolean;
 }
 
-function SystemMessage({ message }: ISystemMessageProps): JSX.Element {
+function SystemMessage({
+  message,
+  previousSystem,
+}: ISystemMessageProps): JSX.Element {
   return (
-    <View>
-      <Text>{message}</Text>
+    <View style={SystemStyle.systemWrapper}>
+      <View
+        style={[SystemStyle.box, !previousSystem && SystemStyle.marginBottom24]}
+      >
+        <Text style={SystemStyle.systemText}>{message}</Text>
+      </View>
     </View>
   );
 }

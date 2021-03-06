@@ -10,7 +10,7 @@ function Chat(): JSX.Element {
 
   return (
     <View style={styles.userContainer}>
-      <TouchableHighlight onPress={() => navigation.navigate('ChatListElem')}>
+      <TouchableHighlight onPress={() => navigation.navigate('ChattingRoom')}>
         <View style={styles.chattingButton}>
           <Text style={styles.chattingText}>구매 채팅으로 가기</Text>
         </View>
