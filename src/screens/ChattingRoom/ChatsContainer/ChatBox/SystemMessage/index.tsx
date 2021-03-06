@@ -4,7 +4,7 @@ import SystemStyle from './SystemMessage.style';
 
 interface ISystemMessageProps {
   message: string;
-  previousSystem: boolean | undefined;
+  previousSystem?: boolean;
 }
 
 function SystemMessage({
