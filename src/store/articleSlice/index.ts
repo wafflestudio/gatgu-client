@@ -3,16 +3,17 @@ import { articleAPI } from '@/apis';
 import {
   IArticleProps,
   IArticleSumProps,
-  IGetSuccessPayload,
-  IGetFailPayload,
+  IGetArticleSumSuccessPayload,
+  IGetArticleSumFailPayload,
+  IArticleSumResponse,
+  TLoad,
 } from '@/types/article';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
 import { initialArticle } from '@/constants/InitialState';
-
+import { MAX_ARTICLE_NUM, PAGE_SIZE } from '@/constants/Enum';
 // CHECK:
-// 이 페이지 getArticleSucess --> getArticleSumSuccess 등으로 바꿔야할듯. (의견 코멘트로 남겨주면 수정할게요)
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
 
 export interface IArticleSlice {
@@ -20,8 +21,8 @@ export interface IArticleSlice {
   errorStatus: number;
   data: IArticleSumProps[];
   isLoading: boolean;
-  next: string;
-  previous: string;
+  next?: string;
+  previous?: string;
   currentArticle: IArticleProps;
 }
 
@@ -43,9 +44,28 @@ const articleSlice = createSlice({
     // if getting data  successfully
     getArticleSumSuccess: (
       state,
-      { payload }: PayloadAction<IGetSuccessPayload>
+      { payload }: PayloadAction<IGetArticleSumSuccessPayload>
     ) => {
-      state.data.push(...payload.data);
+      switch (payload.type) {
+        case 'first':
+          state.data = payload.data;
+          break;
+        case 'next':
+          state.data.push(...payload.data);
+
+          // 리덕스에 저장되는 article 갯수 제한
+          if (state.data.length > MAX_ARTICLE_NUM)
+            state.data.splice(0, PAGE_SIZE);
+          break;
+        case 'previous':
+          state.data.unshift(...payload.data);
+
+          // 리덕스에 저장되는 article 갯수 제한
+          if (state.data.length > MAX_ARTICLE_NUM)
+            state.data.splice(MAX_ARTICLE_NUM - PAGE_SIZE, PAGE_SIZE);
+          break;
+      }
+
       state.hasError = false;
       state.isLoading = false;
       state.next = payload.next;
@@ -55,7 +75,7 @@ const articleSlice = createSlice({
     // if getting data fail, show error screen by hasError state.
     getArticleSumFailure: (
       state,
-      { payload }: PayloadAction<IGetFailPayload>
+      { payload }: PayloadAction<IGetArticleSumFailPayload>
     ) => {
       state.hasError = true;
       state.isLoading = false;
@@ -79,35 +99,29 @@ const {
 } = articleSlice.actions;
 
 // Asynchronous thunk action
-export const getArticlesPerPage = (): AppThunk => (dispatch) => {
+export const getArticlesSum = (type: TLoad): AppThunk => (
+  dispatch,
+  getState
+) => {
   dispatch(setLoading());
-  articleAPI
-    // TODO:
-    // replace this with real api function.
-    .readAll(1)
-    .then((response: AxiosResponse) => {
-      dispatch(
-        getArticleSumSuccess({ data: response.data, next: '', previous: '' })
-      );
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
-      } else {
-        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
-      }
-    });
-};
 
-export const loadNextArticles = (): AppThunk => (dispatch) => {
-  dispatch(setLoading());
+  const url =
+    type === 'first'
+      ? null
+      : type === 'next'
+      ? getState().article.next
+      : getState().article.previous;
+
   articleAPI
-    // TODO:
-    // replace this with real api function.
-    .readAll(2)
-    .then((res: AxiosResponse) => {
+    .getArticlesSummary(url)
+    .then((response: AxiosResponse<IArticleSumResponse>) => {
       dispatch(
-        getArticleSumSuccess({ data: res.data, next: '', previous: '' })
+        getArticleSumSuccess({
+          data: response.data.results,
+          next: response.data.next,
+          previous: response.data.previous,
+          type: type,
+        })
       );
     })
     .catch((err: AxiosError) => {
