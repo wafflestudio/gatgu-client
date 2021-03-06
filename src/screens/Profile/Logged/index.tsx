@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Info from './Information';
-import Grade from './Grade';
 import Force from './Force';
 import History from './HistoryList';
 import { FootTerms } from '@/components';

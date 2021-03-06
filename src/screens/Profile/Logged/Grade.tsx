@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import styles from './Grade.style';
-import React, { useCallback } from 'react';
+import React from 'react';
 import GradeBar from '@/assets/ProfilePage/GradeBar.svg';
 
 // Gragde JSX: 등급 있는 그 칸

@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import React, { useState } from 'react';
 import styles from './Input.style';
 import { palette } from '@/styles';
-import { flexRow } from '@/styles/wrapper';
 
 export interface IInputProps {
   value: string;

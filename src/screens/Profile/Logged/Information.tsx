@@ -10,7 +10,7 @@ interface IInfoProps {
 }
 
 // Info JSX: 유저 이름 ~ 인증 여부
-function Info({ profile, color }: IInfoProps): JSX.Element {
+function Info({ profile }: IInfoProps): JSX.Element {
   const profileImgExist = !!profile.userprofile.picture;
   const profileImg = profileImgExist ? (
     <ImageBackground
