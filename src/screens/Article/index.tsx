@@ -60,6 +60,11 @@ function ArticlePage(): JSX.Element {
     orderStatus: chatInfo.orderStatus,
   };
 
+  const titleInfoProps = {
+    article: article,
+    orderStatus: chatInfo.orderStatus,
+  };
+
   return (
     <View style={styles.container}>
       {hasError ? (
@@ -68,7 +73,7 @@ function ArticlePage(): JSX.Element {
         <ScrollView>
           <ProductImages {...productImageProps} />
           <ProfileChat {...profileChatProps} />
-          <TitleInfo {...article} />
+          <TitleInfo {...titleInfoProps} />
           <Desc {...article} />
         </ScrollView>
       )}

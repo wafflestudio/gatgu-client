@@ -5,8 +5,12 @@ import Title from './Title';
 import Info from './Info';
 import { IArticleProps } from '@/types/article';
 
+interface ITitleChat {
+  article: IArticleProps;
+  orderStatus: string;
+}
 // will change input type
-function TitleInfo(article: IArticleProps): JSX.Element {
+function TitleInfo({ article, orderStatus }: ITitleChat): JSX.Element {
   return (
     <View style={styles.bigContainer}>
       <Title {...article} />
