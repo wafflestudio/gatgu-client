@@ -11,7 +11,7 @@ import { View } from 'react-native';
 // Profile Component
 function ProfileTemplate(): JSX.Element {
   const info = useSelector((state: RootState) => state.user.info);
-  console.log(info);
+  console.debug(info);
 
   /*
   FIXME: @woohm402
