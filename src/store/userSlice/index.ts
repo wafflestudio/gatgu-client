@@ -4,6 +4,8 @@ import { userAPI } from '@/apis';
 import { AppThunk } from '@/store';
 import { setToken, removeToken } from '@/apis/BaseInstance';
 import { NavigationProp } from '@react-navigation/native';
+import { AxiosError } from 'axios';
+import { Alert } from 'react-native';
 
 const initialState = {
   info: {
@@ -17,12 +19,12 @@ const initialState = {
       profile_id: 0,
       picture: '',
       nickname: '',
-      grade: 0,
-      point: 0,
       updated_at: null,
       withdrew_at: null,
     },
     is_active: false,
+    participated_count: 0,
+    hosted_count: 0,
     date_joined: null,
   },
   logged: false,
@@ -64,14 +66,14 @@ export const login = (
       dispatch(setInfo(response.data));
       navigation.navigate('Home');
     })
-    .catch((err) => {
-      console.error(err);
-      alert(err);
-      // 에러 종류에 따라 추가적인 로직이 필요:
-      // 1. 존재하지 않는 아이디
-      // 2. 비밀번호 틀림
-      // 3. 통신 오류
-      // 각각 alert로 처리할 예정인데 백엔드에서 200 OK밖에 안 정해주셔서 error code api가 확정되어야 구현 가능
+    .catch((err: AxiosError) => {
+      switch (parseInt(err.code + '')) {
+        case 403:
+          Alert.alert(err.message);
+          break;
+        default:
+          Alert.alert('unknown error');
+      }
     });
 };
 
@@ -92,13 +94,13 @@ export const modify = (
       dispatch(setInfo(response.data));
       navigation.navigate('Profile');
     })
-    .catch((err) => {
-      console.error(err);
-      alert(err);
-      // 에러 종류에 따라 추가적인 로직이 필요:
-      // 1. 존재하지 않는 아이디
-      // 2. 비밀번호 틀림
-      // 3. 통신 오류
-      // 각각 alert로 처리할 예정인데 백엔드에서 200 OK밖에 안 정해주셔서 error code api가 확정되어야 구현 가능
+    .catch((err: AxiosError) => {
+      switch (parseInt(err.code + '')) {
+        case 400:
+          Alert.alert(err.message);
+          break;
+        default:
+          Alert.alert('unknown error');
+      }
     });
 };

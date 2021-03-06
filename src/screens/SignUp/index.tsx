@@ -166,7 +166,6 @@ function SignUpTemplate(): JSX.Element {
   }
   signUpAble = signUpAble && cAll;
 
-  // FIXME: 백엔드와 디자인 사이 논의가 끝나고 나면 signUp에 들어갈 인자들 제대로 구현
   const signUp = useCallback(() => {
     if (!signUpAble) return;
     userAPI
@@ -175,13 +174,12 @@ function SignUpTemplate(): JSX.Element {
         dispatch(login(id, pw, navigation));
       })
       .catch((err: AxiosError) => {
-        switch (err.code) {
-          case '400':
+        switch (parseInt(err.code + '')) {
+          case 400:
             alert(err.message);
             break;
           default:
             alert('unknown error');
-            console.error('err');
             console.error(err);
             break;
         }
