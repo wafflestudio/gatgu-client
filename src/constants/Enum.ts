@@ -15,3 +15,7 @@ export enum Status {
   WAITING_SHARE = 6,
   GATGU_COMPLETE = 7,
 }
+
+// used in articleSum
+export const MAX_ARTICLE_NUM = 200;
+export const PAGE_SIZE = 10;
