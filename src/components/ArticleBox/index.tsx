@@ -7,17 +7,19 @@ import styles from './ArticleBox.style';
 import Thumbnail from '@/components/Thumbnail';
 import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
+import { remainTime } from '@/helpers/functions/time';
 
 function ArticleBox({
-  id,
+  article_id,
   title,
-  dayLeft,
-  goal,
-  percent,
-  created,
+  time_in,
+  price_min,
+  people_min,
+  created_at,
   location,
-  uri,
-  isMoney,
+  thumbnail_url,
+  need_type,
+  participnats_summary,
 }: IArticleSumProps): JSX.Element {
   const navigation = useNavigation();
   return (
@@ -26,20 +28,24 @@ function ArticleBox({
       onPress={() =>
         navigation.navigate('Article', {
           screen: 'ArticlePage',
-          params: { id: id },
+          params: { id: article_id },
         })
       }
     >
-      <Thumbnail uri={uri} w={107} h={107} />
+      <Thumbnail uri={thumbnail_url} w={107} h={107} />
       <View style={styles.articleBox}>
         <Text style={styles.Head}>{title}</Text>
         <View style={styles.infoWrapper}>
-          <Text style={styles.description}>{created} · </Text>
-          <Text style={styles.description}>{dayLeft} · </Text>
+          <Text style={styles.description}>{created_at} · </Text>
+          <Text style={styles.description}>{remainTime(time_in)} · </Text>
           <Text style={styles.description}>{location}</Text>
         </View>
         <View style={styles.goalWrapper}>
-          <GoalBar percent={percent} goal={goal} isMoney={isMoney} />
+          <GoalBar
+            summary={participnats_summary}
+            goal={{ price_min, people_min }}
+            type={need_type}
+          />
         </View>
       </View>
     </TouchableOpacity>
