@@ -5,17 +5,21 @@ import styles from './Chat.style';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { palette } from '@/styles';
+import { ON_GOING } from '@/constants/Enum';
 
-function Chat(orderStatus: string): JSX.Element {
+interface IChatProps {
+  orderStatus: string;
+}
+
+function Chat({ orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
-
   return (
     <View style={styles.userContainer}>
       <TouchableHighlight onPress={() => navigation.navigate('ChatListElem')}>
         <View
           style={[
             styles.chattingButton,
-            orderStatus === '~ing'
+            orderStatus === ON_GOING
               ? { backgroundColor: palette.blue, borderColor: palette.blue }
               : {
                   backgroundColor: palette.borderGray,
