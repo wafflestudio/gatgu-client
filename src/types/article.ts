@@ -1,19 +1,30 @@
+import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
+
+type TneedType = typeof IS_MONEY | typeof IS_PEOPLE;
+
 interface IPagination {
   next: string;
   previous: string;
 }
 
+export interface IParticipantsSummary {
+  count: number;
+  price: number;
+}
+
 // article summary props
 export interface IArticleSumProps {
+  id: number;
   title: string;
   location: string;
   thumbnail_url: string;
-  need_type: string;
-  price_min: string;
-  people_min: string;
+  need_type: TneedType;
+  price_min: number;
+  people_min: number;
   time_in: string;
   created_at: string;
   article_id: string;
+  participnats_summary: IParticipantsSummary;
 }
 
 interface IArticleDetail extends IArticleSumProps {
@@ -25,7 +36,7 @@ interface IArticleDetail extends IArticleSumProps {
   updated_at: string;
 }
 
-export interface IArticleSumRes extends IPagination {
+export interface IArticleSumResponse extends IPagination {
   results: IArticleDetail[];
 }
 
@@ -61,12 +72,15 @@ export interface ITagType {
   selected: boolean;
 }
 
-export interface IGetFailPayload {
+export interface IGetArticleSumFailPayload {
   errorStatus: number;
 }
 
-export interface IGetSuccessPayload extends IPagination {
+export type TLoad = 'first' | 'next' | 'previous';
+
+export interface IGetArticleSumSuccessPayload extends IPagination {
   data: IArticleSumProps[];
+  type: TLoad;
 }
 
 export interface IMessageRet {
