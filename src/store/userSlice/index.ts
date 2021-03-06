@@ -1,11 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUserProps } from '@/types/user';
-import { userAPI } from '@/apis';
-import { AppThunk } from '@/store';
-import { setToken, removeToken } from '@/apis/BaseInstance';
-import { NavigationProp } from '@react-navigation/native';
-import { AxiosError } from 'axios';
 import { Alert } from 'react-native';
+import { AxiosError } from 'axios';
+import { NavigationProp } from '@react-navigation/native';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { userAPI } from '@/apis';
+import { setToken, removeToken } from '@/apis/BaseInstance';
+import { AppThunk } from '@/store';
+import { IUserProps } from '@/types/user';
 
 const initialState = {
   info: {
@@ -38,13 +39,15 @@ const userSlice = createSlice({
       state.info = { ...action.payload };
       state.logged = true;
       // TODO: @woohm402
-      //   set asyncStorage info
+      //   todo: set asyncStorage info
+      //   when: 최최최종에서
     },
     clearInfo(state) {
       state.info = { ...initialState.info };
       state.logged = false;
       // TODO: @woohm402
-      //   clear asyncStorage info
+      //   todo: clear asyncStorage info
+      //   when: 최최최종에서
     },
     setLogged(state, action) {
       state.logged = { ...action.payload };

@@ -1,6 +1,8 @@
-import requester from './BaseInstance';
 import { AxiosResponse } from 'axios';
-import { IUserProps, IUserSumProps } from '../types/user';
+
+import { IUserProps } from '@/types/user';
+
+import requester from './BaseInstance';
 
 export const readMyInfo = (): Promise<AxiosResponse<IUserProps>> => {
   return requester.get('user/me/');

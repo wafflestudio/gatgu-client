@@ -1,8 +1,10 @@
-import { View, Text, ImageBackground } from 'react-native';
-import styles from './Information.style';
 import React from 'react';
-import { IUserProps } from '@/types/user';
+import { View, Text, ImageBackground } from 'react-native';
+
 import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
+import { IUserProps } from '@/types/user';
+
+import styles from './Information.style';
 
 interface IInfoProps {
   profile: IUserProps;
@@ -10,7 +12,7 @@ interface IInfoProps {
 }
 
 // Info JSX: 유저 이름 ~ 인증 여부
-function Info({ profile, color }: IInfoProps): JSX.Element {
+function Info({ profile }: IInfoProps): JSX.Element {
   const profileImgExist = !!profile.userprofile.picture;
   const profileImg = profileImgExist ? (
     <ImageBackground
@@ -22,8 +24,8 @@ function Info({ profile, color }: IInfoProps): JSX.Element {
   );
 
   // FIXME: @woohm402
-  //   remove backgroundColor:white and replace with proper color
-  //   현재 버전에서는 안 고쳐도 됩니다
+  //   todo: remove backgroundColor:white and replace with proper color
+  //   when: 현재 버전에서는 안 고쳐도 됩니다. 이거 생기는 버전에서 수정
   return (
     <View style={styles.container}>
       <View
@@ -43,7 +45,9 @@ function Info({ profile, color }: IInfoProps): JSX.Element {
         </Text>
         {/* 
         FIXME: @woohm402
-          나중에 결국 다시 생길 기능인데 지금은 빠짐
+          todo: 나중에 결국 다시 생길 기능인데 지금은 빠짐
+          when: 기능 생기면
+
         <View style={styles.authView}>
           <Text style={styles.detailText}>
             {profile.userprofile.updated_at}

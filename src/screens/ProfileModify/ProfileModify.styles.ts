@@ -1,6 +1,8 @@
+import { StyleSheet } from 'react-native';
+
 import { palette, typo } from '@/styles';
 
-const ProfileModifyStyles = {
+const ProfileModifyStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: palette.white,
@@ -51,6 +53,6 @@ const ProfileModifyStyles = {
     ...typo.info,
     color: palette.warnRed,
   },
-};
+});
 
 export default ProfileModifyStyles;

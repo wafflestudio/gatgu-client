@@ -1,17 +1,21 @@
+import React from 'react';
 import { View, Text } from 'react-native';
-import styles from './Grade.style';
-import React, { useCallback } from 'react';
+
 import GradeBar from '@/assets/ProfilePage/GradeBar.svg';
+
+import styles from './Grade.style';
 
 // Gragde JSX: 등급 있는 그 칸
 function Grade(): JSX.Element {
   /*
   FIXME: @woohm402
-    현재 버전에서는 일단 없는 함수
+    todo: 현재 버전에서는 일단 없는 함수
+    when: 이거 생기는 버전에서요
 
   const getPosition = useCallback(() => {
     // FIXME: @woohm402
-    //   proper 수식
+    //   todo: proper 수식
+    //   when: 이거 생기는 버전에서 구현할게요
   }, []);
 
   */

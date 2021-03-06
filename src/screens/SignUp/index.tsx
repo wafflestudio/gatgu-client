@@ -1,17 +1,19 @@
-import { Button } from '@/components';
 import React, { useCallback, useMemo, useState } from 'react';
 import { View, ScrollView, Text } from 'react-native';
-import Check, { ICheckProps } from './Check';
-import Input, { IInputProps } from './Input';
-import styles from './SignUp.style';
-import checkStyles from './Check.style';
-import { userAPI } from '@/apis';
 import { AxiosError } from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+
+import { userAPI } from '@/apis';
+import { Button } from '@/components';
+import * as validate from '@/helpers/functions/validate';
 import { login } from '@/store/userSlice';
 import { flexRow } from '@/styles/wrapper';
-import * as validate from '@/helpers/functions/validate';
+
+import Check, { ICheckProps } from './Check';
+import checkStyles from './Check.style';
+import Input, { IInputProps } from './Input';
+import styles from './SignUp.style';
 
 function SignUpTemplate(): JSX.Element {
   // input

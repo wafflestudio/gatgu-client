@@ -1,9 +1,11 @@
-import { Button } from '@/components';
-import { useNavigation } from '@react-navigation/native';
-import { View, Text } from 'native-base';
 import React from 'react';
-import styles from './Check.style';
+import { View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import { Button } from '@/components';
 import { flexRow } from '@/styles/wrapper';
+
+import styles from './Check.style';
 
 export interface ICheckProps {
   title: string;

@@ -1,9 +1,11 @@
-import { View, Text } from 'react-native';
-import styles from './Force.style';
 import React from 'react';
+import { View, Text } from 'react-native';
+
 import Part from '@/assets/ProfilePage/participate.svg';
 import Open from '@/assets/ProfilePage/open.svg';
 import { IUserProps } from '@/types/user';
+
+import styles from './Force.style';
 
 interface ForceProps {
   profile: IUserProps;
@@ -13,12 +15,14 @@ interface ForceProps {
 function Force({ profile }: ForceProps): JSX.Element {
   /*
   FIXME: @woohm402
-    현재 버전에서는 일단 없는 함수입니다
+    todo: 현재 버전에서는 일단 없는 함수입니다
+    when: grade 추가되면
     
   const getGrade = useMemo(() => {
     // FIXME: @woohm402
-    //   get param and return grade in string
-  }, []);
+    //   todo: get param and return grade in string
+    //   when: grade 추가될 때 구현할게요
+  }, [grade]);
   */
 
   return (

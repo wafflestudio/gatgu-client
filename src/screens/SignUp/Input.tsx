@@ -1,9 +1,10 @@
-import { Button, StringInput } from '@/components';
-import { View, Text } from 'react-native';
 import React, { useState } from 'react';
-import styles from './Input.style';
+import { View, Text } from 'react-native';
+
+import { Button, StringInput } from '@/components';
 import { palette } from '@/styles';
-import { flexRow } from '@/styles/wrapper';
+
+import styles from './Input.style';
 
 export interface IInputProps {
   value: string;
