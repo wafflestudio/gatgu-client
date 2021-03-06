@@ -9,9 +9,11 @@ import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { ArticleDrawerParamList } from '@/types/navigation';
 import { IArticleProps } from '@/types/article';
 import { createError } from '@/helpers/functions';
-import { initialArticle } from '@/constants/InitialState';
+import { initialArticle, initialChatInfo } from '@/constants/InitialState';
 import { getSingleArticle } from '@/store/articleSlice';
+import { getChatInfo } from '@/store/chatSlice';
 import { RootState } from '@/store';
+import { IChattingRoom } from '@/types/chat';
 // TODO:
 // - display several images instead of one (after eject --> crop-picker)
 // - add buttons to navigate through images
@@ -22,6 +24,7 @@ const [Error] = createError();
 
 function ArticlePage(): JSX.Element {
   const [article, setArticle] = useState<IArticleProps>(initialArticle);
+  const [chatInfo, setChatInfo] = useState<IChattingRoom>(initialChatInfo);
   const [hasError, setError] = useState(false);
   const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
   const id = route.params.id;
@@ -36,13 +39,15 @@ function ArticlePage(): JSX.Element {
 
   useEffect(() => {
     dispatch(getSingleArticle(id));
+    dispatch(getChatInfo(id));
     // handle error true case
   }, []);
 
   useEffect(() => {
     setArticle(currentArticle);
+    setChatInfo(currentChatInfo);
     setError(false);
-  }, [currentArticle]);
+  }, [currentArticle, currentChatInfo]);
 
   return (
     <View style={styles.container}>

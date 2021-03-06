@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './Drawer.style';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { RootState } from '@/store';
 import { articleAPI, chatAPI, userAPI } from '@/apis';
@@ -12,6 +12,7 @@ import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
 import { palette } from '@/styles';
 import { IUserProps } from '@/types/user';
+import { getChatInfo } from '@/store/chatSlice';
 
 interface ElementArr {
   list: JSX.Element[];
@@ -25,25 +26,29 @@ function DrawerTemplate(props: any): JSX.Element {
   const [tem, setTemp] = useState<number>(0);
   const [hasError, setError] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
+  );
+  const currentChatInfo = useSelector(
+    (state: RootState) => state.chat.currentChatInfo
   );
 
   useEffect(() => {
     if (currentArticle.id !== '0') {
       const id = parseInt(currentArticle.id);
-      chatAPI
-        .getChatInfo(id)
-        .then((response: AxiosResponse) => {
-          setChatInfo(response.data[0]);
-          setError(false);
-        })
-        .catch((err: AxiosError) => {
-          setError(true);
-        });
+      dispatch(getChatInfo(id));
     }
   }, []);
+
+  useEffect(() => {
+    if (currentArticle.id !== '0') {
+      setChatInfo(currentChatInfo);
+      setError(false);
+      // handle error from chatSlice
+    }
+  }, [currentChatInfo]);
 
   useEffect(() => {
     if (chatInfo?.id !== 0) {
@@ -71,6 +76,7 @@ function DrawerTemplate(props: any): JSX.Element {
     if (chatInfo !== undefined) {
       const temp = chatInfo.orderStatus === '~ing' ? 'done' : '~ing';
       const body = { ...chatInfo, orderStatus: temp as 'done' | '~ing' };
+      console.log('hd');
       chatAPI
         .changeStatus(chatInfo.article, body)
         .then(() => {
@@ -80,7 +86,7 @@ function DrawerTemplate(props: any): JSX.Element {
         .catch((err: AxiosError) => {
           alert("Couldn't change status");
         });
-    }
+    } else console.log('con');
   };
 
   const delArticle = () => {
