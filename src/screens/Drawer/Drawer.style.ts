@@ -1,21 +1,35 @@
-import { palette } from '@/styles';
+import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const DrawerStyles = StyleSheet.create({
-  container: {
-    backgroundColor: palette.yellow,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+  upperContainer: {
+    paddingLeft: '12.6%',
+    paddingTop: '9%',
+    paddingBottom: '14.1%',
+    borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
   },
-  mainLogo: {
-    height: 132.13,
-    width: 132.13,
-    marginBottom: 43.43,
+
+  lowerContainer: {
+    paddingLeft: '12.6%',
+    paddingBottom: '14.1%',
   },
-  subLogo: {
-    height: 60,
-    width: 190,
+
+  upperLabelText: {
+    ...typo.bigInfo,
+    paddingTop: 5,
+  },
+
+  lowerLabelText: {
+    paddingTop: '9%',
+    paddingBottom: '9%',
+    ...typo.bigTitle,
+    fontWeight: 'bold',
+  },
+
+  image: {
+    width: 30,
+    height: 30,
   },
 });
 

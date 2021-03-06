@@ -8,6 +8,11 @@ export const typo = {
     lineHeight: 27,
     fontSize: 18,
   },
+  bigInfo: {
+    fontFamily: 'NotoSansKR_400Regular',
+    lineHeight: 27,
+    fontSize: 18,
+  },
   semiTitle: {
     fontFamily: 'NotoSansKR_400Regular',
     lineHeight: 22,

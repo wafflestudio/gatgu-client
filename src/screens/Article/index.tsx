@@ -7,8 +7,6 @@ import ProductImages from './ProductImages';
 import TitleInfo from './TitleInfo';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { ArticleDrawerParamList } from '@/types/navigation';
-import { articleAPI } from '@/apis';
-import { AxiosError, AxiosResponse } from 'axios';
 import { IArticleProps } from '@/types/article';
 import { createError } from '@/helpers/functions';
 import { initialArticle } from '@/constants/InitialState';

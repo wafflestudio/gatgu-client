@@ -22,3 +22,9 @@ export interface IUserProps {
   hosted_count: number;
   token: string;
 }
+
+export interface IUserSumProps {
+  profile_id: number;
+  picture: string;
+  nickname: string;
+}
