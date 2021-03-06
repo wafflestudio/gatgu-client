@@ -10,7 +10,7 @@ import { ArticleDrawerParamList } from '@/types/navigation';
 import { IArticleProps } from '@/types/article';
 import { createError } from '@/helpers/functions';
 import { initialArticle, initialChatInfo } from '@/constants/InitialState';
-import { getSingleArticle } from '@/store/articleSlice';
+import articleSlice, { getSingleArticle } from '@/store/articleSlice';
 import { getChatInfo } from '@/store/chatSlice';
 import { RootState } from '@/store';
 import { IChattingRoom } from '@/types/chat';
@@ -55,6 +55,11 @@ function ArticlePage(): JSX.Element {
     orderStatus: chatInfo.orderStatus,
   };
 
+  const profileChatProps = {
+    article: article,
+    orderStatus: chatInfo.orderStatus,
+  };
+
   return (
     <View style={styles.container}>
       {hasError ? (
@@ -62,7 +67,7 @@ function ArticlePage(): JSX.Element {
       ) : (
         <ScrollView>
           <ProductImages {...productImageProps} />
-          <ProfileChat {...article} />
+          <ProfileChat {...profileChatProps} />
           <TitleInfo {...article} />
           <Desc {...article} />
         </ScrollView>
