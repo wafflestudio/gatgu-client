@@ -12,7 +12,8 @@ import { palette } from '@/styles';
 function LoginTemplate(): JSX.Element {
   const [id, setID] = useState('');
   // FIXME: @woohm402
-  //   pw는 암호화해야 함
+  //   todo: pw는 암호화해야 함
+  //   when: user 최최최종 마무리 PR에서 하겠습니다
   const [pw, setPW] = useState('');
 
   const dispatch = useDispatch();
@@ -40,8 +41,9 @@ function LoginTemplate(): JSX.Element {
         />
         {/* 
           FIXME: @woohm402
-            value={"*" * pw.length}
-            로 수정해야 합니다
+            todo: value={"*" * pw.length}
+                  로 수정해야 합니다
+            when: 최종 마무리에서 하겠습니다, 디버깅을 위해 놔뒀어요
         */}
         <TextInput
           style={styles.input}

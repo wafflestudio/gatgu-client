@@ -93,9 +93,10 @@ function HomeStackScreen(): JSX.Element {
 }
 
 // FIXME: @woohm402
-//  그때 말했던 폴더 구조 관련된 큰 체인지가 필요해 보입니다
-//  일단 어디로든 옮겨질 파일이라 생각하고 여러 군데 흩뿌려놓으면 나중에 찾기 힘드니까 여기다 다 몰아놓을게요
-//  현재 더보기창 디자인도 진행중인 관계로 정확하게 디자인하진 않겠습니당
+//   todo: 그때 말했던 폴더 구조 관련된 큰 체인지가 필요해 보입니다
+//         일단 어디로든 옮겨질 파일이라 생각하고 여러 군데 흩뿌려놓으면 나중에 찾기 힘드니까 여기다 다 몰아놓을게요
+//         현재 더보기창 디자인도 진행중인 관계로 정확하게 디자인하진 않겠습니당
+//   when: 폴더 구조 회의 완료되면
 const ProfileStack = createStackNavigator();
 function ProfileStackScreen(): JSX.Element {
   const [show, setShow] = useState(false);

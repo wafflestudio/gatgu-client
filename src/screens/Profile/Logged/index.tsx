@@ -15,7 +15,8 @@ function ProfileTemplate(): JSX.Element {
 
   /*
   FIXME: @woohm402
-    현재 버전에서는 안 씀
+    todo: 현재 버전에서는 안 쓰는 코드
+    when: 이거 생길때,,
 
   const { point } = info.userprofile;
 
@@ -29,7 +30,9 @@ function ProfileTemplate(): JSX.Element {
       <Info profile={info} />
       {/*
         FIXME: @woohm402
-        위에 줄 이걸로 수정해야 함
+          todo: 위에 줄 아래 코드로 수정해야 함
+          when: grade 생기는 버전에서
+
         <Info profile={info} color={myColor} />
         <Grade />
       */}
@@ -37,7 +40,8 @@ function ProfileTemplate(): JSX.Element {
       <History />
       {/*
         FIXME: @woohm402
-        디자인 제대로 나오면 수정할게요 
+          todo: 디자인 제대로 나오면 수정할게요 
+          when: 최최최종 PR에서 하겠습니다
       */}
       <View
         style={{ height: 100, alignItems: 'center', justifyContent: 'center' }}

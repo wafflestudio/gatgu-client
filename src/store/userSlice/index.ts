@@ -38,13 +38,15 @@ const userSlice = createSlice({
       state.info = { ...action.payload };
       state.logged = true;
       // TODO: @woohm402
-      //   set asyncStorage info
+      //   todo: set asyncStorage info
+      //   when: 최최최종에서
     },
     clearInfo(state) {
       state.info = { ...initialState.info };
       state.logged = false;
       // TODO: @woohm402
-      //   clear asyncStorage info
+      //   todo: clear asyncStorage info
+      //   when: 최최최종에서
     },
     setLogged(state, action) {
       state.logged = { ...action.payload };

@@ -13,12 +13,14 @@ interface ForceProps {
 function Force({ profile }: ForceProps): JSX.Element {
   /*
   FIXME: @woohm402
-    현재 버전에서는 일단 없는 함수입니다
+    todo: 현재 버전에서는 일단 없는 함수입니다
+    when: grade 추가되면
     
   const getGrade = useMemo(() => {
     // FIXME: @woohm402
-    //   get param and return grade in string
-  }, []);
+    //   todo: get param and return grade in string
+    //   when: grade 추가될 때 구현할게요
+  }, [grade]);
   */
 
   return (

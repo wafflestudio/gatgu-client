@@ -1,5 +1,6 @@
 // FIXME: @woohm402
-//   컨텐츠 제대로 써 주기
+//   todo: 내용 제대로 써 주기
+//   when: 팀 회의를 통해 여기 들어갈 내용이 확정되면
 
 const contents: Record<string, string> = {
   '같구 이용약관 동의':

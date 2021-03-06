@@ -7,11 +7,13 @@ import GradeBar from '@/assets/ProfilePage/GradeBar.svg';
 function Grade(): JSX.Element {
   /*
   FIXME: @woohm402
-    현재 버전에서는 일단 없는 함수
+    todo: 현재 버전에서는 일단 없는 함수
+    when: 이거 생기는 버전에서요
 
   const getPosition = useCallback(() => {
     // FIXME: @woohm402
-    //   proper 수식
+    //   todo: proper 수식
+    //   when: 이거 생기는 버전에서 구현할게요
   }, []);
 
   */
