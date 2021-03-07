@@ -7,12 +7,12 @@ import { calcTimeDiff } from '@/helpers/functions';
 import { IArticleProps } from '@/types/article';
 import { Status } from '@/constants/Enum';
 
-interface ITitleChat {
+interface ITitleProps {
   article: IArticleProps;
   orderStatus: number;
 }
 
-function Title({ article, orderStatus }: ITitleChat): JSX.Element {
+function Title({ article, orderStatus }: ITitleProps): JSX.Element {
   // 남은 시간
   const { diff: timeLeft, type: typeLeft } = calcTimeDiff(
     article.created_at,
