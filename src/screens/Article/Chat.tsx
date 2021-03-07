@@ -5,10 +5,10 @@ import styles from './Chat.style';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { palette } from '@/styles';
-import { ON_GOING } from '@/constants/Enum';
+import { ORDER_COMPLETE } from '@/constants/Enum';
 
 interface IChatProps {
-  orderStatus: string;
+  orderStatus: number;
 }
 
 function Chat({ orderStatus }: IChatProps): JSX.Element {
@@ -19,7 +19,7 @@ function Chat({ orderStatus }: IChatProps): JSX.Element {
         <View
           style={[
             styles.chattingButton,
-            orderStatus === ON_GOING
+            orderStatus < ORDER_COMPLETE
               ? { backgroundColor: palette.blue, borderColor: palette.blue }
               : {
                   backgroundColor: palette.borderGray,

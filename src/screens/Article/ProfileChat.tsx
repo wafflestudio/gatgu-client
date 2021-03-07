@@ -7,7 +7,7 @@ import { IArticleProps } from '@/types/article';
 
 interface IProfileChat {
   article: IArticleProps;
-  orderStatus: string;
+  orderStatus: number;
 }
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {

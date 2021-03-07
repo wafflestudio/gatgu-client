@@ -1,10 +1,8 @@
-import { ON_GOING, DONE } from '@/constants/Enum';
-
 export interface IChattingRoom {
   id: number;
   participant: number[];
   article: number;
-  orderStatus: typeof ON_GOING | typeof DONE; // TODO: back과 논의
+  orderStatus: number;
   trackingNumber: string;
   // not in api
   uri: string;
@@ -14,6 +12,6 @@ export interface IChattingRoom {
   nickName: string;
 }
 
-export interface IChangeStatusRet {
-  status: 'success' | 'failure';
+export interface IChangeStatusProps {
+  orderStatus: number; // TODO(KIM): change to status: number
 }

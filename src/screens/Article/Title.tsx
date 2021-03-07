@@ -5,10 +5,11 @@ import styles from './Title.style';
 import { palette, typo } from '@/styles';
 import { calcTimeDiff } from '@/helpers/functions';
 import { IArticleProps } from '@/types/article';
+import { ORDER_COMPLETE } from '@/constants/Enum';
 
 interface ITitleChat {
   article: IArticleProps;
-  orderStatus: string;
+  orderStatus: number;
 }
 
 function Title({ article, orderStatus }: ITitleChat): JSX.Element {
@@ -23,7 +24,7 @@ function Title({ article, orderStatus }: ITitleChat): JSX.Element {
     'current'
   );
 
-  const isDone = orderStatus === 'done';
+  const isDone = orderStatus >= ORDER_COMPLETE;
 
   return (
     <View style={styles.subContainer}>

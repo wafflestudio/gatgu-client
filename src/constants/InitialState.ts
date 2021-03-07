@@ -1,6 +1,6 @@
 import { IArticleProps } from '@/types/article';
 import { IChattingRoom } from '@/types/chat';
-import { IS_MONEY, ON_GOING } from './Enum';
+import { IS_MONEY, UNDEFINED_STATUS } from './Enum';
 
 export const initialArticle = {
   id: '0',
@@ -35,7 +35,7 @@ export const initialChatInfo = {
   id: 0,
   participant: [],
   article: 0,
-  orderStatus: ON_GOING,
+  orderStatus: UNDEFINED_STATUS,
   trackingNumber: '',
   uri: '',
   title: '',

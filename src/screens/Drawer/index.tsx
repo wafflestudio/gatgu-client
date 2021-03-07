@@ -12,7 +12,8 @@ import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
 import { palette } from '@/styles';
 import { IUserProps } from '@/types/user';
-import { getChatInfo } from '@/store/chatSlice';
+import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
+import { ORDER_COMPLETE, WAITING_MEMBERS } from '@/constants/Enum';
 
 interface ElementArr {
   list: JSX.Element[];
@@ -74,17 +75,13 @@ function DrawerTemplate(props: any): JSX.Element {
   const toggleStatus = () => {
     // change status
     if (chatInfo !== undefined) {
-      const temp = chatInfo.orderStatus === '~ing' ? 'done' : '~ing';
-      const body = { ...chatInfo, orderStatus: temp as 'done' | '~ing' };
-      chatAPI
-        .changeStatus(chatInfo.article, body)
-        .then(() => {
-          setChatInfo(body);
-          alert(`Successfully changed status to "${temp}"`);
-        })
-        .catch((err: AxiosError) => {
-          alert("Couldn't change status");
-        });
+      const temp =
+        chatInfo.orderStatus < ORDER_COMPLETE
+          ? ORDER_COMPLETE
+          : WAITING_MEMBERS;
+      const body = { ...chatInfo, orderStatus: temp };
+      dispatch(changeOrderStatus(chatInfo.id, temp));
+      alert(`Successfully changed status to "${temp}"`);
     }
   };
 

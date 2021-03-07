@@ -7,7 +7,7 @@ import { IArticleProps } from '@/types/article';
 
 interface ITitleChat {
   article: IArticleProps;
-  orderStatus: string;
+  orderStatus: number;
 }
 // will change input type
 function TitleInfo({ article, orderStatus }: ITitleChat): JSX.Element {
