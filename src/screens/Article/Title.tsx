@@ -5,7 +5,7 @@ import styles from './Title.style';
 import { palette, typo } from '@/styles';
 import { calcTimeDiff } from '@/helpers/functions';
 import { IArticleProps } from '@/types/article';
-import { ORDER_COMPLETE } from '@/constants/Enum';
+import { Status } from '@/constants/Enum';
 
 interface ITitleChat {
   article: IArticleProps;
@@ -24,7 +24,7 @@ function Title({ article, orderStatus }: ITitleChat): JSX.Element {
     'current'
   );
 
-  const isDone = orderStatus >= ORDER_COMPLETE;
+  const isDone = orderStatus >= Status.ORDER_COMPLETE;
 
   return (
     <View style={styles.subContainer}>

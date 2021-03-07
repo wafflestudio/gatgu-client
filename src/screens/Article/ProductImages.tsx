@@ -5,7 +5,7 @@ import { FlatList, Image, View, Text } from 'react-native';
 import styles from './ProductImages.style';
 import Swiper from 'react-native-swiper';
 import { palette, typo } from '@/styles';
-import { ORDER_COMPLETE } from '@/constants/Enum';
+import { Status } from '@/constants/Enum';
 
 // TODO: @ssu1018
 // - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단
@@ -42,8 +42,10 @@ function ProductImages({
           {images}
         </Swiper>
       </View>
-      {orderStatus >= ORDER_COMPLETE && <View style={styles.completeCover} />}
-      {orderStatus >= ORDER_COMPLETE && (
+      {orderStatus >= Status.ORDER_COMPLETE && (
+        <View style={styles.completeCover} />
+      )}
+      {orderStatus >= Status.ORDER_COMPLETE && (
         <View style={styles.completeTextContainer}>
           <Text style={styles.completeText}>모집완료</Text>
         </View>

@@ -5,7 +5,7 @@ import styles from './Chat.style';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { palette } from '@/styles';
-import { ORDER_COMPLETE } from '@/constants/Enum';
+import { Status } from '@/constants/Enum';
 
 interface IChatProps {
   orderStatus: number;
@@ -15,7 +15,8 @@ function Chat({ orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
 
   const navigateToChatRoom = () => {
-    if (orderStatus < ORDER_COMPLETE) navigation.navigate('ChatListElem');
+    if (orderStatus < Status.ORDER_COMPLETE)
+      navigation.navigate('ChatListElem');
   };
   return (
     <View style={styles.userContainer}>
@@ -23,7 +24,7 @@ function Chat({ orderStatus }: IChatProps): JSX.Element {
         <View
           style={[
             styles.chattingButton,
-            orderStatus < ORDER_COMPLETE
+            orderStatus < Status.ORDER_COMPLETE
               ? { backgroundColor: palette.blue, borderColor: palette.blue }
               : {
                   backgroundColor: palette.borderGray,

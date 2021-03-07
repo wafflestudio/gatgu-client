@@ -13,7 +13,7 @@ import { IChattingRoom } from '@/types/chat';
 import { palette } from '@/styles';
 import { IUserProps } from '@/types/user';
 import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
-import { ORDER_COMPLETE, WAITING_MEMBERS } from '@/constants/Enum';
+import { Status } from '@/constants/Enum';
 
 interface ElementArr {
   list: JSX.Element[];
@@ -76,9 +76,9 @@ function DrawerTemplate(props: any): JSX.Element {
     // change status
     if (chatInfo !== undefined) {
       const temp =
-        chatInfo.orderStatus < ORDER_COMPLETE
-          ? ORDER_COMPLETE
-          : WAITING_MEMBERS;
+        chatInfo.orderStatus < Status.ORDER_COMPLETE
+          ? Status.ORDER_COMPLETE
+          : Status.WAITING_MEMBERS;
       const body = { ...chatInfo, orderStatus: temp };
       dispatch(changeOrderStatus(chatInfo.id, temp));
       Alert.alert(`"${temp}"으로 성공적으로 상태를 바꿨습니다!`);
