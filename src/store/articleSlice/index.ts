@@ -11,7 +11,7 @@ import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
 import { initialArticle } from '@/constants/InitialState';
 
-// CHECK:
+// TODO: @ssu1018
 // 이 페이지 getArticleSucess --> getArticleSumSuccess 등으로 바꿔야할듯. (의견 코멘트로 남겨주면 수정할게요)
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
 
@@ -82,8 +82,8 @@ const {
 export const getArticlesPerPage = (): AppThunk => (dispatch) => {
   dispatch(setLoading());
   articleAPI
-    // TODO:
-    // replace this with real api function.
+    // TODO: @ssu1018
+    //   replace this with real api function.
     .readAll(1)
     .then((response: AxiosResponse) => {
       dispatch(
@@ -102,8 +102,8 @@ export const getArticlesPerPage = (): AppThunk => (dispatch) => {
 export const loadNextArticles = (): AppThunk => (dispatch) => {
   dispatch(setLoading());
   articleAPI
-    // TODO:
-    // replace this with real api function.
+    // TODO: @ssu1018
+    //   replace this with real api function.
     .readAll(2)
     .then((res: AxiosResponse) => {
       dispatch(

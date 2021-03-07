@@ -1,5 +1,6 @@
-import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
+
+import { palette, typo } from '@/styles';
 
 const LoginStyle = StyleSheet.create({
   container: {

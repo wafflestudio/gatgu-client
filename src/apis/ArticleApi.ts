@@ -12,8 +12,7 @@ import {
 export const readAll = (
   page: number
 ): Promise<AxiosResponse<IArticleSumProps[]>> => {
-  // TODO: check
-  // pagination 이렇게 안하는데, 백엔드와 논의 필요
+  // TODO: @ssu1018
   const url = `posts?_limit=7&_page=${page}`;
   return requester.get(url);
 };

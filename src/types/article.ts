@@ -1,5 +1,5 @@
-// TODO:
-// remove this
+// TODO: @ssu1018
+//   remove this
 export interface IArticleSumProps {
   id: number;
   title: string;

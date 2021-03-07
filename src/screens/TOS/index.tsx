@@ -1,8 +1,10 @@
-import { View, Text, ScrollView } from 'react-native';
-import { Button } from '@/components';
 import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+
+import { Button } from '@/components';
 import { SignUpStackParamList } from '@/types/navigation';
+
 import contents from './content';
 import styles from './TOS.style';
 

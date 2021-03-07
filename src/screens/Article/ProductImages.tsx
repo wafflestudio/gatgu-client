@@ -7,7 +7,7 @@ import Swiper from 'react-native-swiper';
 import { palette, typo } from '@/styles';
 import { ORDER_COMPLETE } from '@/constants/Enum';
 
-// TODO:
+// TODO: @ssu1018
 // - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단
 
 interface IArticleChat {

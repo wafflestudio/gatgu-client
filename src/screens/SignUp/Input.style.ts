@@ -1,5 +1,6 @@
-import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
+
+import { palette, typo } from '@/styles';
 
 const InputStyle = StyleSheet.create({
   container: {
@@ -22,9 +23,10 @@ const InputStyle = StyleSheet.create({
     color: palette.warnRed,
     paddingLeft: 11,
   },
-  validText: {
-    ...typo.smallText,
-    color: palette.blue,
+  title: {
+    ...typo.boldInfo,
+    color: palette.dark,
+    fontWeight: 'bold',
     paddingLeft: 11,
   },
   inputButton: {
@@ -49,6 +51,9 @@ const InputStyle = StyleSheet.create({
     right: 84,
     bottom: 12,
     width: 83,
+  },
+  titleBox: {
+    flexDirection: 'row',
   },
 });
 

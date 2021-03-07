@@ -1,5 +1,6 @@
-import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
+
+import { palette, typo } from '@/styles';
 
 const SignUpStyles = StyleSheet.create({
   container: {
@@ -36,6 +37,12 @@ const SignUpStyles = StyleSheet.create({
     height: 27,
     marginTop: 8,
     marginBottom: 11,
+  },
+  emailControl: {
+    flexDirection: 'row',
+    height: 20,
+    marginBottom: 40,
+    justifyContent: 'space-between',
   },
 });
 
