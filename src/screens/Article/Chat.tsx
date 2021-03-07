@@ -13,9 +13,13 @@ interface IChatProps {
 
 function Chat({ orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
+
+  const navigate = () => {
+    if (orderStatus < ORDER_COMPLETE) navigation.navigate('ChatListElem');
+  };
   return (
     <View style={styles.userContainer}>
-      <TouchableHighlight onPress={() => navigation.navigate('ChatListElem')}>
+      <TouchableHighlight onPress={navigate}>
         <View
           style={[
             styles.chattingButton,
