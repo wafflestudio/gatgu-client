@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, Image } from 'react-native';
+
 import { IChatMessage } from '@/types/chat';
+
 import Bubble from './Bubble';
 import SystemMessage from './SystemMessage';
 import ChatBoxStyle from './ChatBox.style';

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+
 import { typo, palette } from '@/styles';
 
 const SearchStyles = StyleSheet.create({

@@ -3,9 +3,10 @@ import { View, Text } from 'react-native';
 
 import { InfoContainer, Thumbnail } from '@/components';
 import { IChattingRoom } from '@/types/chat';
+
 import ChattingListStyles from './ChattingBox.style';
 
-function ChattingBox({ item }: { item: IChattingRoom }) {
+function ChattingBox({ item }: { item: IChattingRoom }): JSX.Element {
   return (
     <InfoContainer>
       <Thumbnail

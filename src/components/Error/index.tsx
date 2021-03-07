@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+
 import ErrorStyles from './Error.style';
+
 interface IErrorProps {
   status: number;
 }

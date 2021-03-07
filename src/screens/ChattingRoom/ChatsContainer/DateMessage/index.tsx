@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text } from 'react-native';
+
 import DateMsgStyle from './DateMessage.style';
 import ChatContainerStyle from '../ChatContainer.style';
 interface IDateMessage {

@@ -3,10 +3,11 @@ import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import Tag from '@/components/Button';
-import TagListStyle from './TagList.style';
-import SearchStyle from '../../Search.style';
 import tagList from '@/constants/tagList';
 import { useKeywordDispatch } from '@/helpers/hooks';
+
+import TagListStyle from './TagList.style';
+import SearchStyle from '../../Search.style';
 
 function TagList(): JSX.Element {
   const navigation = useNavigation();

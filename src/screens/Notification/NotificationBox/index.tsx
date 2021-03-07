@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { InfoContainer, Thumbnail } from '@/components';
-import NotificationBoxStyle from './NotificationBox.style';
 import { INotifyItem, TnoticeType } from '@/types/Notification';
+
+import NotificationBoxStyle from './NotificationBox.style';
 
 // noticeType에 따라 다른 함수를 리턴해줌.
 const noticeTemplate: {
