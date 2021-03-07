@@ -4,32 +4,23 @@ import { View, Text } from 'react-native';
 import { InfoContainer, Thumbnail } from '@/components';
 import { IChattingRoom } from '@/types/chat';
 
-import ChattingListStyles from './ChattingBox.style';
+import styles from './ChattingBox.style';
 
 function ChattingBox({ item }: { item: IChattingRoom }): JSX.Element {
   return (
     <InfoContainer>
-      <Thumbnail
-        uri={item.uri}
-        w={64}
-        h={64}
-        style={ChattingListStyles.thunmnail}
-      />
-      <View style={ChattingListStyles.textWrapper}>
-        <View style={ChattingListStyles.writerTimeWrapper}>
-          <Text style={ChattingListStyles.Head}>{item.nickName}</Text>
-          <Text style={ChattingListStyles.description}>{item.time}시간 전</Text>
+      <Thumbnail uri={item.uri} w={64} h={64} style={styles.thunmnail} />
+      <View style={styles.textWrapper}>
+        <View style={styles.writerTimeWrapper}>
+          <Text style={styles.Head}>{item.nickName}</Text>
+          <Text style={styles.description}>{item.time}시간 전</Text>
         </View>
-        <View style={ChattingListStyles.Box}>
-          <Text
-            style={ChattingListStyles.Head}
-            ellipsizeMode={'tail'}
-            numberOfLines={1}
-          >
+        <View style={styles.Box}>
+          <Text style={styles.Head} ellipsizeMode={'tail'} numberOfLines={1}>
             {item.chat}
           </Text>
           <Text
-            style={ChattingListStyles.description}
+            style={styles.description}
             ellipsizeMode={'tail'}
             numberOfLines={1}
           >

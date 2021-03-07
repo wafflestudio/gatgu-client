@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import BubbleStyle from './Bubble.style';
+import styles from './Bubble.style';
 
 interface IBubbleProps {
   message: string;
@@ -11,8 +11,8 @@ interface IBubbleProps {
 //messageBox
 function Bubble({ message, isSelf }: IBubbleProps): JSX.Element {
   return (
-    <View style={isSelf ? BubbleStyle.rightBubble : BubbleStyle.leftBubble}>
-      <Text style={BubbleStyle.chatText}>{message}</Text>
+    <View style={isSelf ? styles.rightBubble : styles.leftBubble}>
+      <Text style={styles.chatText}>{message}</Text>
     </View>
   );
 }

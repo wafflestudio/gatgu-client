@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text } from 'react-native';
 
-import DateMsgStyle from './DateMessage.style';
+import styles from './DateMessage.style';
 import ChatContainerStyle from '../ChatContainer.style';
 interface IDateMessage {
   date: string;
@@ -18,10 +18,10 @@ function DateMessage({ date }: IDateMessage): JSX.Element {
   }, [date]);
 
   return (
-    <View style={DateMsgStyle.dateContainer}>
-      <View style={DateMsgStyle.middleLine} />
+    <View style={styles.dateContainer}>
+      <View style={styles.middleLine} />
       <Text style={ChatContainerStyle.timeText}>{sentDay}</Text>
-      <View style={DateMsgStyle.middleLine} />
+      <View style={styles.middleLine} />
     </View>
   );
 }

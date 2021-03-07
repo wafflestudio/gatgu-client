@@ -10,7 +10,7 @@ import * as asyncStorageFunc from '@/helpers/functions/asyncStorage';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { removeKeyword } from '@/store/searchSlice';
 
-import RecentSearchStyle from './RecentSearch.style';
+import styles from './RecentSearch.style';
 import SearchStyle from '../../Search.style';
 
 interface IRecentSearchProps {
@@ -29,7 +29,7 @@ function RecentSearch({ tags }: IRecentSearchProps): JSX.Element {
   }, []);
 
   const renderedTags = tags.map((tag, ind) => (
-    <View key={ind} style={[SearchStyle.tagBox, RecentSearchStyle.tagsWrapper]}>
+    <View key={ind} style={[SearchStyle.tagBox, styles.tagsWrapper]}>
       <Tag
         title={tag}
         onPress={() => {
@@ -42,7 +42,7 @@ function RecentSearch({ tags }: IRecentSearchProps): JSX.Element {
           onPressXIcon(tag);
         }}
       >
-        <Icon name="close" style={RecentSearchStyle.Icon} />
+        <Icon name="close" style={styles.Icon} />
       </TouchableOpacity>
     </View>
   ));

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import SystemStyle from './SystemMessage.style';
+import styles from './SystemMessage.style';
 
 interface ISystemMessageProps {
   message: string;
@@ -13,11 +13,9 @@ function SystemMessage({
   previousSystem,
 }: ISystemMessageProps): JSX.Element {
   return (
-    <View style={SystemStyle.systemWrapper}>
-      <View
-        style={[SystemStyle.box, !previousSystem && SystemStyle.marginBottom24]}
-      >
-        <Text style={SystemStyle.systemText}>{message}</Text>
+    <View style={styles.systemWrapper}>
+      <View style={[styles.box, !previousSystem && styles.marginBottom24]}>
+        <Text style={styles.systemText}>{message}</Text>
       </View>
     </View>
   );
