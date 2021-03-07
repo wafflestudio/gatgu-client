@@ -13,5 +13,5 @@ export interface IChattingRoom {
 }
 
 export interface IChangeStatusProps {
-  orderStatus: number; // TODO(KIM): change to status: number
+  orderStatus: number;
 }

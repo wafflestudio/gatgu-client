@@ -36,11 +36,10 @@ const chatSlice = createSlice({
       state.errorStatus = payload.errorStatus;
     },
 
-    _changeOrderStatus: (
-      state,
-      { payload }: PayloadAction<IChangeStatusProps>
-    ) => {
-      // TODO(KIM): update order status
+    setOrderStatus: (state, { payload }: PayloadAction<IChangeStatusProps>) => {
+      // TODO: @juimdpp
+      // todo: implement this function that updates order status of state
+      // when: 서버 잘 되면
     },
   },
 });
@@ -52,7 +51,9 @@ export const getChatInfo = (id: number): AppThunk => (dispatch) => {
   chatAPI
     .getChatInfo(id)
     .then((response: AxiosResponse) => {
-      dispatch(setCurrentChatInfo(response.data[0])); // TODO(KIM): change to response.data (json-server에서는 이렇게해야 커리가 먹힘)
+      dispatch(setCurrentChatInfo(response.data[0])); // TODO: @juimdpp
+      // todo: change to response.data (json-server에서는 이렇게해야 커리가 먹힘)
+      // when: 서버 잘 되면
     })
     .catch((err: AxiosError) => {
       if (err.response) {
@@ -70,7 +71,9 @@ export const changeOrderStatus = (
   chatAPI
     .changeStatus(id, { orderStatus: orderStatus })
     .then((response: AxiosResponse) => {
-      dispatch(setCurrentChatInfo(response.data)); // TODO(KIM): json server returns entire object, but backend returns status string --> must update to _changeOrderStatus(response.data)
+      dispatch(setCurrentChatInfo(response.data)); // TODO: @juimdpp
+      // todo: json server returns entire object, but backend returns status string --> must update to setOrderStatus(response.data)
+      // when: 서버 잘 되면 (json-server에서는 저렇게 하는 수 밖에 없어서...)
     })
     .catch((err: AxiosError) => {
       console.log(err);
