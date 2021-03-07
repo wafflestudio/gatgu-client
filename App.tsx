@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import {
   useFonts,
@@ -7,9 +7,13 @@ import {
   NotoSansKR_700Bold,
 } from '@expo-google-fonts/noto-sans-kr';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationContainerRef,
+} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
+import { DrawerActions } from '@react-navigation/native';
 
 import BottomNavigation from '@/components/BottomNavigation';
 import routes from '@/helpers/routes';
@@ -22,6 +26,10 @@ const { ChattingRoom, Login, SignUp } = routes;
 const Stack = createStackNavigator();
 
 function App(): JSX.Element {
+  const navigationRef: React.MutableRefObject<null | NavigationContainerRef> = useRef(
+    null
+  );
+
   const [fontsLoaded] = useFonts({
     NotoSansKR_500Medium,
     NotoSansKR_400Regular,
