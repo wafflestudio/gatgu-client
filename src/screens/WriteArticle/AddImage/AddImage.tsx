@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { View, Image, TouchableHighlight, Text } from 'react-native';
+import { View, Image, TouchableHighlight, Alert } from 'react-native';
 import styles from './AddImage.style';
 import PlusSign from '@/assets/PlusSign';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -38,7 +38,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
         setImages(tempArrSend);
       })
       .catch(() => {
-        console.log('Error...');
+        Alert.alert('갤러리를 여는데 실패했습니다...');
       });
   };
 

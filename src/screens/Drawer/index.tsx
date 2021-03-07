@@ -65,7 +65,6 @@ function DrawerTemplate(props: any): JSX.Element {
             setParticipants(tempArr);
           })
           .catch((err: AxiosError) => {
-            console.log(err);
             setError(true);
           });
       });
