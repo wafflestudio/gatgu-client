@@ -15,10 +15,7 @@ import { getChatInfo } from '@/store/chatSlice';
 import { RootState } from '@/store';
 import { IChattingRoom } from '@/types/chat';
 // TODO: @juimdpp
-// - display several images instead of one (after eject --> crop-picker)
-// - add buttons to navigate through images
 // - change styles when clicked on (chatting button)
-// - navigate to user profile when Profile Pic pressed
 
 const [Error] = createError();
 
