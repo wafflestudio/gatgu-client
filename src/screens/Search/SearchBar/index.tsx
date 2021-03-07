@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StringInput } from '@/components';
 import { useKeywordDispatch } from '@/helpers/hooks';
 
-import SearchBarStyles from './SearchBar.style';
+import styles from './SearchBar.style';
 
 interface ISearchBarProps {
   inSearchedList: boolean;
@@ -30,8 +30,8 @@ function SearchBar({ inSearchedList, keyword }: ISearchBarProps): JSX.Element {
   };
 
   return (
-    <View style={SearchBarStyles.outerBox}>
-      <Icon name="ios-search" style={SearchBarStyles.searchIcon} />
+    <View style={styles.outerBox}>
+      <Icon name="ios-search" style={styles.searchIcon} />
       <StringInput
         onTouchStart={() => {
           inSearchedList && navigation.navigate('Search');
@@ -40,8 +40,8 @@ function SearchBar({ inSearchedList, keyword }: ISearchBarProps): JSX.Element {
         onChangeText={setInput}
         onSubmitEditing={onSubmit}
         placeholder={'키워드로 검색'}
-        style={[SearchBarStyles.text, SearchBarStyles.searchText]}
-        placeholderStyle={[SearchBarStyles.text, SearchBarStyles.placeholder]}
+        style={[styles.text, styles.searchText]}
+        placeholderStyle={[styles.text, styles.placeholder]}
       />
     </View>
   );

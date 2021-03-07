@@ -5,7 +5,7 @@ import { IChatMessage } from '@/types/chat';
 
 import Bubble from './Bubble';
 import SystemMessage from './SystemMessage';
-import ChatBoxStyle from './ChatBox.style';
+import styles from './ChatBox.style';
 import ChatContainerStyle from '../ChatContainer.style';
 
 interface IChatBoxProps {
@@ -44,7 +44,7 @@ function ChatBox({
       <View
         style={[
           { alignItems: 'flex-end' },
-          isSelf ? ChatBoxStyle.row : ChatBoxStyle.row_reverse,
+          isSelf ? styles.row : styles.row_reverse,
         ]}
       >
         {!isSameTime && (
@@ -61,7 +61,7 @@ function ChatBox({
       !isSelf &&
       !isSameUser && (
         <View>
-          <Text style={ChatBoxStyle.nameText}>{sent_by?.nickname}</Text>
+          <Text style={styles.nameText}>{sent_by?.nickname}</Text>
         </View>
       ),
     [sent_by, isSelf, isSameUser]
@@ -72,7 +72,7 @@ function ChatBox({
       !isSelf && (
         <Image
           source={{ uri: !isSameUser ? sent_by?.picture : undefined }}
-          style={ChatBoxStyle.avatar}
+          style={styles.avatar}
         />
       ),
     [sent_by, isSameUser, isSelf]
@@ -83,16 +83,16 @@ function ChatBox({
   ) : (
     <View
       style={[
-        isSelf ? ChatBoxStyle.rightContainer : ChatBoxStyle.leftContinaer,
-        !isSameUser && ChatBoxStyle.marginTop10,
+        isSelf ? styles.rightContainer : styles.leftContinaer,
+        !isSameUser && styles.marginTop10,
       ]}
     >
-      <View style={ChatBoxStyle.row}>
+      <View style={styles.row}>
         {renderedProfile}
         <View>
           {renderedName}
           {image.length ? (
-            <Image source={{ uri: image }} style={ChatBoxStyle.messageImage} />
+            <Image source={{ uri: image }} style={styles.messageImage} />
           ) : (
             renderedBubbleTime
           )}

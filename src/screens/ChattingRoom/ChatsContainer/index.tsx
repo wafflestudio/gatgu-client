@@ -5,7 +5,7 @@ import { IChatMessage } from '@/types/chat';
 
 import ChatBox from './ChatBox';
 import InputBar from './InputBar';
-import ChatContainerStyle from './ChatContainer.style';
+import styles from './ChatContainer.style';
 
 interface IChattingRoomInterface {
   chatList: IChatMessage[];
@@ -31,7 +31,7 @@ function ChattingRoom({ chatList }: IChattingRoomInterface): JSX.Element {
       <FlatList
         data={chatList}
         renderItem={renderItem}
-        style={ChatContainerStyle.msgContainer}
+        style={styles.msgContainer}
         keyExtractor={(_, ind) => `${ind}`}
       />
       <InputBar />

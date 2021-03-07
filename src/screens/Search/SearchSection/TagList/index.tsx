@@ -6,7 +6,7 @@ import Tag from '@/components/Button';
 import tagList from '@/constants/tagList';
 import { useKeywordDispatch } from '@/helpers/hooks';
 
-import TagListStyle from './TagList.style';
+import styles from './TagList.style';
 import SearchStyle from '../../Search.style';
 
 function TagList(): JSX.Element {
@@ -26,7 +26,7 @@ function TagList(): JSX.Element {
   return (
     <View style={SearchStyle.sectionWrapper}>
       <Text style={SearchStyle.head}>태그로 검색</Text>
-      <View style={TagListStyle.tagsWrapper}>{renderedTags}</View>
+      <View style={styles.tagsWrapper}>{renderedTags}</View>
     </View>
   );
 }
