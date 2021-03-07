@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+
 import { palette } from '@/styles';
 
 const TagListStyle = StyleSheet.create({

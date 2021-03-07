@@ -1,4 +1,6 @@
+import { AxiosResponse, AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { articleAPI } from '@/apis';
 import {
   IArticleProps,
@@ -8,7 +10,6 @@ import {
 } from '@/types/article';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
-import { AxiosResponse, AxiosError } from 'axios';
 import { initialArticle } from '@/constants/InitialState';
 
 // TODO: @ssu1018

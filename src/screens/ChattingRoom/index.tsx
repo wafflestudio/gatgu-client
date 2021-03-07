@@ -1,5 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
+
 import ChatsContainer from './ChatsContainer';
 import messages from './mockChat';
 

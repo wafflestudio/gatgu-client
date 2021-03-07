@@ -3,9 +3,10 @@ import { View } from 'react-native';
 import { Icon } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
-import SearchBarStyles from './SearchBar.style';
 import { StringInput } from '@/components';
 import { useKeywordDispatch } from '@/helpers/hooks';
+
+import SearchBarStyles from './SearchBar.style';
 
 interface ISearchBarProps {
   inSearchedList: boolean;

@@ -3,11 +3,12 @@ import { FlatList, View } from 'react-native';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 
 import { ArticleBox } from '@/components';
-import styles from './Home.style';
 import { IArticleSumProps } from '@/types/article';
 import { RootState } from '@/store';
 import { getArticlesPerPage } from '@/store/articleSlice';
 import { createError } from '@/helpers/functions';
+
+import styles from './Home.style';
 
 const [Error] = createError();
 

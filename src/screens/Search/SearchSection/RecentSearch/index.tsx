@@ -5,12 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'native-base';
 
 import Tag from '@/components/Button';
-import SearchStyle from '../../Search.style';
 import { useKeywordDispatch } from '@/helpers/hooks';
-import RecentSearchStyle from './RecentSearch.style';
 import * as asyncStorageFunc from '@/helpers/functions/asyncStorage';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { removeKeyword } from '@/store/searchSlice';
+
+import RecentSearchStyle from './RecentSearch.style';
+import SearchStyle from '../../Search.style';
 
 interface IRecentSearchProps {
   tags: string[];

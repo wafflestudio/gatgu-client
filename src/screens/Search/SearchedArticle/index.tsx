@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 import { useSelector } from '@/helpers/hooks';
+
 import SearchBar from '../SearchBar';
 import SearchedList from './SearchedList';
 import SearchStyle from '../Search.style';

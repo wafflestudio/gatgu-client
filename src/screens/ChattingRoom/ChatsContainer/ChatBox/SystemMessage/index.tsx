@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+
 import SystemStyle from './SystemMessage.style';
 
 interface ISystemMessageProps {

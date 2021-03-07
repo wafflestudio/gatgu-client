@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, TextInput, Text } from 'react-native';
-import InputBarStyle from './InputBar.style';
+
 import { palette } from '@/styles';
+
+import InputBarStyle from './InputBar.style';
 
 function InputBar(): JSX.Element {
   return (
