@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ScrollView, Button } from 'react-native';
-import { articleAPI } from '@/apis';
 import Tags from './Tags/Tags';
 import AddImage from './AddImage/AddImage';
 import Title from './Title/Title';
@@ -21,17 +20,8 @@ import { useNavigation } from '@react-navigation/native';
 // TODO: @juimdpp
 //   @woohm402: 여기 unused declaration이 엄청 많아보이는데 확인 부탁드려요
 
-const dummyImage = 'https://reactnative.dev/img/tiny_logo.png';
-
-interface IDProps {
-  org: string;
-  repo: string;
-  issueId: number;
-  showIssuesList: () => void;
-}
-
 function WriteArticleTemplate(): JSX.Element {
-  const [images, setImages] = useState<string | null | undefined[]>([]);
+  const [images, setImages] = useState<(string | null | undefined)[]>([]);
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
   const [title, setTitle] = useState('');
@@ -41,30 +31,21 @@ function WriteArticleTemplate(): JSX.Element {
   const navigation = useNavigation();
 
   const submit = () => {
-    const people_count = parseInt(need_people);
-    const price = parseInt(need_price);
-    const product_url = link;
-    const thumbnail_url = images;
-    const temp_author_id = 0;
+    // TODO: @juimdpp
+    // todo: 아래 함수 제대로 구현
+    // when: api 고칠 때
 
-    articleAPI
+    /*articleAPI
       .create({
-        title,
-        people_count,
-        price,
-        location,
-        description,
-        product_url,
-        // thumbnail_url,
-        temp_author_id,
+        // etc
       })
       .then(() => {
-        // TODO: @juimdpp
-        //   redirect
-      });
+        // navigation.navigate('Article')
+      });*/
+
     navigation.navigate('Article');
   };
-  // change
+
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
       <Tags />

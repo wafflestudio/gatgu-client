@@ -126,7 +126,7 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     .then((response: AxiosResponse) => {
       dispatch(setCurrentArticle(response.data));
     })
-    .catch((err: AxiosError) => {
+    .catch(() => {
       // TODO: @juimdpp
       // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
       // when: 로딩 페이지 구현할 때 같이 할게요

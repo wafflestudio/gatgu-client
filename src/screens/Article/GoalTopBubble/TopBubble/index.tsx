@@ -1,10 +1,7 @@
-import { Label, View } from 'native-base';
-import React, { useEffect, useMemo, useState } from 'react';
+import { View } from 'native-base';
+import React, { useMemo, useState } from 'react';
 import { LayoutChangeEvent, Text } from 'react-native';
 import styles from './TopBubble.style';
-import { typo } from '@/styles';
-import { IArticleProps } from '@/types/article';
-import GoalBar from '@/components/ArticleBox/GoalBar';
 import { IS_MONEY } from '@/constants/Enum';
 
 interface ITopBubbleProps {
