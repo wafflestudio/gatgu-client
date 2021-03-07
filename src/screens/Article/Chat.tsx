@@ -14,12 +14,12 @@ interface IChatProps {
 function Chat({ orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
 
-  const navigate = () => {
+  const navigateToChatRoom = () => {
     if (orderStatus < ORDER_COMPLETE) navigation.navigate('ChatListElem');
   };
   return (
     <View style={styles.userContainer}>
-      <TouchableHighlight onPress={navigate}>
+      <TouchableHighlight onPress={navigateToChatRoom}>
         <View
           style={[
             styles.chattingButton,

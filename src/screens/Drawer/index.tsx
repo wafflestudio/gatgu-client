@@ -1,6 +1,6 @@
 import { Button, Profile } from '@/components';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import styles from './Drawer.style';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -81,7 +81,7 @@ function DrawerTemplate(props: any): JSX.Element {
           : WAITING_MEMBERS;
       const body = { ...chatInfo, orderStatus: temp };
       dispatch(changeOrderStatus(chatInfo.id, temp));
-      alert(`Successfully changed status to "${temp}"`);
+      Alert.alert(`"${temp}"으로 성공적으로 상태를 바꿨습니다!`);
     }
   };
 
@@ -90,11 +90,11 @@ function DrawerTemplate(props: any): JSX.Element {
       articleAPI
         .deleteArticle(chatInfo.id)
         .then((response: AxiosResponse) => {
-          alert('Successfully deleted');
+          Alert.alert('삭제가 완료되었습니다.');
           navigation.navigate('Home');
         })
         .catch((err: AxiosError) => {
-          alert("Couldn't delete article");
+          Alert.alert('삭제하는데 실패했습니다.');
         });
     }
   };
@@ -113,7 +113,7 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="수정하기"
-              onPress={() => alert('navigate to edit page')}
+              onPress={() => Alert.alert('navigate to edit page')}
               textStyle={styles.upperLabelText}
             />
             <Button
@@ -123,7 +123,7 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="신고하기"
-              onPress={() => alert('not yet: 신고하기')}
+              onPress={() => Alert.alert('not yet: 신고하기')}
               textStyle={styles.upperLabelText}
             />
           </View>
