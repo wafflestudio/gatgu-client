@@ -2,9 +2,7 @@ export interface IChattingRoom {
   id: number;
   participant: number[];
   article: number;
-  orderStatus: '~ing' | 'done';
-  // TODO: @ssu1018
-  //   back과 논의
+  orderStatus: number;
   trackingNumber: string;
   // not in api
   uri: string;
@@ -14,8 +12,8 @@ export interface IChattingRoom {
   nickName: string;
 }
 
-export interface IChangeStatusRet {
-  status: 'success' | 'failure';
+export interface IChangeStatusProps {
+  orderStatus: number;
 }
 
 export interface IChatMessage {

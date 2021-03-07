@@ -1,12 +1,7 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
-import {
-  IArticleSumProps,
-  IPageLimitRes,
-  IArticleProps,
-} from '@/types/article';
-import { IChattingRoom, IChangeStatusRet } from '@/types/chat';
+import { IChattingRoom, IChangeStatusProps } from '@/types/chat';
 
 // for chat info
 export const getChatInfo = (
@@ -18,7 +13,8 @@ export const getChatInfo = (
 // change status of order
 export const changeStatus = (
   id: number,
-  body: IChattingRoom
-): Promise<AxiosResponse<IChangeStatusRet>> => {
-  return requester.put(`chat/${id}/`, body);
+  body: IChangeStatusProps
+): Promise<AxiosResponse<IChangeStatusProps>> => {
+  return requester.patch(`chat/${id}/`, body); // TODO: requester.put(`chat/${id}/`, body); url ends with: /set_status/
+  // TODO: add type for status and change string to number
 };

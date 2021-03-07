@@ -1,9 +1,9 @@
 import { Button, Profile } from '@/components';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import styles from './Drawer.style';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { RootState } from '@/store';
 import { articleAPI, chatAPI, userAPI } from '@/apis';
@@ -12,6 +12,8 @@ import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
 import { palette } from '@/styles';
 import { IUserProps } from '@/types/user';
+import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
+import { Status } from '@/constants/Enum';
 
 interface ElementArr {
   list: JSX.Element[];
@@ -25,25 +27,29 @@ function DrawerTemplate(props: any): JSX.Element {
   const [tem, setTemp] = useState<number>(0);
   const [hasError, setError] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
+  );
+  const currentChatInfo = useSelector(
+    (state: RootState) => state.chat.currentChatInfo
   );
 
   useEffect(() => {
     if (currentArticle.id !== '0') {
       const id = parseInt(currentArticle.id);
-      chatAPI
-        .getChatInfo(id)
-        .then((response: AxiosResponse) => {
-          setChatInfo(response.data[0]);
-          setError(false);
-        })
-        .catch((err: AxiosError) => {
-          setError(true);
-        });
+      dispatch(getChatInfo(id));
     }
   }, []);
+
+  useEffect(() => {
+    if (currentArticle.id !== '0') {
+      setChatInfo(currentChatInfo);
+      setError(false);
+      // handle error from chatSlice
+    }
+  }, [currentChatInfo]);
 
   useEffect(() => {
     if (chatInfo?.id !== 0) {
@@ -69,17 +75,13 @@ function DrawerTemplate(props: any): JSX.Element {
   const toggleStatus = () => {
     // change status
     if (chatInfo !== undefined) {
-      const temp = chatInfo.orderStatus === '~ing' ? 'done' : '~ing';
-      const body = { ...chatInfo, orderStatus: temp as 'done' | '~ing' };
-      chatAPI
-        .changeStatus(chatInfo.article, body)
-        .then(() => {
-          setChatInfo(body);
-          alert(`Successfully changed status to "${temp}"`);
-        })
-        .catch((err: AxiosError) => {
-          alert("Couldn't change status");
-        });
+      const temp =
+        chatInfo.orderStatus < Status.ORDER_COMPLETE
+          ? Status.ORDER_COMPLETE
+          : Status.WAITING_MEMBERS;
+      const body = { ...chatInfo, orderStatus: temp };
+      dispatch(changeOrderStatus(chatInfo.id, temp));
+      Alert.alert(`"${temp}"으로 성공적으로 상태를 바꿨습니다!`);
     }
   };
 
@@ -88,11 +90,11 @@ function DrawerTemplate(props: any): JSX.Element {
       articleAPI
         .deleteArticle(chatInfo.id)
         .then((response: AxiosResponse) => {
-          alert('Successfully deleted');
+          Alert.alert('삭제가 완료되었습니다.');
           navigation.navigate('Home');
         })
         .catch((err: AxiosError) => {
-          alert("Couldn't delete article");
+          Alert.alert('삭제하는데 실패했습니다.');
         });
     }
   };
@@ -111,7 +113,7 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="수정하기"
-              onPress={() => alert('navigate to edit page')}
+              onPress={() => Alert.alert('navigate to edit page')}
               textStyle={styles.upperLabelText}
             />
             <Button
@@ -121,7 +123,7 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="신고하기"
-              onPress={() => alert('not yet: 신고하기')}
+              onPress={() => Alert.alert('not yet: 신고하기')}
               textStyle={styles.upperLabelText}
             />
           </View>

@@ -44,3 +44,9 @@ export const modify = (
     picture,
   });
 };
+
+export const getUser = (
+  profile_id: number
+): Promise<AxiosResponse<IUserProps>> => {
+  return requester.get(`users/${profile_id}/`); // TODO: change to user after back deploy
+};
