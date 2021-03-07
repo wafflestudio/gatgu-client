@@ -1,6 +1,7 @@
 export { default as AppLoading } from './AppLoading';
 export { default as Article } from './Article';
-export { default as ChatListElem } from './ChatListElem';
+export { default as ChattingRoom } from './ChattingRoom';
+export { default as Search } from './Search';
 export { default as ChattingList } from './ChattingList';
 export { default as Drawer } from './Drawer';
 export { default as Home } from './Home';

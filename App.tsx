@@ -17,11 +17,11 @@ import { AppLoading } from '@/screens';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
 
-const { ChatListElem, Login, SignUp } = routes;
+const { ChattingRoom, Login, SignUp } = routes;
 
 const Stack = createStackNavigator();
 
-function App() {
+function App(): JSX.Element {
   const [fontsLoaded] = useFonts({
     NotoSansKR_500Medium,
     NotoSansKR_400Regular,
@@ -42,8 +42,8 @@ function App() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name={ChatListElem.name}
-              component={ChatListElem.component}
+              name={ChattingRoom.name}
+              component={ChattingRoom.component}
             />
             <Stack.Screen
               name={Login.name}
