@@ -1,6 +1,8 @@
-import { RootState } from '@/store';
 import React from 'react';
 import { useSelector } from 'react-redux';
+
+import { RootState } from '@/store';
+
 import LoggedProfile from './Logged';
 import UnloggedProfile from './UnLogged';
 

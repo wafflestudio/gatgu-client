@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const requester = axios.create({
-  baseURL: 'http://localhost:8000/v1/',
+  baseURL: 'http://3.16.167.21/v1/',
 });
 
 requester.defaults.xsrfCookieName = 'csrftoken';

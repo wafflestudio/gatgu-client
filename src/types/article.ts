@@ -1,5 +1,5 @@
-// TODO:
-// remove this
+// TODO: @ssu1018
+//   remove this
 export interface IArticleSumProps {
   id: number;
   title: string;
@@ -59,7 +59,8 @@ export interface IArticleProps {
   location: string;
   product_url: string;
   thumbnail_url: string;
-  need_type: number; // 1: money, 2: people
+  image_url?: string[];
+  need_type: number; // 1: people, 2: money
   price_min: number;
   people_count_min: number;
   time_max: string;

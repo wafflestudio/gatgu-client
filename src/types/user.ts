@@ -4,9 +4,12 @@
 export interface IUserProps {
   id: number;
   username: string;
+  password: string;
   email: string;
   first_name: string;
   last_name: string;
+  date_joined: any;
+  last_login: any;
   userprofile: {
     profile_id: number;
     picture: string;
@@ -15,7 +18,8 @@ export interface IUserProps {
     withdrew_at: any;
   };
   is_active: boolean;
-  date_joined: any;
+  participated_count: number;
+  hosted_count: number;
   token: string;
 }
 

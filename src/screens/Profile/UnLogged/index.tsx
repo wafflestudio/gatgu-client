@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button } from '@/components';
-import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import { Button, FootTerms } from '@/components';
+
 import styles from './UnLogged.style';
-import { FootTerms } from '@/components';
 
 // Profile Component
 function ProfileTemplate(): JSX.Element {
