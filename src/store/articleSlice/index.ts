@@ -105,26 +105,6 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
   getState
 ) => {
   dispatch(setLoading());
-<<<<<<< HEAD
-  articleAPI
-    // TODO: @ssu1018
-    //   replace this with real api function.
-    .readAll(1)
-    .then((response: AxiosResponse) => {
-      dispatch(
-        getArticleSumSuccess({ data: response.data, next: '', previous: '' })
-      );
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
-      } else {
-        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
-      }
-    });
-};
-=======
->>>>>>> 95aa196... Improve articleSlice for pagination
 
   const url =
     type === 'first'
@@ -134,15 +114,8 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
       : getState().article.previous;
 
   articleAPI
-<<<<<<< HEAD
-    // TODO: @ssu1018
-    //   replace this with real api function.
-    .readAll(2)
-    .then((res: AxiosResponse) => {
-=======
     .getArticlesSummary(url)
     .then((response: AxiosResponse<IArticleSumResponse>) => {
->>>>>>> 95aa196... Improve articleSlice for pagination
       dispatch(
         getArticleSumSuccess({
           data: response.data.results,
