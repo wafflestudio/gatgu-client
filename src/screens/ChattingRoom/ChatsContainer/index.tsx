@@ -2,9 +2,9 @@ import React from 'react';
 import { View, FlatList } from 'react-native';
 
 import { IChatMessage } from '@/types/chat';
-
 import ChatBox from './ChatBox';
 import InputBar from './InputBar';
+
 import styles from './ChatContainer.style';
 
 interface IChattingRoomInterface {
