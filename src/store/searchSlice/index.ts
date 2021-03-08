@@ -148,7 +148,8 @@ const initSearchData = (): AppThunk => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      //TODO: @ssu1018
+      // - error handling
     });
 };
 
