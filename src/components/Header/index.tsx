@@ -1,19 +1,37 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  Alert,
+  StyleSheetProperties,
+} from 'react-native';
 import styles from './Header.style';
 
 // need to pass functions for the buttons
-export interface HeaderProps {
+export interface IHeaderProps {
   title: string;
-  left: boolean;
-  // left_text: string,
-  // left_function: ??,
-  right: boolean;
-  // right_text: string
-  // left_fucntion: ??
+  titleShown?: boolean;
+  titleStyle?: StyleSheetProperties;
+  left?: React.ReactNode;
+  leftCallback?: any;
+  leftStyle?: StyleSheetProperties;
+  right?: React.ReactNode;
+  rightCallback?: any;
+  rightStyle?: StyleSheetProperties;
 }
 
-function Header({ title, left, right }: HeaderProps): JSX.Element {
+function Header({
+  title,
+  left,
+  right,
+  titleShown,
+  titleStyle,
+  leftCallback,
+  rightCallback,
+  leftStyle,
+  rightStyle,
+}: IHeaderProps): JSX.Element {
   return (
     <View style={styles.header}>
       <View style={styles.subContainer}>
