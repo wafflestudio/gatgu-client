@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { palette, typo } from '@/styles';
 
@@ -25,9 +25,6 @@ const HeaderStyles = StyleSheet.create({
   titleContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  SafeArea: {
-    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   leftButton: {
     ...commonStyle.button,

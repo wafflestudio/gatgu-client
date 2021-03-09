@@ -37,7 +37,7 @@ function Header({
   titleContainerStyle,
 }: IHeaderProps): JSX.Element {
   return (
-    <View style={[styles.header, styles.SafeArea]}>
+    <View style={styles.header}>
       {left ? (
         <TouchableHighlight
           style={[styles.leftButton, leftStyle]}
