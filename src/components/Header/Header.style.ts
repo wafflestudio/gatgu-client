@@ -1,29 +1,43 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
+
+import { palette, typo } from '@/styles';
+
+const commonStyle = StyleSheet.create({
+  button: {
+    width: 38,
+    height: 38,
+  },
+});
 
 const HeaderStyles = StyleSheet.create({
   header: {
-    height: 75,
-    borderWidth: 1,
+    height: 59,
+    borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: palette.white,
+    justifyContent: 'space-between',
   },
-  subContainer: {
-    width: '33%',
+  basicTitleText: {
+    ...typo.semiTitle,
+  },
+  titleContainer: {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  button: {
-    height: 50,
-    width: 50,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 25,
-    alignItems: 'center',
+  SafeArea: {
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  leftButton: {
+    ...commonStyle.button,
+    marginLeft: 13,
     justifyContent: 'center',
   },
-  title: {
+  rightButton: {
+    ...commonStyle.button,
+    marginRight: 13,
     justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 
