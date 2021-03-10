@@ -12,12 +12,19 @@ import styles from './Header.style';
 
 // need to pass functions for the buttons
 export interface IHeaderProps {
+  // 헤더 한가운데 들어갈 타이틀 텍스트
   title: string;
+  // 타이틀 텍스트 보여줄 지 결정
   titleShown?: boolean;
+  // 타이틀 텍스트 스타일
   titleStyle?: StyleProp<TextStyle>;
+  // 타이틀 텍스트 컨테이너의 스타일
   titleContainerStyle?: StyleProp<ViewStyle>;
+  // 헤더 좌측에 들어갈 컴포넌트, left가 undefined면 좌측에 아무것도 보여지지 않음.
   left?: React.ReactNode;
+  // left가 존재할 때, 클릭시 실행될 콜백 함수
   leftCallback?: any;
+  // left 컴포넌트를 담는 컨테이너의 스타일
   leftStyle?: StyleProp<ViewStyle>;
   right?: React.ReactNode;
   rightCallback?: any;
