@@ -13,12 +13,25 @@ const mockUrls = [
   'https://placeimg.com/140/138/any',
 ];
 
+const mockUsers = [
+  {
+    profile_id: 1,
+    picture: 'https://placeimg.com/140/138/any',
+    nickname: 'heesu',
+  },
+  {
+    profile_id: 2,
+    picture: 'https://placeimg.com/140/138/any',
+    nickname: 'heesu',
+  },
+];
+
 function chatDrawer(): JSX.Element {
   return (
     <Drawer.Navigator
       drawerPosition="right"
       drawerContent={(props) => (
-        <ChatDrawer {...props} pictureUrls={mockUrls} />
+        <ChatDrawer {...props} pictureUrls={mockUrls} users={mockUsers} />
       )}
       drawerStyle={{ width: '57%' }}
     >

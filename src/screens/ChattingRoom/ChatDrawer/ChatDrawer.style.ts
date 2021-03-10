@@ -5,7 +5,6 @@ import { palette, typo } from '@/styles';
 
 const commonStyle = StyleSheet.create({
   container: {
-    paddingTop: 32,
     paddingLeft: '12.6%',
   },
 });
@@ -16,19 +15,24 @@ const DrawerStyles = StyleSheet.create({
   },
   pictureContainer: {
     ...commonStyle.container,
-    // marginTop: 40,
+    marginBottom: 10,
+    paddingTop: 31,
     height: '20%',
     borderBottomWidth: 1,
     borderBottomColor: palette.borderGray,
   },
   userContainer: {
     ...commonStyle.container,
+    paddingTop: 19,
     height: '55%',
     borderBottomColor: palette.borderGray,
     borderBottomWidth: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   optionContainer: {
     ...commonStyle.container,
+    paddingTop: 25,
     height: '25%',
   },
   smallLabelText: {
@@ -37,10 +41,16 @@ const DrawerStyles = StyleSheet.create({
   bigLabelText: {
     ...typo.bigTitle,
     fontWeight: 'bold',
+    marginBottom: 19,
   },
   image: {
-    width: 30,
-    height: 30,
+    width: 101,
+    height: 76,
+    marginRight: 10,
+    marginTop: 15,
+  },
+  profileBox: {
+    marginBottom: 10,
   },
 });
 

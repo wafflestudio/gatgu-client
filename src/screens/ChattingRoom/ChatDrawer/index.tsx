@@ -3,15 +3,16 @@ import { View, Text, FlatList, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useIsDrawerOpen } from '@react-navigation/drawer';
 
-import { Button } from '@/components';
-
-import styles from './DrawerTemplate.style';
+import { Button, Profile } from '@/components';
+import { IUserSumProps } from '@/types/user';
+import styles from './ChatDrawer.style';
 
 interface IDrawerTemplateProps {
   pictureUrls: string[];
+  users: IUserSumProps[];
 }
 
-function ChatDrawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
+function ChatDrawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
   const navigation = useNavigation();
   const isDrawerOpen = useIsDrawerOpen();
 
@@ -22,9 +23,18 @@ function ChatDrawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   }, [navigation, isDrawerOpen]);
 
   const renderPicure = ({ item: uri }: { item: string }) => (
-    <Image source={{ uri }} />
+    <Image source={{ uri }} style={styles.image} />
   );
 
+  const renderedParticipants = users.map((user, ind) => (
+    <View key={ind} style={styles.profileBox}>
+      <Profile
+        profile_id={user.profile_id}
+        picture={user.picture}
+        nickname={user.nickname}
+      />
+    </View>
+  ));
   return (
     <View style={styles.drawerInnerWrapper}>
       <View style={styles.pictureContainer}>
@@ -38,7 +48,7 @@ function ChatDrawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
       </View>
       <View style={styles.userContainer}>
         <Text style={styles.bigLabelText}>참여 인원 목록</Text>
-        {participants}
+        {renderedParticipants}
       </View>
       <View style={styles.optionContainer}>
         <Button
