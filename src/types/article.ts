@@ -46,28 +46,24 @@ export interface IArticleSumSearchResponse extends IPagination {
 
 //article detail
 export interface IArticleProps {
-  id: string;
-  writer: {
-    profile_id: number;
-    picture: string;
-    nickname: string;
-    address: string;
-    phonenumber: string;
-  };
+  id: string; // TODO: @juimdpp
+  // todo: same as article_id but necessary here for JSON-server, so remove
+  // when: when server is stable
+  writer_id: number;
+  article_id: number;
   title: string;
   description: string;
   location: string;
   product_url: string;
   thumbnail_url: string;
-  image_url?: string[];
+  images?: string[];
   need_type: number; // 1: people, 2: money
   price_min: number;
-  people_count_min: number;
-  time_max: string;
+  people_min: number;
+  tag: number[];
+  time_in: string;
   created_at: string; // should be date but json server doesn't accept Date
   updated_at: string;
-  deleted_at: string;
-  current: number;
 }
 
 export interface ITagType {
@@ -89,3 +85,14 @@ export interface IGetSuccessPayload {
 export interface IMessageRet {
   message: string;
 }
+
+/*
+  writer: {
+    profile_id: number;
+    picture: string;
+    nickname: string;
+    address: string;
+    phonenumber: string;
+  };
+
+*/
