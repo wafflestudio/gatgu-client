@@ -1,14 +1,31 @@
 import React from 'react';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, Text } from 'react-native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 import ChatsContainer from './ChatsContainer';
+import { Header } from '@/components';
 import messages from './mockChat';
 
 export default function ChattingRoom(): JSX.Element {
+  const navigation = useNavigation();
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      <Header
+        title="채팅방"
+        titleShown={true}
+        // FIXME: @ssu1018
+        // 더보기 아이콘으로 수정
+        right={<Text>더보기</Text>}
+        rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+        // FIXME: @ssu1018
+        // 뒤로가기 아이콘으로 수정
+        left={<Text>뒤로가기</Text>}
+        leftCallback={() => {
+          navigation.goBack();
+        }}
+      />
       <ChatsContainer chatList={messages} />
     </KeyboardAvoidingView>
   );
