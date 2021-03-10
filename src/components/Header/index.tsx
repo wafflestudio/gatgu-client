@@ -25,10 +25,10 @@ export interface IHeaderProps {
   // left가 존재할 때, 클릭시 실행될 콜백 함수
   leftCallback?: any;
   // left 컴포넌트를 담는 컨테이너의 스타일
-  leftStyle?: StyleProp<ViewStyle>;
+  leftContainerStyle?: StyleProp<ViewStyle>;
   right?: React.ReactNode;
   rightCallback?: any;
-  rightStyle?: StyleProp<ViewStyle>;
+  rightContainerStyle?: StyleProp<ViewStyle>;
 }
 
 function Header({
@@ -39,15 +39,15 @@ function Header({
   titleStyle,
   leftCallback,
   rightCallback,
-  leftStyle,
-  rightStyle,
+  leftContainerStyle,
+  rightContainerStyle,
   titleContainerStyle,
 }: IHeaderProps): JSX.Element {
   return (
     <View style={styles.header}>
       {left ? (
         <TouchableHighlight
-          style={[styles.leftButton, leftStyle]}
+          style={[styles.leftButton, leftContainerStyle]}
           onPress={leftCallback}
         >
           {left}
@@ -62,7 +62,7 @@ function Header({
       )}
       {right ? (
         <TouchableHighlight
-          style={[styles.rightButton, rightStyle]}
+          style={[styles.rightButton, rightContainerStyle]}
           onPress={rightCallback}
         >
           {right}
