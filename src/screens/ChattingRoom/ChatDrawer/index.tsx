@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useIsDrawerOpen } from '@react-navigation/drawer';
@@ -15,8 +15,6 @@ interface IDrawerTemplateProps {
 function ChatDrawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
   const navigation = useNavigation();
   const isDrawerOpen = useIsDrawerOpen();
-
-  const [participants, setParticipants] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
     navigation.setOptions({ headerShown: !isDrawerOpen });

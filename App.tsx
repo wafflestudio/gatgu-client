@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { SafeAreaView, Platform, StatusBar, Text } from 'react-native';
+import React from 'react';
+import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import {
   useFonts,
   NotoSansKR_500Medium,
