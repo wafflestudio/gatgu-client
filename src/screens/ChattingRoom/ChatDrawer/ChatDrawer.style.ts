@@ -16,8 +16,8 @@ const DrawerStyles = StyleSheet.create({
   pictureContainer: {
     ...commonStyle.container,
     marginBottom: 10,
-    paddingTop: 31,
-    height: '20%',
+    paddingTop: 19,
+    height: '21%',
     borderBottomWidth: 1,
     borderBottomColor: palette.borderGray,
   },
@@ -33,7 +33,7 @@ const DrawerStyles = StyleSheet.create({
   optionContainer: {
     ...commonStyle.container,
     paddingTop: 25,
-    height: '25%',
+    height: '24%',
   },
   smallLabelText: {
     ...typo.bigInfo,
@@ -47,7 +47,6 @@ const DrawerStyles = StyleSheet.create({
     width: 101,
     height: 76,
     marginRight: 10,
-    marginTop: 15,
   },
   profileBox: {
     marginBottom: 10,
