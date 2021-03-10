@@ -1,4 +1,4 @@
-import { typo, palette } from '@/styles';
+import { palette } from '@/styles';
 import waStyles from '../WriteArticle.style';
 import { StyleSheet } from 'react-native';
 

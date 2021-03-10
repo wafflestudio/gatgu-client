@@ -1,5 +1,5 @@
 import { Label, View } from 'native-base';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Text } from 'react-native';
 import styles from './Title.style';
 import { palette, typo } from '@/styles';

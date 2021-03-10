@@ -11,9 +11,9 @@ import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
 import { initialArticle } from '@/constants/InitialState';
 
-// TODO: @ssu1018
-// 이 페이지 getArticleSucess --> getArticleSumSuccess 등으로 바꿔야할듯. (의견 코멘트로 남겨주면 수정할게요)
+// TODO: @juimdpp
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
+// todo: 로딩 페이지 구현할 때
 
 export interface IArticleSlice {
   hasError: boolean;
@@ -126,8 +126,10 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     .then((response: AxiosResponse) => {
       dispatch(setCurrentArticle(response.data));
     })
-    .catch((err: AxiosError) => {
-      console.log(err);
+    .catch(() => {
+      // TODO: @juimdpp
+      // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
+      // when: 로딩 페이지 구현할 때 같이 할게요
     });
 };
 
