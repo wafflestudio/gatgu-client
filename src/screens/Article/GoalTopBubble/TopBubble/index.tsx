@@ -1,6 +1,5 @@
-import { View } from 'native-base';
 import React, { useMemo, useState } from 'react';
-import { LayoutChangeEvent, Text } from 'react-native';
+import { LayoutChangeEvent, Text, View } from 'react-native';
 import styles from './TopBubble.style';
 import { IS_MONEY } from '@/constants/Enum';
 
