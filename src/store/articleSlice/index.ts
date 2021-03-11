@@ -1,4 +1,6 @@
+import { AxiosResponse, AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { articleAPI } from '@/apis';
 import {
   IArticleProps,
@@ -8,12 +10,11 @@ import {
 } from '@/types/article';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
-import { AxiosResponse, AxiosError } from 'axios';
 import { initialArticle } from '@/constants/InitialState';
 
 // TODO: @juimdpp
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
-// todo: 로딩 페이지 구현할 때
+// when: ~3/12
 
 export interface IArticleSlice {
   hasError: boolean;
@@ -84,6 +85,7 @@ export const getArticlesPerPage = (): AppThunk => (dispatch) => {
   articleAPI
     // TODO: @ssu1018
     //   replace this with real api function.
+    // when: 홈 페이지네이션 할 때
     .readAll(1)
     .then((response: AxiosResponse) => {
       dispatch(
@@ -104,6 +106,8 @@ export const loadNextArticles = (): AppThunk => (dispatch) => {
   articleAPI
     // TODO: @ssu1018
     //   replace this with real api function.
+    // when: 홈 페이지네이션 할 때
+
     .readAll(2)
     .then((res: AxiosResponse) => {
       dispatch(

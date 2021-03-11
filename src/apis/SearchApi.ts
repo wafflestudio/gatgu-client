@@ -4,6 +4,9 @@ import qs from 'querystring';
 
 export const getPopularSearchKeyword = (): Promise<string[]> => {
   // TODO: @ssu1018
+  // - Refactore all apisrelated with search
+  // when: until 3/12
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([

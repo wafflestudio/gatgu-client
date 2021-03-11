@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { Text } from 'native-base';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import styles from './ArticleBox.style';
 import Thumbnail from '@/components/Thumbnail';
-import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
+
+import styles from './ArticleBox.style';
+import GoalBar from './GoalBar';
 
 function ArticleBox({
   id,
