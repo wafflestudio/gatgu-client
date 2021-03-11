@@ -17,10 +17,12 @@ export default function ChattingRoom(): JSX.Element {
         titleShown={true}
         // FIXME: @ssu1018
         // 더보기 아이콘으로 수정
+        // when: #118 이슈 해결할 때
         right={<Text>더보기</Text>}
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         // FIXME: @ssu1018
         // 뒤로가기 아이콘으로 수정
+        // when: #118 이슈 해결할 때
         left={<Text>뒤로가기</Text>}
         leftCallback={() => {
           navigation.goBack();
