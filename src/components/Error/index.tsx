@@ -9,7 +9,7 @@ interface IErrorProps {
 
 // TODO: @ssu1018
 // - change status to statusMsg
-// when: ~3월 말
+// when: 각종 에러 관련 정리할 때
 
 function Error({ status }: IErrorProps): JSX.Element {
   return (

@@ -85,6 +85,7 @@ export const getArticlesPerPage = (): AppThunk => (dispatch) => {
   articleAPI
     // TODO: @ssu1018
     //   replace this with real api function.
+    // when: 홈 페이지네이션 할 때
     .readAll(1)
     .then((response: AxiosResponse) => {
       dispatch(
@@ -105,6 +106,8 @@ export const loadNextArticles = (): AppThunk => (dispatch) => {
   articleAPI
     // TODO: @ssu1018
     //   replace this with real api function.
+    // when: 홈 페이지네이션 할 때
+
     .readAll(2)
     .then((res: AxiosResponse) => {
       dispatch(

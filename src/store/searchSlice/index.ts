@@ -102,7 +102,7 @@ const searchArticles = (keyword: string): AppThunk => (dispatch) => {
   dispatch(setKeyword({ keyword }));
   // TODO: @ssu1018
   //   replace this with real api function.
-  // when: ~3/17
+  // when: 서치 페이지네이션 할 때
   articleAPI
     .readAll(1)
     .then((res: AxiosResponse) => {
@@ -121,7 +121,7 @@ const loadNextArticles = (): AppThunk => (dispatch) => {
   dispatch(setLoading());
   // TODO: @ssu1018
   //   replace this with real api function.
-  // when: ~3/17
+  // when: 서치 페이지네이션 할 때
   articleAPI
     .readAll(2)
     .then((res: AxiosResponse) => {
@@ -152,7 +152,7 @@ const initSearchData = (): AppThunk => (dispatch) => {
     .catch((err) => {
       //TODO: @ssu1018
       // - error handling
-      // when: ~3/17
+      // when: 서치 페이지네이션 할 때
     });
 };
 
