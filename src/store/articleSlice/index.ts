@@ -12,9 +12,9 @@ import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { initialArticle } from '@/constants/InitialState';
 
-// TODO: @ssu1018
-// 이 페이지 getArticleSucess --> getArticleSumSuccess 등으로 바꿔야할듯. (의견 코멘트로 남겨주면 수정할게요)
+// TODO: @juimdpp
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
+// when: ~3/12
 
 export interface IArticleSlice {
   hasError: boolean;
@@ -85,6 +85,7 @@ export const getArticlesPerPage = (): AppThunk => (dispatch) => {
   articleAPI
     // TODO: @ssu1018
     //   replace this with real api function.
+    // when: 홈 페이지네이션 할 때
     .readAll(1)
     .then((response: AxiosResponse) => {
       dispatch(
@@ -105,6 +106,8 @@ export const loadNextArticles = (): AppThunk => (dispatch) => {
   articleAPI
     // TODO: @ssu1018
     //   replace this with real api function.
+    // when: 홈 페이지네이션 할 때
+
     .readAll(2)
     .then((res: AxiosResponse) => {
       dispatch(
@@ -127,8 +130,10 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     .then((response: AxiosResponse) => {
       dispatch(setCurrentArticle(response.data));
     })
-    .catch((err: AxiosError) => {
-      console.log(err);
+    .catch(() => {
+      // TODO: @juimdpp
+      // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
+      // when: 로딩 페이지 구현할 때 같이 할게요
     });
 };
 

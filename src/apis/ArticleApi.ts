@@ -8,11 +8,14 @@ import {
   IArticleSumResponse,
 } from '@/types/article';
 
+// TODO: @ssu1018
+// - Refactore all apisrelated with ArticleSumaary
+// when: until 3/12
+
 // for home page
 export const readAll = (
   page: number
 ): Promise<AxiosResponse<IArticleSumProps[]>> => {
-  // TODO: @ssu1018
   const url = `posts?_limit=7&_page=${page}`;
   return requester.get(url);
 };

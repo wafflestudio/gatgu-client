@@ -5,15 +5,18 @@ import { Profile } from '@/components';
 import Chat from './Chat';
 import { IArticleProps } from '@/types/article';
 
-// TODO: @ssu1018
-//   change input type
-function ProfileChat(article: IArticleProps): JSX.Element {
+interface IProfileChat {
+  article: IArticleProps;
+  orderStatus: number;
+}
+
+function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   return (
     <View style={styles.userContainer}>
       <View style={styles.profileContainer}>
         <Profile {...article.writer} />
       </View>
-      <Chat />
+      <Chat orderStatus={orderStatus} />
     </View>
   );
 }
