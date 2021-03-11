@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction, useMemo } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
 import styles, { switchSelector } from './Recruiting.style';
 import waStyles from '../WriteArticle.style';

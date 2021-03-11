@@ -1,9 +1,35 @@
-import { palette } from '@/styles';
+import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 const ProductImagesStyles = StyleSheet.create({
   swiper: {
     height: 283,
+  },
+
+  completeCover: {
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
+
+  completeTextContainer: {
+    backgroundColor: palette.gray,
+    position: 'absolute',
+    top: '49%',
+    left: '45%',
+    borderWidth: 1,
+    borderColor: palette.gray,
+    padding: 1,
+    paddingBottom: 2,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 7.5,
+  },
+
+  completeText: {
+    color: palette.white,
+    ...typo.info,
   },
 
   image: {

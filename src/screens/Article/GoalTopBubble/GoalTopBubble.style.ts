@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { typo } from '@/styles';
 
 const GoalTopBubbleStyles = StyleSheet.create({
   containerBox: {
