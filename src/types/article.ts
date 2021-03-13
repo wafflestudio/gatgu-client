@@ -56,7 +56,7 @@ export interface IArticleProps {
   location: string;
   product_url: string;
   thumbnail_url: string;
-  images?: string[];
+  image?: string[];
   need_type: number; // 1: people, 2: money
   price_min: number;
   people_min: number;
@@ -64,6 +64,10 @@ export interface IArticleProps {
   time_in: string;
   created_at: string; // should be date but json server doesn't accept Date
   updated_at: string;
+  participants_summary: {
+    count: number;
+    price: number;
+  };
 }
 
 export interface ITagType {
