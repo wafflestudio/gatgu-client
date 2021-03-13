@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, Button } from 'react-native';
 import Tags from './Tags/Tags';
 import AddImage from './AddImage/AddImage';
@@ -9,6 +9,10 @@ import Location from './Location/Location';
 import Recruiting from './Recruiting/Recruiting';
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { EditArticleParamList } from '@/types/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { getSingleArticle } from '@/store/articleSlice';
 
 // TODO: @juimdpp
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -31,16 +35,40 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
   const navigation = useNavigation();
-  // const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
-  // const id = route.params.id;
+  const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
+  const { id } = route.params;
+  const dispatch = useDispatch();
+
   // TODO: @juimdpp
   // todo: if edit, get article and send them to other subcomponents
+  const currentArticle = useSelector((state: RootState) => {
+    if (isEdit) return state.article.currentArticle;
+    else return null;
+  });
+
+  useEffect(() => {
+    if (isEdit) dispatch(getSingleArticle(id));
+    // handle error true case
+  }, []);
+
+  useEffect(() => {
+    if (isEdit && currentArticle) {
+      setTitle(currentArticle.title);
+      setDescription(currentArticle.description);
+      // TODO: @juimdpp
+      // todo: fill in the other blanks
+      // when: after api is merged (api fix 때 위에 있는 값들 (title...)등등이 꽤 바뀔것 같아 이와 관련된 부분은 머지되고 나서 고치기)
+    }
+  }, [currentArticle]);
 
   const submit = () => {
     // TODO: @juimdpp
-    // todo: 아래 함수 제대로 구현
     // when: api 고칠 때
-
+    if (isEdit) {
+      // todo: 아래 함수 제대로 구현
+    } else {
+      // todo: 아래 함수 제대로 구현
+    }
     /*articleAPI
       .create({
         // etc
