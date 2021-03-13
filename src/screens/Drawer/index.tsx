@@ -30,8 +30,8 @@ function DrawerTemplate(props: any): JSX.Element {
   );
 
   useEffect(() => {
-    if (currentArticle.id !== '0') {
-      const id = parseInt(currentArticle.id);
+    if (currentArticle.article_id !== 0) {
+      const id = currentArticle.article_id;
       dispatch(getChatInfo(id));
     }
   }, []);

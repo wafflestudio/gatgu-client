@@ -47,7 +47,7 @@ const chatSlice = createSlice({
 const { setCurrentChatInfo, failSetCurrentChatInfo } = chatSlice.actions;
 
 // get chat info
-export const getChatInfo = (id: number): AppThunk => (dispatch) => {
+export const getChatInfo = (id: number | undefined): AppThunk => (dispatch) => {
   chatAPI
     .getChatInfo(id)
     .then((response: AxiosResponse) => {
