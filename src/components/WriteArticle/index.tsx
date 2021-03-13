@@ -8,6 +8,7 @@ import Description from './Description/Description';
 import Location from './Location/Location';
 import Recruiting from './Recruiting/Recruiting';
 import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 // TODO: @juimdpp
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -17,7 +18,11 @@ import { useNavigation } from '@react-navigation/native';
 //  - tag 정보 넘기기 (submit할때)
 //  - Add props to redirection
 
-function WriteArticleTemplate(): JSX.Element {
+interface IWriteArticleProps {
+  isEdit: boolean; // true: edit 창, false: write 창
+}
+
+function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<(string | null | undefined)[]>([]);
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
@@ -26,6 +31,10 @@ function WriteArticleTemplate(): JSX.Element {
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
   const navigation = useNavigation();
+  // const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
+  // const id = route.params.id;
+  // TODO: @juimdpp
+  // todo: if edit, get article and send them to other subcomponents
 
   const submit = () => {
     // TODO: @juimdpp
