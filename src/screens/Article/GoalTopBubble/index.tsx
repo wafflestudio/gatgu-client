@@ -7,9 +7,9 @@ import { LayoutChangeEvent } from 'react-native';
 import { IS_MONEY } from '@/constants/Enum';
 
 interface IGoalTopBubbleProps {
-  current: number;
+  current: number | undefined;
   goal: number;
-  type: number;
+  type: number | undefined;
 }
 
 function GoalTopBubble({
@@ -20,7 +20,7 @@ function GoalTopBubble({
   const [end, setEnd] = useState<number>(0);
   const [pEnd, setPend] = useState<number>(0);
 
-  const percent = (current / goal) * 100;
+  const percent = current && (current / goal) * 100;
   const isMoney = type === IS_MONEY;
 
   const getEnd = (event: LayoutChangeEvent) => {
@@ -44,7 +44,7 @@ function GoalTopBubble({
       <View style={styles.goalWrapper} onLayout={getEnd}>
         <View style={{ width: `${percent}%` }} onLayout={getPend} />
         <GoalBar
-          percent={percent}
+          percent={percent !== undefined ? percent : -1}
           goal={`${goal}${type === IS_MONEY ? '원' : '명'}`}
           isMoney={isMoney}
         />

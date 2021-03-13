@@ -4,9 +4,9 @@ import styles from './TopBubble.style';
 import { IS_MONEY } from '@/constants/Enum';
 
 interface ITopBubbleProps {
-  current: number;
+  current: number | undefined;
   goal: number;
-  type: number;
+  type: number | undefined;
   end: number;
   pEnd: number;
 }
