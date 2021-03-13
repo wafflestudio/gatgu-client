@@ -45,9 +45,6 @@ function WriteArticleTemplate(): JSX.Element {
   const navigation = useNavigation();
 
   const submit = () => {
-    // TODO: @juimdpp
-    // todo: 아래 함수 제대로 구현
-    // when: api 고칠 때
     const tagNums = tags.map((tag) => tag.id);
     articleAPI
       .create({
