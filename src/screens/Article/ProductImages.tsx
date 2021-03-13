@@ -9,8 +9,8 @@ import { Status } from '@/constants/Enum';
 // - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단
 
 interface IArticleChat {
-  thumbnail_url: string;
-  image_url: string[] | undefined;
+  thumbnail_url: string | null | undefined;
+  image_url: (string | null | undefined)[] | undefined;
   orderStatus: number;
 }
 
@@ -24,7 +24,13 @@ function ProductImages({
   const images =
     image_url != undefined &&
     image_url?.map((url, _ind) => {
-      return <Image key={_ind} style={styles.image} source={{ uri: url }} />;
+      return (
+        <Image
+          key={_ind}
+          style={styles.image}
+          source={{ uri: url as string }}
+        />
+      );
     });
 
   return (
