@@ -65,6 +65,7 @@ function WriteArticleTemplate(): JSX.Element {
           count: 0,
           price: 0, // TODO: @juimdpp
           // todo: input으로 받기 (add useState)
+          // when: 모집금액 / 필요금액 둘 다 인풋으로 받을 경우 (기획이 기억이 안 남...)
         },
         need_type: selected,
         thumbnail_url: images[0],
@@ -92,8 +93,8 @@ function WriteArticleTemplate(): JSX.Element {
         setSelected={setSelected}
       />
       <Location location={location} setLocation={setLocation} />
-      <Link link={link} setLink={setLink} />
       <Description description={description} setDescription={setDescription} />
+      <Link link={link} setLink={setLink} />
       <Button title="완료" onPress={submit} />
     </ScrollView>
   );

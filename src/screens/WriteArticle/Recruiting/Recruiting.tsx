@@ -1,5 +1,5 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { View } from 'react-native';
+import React, { Dispatch, SetStateAction } from 'react';
+import { View, Text } from 'react-native';
 import styles, { switchSelector } from './Recruiting.style';
 import waStyles from '../WriteArticle.style';
 import SwitchSelector from 'react-native-switch-selector';
@@ -46,6 +46,7 @@ function Recruiting({
           value={selected === 0 ? needPeople.toString() : needPrice.toString()}
           maxLength={maxL}
         />
+        <Text>{selected === 0 ? '명' : '원'}</Text>
       </View>
     );
   };
