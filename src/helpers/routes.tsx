@@ -13,6 +13,7 @@ import {
   Login,
   SignUp,
   TOS,
+  EditArticle,
 } from '@/screens';
 
 const routes = {
@@ -39,6 +40,10 @@ const routes = {
   Article: {
     name: 'ArticlePage',
     component: Article,
+  },
+  EditArticle: {
+    name: 'EditArticle',
+    component: EditArticle,
   },
   Notification: {
     name: 'Notification',

@@ -12,6 +12,7 @@ export { default as ProfileModify } from './ProfileModify';
 export { default as SignUp } from './SignUp';
 export { default as TOS } from './TOS';
 export { default as WriteArticle } from './WriteArticle';
+export { default as EditArticle } from './EditArticle';
 
 // TODO: ssu1018
 //  @woohm402: 이거 왜 여기서 export하죠..?
