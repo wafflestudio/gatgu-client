@@ -16,7 +16,7 @@ function Title({ article, orderStatus }: ITitleProps): JSX.Element {
   // 남은 시간
   const { diff: timeLeft, type: typeLeft } = calcTimeDiff(
     article.created_at,
-    article.time_max
+    article.time_in
   );
   // 몇 분 전
   const { diff: timeBefore, type: typeBefore } = calcTimeDiff(

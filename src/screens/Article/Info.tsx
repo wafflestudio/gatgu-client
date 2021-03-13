@@ -10,11 +10,15 @@ import { IS_MONEY } from '@/constants/Enum';
 // will change input type (left it because will probably need it afterwards)
 function Info({
   location,
-  current,
+  participants_summary,
   need_type,
-  people_count_min,
+  people_min,
   price_min,
 }: IArticleProps): JSX.Element {
+  const current =
+    need_type === IS_MONEY
+      ? participants_summary?.price
+      : participants_summary?.count;
   return (
     <View style={styles.subContainer}>
       <View style={styles.subConNoBorder}>
@@ -25,7 +29,7 @@ function Info({
         <Label style={styles.label}>모집 인원</Label>
         <GoalTopBubbleBar
           current={current}
-          goal={need_type === IS_MONEY ? price_min : people_count_min}
+          goal={need_type === IS_MONEY ? price_min : people_min}
           type={need_type}
         />
       </View>
