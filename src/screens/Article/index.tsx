@@ -48,7 +48,7 @@ function ArticlePage(): JSX.Element {
 
   const productImageProps = {
     thumbnail_url: article.thumbnail_url,
-    image_url: article.image_url,
+    image_url: article.image,
     orderStatus: chatInfo?.orderStatus,
   };
 

@@ -56,7 +56,7 @@ export interface IArticleProps {
   location: string;
   product_url: string;
   thumbnail_url: string;
-  image?: string[];
+  image?: string[]; // 확실하지 않음... api에 타입이 안 적혀있음
   need_type: number; // 1: people, 2: money
   price_min: number;
   people_min: number;
