@@ -110,7 +110,9 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="수정하기"
-              onPress={() => navigation.navigate('EditArticle')}
+              onPress={() =>
+                navigation.navigate('EditArticle', { id: currentArticle.id })
+              }
               textStyle={styles.upperLabelText}
             />
             <Button
