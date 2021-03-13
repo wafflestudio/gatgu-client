@@ -110,7 +110,7 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="수정하기"
-              onPress={() => Alert.alert('navigate to edit page')}
+              onPress={() => navigation.navigate('EditArticle')}
               textStyle={styles.upperLabelText}
             />
             <Button
