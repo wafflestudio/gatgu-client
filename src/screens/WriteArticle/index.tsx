@@ -14,7 +14,7 @@ const TagArray = [
 ];
 
 function WriteArticleTemplate(): JSX.Element {
-  return <WriteArticle />;
+  return <WriteArticle isEdit={false} />;
 }
 
 export default WriteArticleTemplate;
