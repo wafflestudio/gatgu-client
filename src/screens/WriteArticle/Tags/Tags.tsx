@@ -1,9 +1,10 @@
 import { View, Text, TouchableHighlight } from 'react-native';
 import { Label } from 'native-base';
-import React, { useState, createRef } from 'react';
+import React, { useState, createRef, Dispatch, SetStateAction } from 'react';
 import styles from './Tags.style';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { palette } from '@/styles';
+import { ITagType } from '@/types/article';
 
 const TagArray = [
   { id: 1, tag: '운동', selected: false },
@@ -17,9 +18,12 @@ const TagArray = [
   { id: 9, tag: '빅뱅', selected: false },
 ];
 
-function Tags(): JSX.Element {
-  const [tags, toggleTags] = useState(TagArray);
+interface TagsProps {
+  tags: ITagType[];
+  toggleTags: Dispatch<SetStateAction<ITagType[]>>;
+}
 
+function Tags({ tags, toggleTags }: TagsProps): JSX.Element {
   const refRBSheet = createRef<RBSheet>();
 
   const handleTag = (id: number) => {

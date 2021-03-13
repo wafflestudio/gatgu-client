@@ -8,6 +8,8 @@ import Description from './Description/Description';
 import Location from './Location/Location';
 import Recruiting from './Recruiting/Recruiting';
 import { useNavigation } from '@react-navigation/native';
+import { articleAPI } from '@/apis';
+import { ITagType } from '@/types/article';
 
 // TODO: @juimdpp
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -25,6 +27,7 @@ function WriteArticleTemplate(): JSX.Element {
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
+  const [tags, toggleTags] = useState<ITagType[]>([]);
   const navigation = useNavigation();
 
   const submit = () => {
@@ -32,20 +35,20 @@ function WriteArticleTemplate(): JSX.Element {
     // todo: 아래 함수 제대로 구현
     // when: api 고칠 때
 
-    /*articleAPI
-      .create({
-        // etc
-      })
-      .then(() => {
-        // navigation.navigate('Article')
-      });*/
+    // articleAPI
+    //   .create({
+
+    //   })
+    //   .then(() => {
+    //     // navigation.navigate('Article')
+    //   });
 
     navigation.navigate('Article');
   };
 
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
-      <Tags />
+      <Tags tags={tags} toggleTags={toggleTags} />
       <AddImage images={images} setImages={setImages} />
       <Title title={title} setTitle={setTitle} />
       <Recruiting
