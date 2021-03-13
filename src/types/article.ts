@@ -46,25 +46,25 @@ export interface IArticleSumSearchResponse extends IPagination {
 
 //article detail
 export interface IArticleProps {
-  id: string; // TODO: @juimdpp
+  id?: string; // TODO: @juimdpp
   // todo: same as article_id but necessary here for JSON-server, so remove
   // when: when server is stable
-  writer_id: number;
-  article_id: number;
+  writer_id?: number;
+  article_id?: number;
   title: string;
   description: string;
   location: string;
-  product_url: string;
-  thumbnail_url: string;
-  image?: string[]; // 확실하지 않음... api에 타입이 안 적혀있음
-  need_type: number; // 1: people, 2: money
+  product_url?: string;
+  thumbnail_url?: string | null | undefined;
+  image?: (string | null | undefined)[]; // 확실하지 않음... api에 타입이 안 적혀있음
+  need_type?: number; // 1: people, 2: money
   price_min: number;
   people_min: number;
-  tag: number[];
+  tag?: number[];
   time_in: string;
-  created_at: string; // should be date but json server doesn't accept Date
-  updated_at: string;
-  participants_summary: {
+  created_at?: string; // should be date but json server doesn't accept Date
+  updated_at?: string;
+  participants_summary?: {
     count: number;
     price: number;
   };
