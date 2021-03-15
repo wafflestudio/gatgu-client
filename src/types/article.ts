@@ -14,7 +14,6 @@ export interface IParticipantsSummary {
 
 // article summary props
 export interface IArticleSumProps {
-  id: number;
   title: string;
   location: string;
   thumbnail_url: string;
