@@ -112,7 +112,6 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
       : type === 'next'
       ? getState().article.next
       : getState().article.previous;
-
   articleAPI
     .getArticlesSummary(url)
     .then((response: AxiosResponse<IArticleSumResponse>) => {
