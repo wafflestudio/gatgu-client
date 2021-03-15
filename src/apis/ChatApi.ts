@@ -5,7 +5,7 @@ import { IChattingRoom, IChangeStatusProps } from '@/types/chat';
 
 // for chat info
 export const getChatInfo = (
-  articleId: number | undefined
+  articleId?: number
 ): Promise<AxiosResponse<IChattingRoom[]>> => {
   return requester.get(`chat?article=${articleId}`);
 };
