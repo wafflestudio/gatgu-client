@@ -22,9 +22,9 @@ export interface IArticleSumProps {
   price_min: number;
   people_min: number;
   time_in: string;
-  created_at: string;
+  written_at: string;
   article_id: string;
-  participnats_summary: IParticipantsSummary;
+  participants_summary: IParticipantsSummary;
 }
 
 interface IArticleDetail extends IArticleSumProps {
