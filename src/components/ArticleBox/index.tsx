@@ -7,7 +7,7 @@ import styles from './ArticleBox.style';
 import Thumbnail from '@/components/Thumbnail';
 import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
-import { remainTime } from '@/helpers/functions/time';
+import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
 
 function ArticleBox({
   article_id,
@@ -15,13 +15,19 @@ function ArticleBox({
   time_in,
   price_min,
   people_min,
-  created_at,
+  written_at,
   location,
   thumbnail_url,
   need_type,
-  participnats_summary,
+  participants_summary,
 }: IArticleSumProps): JSX.Element {
   const navigation = useNavigation();
+
+  const { diff: timeBefore, type: typeBefore } = calcTimeDiff(
+    'current',
+    written_at
+  );
+
   return (
     <TouchableOpacity
       style={styles.postBox}
@@ -36,13 +42,15 @@ function ArticleBox({
       <View style={styles.articleBox}>
         <Text style={styles.Head}>{title}</Text>
         <View style={styles.infoWrapper}>
-          <Text style={styles.description}>{created_at} · </Text>
+          <Text style={styles.description}>
+            {`${timeBefore} ${typeBefore} 전`} ·{' '}
+          </Text>
           <Text style={styles.description}>{remainTime(time_in)} · </Text>
           <Text style={styles.description}>{location}</Text>
         </View>
         <View style={styles.goalWrapper}>
           <GoalBar
-            summary={participnats_summary}
+            summary={participants_summary}
             goal={{ price_min, people_min }}
             type={need_type}
           />

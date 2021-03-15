@@ -21,7 +21,6 @@ const PostBoxStyles = StyleSheet.create({
   },
   postBox: {
     ...flexRow,
-    marginRight: '7.9%',
     height: 141,
     borderBottomColor: palette.borderGray,
     borderBottomWidth: 1,
