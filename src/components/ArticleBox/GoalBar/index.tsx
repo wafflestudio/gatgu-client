@@ -7,16 +7,18 @@ import { IParticipantsSummary } from '@/types/article';
 
 interface IGoalBarProps {
   summary: IParticipantsSummary;
-  goal: { price_min: number; people_min: number };
+  min_required: number;
   type: number;
 }
 
-function GoalBar({ summary, goal, type }: IGoalBarProps): JSX.Element {
-  const renderedGoal = type === IS_PEOPLE ? goal.people_min : goal.price_min;
+function GoalBar({ summary, min_required, type }: IGoalBarProps): JSX.Element {
+  const isPeople = type === IS_PEOPLE;
   const percentWidth = `${
-    (type === IS_PEOPLE ? summary.count : summary.price) / renderedGoal
+    (type === IS_PEOPLE ? summary.count : summary.price) / min_required
   }%`;
-  const backgroundColor = type === IS_PEOPLE ? styles.blue : styles.yellow;
+  const backgroundColor = isPeople ? styles.blue : styles.yellow;
+  const goalText = `${min_required} ${isPeople ? '명' : '원'}`;
+
   return (
     <>
       <View style={styles.wrapper}>
@@ -29,7 +31,7 @@ function GoalBar({ summary, goal, type }: IGoalBarProps): JSX.Element {
             ]}
           />
         </View>
-        <Text style={styles.goal}>{renderedGoal}</Text>
+        <Text style={styles.goal}>{goalText}</Text>
       </View>
     </>
   );

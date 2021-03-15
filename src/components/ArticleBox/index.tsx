@@ -8,6 +8,7 @@ import Thumbnail from '@/components/Thumbnail';
 import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
 import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
+import { IS_PEOPLE } from '@/constants/Enum';
 
 function ArticleBox({
   article_id,
@@ -51,7 +52,7 @@ function ArticleBox({
         <View style={styles.goalWrapper}>
           <GoalBar
             summary={participants_summary}
-            goal={{ price_min, people_min }}
+            min_required={need_type === IS_PEOPLE ? people_min : price_min}
             type={need_type}
           />
         </View>
