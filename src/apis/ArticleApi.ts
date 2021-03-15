@@ -9,6 +9,7 @@ import {
 } from '@/types/article';
 import { PAGE_SIZE } from '@/constants/Enum';
 
+// for home page
 export const getArticlesSummary = (
   url?: string | null
 ): Promise<AxiosResponse<IArticleSumResponse>> => {

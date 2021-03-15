@@ -14,9 +14,6 @@ import { AxiosResponse, AxiosError } from 'axios';
 import { initialArticle } from '@/constants/InitialState';
 import { MAX_ARTICLE_NUM, PAGE_SIZE } from '@/constants/Enum';
 
-// CHECK:
-// currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
-
 export interface IArticleSlice {
   hasError: boolean;
   errorStatus: number;
