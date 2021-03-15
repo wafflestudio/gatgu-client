@@ -1,6 +1,6 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
-import qs from 'queryString';
+import qs from 'querystring';
 import requester from './BaseInstance';
 import {
   IArticleProps,
@@ -15,10 +15,10 @@ export const getArticlesSummary = (
   const query = qs.stringify({
     page_size: PAGE_SIZE,
   });
-
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
-  url = url || 'article/';
+  url =
+    url?.slice(requester.defaults.baseURL?.length, url.length) || 'article/';
   return requester.get(`${url}?${query}`);
 };
 
