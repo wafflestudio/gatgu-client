@@ -24,11 +24,7 @@ export interface IArticleSumProps {
   time_in: string;
   written_at: string;
   article_id: string;
-<<<<<<< HEAD
   participants_summary: IParticipantsSummary;
-=======
-  participnats_summary: IParticipantsSummary;
->>>>>>> 3965e47... Fix articlesum response, articlesumProp  type
 }
 
 interface IArticleDetail extends IArticleSumProps {
