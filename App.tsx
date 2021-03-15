@@ -31,6 +31,7 @@ function App(): JSX.Element {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
   return (
     <Provider store={store}>
       <NavigationContainer>
