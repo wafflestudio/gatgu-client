@@ -51,6 +51,8 @@ function App(): JSX.Element {
               component={ChattingRoom.component}
               options={{
                 headerShown: false,
+                // eslint-disable-next-line react/display-name
+                header: () => <></>,
               }}
             />
             <Stack.Screen
