@@ -12,7 +12,11 @@ import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { AxiosResponse, AxiosError } from 'axios';
 import { initialArticle } from '@/constants/InitialState';
-import { MAX_ARTICLE_NUM, PAGE_SIZE } from '@/constants/Enum';
+import {
+  MAX_ARTICLE_NUM,
+  PAGE_SIZE,
+  GetArticleSumStatus,
+} from '@/constants/Enum';
 // CHECK:
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
 
@@ -47,22 +51,24 @@ const articleSlice = createSlice({
       { payload }: PayloadAction<IGetArticleSumSuccessPayload>
     ) => {
       switch (payload.type) {
-        case 'first':
+        case GetArticleSumStatus.FIRST:
           state.data = payload.data;
           break;
-        case 'next':
+        case GetArticleSumStatus.NEXT:
           state.data.push(...payload.data);
 
           // 리덕스에 저장되는 article 갯수 제한
           if (state.data.length > MAX_ARTICLE_NUM)
             state.data.splice(0, PAGE_SIZE);
           break;
-        case 'previous':
+        case GetArticleSumStatus.PREVIOUS:
           state.data.unshift(...payload.data);
 
           // 리덕스에 저장되는 article 갯수 제한
           if (state.data.length > MAX_ARTICLE_NUM)
             state.data.splice(MAX_ARTICLE_NUM - PAGE_SIZE, PAGE_SIZE);
+          break;
+        default:
           break;
       }
 
@@ -106,9 +112,9 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
   dispatch(setLoading());
 
   const url =
-    type === 'first'
+    type === GetArticleSumStatus.FIRST
       ? null
-      : type === 'next'
+      : type === GetArticleSumStatus.NEXT
       ? getState().article.next
       : getState().article.previous;
   articleAPI

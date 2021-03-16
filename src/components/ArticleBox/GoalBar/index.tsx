@@ -14,7 +14,7 @@ interface IGoalBarProps {
 function GoalBar({ summary, min_required, type }: IGoalBarProps): JSX.Element {
   const isPeople = type === IS_PEOPLE;
   const percentWidth = `${
-    (type === IS_PEOPLE ? summary.count : summary.price) / min_required
+    (isPeople ? summary.count : summary.price) / min_required
   }%`;
   const backgroundColor = isPeople ? styles.blue : styles.yellow;
   const goalText = `${min_required} ${isPeople ? '명' : '원'}`;

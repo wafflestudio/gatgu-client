@@ -12,7 +12,7 @@ import { IArticleSumProps, TLoad } from '@/types/article';
 import { RootState } from '@/store';
 import { getArticlesSum } from '@/store/articleSlice';
 import { createError } from '@/helpers/functions';
-import { MAX_ARTICLE_NUM } from '@/constants/Enum';
+import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/Enum';
 import AppLoading from '@/screens/AppLoading';
 
 import styles from './Home.style';
@@ -51,9 +51,10 @@ function HomeTemplate(): JSX.Element {
   const onContentOffsetChanged = useCallback(
     (distanceFromTop: number) => {
       if (throttled || articles.length < MAX_ARTICLE_NUM) return;
+      setThrottled(true);
       setTimeout(() => {
         setThrottled(false);
-        distanceFromTop === 0 && getArticleSumCB('previous');
+        distanceFromTop === 0 && getArticleSumCB(GetArticleSumStatus.PREVIOUS);
       }, 200);
     },
     [throttled, articles, getArticleSumCB]
@@ -71,8 +72,8 @@ function HomeTemplate(): JSX.Element {
         data={articles}
         renderItem={renderArticle}
         keyExtractor={(_, ind) => String(ind)}
-        onRefresh={() => getArticleSumCB('first')}
-        onEndReached={() => getArticleSumCB('next')}
+        onRefresh={() => getArticleSumCB(GetArticleSumStatus.FIRST)}
+        onEndReached={() => getArticleSumCB(GetArticleSumStatus.NEXT)}
         onEndReachedThreshold={1}
         onScroll={onScrollCB}
         scrollEventThrottle={1}
