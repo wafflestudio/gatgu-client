@@ -1,31 +1,33 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { View } from 'react-native';
+import React, { Dispatch, SetStateAction } from 'react';
+import { View, Text } from 'react-native';
 import styles, { switchSelector } from './Recruiting.style';
 import waStyles from '../WriteArticle.style';
 import SwitchSelector from 'react-native-switch-selector';
 import { StringInput } from '@/components';
 
 interface RecruitingProps {
-  needPeople: string;
-  needPrice: string;
-  setPeople: Dispatch<SetStateAction<string>>;
-  setPrice: Dispatch<SetStateAction<string>>;
+  needPeople: number;
+  needPrice: number;
+  selected: number;
+  setPeople: Dispatch<SetStateAction<number>>;
+  setPrice: Dispatch<SetStateAction<number>>;
+  setSelected: Dispatch<SetStateAction<number>>;
 }
 
 function Recruiting({
   needPeople,
   needPrice,
+  selected,
   setPeople,
   setPrice,
+  setSelected,
 }: RecruitingProps): JSX.Element {
-  const [selected, setSelected] = useState(0);
-
   const options = [
     { label: '모집인원/필요인원', value: '0' },
     { label: '모금금액/필요금액', value: '1' },
   ];
 
-  const changeNumber = (txt: string, num: number) => {
+  const changeNumber = (txt: number, num: number) => {
     // code for dismissing all letters
     // code for max limit
     if (num === 0) setPeople(txt);
@@ -40,10 +42,11 @@ function Recruiting({
           placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
-          onChangeText={(txt) => changeNumber(txt, selected)}
-          value={selected === 0 ? needPeople : needPrice}
+          onChangeText={(txt) => changeNumber(parseInt(txt), selected)}
+          value={selected === 0 ? needPeople.toString() : needPrice.toString()}
           maxLength={maxL}
         />
+        <Text>{selected === 0 ? '명' : '원'}</Text>
       </View>
     );
   };

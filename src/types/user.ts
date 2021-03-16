@@ -24,7 +24,7 @@ export interface IUserProps {
 }
 
 export interface IUserSumProps {
-  profile_id: number;
-  picture: string;
-  nickname: string;
+  profile_id?: number | undefined;
+  picture?: string | undefined;
+  nickname?: string | undefined;
 }
