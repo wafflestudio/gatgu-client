@@ -4,6 +4,7 @@ import styles, { switchSelector } from './Recruiting.style';
 import waStyles from '../WriteArticle.style';
 import SwitchSelector from 'react-native-switch-selector';
 import { StringInput } from '@/components';
+import { IS_PEOPLE } from '@/constants/Enum';
 
 interface RecruitingProps {
   needPeople: number;
@@ -43,10 +44,14 @@ function Recruiting({
           keyboardType="number-pad"
           placeholder={str}
           onChangeText={(txt) => changeNumber(parseInt(txt), selected)}
-          value={selected === 0 ? needPeople.toString() : needPrice.toString()}
+          value={
+            selected === IS_PEOPLE - 1
+              ? needPeople.toString()
+              : needPrice.toString()
+          }
           maxLength={maxL}
         />
-        <Text>{selected === 0 ? '명' : '원'}</Text>
+        <Text>{selected === IS_PEOPLE - 1 ? '명' : '원'}</Text>
       </View>
     );
   };
@@ -60,7 +65,9 @@ function Recruiting({
           {...switchSelector}
         />
       </View>
-      {selected === 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
+      {selected === IS_PEOPLE - 1
+        ? Input('필요인원', 5)
+        : Input('필요금액', 10)}
     </View>
   );
 }

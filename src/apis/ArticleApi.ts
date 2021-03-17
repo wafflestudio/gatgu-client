@@ -47,3 +47,10 @@ export const deleteArticle = (
 ): Promise<AxiosResponse<IMessageRet>> => {
   return requester.delete(`article/${id}/`);
 };
+
+export const editArticle = (
+  id: number,
+  body: IArticleProps
+): Promise<AxiosResponse<IMessageRet>> => {
+  return requester.put(`article/${id}/`, body);
+};
