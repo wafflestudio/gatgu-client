@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   FlatList,
   View,
@@ -6,13 +6,14 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import _ from 'lodash';
 
 import { ArticleBox } from '@/components';
 import { IArticleSumProps, TLoad } from '@/types/article';
 import { RootState } from '@/store';
 import { getArticlesSum } from '@/store/articleSlice';
 import { createError } from '@/helpers/functions';
-import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/Enum';
+import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/article';
 import AppLoading from '@/screens/AppLoading';
 
 import styles from './Home.style';
@@ -26,8 +27,6 @@ function HomeTemplate(): JSX.Element {
     shallowEqual
   );
 
-  const [throttled, setThrottled] = useState(false);
-
   const getArticleSumCB = useCallback(
     (type: TLoad) => {
       dispatch(getArticlesSum(type));
@@ -38,7 +37,7 @@ function HomeTemplate(): JSX.Element {
   // 초기 렌더링
   useEffect(() => {
     getArticleSumCB('first');
-  }, [getArticleSumCB]);
+  }, []);
 
   const renderArticle = useCallback(
     ({ item }: { item: IArticleSumProps }) => <ArticleBox {...item} />,
@@ -50,14 +49,10 @@ function HomeTemplate(): JSX.Element {
   // 보다 많고 쓰로틀링된 상태가 아니라면 리퀘스트 보냄
   const onContentOffsetChanged = useCallback(
     (distanceFromTop: number) => {
-      if (throttled || articles.length < MAX_ARTICLE_NUM) return;
-      setThrottled(true);
-      setTimeout(() => {
-        setThrottled(false);
-        distanceFromTop === 0 && getArticleSumCB(GetArticleSumStatus.PREVIOUS);
-      }, 200);
+      if (articles.length < MAX_ARTICLE_NUM || distanceFromTop === 0) return;
+      _.throttle(() => getArticleSumCB(GetArticleSumStatus.PREVIOUS), 300)();
     },
-    [throttled, articles, getArticleSumCB]
+    [articles, getArticleSumCB]
   );
 
   const onScrollCB = useCallback(

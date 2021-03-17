@@ -9,6 +9,7 @@ import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
 import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
 import { IS_PEOPLE } from '@/constants/Enum';
+import { $thumnail_size } from '@/styles/size';
 
 function ArticleBox({
   article_id,
@@ -39,7 +40,7 @@ function ArticleBox({
         })
       }
     >
-      <Thumbnail uri={thumbnail_url} w={107} h={107} />
+      <Thumbnail uri={thumbnail_url} w={$thumnail_size} h={$thumnail_size} />
       <View style={styles.articleBox}>
         <Text style={styles.Head}>{title}</Text>
         <View style={styles.infoWrapper}>

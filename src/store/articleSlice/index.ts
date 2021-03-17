@@ -16,7 +16,7 @@ import {
   MAX_ARTICLE_NUM,
   PAGE_SIZE,
   GetArticleSumStatus,
-} from '@/constants/Enum';
+} from '@/constants/article';
 // CHECK:
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
 
