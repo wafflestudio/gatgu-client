@@ -14,6 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 import { ITagType } from '@/types/article';
+import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
+import { articleAPI } from '@/apis';
+import { AxiosResponse } from 'axios';
 
 // TODO: @juimdpp
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -47,11 +50,11 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(IS_PEOPLE - 1); // IS_PEOPLE-1 because selector takes 0 or 1 not 1 or 2 as in API
   const [tags, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
-  const { id } = route.params;
+  const { id } = isEdit ? route.params : { id: 0 };
   const dispatch = useDispatch();
 
   // TODO: @juimdpp
@@ -70,29 +73,55 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (isEdit && currentArticle) {
       setTitle(currentArticle.title);
       setDescription(currentArticle.description);
-      // TODO: @juimdpp
-      // todo: fill in the other blanks
-      // when: after api is merged (api fix 때 위에 있는 값들 (title...)등등이 꽤 바뀔것 같아 이와 관련된 부분은 머지되고 나서 고치기)
+      setLocation(currentArticle.location);
+      currentArticle.product_url && setLink(currentArticle.product_url);
+      if (currentArticle.thumbnail_url && currentArticle.image) {
+        const tempImage = currentArticle.image.slice();
+        tempImage.unshift(currentArticle.thumbnail_url);
+        setImages(tempImage);
+      }
+      currentArticle.need_type &&
+        setSelected(
+          currentArticle.need_type === IS_PEOPLE ? IS_PEOPLE - 1 : IS_MONEY - 1
+        );
+      setPeople(currentArticle.people_min);
+      setPrice(currentArticle.price_min);
+      if (currentArticle.tag) {
+        const temp = currentArticle.tag.map((i, num) => {
+          return { id: i, tag: num.toString(), selected: false };
+        });
+        toggleTags(temp);
+      }
     }
   }, [currentArticle]);
 
   const submit = () => {
-    // TODO: @juimdpp
-    // when: api 고칠 때
-    if (isEdit) {
-      // todo: 아래 함수 제대로 구현
+    console.log(tags.map((item) => parseInt(item.tag)));
+    const tempArticle = {
+      title: title,
+      description: description,
+      location: location,
+      price_min: need_price,
+      people_min: need_people,
+      time_in: '2021-03-17', // TODO: @juimdpp
+      // todo: implement dueDate modal
+      // when: after I finish issue 166
+      product_url: link,
+      thumbnail_url: images[0],
+      image: images.slice(1),
+      need_type: selected,
+      // tag: tags.map((item) => parseInt(item.tag))
+    };
+    if (isEdit && currentArticle) {
+      articleAPI.editArticle(id, tempArticle).then((res: AxiosResponse) => {
+        console.log(res.data);
+        navigation.navigate('Article', { id: id });
+      });
     } else {
-      // todo: 아래 함수 제대로 구현
+      articleAPI.create(tempArticle).then((res: AxiosResponse) => {
+        navigation.navigate('Article', res.data.id);
+      });
     }
-    /*articleAPI
-      .create({
-        // etc
-      })
-      .then(() => {
-        // navigation.navigate('Article')
-      });*/
-
-    navigation.navigate('Article');
   };
 
   return (

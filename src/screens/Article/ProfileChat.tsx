@@ -6,7 +6,7 @@ import Chat from './Chat';
 import { IArticleProps } from '@/types/article';
 import { userAPI } from '@/apis';
 import { AxiosResponse } from 'axios';
-import { IUserProps, IUserSumProps } from '@/types/user';
+import { IUserSumProps } from '@/types/user';
 
 interface IProfileChat {
   article: IArticleProps;
