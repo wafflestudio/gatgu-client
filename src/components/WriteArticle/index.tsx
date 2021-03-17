@@ -13,6 +13,7 @@ import { EditArticleParamList } from '@/types/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
+import { ITagType } from '@/types/article';
 
 // TODO: @juimdpp
 //  - circle css 하나로 합치기 (페이지 번호)
@@ -26,14 +27,28 @@ interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
 }
 
+const TagArray = [
+  { id: 1, tag: '운동', selected: false },
+  { id: 2, tag: '음식', selected: false },
+  { id: 3, tag: '가구', selected: false },
+  { id: 4, tag: '컴공', selected: false },
+  { id: 5, tag: '기계', selected: false },
+  { id: 6, tag: '전기', selected: false },
+  { id: 7, tag: '방탄', selected: false },
+  { id: 8, tag: '엑소', selected: false },
+  { id: 9, tag: '빅뱅', selected: false },
+];
+
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<(string | null | undefined)[]>([]);
-  const [need_people, setPeople] = useState('');
-  const [need_price, setPrice] = useState('');
+  const [need_people, setPeople] = useState(0);
+  const [need_price, setPrice] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
+  const [selected, setSelected] = useState(0);
+  const [tags, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
   const { id } = route.params;
@@ -82,14 +97,16 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
-      <Tags />
+      <Tags tags={tags} toggleTags={toggleTags} />
       <AddImage images={images} setImages={setImages} />
       <Title title={title} setTitle={setTitle} />
       <Recruiting
         needPeople={need_people}
         needPrice={need_price}
+        selected={selected}
         setPeople={setPeople}
         setPrice={setPrice}
+        setSelected={setSelected}
       />
       <Location location={location} setLocation={setLocation} />
       <Link link={link} setLink={setLink} />
