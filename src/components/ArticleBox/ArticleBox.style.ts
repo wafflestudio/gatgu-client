@@ -42,6 +42,7 @@ const PostBoxStyles = StyleSheet.create({
     ...flexRow,
     height: 16,
     marginTop: 11,
+    flexWrap: 'wrap',
   },
   goalWrapper: {
     position: 'absolute',
