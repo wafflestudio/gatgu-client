@@ -96,21 +96,26 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   }, [currentArticle]);
 
   const submit = () => {
-    console.log(tags.map((item) => parseInt(item.tag)));
+    const tempTags = tags
+      .filter((item) => item.selected)
+      .map((item) => item.id);
     const tempArticle = {
       title: title,
       description: description,
       location: location,
       price_min: need_price,
       people_min: need_people,
-      time_in: '2021-03-17', // TODO: @juimdpp
-      // todo: implement dueDate modal
+      // time_in: new Date('2021-03-17'),
+      // TODO: @juimdpp
+      // todo: implement dueDate modal + 백엔드와 확인 (정확하게 원하는 타입이 무엇인지)
       // when: after I finish issue 166
       product_url: link,
-      thumbnail_url: images[0],
-      image: images.slice(1),
-      need_type: selected,
-      // tag: tags.map((item) => parseInt(item.tag))
+      thumbnail_url: !images[0]
+        ? 'https://trello.com/b/9EsYdmZU/team'
+        : images[0],
+      // image: images.slice(1),
+      need_type: selected + 1,
+      // tag: tempTags
     };
     if (isEdit && currentArticle) {
       articleAPI.editArticle(id, tempArticle).then((res: AxiosResponse) => {
