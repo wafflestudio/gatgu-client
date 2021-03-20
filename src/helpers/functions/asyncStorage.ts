@@ -50,6 +50,7 @@ export const ObjectStorage = {
       AsyncStorage.setItem(key, JSON.stringify(parsedValue));
     });
   },
+  // (key를 통해 찾은 객체)[objKey] 배열에서 value 찾아서 제거
   removePropArrElem: (
     key: string,
     objKey: string,
