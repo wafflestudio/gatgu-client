@@ -2,6 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // string을 넣고 빼는 로직
 export const StringStorage = {
+  //< @brief      get value by key, 이때 값이 없거나 오류가 발생하면 에러를 출력
+  //< @params key asyncStorage에 저장되어 있는 key값
+  //< @retval     asyncStorage.getItem(key)
   get: async (key: string): Promise<string> => {
     try {
       const value = await AsyncStorage.getItem(key);
@@ -12,6 +15,9 @@ export const StringStorage = {
       return '';
     }
   },
+  //< @brief        add value by key
+  //< @params key   asyncStorage에 저장할 key값
+  //< @params value asyncStorage[key]에 저장할 값
   add: (key: string, value: string): void => {
     AsyncStorage.setItem(key, value);
   },
