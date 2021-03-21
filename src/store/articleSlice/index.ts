@@ -25,9 +25,11 @@ export interface IArticleSlice {
   errorStatus: number;
   data: IArticleSumProps[];
   isLoading: boolean;
-  next?: string;
-  previous?: string;
+  next: string | null;
+  previous: string | null;
   currentArticle: IArticleProps;
+  isLastPage: boolean;
+  isFirstPage: boolean;
 }
 
 const initialState: IArticleSlice = {
@@ -38,6 +40,8 @@ const initialState: IArticleSlice = {
   next: '',
   previous: '',
   currentArticle: initialArticle,
+  isLastPage: false,
+  isFirstPage: true,
 };
 
 // article store + basic action
@@ -56,14 +60,13 @@ const articleSlice = createSlice({
           break;
         case GetArticleSumStatus.NEXT:
           state.data.push(...payload.data);
-
           // 리덕스에 저장되는 article 갯수 제한
           if (state.data.length > MAX_ARTICLE_NUM)
             state.data.splice(0, PAGE_SIZE);
+
           break;
         case GetArticleSumStatus.PREVIOUS:
           state.data.unshift(...payload.data);
-
           // 리덕스에 저장되는 article 갯수 제한
           if (state.data.length > MAX_ARTICLE_NUM)
             state.data.splice(MAX_ARTICLE_NUM - PAGE_SIZE, PAGE_SIZE);
@@ -71,10 +74,11 @@ const articleSlice = createSlice({
         default:
           break;
       }
-
       state.hasError = false;
       state.isLoading = false;
+      state.isLastPage = payload.next === null;
       state.next = payload.next;
+      state.isFirstPage = payload.previous === null;
       state.previous = payload.previous;
     },
 

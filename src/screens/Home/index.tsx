@@ -22,16 +22,21 @@ const [Error] = createError();
 
 function HomeTemplate(): JSX.Element {
   const dispatch = useDispatch();
-  const { data: articles, hasError, errorStatus, isLoading } = useSelector(
-    (state: RootState) => state.article,
-    shallowEqual
-  );
+  const {
+    data: articles,
+    hasError,
+    errorStatus,
+    isLoading,
+    isLastPage,
+    isFirstPage,
+  } = useSelector((state: RootState) => state.article, shallowEqual);
 
   const getArticleSumCB = useCallback(
     (type: TLoad) => {
+      if ((type === 'next' || type === 'first') && isLastPage) return;
       dispatch(getArticlesSum(type));
     },
-    [dispatch]
+    [dispatch, isLastPage]
   );
 
   // 초기 렌더링
@@ -49,7 +54,12 @@ function HomeTemplate(): JSX.Element {
   // 보다 많고 쓰로틀링된 상태가 아니라면 리퀘스트 보냄
   const onContentOffsetChanged = useCallback(
     (distanceFromTop: number) => {
-      if (articles.length < MAX_ARTICLE_NUM || distanceFromTop === 0) return;
+      if (
+        articles.length < MAX_ARTICLE_NUM ||
+        distanceFromTop !== 0 ||
+        isFirstPage
+      )
+        return;
       _.throttle(() => getArticleSumCB(GetArticleSumStatus.PREVIOUS), 300)();
     },
     [articles, getArticleSumCB]

@@ -7,7 +7,7 @@ import {
   IMessageRet,
   IArticleSumResponse,
 } from '@/types/article';
-import { PAGE_SIZE } from '@/constants/Enum';
+import { PAGE_SIZE } from '@/constants/article';
 
 // for home page
 export const getArticlesSummary = (
@@ -18,8 +18,7 @@ export const getArticlesSummary = (
   });
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
-  url =
-    url?.slice(requester.defaults.baseURL?.length, url.length) || 'article/';
+  url = url || 'article/';
   return requester.get(`${url}?${query}`);
 };
 
