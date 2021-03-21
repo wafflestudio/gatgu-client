@@ -1,5 +1,6 @@
-import { palette } from '@/styles';
 import { StyleSheet } from 'react-native';
+
+import { palette } from '@/styles';
 import { mobile } from '@/helpers/mobile';
 
 const commonStyle = StyleSheet.create({

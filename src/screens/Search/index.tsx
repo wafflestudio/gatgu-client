@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import SearchBar from './SearchBar';
-import SearchStyle from './Search.style';
-import SearchSection from './SearchSection';
 import { initSearchData } from '@/store/searchSlice';
 import { useSelector } from '@/helpers/hooks';
+
+import SearchBar from './SearchBar';
+import styles from './Search.style';
+import SearchSection from './SearchSection';
 
 function Search(): JSX.Element {
   const dispatch = useDispatch();
@@ -18,8 +19,8 @@ function Search(): JSX.Element {
   }, []);
 
   return (
-    <View style={SearchStyle.wrapper}>
-      <View style={SearchStyle.searchWrapper}>
+    <View style={styles.wrapper}>
+      <View style={styles.searchWrapper}>
         <SearchBar inSearchedList={false} keyword={keyword} />
       </View>
       <SearchSection />

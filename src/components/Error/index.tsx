@@ -1,9 +1,15 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+
 import ErrorStyles from './Error.style';
+
 interface IErrorProps {
   status: number;
 }
+
+// TODO: @ssu1018
+// - change status to statusMsg
+// when: 각종 에러 관련 정리할 때
 
 function Error({ status }: IErrorProps): JSX.Element {
   return (

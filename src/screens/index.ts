@@ -9,7 +9,6 @@ export { default as Login } from './Login';
 export { default as Notification } from './Notification';
 export { default as Profile } from './Profile';
 export { default as ProfileModify } from './ProfileModify';
-export { default as Search } from './Search';
 export { default as SignUp } from './SignUp';
 export { default as TOS } from './TOS';
 export { default as WriteArticle } from './WriteArticle';

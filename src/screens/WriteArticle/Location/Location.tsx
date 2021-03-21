@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
-import waStyles from '../WriteArticle.style';
+import styles from '../WriteArticle.style';
 import { StringInput } from '@/components';
 
 interface LocationProps {
@@ -10,12 +10,12 @@ interface LocationProps {
 
 function Location({ location, setLocation }: LocationProps): JSX.Element {
   return (
-    <View style={waStyles.subContainer}>
+    <View style={styles.subContainer}>
       <StringInput
         value={location}
-        style={waStyles.text}
+        style={styles.text}
         placeholder="거래지역"
-        placeholderStyle={waStyles.placeHolder}
+        placeholderStyle={styles.placeHolder}
         onChangeText={setLocation}
       />
     </View>

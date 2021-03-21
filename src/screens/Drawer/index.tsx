@@ -1,12 +1,12 @@
 import { Button, Profile } from '@/components';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import styles from './Drawer.style';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { RootState } from '@/store';
-import { articleAPI, chatAPI, userAPI } from '@/apis';
+import { articleAPI, userAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
@@ -15,16 +15,9 @@ import { IUserProps } from '@/types/user';
 import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
 import { Status } from '@/constants/Enum';
 
-interface ElementArr {
-  list: JSX.Element[];
-}
-
-const [Error] = createError();
-
 function DrawerTemplate(props: any): JSX.Element {
   const [chatInfo, setChatInfo] = useState<IChattingRoom>();
   const [participants, setParticipants] = useState<JSX.Element[]>([]);
-  const [tem, setTemp] = useState<number>(0);
   const [hasError, setError] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -37,8 +30,8 @@ function DrawerTemplate(props: any): JSX.Element {
   );
 
   useEffect(() => {
-    if (currentArticle.id !== '0') {
-      const id = parseInt(currentArticle.id);
+    if (currentArticle.article_id !== 0) {
+      const id = currentArticle.article_id;
       dispatch(getChatInfo(id));
     }
   }, []);
@@ -47,7 +40,9 @@ function DrawerTemplate(props: any): JSX.Element {
     if (currentArticle.id !== '0') {
       setChatInfo(currentChatInfo);
       setError(false);
+      // TODO: @juimdpp
       // handle error from chatSlice
+      // when: 로딩창 구현할 때
     }
   }, [currentChatInfo]);
 
@@ -56,7 +51,7 @@ function DrawerTemplate(props: any): JSX.Element {
       let tempArr: JSX.Element[] = [];
       chatInfo?.participant.map((part, ind) => {
         userAPI
-          .getUser(part) // 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
+          .getUser(part) // TODO: @juimdpp 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
           .then((response: AxiosResponse<IUserProps>) => {
             const user = response.data.userprofile;
             tempArr = tempArr.concat(<Profile key={ind} {...user} />);
@@ -64,8 +59,7 @@ function DrawerTemplate(props: any): JSX.Element {
           .then(() => {
             setParticipants(tempArr);
           })
-          .catch((err: AxiosError) => {
-            console.log(err);
+          .catch(() => {
             setError(true);
           });
       });
@@ -79,7 +73,10 @@ function DrawerTemplate(props: any): JSX.Element {
         chatInfo.orderStatus < Status.ORDER_COMPLETE
           ? Status.ORDER_COMPLETE
           : Status.WAITING_MEMBERS;
-      const body = { ...chatInfo, orderStatus: temp };
+      // TODO: @juimdpp
+      // todo: 추후에 쓸 수 있을 듯
+      // when: api 고칠 때 보기
+      // const body = { ...chatInfo, orderStatus: temp };
       dispatch(changeOrderStatus(chatInfo.id, temp));
       Alert.alert(`"${temp}"으로 성공적으로 상태를 바꿨습니다!`);
     }
@@ -89,11 +86,11 @@ function DrawerTemplate(props: any): JSX.Element {
     if (chatInfo !== undefined) {
       articleAPI
         .deleteArticle(chatInfo.id)
-        .then((response: AxiosResponse) => {
+        .then(() => {
           Alert.alert('삭제가 완료되었습니다.');
           navigation.navigate('Home');
         })
-        .catch((err: AxiosError) => {
+        .catch(() => {
           Alert.alert('삭제하는데 실패했습니다.');
         });
     }

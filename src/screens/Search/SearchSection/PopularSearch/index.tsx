@@ -2,10 +2,11 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import PopularSearchStyle from './PopularSearch.style';
-import SearchStyle from '../../Search.style';
 import Tag from '@/components/Button';
 import { useKeywordDispatch } from '@/helpers/hooks';
+
+import styles from './PopularSearch.style';
+import SearchStyle from '../../Search.style';
 
 interface IPopularSearchProps {
   tags: string[];
@@ -21,7 +22,7 @@ function PopularSearch({ tags }: IPopularSearchProps): JSX.Element {
         keywordDispatch(tag);
         navigation.navigate('SearchedArticle');
       }}
-      style={[SearchStyle.tagBox, PopularSearchStyle.tag]}
+      style={[SearchStyle.tagBox, styles.tag]}
       textStyle={SearchStyle.tagText}
       key={ind}
     />
@@ -30,7 +31,7 @@ function PopularSearch({ tags }: IPopularSearchProps): JSX.Element {
   return (
     <View style={SearchStyle.sectionWrapper}>
       <Text style={SearchStyle.head}>인기 검색어</Text>
-      <View style={PopularSearchStyle.tagWrapper}>{renderedTags}</View>
+      <View style={styles.tagWrapper}>{renderedTags}</View>
     </View>
   );
 }

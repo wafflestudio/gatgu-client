@@ -1,13 +1,14 @@
 import React, { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import InfoContainerStyle from './InfoContainer.style';
+import styles from './InfoContainer.style';
+
 interface IInfoContainerProps {
   children: ReactNode;
 }
 
 function InfoContainer({ children }: IInfoContainerProps): JSX.Element {
-  return <View style={InfoContainerStyle.container}>{children}</View>;
+  return <View style={styles.container}>{children}</View>;
 }
 
 export default InfoContainer;

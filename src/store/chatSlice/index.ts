@@ -47,7 +47,7 @@ const chatSlice = createSlice({
 const { setCurrentChatInfo, failSetCurrentChatInfo } = chatSlice.actions;
 
 // get chat info
-export const getChatInfo = (id: number): AppThunk => (dispatch) => {
+export const getChatInfo = (id: number | undefined): AppThunk => (dispatch) => {
   chatAPI
     .getChatInfo(id)
     .then((response: AxiosResponse) => {
@@ -75,9 +75,10 @@ export const changeOrderStatus = (
       // todo: json server returns entire object, but backend returns status string --> must update to setOrderStatus(response.data)
       // when: 서버 잘 되면 (json-server에서는 저렇게 하는 수 밖에 없어서...)
     })
-    .catch((err: AxiosError) => {
-      console.log(err);
-      // handle error
+    .catch(() => {
+      // TODO: @juimdpp
+      // todo: handle error
+      // when: 로딩 페이지 구현할 때 같이 할게요
     });
 };
 

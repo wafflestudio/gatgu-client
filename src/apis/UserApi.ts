@@ -48,5 +48,9 @@ export const modify = (
 export const getUser = (
   profile_id: number
 ): Promise<AxiosResponse<IUserProps>> => {
-  return requester.get(`users/${profile_id}/`); // TODO: change to user after back deploy
+  console.log('profile', profile_id);
+  return requester.get(`users/${profile_id}/`);
+  // TODO: @juimdpp
+  // todo: change to user after back deploy
+  // when: 백 서버 잘 되면
 };

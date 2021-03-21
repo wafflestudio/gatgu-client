@@ -9,9 +9,20 @@ import {
 } from '@/types/article';
 import { PAGE_SIZE } from '@/constants/article';
 
+// TODO: @ssu1018
+// - Refactore all apisrelated with ArticleSumaary
+// when: until 3/12
+
 // for home page
-export const getArticlesSummary = (
-  url?: string | null
+export const readAll = (
+  page: number
+): Promise<AxiosResponse<IArticleSumProps[]>> => {
+  const url = `posts?_limit=7&_page=${page}`;
+  return requester.get(url);
+};
+
+export const getArticleSummary = (
+  url: string
 ): Promise<AxiosResponse<IArticleSumResponse>> => {
   const query = qs.stringify({
     page_size: PAGE_SIZE,

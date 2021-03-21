@@ -2,10 +2,11 @@ import React from 'react';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
 
+import { useSelector } from '@/helpers/hooks';
+
 import PopularSearch from './PopularSearch';
 import RecentSearch from './RecentSearch';
 import TagList from './TagList';
-import { useSelector } from '@/helpers/hooks';
 
 function SearchSection(): JSX.Element {
   const { recentSearch, popularSearch } = useSelector((state) => state.search);
