@@ -1,15 +1,15 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { Text } from 'native-base';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import styles from './ArticleBox.style';
 import Thumbnail from '@/components/Thumbnail';
-import GoalBar from './GoalBar';
 import { IArticleSumProps } from '@/types/article';
 import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
 import { IS_PEOPLE } from '@/constants/Enum';
 import { $thumnail_size } from '@/styles/size';
+
+import styles from './ArticleBox.style';
+import GoalBar from './GoalBar';
 
 function ArticleBox({
   article_id,

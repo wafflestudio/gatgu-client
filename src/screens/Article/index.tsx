@@ -10,7 +10,7 @@ import { ArticleDrawerParamList } from '@/types/navigation';
 import { IArticleProps } from '@/types/article';
 import { createError } from '@/helpers/functions';
 import { initialArticle, initialChatInfo } from '@/constants/InitialState';
-import articleSlice, { getSingleArticle } from '@/store/articleSlice';
+import { getSingleArticle } from '@/store/articleSlice';
 import { getChatInfo } from '@/store/chatSlice';
 import { RootState } from '@/store';
 import { IChattingRoom } from '@/types/chat';
@@ -48,7 +48,7 @@ function ArticlePage(): JSX.Element {
 
   const productImageProps = {
     thumbnail_url: article.thumbnail_url,
-    image_url: article.image_url,
+    image_url: article.image,
     orderStatus: chatInfo?.orderStatus,
   };
 

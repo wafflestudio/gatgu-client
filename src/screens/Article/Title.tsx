@@ -1,5 +1,5 @@
 import { Label, View } from 'native-base';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Text } from 'react-native';
 import styles from './Title.style';
 import { palette, typo } from '@/styles';
@@ -14,15 +14,15 @@ interface ITitleProps {
 
 function Title({ article, orderStatus }: ITitleProps): JSX.Element {
   // 남은 시간
-  const { diff: timeLeft, type: typeLeft } = calcTimeDiff(
-    article.created_at,
-    article.time_max
-  );
+  const { diff: timeLeft, type: typeLeft } =
+    article.created_at !== undefined
+      ? calcTimeDiff(article.created_at, article.time_in)
+      : { diff: 0, type: 0 };
   // 몇 분 전
-  const { diff: timeBefore, type: typeBefore } = calcTimeDiff(
-    article.created_at,
-    'current'
-  );
+  const { diff: timeBefore, type: typeBefore } =
+    article.created_at !== undefined
+      ? calcTimeDiff(article.created_at, 'current')
+      : { diff: 0, type: 0 };
 
   const isDone = orderStatus >= Status.ORDER_COMPLETE;
 

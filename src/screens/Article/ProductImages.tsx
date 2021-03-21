@@ -1,23 +1,21 @@
-import { IArticleProps } from '@/types/article';
-import { IChattingRoom } from '@/types/chat';
-import React, { useEffect } from 'react';
-import { FlatList, Image, View, Text } from 'react-native';
+import React from 'react';
+import { Image, View, Text } from 'react-native';
 import styles from './ProductImages.style';
 import Swiper from 'react-native-swiper';
-import { palette, typo } from '@/styles';
+import { palette } from '@/styles';
 import { Status } from '@/constants/Enum';
 
-// TODO: @ssu1018
+// TODO: @juimdpp
 // - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단
 
 interface IArticleChat {
-  thumbnail_url: string;
-  image_url: string[] | undefined;
+  thumbnail_url: string | null | undefined;
+  image_url: (string | null | undefined)[] | undefined;
   orderStatus: number;
 }
 
 function ProductImages({
-  thumbnail_url, // 백에서 이미지를 어떻게 줄지 몰라서 일단 보류
+  // thumbnail_url, // TODO: @juimdpp 백에서 이미지를 어떻게 줄지 몰라서 일단 보류
   image_url,
   orderStatus,
 }: IArticleChat): JSX.Element {
@@ -26,7 +24,13 @@ function ProductImages({
   const images =
     image_url != undefined &&
     image_url?.map((url, _ind) => {
-      return <Image key={_ind} style={styles.image} source={{ uri: url }} />;
+      return (
+        <Image
+          key={_ind}
+          style={styles.image}
+          source={{ uri: url as string }}
+        />
+      );
     });
 
   return (

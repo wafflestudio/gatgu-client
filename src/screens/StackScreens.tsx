@@ -201,6 +201,9 @@ function WriteArticleStackScreen(): JSX.Element {
             //  this does only routing but doesn't post article...
             <Button
               title="완료"
+              // TODO: @juimdpp
+              // todo: add styles
+              // when: api 고칠 때...
               onPress={() => navigation.navigate('Article')}
             />
           ),

@@ -9,6 +9,10 @@ import {
 } from '@/types/article';
 import { PAGE_SIZE } from '@/constants/article';
 
+// TODO: @ssu1018
+// - Refactore all apisrelated with ArticleSumaary
+// when: until 3/12
+
 // for home page
 export const getArticlesSummary = (
   url?: string | null

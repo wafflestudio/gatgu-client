@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import {
   useFonts,
   NotoSansKR_500Medium,
@@ -34,7 +34,12 @@ function App(): JSX.Element {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+          }}
+        >
           <Stack.Navigator>
             <Stack.Screen
               name="BottomNavigation"
@@ -44,6 +49,11 @@ function App(): JSX.Element {
             <Stack.Screen
               name={ChattingRoom.name}
               component={ChattingRoom.component}
+              options={{
+                headerShown: false,
+                // eslint-disable-next-line react/display-name
+                header: () => <></>,
+              }}
             />
             <Stack.Screen
               name={Login.name}

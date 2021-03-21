@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
+
 import { palette } from '@/styles/palette';
+
 const InfoContainerStyle = StyleSheet.create({
   container: {
     height: 96,

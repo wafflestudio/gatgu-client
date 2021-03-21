@@ -1,14 +1,43 @@
 import React from 'react';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
-import ChatsContainer from './ChatsContainer';
-import messages from './mockChat';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-export default function ChattingRoom(): JSX.Element {
+import ChatDrawer from './ChatDrawer';
+import ChattingRoomTemplate from './ChattingRoomTemplate';
+
+const Drawer = createDrawerNavigator();
+
+const mockUrls = [
+  'https://placeimg.com/140/140/any',
+  'https://placeimg.com/140/139/any',
+  'https://placeimg.com/140/137/any',
+  'https://placeimg.com/140/138/any',
+];
+
+const mockUsers = [
+  {
+    profile_id: 1,
+    picture: 'https://placeimg.com/140/138/any',
+    nickname: 'heesu',
+  },
+  {
+    profile_id: 2,
+    picture: 'https://placeimg.com/140/138/any',
+    nickname: 'heesu',
+  },
+];
+
+function chatDrawer(): JSX.Element {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <Drawer.Navigator
+      drawerPosition="right"
+      drawerContent={(props) => (
+        <ChatDrawer {...props} pictureUrls={mockUrls} users={mockUsers} />
+      )}
+      drawerStyle={{ width: '57%' }}
     >
-      <ChatsContainer chatList={messages} />
-    </KeyboardAvoidingView>
+      <Drawer.Screen name={'chatDrawer'} component={ChattingRoomTemplate} />
+    </Drawer.Navigator>
   );
 }
+
+export default chatDrawer;
