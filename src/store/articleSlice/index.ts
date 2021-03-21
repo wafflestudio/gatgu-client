@@ -19,6 +19,8 @@ import {
   GetArticleSumStatus,
 } from '@/constants/article';
 // CHECK:
+
+// TODO: @juimdpp
 // currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
 // when: ~3/12
 
@@ -116,6 +118,24 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
   getState
 ) => {
   dispatch(setLoading());
+  articleAPI
+    // TODO: @ssu1018
+    //   replace this with real api function.
+    // when: 홈 페이지네이션 할 때
+    .readAll(1)
+    .then((response: AxiosResponse) => {
+      dispatch(
+        getArticleSumSuccess({ data: response.data, next: '', previous: '' })
+      );
+    })
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
+      }
+    });
+};
 
   const url =
     type === GetArticleSumStatus.FIRST
@@ -126,6 +146,11 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
   articleAPI
     .getArticlesSummary(url)
     .then((response: AxiosResponse<IArticleSumResponse>) => {
+    // TODO: @ssu1018
+    //   replace this with real api function.
+    // when: 홈 페이지네이션 할 때
+    .readAll(2)
+    .then((res: AxiosResponse) => {
       dispatch(
         getArticleSumSuccess({
           data: response.data.results,

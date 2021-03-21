@@ -14,8 +14,15 @@ import { PAGE_SIZE } from '@/constants/article';
 // when: until 3/12
 
 // for home page
-export const getArticlesSummary = (
-  url?: string | null
+export const readAll = (
+  page: number
+): Promise<AxiosResponse<IArticleSumProps[]>> => {
+  const url = `posts?_limit=7&_page=${page}`;
+  return requester.get(url);
+};
+
+export const getArticleSummary = (
+  url: string
 ): Promise<AxiosResponse<IArticleSumResponse>> => {
   const query = qs.stringify({
     page_size: PAGE_SIZE,

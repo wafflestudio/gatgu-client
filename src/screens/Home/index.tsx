@@ -10,11 +10,14 @@ import _ from 'lodash';
 
 import { ArticleBox } from '@/components';
 import { IArticleSumProps, TLoad } from '@/types/article';
+import { IArticleSumProps } from '@/types/article';
 import { RootState } from '@/store';
 import { getArticlesSum } from '@/store/articleSlice';
 import { createError } from '@/helpers/functions';
 import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/article';
 import AppLoading from '@/screens/AppLoading';
+
+import styles from './Home.style';
 
 import styles from './Home.style';
 
