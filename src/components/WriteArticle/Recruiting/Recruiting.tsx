@@ -24,14 +24,15 @@ function Recruiting({
   setSelected,
 }: RecruitingProps): JSX.Element {
   const options = [
-    { label: '모집인원/필요인원', value: '0' },
-    { label: '모금금액/필요금액', value: '1' },
+    { label: '모집인원/필요인원', value: '1' },
+    { label: '모금금액/필요금액', value: '2' },
   ];
 
   const changeNumber = (txt: number, num: number) => {
+    console.log(num);
     // code for dismissing all letters
     // code for max limit
-    if (num === 0) setPeople(txt);
+    if (num === IS_PEOPLE) setPeople(txt);
     else setPrice(txt);
   };
 
@@ -45,13 +46,13 @@ function Recruiting({
           placeholder={str}
           onChangeText={(txt) => changeNumber(parseInt(txt), selected)}
           value={
-            selected === IS_PEOPLE - 1
+            selected === IS_PEOPLE
               ? needPeople.toString()
               : needPrice.toString()
           }
           maxLength={maxL}
         />
-        <Text>{selected === IS_PEOPLE - 1 ? '명' : '원'}</Text>
+        <Text>{selected === IS_PEOPLE ? '명' : '원'}</Text>
       </View>
     );
   };
@@ -61,13 +62,14 @@ function Recruiting({
       <View style={styles.switchContainer}>
         <SwitchSelector
           options={options}
-          onPress={(value) => setSelected(Number(value))}
+          onPress={(value) => {
+            console.log(value);
+            setSelected(Number(value));
+          }}
           {...switchSelector}
         />
       </View>
-      {selected === IS_PEOPLE - 1
-        ? Input('필요인원', 5)
-        : Input('필요금액', 10)}
+      {selected === IS_PEOPLE ? Input('필요인원', 5) : Input('필요금액', 10)}
     </View>
   );
 }
