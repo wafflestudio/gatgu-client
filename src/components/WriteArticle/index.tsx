@@ -17,30 +17,22 @@ import { ITagType } from '@/types/article';
 import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
 import { articleAPI } from '@/apis';
 import { AxiosResponse } from 'axios';
+import tagNames from '@/constants/tagList';
 
 // TODO: @juimdpp
-//  - circle css 하나로 합치기 (페이지 번호)
+// when: 엄청 급한게 아니라 모든 코드 마스터로 머지 되고, 다시 수정할때..?
 //  - add code for deleting all non numeric for people, price
-//  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
 //  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
-//  - tag 정보 넘기기 (submit할때)
-//  - Add props to redirection
+// when: 기획 잡히면:
+//  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
 
 interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
 }
 
-const TagArray = [
-  { id: 1, tag: '운동', selected: false },
-  { id: 2, tag: '음식', selected: false },
-  { id: 3, tag: '가구', selected: false },
-  { id: 4, tag: '컴공', selected: false },
-  { id: 5, tag: '기계', selected: false },
-  { id: 6, tag: '전기', selected: false },
-  { id: 7, tag: '방탄', selected: false },
-  { id: 8, tag: '엑소', selected: false },
-  { id: 9, tag: '빅뱅', selected: false },
-];
+const TagArray = tagNames.map((item, indx) => {
+  return { id: indx, tag: item, selected: false };
+});
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<(string | null | undefined)[]>([]);
@@ -50,7 +42,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
-  const [selected, setSelected] = useState(IS_PEOPLE - 1); // IS_PEOPLE-1 because selector takes 0 or 1 not 1 or 2 as in API
+  const [selected, setSelected] = useState(IS_PEOPLE); // IS_PEOPLE-1 because selector takes 0 or 1 not 1 or 2 as in API
   const [tags, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
@@ -82,7 +74,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       }
       currentArticle.need_type &&
         setSelected(
-          currentArticle.need_type === IS_PEOPLE ? IS_PEOPLE - 1 : IS_MONEY - 1
+          currentArticle.need_type === IS_PEOPLE ? IS_PEOPLE : IS_MONEY
         );
       setPeople(currentArticle.people_min);
       setPrice(currentArticle.price_min);
@@ -114,7 +106,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         ? 'https://trello.com/b/9EsYdmZU/team'
         : images[0],
       // image: images.slice(1),
-      need_type: selected + 1,
+      need_type: selected,
       // tag: tempTags
     };
     if (isEdit && currentArticle) {
