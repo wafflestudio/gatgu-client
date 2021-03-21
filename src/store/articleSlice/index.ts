@@ -117,26 +117,6 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
   dispatch,
   getState
 ) => {
-  dispatch(setLoading());
-  articleAPI
-    // TODO: @ssu1018
-    //   replace this with real api function.
-    // when: 홈 페이지네이션 할 때
-    .readAll(1)
-    .then((response: AxiosResponse) => {
-      dispatch(
-        getArticleSumSuccess({ data: response.data, next: '', previous: '' })
-      );
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
-      } else {
-        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
-      }
-    });
-};
-
   const url =
     type === GetArticleSumStatus.FIRST
       ? null
@@ -144,13 +124,11 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
       ? getState().article.next
       : getState().article.previous;
   articleAPI
-    .getArticlesSummary(url)
+    .getArticleSummary(url)
     .then((response: AxiosResponse<IArticleSumResponse>) => {
-    // TODO: @ssu1018
-    //   replace this with real api function.
-    // when: 홈 페이지네이션 할 때
-    .readAll(2)
-    .then((res: AxiosResponse) => {
+      // TODO: @ssu1018
+      //   replace this with real api function.
+      // when: 홈 페이지네이션 할 때
       dispatch(
         getArticleSumSuccess({
           data: response.data.results,
