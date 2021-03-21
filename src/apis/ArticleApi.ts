@@ -22,8 +22,8 @@ export const getArticlesSummary = (
   });
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
-  url = url || 'article/';
-  return requester.get(`${url}?${query}`);
+  url = `article/${url ? `${url}&` : '?'}`;
+  return requester.get(`${url}${query}`);
 };
 
 // for article page
