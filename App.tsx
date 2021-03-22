@@ -31,19 +31,17 @@ function App(): JSX.Element {
     NotoSansKR_700Bold,
   });
 
-  const dispatch = useDispatch();
-
   const loadUserData = useCallback(() => {
     ObjectStorage.getObject(objKeySet.user)
       .then((data) => {
-        if (data) dispatch(setInfo(data));
+        if (data) store.dispatch(setInfo(data));
         setUserLoaded(true);
       })
       .catch((err) => {
         console.error(err);
         setUserLoaded(true);
       });
-  }, [dispatch]);
+  }, []);
 
   useState(() => {
     // check if user data exists
@@ -54,6 +52,7 @@ function App(): JSX.Element {
     return <AppLoading />;
   }
   return (
+    <Provider store={store}>
       <NavigationContainer>
         <SafeAreaView
           style={{
@@ -91,15 +90,8 @@ function App(): JSX.Element {
           </Stack.Navigator>
         </SafeAreaView>
       </NavigationContainer>
-  );
-}
-
-function AppProvider(): JSX.Element {
-  return (
-    <Provider store={store}>
-      <App />
     </Provider>
   );
 }
 
-export default AppProvider;
+export default App;
