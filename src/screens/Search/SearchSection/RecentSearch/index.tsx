@@ -6,7 +6,7 @@ import { Icon } from 'native-base';
 
 import Tag from '@/components/Button';
 import { useKeywordDispatch } from '@/helpers/hooks';
-import * as asyncStorageFunc from '@/helpers/functions/asyncStorage';
+import { ArrayStorage } from '@/helpers/functions/asyncStorage';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { removeKeyword } from '@/store/searchSlice';
 
@@ -24,7 +24,7 @@ function RecentSearch({ tags }: IRecentSearchProps): JSX.Element {
 
   // x 누르면 asyncstorage와 recentSearchStorage 갱신
   const onPressXIcon = useCallback((tag: string) => {
-    asyncStorageFunc.removePropArrElem(asyncStoragekey.RECENT_SEARCH, tag);
+    ArrayStorage.removeElem(asyncStoragekey.RECENT_SEARCH, tag);
     dispatch(removeKeyword({ keyword: tag }));
   }, []);
 
