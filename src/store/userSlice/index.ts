@@ -1,10 +1,13 @@
 import { Alert } from 'react-native';
+
 import { AxiosError } from 'axios';
+
 import { NavigationProp } from '@react-navigation/native';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { userAPI } from '@/apis';
 import { setToken, removeToken } from '@/apis/BaseInstance';
+import { ObjectStorage, objKeySet } from '@/helpers/functions/asyncStorage';
 import { AppThunk } from '@/store';
 import { IUserProps } from '@/types/user';
 
@@ -62,6 +65,7 @@ export const login = (
     .login(id, pw)
     .then((response) => {
       setToken(response.data.token);
+      ObjectStorage.addObject(objKeySet.user, response.data);
       dispatch(setInfo(response.data));
       navigation.navigate('Home');
     })
@@ -78,6 +82,7 @@ export const login = (
 
 export const logout = (): AppThunk => (dispatch) => {
   removeToken();
+  ObjectStorage.removeObject(objKeySet.user);
   dispatch(clearInfo());
 };
 

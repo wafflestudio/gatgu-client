@@ -46,7 +46,29 @@ export const ArrayStorage = {
   },
 };
 
+export const objKeySet = {
+  user: 'user',
+};
+
 export const ObjectStorage = {
+  //< @brief        add object by key
+  //< @params key   asyncStorage에 저장할 key값
+  //< @params value asyncStorage[key]에 저장할 값
+  addObject: (key: string, value: Record<string, any>): void => {
+    AsyncStorage.setItem(key, JSON.stringify(value));
+  },
+  //< @brief        get object by key
+  //< @params key   asyncStorage에서 찾고 싶은 key값
+  getObject: async (key: string): Promise<any> => {
+    const result = await AsyncStorage.getItem(key);
+    if (result) return JSON.parse(result);
+    else return null;
+  },
+  //< @brief        remove object by key
+  //< @params key   asyncStorage에서 삭제하고 싶은 key값
+  removeObject: (key: string): void => {
+    AsyncStorage.removeItem(key);
+  },
   // (key를 통해 찾은 객체)[objKey]의 맨 앞에 value 추가
   addPropArrElem: (
     key: string,
@@ -75,5 +97,3 @@ export const ObjectStorage = {
     });
   },
 };
-
-// storage에 값이 객체이면,객체의 key name이 <objKey>인 프로퍼티의 value중 arg의 element 삭제
