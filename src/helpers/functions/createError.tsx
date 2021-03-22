@@ -18,7 +18,10 @@ interface IErrorMsg {
 
 */
 type TCreateError = (errMsg?: IErrorMsg) => TErrorReturn;
-type TErrorReturn = [(status: number) => JSX.Element, IErrorMsg];
+type TErrorReturn = [
+  (status: number, errCallback: () => void) => JSX.Element,
+  IErrorMsg
+];
 
 const createError: TCreateError = (customErrorMsg: IErrorMsg = {}) => {
   const errorMsg: IErrorMsg = defaultErrorMsg;
@@ -26,7 +29,9 @@ const createError: TCreateError = (customErrorMsg: IErrorMsg = {}) => {
     errorMsg[status] = msg;
   });
   return [
-    (status: number) => <Error status={status} />,
+    (status: number, errCallback: () => void) => (
+      <Error errMsg={errorMsg[status]} errCallback={errCallback} />
+    ),
     errorMsg,
   ] as TErrorReturn;
 };
