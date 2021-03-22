@@ -9,14 +9,19 @@ interface IErrorMsg {
 }
 
 // status:number의 key와 msg 로 이루어진 프로퍼티를 가지는 obj를 parameter로 받음
-// (status:number)=> <Error /> 와 errorMsg를 return 함
+// (status:number,callback:()=>void)=> <Error /> 와 errorMsg를 element로 가지는 배열을 return
 
 /*
   Usage
-  const [Error,errorMsg] = useError({401:"id 또는 password가 잘못되었습니다."});
-  {hasError?Error(Errorcode):<Component />} 
+  const [Error,errorMsg] = createError({401:"id 또는 password가 잘못되었습니다."});
 
+  const callback = ()=>{
+    dispaatch(getArticleSummary);
+  }
+
+  hasError ? Error(401,callback) :  <Component />
 */
+
 type TCreateError = (errMsg?: IErrorMsg) => TErrorReturn;
 type TErrorReturn = [
   (status: number, errCallback: () => void) => JSX.Element,
