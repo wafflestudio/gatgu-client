@@ -36,9 +36,12 @@ export const ArrayStorage = {
   // (key를 통해 찾은 배열) 에서 value를 찾아 삭제하여 저장
   removeElem: (key: string, value: string | Record<string, unknown>): void => {
     AsyncStorage.getItem(key).then((res) => {
-      let parsedValue = res !== null ? JSON.parse(res) : null;
-      parsedValue = parsedValue.filter((item: string) => item !== value);
-      AsyncStorage.setItem(key, JSON.stringify(parsedValue));
+      const parsedValue = res !== null ? JSON.parse(res) : null;
+      const targetInd = parsedValue.indexOf(value);
+      const filteredValue = parsedValue.filter(
+        (_: any, ind: number) => ind !== targetInd
+      );
+      AsyncStorage.setItem(key, JSON.stringify(filteredValue));
     });
   },
 };
