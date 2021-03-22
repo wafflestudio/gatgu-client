@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import {
   useFonts,
@@ -9,30 +9,51 @@ import {
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 
 import BottomNavigation from '@/components/BottomNavigation';
 import routes from '@/helpers/routes';
 import { AppLoading } from '@/screens';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
+import { ObjectStorage, objKeySet } from '@/helpers/functions/asyncStorage';
+import { setInfo } from '@/store/userSlice';
 
 const { ChattingRoom, Login, SignUp } = routes;
 
 const Stack = createStackNavigator();
 
 function App(): JSX.Element {
+  const [userLoaded, setUserLoaded] = useState(false);
   const [fontsLoaded] = useFonts({
     NotoSansKR_500Medium,
     NotoSansKR_400Regular,
     NotoSansKR_700Bold,
   });
 
-  if (!fontsLoaded) {
+  const dispatch = useDispatch();
+
+  const loadUserData = useCallback(() => {
+    ObjectStorage.getObject(objKeySet.user)
+      .then((data) => {
+        if (data) dispatch(setInfo(data));
+        setUserLoaded(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        setUserLoaded(true);
+      });
+  }, [dispatch]);
+
+  useState(() => {
+    // check if user data exists
+    loadUserData();
+  }, []);
+
+  if (!fontsLoaded || !userLoaded) {
     return <AppLoading />;
   }
   return (
-    <Provider store={store}>
       <NavigationContainer>
         <SafeAreaView
           style={{
@@ -70,8 +91,15 @@ function App(): JSX.Element {
           </Stack.Navigator>
         </SafeAreaView>
       </NavigationContainer>
+  );
+}
+
+function AppProvider(): JSX.Element {
+  return (
+    <Provider store={store}>
+      <App />
     </Provider>
   );
 }
 
-export default App;
+export default AppProvider;
