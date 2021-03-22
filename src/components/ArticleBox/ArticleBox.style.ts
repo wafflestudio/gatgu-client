@@ -1,19 +1,29 @@
 import { StyleSheet } from 'react-native';
 
-import { flexRow, flexCol } from '@/styles/wrapper';
+import { flexRow } from '@/styles/wrapper';
 import { typo, palette } from '@/styles';
+import {
+  $postBox_pad_horizontal,
+  $thumnail_size,
+  $thumnail_margin_right,
+} from '@/styles/size';
+import { mobile } from '@/helpers/mobile';
 
 const PostBoxStyles = StyleSheet.create({
   articleBox: {
-    ...flexCol,
+    width:
+      mobile.width -
+      $thumnail_size -
+      2 * $postBox_pad_horizontal -
+      $thumnail_margin_right,
+    flexDirection: 'column',
     marginLeft: '5.3%',
     justifyContent: 'flex-start',
+    height: '100%',
   },
   Head: {
     ...typo.semiTitle,
     color: palette.dark,
-    width: 200,
-    flexWrap: 'wrap',
   },
   description: {
     ...typo.info,
@@ -21,22 +31,23 @@ const PostBoxStyles = StyleSheet.create({
   },
   postBox: {
     ...flexRow,
-    marginRight: '7.9%',
-    height: 141,
+    height: 142,
     borderBottomColor: palette.borderGray,
     borderBottomWidth: 1,
-    paddingVertical: 17,
+    paddingTop: 16,
+    paddingBottom: 15,
     paddingHorizontal: 20,
   },
   infoWrapper: {
     ...flexRow,
-    height: 19,
-    marginTop: '1.6%',
+    height: 16,
+    marginTop: 11,
+    flexWrap: 'wrap',
   },
   goalWrapper: {
     position: 'absolute',
-    top: 79,
-    width: '53.5%',
+    bottom: 1,
+    width: '100%',
   },
 });
 

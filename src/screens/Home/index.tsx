@@ -1,12 +1,20 @@
-import React, { useEffect } from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import {
+  FlatList,
+  View,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from 'react-native';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import _ from 'lodash';
 
 import { ArticleBox } from '@/components';
-import { IArticleSumProps } from '@/types/article';
+import { IArticleSumProps, TLoad } from '@/types/article';
 import { RootState } from '@/store';
-import { getArticlesPerPage } from '@/store/articleSlice';
+import { getArticlesSum } from '@/store/articleSlice';
 import { createError } from '@/helpers/functions';
+import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/article';
+import AppLoading from '@/screens/AppLoading';
 
 import styles from './Home.style';
 
@@ -14,41 +22,87 @@ const [Error] = createError();
 
 function HomeTemplate(): JSX.Element {
   const dispatch = useDispatch();
+  const {
+    data: articles,
+    hasError,
+    errorStatus,
+    isLoading,
+    isLastPage,
+    isFirstPage,
+  } = useSelector((state: RootState) => state.article, shallowEqual);
 
-  const { data: posts, hasError } = useSelector(
-    (state: RootState) => state.article,
-    shallowEqual
+  const getArticleSumCB = useCallback(
+    (type: TLoad) => {
+      if ((type === 'next' || type === 'first') && isLastPage) return;
+      dispatch(getArticlesSum(type));
+    },
+    [dispatch, isLastPage]
   );
 
-  // 초기에 7개 렌더링
+  // 초기 렌더링
   useEffect(() => {
-    dispatch(getArticlesPerPage());
+    getArticleSumCB('first');
   }, []);
 
-  const renderArticle = ({ item }: { item: IArticleSumProps }) => (
-    <ArticleBox {...item} />
+  const renderArticle = useCallback(
+    ({ item }: { item: IArticleSumProps }) => <ArticleBox {...item} />,
+    []
   );
 
-  // posts가 바뀌는 경우만 재 렌더링, 0.9 threshold에 다다르면 그 다음 페이지에 해당하는
-  // 포스트를 받아온다.
-  const ArticleList = (
-    <FlatList
-      data={posts}
-      renderItem={renderArticle}
-      keyExtractor={(_, ind) => String(ind)}
-      onEndReached={() => {
-        getArticlesPerPage();
-      }}
-      onEndReachedThreshold={0.5}
-    />
+  // 아티클 개수가 MAX_ARTICLE_NUM 보다 많으면 추가적으로 아티클을 받을 때 앞의 아티클을
+  // 날린다. 이후 다시 위로 올라가면 기존의 아티클을 받아와야 하기 때문에, 아티클이 MAX_ARTICLE_NUM
+  // 보다 많고 쓰로틀링된 상태가 아니라면 리퀘스트 보냄
+  const onContentOffsetChanged = useCallback(
+    (distanceFromTop: number) => {
+      if (
+        articles.length < MAX_ARTICLE_NUM ||
+        distanceFromTop !== 0 ||
+        isFirstPage
+      )
+        return;
+      _.throttle(() => getArticleSumCB(GetArticleSumStatus.PREVIOUS), 300)();
+    },
+    [articles, getArticleSumCB]
+  );
+
+  const onScrollCB = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) =>
+      onContentOffsetChanged(event.nativeEvent.contentOffset.y),
+    [onContentOffsetChanged]
+  );
+
+  const ArticleList = useMemo(
+    () => (
+      <FlatList
+        data={articles}
+        renderItem={renderArticle}
+        keyExtractor={(_, ind) => String(ind)}
+        onRefresh={() => getArticleSumCB(GetArticleSumStatus.FIRST)}
+        onEndReached={() => getArticleSumCB(GetArticleSumStatus.NEXT)}
+        onEndReachedThreshold={1}
+        onScroll={onScrollCB}
+        scrollEventThrottle={1}
+        refreshing={isLoading}
+        getItemLayout={(_, index) => ({
+          length: 141,
+          offset: 141 * index,
+          index,
+        })}
+      />
+    ),
+    [articles, getArticleSumCB]
   );
 
   return (
-    <View style={styles.root}>
-      {/* Error 안에 error status code 넣기 */}
-      {/* 임시로 401 넣어 놓음 */}
-      {hasError ? Error(401) : ArticleList}
-    </View>
+    <>
+      {isLoading && !articles.length ? (
+        <AppLoading />
+      ) : (
+        <View style={styles.root}>
+          {hasError ? Error(errorStatus) : ArticleList}
+        </View>
+      )}
+    </>
   );
 }
 
