@@ -1,47 +1,43 @@
-// TODO: @ssu1018
-//   remove this
-export interface IArticleSumProps {
-  id: number;
-  title: string;
-  dayLeft: string;
-  location: string;
-  goal: string;
-  percent: number;
-  uri: string;
-  created: string;
-  isMoney: boolean;
-}
+import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
 
-export interface IArticleSumProps {
-  id: number;
-  title: string;
-  dayLeft: string;
-  location: string;
-  thumbnail_url: string;
-  price_min: string;
-  people_count_min: string;
-
-  // 다음 field model에는 없지만 추가적으로 필요합니다!
-  dueDate: string;
-  isMoney: boolean;
-}
-
-export interface IArticleSumSearchProps extends IArticleSumProps {
-  transactionStatus: string;
-}
+type TneedType = typeof IS_MONEY | typeof IS_PEOPLE;
 
 interface IPagination {
-  count: number;
   next: string;
   previous: string;
 }
 
-export interface IArticleSumResponse extends IPagination {
-  results: IArticleSumProps[];
+export interface IParticipantsSummary {
+  count: number;
+  price: number;
 }
 
-export interface IArticleSumSearchResponse extends IPagination {
-  results: IArticleSumSearchProps[];
+// article summary props
+export interface IArticleSumProps {
+  id: number;
+  title: string;
+  location: string;
+  thumbnail_url: string;
+  need_type: TneedType;
+  price_min: number;
+  people_min: number;
+  time_in: string;
+  written_at: string;
+  article_id: string;
+  participants_summary: IParticipantsSummary;
+}
+
+interface IArticleDetail extends IArticleSumProps {
+  writer_id: number;
+  description: string;
+  product_url: string;
+  image: string;
+  tag: string[];
+  updated_at: string;
+}
+
+export interface IArticleSumResponse extends IPagination {
+  results: IArticleDetail[];
 }
 
 //article detail
@@ -76,14 +72,15 @@ export interface ITagType {
   selected: boolean;
 }
 
-export interface IGetFailPayload {
+export interface IGetArticleSumFailPayload {
   errorStatus: number;
 }
 
-export interface IGetSuccessPayload {
+export type TLoad = 'first' | 'next' | 'previous';
+
+export interface IGetArticleSumSuccessPayload extends IPagination {
   data: IArticleSumProps[];
-  next: string;
-  previous: string;
+  type: TLoad;
 }
 
 export interface IMessageRet {

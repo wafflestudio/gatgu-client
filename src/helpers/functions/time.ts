@@ -6,7 +6,7 @@ export const remainTime = (deadline: string): string => {
 
   const dayLeft: number = deadlineDay - today;
 
-  return dayLeft ? `${dayLeft}일 남았습니다.` : '오늘 마감입니다.';
+  return dayLeft ? `${dayLeft}일 남음.` : '오늘 마감';
 };
 
 // for current date (new Date()), use 'current' as input
