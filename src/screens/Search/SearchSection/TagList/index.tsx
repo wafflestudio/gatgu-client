@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 import Tag from '@/components/Button';
 import tagList from '@/constants/tagList';
@@ -8,9 +9,11 @@ import { useKeywordDispatch } from '@/helpers/hooks';
 
 import styles from './TagList.style';
 import SearchStyle from '../../Search.style';
+import { searchArticles } from '@/store/searchSlice';
 
 function TagList(): JSX.Element {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const keywordDispatch = useKeywordDispatch();
   const renderedTags = tagList.map((tag) => (
     <Tag
@@ -18,6 +21,7 @@ function TagList(): JSX.Element {
       onPress={() => {
         keywordDispatch(tag);
         navigation.navigate('SearchedArticle');
+        dispatch(searchArticles('first', tag, 'tag'));
       }}
       style={SearchStyle.tagBox}
       key={tag}
