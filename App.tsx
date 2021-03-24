@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import {
   useFonts,
@@ -43,7 +43,7 @@ function App(): JSX.Element {
       });
   }, []);
 
-  useState(() => {
+  useEffect(() => {
     // check if user data exists
     loadUserData();
   }, []);
