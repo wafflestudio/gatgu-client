@@ -37,7 +37,6 @@ function ArticleListTemplate({
   getArticles,
 }: IArticleListTemplateProps): JSX.Element {
   const dispatch = useDispatch();
-  console.log(articles);
   const getArticleSumCB = useCallback(
     (type: TLoad) => {
       if ((type === 'next' || type === 'first') && isLastPage) return;
@@ -72,8 +71,6 @@ function ArticleListTemplate({
       onContentOffsetChanged(event.nativeEvent.contentOffset.y),
     [onContentOffsetChanged]
   );
-  console.log(articles[0]);
-  console.log(isLoading);
 
   const ArticleList = useMemo(
     () => (

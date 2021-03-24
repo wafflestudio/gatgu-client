@@ -81,6 +81,7 @@ const searchedArticleSlice = createSlice({
       state.next = payload.next;
       state.isFirstPage = payload.previous === null;
       state.previous = payload.previous;
+      state.keyword = '';
     },
 
     // if getting data fail, show error screen by hasError state.
