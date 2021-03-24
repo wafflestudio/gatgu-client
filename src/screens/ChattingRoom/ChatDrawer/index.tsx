@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, Image } from 'react-native';
+import { View, Text, FlatList, Image, Alert } from 'react-native';
 
 import { useIsDrawerOpen } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
@@ -53,7 +53,7 @@ function ChatDrawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
       <View style={styles.optionContainer}>
         <Button
           title="나가기"
-          onPress={() => alert('not yet: 나가기')}
+          onPress={() => Alert.alert('not yet: 나가기')}
           textStyle={styles.smallLabelText}
         />
       </View>

@@ -5,25 +5,28 @@ import { View } from 'native-base';
 
 import GoalBar from '@/components/ArticleBox/GoalBar';
 import { IS_MONEY } from '@/constants/Enum';
+import { IParticipantsSummary } from '@/types/article';
 
 import styles from './GoalTopBubble.style';
 import TopBubble from './TopBubble';
 
 interface IGoalTopBubbleProps {
+  summary: IParticipantsSummary;
   current: number | undefined;
-  goal: number;
-  type: number | undefined;
+  min_required: number;
+  type: number;
 }
 
 function GoalTopBubble({
+  summary,
   current,
-  goal,
+  min_required,
   type,
 }: IGoalTopBubbleProps): JSX.Element {
   const [end, setEnd] = useState<number>(0);
   const [pEnd, setPend] = useState<number>(0);
 
-  const percent = current && (current / goal) * 100;
+  const percent = current && (current / min_required) * 100;
   const isMoney = type === IS_MONEY;
 
   const getEnd = (event: LayoutChangeEvent) => {
@@ -38,7 +41,7 @@ function GoalTopBubble({
       <View style={styles.bubbleWrapper}>
         <TopBubble
           current={current}
-          goal={goal}
+          goal={min_required}
           type={type}
           end={end}
           pEnd={pEnd}
@@ -46,11 +49,7 @@ function GoalTopBubble({
       </View>
       <View style={styles.goalWrapper} onLayout={getEnd}>
         <View style={{ width: `${percent}%` }} onLayout={getPend} />
-        <GoalBar
-          percent={percent !== undefined ? percent : -1}
-          goal={`${goal}${type === IS_MONEY ? '원' : '명'}`}
-          isMoney={isMoney}
-        />
+        <GoalBar summary={summary} min_required={min_required} type={type} />
       </View>
     </View>
   );

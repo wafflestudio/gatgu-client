@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 
 import Button from '../Button';
 import styles from './FootTerms.style';
@@ -14,14 +14,14 @@ function FootTerms(): JSX.Element {
         style={styles.smallBtn}
         textStyle={styles.smallBtnText}
         title="약관"
-        onPress={() => alert('not implemented')}
+        onPress={() => Alert.alert('not implemented')}
       />
       <Text style={styles.smallText}>|</Text>
       <Button
         style={styles.smallBtn}
         textStyle={styles.smallBtnText}
         title="개인정보 처리방침"
-        onPress={() => alert('not implemented')}
+        onPress={() => Alert.alert('not implemented')}
       />
     </View>
   );

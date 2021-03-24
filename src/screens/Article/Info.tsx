@@ -31,8 +31,9 @@ function Info({
       <View style={styles.subConNoBorder}>
         <Label style={styles.label}>모집 인원</Label>
         <GoalTopBubbleBar
+          summary={participants_summary}
           current={current}
-          goal={need_type === IS_MONEY ? price_min : people_min}
+          min_required={need_type === IS_MONEY ? price_min : people_min}
           type={need_type}
         />
       </View>
