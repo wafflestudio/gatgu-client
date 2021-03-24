@@ -1,27 +1,29 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse, AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { articleAPI } from '@/apis';
 import {
-  IArticleSumProps,
-  IGetSuccessPayload,
-  IGetFailPayload,
+  IGetArticleSumSuccessPayload,
+  IGetArticleSumFailPayload,
+  IArticleSumResponse,
+  TLoad,
+  TSearchType,
 } from '@/types/article';
-import { AppThunk } from '@/store';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
+import { AppThunk } from '@/store';
+import {
+  MAX_ARTICLE_NUM,
+  PAGE_SIZE,
+  GetArticleSumStatus,
+} from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { articleAPI, SearchAPI } from '@/apis';
+import { IArticleSliceBasis } from '@/types/article';
+import { Alert } from 'react-native';
 
-export interface ISearchedArticleSlice {
-  data: IArticleSumProps[];
-  hasError: boolean;
-  errorStatus: number;
-  isLoading: boolean;
-  next: string;
-  previous: string;
+export interface ISearchedArticleSlice extends IArticleSliceBasis {
   keyword: string;
   recentSearch: string[];
-  popularSearch: string[];
 }
 
 interface ISetKeywordPayload {
@@ -32,39 +34,68 @@ interface IKeywordListPayload {
   data: string[];
 }
 
-// interface I
-
 const initialState: ISearchedArticleSlice = {
-  data: [],
   hasError: false,
   errorStatus: -100,
+  data: [],
   isLoading: false,
   next: '',
   previous: '',
+  isLastPage: false,
+  isFirstPage: true,
   keyword: '',
   recentSearch: [],
-  popularSearch: [],
 };
 
 const searchedArticleSlice = createSlice({
   name: 'searchedArticle',
   initialState,
   reducers: {
-    getArticleSuccess(state, { payload }: PayloadAction<IGetSuccessPayload>) {
-      state.data.push(...payload.data);
-      state.isLoading = false;
+    getArticleSumSuccess: (
+      state,
+      { payload }: PayloadAction<IGetArticleSumSuccessPayload>
+    ) => {
+      switch (payload.type) {
+        case GetArticleSumStatus.FIRST:
+          state.data = payload.data;
+          break;
+        case GetArticleSumStatus.NEXT:
+          state.data.push(...payload.data);
+          // 리덕스에 저장되는 article 갯수 제한
+          if (state.data.length > MAX_ARTICLE_NUM)
+            state.data.splice(0, PAGE_SIZE);
+
+          break;
+        case GetArticleSumStatus.PREVIOUS:
+          state.data.unshift(...payload.data);
+          // 리덕스에 저장되는 article 갯수 제한
+          if (state.data.length > MAX_ARTICLE_NUM)
+            state.data.splice(MAX_ARTICLE_NUM - PAGE_SIZE, PAGE_SIZE);
+          break;
+        default:
+          break;
+      }
       state.hasError = false;
+      state.isLoading = false;
+      state.isLastPage = payload.next === null;
       state.next = payload.next;
+      state.isFirstPage = payload.previous === null;
       state.previous = payload.previous;
     },
-    getArticleFailure(state, { payload }: PayloadAction<IGetFailPayload>) {
-      state.isLoading = false;
+
+    // if getting data fail, show error screen by hasError state.
+    getArticleSumFailure: (
+      state,
+      { payload }: PayloadAction<IGetArticleSumFailPayload>
+    ) => {
       state.hasError = true;
+      state.isLoading = false;
       state.errorStatus = payload.errorStatus;
     },
     setLoading(state) {
       state.isLoading = true;
     },
+
     setKeyword(state, { payload }: PayloadAction<ISetKeywordPayload>) {
       state.keyword = payload.keyword;
     },
@@ -80,67 +111,53 @@ const searchedArticleSlice = createSlice({
         (_, ind) => ind !== targetInd
       );
     },
-    setPopularSearch(state, { payload }: PayloadAction<IKeywordListPayload>) {
-      state.popularSearch = payload.data;
-    },
   },
 });
 
 const {
-  getArticleSuccess,
-  getArticleFailure,
+  getArticleSumSuccess,
+  getArticleSumFailure,
   setLoading,
   setKeyword,
   setRecentSearch,
-  setPopularSearch,
   addRecentSearch,
   removeKeyword,
 } = searchedArticleSlice.actions;
 
-const searchArticles = (keyword: string): AppThunk => (dispatch) => {
-  dispatch(setLoading());
-  dispatch(setKeyword({ keyword }));
-  // TODO: @ssu1018
-  //   replace this with real api function.
-  // when: 서치 페이지네이션 할 때
+const searchArticles = (
+  keyword: string,
+  searchType: TSearchType,
+  type: TLoad
+): AppThunk => (dispatch, getState) => {
+  const url =
+    type === GetArticleSumStatus.FIRST
+      ? null
+      : type === GetArticleSumStatus.NEXT
+      ? getState().article.next
+      : getState().article.previous;
   articleAPI
-    .readAll(1)
-    .then((res: AxiosResponse) => {
-      dispatch(getArticleSuccess(res.data));
+    .getArticleSummary(url, keyword, searchType)
+    .then((response: AxiosResponse<IArticleSumResponse>) => {
+      dispatch(
+        getArticleSumSuccess({
+          data: response.data.results,
+          next: response.data.next,
+          previous: response.data.previous,
+          type: type,
+        })
+      );
     })
     .catch((err: AxiosError) => {
       if (err.response) {
-        dispatch(getArticleFailure({ errorStatus: err.response.status }));
+        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
       } else {
-        dispatch(getArticleFailure({ errorStatus: UNKNOWN_ERR }));
-      }
-    });
-};
-
-const loadNextArticles = (): AppThunk => (dispatch) => {
-  dispatch(setLoading());
-  // TODO: @ssu1018
-  //   replace this with real api function.
-  // when: 서치 페이지네이션 할 때
-  articleAPI
-    .readAll(2)
-    .then((res: AxiosResponse) => {
-      dispatch(getArticleSuccess(res.data));
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        dispatch(getArticleFailure({ errorStatus: err.response.status }));
-      } else {
-        dispatch(getArticleFailure({ errorStatus: UNKNOWN_ERR }));
+        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
       }
     });
 };
 
 // 초기에 popularSearch와 RecentSearch 설정
 const initSearchData = (): AppThunk => (dispatch) => {
-  SearchAPI.getPopularSearchKeyword().then((res) => {
-    dispatch(setPopularSearch({ data: res }));
-  });
   AsyncStorage.getItem(asyncStoragekey.RECENT_SEARCH)
     .then((res) => {
       if (res === null) {
@@ -150,9 +167,7 @@ const initSearchData = (): AppThunk => (dispatch) => {
       }
     })
     .catch((err) => {
-      //TODO: @ssu1018
-      // - error handling
-      // when: 서치 페이지네이션 할 때
+      Alert.alert('최근 검색 데이터를 불러오지 못했습니다.');
     });
 };
 
@@ -161,7 +176,6 @@ export {
   addRecentSearch,
   removeKeyword,
   searchArticles,
-  loadNextArticles,
   initSearchData,
 };
 

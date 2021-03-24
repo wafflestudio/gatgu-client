@@ -7,19 +7,23 @@ import {
   IMessageRet,
   IArticleSumResponse,
   IArticleSumProps,
+  TSearchType,
 } from '@/types/article';
 import { PAGE_SIZE } from '@/constants/article';
 
-// TODO: @ssu1018
-// - Refactore all apisrelated with ArticleSumaary
-// when: until 3/12
-
-// for home page
-
 export const getArticleSummary = (
-  url: string | null
+  url: string | null,
+  keyword?: string,
+  searchType?: TSearchType
 ): Promise<AxiosResponse<IArticleSumResponse>> => {
+  // keyword가 있고, url이 없으면 search 쿼리 생성
+  const searchObj =
+    !url &&
+    keyword &&
+    (searchType === 'title' ? { title: keyword } : { tag: keyword });
+
   const query = qs.stringify({
+    ...searchObj,
     page_size: PAGE_SIZE,
   });
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우

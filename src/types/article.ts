@@ -40,6 +40,19 @@ export interface IArticleSumResponse extends IPagination {
   results: IArticleDetail[];
 }
 
+export interface IArticleSliceBasis {
+  hasError: boolean;
+  errorStatus: number;
+  data: IArticleSumProps[];
+  isLoading: boolean;
+  next: string | null;
+  previous: string | null;
+  isLastPage: boolean;
+  isFirstPage: boolean;
+}
+
+export type TSearchType = 'title' | 'tag';
+
 //article detail
 export interface IArticleProps {
   id?: string; // TODO: @juimdpp
