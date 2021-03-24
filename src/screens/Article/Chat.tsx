@@ -13,10 +13,10 @@ interface IChatProps {
 
 function Chat({ orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
-
   const navigateToChatRoom = () => {
-    if (orderStatus < Status.ORDER_COMPLETE)
+    if (orderStatus < Status.ORDER_COMPLETE) {
       navigation.navigate('ChatListElem');
+    }
   };
   return (
     <View style={styles.userContainer}>
