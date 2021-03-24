@@ -12,14 +12,17 @@ interface IErrorMsg {
 // (status:number,callback:()=>void)=> <Error /> 와 errorMsg를 element로 가지는 배열을 return
 
 /*
-  Usage
-  const [Error,errorMsg] = createError({401:"id 또는 password가 잘못되었습니다."});
+  <usage>
 
-  const callback = ()=>{
+  const [Error, errorMsg] = createError({
+    401: 'id 또는 password가 잘못되었습니다.',
+  });
+  
+  const callback = () => {
     dispaatch(getArticleSummary);
-  }
-
-  hasError ? Error(401,callback) :  <Component />
+  };
+  
+  hasError ? Error(401, callback) : <Component />;
 */
 
 type TCreateError = (errMsg?: IErrorMsg) => TErrorReturn;
