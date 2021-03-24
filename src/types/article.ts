@@ -1,3 +1,4 @@
+import { SearchType } from '@/constants/article';
 import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
 
 type TneedType = typeof IS_MONEY | typeof IS_PEOPLE;
@@ -51,7 +52,7 @@ export interface IArticleSliceBasis {
   isFirstPage: boolean;
 }
 
-export type TSearchType = 'title' | 'tag';
+export type TSearchType = SearchType.TITLE | SearchType.TAG;
 
 //article detail
 export interface IArticleProps {

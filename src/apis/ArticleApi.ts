@@ -6,10 +6,9 @@ import {
   IArticleProps,
   IMessageRet,
   IArticleSumResponse,
-  IArticleSumProps,
   TSearchType,
 } from '@/types/article';
-import { PAGE_SIZE } from '@/constants/article';
+import { PAGE_SIZE, SearchType } from '@/constants/article';
 
 export const getArticleSummary = (
   url: string | null,
@@ -20,7 +19,7 @@ export const getArticleSummary = (
   const searchObj =
     !url &&
     keyword &&
-    (searchType === 'title' ? { title: keyword } : { tag: keyword });
+    (searchType === SearchType.TITLE ? { title: keyword } : { tag: keyword });
 
   const query = qs.stringify({
     ...searchObj,

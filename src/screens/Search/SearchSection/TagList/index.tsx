@@ -10,6 +10,7 @@ import { useKeywordDispatch } from '@/helpers/hooks';
 import styles from './TagList.style';
 import SearchStyle from '../../Search.style';
 import { searchArticles } from '@/store/searchSlice';
+import { GetArticleSumStatus, SearchType } from '@/constants/article';
 
 function TagList(): JSX.Element {
   const navigation = useNavigation();
@@ -21,7 +22,9 @@ function TagList(): JSX.Element {
       onPress={() => {
         keywordDispatch(tag);
         navigation.navigate('SearchedArticle');
-        dispatch(searchArticles('first', tag, 'tag'));
+        dispatch(
+          searchArticles(GetArticleSumStatus.FIRST, tag, SearchType.TAG)
+        );
       }}
       style={SearchStyle.tagBox}
       key={tag}

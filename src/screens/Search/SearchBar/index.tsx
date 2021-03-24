@@ -6,9 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 
 import { StringInput } from '@/components';
 import { useKeywordDispatch } from '@/helpers/hooks';
+import { GetArticleSumStatus, SearchType } from '@/constants/article';
+import { searchArticles } from '@/store/searchSlice';
 
 import styles from './SearchBar.style';
-import { searchArticles } from '@/store/searchSlice';
 
 interface ISearchBarProps {
   inSearchedList: boolean;
@@ -27,7 +28,9 @@ function SearchBar({ inSearchedList, keyword }: ISearchBarProps): JSX.Element {
   }, [keyword]);
 
   const onSubmit = () => {
-    dispatch(searchArticles('first', input, 'title'));
+    dispatch(
+      searchArticles(GetArticleSumStatus.FIRST, input, SearchType.TITLE)
+    );
     keywordDispatch(input);
     setInput('');
     navigation.navigate('SearchedArticle');
