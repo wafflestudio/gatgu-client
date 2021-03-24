@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { ImageBackground, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
 import ModifyButton from '@/assets/ProfileModifyPage/modifyButton.svg';
+import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
 import { StringInput } from '@/components';
 import { validateNN } from '@/helpers/functions/validate';
 import { RootState } from '@/store';

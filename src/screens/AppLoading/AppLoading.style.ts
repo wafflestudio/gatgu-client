@@ -1,5 +1,6 @@
-import { palette } from '@/styles';
 import { StyleSheet } from 'react-native';
+
+import { palette } from '@/styles';
 
 const AppLoadingStyles = StyleSheet.create({
   container: {

@@ -9,7 +9,7 @@ import {
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 
 import BottomNavigation from '@/components/BottomNavigation';
 import routes from '@/helpers/routes';

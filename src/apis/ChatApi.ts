@@ -1,7 +1,9 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
-import requester from './BaseInstance';
+
 import { IChattingRoom, IChangeStatusProps } from '@/types/chat';
+
+import requester from './BaseInstance';
 
 // for chat info
 export const getChatInfo = (

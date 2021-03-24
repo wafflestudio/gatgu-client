@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import Desc from './Desc';
-import ProfileChat from './ProfileChat';
-import ProductImages from './ProductImages';
-import TitleInfo from './TitleInfo';
+
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { ArticleDrawerParamList } from '@/types/navigation';
-import { IArticleProps } from '@/types/article';
-import { createError } from '@/helpers/functions';
+
 import { initialArticle, initialChatInfo } from '@/constants/InitialState';
+import { createError } from '@/helpers/functions';
+import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 import { getChatInfo } from '@/store/chatSlice';
-import { RootState } from '@/store';
+import { IArticleProps } from '@/types/article';
 import { IChattingRoom } from '@/types/chat';
+import { ArticleDrawerParamList } from '@/types/navigation';
+
+import Desc from './Desc';
+import ProductImages from './ProductImages';
+import ProfileChat from './ProfileChat';
+import TitleInfo from './TitleInfo';
+
 // TODO: @juimdpp
 // - change styles when clicked on (chatting button)
 

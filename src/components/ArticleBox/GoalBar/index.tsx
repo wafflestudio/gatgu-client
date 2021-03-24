@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import styles from './GoalBar.style';
 import { IS_PEOPLE } from '@/constants/Enum';
 import { IParticipantsSummary } from '@/types/article';
+
+import styles from './GoalBar.style';
 
 interface IGoalBarProps {
   summary: IParticipantsSummary;

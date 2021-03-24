@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { ScrollView, Button } from 'react-native';
-import Tags from './Tags/Tags';
-import AddImage from './AddImage/AddImage';
-import Title from './Title/Title';
-import Link from './Link/Link';
-import Description from './Description/Description';
-import Location from './Location/Location';
-import Recruiting from './Recruiting/Recruiting';
+
+import { AxiosResponse } from 'axios';
+
 import { useNavigation } from '@react-navigation/native';
+
 import { articleAPI } from '@/apis';
 import { ITagType } from '@/types/article';
-import { AxiosResponse } from 'axios';
+
+import AddImage from './AddImage/AddImage';
+import Description from './Description/Description';
+import Link from './Link/Link';
+import Location from './Location/Location';
+import Recruiting from './Recruiting/Recruiting';
+import Tags from './Tags/Tags';
+import Title from './Title/Title';
 
 // TODO: @juimdpp
 //  - circle css 하나로 합치기 (페이지 번호)

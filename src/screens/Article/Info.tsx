@@ -1,11 +1,14 @@
-import { Label, View } from 'native-base';
 import React from 'react';
 import { Text } from 'react-native';
-import styles from './Info.style';
+
+import { Label, View } from 'native-base';
+
+import { IS_MONEY } from '@/constants/Enum';
 import { typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
+
 import GoalTopBubbleBar from './GoalTopBubble/index';
-import { IS_MONEY } from '@/constants/Enum';
+import styles from './Info.style';
 
 // will change input type (left it because will probably need it afterwards)
 function Info({

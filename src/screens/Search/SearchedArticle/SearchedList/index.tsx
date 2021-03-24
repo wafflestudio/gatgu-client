@@ -1,8 +1,8 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 
-import { IArticleSumProps } from '@/types/article';
 import { ArticleBox } from '@/components';
+import { IArticleSumProps } from '@/types/article';
 
 const mockData: IArticleSumProps[] = [
   {

@@ -1,16 +1,17 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { articleAPI, SearchAPI } from '@/apis';
+import { UNKNOWN_ERR } from '@/constants/ErrorCode';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { AppThunk } from '@/store';
 import {
   IArticleSumProps,
   IGetSuccessPayload,
   IGetFailPayload,
 } from '@/types/article';
-import { AppThunk } from '@/store';
-import { UNKNOWN_ERR } from '@/constants/ErrorCode';
-import { asyncStoragekey } from '@/constants/asyncStorage';
-import { articleAPI, SearchAPI } from '@/apis';
 
 export interface ISearchedArticleSlice {
   data: IArticleSumProps[];

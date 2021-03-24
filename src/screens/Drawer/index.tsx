@@ -1,19 +1,23 @@
-import { Button, Profile } from '@/components';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Alert } from 'react-native';
-import styles from './Drawer.style';
-import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { DrawerContentScrollView } from '@react-navigation/drawer';
-import { RootState } from '@/store';
-import { articleAPI, userAPI } from '@/apis';
+
 import { AxiosError, AxiosResponse } from 'axios';
-import { createError } from '@/helpers/functions';
-import { IChattingRoom } from '@/types/chat';
-import { palette } from '@/styles';
-import { IUserProps } from '@/types/user';
-import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
+
+import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
+
+import { articleAPI, userAPI } from '@/apis';
+import { Button, Profile } from '@/components';
 import { Status } from '@/constants/Enum';
+import { createError } from '@/helpers/functions';
+import { RootState } from '@/store';
+import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
+import { palette } from '@/styles';
+import { IChattingRoom } from '@/types/chat';
+import { IUserProps } from '@/types/user';
+
+import styles from './Drawer.style';
 
 function DrawerTemplate(props: any): JSX.Element {
   const [chatInfo, setChatInfo] = useState<IChattingRoom>();
