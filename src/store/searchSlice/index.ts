@@ -117,7 +117,6 @@ const searchedArticleSlice = createSlice({
 const {
   getArticleSumSuccess,
   getArticleSumFailure,
-  setLoading,
   setKeyword,
   setRecentSearch,
   addRecentSearch,
@@ -125,9 +124,9 @@ const {
 } = searchedArticleSlice.actions;
 
 const searchArticles = (
+  type: TLoad,
   keyword: string,
-  searchType: TSearchType,
-  type: TLoad
+  searchType: TSearchType
 ): AppThunk => (dispatch, getState) => {
   const url =
     type === GetArticleSumStatus.FIRST
