@@ -4,9 +4,7 @@ import {
   BottomTabNavigationOptions,
 } from '@react-navigation/bottom-tabs';
 import navigationRoute from './navigationRoute';
-import { Icon } from 'native-base';
-import BottomNavigationStyle from './BottomNavigation.style';
-import BottomTabIcon from '@/assets/Icon/BottomTab';
+import { BottomTabIcon } from '@/assets/Icon';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,46 +52,37 @@ function BottomNavigation(): JSX.Element {
 const options: { [x: string]: BottomTabNavigationOptions } = {
   Home: {
     // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ color }: any): JSX.Element => (
+    tabBarIcon: ({ color }: any): JSX.Element =>
       // <Icon name="ios-home" style={[{ color }, BottomNavigationStyle.Icon]} />
-      <BottomTabIcon.home />
-    ),
+      color === 'black' ? <BottomTabIcon.homeDark /> : <BottomTabIcon.home />,
     tabBarLabel: '홈',
   },
   Search: {
     // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-search" style={[{ color }, { fontSize: 30 }]} />
-    ),
+    tabBarIcon: ({ color }: any): JSX.Element =>
+      color === 'black' ? (
+        <BottomTabIcon.searchDark />
+      ) : (
+        <BottomTabIcon.search />
+      ),
     tabBarLabel: '검색',
   },
   WriteArticle: {
     // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon name="ios-add-circle" style={[{ color }, { fontSize: 31 }]} />
-    ),
+    tabBarIcon: ({ color }: any): JSX.Element =>
+      color === 'black' ? <BottomTabIcon.writeDark /> : <BottomTabIcon.write />,
     tabBarLabel: '글쓰기',
   },
   ChattingList: {
     // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon
-        type={'Ionicons'}
-        name="chatbubble-outline"
-        style={[{ color }, BottomNavigationStyle.Icon]}
-      />
-    ),
+    tabBarIcon: ({ color }: any): JSX.Element =>
+      color === 'black' ? <BottomTabIcon.chatDark /> : <BottomTabIcon.chat />,
     tabBarLabel: '채팅',
   },
   Profile: {
     // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ color }: any): JSX.Element => (
-      <Icon
-        name="ellipsis-horizontal-circle"
-        type={'Ionicons'}
-        style={[{ color }, { fontSize: 32 }]}
-      />
-    ),
+    tabBarIcon: ({ color }: any): JSX.Element =>
+      color === 'black' ? <BottomTabIcon.etcDark /> : <BottomTabIcon.etc />,
     tabBarLabel: '더보기',
   },
 };
