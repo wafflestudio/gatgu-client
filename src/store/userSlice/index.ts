@@ -7,7 +7,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { userAPI } from '@/apis';
 import { setToken, removeToken } from '@/apis/BaseInstance';
-import { ObjectStorage, objKeySet } from '@/helpers/functions/asyncStorage';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { AppThunk } from '@/store';
 import { IUserProps } from '@/types/user';
 
@@ -65,7 +66,7 @@ export const login = (
     .login(id, pw)
     .then((response) => {
       setToken(response.data.token);
-      ObjectStorage.addObject(objKeySet.user, response.data);
+      ObjectStorage.addObject(asyncStoragekey.USER, response.data);
       dispatch(setInfo(response.data));
       navigation.navigate('Home');
     })
@@ -82,7 +83,7 @@ export const login = (
 
 export const logout = (): AppThunk => (dispatch) => {
   removeToken();
-  ObjectStorage.removeObject(objKeySet.user);
+  ObjectStorage.removeObject(asyncStoragekey.USER);
   dispatch(clearInfo());
 };
 

@@ -46,10 +46,6 @@ export const ArrayStorage = {
   },
 };
 
-export const objKeySet = {
-  user: 'user',
-};
-
 export const ObjectStorage = {
   //< @brief        add object by key
   //< @params key   asyncStorage에 저장할 key값

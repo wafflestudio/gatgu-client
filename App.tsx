@@ -16,8 +16,9 @@ import routes from '@/helpers/routes';
 import { AppLoading } from '@/screens';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
-import { ObjectStorage, objKeySet } from '@/helpers/functions/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { setInfo } from '@/store/userSlice';
+import { asyncStoragekey } from '@/constants/asyncStorage';
 
 const { ChattingRoom, Login, SignUp } = routes;
 
@@ -32,7 +33,7 @@ function App(): JSX.Element {
   });
 
   const loadUserData = useCallback(() => {
-    ObjectStorage.getObject(objKeySet.user)
+    ObjectStorage.getObject(asyncStoragekey.USER)
       .then((data) => {
         if (data) store.dispatch(setInfo(data));
         setUserLoaded(true);
