@@ -94,16 +94,14 @@ function ArticleListTemplate({
     [articles, getArticleSumCB]
   );
 
+  if (isLoading && !articles.length) {
+    return <AppLoading />;
+  }
+
   return (
-    <>
-      {isLoading && !articles.length ? (
-        <AppLoading />
-      ) : (
-        <View style={styles.root}>
-          {hasError ? Error(errorStatus) : ArticleList}
-        </View>
-      )}
-    </>
+    <View style={styles.root}>
+      {hasError ? Error(errorStatus) : ArticleList}
+    </View>
   );
 }
 
