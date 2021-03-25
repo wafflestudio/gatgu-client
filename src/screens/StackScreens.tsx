@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@/components';
 import routes from '@/helpers/routes';
 import { RootState } from '@/store';
+import Logo from '@/assets/Logo';
 import { logout } from '@/store/userSlice';
 import { palette, typo } from '@/styles';
 
@@ -55,15 +56,20 @@ function HomeStackScreen(): JSX.Element {
         name={Home.name}
         component={Home.component}
         options={{
-          headerTitleAlign: 'center',
+          // eslint-disable-next-line react/display-name
+          headerTitle: () => (
+            <Logo.subLogo style={{ width: 94.4, height: 30 }} />
+          ),
           // eslint-disable-next-line react/display-name
           headerRight: () => (
             <TouchableHighlight
               onPress={() => navigation.navigate('Notification')}
             >
-              <Text>알림 아이콘</Text>
+              <Icon type={'Ionicons'} name="ios-notifications-outline" />
             </TouchableHighlight>
           ),
+          headerRightContainerStyle: { paddingRight: 10, paddingTop: 5 },
+          headerTitleAlign: 'center',
         }}
       />
       <HomeStack.Screen
