@@ -1,7 +1,9 @@
 import { useDispatch } from 'react-redux';
-import { setKeyword, addRecentSearch } from '@/store/searchSlice';
+
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import * as asyncStorageFunc from '@/helpers/functions/asyncStorage';
+import { ArrayStorage } from '@/helpers/functions/asyncStorage';
+import { setKeyword, addRecentSearch } from '@/store/searchSlice';
+
 type TUseKeywordDispath = () => (keyword: string) => void;
 
 const useKeywordDispatch: TUseKeywordDispath = () => {
@@ -9,7 +11,7 @@ const useKeywordDispatch: TUseKeywordDispath = () => {
   return (keyword: string) => {
     dispatch(addRecentSearch({ keyword }));
     dispatch(setKeyword({ keyword }));
-    asyncStorageFunc.addPropArrElem(asyncStoragekey.RECENT_SEARCH, keyword);
+    ArrayStorage.addElem(asyncStoragekey.RECENT_SEARCH, keyword);
   };
 };
 

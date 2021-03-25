@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -100,8 +100,9 @@ const {
 const searchArticles = (keyword: string): AppThunk => (dispatch) => {
   dispatch(setLoading());
   dispatch(setKeyword({ keyword }));
-  // Todo
-  // replace this with real api function.
+  // TODO: @ssu1018
+  //   replace this with real api function.
+  // when: 서치 페이지네이션 할 때
   articleAPI
     .readAll(1)
     .then((res: AxiosResponse) => {
@@ -118,8 +119,9 @@ const searchArticles = (keyword: string): AppThunk => (dispatch) => {
 
 const loadNextArticles = (): AppThunk => (dispatch) => {
   dispatch(setLoading());
-  // Todo
-  // replace this with real api function.
+  // TODO: @ssu1018
+  //   replace this with real api function.
+  // when: 서치 페이지네이션 할 때
   articleAPI
     .readAll(2)
     .then((res: AxiosResponse) => {
@@ -148,7 +150,9 @@ const initSearchData = (): AppThunk => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      //TODO: @ssu1018
+      // - error handling
+      // when: 서치 페이지네이션 할 때
     });
 };
 

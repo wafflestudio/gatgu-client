@@ -1,45 +1,45 @@
-import { palette } from '@/styles';
 import { StyleSheet } from 'react-native';
+
+import { palette, typo } from '@/styles';
 
 const GradeStyle = StyleSheet.create({
   // container
   container: {
-    borderWidth: 1,
-    borderColor: palette.borderGray,
-    height: 267,
-    padding: 20,
+    height: 240,
+    paddingLeft: 20,
+    paddingTop: 15,
+    paddingRight: 20,
     backgroundColor: palette.white,
   },
 
   // header
   header: {
-    height: 25,
-    paddingLeft: 20,
-    marginBottom: 10,
+    height: 27,
+    marginBottom: 13,
   },
   headerText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    ...typo.bigTitle,
   },
 
   // graph
   graph: {
-    height: 110,
+    height: 80,
   },
   graphNumbers: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginBottom: 8,
   },
   graphNumber: {
-    width: 45,
+    ...typo.smallText,
+    color: palette.gray,
+    width: 30,
     textAlign: 'center',
-    fontSize: 10,
-    color: 'gray',
   },
   graphBoxes: {
-    height: 90,
     flexDirection: 'row',
     justifyContent: 'center',
+    marginBottom: 17,
   },
   graphBox: {
     borderColor: 'black',
@@ -99,27 +99,42 @@ const GradeStyle = StyleSheet.create({
     width: 100,
   },
 
-  // detail
-  detail: {
-    height: 120,
-    justifyContent: 'space-around',
+  // grade
+  grade: {
+    height: 74,
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  detailElem: {
+  bodyElem: {
+    width: 100,
+    justifyContent: 'center',
     alignItems: 'center',
-    width: 120,
   },
-  detailElemTitle: {
-    fontSize: 15,
-    marginTop: 5,
-    marginBottom: 5,
+  bodyCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    borderColor: palette.gray,
+    borderWidth: 1,
+    marginBottom: 4,
   },
-  detailElemContent: {
-    fontSize: 15,
-    marginBottom: 12,
+  bodyCircleSelected: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    borderColor: palette.blue,
+    borderWidth: 1,
+    marginBottom: 4,
   },
-  detailElemOption: {
-    fontSize: 13,
+  bodyText: {
+    textAlign: 'center',
+    ...typo.bigTitle,
+    color: palette.gray,
+  },
+  bodyTextSelected: {
+    textAlign: 'center',
+    ...typo.bigTitle,
+    color: palette.blue,
   },
 });
 

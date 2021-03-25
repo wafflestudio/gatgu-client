@@ -1,74 +1,68 @@
-// TODO:
-// remove this
-export interface IArticleSumProps {
-  id: number;
-  title: string;
-  dayLeft: string;
-  location: string;
-  goal: string;
-  percent: number;
-  uri: string;
-  created: string;
-  isMoney: boolean;
-}
+import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
 
-export interface IArticleSumProps {
-  id: number;
-  title: string;
-  dayLeft: string;
-  location: string;
-  thumbnail_url: string;
-  price_min: string;
-  people_count_min: string;
-
-  // 다음 field model에는 없지만 추가적으로 필요합니다!
-  dueDate: string;
-  isMoney: boolean;
-}
-
-export interface IArticleSumSearchProps extends IArticleSumProps {
-  transactionStatus: string;
-}
+type TneedType = typeof IS_MONEY | typeof IS_PEOPLE;
 
 interface IPagination {
-  count: number;
   next: string;
   previous: string;
 }
 
-export interface IArticleSumResponse extends IPagination {
-  results: IArticleSumProps[];
+export interface IParticipantsSummary {
+  count: number;
+  price: number;
 }
 
-export interface IArticleSumSearchResponse extends IPagination {
-  results: IArticleSumSearchProps[];
+// article summary props
+export interface IArticleSumProps {
+  id: number;
+  title: string;
+  location: string;
+  thumbnail_url: string;
+  need_type: TneedType;
+  price_min: number;
+  people_min: number;
+  time_in: string;
+  written_at: string;
+  article_id: string;
+  participants_summary: IParticipantsSummary;
+}
+
+interface IArticleDetail extends IArticleSumProps {
+  writer_id: number;
+  description: string;
+  product_url: string;
+  image: string;
+  tag: string[];
+  updated_at: string;
+}
+
+export interface IArticleSumResponse extends IPagination {
+  results: IArticleDetail[];
 }
 
 //article detail
 export interface IArticleProps {
-  id: string;
-  writer: {
-    profile_id: number;
-    picture: string;
-    nickname: string;
-    address: string;
-    phonenumber: string;
-  };
+  id?: string; // TODO: @juimdpp
+  // todo: same as article_id but necessary here for JSON-server, so remove
+  // when: when server is stable
+  writer_id?: number;
+  article_id?: number;
   title: string;
   description: string;
   location: string;
-  product_url: string;
-  thumbnail_url: string;
+  product_url?: string;
+  thumbnail_url?: string | null | undefined;
+  image?: (string | null | undefined)[]; // 확실하지 않음... api에 타입이 안 적혀있음
+  need_type?: number; // 1: people, 2: money
   price_min: number;
-  people_count_min: number;
-  created_at: string; // should be date but json server doesn't accept Date
-  updated_at: string;
-  deleted_at: string;
-  notInAPI: {
-    dueDate: string; // something that I thought was necessary
-    goal: string;
-    percent: number;
-    isMoney: boolean;
+  people_min: number;
+  tag?: number[];
+  time_in: string;
+  created_at?: string; // should be date but json server doesn't accept Date
+  updated_at?: string;
+  participants_summary?: {
+    count: number;
+    price: number;
   };
 }
 
@@ -82,12 +76,24 @@ export interface IGetFailPayload {
   errorStatus: number;
 }
 
-export interface IGetSuccessPayload {
+export type TLoad = 'first' | 'next' | 'previous';
+
+export interface IGetArticleSumSuccessPayload extends IPagination {
   data: IArticleSumProps[];
-  next: string;
-  previous: string;
+  type: TLoad;
 }
 
 export interface IMessageRet {
   message: string;
 }
+
+/*
+  writer: {
+    profile_id: number;
+    picture: string;
+    nickname: string;
+    address: string;
+    phonenumber: string;
+  };
+
+*/

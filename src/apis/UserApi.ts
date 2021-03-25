@@ -1,6 +1,8 @@
-import requester from './BaseInstance';
 import { AxiosResponse } from 'axios';
-import { IUserProps } from '../types/user';
+
+import { IUserProps } from '@/types/user';
+
+import requester from './BaseInstance';
 
 export const readMyInfo = (): Promise<AxiosResponse<IUserProps>> => {
   return requester.get('user/me/');
@@ -29,4 +31,22 @@ export const signUp = (
     nickname,
     email,
   });
+};
+
+export const modify = (
+  nickname: string,
+  password: string,
+  picture: string
+): Promise<AxiosResponse<IUserProps>> => {
+  return requester.put('user/me/', {
+    nickname,
+    password,
+    picture,
+  });
+};
+
+export const getUser = (
+  profile_id: number
+): Promise<AxiosResponse<IUserProps>> => {
+  return requester.get(`user/${profile_id}/`);
 };

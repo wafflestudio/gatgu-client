@@ -1,27 +1,31 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
+import qs from 'querystring';
 import requester from './BaseInstance';
 import {
-  IArticleSumProps,
   IArticleProps,
   IMessageRet,
   IArticleSumResponse,
+  IArticleSumProps,
 } from '@/types/article';
+import { PAGE_SIZE } from '@/constants/article';
+
+// TODO: @ssu1018
+// - Refactore all apisrelated with ArticleSumaary
+// when: until 3/12
 
 // for home page
-export const readAll = (
-  page: number
-): Promise<AxiosResponse<IArticleSumProps[]>> => {
-  // TODO: check
-  // pagination 이렇게 안하는데, 백엔드와 논의 필요
-  const url = `posts?_limit=7&_page=${page}`;
-  return requester.get(url);
-};
 
 export const getArticleSummary = (
-  url: string
+  url: string | null
 ): Promise<AxiosResponse<IArticleSumResponse>> => {
-  return requester.get(url);
+  const query = qs.stringify({
+    page_size: PAGE_SIZE,
+  });
+  // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
+  // article로 request
+  url = `article/${url ? `${url}&` : '?'}`;
+  return requester.get(`${url}${query}`);
 };
 
 // for article page

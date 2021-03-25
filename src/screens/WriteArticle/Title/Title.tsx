@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 import styles from './Title.style';
 import waStyles from '../WriteArticle.style';
 import { StringInput } from '@/components';

@@ -1,59 +1,85 @@
-import { Button } from '@/components';
+import { Button, Profile } from '@/components';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import styles from './Drawer.style';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import { useDispatch, useSelector } from 'react-redux';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { RootState } from '@/store';
-import { articleAPI, chatAPI, userAPI } from '@/apis';
+import { articleAPI, userAPI } from '@/apis';
 import { AxiosError, AxiosResponse } from 'axios';
 import { createError } from '@/helpers/functions';
 import { IChattingRoom } from '@/types/chat';
-
-const [Error] = createError();
+import { palette } from '@/styles';
+import { IUserProps } from '@/types/user';
+import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
+import { Status } from '@/constants/Enum';
 
 function DrawerTemplate(props: any): JSX.Element {
   const [chatInfo, setChatInfo] = useState<IChattingRoom>();
+  const [participants, setParticipants] = useState<JSX.Element[]>([]);
   const [hasError, setError] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
   );
+  const currentChatInfo = useSelector(
+    (state: RootState) => state.chat.currentChatInfo
+  );
+
+  useEffect(() => {
+    if (currentArticle.article_id !== 0) {
+      const id = currentArticle.article_id;
+      dispatch(getChatInfo(id));
+    }
+  }, []);
 
   useEffect(() => {
     if (currentArticle.id !== '0') {
-      const id = parseInt(currentArticle.id);
-      chatAPI
-        .getChatInfo(id)
-        .then((response: AxiosResponse) => {
-          setChatInfo(response.data[0]);
-          setError(false);
-        })
-        .catch((err: AxiosError) => {
-          setError(true);
-        });
+      setChatInfo(currentChatInfo);
+      setError(false);
+      // TODO: @juimdpp
+      // handle error from chatSlice
+      // when: 로딩창 구현할 때
     }
-  }, [currentArticle]);
+  }, [currentChatInfo]);
 
+  useEffect(() => {
+    if (chatInfo?.id !== 0) {
+      let tempArr: JSX.Element[] = [];
+      chatInfo?.participant_profile.map((part, ind) => {
+        userAPI
+          .getUser(part) // TODO: @juimdpp 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
+          .then((response: AxiosResponse<IUserProps>) => {
+            console.log(response);
+            const user = response.data.userprofile;
+            tempArr = tempArr.concat(<Profile key={ind} {...user} />);
+          })
+          .then(() => {
+            setParticipants(tempArr);
+          })
+          .catch(() => {
+            setError(true);
+          });
+      });
+    }
+  }, [chatInfo]);
   const toggleStatus = () => {
     // change status
     if (chatInfo !== undefined) {
-      const temp = chatInfo.orderStatus === '~ing' ? 'done' : '~ing';
-      const body = { ...chatInfo, orderStatus: temp as 'done' | '~ing' };
-      chatAPI
-        .changeStatus(chatInfo.article, body)
-        .then(() => {
-          setChatInfo(body);
-          alert(`Successfully changed status to "${temp}"`);
-        })
-        .catch((err: AxiosError) => {
-          alert("Couldn't change status");
-        });
+      const temp =
+        chatInfo.order_status < Status.ORDER_COMPLETE
+          ? Status.ORDER_COMPLETE
+          : Status.WAITING_MEMBERS;
+      // TODO: @juimdpp
+      // todo: 추후에 쓸 수 있을 듯
+      // when: api 고칠 때 보기
+      // const body = { ...chatInfo, orderStatus: temp };
+      dispatch(changeOrderStatus(chatInfo.id, temp));
+
+      // Alert.alert(`"${temp}"으로 성공적으로 상태를 바꿨습니다!`);
     }
   };
 
@@ -61,39 +87,50 @@ function DrawerTemplate(props: any): JSX.Element {
     if (chatInfo !== undefined) {
       articleAPI
         .deleteArticle(chatInfo.id)
-        .then((response: AxiosResponse) => {
-          alert('Successfully deleted');
+        .then(() => {
+          Alert.alert('삭제가 완료되었습니다.');
           navigation.navigate('Home');
         })
-        .catch((err: AxiosError) => {
-          alert("Couldn't delete article");
+        .catch(() => {
+          Alert.alert('삭제하는데 실패했습니다.');
         });
     }
   };
 
-  const participants = chatInfo?.participant.map((id, index) => {
-    // userAPI.getInfo(id)
-    return (
-      <View key={index}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Profile', { params: id })}
-        >
-          <Text>Image</Text>
-        </TouchableOpacity>
-        <Text>Participant {id}</Text>
-      </View>
-    );
-  });
-
   return (
     <DrawerContentScrollView {...props}>
-      <Button title="거래 완료하기" onPress={toggleStatus} />
-      <Button title="수정하기" onPress={() => alert('navigate to edit page')} />
-      <Button title="삭제하기" onPress={delArticle} />
-      <Button title="신고하기" onPress={() => alert('not yet: 신고하기')} />
-      <Text>------------------</Text>
-      <Text>모집인원 목록</Text>
-      {participants}
+      {hasError ? (
+        <Text>Error</Text>
+      ) : (
+        <View>
+          <View style={styles.upperContainer}>
+            <Button
+              title="모집 완료하기"
+              onPress={toggleStatus}
+              textStyle={[styles.upperLabelText, { color: palette.blue }]}
+            />
+            <Button
+              title="수정하기"
+              onPress={() => Alert.alert('navigate to edit page')}
+              textStyle={styles.upperLabelText}
+            />
+            <Button
+              title="삭제하기"
+              onPress={delArticle}
+              textStyle={styles.upperLabelText}
+            />
+            <Button
+              title="신고하기"
+              onPress={() => Alert.alert('not yet: 신고하기')}
+              textStyle={styles.upperLabelText}
+            />
+          </View>
+          <View style={styles.lowerContainer}>
+            <Text style={styles.lowerLabelText}>모집 인원 목록</Text>
+            {participants}
+          </View>
+        </View>
+      )}
     </DrawerContentScrollView>
   );
 }

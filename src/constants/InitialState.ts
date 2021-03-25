@@ -1,4 +1,6 @@
 import { IArticleProps } from '@/types/article';
+import { IChattingRoom } from '@/types/chat';
+import { IS_MONEY, Status } from './Enum';
 
 export const initialArticle = {
   id: '0',
@@ -17,16 +19,27 @@ export const initialArticle = {
   location: 'location in detail (string) ',
   product_url:
     'https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/unsplash-Josh-Earl.jpg',
+  image_url: [],
   thumbnail_url: 'https://www.dw.com/image/43055387_403.jpg',
+  need_type: IS_MONEY,
   price_min: 15000,
   people_count_min: 3,
+  time_max: '2021-02-28',
   created_at: '2021-02-10',
   updated_at: '2021-02-10',
   deleted_at: '2021-02-15',
-  notInAPI: {
-    dueDate: '2021-03-02', // always in days, not in api but added it anyways bc in design
-    goal: '25,000원',
-    percent: 60,
-    isMoney: true,
-  },
+  current: 10000,
 } as IArticleProps;
+
+export const initialChatInfo = {
+  id: 0,
+  participant: [],
+  article: 0,
+  order_status: Status.UNDEFINED_STATUS,
+  trackingNumber: '',
+  uri: '',
+  title: '',
+  chat: '',
+  time: 0,
+  nickName: '',
+} as IChattingRoom;

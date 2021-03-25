@@ -8,8 +8,6 @@ const ChatStyles = StyleSheet.create({
     padding: 8,
     paddingRight: 15,
     paddingLeft: 15,
-    backgroundColor: palette.blue,
-    borderColor: palette.blue,
   },
 
   chattingText: {

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="레이어_2" width="71" height="71" viewBox="0 0 71 71">
+    <defs>
+        <style>
+            .cls-2{fill:#c9c9c9}
+        </style>
+    </defs>
+    <g id="레이어_1">
+        <circle id="타원_27" cx="35.5" cy="35.5" r="35.5" fill="#f0f0f0"/>
+        <path id="패스_92" d="M24.912 34.576A14 14 0 1 1 38.9 20.592a14 14 0 0 1-13.988 13.984zm0-24.041a10.058 10.058 0 1 0 10.039 10.057 10.058 10.058 0 0 0-10.039-10.058z" class="cls-2" transform="translate(10.588 6.388)"/>
+        <path id="패스_93" d="M46.384 37.792H42.44a15.068 15.068 0 1 0-30.136 0H8.36a19.012 19.012 0 1 1 38.024 0z" class="cls-2" transform="translate(8.128 18.258)"/>
+    </g>
+</svg>

@@ -2,16 +2,28 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import styles from './GoalBar.style';
+import { IS_PEOPLE } from '@/constants/Enum';
+import { IParticipantsSummary } from '@/types/article';
 
 interface IGoalBarProps {
-  percent: number;
-  goal: string;
-  isMoney?: boolean;
+  summary: IParticipantsSummary;
+  min_required: number;
+  type: number;
 }
 
-function GoalBar({ percent, goal, isMoney }: IGoalBarProps): JSX.Element {
-  const percentWidth = `${percent}%`;
-  const backgroundColor = isMoney ? styles.blue : styles.yellow;
+function GoalBar({ summary, min_required, type }: IGoalBarProps): JSX.Element {
+  const isPeople = type === IS_PEOPLE;
+  const percentWidth = `${
+    (isPeople
+      ? summary?.count
+        ? summary.count
+        : 0
+      : summary?.price
+      ? summary.price
+      : 0) / min_required
+  }%`;
+  const backgroundColor = isPeople ? styles.blue : styles.yellow;
+  const goalText = `${min_required} ${isPeople ? '명' : '원'}`;
 
   return (
     <>
@@ -25,7 +37,7 @@ function GoalBar({ percent, goal, isMoney }: IGoalBarProps): JSX.Element {
             ]}
           />
         </View>
-        <Text style={styles.goal}>{goal}</Text>
+        <Text style={styles.goal}>{goalText}</Text>
       </View>
     </>
   );

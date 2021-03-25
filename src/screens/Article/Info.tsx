@@ -4,10 +4,21 @@ import { Text } from 'react-native';
 import styles from './Info.style';
 import { typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
-import GoalBar from '@/components/ArticleBox/GoalBar';
+import GoalTopBubbleBar from './GoalTopBubble/index';
+import { IS_MONEY } from '@/constants/Enum';
 
 // will change input type (left it because will probably need it afterwards)
-function Info({ location, notInAPI }: IArticleProps): JSX.Element {
+function Info({
+  location,
+  participants_summary,
+  need_type,
+  people_min,
+  price_min,
+}: IArticleProps): JSX.Element {
+  const current =
+    need_type === IS_MONEY
+      ? participants_summary?.price
+      : participants_summary?.count;
   return (
     <View style={styles.subContainer}>
       <View style={styles.subConNoBorder}>
@@ -16,9 +27,12 @@ function Info({ location, notInAPI }: IArticleProps): JSX.Element {
       </View>
       <View style={styles.subConNoBorder}>
         <Label style={styles.label}>모집 인원</Label>
-        <View style={styles.goalWrapper}>
-          <GoalBar {...notInAPI} />
-        </View>
+        <GoalTopBubbleBar
+          summary={participants_summary}
+          current={current}
+          min_required={need_type === IS_MONEY ? price_min : people_min}
+          type={need_type}
+        />
       </View>
     </View>
   );

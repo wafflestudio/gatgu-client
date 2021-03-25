@@ -2,6 +2,7 @@ import React from 'react';
 import { View, FlatList } from 'react-native';
 
 import { IChattingRoom } from '@/types/chat';
+
 import ChattingBox from './ChattingBox';
 
 const mockData: IChattingRoom[] = [

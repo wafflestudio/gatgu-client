@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const requester = axios.create({
-  baseURL: 'http://localhost:8000/v1/',
+  baseURL: 'http://api.gatgu.site/v1/',
+  // baseURL: 'http://localhost:4000/',
 });
 
 requester.defaults.xsrfCookieName = 'csrftoken';

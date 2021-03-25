@@ -1,24 +1,22 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 import requester from './BaseInstance';
-import {
-  IArticleSumProps,
-  IPageLimitRes,
-  IArticleProps,
-} from '@/types/article';
-import { IChattingRoom, IChangeStatusRet } from '@/types/chat';
+import { IChattingRoom, IChangeStatusProps } from '@/types/chat';
 
 // for chat info
 export const getChatInfo = (
-  articleId: number
+  articleId?: number
 ): Promise<AxiosResponse<IChattingRoom[]>> => {
-  return requester.get(`chat?article=${articleId}`);
+  return requester.get(`chat/${articleId}/`);
 };
 
 // change status of order
 export const changeStatus = (
   id: number,
-  body: IChattingRoom
-): Promise<AxiosResponse<IChangeStatusRet>> => {
-  return requester.put(`chat/${id}/`, body);
+  body: IChangeStatusProps
+): Promise<AxiosResponse<IChangeStatusProps>> => {
+  return requester.put(`chat/${id}/set_status/`, body);
+  // TODO: @juimdpp
+  // todo: requester.put(`chat/${id}/`, body); url ends with: /set_status/
+  // when: api 고칠 때
 };
