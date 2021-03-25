@@ -72,7 +72,7 @@ export interface ITagType {
   selected: boolean;
 }
 
-export interface IGetArticleSumFailPayload {
+export interface IGetFailPayload {
   errorStatus: number;
 }
 

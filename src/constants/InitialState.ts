@@ -35,7 +35,7 @@ export const initialChatInfo = {
   id: 0,
   participant: [],
   article: 0,
-  orderStatus: Status.UNDEFINED_STATUS,
+  order_status: Status.UNDEFINED_STATUS,
   trackingNumber: '',
   uri: '',
   title: '',
