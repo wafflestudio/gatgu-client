@@ -1,11 +1,14 @@
-import { Label, View } from 'native-base';
 import React from 'react';
 import { Text } from 'react-native';
-import styles from './Info.style';
+
+import { Label, View } from 'native-base';
+
+import { Need } from '@/constants/Enum';
 import { typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
+
 import GoalTopBubbleBar from './GoalTopBubble/index';
-import { IS_MONEY } from '@/constants/Enum';
+import styles from './Info.style';
 
 // will change input type (left it because will probably need it afterwards)
 function Info({
@@ -16,7 +19,7 @@ function Info({
   price_min,
 }: IArticleProps): JSX.Element {
   const current =
-    need_type === IS_MONEY
+    need_type === Need.IS_MONEY
       ? participants_summary?.price
       : participants_summary?.count;
   return (
@@ -30,7 +33,7 @@ function Info({
         <GoalTopBubbleBar
           summary={participants_summary}
           current={current}
-          min_required={need_type === IS_MONEY ? price_min : people_min}
+          min_required={need_type === Need.IS_MONEY ? price_min : people_min}
           type={need_type}
         />
       </View>

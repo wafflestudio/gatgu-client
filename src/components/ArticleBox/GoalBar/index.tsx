@@ -1,18 +1,19 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import styles from './GoalBar.style';
-import { IS_PEOPLE } from '@/constants/Enum';
+import { Need } from '@/constants/Enum';
 import { IParticipantsSummary } from '@/types/article';
 
+import styles from './GoalBar.style';
+
 interface IGoalBarProps {
-  summary: IParticipantsSummary;
+  summary: IParticipantsSummary | undefined;
   min_required: number;
-  type: number;
+  type: number | undefined;
 }
 
 function GoalBar({ summary, min_required, type }: IGoalBarProps): JSX.Element {
-  const isPeople = type === IS_PEOPLE;
+  const isPeople = type === Need.IS_PEOPLE;
   const percentWidth = `${
     (isPeople
       ? summary?.count
