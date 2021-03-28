@@ -26,7 +26,7 @@ function GoalTopBubble({
   const [end, setEnd] = useState<number>(0);
   const [pEnd, setPend] = useState<number>(0);
 
-  const percent = current && (current / min_required) * 100;
+  const percent = current ? (current / min_required) * 100 : 0;
   const isMoney = type === Need.IS_MONEY;
 
   const getEnd = (event: LayoutChangeEvent) => {
