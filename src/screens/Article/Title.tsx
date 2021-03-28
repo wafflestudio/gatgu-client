@@ -1,11 +1,14 @@
-import { Label, View } from 'native-base';
 import React from 'react';
 import { Text } from 'react-native';
-import styles from './Title.style';
-import { palette, typo } from '@/styles';
-import { calcTimeDiff } from '@/helpers/functions';
-import { IArticleProps } from '@/types/article';
+
+import { Label, View } from 'native-base';
+
 import { Status } from '@/constants/Enum';
+import { calcTimeDiff } from '@/helpers/functions';
+import { palette, typo } from '@/styles';
+import { IArticleProps } from '@/types/article';
+
+import styles from './Title.style';
 
 interface ITitleProps {
   article: IArticleProps;

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Image, View, Text } from 'react-native';
-import styles from './ProductImages.style';
 import Swiper from 'react-native-swiper';
-import { palette } from '@/styles';
+
 import { Status } from '@/constants/Enum';
+import { palette } from '@/styles';
+
+import styles from './ProductImages.style';
 
 // TODO: @juimdpp
 // - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단

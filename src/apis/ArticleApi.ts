@@ -1,14 +1,16 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 import qs from 'querystring';
-import requester from './BaseInstance';
+
+import { PAGE_SIZE } from '@/constants/article';
 import {
   IArticleProps,
   IMessageRet,
   IArticleSumResponse,
   IArticleSumProps,
 } from '@/types/article';
-import { PAGE_SIZE } from '@/constants/article';
+
+import requester from './BaseInstance';
 
 // TODO: @ssu1018
 // - Refactore all apisrelated with ArticleSumaary

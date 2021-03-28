@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import Part from '@/assets/ProfilePage/participate.svg';
 import Open from '@/assets/ProfilePage/open.svg';
+import Part from '@/assets/ProfilePage/participate.svg';
 import { IUserProps } from '@/types/user';
 
 import styles from './Force.style';

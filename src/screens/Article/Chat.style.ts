@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+
 import { palette } from '@/styles';
 
 const ChatStyles = StyleSheet.create({

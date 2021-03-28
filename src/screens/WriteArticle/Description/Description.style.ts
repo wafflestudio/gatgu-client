@@ -1,6 +1,8 @@
-import { palette } from '@/styles';
-import waStyles from '../WriteArticle.style';
 import { StyleSheet } from 'react-native';
+
+import { palette } from '@/styles';
+
+import waStyles from '../WriteArticle.style';
 
 const DescriptionStyle = StyleSheet.create({
   placeHolder: {

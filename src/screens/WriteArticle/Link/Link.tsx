@@ -1,7 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
-import styles from '../WriteArticle.style';
+
 import { StringInput } from '@/components';
+
+import styles from '../WriteArticle.style';
 
 interface LinkProps {
   link: string;

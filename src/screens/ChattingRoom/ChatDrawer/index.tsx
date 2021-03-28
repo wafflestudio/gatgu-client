@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+
 import { useIsDrawerOpen } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
 
 import { Button, Profile } from '@/components';
 import { IUserSumProps } from '@/types/user';
+
 import styles from './ChatDrawer.style';
 
 interface IDrawerTemplateProps {
