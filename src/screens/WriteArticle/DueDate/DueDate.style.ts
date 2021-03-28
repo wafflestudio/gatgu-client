@@ -14,7 +14,7 @@ const DescriptionStyle = StyleSheet.create({
   },
 
   modalView: {
-    height: '50%',
+    height: '45%',
     width: '100%',
     marginTop: 'auto',
     backgroundColor: 'white',
@@ -29,6 +29,26 @@ const DescriptionStyle = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  completeButton: {
+    borderWidth: 1,
+    padding: 8,
+    paddingTop: 10,
+    paddingLeft: 14,
+    paddingRight: 14,
+    borderRadius: 13,
+    backgroundColor: palette.blue,
+  },
+
+  buttonText: {
+    color: palette.white,
+    ...typo.button,
   },
 
   scrollDayContainer: {

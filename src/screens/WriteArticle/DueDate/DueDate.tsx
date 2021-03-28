@@ -16,8 +16,8 @@ import { Label } from 'native-base';
 // npm i react-native-modal-datetime-picker @react-native-community/datetimepicker
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { StringInput } from '@/components';
-import { palette } from '@/styles';
+import { Button, StringInput } from '@/components';
+import { palette, typo } from '@/styles';
 
 import waStyles from '../WriteArticle.style';
 import styles from './DueDate.style';
@@ -31,7 +31,7 @@ const returnArrayDate = (today: Date) => {
   const arr = [];
   const current: Date = today;
   arr.push({ day: '오늘', date: current.getDate(), selected: false });
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 30; index++) {
     current.setDate(current.getDate() + 1);
     arr.push({
       day: dayOfWeek[current.getDay()],
@@ -108,9 +108,18 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
         }}
       >
         <View style={styles.modalView}>
-          <TouchableHighlight onPress={() => setModalVisible(false)}>
-            <Text>Close</Text>
-          </TouchableHighlight>
+          <View style={styles.headerContainer}>
+            <View>
+              <Text style={{ ...typo.bigTitle }}>모집기한</Text>
+            </View>
+            <View style={styles.completeButton}>
+              <Button
+                title={'완료'}
+                onPress={() => setModalVisible(false)}
+                textStyle={styles.buttonText}
+              />
+            </View>
+          </View>
           <View style={styles.scrollDayContainer}>
             <ScrollView horizontal={true}>{renderDates}</ScrollView>
           </View>
