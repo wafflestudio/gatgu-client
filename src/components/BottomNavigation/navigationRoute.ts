@@ -8,16 +8,17 @@ import {
 
 const routes = {
   tarBarOption: {
-    showIcon: true,
-    showLabel: false,
     activeTintColor: 'black',
-    // inactiveTintColor: '#d1cece',
-    // indicatorStyle: {
-    // backgroundColor: 'white',
-    // },
-    // style: {
-    //   height: 60,
-    // },
+    style: {
+      height: 69,
+      paddingTop: 14.5,
+      paddingBottom: 9,
+    },
+    labelStyle: {
+      color: 'black',
+      paddingTop: 1.6,
+      fontSize: 10,
+    },
   },
   Home: {
     name: 'Home',
