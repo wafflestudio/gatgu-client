@@ -1,3 +1,4 @@
+import { SearchType } from '@/constants/article';
 import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
 
 type TneedType = typeof IS_MONEY | typeof IS_PEOPLE;
@@ -39,6 +40,19 @@ interface IArticleDetail extends IArticleSumProps {
 export interface IArticleSumResponse extends IPagination {
   results: IArticleDetail[];
 }
+
+export interface IArticleSliceBasis {
+  hasError: boolean;
+  errorStatus: number;
+  data: IArticleSumProps[];
+  isLoading: boolean;
+  next: string | null;
+  previous: string | null;
+  isLastPage: boolean;
+  isFirstPage: boolean;
+}
+
+export type TSearchType = SearchType.TITLE | SearchType.TAG;
 
 //article detail
 export interface IArticleProps {
