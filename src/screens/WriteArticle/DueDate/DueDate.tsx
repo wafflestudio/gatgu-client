@@ -1,12 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import {
-  View,
-  TouchableHighlight,
-  Text,
-  Modal,
-  Alert,
-  Platform,
-} from 'react-native';
+import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import _ from 'lodash';
@@ -22,8 +15,8 @@ import { palette, typo } from '@/styles';
 import styles from './DueDate.style';
 
 interface DueDateProps {
-  dueDate: string;
-  setDueDate: Dispatch<SetStateAction<string>>;
+  dueDate: Date;
+  setDueDate: Dispatch<SetStateAction<Date>>;
 }
 const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const returnArrayDate = (today: Date) => {
@@ -70,7 +63,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
     // set to chosen day
     res.setDate(res.getDate() + index);
 
-    setDueDate(res.toString());
+    setDueDate(res);
   };
 
   const renderDates = dayArr.map((item, indx) => (

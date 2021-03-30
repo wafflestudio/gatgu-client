@@ -42,7 +42,7 @@ function WriteArticleTemplate(): JSX.Element {
   const [need_people, setPeople] = useState(0);
   const [need_price, setPrice] = useState(0);
   const [title, setTitle] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const [dueDate, setDueDate] = useState(new Date());
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
@@ -61,7 +61,7 @@ function WriteArticleTemplate(): JSX.Element {
         tag: tagNums,
         price_min: need_price,
         people_min: need_people,
-        time_in: '2021-03-20', // TODO: @juimdpp
+        time_in: dueDate, // TODO: @juimdpp
         // todo: change
         // when: design 나오면...?
         participants_summary: {
