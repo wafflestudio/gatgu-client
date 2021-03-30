@@ -109,7 +109,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
       >
         <View style={styles.modalView}>
           <View style={styles.headerContainer}>
-            <View>
+            <View style={styles.titleContainer}>
               <Text style={{ ...typo.bigTitle }}>모집기한</Text>
             </View>
             <View style={styles.completeButton}>

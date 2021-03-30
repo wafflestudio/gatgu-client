@@ -2,11 +2,14 @@ import { StyleSheet } from 'react-native';
 
 import { palette, typo } from '@/styles';
 
-import waStyles from '../WriteArticle.style';
-
 const DescriptionStyle = StyleSheet.create({
   labelContainer: {
-    height: 50,
+    height: 70,
+    borderBottomWidth: 1,
+    borderBottomColor: palette.borderGray,
+    justifyContent: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   label: {
     ...typo.bigTitle,
@@ -33,16 +36,20 @@ const DescriptionStyle = StyleSheet.create({
 
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    marginBottom: 15,
   },
-
+  titleContainer: {
+    justifyContent: 'center',
+    flex: 1,
+  },
   completeButton: {
+    justifyContent: 'flex-end',
     borderWidth: 1,
-    padding: 8,
-    paddingTop: 10,
-    paddingLeft: 14,
-    paddingRight: 14,
-    borderRadius: 13,
+    padding: 5,
+    paddingTop: 8,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 16,
     backgroundColor: palette.blue,
   },
 
@@ -77,6 +84,7 @@ const DescriptionStyle = StyleSheet.create({
   },
   nonSelected: {
     borderColor: palette.gray,
+    backgroundColor: palette.whiteGray,
   },
 });
 
