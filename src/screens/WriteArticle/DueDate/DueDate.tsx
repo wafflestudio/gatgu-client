@@ -16,10 +16,9 @@ import { Label } from 'native-base';
 // npm i react-native-modal-datetime-picker @react-native-community/datetimepicker
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { Button, StringInput } from '@/components';
+import { Button } from '@/components';
 import { palette, typo } from '@/styles';
 
-import waStyles from '../WriteArticle.style';
 import styles from './DueDate.style';
 
 interface DueDateProps {
@@ -46,12 +45,11 @@ const initWeek = returnArrayDate(today);
 
 function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false);
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(today);
   const [dayArr, setDayArr] = useState(initWeek);
 
-  const onChange = (selectedDate: any) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
+  const onChange = (selectedDate: Date | undefined) => {
+    setDate(selectedDate ? selectedDate : date);
   };
   const showDatePicker = () => {
     setModalVisible(!modalVisible);
@@ -60,6 +58,19 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
     const temp = _.cloneDeep(initWeek);
     temp[indx].selected = true;
     setDayArr(temp);
+  };
+  const handleComplete = () => {
+    setModalVisible(false);
+    const res = new Date();
+    // set time
+    res.setHours(date.getHours());
+    res.setMinutes(date.getMinutes());
+    // find chosen day
+    const index = dayArr.findIndex((item) => item.selected);
+    // set to chosen day
+    res.setDate(res.getDate() + index);
+
+    setDueDate(res.toString());
   };
 
   const renderDates = dayArr.map((item, indx) => (
@@ -115,7 +126,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
             <View style={styles.completeButton}>
               <Button
                 title={'완료'}
-                onPress={() => setModalVisible(false)}
+                onPress={() => handleComplete()}
                 textStyle={styles.buttonText}
               />
             </View>
@@ -131,7 +142,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
               is24Hour={true}
               display="spinner"
               minuteInterval={30}
-              onChange={onChange}
+              onChange={(event, selectedDate) => onChange(selectedDate)}
             />
           </View>
         </View>
