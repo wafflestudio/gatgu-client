@@ -7,3 +7,8 @@ export enum GetArticleSumStatus {
   PREVIOUS = 'previous',
   FIRST = 'first',
 }
+
+export enum SearchType {
+  TITLE = 'title',
+  TAG = 'tag',
+}

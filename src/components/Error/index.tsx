@@ -1,20 +1,48 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Alert, Modal, Pressable } from 'react-native';
 
-import ErrorStyles from './Error.style';
+import styles from './Error.style';
 
 interface IErrorProps {
-  status: number;
+  errMsg: string;
+  // errCallback을 넘겨야 한다.
+  errCallback: () => void;
 }
 
-// TODO: @ssu1018
-// - change status to statusMsg
-// when: 각종 에러 관련 정리할 때
-
-function Error({ status }: IErrorProps): JSX.Element {
+function Error({ errMsg, errCallback }: IErrorProps): JSX.Element {
+  const [modalVisible, setModalVisible] = useState(true);
   return (
-    <View style={ErrorStyles.container}>
-      <Text>{status}</Text>
+    <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+        style={styles.modal}
+      >
+        <View style={[styles.centeredView]}>
+          <View style={styles.modalView}>
+            <Text style={styles.heading}> 잠시 후 다시 시도해주세요</Text>
+            <Text style={styles.description}>{errMsg}</Text>
+            <Pressable
+              style={styles.buttonClose}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.btnText}>확인</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      {modalVisible ? (
+        <View style={styles.backfilter}></View>
+      ) : (
+        <Pressable style={styles.buttonClose} onPress={errCallback}>
+          <Text style={styles.btnText}>다시 연결하기</Text>
+        </Pressable>
+      )}
     </View>
   );
 }

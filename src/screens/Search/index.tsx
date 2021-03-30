@@ -14,7 +14,7 @@ function Search(): JSX.Element {
   const keyword = useSelector((state) => state.search.keyword);
 
   useEffect(() => {
-    // set popular keyword, recent keyword
+    // set recent keyword
     dispatch(initSearchData());
   }, []);
 
