@@ -1,23 +1,25 @@
 import { AxiosResponse, AxiosError } from 'axios';
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { articleAPI } from '@/apis';
-import {
-  IArticleProps,
-  IArticleSumProps,
-  IGetArticleSumSuccessPayload,
-  IGetArticleSumFailPayload,
-  IArticleSumResponse,
-  TLoad,
-} from '@/types/article';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
-import { AppThunk } from '@/store';
 import { initialArticle } from '@/constants/InitialState';
 import {
   MAX_ARTICLE_NUM,
   PAGE_SIZE,
   GetArticleSumStatus,
 } from '@/constants/article';
+import { AppThunk } from '@/store';
+import {
+  IArticleProps,
+  IArticleSumProps,
+  IGetArticleSumSuccessPayload,
+  IGetFailPayload,
+  IArticleSumResponse,
+  TLoad,
+} from '@/types/article';
+
 // CHECK:
 
 // TODO: @juimdpp
@@ -89,7 +91,7 @@ const articleSlice = createSlice({
     // if getting data fail, show error screen by hasError state.
     getArticleSumFailure: (
       state,
-      { payload }: PayloadAction<IGetArticleSumFailPayload>
+      { payload }: PayloadAction<IGetFailPayload>
     ) => {
       state.hasError = true;
       state.isLoading = false;

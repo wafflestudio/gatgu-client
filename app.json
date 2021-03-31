@@ -23,12 +23,12 @@
     "android": {
       "package": "com.gatgu.ios",
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/Logo/Logo13.svg",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./src/assets/favicon.png"
+      "favicon": "./src/assets/Logo/Logo13.svg"
     }
   }
 }

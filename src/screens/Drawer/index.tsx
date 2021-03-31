@@ -1,18 +1,22 @@
-import { Button, Profile } from '@/components';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Alert } from 'react-native';
-import styles from './Drawer.style';
-import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { DrawerContentScrollView } from '@react-navigation/drawer';
-import { RootState } from '@/store';
-import { articleAPI, userAPI } from '@/apis';
+
 import { AxiosResponse } from 'axios';
-import { IChattingRoom } from '@/types/chat';
-import { palette } from '@/styles';
-import { IUserProps } from '@/types/user';
-import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
+
+import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
+
+import { articleAPI, userAPI } from '@/apis';
+import { Button, Profile } from '@/components';
 import { Status } from '@/constants/Enum';
+import { RootState } from '@/store';
+import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
+import { palette } from '@/styles';
+import { IChattingRoom } from '@/types/chat';
+import { IUserProps } from '@/types/user';
+
+import styles from './Drawer.style';
 
 function DrawerTemplate(props: any): JSX.Element {
   const [chatInfo, setChatInfo] = useState<IChattingRoom>();
@@ -48,10 +52,11 @@ function DrawerTemplate(props: any): JSX.Element {
   useEffect(() => {
     if (chatInfo?.id !== 0) {
       let tempArr: JSX.Element[] = [];
-      chatInfo?.participant.map((part, ind) => {
+      chatInfo?.participant_profile.map((part, ind) => {
         userAPI
           .getUser(part) // TODO: @juimdpp 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
           .then((response: AxiosResponse<IUserProps>) => {
+            console.log(response);
             const user = response.data.userprofile;
             tempArr = tempArr.concat(<Profile key={ind} {...user} />);
           })
@@ -64,12 +69,11 @@ function DrawerTemplate(props: any): JSX.Element {
       });
     }
   }, [chatInfo]);
-
   const toggleStatus = () => {
     // change status
     if (chatInfo !== undefined) {
       const temp =
-        chatInfo.orderStatus < Status.ORDER_COMPLETE
+        chatInfo.order_status < Status.ORDER_COMPLETE
           ? Status.ORDER_COMPLETE
           : Status.WAITING_MEMBERS;
       // TODO: @juimdpp
@@ -77,7 +81,8 @@ function DrawerTemplate(props: any): JSX.Element {
       // when: api 고칠 때 보기
       // const body = { ...chatInfo, orderStatus: temp };
       dispatch(changeOrderStatus(chatInfo.id, temp));
-      Alert.alert(`"${temp}"으로 성공적으로 상태를 바꿨습니다!`);
+
+      // Alert.alert(`"${temp}"으로 성공적으로 상태를 바꿨습니다!`);
     }
   };
 

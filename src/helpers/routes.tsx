@@ -10,10 +10,10 @@ import {
   Search,
   SearchedArticle,
   ProfileModify,
-  Login,
   SignUp,
   TOS,
   EditArticle,
+  Login,
 } from '@/screens';
 
 const routes = {
@@ -65,10 +65,6 @@ const routes = {
     name: 'ProfileModify',
     component: ProfileModify,
   },
-  Login: {
-    name: 'Login',
-    component: Login,
-  },
   SignUp: {
     name: 'SignUp',
     component: SignUp,
@@ -76,6 +72,10 @@ const routes = {
   TOS: {
     name: 'TOS',
     component: TOS,
+  },
+  Login: {
+    name: 'Login',
+    component: Login,
   },
 };
 

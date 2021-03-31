@@ -1,11 +1,15 @@
-import { View } from 'native-base';
 import React from 'react';
 import { Text } from 'react-native';
-import styles from './Chat.style';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+
+import { View } from 'native-base';
+
 import { useNavigation } from '@react-navigation/native';
-import { palette } from '@/styles';
+
 import { Status } from '@/constants/Enum';
+import { palette } from '@/styles';
+
+import styles from './Chat.style';
 
 interface IChatProps {
   orderStatus: number;
@@ -13,10 +17,10 @@ interface IChatProps {
 
 function Chat({ orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
-
   const navigateToChatRoom = () => {
-    if (orderStatus < Status.ORDER_COMPLETE)
-      navigation.navigate('ChatListElem');
+    if (orderStatus < Status.ORDER_COMPLETE) {
+      navigation.navigate('ChattingRoom');
+    }
   };
   return (
     <View style={styles.userContainer}>

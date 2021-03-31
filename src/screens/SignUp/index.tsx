@@ -1,8 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { View, ScrollView, Text } from 'react-native';
-import { AxiosError } from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import { View, ScrollView, Text, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
+
+import { AxiosError } from 'axios';
+
+import { useNavigation } from '@react-navigation/native';
 
 import { userAPI } from '@/apis';
 import { Button } from '@/components';
@@ -179,10 +181,10 @@ function SignUpTemplate(): JSX.Element {
       .catch((err: AxiosError) => {
         switch (parseInt(err.code + '')) {
           case 400:
-            alert(err.message);
+            Alert.alert(err.message);
             break;
           default:
-            alert('unknown error');
+            Alert.alert('unknown error');
             console.error(err);
             break;
         }
@@ -202,13 +204,13 @@ function SignUpTemplate(): JSX.Element {
             <Button
               title="재발송"
               textStyle={checkStyles.contentBtn}
-              onPress={() => alert('not implemented')}
+              onPress={() => Alert.alert('not implemented')}
             />
             <View style={{ width: 30 }} />
             <Button
               title="시간연장"
               textStyle={checkStyles.contentBtn}
-              onPress={() => alert('not implemented')}
+              onPress={() => Alert.alert('not implemented')}
             />
           </View>
         </View>

@@ -1,8 +1,8 @@
 export interface IChattingRoom {
   id: number;
-  participant: number[];
+  participant_profile: number[];
   article: number;
-  orderStatus: number;
+  order_status: number;
   trackingNumber: string;
   // not in api
   uri: string;
@@ -13,7 +13,7 @@ export interface IChattingRoom {
 }
 
 export interface IChangeStatusProps {
-  orderStatus: number;
+  order_status: number;
 }
 
 export interface IChatMessage {

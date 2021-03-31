@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 
 import { Button } from '@/components';
 
@@ -8,7 +8,7 @@ import styles from './HistoryList.style';
 // History JSX: 거래내역 목록 버튼
 function HistoryList(): JSX.Element {
   const goToHistory = () => {
-    alert('not implemented');
+    Alert.alert('not implemented');
   };
 
   return (
