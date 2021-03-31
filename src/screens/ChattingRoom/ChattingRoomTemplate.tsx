@@ -1,9 +1,11 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, Text } from 'react-native';
+
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 
-import ChatsContainer from './ChatsContainer';
 import { Header } from '@/components';
+
+import ChatsContainer from './ChatsContainer';
 import messages from './mockChat';
 
 export default function ChattingRoom(): JSX.Element {

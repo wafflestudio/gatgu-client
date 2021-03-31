@@ -1,6 +1,6 @@
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { useSelector } from '@/helpers/hooks';
 

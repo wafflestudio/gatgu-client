@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
-import { palette } from '@/styles';
 import { mobile } from '@/helpers/mobile';
+import { palette } from '@/styles';
 
 const commonStyle = StyleSheet.create({
   Icon: {

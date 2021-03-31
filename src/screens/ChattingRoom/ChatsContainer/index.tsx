@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, FlatList } from 'react-native';
 
+import { mobile } from '@/helpers/mobile';
 import { IChatMessage } from '@/types/chat';
 
 import ChatBox from './ChatBox';
-import InputBar from './InputBar';
 import styles from './ChatContainer.style';
-import { mobile } from '@/helpers/mobile';
+import InputBar from './InputBar';
 
 interface IChattingRoomInterface {
   chatList: IChatMessage[];

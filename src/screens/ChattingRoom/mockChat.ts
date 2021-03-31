@@ -1,5 +1,4 @@
 // mock chatting list
-
 import { IChatMessage } from '@/types/chat';
 
 const messages: IChatMessage[] = [

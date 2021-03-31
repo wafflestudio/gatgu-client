@@ -1,17 +1,19 @@
 import React, { useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+
 import { Icon } from 'native-base';
 
+import { useNavigation } from '@react-navigation/native';
+
 import Tag from '@/components/Button';
-import { useKeywordDispatch } from '@/helpers/hooks';
-import { ArrayStorage } from '@/helpers/functions/asyncStorage';
 import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ArrayStorage } from '@/helpers/functions/asyncStorage';
+import { useKeywordDispatch } from '@/helpers/hooks';
 import { removeKeyword } from '@/store/searchSlice';
 
-import styles from './RecentSearch.style';
 import SearchStyle from '../../Search.style';
+import styles from './RecentSearch.style';
 
 interface IRecentSearchProps {
   tags: string[];

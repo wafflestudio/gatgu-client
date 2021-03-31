@@ -1,5 +1,6 @@
 import { IArticleProps } from '@/types/article';
 import { IChattingRoom } from '@/types/chat';
+
 import { IS_MONEY, Status } from './Enum';
 
 export const initialArticle = {

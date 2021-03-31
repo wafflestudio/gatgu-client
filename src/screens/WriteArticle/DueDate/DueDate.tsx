@@ -22,12 +22,13 @@ const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const returnArrayDate = (today: Date) => {
   const arr = [];
   const current: Date = today;
-  arr.push({ day: '오늘', date: current.getDate(), selected: false });
+  const curDate = current.getDate();
+  arr.push({ day: '오늘', date: curDate, selected: false });
   for (let index = 0; index < 30; index++) {
-    current.setDate(current.getDate() + 1);
+    current.setDate(curDate + 1);
     arr.push({
       day: dayOfWeek[current.getDay()],
-      date: current.getDate(),
+      date: curDate,
       selected: false,
     });
   }

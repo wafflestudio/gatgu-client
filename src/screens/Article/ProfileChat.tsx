@@ -1,12 +1,15 @@
-import { View } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import styles from './ProfileChat.style';
-import { Profile } from '@/components';
-import Chat from './Chat';
-import { IArticleProps } from '@/types/article';
-import { userAPI } from '@/apis';
+
 import { AxiosResponse } from 'axios';
+import { View } from 'native-base';
+
+import { userAPI } from '@/apis';
+import { Profile } from '@/components';
+import { IArticleProps } from '@/types/article';
 import { IUserProps, IUserSumProps } from '@/types/user';
+
+import Chat from './Chat';
+import styles from './ProfileChat.style';
 
 interface IProfileChat {
   article: IArticleProps;

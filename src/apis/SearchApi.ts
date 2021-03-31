@@ -1,6 +1,8 @@
-import requester from './BaseInstance';
-import { IArticleSumSearchResponse } from '@/types/article';
 import qs from 'querystring';
+
+import { IArticleSumSearchResponse } from '@/types/article';
+
+import requester from './BaseInstance';
 
 export const getPopularSearchKeyword = (): Promise<string[]> => {
   // TODO: @ssu1018
