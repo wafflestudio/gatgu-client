@@ -1,66 +1,23 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { useSelector, shallowEqual } from 'react-redux';
 
-import { ArticleBox } from '@/components';
-import { IArticleSumProps } from '@/types/article';
+import ArticleListTemplate from '@/components/ArticleListTemplate';
+import { createError } from '@/helpers/functions';
+import { RootState } from '@/store';
+import { searchArticles } from '@/store/searchSlice';
 
-const mockData: IArticleSumProps[] = [
-  {
-    id: 8,
-    title: '다이슨 청소기 공구',
-    dayLeft: '5일 남음',
-    created: '3분 전',
-    goal: '2명',
-    location: '사운드 마인드',
-    percent: 40,
-    uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    isMoney: false,
-  },
-  {
-    id: 9,
-    title: '다이슨 청소기 공구',
-    dayLeft: '5일 남음',
-    created: '3분 전',
-    goal: '25,000원',
-    location: '사운드 마인드',
-    percent: 40,
-    uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    isMoney: true,
-  },
-  {
-    id: 10,
-    title: '다이슨 청소기 공구',
-    dayLeft: '5일 남음',
-    created: '3분 전',
-    goal: '25,000원',
-    location: '사운드 마인드',
-    percent: 40,
-    uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    isMoney: true,
-  },
-  {
-    id: 11,
-    title: '다이슨 청소기 공구1',
-    dayLeft: '5일 남음',
-    created: '3분 전',
-    goal: '25,000원',
-    location: '사운드 마인드',
-    percent: 40,
-    uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-    isMoney: true,
-  },
-];
+const [Error] = createError();
 
 function SearchedList(): JSX.Element {
-  const renderArticle = ({ item }: { item: IArticleSumProps }): JSX.Element => (
-    <ArticleBox {...item} />
+  const searchProps = useSelector(
+    (state: RootState) => state.search,
+    shallowEqual
   );
-
   return (
-    <FlatList
-      data={mockData}
-      renderItem={renderArticle}
-      keyExtractor={(_, ind) => String(ind)}
+    <ArticleListTemplate
+      {...searchProps}
+      Error={Error}
+      getArticles={searchArticles}
     />
   );
 }

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+    <defs>
+        <style>
+            .cls-1{fill:#c9c9c9}
+        </style>
+    </defs>
+    <g id="그룹_174" transform="translate(-90 -41.8)">
+        <path id="패스_176" d="M104 41.8a14 14 0 1 0 14 14 14.041 14.041 0 0 0-14-14zm0 26.1a12 12 0 1 1 12-12 12.035 12.035 0 0 1-12 12z" class="cls-1"/>
+        <path id="패스_177" d="M105 47.8h-2v7.1h-7v2h7v7h2v-7h7.1v-2H105z" class="cls-1"/>
+    </g>
+</svg>

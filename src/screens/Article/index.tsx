@@ -53,17 +53,17 @@ function ArticlePage(): JSX.Element {
   const productImageProps = {
     thumbnail_url: article.thumbnail_url,
     image_url: article.image,
-    orderStatus: chatInfo?.orderStatus,
+    orderStatus: chatInfo?.order_status,
   };
 
   const profileChatProps = {
     article: article,
-    orderStatus: chatInfo?.orderStatus,
+    orderStatus: chatInfo?.order_status,
   };
 
   const titleInfoProps = {
     article: article,
-    orderStatus: chatInfo?.orderStatus,
+    orderStatus: chatInfo?.order_status,
   };
 
   return (

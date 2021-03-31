@@ -1,4 +1,5 @@
 import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
+import { SearchType } from '@/constants/article';
 
 type TneedType = typeof IS_MONEY | typeof IS_PEOPLE;
 
@@ -40,6 +41,19 @@ export interface IArticleSumResponse extends IPagination {
   results: IArticleDetail[];
 }
 
+export interface IArticleSliceBasis {
+  hasError: boolean;
+  errorStatus: number;
+  data: IArticleSumProps[];
+  isLoading: boolean;
+  next: string | null;
+  previous: string | null;
+  isLastPage: boolean;
+  isFirstPage: boolean;
+}
+
+export type TSearchType = SearchType.TITLE | SearchType.TAG;
+
 //article detail
 export interface IArticleProps {
   id?: string; // TODO: @juimdpp
@@ -72,7 +86,7 @@ export interface ITagType {
   selected: boolean;
 }
 
-export interface IGetArticleSumFailPayload {
+export interface IGetFailPayload {
   errorStatus: number;
 }
 
