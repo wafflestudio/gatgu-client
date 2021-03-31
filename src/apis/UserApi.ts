@@ -54,3 +54,14 @@ export const getUser = (
   // todo: change to user after back deploy
   // when: 백 서버 잘 되면
 };
+
+export const confirm = (email: string): Promise<AxiosResponse<any>> => {
+  return requester.put('user/confirm/', { email });
+};
+
+export const activate = (
+  email: string,
+  code: string
+): Promise<AxiosResponse<any>> => {
+  return requester.put('user/activate/', { email, code });
+};
