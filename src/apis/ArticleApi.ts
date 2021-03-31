@@ -10,6 +10,8 @@ import {
   TSearchType,
 } from '@/types/article';
 
+import requester from './BaseInstance';
+
 export const getArticleSummary = (
   url: string | null,
   keyword?: string,
