@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+    <g>
+        <g>
+            <path d="M0 0H23.96V2H0z" transform="translate(7.04 9)"/>
+            <path d="M0 0H23.96V2H0z" transform="translate(7.04 9) translate(0 9)"/>
+            <path d="M0 0H23.96V2H0z" transform="translate(7.04 9) translate(0 18)"/>
+        </g>
+    </g>
+    <circle cx="19" cy="19" r="19" fill="none"/>
+</svg>

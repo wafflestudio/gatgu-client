@@ -35,4 +35,8 @@ export const typo = {
     fontFamily: 'NotoSansKR_700Bold',
     fontSize: 20,
   },
+  chat: {
+    fontSize: 15,
+    lineHeight: 18,
+  },
 };

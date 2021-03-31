@@ -1,15 +1,16 @@
 import React from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
+import 'react-native-gesture-handler';
+import { Provider } from 'react-redux';
+
 import {
   useFonts,
   NotoSansKR_500Medium,
   NotoSansKR_400Regular,
   NotoSansKR_700Bold,
 } from '@expo-google-fonts/noto-sans-kr';
-import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Provider } from 'react-redux';
 
 import BottomNavigation from '@/components/BottomNavigation';
 import routes from '@/helpers/routes';
@@ -37,7 +38,10 @@ function App(): JSX.Element {
         <SafeAreaView
           style={{
             flex: 1,
-            marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+            marginTop:
+              Platform.OS === 'android' && StatusBar.currentHeight > 24
+                ? StatusBar.currentHeight
+                : 0,
           }}
         >
           <Stack.Navigator>

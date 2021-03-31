@@ -20,7 +20,6 @@ function InputBar(): JSX.Element {
           placeholder="메시지를 입력하세요"
           style={styles.input}
           multiline={true}
-          numberOfLines={4}
         />
       </View>
       <View style={styles.inputIcon}>
