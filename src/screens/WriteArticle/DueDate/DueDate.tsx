@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -33,19 +33,22 @@ const returnArrayDate = (today: Date) => {
   }
   return arr;
 };
-const today = new Date();
-const initWeek = returnArrayDate(today);
 
 function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
+  const [today, setToday] = useState(new Date());
+  const [initWeek, setInitWeek] = useState(returnArrayDate(today));
   const [modalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState(today);
   const [dayArr, setDayArr] = useState(initWeek);
 
+  console.log(today);
   const onChange = (selectedDate: Date | undefined) => {
     setDate(selectedDate ? selectedDate : date);
   };
   const showDatePicker = () => {
     setModalVisible(!modalVisible);
+    setToday(new Date());
+    setInitWeek(returnArrayDate(new Date()));
   };
   const selectDay = (indx: number) => {
     const temp = _.cloneDeep(initWeek);
