@@ -1,6 +1,8 @@
+import { IUserProfile } from './user';
+
 export interface IChattingRoom {
   id: number;
-  participant_profile: number[];
+  participant_profile: IUserProfile[];
   article: number;
   order_status: number;
   trackingNumber: string;

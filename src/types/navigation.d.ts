@@ -20,3 +20,9 @@ export type SignUpStackParamList = {
     onPress: () => void;
   };
 };
+
+export type ChattingDrawerParamList = {
+  ChattingRoom: {
+    id: number;
+  };
+};

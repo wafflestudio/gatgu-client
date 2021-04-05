@@ -20,9 +20,7 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
   const navigateToChatRoom = () => {
     if (orderStatus < Status.ORDER_COMPLETE) {
-      navigation.navigate('ChattingRoom', {
-        params: { id: article_id },
-      });
+      navigation.navigate('ChattingRoom', { id: article_id });
     }
   };
   return (
