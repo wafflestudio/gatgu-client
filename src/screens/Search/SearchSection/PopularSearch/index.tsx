@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
 
 import Tag from '@/components/Button';
 import { useKeywordDispatch } from '@/helpers/hooks';
 
-import styles from './PopularSearch.style';
 import SearchStyle from '../../Search.style';
+import styles from './PopularSearch.style';
 
 interface IPopularSearchProps {
   tags: string[];

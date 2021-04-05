@@ -1,6 +1,7 @@
 import React from 'react';
-import Button from '../Button';
 import { View, Text, Alert } from 'react-native';
+
+import Button from '../Button';
 import styles from './FootTerms.style';
 
 /* ------------------------ */

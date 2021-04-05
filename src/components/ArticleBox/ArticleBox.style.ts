@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { flexRow } from '@/styles/wrapper';
+import { mobile } from '@/helpers/mobile';
 import { typo, palette } from '@/styles';
 import {
   $postBox_pad_horizontal,
   $thumnail_size,
   $thumnail_margin_right,
 } from '@/styles/size';
-import { mobile } from '@/helpers/mobile';
+import { flexRow } from '@/styles/wrapper';
 
 const PostBoxStyles = StyleSheet.create({
   articleBox: {

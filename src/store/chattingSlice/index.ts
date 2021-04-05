@@ -1,59 +1,56 @@
-import { Alert } from 'react-native';
-
 import { AxiosResponse, AxiosError } from 'axios';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { articleAPI, SearchAPI } from '@/apis';
+import { articleAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
+import { initialArticle } from '@/constants/InitialState';
 import {
   MAX_ARTICLE_NUM,
   PAGE_SIZE,
   GetArticleSumStatus,
 } from '@/constants/article';
-import { asyncStoragekey } from '@/constants/asyncStorage';
 import { AppThunk } from '@/store';
 import {
+  IArticleProps,
+  IArticleSumProps,
   IGetArticleSumSuccessPayload,
-  IGetArticleSumFailPayload,
+  IGetFailPayload,
   IArticleSumResponse,
   TLoad,
-  TSearchType,
 } from '@/types/article';
-import { IArticleSliceBasis } from '@/types/article';
 
-export interface ISearchedArticleSlice extends IArticleSliceBasis {
-  keyword: string;
-  recentSearch: string[];
+export interface IchattingSlice {
+  hasError: boolean;
+  errorStatus: number;
+  data: IArticleSumProps[];
+  isLoading: boolean;
+  next: string | null;
+  previous: string | null;
+  currentArticle: IArticleProps;
+  isLastPage: boolean;
+  isFirstPage: boolean;
 }
 
-interface ISetKeywordPayload {
-  keyword: string;
-}
-
-interface IKeywordListPayload {
-  data: string[];
-}
-
-const initialState: ISearchedArticleSlice = {
+const initialState: IchattingSlice = {
   hasError: false,
   errorStatus: -100,
   data: [],
   isLoading: false,
   next: '',
   previous: '',
+  currentArticle: initialArticle,
   isLastPage: false,
   isFirstPage: true,
-  keyword: '',
-  recentSearch: [],
 };
 
-const searchedArticleSlice = createSlice({
-  name: 'searchedArticle',
+// article store + basic action
+const chattingSlice = createSlice({
+  name: 'article',
   initialState,
   reducers: {
-    getArticleSumSuccess: (
+    // if getting data  successfully
+    getChatsSuccess: (
       state,
       { payload }: PayloadAction<IGetArticleSumSuccessPayload>
     ) => {
@@ -83,13 +80,12 @@ const searchedArticleSlice = createSlice({
       state.next = payload.next;
       state.isFirstPage = payload.previous === null;
       state.previous = payload.previous;
-      state.keyword = '';
     },
 
     // if getting data fail, show error screen by hasError state.
     getArticleSumFailure: (
       state,
-      { payload }: PayloadAction<IGetArticleSumFailPayload>
+      { payload }: PayloadAction<IGetFailPayload>
     ) => {
       state.hasError = true;
       state.isLoading = false;
@@ -99,38 +95,24 @@ const searchedArticleSlice = createSlice({
       state.isLoading = true;
     },
 
-    setKeyword(state, { payload }: PayloadAction<ISetKeywordPayload>) {
-      state.keyword = payload.keyword;
-    },
-    setRecentSearch(state, { payload }: PayloadAction<IKeywordListPayload>) {
-      state.recentSearch = payload.data;
-    },
-    addRecentSearch(state, { payload }: PayloadAction<ISetKeywordPayload>) {
-      state.recentSearch.unshift(payload.keyword);
-    },
-    removeKeyword(state, { payload }: PayloadAction<ISetKeywordPayload>) {
-      const targetInd = state.recentSearch.indexOf(payload.keyword);
-      state.recentSearch = state.recentSearch.filter(
-        (_, ind) => ind !== targetInd
-      );
+    setCurrentArticle: (state, { payload }: PayloadAction<IArticleProps>) => {
+      state.currentArticle = payload;
     },
   },
 });
 
 const {
-  getArticleSumSuccess,
+  getChatsSuccess,
   getArticleSumFailure,
-  setKeyword,
-  setRecentSearch,
-  addRecentSearch,
-  removeKeyword,
-} = searchedArticleSlice.actions;
+  setLoading,
+  setCurrentArticle,
+} = chattingSlice.actions;
 
-const searchArticles = (
-  type: TLoad,
-  keyword: string,
-  searchType: TSearchType
-): AppThunk => (dispatch, getState) => {
+// Asynchronous thunk action
+export const getArticlesSum = (type: TLoad): AppThunk => (
+  dispatch,
+  getState
+) => {
   const url =
     type === GetArticleSumStatus.FIRST
       ? null
@@ -138,10 +120,13 @@ const searchArticles = (
       ? getState().article.next
       : getState().article.previous;
   articleAPI
-    .getArticleSummary(url, keyword, searchType)
+    .getArticleSummary(url)
     .then((response: AxiosResponse<IArticleSumResponse>) => {
+      // TODO: @ssu1018
+      //   replace this with real api function.
+      // when: 홈 페이지네이션 할 때
       dispatch(
-        getArticleSumSuccess({
+        getChatsSuccess({
           data: response.data.results,
           next: response.data.next,
           previous: response.data.previous,
@@ -158,27 +143,4 @@ const searchArticles = (
     });
 };
 
-// 초기에 popularSearch와 RecentSearch 설정
-const initSearchData = (): AppThunk => (dispatch) => {
-  AsyncStorage.getItem(asyncStoragekey.RECENT_SEARCH)
-    .then((res) => {
-      if (res === null) {
-        dispatch(setRecentSearch({ data: [] }));
-      } else {
-        dispatch(setRecentSearch({ data: JSON.parse(res) }));
-      }
-    })
-    .catch((err) => {
-      Alert.alert('최근 검색 데이터를 불러오지 못했습니다.');
-    });
-};
-
-export {
-  setKeyword,
-  addRecentSearch,
-  removeKeyword,
-  searchArticles,
-  initSearchData,
-};
-
-export default searchedArticleSlice.reducer;
+export default chattingSlice.reducer;
