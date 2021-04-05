@@ -2,7 +2,11 @@
 import { AxiosResponse } from 'axios';
 import qs from 'querystring';
 
-import { PAGE_SIZE } from '@/constants/article';
+// TODO: @ssu1018
+// - Refactore all apisrelated with ArticleSumaary
+// when: until 3/12
+// for home page
+import { PAGE_SIZE, SearchType } from '@/constants/article';
 import {
   IArticleProps,
   IMessageRet,
@@ -11,14 +15,6 @@ import {
 } from '@/types/article';
 
 import requester from './BaseInstance';
-
-// TODO: @ssu1018
-// - Refactore all apisrelated with ArticleSumaary
-// when: until 3/12
-
-// for home page
-
-import { PAGE_SIZE, SearchType } from '@/constants/article';
 
 export const getArticleSummary = (
   url: string | null,
