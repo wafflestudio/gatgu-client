@@ -22,18 +22,30 @@ const mockUrls = [
 
 const mockUsers = [
   {
-    profile_id: 1,
-    picture: 'https://placeimg.com/140/138/any',
-    nickname: 'nickname1',
-    updated_at: 'ss',
-    withdrew_at: 'ww',
+    id: 1,
+    joined_at: '2020-03-20',
+    pay_status: true,
+    wish_price: 5000,
+    participant: {
+      profile_id: 1,
+      picture: 'https://placeimg.com/140/138/any',
+      nickname: 'nickname1',
+      updated_at: 'ss',
+      withdrew_at: 'ww',
+    },
   },
   {
-    profile_id: 2,
-    picture: 'https://placeimg.com/140/138/any',
-    nickname: 'nickname2',
-    updated_at: 'sss',
-    withdrew_at: 'www',
+    id: 2,
+    joined_at: '2021-03-20',
+    pay_status: false,
+    wish_price: 15000,
+    participant: {
+      profile_id: 2,
+      picture: 'https://placeimg.com/140/140/any',
+      nickname: 'nickname2',
+      updated_at: 's43',
+      withdrew_at: '2w',
+    },
   },
 ];
 

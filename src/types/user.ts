@@ -32,3 +32,11 @@ export interface IUserSumProps {
   picture?: string | undefined;
   nickname?: string | undefined;
 }
+
+export interface IChatUserProps {
+  id: number;
+  joined_at: any; // should be time
+  pay_status: boolean;
+  wish_price: number;
+  participant: IUserProfile;
+}

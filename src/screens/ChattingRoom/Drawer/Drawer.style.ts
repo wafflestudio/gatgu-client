@@ -50,6 +50,7 @@ const DrawerStyles = StyleSheet.create({
   },
   profileBox: {
     marginBottom: 10,
+    flexDirection: 'row',
   },
 });
 

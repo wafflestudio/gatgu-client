@@ -5,13 +5,14 @@ import { useIsDrawerOpen } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 
 import { Button, Profile } from '@/components';
-import { IUserSumProps } from '@/types/user';
+import CheckBox from '@/components/CheckBox';
+import { IChatUserProps, IUserSumProps } from '@/types/user';
 
 import styles from './Drawer.style';
 
 interface IDrawerTemplateProps {
   pictureUrls: string[];
-  users: IUserSumProps[];
+  users: IChatUserProps[];
 }
 
 function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
@@ -26,15 +27,27 @@ function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
     <Image source={{ uri }} style={styles.image} />
   );
 
+  const handleCheck = () => {
+    console.log('handle check not yet');
+  };
+
   const renderedParticipants = users.map((user, ind) => (
     <View key={ind} style={styles.profileBox}>
       <Profile
-        profile_id={user.profile_id}
-        picture={user.picture}
-        nickname={user.nickname}
+        profile_id={user.participant.profile_id}
+        picture={user.participant.picture}
+        nickname={user.participant.nickname}
+      />
+      <CheckBox
+        value={user.pay_status}
+        onPress={() => handleCheck()}
+        icon="checkcircle"
+        iconSize={30}
+        iconColor={'black'}
       />
     </View>
   ));
+
   return (
     <View style={styles.drawerInnerWrapper}>
       <View style={styles.pictureContainer}>
