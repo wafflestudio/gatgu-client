@@ -1,8 +1,14 @@
-import { AxiosResponse, AxiosError } from 'axios';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { articleAPI } from '@/apis';
+import { AxiosResponse, AxiosError } from 'axios';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { articleAPI, SearchAPI } from '@/apis';
+import { UNKNOWN_ERR } from '@/constants/ErrorCode';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { AppThunk } from '@/store';
+
 import {
   IGetArticleSumSuccessPayload,
   IGetArticleSumFailPayload,
@@ -10,14 +16,12 @@ import {
   TLoad,
   TSearchType,
 } from '@/types/article';
-import { UNKNOWN_ERR } from '@/constants/ErrorCode';
-import { AppThunk } from '@/store';
+
 import {
   MAX_ARTICLE_NUM,
   PAGE_SIZE,
   GetArticleSumStatus,
 } from '@/constants/article';
-import { asyncStoragekey } from '@/constants/asyncStorage';
 import { IArticleSliceBasis } from '@/types/article';
 import { Alert } from 'react-native';
 

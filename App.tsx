@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import {
   useFonts,
@@ -16,19 +16,40 @@ import routes from '@/helpers/routes';
 import { AppLoading } from '@/screens';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
+import { setInfo } from '@/store/userSlice';
+import { asyncStoragekey } from '@/constants/asyncStorage';
 
 const { ChattingRoom, Login, SignUp } = routes;
 
 const Stack = createStackNavigator();
 
 function App(): JSX.Element {
+  const [userLoaded, setUserLoaded] = useState(false);
   const [fontsLoaded] = useFonts({
     NotoSansKR_500Medium,
     NotoSansKR_400Regular,
     NotoSansKR_700Bold,
   });
 
-  if (!fontsLoaded) {
+  const loadUserData = useCallback(() => {
+    ObjectStorage.getObject(asyncStoragekey.USER)
+      .then((data) => {
+        if (data) store.dispatch(setInfo(data));
+        setUserLoaded(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        setUserLoaded(true);
+      });
+  }, []);
+
+  useEffect(() => {
+    // check if user data exists
+    loadUserData();
+  }, []);
+
+  if (!fontsLoaded || !userLoaded) {
     return <AppLoading />;
   }
   return (

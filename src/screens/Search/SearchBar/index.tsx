@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
+
 import { useDispatch } from 'react-redux';
+
 import { Icon } from 'native-base';
+
 import { useNavigation } from '@react-navigation/native';
 
 import { StringInput } from '@/components';

@@ -1,9 +1,12 @@
-import { View } from 'native-base';
 import React from 'react';
-import styles from './TitleInfo.style';
-import Title from './Title';
-import Info from './Info';
+
+import { View } from 'native-base';
+
 import { IArticleProps } from '@/types/article';
+
+import Info from './Info';
+import Title from './Title';
+import styles from './TitleInfo.style';
 
 interface ITitleChat {
   article: IArticleProps;

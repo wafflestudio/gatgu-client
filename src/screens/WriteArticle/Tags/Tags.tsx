@@ -1,10 +1,13 @@
-import { View, Text, TouchableHighlight } from 'react-native';
-import { Label } from 'native-base';
 import React, { useState, createRef, Dispatch, SetStateAction } from 'react';
-import styles from './Tags.style';
+import { View, Text, TouchableHighlight } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
+
+import { Label } from 'native-base';
+
 import { palette } from '@/styles';
 import { ITagType } from '@/types/article';
+
+import styles from './Tags.style';
 
 interface TagsProps {
   tags: ITagType[];

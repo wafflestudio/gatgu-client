@@ -1,7 +1,10 @@
-import { IArticleProps } from '@/types/article';
-import { View } from 'native-base';
 import React from 'react';
 import { Text } from 'react-native';
+
+import { View } from 'native-base';
+
+import { IArticleProps } from '@/types/article';
+
 import styles from './Desc.style';
 
 function Desc({ description }: IArticleProps): JSX.Element {

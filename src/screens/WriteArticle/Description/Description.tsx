@@ -1,8 +1,10 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View } from 'react-native';
-import styles from './Description.style';
-import waStyles from '../WriteArticle.style';
+
 import { StringInput } from '@/components';
+
+import waStyles from '../WriteArticle.style';
+import styles from './Description.style';
 
 interface DescriptionProps {
   description: string;

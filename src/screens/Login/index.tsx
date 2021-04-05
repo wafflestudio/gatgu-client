@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+
+import { useNavigation } from '@react-navigation/native';
 
 import logo from '@/assets/Logo';
 import { Button } from '@/components';

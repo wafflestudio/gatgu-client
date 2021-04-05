@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { ArticleBox } from '@/components';
+import { IArticleSumProps } from '@/types/article';
+
 import { useSelector, shallowEqual } from 'react-redux';
 
 import { RootState } from '@/store';

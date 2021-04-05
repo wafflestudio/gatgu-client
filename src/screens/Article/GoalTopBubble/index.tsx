@@ -1,11 +1,14 @@
-import { View } from 'native-base';
 import React, { useState } from 'react';
-import styles from './GoalTopBubble.style';
-import GoalBar from '@/components/ArticleBox/GoalBar';
-import TopBubble from './TopBubble';
 import { LayoutChangeEvent } from 'react-native';
+
+import { View } from 'native-base';
+
+import GoalBar from '@/components/ArticleBox/GoalBar';
 import { IS_MONEY } from '@/constants/Enum';
 import { IParticipantsSummary } from '@/types/article';
+
+import styles from './GoalTopBubble.style';
+import TopBubble from './TopBubble';
 
 interface IGoalTopBubbleProps {
   summary: IParticipantsSummary;

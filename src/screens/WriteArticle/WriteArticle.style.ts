@@ -1,5 +1,6 @@
-import { typo, palette } from '@/styles';
 import { StyleSheet } from 'react-native';
+
+import { typo, palette } from '@/styles';
 
 const WriteArticleStyles = StyleSheet.create({
   text: {

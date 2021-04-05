@@ -1,10 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { TouchableHighlight, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Icon } from 'native-base';
+
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '@/components';
 import routes from '@/helpers/routes';
