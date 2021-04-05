@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 
+import { useDispatch } from 'react-redux';
+
 import { Icon } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { StringInput } from '@/components';
 import { useKeywordDispatch } from '@/helpers/hooks';
+import { GetArticleSumStatus, SearchType } from '@/constants/article';
+import { searchArticles } from '@/store/searchSlice';
 
 import styles from './SearchBar.style';
 
@@ -16,6 +20,7 @@ interface ISearchBarProps {
 }
 
 function SearchBar({ inSearchedList, keyword }: ISearchBarProps): JSX.Element {
+  const dispatch = useDispatch();
   const keywordDispatch = useKeywordDispatch();
   const navigation = useNavigation();
 
@@ -26,6 +31,9 @@ function SearchBar({ inSearchedList, keyword }: ISearchBarProps): JSX.Element {
   }, [keyword]);
 
   const onSubmit = () => {
+    dispatch(
+      searchArticles(GetArticleSumStatus.FIRST, input, SearchType.TITLE)
+    );
     keywordDispatch(input);
     setInput('');
     navigation.navigate('SearchedArticle');

@@ -9,7 +9,7 @@ import requester from './BaseInstance';
 export const getChatInfo = (
   articleId?: number
 ): Promise<AxiosResponse<IChattingRoom[]>> => {
-  return requester.get(`chat?article=${articleId}`);
+  return requester.get(`chat/${articleId}/`);
 };
 
 // change status of order
@@ -17,7 +17,7 @@ export const changeStatus = (
   id: number,
   body: IChangeStatusProps
 ): Promise<AxiosResponse<IChangeStatusProps>> => {
-  return requester.patch(`chat/${id}/`, body);
+  return requester.put(`chat/${id}/set_status/`, body);
   // TODO: @juimdpp
   // todo: requester.put(`chat/${id}/`, body); url ends with: /set_status/
   // when: api 고칠 때

@@ -15,7 +15,7 @@ import {
   IArticleProps,
   IArticleSumProps,
   IGetArticleSumSuccessPayload,
-  IGetArticleSumFailPayload,
+  IGetFailPayload,
   IArticleSumResponse,
   TLoad,
 } from '@/types/article';
@@ -91,7 +91,7 @@ const articleSlice = createSlice({
     // if getting data fail, show error screen by hasError state.
     getArticleSumFailure: (
       state,
-      { payload }: PayloadAction<IGetArticleSumFailPayload>
+      { payload }: PayloadAction<IGetFailPayload>
     ) => {
       state.hasError = true;
       state.isLoading = false;

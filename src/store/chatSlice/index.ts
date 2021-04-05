@@ -53,7 +53,7 @@ export const getChatInfo = (id: number | undefined): AppThunk => (dispatch) => {
   chatAPI
     .getChatInfo(id)
     .then((response: AxiosResponse) => {
-      dispatch(setCurrentChatInfo(response.data[0])); // TODO: @juimdpp
+      dispatch(setCurrentChatInfo(response.data)); // TODO: @juimdpp
       // todo: change to response.data (json-server에서는 이렇게해야 커리가 먹힘)
       // when: 서버 잘 되면
     })
@@ -71,13 +71,15 @@ export const changeOrderStatus = (
   orderStatus: number
 ): AppThunk => (dispatch) => {
   chatAPI
-    .changeStatus(id, { orderStatus: orderStatus })
+    .changeStatus(id, { order_status: orderStatus })
     .then((response: AxiosResponse) => {
+      console.log(response);
       dispatch(setCurrentChatInfo(response.data)); // TODO: @juimdpp
       // todo: json server returns entire object, but backend returns status string --> must update to setOrderStatus(response.data)
       // when: 서버 잘 되면 (json-server에서는 저렇게 하는 수 밖에 없어서...)
     })
-    .catch(() => {
+    .catch((err: AxiosError) => {
+      console.log(err);
       // TODO: @juimdpp
       // todo: handle error
       // when: 로딩 페이지 구현할 때 같이 할게요
