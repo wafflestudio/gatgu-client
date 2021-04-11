@@ -49,8 +49,26 @@ const DrawerStyles = StyleSheet.create({
     marginRight: 10,
   },
   profileBox: {
-    marginBottom: 10,
+    marginBottom: 20,
     flexDirection: 'row',
+    width: '95%',
+    marginRight: 20,
+    paddingRight: 10,
+    alignItems: 'center',
+  },
+  checkBoxWrapper: {
+    alignSelf: 'flex-end',
+  },
+  priceText: {
+    color: palette.gray,
+    fontSize: 11,
+  },
+  infoWrapper: {
+    right: 0,
+    height: '100%',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 

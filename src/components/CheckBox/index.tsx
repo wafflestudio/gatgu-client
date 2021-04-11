@@ -1,40 +1,74 @@
 import React, { useEffect } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { View } from 'native-base';
+import { Text, View } from 'native-base';
+
+import { palette } from '@/styles';
 
 import styles from './CheckBox.style';
 
 interface CheckBoxProps {
-  value: boolean;
+  selected: boolean;
   onPress: () => void;
-  icon: string;
+  size: number;
   iconSize: number;
-  iconColor: string;
   wrapperStyle?: StyleProp<ViewStyle>;
   // textStyle?: StyleProp<TextStyle>;
   [x: string]: any;
 }
 
 function CheckBox({
-  value,
+  selected,
   onPress,
-  icon,
+  size,
   iconSize,
-  iconColor,
   wrapperStyle,
   // textStyle,
   ...rest
 }: CheckBoxProps): JSX.Element {
-  const myIcon = <Icon name={icon} size={iconSize} color={iconColor} />;
   return (
-    <View>
-      <View style={wrapperStyle ? wrapperStyle : styles.defaultWrapper}>
-        {myIcon}
-      </View>
+    <View
+      style={[
+        { borderRadius: size / 2, height: size, width: size },
+        selected
+          ? {
+              borderColor: palette.blue,
+              borderWidth: 1,
+              backgroundColor: palette.blue,
+            }
+          : {
+              borderColor: palette.gray,
+              borderWidth: 1,
+            },
+        { alignItems: 'center', justifyContent: 'center' },
+      ]}
+    >
+      <Icon
+        name="done"
+        size={iconSize}
+        color={selected ? 'white' : palette.gray}
+      />
     </View>
   );
 }
 
 export default CheckBox;
+
+/*
+<View style={{
+          width: 2,
+          backgroundColor: 'red',
+          height: 8,
+          transform: [{rotate: '130deg'}],
+        }}/>
+        <View style={{
+          position: 'relative',
+          bottom: 15,
+          left: 9,
+          width: 2,
+          backgroundColor: 'red',
+          height: 17,
+          transform: [{rotate: '40deg'}],
+        }}/>
+*/

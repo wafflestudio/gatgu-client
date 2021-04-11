@@ -38,13 +38,21 @@ function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
         picture={user.participant.picture}
         nickname={user.participant.nickname}
       />
-      <CheckBox
-        value={user.pay_status}
-        onPress={() => handleCheck()}
-        icon="checkcircle"
-        iconSize={30}
-        iconColor={'black'}
-      />
+      <View style={styles.infoWrapper}>
+        <View style={styles.checkBoxWrapper}>
+          <CheckBox
+            selected={user.pay_status}
+            onPress={() => handleCheck()}
+            size={20}
+            iconSize={16}
+          />
+        </View>
+        <View>
+          <Text style={styles.priceText}>
+            {user.wish_price.toLocaleString()}원
+          </Text>
+        </View>
+      </View>
     </View>
   ));
 
