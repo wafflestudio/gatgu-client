@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Button } from 'react-native';
-import Tags from './Tags/Tags';
-import AddImage from './AddImage/AddImage';
-import Title from './Title/Title';
-import Link from './Link/Link';
-import Description from './Description/Description';
-import Location from './Location/Location';
-import Recruiting from './Recruiting/Recruiting';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { AxiosResponse } from 'axios';
+
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { EditArticleParamList } from '@/types/navigation';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { articleAPI } from '@/apis';
+import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
+import tagNames from '@/constants/tagList';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 import { ITagType } from '@/types/article';
-import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
-import { articleAPI } from '@/apis';
-import { AxiosResponse } from 'axios';
-import tagNames from '@/constants/tagList';
+import { EditArticleParamList } from '@/types/navigation';
+
+import AddImage from './AddImage/AddImage';
+import Description from './Description/Description';
+import Link from './Link/Link';
+import Location from './Location/Location';
+import Recruiting from './Recruiting/Recruiting';
+import Tags from './Tags/Tags';
+import Title from './Title/Title';
 
 // TODO: @juimdpp
 // when: 엄청 급한게 아니라 모든 코드 마스터로 머지 되고, 다시 수정할때..?

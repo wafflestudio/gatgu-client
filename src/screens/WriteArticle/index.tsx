@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { WriteArticle } from '@/components';
 
 function WriteArticleTemplate(): JSX.Element {
