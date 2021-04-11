@@ -92,7 +92,11 @@ function SignUpTemplate(): JSX.Element {
         validString: '',
         isValid: validate.validateEM(em),
         buttonString: '인증',
-        buttonOnPress: () => true,
+        buttonOnPress: () =>
+          userAPI
+            .confirm(em + '@snu.ac.kr')
+            .then(() => Alert.alert('인증 메일을 발송하였습니다.'))
+            .catch(() => Alert.alert('인증 메일 발송에 실패하였습니다.')),
         marginBottom: 6,
       }),
       [em, setEM]
@@ -106,10 +110,14 @@ function SignUpTemplate(): JSX.Element {
         validString: '',
         isValid: validate.validateCD(cd, cd),
         buttonString: '확인',
-        buttonOnPress: () => true,
+        buttonOnPress: () =>
+          userAPI
+            .activate(em + '@snu.ac.kr', cd)
+            .then(() => Alert.alert('인증되었습니다.'))
+            .catch(() => Alert.alert('잘못된 코드입니다.')),
         marginBottom: 6,
       }),
-      [cd, setCD]
+      [em, cd, setCD]
     ),
   ];
 
@@ -179,6 +187,7 @@ function SignUpTemplate(): JSX.Element {
         dispatch(login(id, pw, navigation));
       })
       .catch((err: AxiosError) => {
+        console.error(err);
         switch (parseInt(err.code + '')) {
           case 400:
             Alert.alert(err.message);

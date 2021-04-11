@@ -1,10 +1,14 @@
-import { View } from 'native-base';
 import React from 'react';
 import { Text, Image, TouchableOpacity } from 'react-native';
-import styles from './Profile.style';
-import { typo } from '@/styles';
+
+import { View } from 'native-base';
+
 import { useNavigation } from '@react-navigation/native';
+
+import { typo } from '@/styles';
 import { IUserSumProps } from '@/types/user';
+
+import styles from './Profile.style';
 
 function Profile({
   profile_id,

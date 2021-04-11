@@ -2,6 +2,10 @@
 import { AxiosResponse } from 'axios';
 import qs from 'querystring';
 
+// TODO: @ssu1018
+// - Refactore all apisrelated with ArticleSumaary
+// when: until 3/12
+// for home page
 import { PAGE_SIZE, SearchType } from '@/constants/article';
 import {
   IArticleProps,

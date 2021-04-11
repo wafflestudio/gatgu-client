@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
 
 import Thumbnail from '@/components/Thumbnail';
-import { IArticleSumProps } from '@/types/article';
-import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
 import { IS_PEOPLE } from '@/constants/Enum';
+import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
 import { $thumnail_size } from '@/styles/size';
+import { IArticleSumProps } from '@/types/article';
 
 import styles from './ArticleBox.style';
 import GoalBar from './GoalBar';

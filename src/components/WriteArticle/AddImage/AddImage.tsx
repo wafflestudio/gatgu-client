@@ -1,10 +1,12 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { View, Image, TouchableHighlight, Alert } from 'react-native';
-import styles from './AddImage.style';
-import PlusSign from '@/assets/PlusSign';
-import ImagePicker from 'react-native-image-crop-picker';
 import { ScrollView } from 'react-native-gesture-handler';
+import ImagePicker from 'react-native-image-crop-picker';
+
 import XSign from '@/assets/CrossSign';
+import PlusSign from '@/assets/PlusSign';
+
+import styles from './AddImage.style';
 
 interface AddImageProps {
   images: (string | null | undefined)[];
