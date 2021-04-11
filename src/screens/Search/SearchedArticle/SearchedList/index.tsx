@@ -1,14 +1,13 @@
 import React from 'react';
-
-import { ArticleBox } from '@/components';
-import { IArticleSumProps } from '@/types/article';
-
 import { useSelector, shallowEqual } from 'react-redux';
 
-import { RootState } from '@/store';
-import { createError } from '@/helpers/functions';
+import { ArticleBox } from '@/components';
 import ArticleListTemplate from '@/components/ArticleListTemplate';
+import { createError } from '@/helpers/functions';
+import { RootState } from '@/store';
 import { searchArticles } from '@/store/searchSlice';
+import { IArticleSumProps } from '@/types/article';
+
 const [Error] = createError();
 
 function SearchedList(): JSX.Element {

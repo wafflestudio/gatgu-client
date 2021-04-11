@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
-
 import { useDispatch } from 'react-redux';
 
 import { Icon } from 'native-base';
@@ -8,8 +7,8 @@ import { Icon } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import { StringInput } from '@/components';
-import { useKeywordDispatch } from '@/helpers/hooks';
 import { GetArticleSumStatus, SearchType } from '@/constants/article';
+import { useKeywordDispatch } from '@/helpers/hooks';
 import { searchArticles } from '@/store/searchSlice';
 
 import styles from './SearchBar.style';

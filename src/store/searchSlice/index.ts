@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 
 import { AxiosResponse, AxiosError } from 'axios';
 
@@ -6,9 +7,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { articleAPI, SearchAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
+import {
+  MAX_ARTICLE_NUM,
+  PAGE_SIZE,
+  GetArticleSumStatus,
+} from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { AppThunk } from '@/store';
-
 import {
   IGetArticleSumSuccessPayload,
   IGetArticleSumFailPayload,
@@ -16,14 +21,7 @@ import {
   TLoad,
   TSearchType,
 } from '@/types/article';
-
-import {
-  MAX_ARTICLE_NUM,
-  PAGE_SIZE,
-  GetArticleSumStatus,
-} from '@/constants/article';
 import { IArticleSliceBasis } from '@/types/article';
-import { Alert } from 'react-native';
 
 export interface ISearchedArticleSlice extends IArticleSliceBasis {
   keyword: string;

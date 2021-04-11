@@ -1,20 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-
-import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 
+import { useNavigation } from '@react-navigation/native';
+
 import Tag from '@/components/Button';
+import { GetArticleSumStatus, SearchType } from '@/constants/article';
 import tagList from '@/constants/tagList';
 import { useKeywordDispatch } from '@/helpers/hooks';
+import { searchArticles } from '@/store/searchSlice';
 
 import SearchStyle from '../../Search.style';
-
 import styles from './TagList.style';
-
-import { searchArticles } from '@/store/searchSlice';
-import { GetArticleSumStatus, SearchType } from '@/constants/article';
-
 
 function TagList(): JSX.Element {
   const navigation = useNavigation();

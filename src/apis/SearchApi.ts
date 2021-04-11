@@ -1,4 +1,3 @@
-
 import qs from 'querystring';
 
 import { IArticleSumSearchResponse } from '@/types/article';
@@ -9,7 +8,7 @@ export const getPopularSearchKeyword = (): Promise<string[]> => {
   // TODO: @ssu1018
   // - Refactore all apisrelated with search
   // when: until 3/12
-}
+};
 // TODO: @ssu1018
 // - 인기 검색어 보류
 

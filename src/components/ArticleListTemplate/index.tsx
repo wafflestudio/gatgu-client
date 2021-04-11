@@ -6,13 +6,14 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
+
 import _ from 'lodash';
 
-import ArticleBox from '../ArticleBox';
-import { IArticleSumProps, TLoad } from '@/types/article';
 import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/article';
 import AppLoading from '@/screens/AppLoading';
+import { IArticleSumProps, TLoad } from '@/types/article';
 
+import ArticleBox from '../ArticleBox';
 import styles from './ArticleListTemplate.style';
 
 interface IArticleListTemplateProps {

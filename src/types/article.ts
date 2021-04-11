@@ -1,7 +1,5 @@
+import { Need } from '@/constants/Enum';
 import { SearchType } from '@/constants/article';
-import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
-
-type TneedType = typeof IS_MONEY | typeof IS_PEOPLE;
 
 interface IPagination {
   next: string;
@@ -19,13 +17,13 @@ export interface IArticleSumProps {
   title: string;
   location: string;
   thumbnail_url: string;
-  need_type: TneedType;
+  need_type: Need;
   price_min: number;
   people_min: number;
   time_in: string;
   written_at: string;
   article_id: string;
-  participants_summary: IParticipantsSummary;
+  participants_summary: IParticipantsSummary | undefined;
 }
 
 interface IArticleDetail extends IArticleSumProps {
