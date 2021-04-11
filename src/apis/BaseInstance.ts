@@ -9,7 +9,7 @@ requester.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 
 // set user auth token
 export const setToken = (token: string): void => {
-  requester.defaults.headers['Authorization'] = `${token}`;
+  requester.defaults.headers['Authorization'] = `token ${token}`;
 };
 
 // remove user auth token
