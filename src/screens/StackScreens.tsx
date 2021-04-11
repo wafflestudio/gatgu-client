@@ -8,10 +8,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import Logo from '@/assets/Logo';
 import { Button } from '@/components';
 import routes from '@/helpers/routes';
 import { RootState } from '@/store';
-import Logo from '@/assets/Logo';
 import { logout } from '@/store/userSlice';
 import { palette, typo } from '@/styles';
 
