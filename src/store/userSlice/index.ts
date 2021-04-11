@@ -7,6 +7,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { userAPI } from '@/apis';
 import { setToken, removeToken } from '@/apis/BaseInstance';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { AppThunk } from '@/store';
 import { IUserProps } from '@/types/user';
 
@@ -40,16 +42,10 @@ const userSlice = createSlice({
     setInfo(state, action: PayloadAction<IUserProps>) {
       state.info = { ...action.payload };
       state.logged = true;
-      // TODO: @woohm402
-      //   todo: set asyncStorage info
-      //   when: 최최최종에서
     },
     clearInfo(state) {
       state.info = { ...initialState.info };
       state.logged = false;
-      // TODO: @woohm402
-      //   todo: clear asyncStorage info
-      //   when: 최최최종에서
     },
     setLogged(state, action) {
       state.logged = { ...action.payload };
@@ -70,6 +66,7 @@ export const login = (
     .login(id, pw)
     .then((response) => {
       setToken(response.data.token);
+      ObjectStorage.addObject(asyncStoragekey.USER, response.data);
       dispatch(setInfo(response.data));
       navigation.navigate('Home');
     })
@@ -86,6 +83,7 @@ export const login = (
 
 export const logout = (): AppThunk => (dispatch) => {
   removeToken();
+  ObjectStorage.removeObject(asyncStoragekey.USER);
   dispatch(clearInfo());
 };
 

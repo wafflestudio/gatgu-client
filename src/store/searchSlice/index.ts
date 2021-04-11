@@ -1,9 +1,11 @@
 import { Alert } from 'react-native';
 
+import { AxiosResponse, AxiosError } from 'axios';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { articleAPI } from '@/apis';
+import { articleAPI, SearchAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import {
   MAX_ARTICLE_NUM,
