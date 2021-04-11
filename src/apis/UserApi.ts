@@ -50,3 +50,14 @@ export const getUser = (
 ): Promise<AxiosResponse<IUserProps>> => {
   return requester.get(`user/${profile_id}/`);
 };
+
+export const confirm = (email: string): Promise<AxiosResponse<any>> => {
+  return requester.put('user/confirm/', { email });
+};
+
+export const activate = (
+  email: string,
+  code: string
+): Promise<AxiosResponse<any>> => {
+  return requester.put('user/activate/', { email, code });
+};

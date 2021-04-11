@@ -8,33 +8,23 @@ export const getPopularSearchKeyword = (): Promise<string[]> => {
   // TODO: @ssu1018
   // - Refactore all apisrelated with search
   // when: until 3/12
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        '검색어1',
-        '검색어2',
-        '검색어3',
-        '검색어4',
-        '검색어5',
-        '검색어6',
-        '검색어7',
-      ]);
-    });
-  });
 };
+// TODO: @ssu1018
+// - 인기 검색어 보류
 
-export const searchArticles = (
-  keyword: string
-): Promise<IArticleSumSearchResponse> => {
-  const query = qs.stringify({ search: keyword });
-  return requester.get(`articles/?${query}`);
-};
+// export const getPopularSearchKeyword = (): Promise<string[]> => {
 
-export const fetchMoreArticles = (
-  keyword: string,
-  url: string
-): Promise<IArticleSumSearchResponse> => {
-  const query = qs.stringify({ search: keyword });
-  return requester.get(`${url}?${query}`);
-};
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve([
+//         '검색어1',
+//         '검색어2',
+//         '검색어3',
+//         '검색어4',
+//         '검색어5',
+//         '검색어6',
+//         '검색어7',
+//       ]);
+//     });
+//   });
+// };

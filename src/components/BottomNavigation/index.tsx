@@ -1,19 +1,13 @@
 import React from 'react';
 
-import { Icon } from 'native-base';
-
 import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
 } from '@react-navigation/bottom-tabs';
 
-
-import TabIcon from '@/assets/TabIcon';
-
-import navigationRoute from './navigationRoute';
-
 import { BottomTabIcon } from '@/assets/Icon';
 
+import navigationRoute from './navigationRoute';
 
 const Tab = createBottomTabNavigator();
 

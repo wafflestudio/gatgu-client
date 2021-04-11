@@ -1,4 +1,5 @@
 import { Need } from '@/constants/Enum';
+import { SearchType } from '@/constants/article';
 
 interface IPagination {
   next: string;
@@ -37,6 +38,19 @@ interface IArticleDetail extends IArticleSumProps {
 export interface IArticleSumResponse extends IPagination {
   results: IArticleDetail[];
 }
+
+export interface IArticleSliceBasis {
+  hasError: boolean;
+  errorStatus: number;
+  data: IArticleSumProps[];
+  isLoading: boolean;
+  next: string | null;
+  previous: string | null;
+  isLastPage: boolean;
+  isFirstPage: boolean;
+}
+
+export type TSearchType = SearchType.TITLE | SearchType.TAG;
 
 //article detail
 export interface IArticleProps {
