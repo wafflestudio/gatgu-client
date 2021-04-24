@@ -1,14 +1,20 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 import qs from 'querystring';
-import requester from './BaseInstance';
+
+// TODO: @ssu1018
+// - Refactore all apisrelated with ArticleSumaary
+// when: until 3/12
+// for home page
+import { PAGE_SIZE, SearchType } from '@/constants/article';
 import {
   IArticleProps,
   IMessageRet,
   IArticleSumResponse,
   TSearchType,
 } from '@/types/article';
-import { PAGE_SIZE, SearchType } from '@/constants/article';
+
+import requester from './BaseInstance';
 
 export const getArticleSummary = (
   url: string | null,

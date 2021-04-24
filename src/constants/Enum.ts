@@ -2,8 +2,11 @@
 
 export const PI = 3.14;
 
-export const IS_MONEY = 2;
-export const IS_PEOPLE = 1;
+export enum Need {
+  UNDEFINED_TYPE,
+  IS_PEOPLE = 1,
+  IS_MONEY = 2,
+}
 
 export enum Status {
   UNDEFINED_STATUS,

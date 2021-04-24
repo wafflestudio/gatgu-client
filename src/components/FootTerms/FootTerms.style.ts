@@ -1,5 +1,6 @@
-import { palette, typo } from '@/styles';
 import { StyleSheet } from 'react-native';
+
+import { palette, typo } from '@/styles';
 
 const FootTermsStyle = StyleSheet.create({
   // 약관, 개인정보 처리방침

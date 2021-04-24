@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
 
 import Thumbnail from '@/components/Thumbnail';
-import { IArticleSumProps } from '@/types/article';
+import { Need } from '@/constants/Enum';
 import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
-import { IS_PEOPLE } from '@/constants/Enum';
 import { $thumnail_size } from '@/styles/size';
+import { IArticleSumProps } from '@/types/article';
 
 import styles from './ArticleBox.style';
 import GoalBar from './GoalBar';
@@ -53,7 +54,7 @@ function ArticleBox({
         <View style={styles.goalWrapper}>
           <GoalBar
             summary={participants_summary}
-            min_required={need_type === IS_PEOPLE ? people_min : price_min}
+            min_required={need_type === Need.IS_PEOPLE ? people_min : price_min}
             type={need_type}
           />
         </View>

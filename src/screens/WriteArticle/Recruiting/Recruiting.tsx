@@ -1,9 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View, Text } from 'react-native';
-import styles, { switchSelector } from './Recruiting.style';
-import waStyles from '../WriteArticle.style';
 import SwitchSelector from 'react-native-switch-selector';
+
 import { StringInput } from '@/components';
+
+import waStyles from '../WriteArticle.style';
+import styles, { switchSelector } from './Recruiting.style';
 
 interface RecruitingProps {
   needPeople: number;

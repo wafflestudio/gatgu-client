@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { LayoutChangeEvent, Text, View } from 'react-native';
+
+import { Need } from '@/constants/Enum';
+
 import styles from './TopBubble.style';
-import { IS_MONEY } from '@/constants/Enum';
 
 interface ITopBubbleProps {
   current?: number;
@@ -56,7 +58,7 @@ function TopBubble({
     <View style={{ alignSelf: calcLeft.side, left: calcLeft.left }}>
       <View style={styles.box} onLayout={getCoorBar}>
         <Text style={styles.text}>{`${goal} 중 ${current}${
-          type === IS_MONEY ? '원' : '명'
+          type === Need.IS_MONEY ? '원' : '명'
         } 모였어요!`}</Text>
       </View>
       <View style={{ width: width }}>
