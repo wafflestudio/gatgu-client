@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
 
-import { useIsDrawerOpen } from '@react-navigation/drawer';
+import {
+  useIsDrawerOpen,
+  DrawerContentScrollView,
+} from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 
 import { Button, Profile } from '@/components';
@@ -13,16 +16,10 @@ import styles from './Drawer.style';
 interface IDrawerTemplateProps {
   pictureUrls: string[];
   users: IChatUserProps[];
+  // [x: string]: any;
 }
 
 function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
-  const navigation = useNavigation();
-  const isDrawerOpen = useIsDrawerOpen();
-
-  useEffect(() => {
-    navigation.setOptions({ headerShown: !isDrawerOpen });
-  }, [navigation, isDrawerOpen]);
-
   const renderPicure = ({ item: uri }: { item: string }) => (
     <Image source={{ uri }} style={styles.image} />
   );
@@ -33,6 +30,7 @@ function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
 
   const renderedParticipants = users.map((user, ind) => (
     <View key={ind} style={styles.profileBox}>
+      {console.log(user.id)}
       <Profile
         profile_id={user.participant.profile_id}
         picture={user.participant.picture}

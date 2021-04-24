@@ -55,29 +55,35 @@ const mockUsers = [
 
 function ChatDrawer(): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
-  // const id = route.params.id;
-  const id = 1; // replace with above
+  const id = route.params.id;
+
   const dispatch = useDispatch();
 
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
+  console.log('currentChatInfo', currentChatInfo);
 
   useEffect(() => {
     dispatch(getChatInfo(id));
     // handle error case
   }, []);
+
   // FIXME
+  // todo: remove mocks
+  // when: for urls: when backend implements request for just uris
+  //       for participants:
   const urls = currentChatInfo.uri ? [currentChatInfo.uri] : mockUrls;
-  const participants = currentChatInfo.participant_profile
-    ? currentChatInfo.participant_profile
-    : mockUsers;
+  const participants =
+    currentChatInfo.participant_profile.length > 0
+      ? currentChatInfo.participant_profile
+      : mockUsers;
 
   return (
     <Drawer.Navigator
       drawerPosition="right"
-      drawerContent={(props) => (
-        <RightDrawer {...props} pictureUrls={urls} users={participants} />
+      drawerContent={() => (
+        <RightDrawer pictureUrls={urls} users={participants} />
       )}
       drawerStyle={{ width: '57%' }}
     >
