@@ -11,7 +11,11 @@ import { articleAPI } from '@/apis';
 import { Need } from '@/constants/Enum';
 import tagNames from '@/constants/tagList';
 import { RootState } from '@/store';
-import { getSingleArticle } from '@/store/articleSlice';
+import {
+  createSingleArticle,
+  editSingleArticle,
+  getSingleArticle,
+} from '@/store/articleSlice';
 import { ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
 
@@ -116,17 +120,29 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       // tag: tempTags
     };
     if (isEdit && currentArticle) {
-      articleAPI.editArticle(id, tempArticle).then((res: AxiosResponse) => {
-        console.log(res.data);
-        navigation.navigate('Article', { id: id });
-      });
-    } else {
-      articleAPI.create(tempArticle).then((res: AxiosResponse) => {
+      try {
+        dispatch(editSingleArticle(id, tempArticle));
         navigation.navigate('Article', {
           screen: 'ArticlePage',
-          params: { id: res.data.article_id },
+          params: { id: id },
         });
-      });
+      } catch (error) {
+        // TODO: @juimdpp
+        // todo: handle error
+        // when: when all pull requests are merged and I start handling error
+      }
+    } else {
+      try {
+        dispatch(createSingleArticle(tempArticle));
+        navigation.navigate('Article', {
+          screen: 'ArticlePage',
+          params: { id: id },
+        });
+      } catch (error) {
+        // TODO: @juimdpp
+        // todo: handle error
+        // when: when all pull requests are merged and I start handling error
+      }
     }
   };
 

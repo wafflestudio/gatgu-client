@@ -163,4 +163,35 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     });
 };
 
+export const editSingleArticle = (
+  id: number,
+  body: IArticleProps
+): AppThunk => (dispatch) => {
+  articleAPI
+    .editArticle(id, body)
+    .then((res: AxiosResponse) => {
+      dispatch(setCurrentArticle(res.data));
+    })
+    .catch(() => {
+      // TODO: @juimdpp
+      // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
+      // when: 로딩 페이지 구현할 때 같이 할게요
+    });
+};
+
+export const createSingleArticle = (body: IArticleProps): AppThunk => (
+  dispatch
+) => {
+  articleAPI
+    .create(body)
+    .then((res: AxiosResponse) => {
+      dispatch(setCurrentArticle(res.data));
+    })
+    .catch(() => {
+      // TODO: @juimdpp
+      // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
+      // when: 로딩 페이지 구현할 때 같이 할게요
+    });
+};
+
 export default articleSlice.reducer;

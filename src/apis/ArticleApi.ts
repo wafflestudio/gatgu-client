@@ -65,5 +65,9 @@ export const editArticle = (
   id: number,
   body: IArticleProps
 ): Promise<AxiosResponse<IMessageRet>> => {
-  return requester.put(`article/${id}/`, body);
+  const headers = {
+    'Content-type': 'application/json',
+    Authorization: `${requester.defaults.headers['Authorization']}`,
+  };
+  return requester.put(`article/${id}/`, body, { headers });
 };
