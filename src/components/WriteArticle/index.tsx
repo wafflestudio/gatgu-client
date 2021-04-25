@@ -122,7 +122,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       });
     } else {
       articleAPI.create(tempArticle).then((res: AxiosResponse) => {
-        navigation.navigate('Article', res.data.id);
+        navigation.navigate('Article', {
+          screen: 'ArticlePage',
+          params: { id: res.data.article_id },
+        });
       });
     }
   };

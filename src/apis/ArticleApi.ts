@@ -41,7 +41,11 @@ export const getArticleSummary = (
 export const create = (
   article: IArticleProps
 ): Promise<AxiosResponse<IArticleProps>> => {
-  return requester.post('article/', article);
+  console.log(article);
+  const headers = {
+    'Content-type': 'application/json',
+  };
+  return requester.post('article/', article, { headers });
 };
 
 // get a single article with its id
