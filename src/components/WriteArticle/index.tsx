@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { articleAPI } from '@/apis';
-import { IS_MONEY, IS_PEOPLE } from '@/constants/Enum';
+import { Need } from '@/constants/Enum';
 import tagNames from '@/constants/tagList';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
@@ -46,7 +46,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
-  const [selected, setSelected] = useState(IS_PEOPLE); // IS_PEOPLE-1 because selector takes 0 or 1 not 1 or 2 as in API
+  const [selected, setSelected] = useState(Need.IS_PEOPLE); // IS_PEOPLE-1 because selector takes 0 or 1 not 1 or 2 as in API
   const [tags, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
@@ -78,7 +78,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       }
       currentArticle.need_type &&
         setSelected(
-          currentArticle.need_type === IS_PEOPLE ? IS_PEOPLE : IS_MONEY
+          currentArticle.need_type === Need.IS_PEOPLE
+            ? Need.IS_PEOPLE
+            : Need.IS_MONEY
         );
       setPeople(currentArticle.people_min);
       setPrice(currentArticle.price_min);
