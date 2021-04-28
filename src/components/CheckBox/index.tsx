@@ -54,21 +54,3 @@ function CheckBox({
 }
 
 export default CheckBox;
-
-/*
-<View style={{
-          width: 2,
-          backgroundColor: 'red',
-          height: 8,
-          transform: [{rotate: '130deg'}],
-        }}/>
-        <View style={{
-          position: 'relative',
-          bottom: 15,
-          left: 9,
-          width: 2,
-          backgroundColor: 'red',
-          height: 17,
-          transform: [{rotate: '40deg'}],
-        }}/>
-*/
