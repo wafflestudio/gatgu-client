@@ -12,6 +12,7 @@ import {
   ProfileModify,
   SignUp,
   TOS,
+  EditArticle,
   Login,
 } from '@/screens';
 
@@ -39,6 +40,10 @@ const routes = {
   Article: {
     name: 'ArticlePage',
     component: Article,
+  },
+  EditArticle: {
+    name: 'EditArticle',
+    component: EditArticle,
   },
   Notification: {
     name: 'Notification',

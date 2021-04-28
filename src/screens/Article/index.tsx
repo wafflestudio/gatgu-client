@@ -42,7 +42,7 @@ function ArticlePage(): JSX.Element {
     dispatch(getSingleArticle(id));
     dispatch(getChatInfo(id));
     // handle error true case
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setArticle(currentArticle);

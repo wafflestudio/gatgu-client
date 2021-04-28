@@ -12,6 +12,12 @@ export type ArticleDrawerParamList = {
   };
 };
 
+export type EditArticleParamList = {
+  EditArticle: {
+    id: number;
+  };
+};
+
 export type SignUpStackParamList = {
   TOS: {
     title: string;
