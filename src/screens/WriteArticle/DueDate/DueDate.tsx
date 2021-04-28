@@ -149,12 +149,3 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   );
 }
 export default DueDate;
-
-{
-  /* <DateTimePickerModal
-      isVisible={isDatePickerVisible}
-      mode="time"
-      onConfirm={handleConfirm}
-      onCancel={hideDatePicker}
-    /> */
-}
