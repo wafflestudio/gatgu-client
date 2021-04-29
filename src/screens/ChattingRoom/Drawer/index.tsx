@@ -1,40 +1,59 @@
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
 
-import { useIsDrawerOpen } from '@react-navigation/drawer';
+import {
+  useIsDrawerOpen,
+  DrawerContentScrollView,
+} from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 
 import { Button, Profile } from '@/components';
-import { IUserSumProps } from '@/types/user';
+import CheckBox from '@/components/CheckBox';
+import { IChatUserProps, IUserSumProps } from '@/types/user';
 
-import styles from './ChatDrawer.style';
+import styles from './Drawer.style';
 
 interface IDrawerTemplateProps {
   pictureUrls: string[];
-  users: IUserSumProps[];
+  users: IChatUserProps[];
+  // [x: string]: any;
 }
 
-function ChatDrawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
-  const navigation = useNavigation();
-  const isDrawerOpen = useIsDrawerOpen();
-
-  useEffect(() => {
-    navigation.setOptions({ headerShown: !isDrawerOpen });
-  }, [navigation, isDrawerOpen]);
-
+function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
   const renderPicure = ({ item: uri }: { item: string }) => (
     <Image source={{ uri }} style={styles.image} />
   );
 
+  const handleCheck = () => {
+    console.log('handle check not yet');
+  };
+
   const renderedParticipants = users.map((user, ind) => (
     <View key={ind} style={styles.profileBox}>
+      {console.log(user.id)}
       <Profile
-        profile_id={user.profile_id}
-        picture={user.picture}
-        nickname={user.nickname}
+        profile_id={user.participant.profile_id}
+        picture={user.participant.picture}
+        nickname={user.participant.nickname}
       />
+      <View style={styles.infoWrapper}>
+        <View style={styles.checkBoxWrapper}>
+          <CheckBox
+            selected={user.pay_status}
+            onPress={() => handleCheck()}
+            size={20}
+            iconSize={16}
+          />
+        </View>
+        <View>
+          <Text style={styles.priceText}>
+            {user.wish_price.toLocaleString()}원
+          </Text>
+        </View>
+      </View>
     </View>
   ));
+
   return (
     <View style={styles.drawerInnerWrapper}>
       <View style={styles.pictureContainer}>
@@ -61,4 +80,4 @@ function ChatDrawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
   );
 }
 
-export default ChatDrawer;
+export default Drawer;

@@ -13,13 +13,14 @@ import styles from './Chat.style';
 
 interface IChatProps {
   orderStatus: number;
+  article_id: number | undefined;
 }
 
-function Chat({ orderStatus }: IChatProps): JSX.Element {
+function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
   const navigateToChatRoom = () => {
     if (orderStatus < Status.ORDER_COMPLETE) {
-      navigation.navigate('ChattingRoom');
+      navigation.navigate('ChattingRoom', { id: article_id });
     }
   };
   return (

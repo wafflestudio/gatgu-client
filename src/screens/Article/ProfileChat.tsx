@@ -32,7 +32,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       <View style={styles.profileContainer}>
         <Profile {...writer} />
       </View>
-      <Chat orderStatus={orderStatus} />
+      <Chat orderStatus={orderStatus} article_id={article.article_id} />
     </View>
   );
 }
