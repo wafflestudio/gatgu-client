@@ -31,6 +31,11 @@ export const typo = {
     lineHeight: 15,
     fontSize: 10,
   },
+  button: {
+    fontFamily: 'NotoSansKR_700Bold',
+    lineHeight: 21,
+    fontSize: 18,
+  },
   bold_20: {
     fontFamily: 'NotoSansKR_700Bold',
     fontSize: 20,

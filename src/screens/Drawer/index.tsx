@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 import { articleAPI, userAPI } from '@/apis';
 import { Button, Profile } from '@/components';
 import { Status } from '@/constants/Enum';
-import { createError } from '@/helpers/functions';
 import { RootState } from '@/store';
 import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
 import { palette } from '@/styles';
@@ -115,7 +114,11 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="수정하기"
-              onPress={() => Alert.alert('navigate to edit page')}
+              onPress={() =>
+                navigation.navigate('EditArticle', {
+                  id: currentArticle.article_id,
+                })
+              }
               textStyle={styles.upperLabelText}
             />
             <Button

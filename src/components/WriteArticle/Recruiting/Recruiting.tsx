@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 
 import { StringInput } from '@/components';
+import { IS_PEOPLE } from '@/constants/Enum';
 
 import waStyles from '../WriteArticle.style';
 import styles, { switchSelector } from './Recruiting.style';
@@ -25,14 +26,15 @@ function Recruiting({
   setSelected,
 }: RecruitingProps): JSX.Element {
   const options = [
-    { label: '모집인원/필요인원', value: '0' },
-    { label: '모금금액/필요금액', value: '1' },
+    { label: '모집인원/필요인원', value: '1' },
+    { label: '모금금액/필요금액', value: '2' },
   ];
 
   const changeNumber = (txt: number, num: number) => {
+    console.log(num);
     // code for dismissing all letters
     // code for max limit
-    if (num === 0) setPeople(txt);
+    if (num === IS_PEOPLE) setPeople(txt);
     else setPrice(txt);
   };
 
@@ -45,10 +47,14 @@ function Recruiting({
           keyboardType="number-pad"
           placeholder={str}
           onChangeText={(txt) => changeNumber(parseInt(txt), selected)}
-          value={selected === 0 ? needPeople.toString() : needPrice.toString()}
+          value={
+            selected === IS_PEOPLE
+              ? needPeople.toString()
+              : needPrice.toString()
+          }
           maxLength={maxL}
         />
-        <Text>{selected === 0 ? '명' : '원'}</Text>
+        <Text>{selected === IS_PEOPLE ? '명' : '원'}</Text>
       </View>
     );
   };
@@ -58,11 +64,14 @@ function Recruiting({
       <View style={styles.switchContainer}>
         <SwitchSelector
           options={options}
-          onPress={(value) => setSelected(Number(value))}
+          onPress={(value) => {
+            console.log(value);
+            setSelected(Number(value));
+          }}
           {...switchSelector}
         />
       </View>
-      {selected === 0 ? Input('필요인원', 5) : Input('필요금액', 10)}
+      {selected === IS_PEOPLE ? Input('필요인원', 5) : Input('필요금액', 10)}
     </View>
   );
 }

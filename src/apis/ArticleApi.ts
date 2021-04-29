@@ -41,7 +41,11 @@ export const getArticleSummary = (
 export const create = (
   article: IArticleProps
 ): Promise<AxiosResponse<IArticleProps>> => {
-  return requester.post('article/', article);
+  console.log(article);
+  const headers = {
+    'Content-type': 'application/json',
+  };
+  return requester.post('article/', article, { headers });
 };
 
 // get a single article with its id
@@ -55,4 +59,15 @@ export const deleteArticle = (
   id: number
 ): Promise<AxiosResponse<IMessageRet>> => {
   return requester.delete(`article/${id}/`);
+};
+
+export const editArticle = (
+  id: number,
+  body: IArticleProps
+): Promise<AxiosResponse<IMessageRet>> => {
+  const headers = {
+    'Content-type': 'application/json',
+    Authorization: `${requester.defaults.headers['Authorization']}`,
+  };
+  return requester.put(`article/${id}/`, body, { headers });
 };

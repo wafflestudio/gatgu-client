@@ -6,7 +6,7 @@ import { View } from 'native-base';
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
 import { IArticleProps } from '@/types/article';
-import { IUserProps, IUserSumProps } from '@/types/user';
+import { IUserSumProps } from '@/types/user';
 
 import Chat from './Chat';
 import styles from './ProfileChat.style';

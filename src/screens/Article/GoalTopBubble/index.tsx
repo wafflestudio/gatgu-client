@@ -4,17 +4,17 @@ import { LayoutChangeEvent } from 'react-native';
 import { View } from 'native-base';
 
 import GoalBar from '@/components/ArticleBox/GoalBar';
-import { IS_MONEY } from '@/constants/Enum';
+import { Need } from '@/constants/Enum';
 import { IParticipantsSummary } from '@/types/article';
 
 import styles from './GoalTopBubble.style';
 import TopBubble from './TopBubble';
 
 interface IGoalTopBubbleProps {
-  summary: IParticipantsSummary;
+  summary: IParticipantsSummary | undefined;
   current: number | undefined;
   min_required: number;
-  type: number;
+  type: number | undefined;
 }
 
 function GoalTopBubble({
@@ -26,8 +26,8 @@ function GoalTopBubble({
   const [end, setEnd] = useState<number>(0);
   const [pEnd, setPend] = useState<number>(0);
 
-  const percent = (current && (current / min_required) * 100) || 0;
-  const isMoney = type === IS_MONEY;
+  const percent = current ? (current / min_required) * 100 : 0;
+  const isMoney = type === Need.IS_MONEY;
 
   const getEnd = (event: LayoutChangeEvent) => {
     setEnd(event.nativeEvent.layout.width);
