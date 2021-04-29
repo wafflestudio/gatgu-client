@@ -43,17 +43,20 @@ function ArticlePage(): JSX.Element {
   );
 
   useEffect(() => {
+    setLoadingStatus(loading);
+  }, [loading]);
+
+  useEffect(() => {
     dispatch(getSingleArticle(id));
     dispatch(getChatInfo(id));
+    setLoadingStatus(true);
     // handle error true case
   }, [dispatch]);
 
   useEffect(() => {
     setArticle(currentArticle);
     setChatInfo(currentChatInfo);
-    setLoadingStatus(loading);
-    // set(false);
-  }, [currentArticle, currentChatInfo, loading]);
+  }, [currentArticle, currentChatInfo]);
 
   const productImageProps = {
     thumbnail_url: article.thumbnail_url,
