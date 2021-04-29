@@ -6,6 +6,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { initialArticle, initialChatInfo } from '@/constants/InitialState';
 import { createError } from '@/helpers/functions';
+import AppLoading from '@/screens/AppLoading';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 import { getChatInfo } from '@/store/chatSlice';
@@ -26,7 +27,7 @@ const [Error] = createError();
 function ArticlePage(): JSX.Element {
   const [article, setArticle] = useState<IArticleProps>(initialArticle);
   const [chatInfo, setChatInfo] = useState<IChattingRoom>(initialChatInfo);
-  const [hasError, setError] = useState(false);
+  const [isLoading, setLoadingStatus] = useState(true);
   const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
   const id = route.params.id;
   const dispatch = useDispatch();
@@ -36,6 +37,9 @@ function ArticlePage(): JSX.Element {
   );
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
+  );
+  const loading = useSelector(
+    (state: RootState) => state.article.GetArticleIsLoading
   );
 
   useEffect(() => {
@@ -47,8 +51,9 @@ function ArticlePage(): JSX.Element {
   useEffect(() => {
     setArticle(currentArticle);
     setChatInfo(currentChatInfo);
-    setError(false);
-  }, [currentArticle, currentChatInfo]);
+    setLoadingStatus(loading);
+    // set(false);
+  }, [currentArticle, currentChatInfo, loading]);
 
   const productImageProps = {
     thumbnail_url: article.thumbnail_url,
@@ -68,8 +73,8 @@ function ArticlePage(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      {hasError ? (
-        Error(401)
+      {isLoading ? (
+        <AppLoading />
       ) : (
         <ScrollView>
           <ProductImages {...productImageProps} />

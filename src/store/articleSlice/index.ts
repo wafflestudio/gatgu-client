@@ -34,6 +34,9 @@ export interface IArticleSlice {
   next: string | null;
   previous: string | null;
   currentArticle: IArticleProps;
+  GetArticleIsLoading: boolean;
+  GetArticleHasError: boolean;
+  GetArticleErrorStatus: number;
   isLastPage: boolean;
   isFirstPage: boolean;
 }
@@ -46,6 +49,9 @@ const initialState: IArticleSlice = {
   next: '',
   previous: '',
   currentArticle: initialArticle,
+  GetArticleIsLoading: true,
+  GetArticleHasError: false,
+  GetArticleErrorStatus: -100,
   isLastPage: false,
   isFirstPage: true,
 };
@@ -103,6 +109,21 @@ const articleSlice = createSlice({
 
     setCurrentArticle: (state, { payload }: PayloadAction<IArticleProps>) => {
       state.currentArticle = payload;
+      state.GetArticleHasError = false;
+      state.GetArticleIsLoading = true;
+    },
+
+    doneGettingSingleArticle: (state) => {
+      state.GetArticleIsLoading = false;
+    },
+
+    getSingleArticleFail: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
+      state.GetArticleHasError = true;
+      state.GetArticleIsLoading = false;
+      state.GetArticleErrorStatus = payload.errorStatus;
     },
   },
 });
@@ -112,6 +133,8 @@ const {
   getArticleSumFailure,
   setLoading,
   setCurrentArticle,
+  getSingleArticleFail,
+  doneGettingSingleArticle,
 } = articleSlice.actions;
 
 // Asynchronous thunk action
@@ -156,7 +179,15 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     .then((response: AxiosResponse) => {
       dispatch(setCurrentArticle(response.data));
     })
-    .catch(() => {
+    .then(() => {
+      dispatch(doneGettingSingleArticle());
+    })
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(getSingleArticleFail({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getSingleArticleFail({ errorStatus: UNKNOWN_ERR }));
+      }
       // TODO: @juimdpp
       // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
       // when: 로딩 페이지 구현할 때 같이 할게요
