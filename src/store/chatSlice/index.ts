@@ -53,7 +53,6 @@ export const getChatInfo = (id: number | undefined): AppThunk => (dispatch) => {
   chatAPI
     .getChatInfo(id)
     .then((response: AxiosResponse) => {
-      console.log('!!!ERES', response.data);
       dispatch(setCurrentChatInfo(response.data)); // TODO: @juimdpp
       // todo: change to response.data (json-server에서는 이렇게해야 커리가 먹힘)
       // when: 서버 잘 되면
