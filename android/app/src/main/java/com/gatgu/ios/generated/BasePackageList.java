@@ -1,4 +1,4 @@
-package com.gatgu.ios.generated;
+package com.wafflestudio.gatgu.generated;
 
 import java.util.Arrays;
 import java.util.List;
