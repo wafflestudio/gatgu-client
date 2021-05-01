@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -28,6 +28,8 @@ function ArticlePage(): JSX.Element {
   const [article, setArticle] = useState<IArticleProps>(initialArticle);
   const [chatInfo, setChatInfo] = useState<IChattingRoom>(initialChatInfo);
   const [isLoading, setLoadingStatus] = useState(true);
+  const [hasError, setErrorStatus] = useState(false);
+  const [errno, setErrno] = useState(-100);
   const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
   const id = route.params.id;
   const dispatch = useDispatch();
@@ -41,15 +43,30 @@ function ArticlePage(): JSX.Element {
   const loading = useSelector(
     (state: RootState) => state.article.GetArticleIsLoading
   );
+  const error = useSelector(
+    (state: RootState) => state.article.GetArticleHasError
+  );
+  const errNum = useSelector(
+    (state: RootState) => state.article.GetArticleErrorStatus
+  );
 
   useEffect(() => {
     setLoadingStatus(loading);
   }, [loading]);
 
   useEffect(() => {
+    setErrorStatus(error);
+  }, [error]);
+
+  useEffect(() => {
+    setErrno(errNum);
+  }, [errNum]);
+
+  useEffect(() => {
     dispatch(getSingleArticle(id));
     dispatch(getChatInfo(id));
     setLoadingStatus(true);
+    setErrorStatus(false);
     // handle error true case
   }, [dispatch]);
 
@@ -76,7 +93,11 @@ function ArticlePage(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      {isLoading ? (
+      {hasError ? (
+        Error(errno, () => {
+          dispatch(getSingleArticle(id));
+        })
+      ) : isLoading ? (
         <AppLoading />
       ) : (
         <ScrollView>
