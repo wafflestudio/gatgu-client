@@ -7,6 +7,8 @@ import qs from 'querystring';
 // when: until 3/12
 // for home page
 import { PAGE_SIZE, SearchType } from '@/constants/article';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
   IMessageRet,
@@ -65,9 +67,12 @@ export const editArticle = (
   id: number,
   body: IArticleProps
 ): Promise<AxiosResponse<IMessageRet>> => {
-  const headers = {
-    'Content-type': 'application/json',
-    Authorization: `${requester.defaults.headers['Authorization']}`,
-  };
-  return requester.put(`article/${id}/`, body, { headers });
+  return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
+    const token = res['token'];
+    const headers = {
+      'Content-type': 'application/json',
+      Authorization: `token ${token}`,
+    };
+    return requester.put(`article/${id}/`, body, { headers });
+  });
 };
