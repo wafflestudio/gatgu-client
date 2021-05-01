@@ -18,10 +18,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gatgu.android"
+      "bundleIdentifier": "com.wafflestudio.gatgu"
     },
     "android": {
-      "package": "com.gatgu.ios",
+      "package": "com.wafflestudio.gatgu",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/Logo/Logo13.svg",
         "backgroundColor": "#FFFFFF"
