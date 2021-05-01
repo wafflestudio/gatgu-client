@@ -10,6 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 import { articleAPI, userAPI } from '@/apis';
 import { Button, Profile } from '@/components';
 import { Status } from '@/constants/Enum';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { RootState } from '@/store';
 import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
 import { palette } from '@/styles';
@@ -31,7 +33,6 @@ function DrawerTemplate(props: any): JSX.Element {
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
-
   useEffect(() => {
     if (currentArticle.article_id !== 0) {
       const id = currentArticle.article_id;
@@ -100,6 +101,24 @@ function DrawerTemplate(props: any): JSX.Element {
     }
   };
 
+  const editArticle = () => {
+    // if (currentArticle.writer_id ==
+    ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
+      const id = res;
+      if (res == null) {
+        Alert.alert('로그인을 해주세요');
+      } else {
+        if (res['id'] === currentArticle.writer_id) {
+          navigation.navigate('EditArticle', {
+            id: currentArticle.article_id,
+          });
+        } else {
+          Alert.alert('타인의 글을 수정할 수 없습니다.');
+        }
+      }
+    });
+  };
+
   return (
     <DrawerContentScrollView {...props}>
       {hasError ? (
@@ -114,11 +133,7 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="수정하기"
-              onPress={() =>
-                navigation.navigate('EditArticle', {
-                  id: currentArticle.article_id,
-                })
-              }
+              onPress={editArticle}
               textStyle={styles.upperLabelText}
             />
             <Button

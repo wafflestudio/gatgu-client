@@ -67,7 +67,6 @@ function ArticlePage(): JSX.Element {
     dispatch(getChatInfo(id));
     setLoadingStatus(true);
     setErrorStatus(false);
-    // handle error true case
   }, [dispatch]);
 
   useEffect(() => {

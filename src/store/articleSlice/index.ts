@@ -203,6 +203,9 @@ export const editSingleArticle = (
     .then((res: AxiosResponse) => {
       dispatch(setCurrentArticle(res.data));
     })
+    .then(() => {
+      dispatch(doneGettingSingleArticle());
+    })
     .catch(() => {
       // TODO: @juimdpp
       // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
