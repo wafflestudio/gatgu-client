@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Button } from 'react-native';
+import { ScrollView, Button, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AxiosResponse } from 'axios';
@@ -10,13 +10,14 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { articleAPI } from '@/apis';
 import { Need } from '@/constants/Enum';
 import tagNames from '@/constants/tagList';
+import { createError } from '@/helpers/functions';
 import { RootState } from '@/store';
 import {
   createSingleArticle,
   editSingleArticle,
   getSingleArticle,
 } from '@/store/articleSlice';
-import { ITagType } from '@/types/article';
+import { IArticleProps, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
 
 import AddImage from './AddImage/AddImage';
@@ -33,7 +34,7 @@ import Title from './Title/Title';
 //  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
 // when: 기획 잡히면:
 //  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
-
+const [Error] = createError();
 interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
 }
@@ -56,6 +57,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
   const { id } = isEdit ? route.params : { id: 0 };
   const dispatch = useDispatch();
+  const [pageStatus, setPageStatus] = useState(-100);
+  const [hasError, setErrorStatus] = useState(false);
 
   // TODO: @juimdpp
   // todo: if edit, get article and send them to other subcomponents
@@ -63,6 +66,17 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (isEdit) return state.article.currentArticle;
     else return null;
   });
+  const _pageStatus = useSelector((state: RootState) => {
+    return state.article.WriteArticleErrorStatus;
+  });
+  const _errorState = useSelector((state: RootState) => {
+    return state.article.WriteArticleHasError;
+  });
+
+  useEffect(() => {
+    setPageStatus(_pageStatus);
+    setErrorStatus(_errorState);
+  }, [_pageStatus, _errorState]);
 
   useEffect(() => {
     if (isEdit) dispatch(getSingleArticle(id));
@@ -118,7 +132,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       // image: images.slice(1),
       need_type: selected,
       // tag: tempTags
-    };
+    } as IArticleProps;
     if (isEdit && currentArticle) {
       try {
         dispatch(editSingleArticle(id, tempArticle));
@@ -134,11 +148,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     } else {
       try {
         dispatch(createSingleArticle(tempArticle));
-        navigation.navigate('Article', {
-          screen: 'ArticlePage',
-          params: { id: id },
-        });
+        // TOOOOODOOOOOOloading
       } catch (error) {
+        console.log(error);
         // TODO: @juimdpp
         // todo: handle error
         // when: when all pull requests are merged and I start handling error
@@ -148,21 +160,32 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
-      <Tags tags={tags} toggleTags={toggleTags} />
-      <AddImage images={images} setImages={setImages} />
-      <Title title={title} setTitle={setTitle} />
-      <Recruiting
-        needPeople={need_people}
-        needPrice={need_price}
-        selected={selected}
-        setPeople={setPeople}
-        setPrice={setPrice}
-        setSelected={setSelected}
-      />
-      <Location location={location} setLocation={setLocation} />
-      <Link link={link} setLink={setLink} />
-      <Description description={description} setDescription={setDescription} />
-      <Button title="완료" onPress={submit} />
+      {hasError ? (
+        Error(pageStatus, () => {
+          submit();
+        })
+      ) : (
+        <View>
+          <Tags tags={tags} toggleTags={toggleTags} />
+          <AddImage images={images} setImages={setImages} />
+          <Title title={title} setTitle={setTitle} />
+          <Recruiting
+            needPeople={need_people}
+            needPrice={need_price}
+            selected={selected}
+            setPeople={setPeople}
+            setPrice={setPrice}
+            setSelected={setSelected}
+          />
+          <Location location={location} setLocation={setLocation} />
+          <Link link={link} setLink={setLink} />
+          <Description
+            description={description}
+            setDescription={setDescription}
+          />
+          <Button title="완료" onPress={submit} />
+        </View>
+      )}
     </ScrollView>
   );
 }

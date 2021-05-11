@@ -42,12 +42,15 @@ export const getArticleSummary = (
 // for article page
 export const create = (
   article: IArticleProps
-): Promise<AxiosResponse<IArticleProps>> => {
-  console.log(article);
-  const headers = {
-    'Content-type': 'application/json',
-  };
-  return requester.post('article/', article, { headers });
+): Promise<AxiosResponse<IMessageRet>> => {
+  return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
+    const token = res['token'];
+    const headers = {
+      'Content-type': 'application/json',
+      Authorization: `token ${token}`,
+    };
+    return requester.post('article/', article, { headers });
+  });
 };
 
 // get a single article with its id

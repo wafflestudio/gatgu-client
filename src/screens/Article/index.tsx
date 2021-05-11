@@ -27,8 +27,10 @@ const [Error] = createError();
 function ArticlePage(): JSX.Element {
   const [article, setArticle] = useState<IArticleProps>(initialArticle);
   const [chatInfo, setChatInfo] = useState<IChattingRoom>(initialChatInfo);
-  const [isLoading, setLoadingStatus] = useState(true);
-  const [hasError, setErrorStatus] = useState(false);
+  const [GetisLoading, setGetLoadingStatus] = useState(true);
+  const [GethasError, setGetErrorStatus] = useState(false);
+  const [WriteisLoading, setWriteLoadingStatus] = useState(true);
+  const [WritehasError, setWriteErrorStatus] = useState(false);
   const [errno, setErrno] = useState(-100);
   const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
   const id = route.params.id;
@@ -51,11 +53,11 @@ function ArticlePage(): JSX.Element {
   );
 
   useEffect(() => {
-    setLoadingStatus(loading);
+    setGetLoadingStatus(loading);
   }, [loading]);
 
   useEffect(() => {
-    setErrorStatus(error);
+    setGetErrorStatus(error);
   }, [error]);
 
   useEffect(() => {
@@ -65,8 +67,8 @@ function ArticlePage(): JSX.Element {
   useEffect(() => {
     dispatch(getSingleArticle(id));
     dispatch(getChatInfo(id));
-    setLoadingStatus(true);
-    setErrorStatus(false);
+    setGetLoadingStatus(true);
+    setGetErrorStatus(false);
   }, [dispatch]);
 
   useEffect(() => {
@@ -92,11 +94,11 @@ function ArticlePage(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      {hasError ? (
+      {GethasError ? (
         Error(errno, () => {
           dispatch(getSingleArticle(id));
         })
-      ) : isLoading ? (
+      ) : GetisLoading ? (
         <AppLoading />
       ) : (
         <ScrollView>

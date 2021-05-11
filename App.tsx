@@ -19,7 +19,7 @@ import store from '@/store/rootStore';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { setInfo } from '@/store/userSlice';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-
+import { navigationRef } from './RootNavigation';
 const { ChattingRoom, Login, SignUp } = routes;
 
 const Stack = createStackNavigator();
@@ -54,7 +54,7 @@ function App(): JSX.Element {
   }
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <SafeAreaView
           style={{
             flex: 1,

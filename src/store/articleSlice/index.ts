@@ -20,6 +20,8 @@ import {
   TLoad,
 } from '@/types/article';
 
+import * as RootNavigation from '../../../RootNavigation';
+
 // CHECK:
 
 // TODO: @juimdpp
@@ -37,8 +39,11 @@ export interface IArticleSlice {
   GetArticleIsLoading: boolean;
   GetArticleHasError: boolean;
   GetArticleErrorStatus: number;
+  WriteArticleHasError: boolean;
+  WriteArticleErrorStatus: number;
   isLastPage: boolean;
   isFirstPage: boolean;
+  newId: number;
 }
 
 const initialState: IArticleSlice = {
@@ -52,8 +57,11 @@ const initialState: IArticleSlice = {
   GetArticleIsLoading: true,
   GetArticleHasError: false,
   GetArticleErrorStatus: -100,
+  WriteArticleHasError: false,
+  WriteArticleErrorStatus: -100,
   isLastPage: false,
   isFirstPage: true,
+  newId: -1,
 };
 
 // article store + basic action
@@ -125,12 +133,21 @@ const articleSlice = createSlice({
       state.GetArticleIsLoading = false;
       state.GetArticleErrorStatus = payload.errorStatus;
     },
+
+    writeArticleFailure: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
+      state.WriteArticleErrorStatus = payload.errorStatus;
+      state.WriteArticleHasError = true;
+    },
   },
 });
 
 const {
   getArticleSumSuccess,
   getArticleSumFailure,
+  writeArticleFailure,
   setLoading,
   setCurrentArticle,
   getSingleArticleFail,
@@ -202,14 +219,19 @@ export const editSingleArticle = (
     .editArticle(id, body)
     .then((res: AxiosResponse) => {
       dispatch(setCurrentArticle(res.data));
+      return res.data.article_id;
     })
-    .then(() => {
-      dispatch(doneGettingSingleArticle());
+    .then((id: number) => {
+      RootNavigation.navigate('ArticlePage', {
+        id: id,
+      });
     })
-    .catch(() => {
-      // TODO: @juimdpp
-      // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
-      // when: 로딩 페이지 구현할 때 같이 할게요
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(writeArticleFailure({ errorStatus: err.response.status }));
+      } else {
+        dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
+      }
     });
 };
 
@@ -220,11 +242,19 @@ export const createSingleArticle = (body: IArticleProps): AppThunk => (
     .create(body)
     .then((res: AxiosResponse) => {
       dispatch(setCurrentArticle(res.data));
+      return res.data.article_id;
     })
-    .catch(() => {
-      // TODO: @juimdpp
-      // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
-      // when: 로딩 페이지 구현할 때 같이 할게요
+    .then((id: number) => {
+      RootNavigation.navigate('ArticlePage', {
+        id: id,
+      });
+    })
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(writeArticleFailure({ errorStatus: err.response.status }));
+      } else {
+        dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
+      }
     });
 };
 
