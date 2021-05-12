@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, Button, View } from 'react-native';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { ScrollView, Button, View, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AxiosResponse } from 'axios';
@@ -45,8 +45,8 @@ const TagArray = tagNames.map((item, indx) => {
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<(string | null | undefined)[]>([]);
-  const [need_people, setPeople] = useState(0);
-  const [need_price, setPrice] = useState(0);
+  const [need_people, _setPeople] = useState('');
+  const [need_price, _setPrice] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
@@ -72,6 +72,15 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const _errorState = useSelector((state: RootState) => {
     return state.article.WriteArticleHasError;
   });
+
+  const setPeople = (inp: any) => {
+    if (inp == 'NaN') _setPeople('');
+    else _setPeople(inp);
+  };
+  const setPrice = (inp: any) => {
+    if (inp == 'NaN') _setPrice('');
+    else _setPrice(inp);
+  };
 
   useEffect(() => {
     setPageStatus(_pageStatus);
@@ -100,8 +109,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             ? Need.IS_PEOPLE
             : Need.IS_MONEY
         );
-      setPeople(currentArticle.people_min);
-      setPrice(currentArticle.price_min);
+      setPeople(currentArticle.people_min.toString());
+      setPrice(currentArticle.price_min.toString());
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
           return { id: i, tag: num.toString(), selected: false };
@@ -111,16 +120,42 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     }
   }, [currentArticle]);
 
+  const isURL = (str: string): boolean => {
+    const pattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i'
+    ); // fragment locator
+    return !!pattern.test(str);
+  };
+
+  const checkInput = (): string => {
+    let str = '';
+    if (!isURL(link)) str += 'Link is invalid.\n';
+    return str;
+  };
+
   const submit = () => {
     const tempTags = tags
       .filter((item) => item.selected)
       .map((item) => item.id);
+
+    const res = checkInput();
+    if (res != '') {
+      Alert.alert(res);
+      return;
+    }
+
     const tempArticle = {
       title: title,
       description: description,
       location: location,
-      price_min: need_price,
-      people_min: need_people,
+      price_min: parseInt(need_price),
+      people_min: parseInt(need_people),
       // time_in: new Date('2021-03-17'),
       // TODO: @juimdpp
       // todo: implement dueDate modal + 백엔드와 확인 (정확하게 원하는 타입이 무엇인지)
@@ -136,11 +171,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (isEdit && currentArticle) {
       try {
         dispatch(editSingleArticle(id, tempArticle));
-        navigation.navigate('Article', {
-          screen: 'ArticlePage',
-          params: { id: id },
-        });
       } catch (error) {
+        console.log(error);
         // TODO: @juimdpp
         // todo: handle error
         // when: when all pull requests are merged and I start handling error

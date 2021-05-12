@@ -41,6 +41,7 @@ export interface IArticleSlice {
   GetArticleErrorStatus: number;
   WriteArticleHasError: boolean;
   WriteArticleErrorStatus: number;
+  WriteArticleIsLoading: boolean;
   isLastPage: boolean;
   isFirstPage: boolean;
   newId: number;
@@ -59,6 +60,7 @@ const initialState: IArticleSlice = {
   GetArticleErrorStatus: -100,
   WriteArticleHasError: false,
   WriteArticleErrorStatus: -100,
+  WriteArticleIsLoading: true,
   isLastPage: false,
   isFirstPage: true,
   newId: -1,
@@ -140,6 +142,12 @@ const articleSlice = createSlice({
     ) => {
       state.WriteArticleErrorStatus = payload.errorStatus;
       state.WriteArticleHasError = true;
+      state.WriteArticleIsLoading = false;
+    },
+
+    writeArticleLoading: (state) => {
+      console.log('distress');
+      state.WriteArticleIsLoading = true;
     },
   },
 });
@@ -148,6 +156,7 @@ const {
   getArticleSumSuccess,
   getArticleSumFailure,
   writeArticleFailure,
+  writeArticleLoading,
   setLoading,
   setCurrentArticle,
   getSingleArticleFail,
@@ -238,6 +247,8 @@ export const editSingleArticle = (
 export const createSingleArticle = (body: IArticleProps): AppThunk => (
   dispatch
 ) => {
+  // dispatch(writeArticleLoading())
+
   articleAPI
     .create(body)
     .then((res: AxiosResponse) => {
