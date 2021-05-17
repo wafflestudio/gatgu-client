@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { ScrollView, Button, View, Alert } from 'react-native';
+import { ScrollView, Button, View, Alert, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AxiosResponse } from 'axios';
@@ -30,7 +30,6 @@ import Title from './Title/Title';
 
 // TODO: @juimdpp
 // when: 엄청 급한게 아니라 모든 코드 마스터로 머지 되고, 다시 수정할때..?
-//  - add code for deleting all non numeric for people, price
 //  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
 // when: 기획 잡히면:
 //  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
@@ -59,9 +58,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const dispatch = useDispatch();
   const [pageStatus, setPageStatus] = useState(-100);
   const [hasError, setErrorStatus] = useState(false);
+  const [isLoading, setLoadingStatus] = useState(false);
 
-  // TODO: @juimdpp
-  // todo: if edit, get article and send them to other subcomponents
+  // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
     if (isEdit) return state.article.currentArticle;
     else return null;
@@ -71,6 +70,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   });
   const _errorState = useSelector((state: RootState) => {
     return state.article.WriteArticleHasError;
+  });
+  const _loadingStatus = useSelector((state: RootState) => {
+    return state.article.WriteArticleIsLoading;
   });
 
   const setPeople = (inp: any) => {
@@ -88,8 +90,11 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   }, [_pageStatus, _errorState]);
 
   useEffect(() => {
+    setLoadingStatus(_loadingStatus);
+  });
+
+  useEffect(() => {
     if (isEdit) dispatch(getSingleArticle(id));
-    // handle error true case
   }, []);
 
   useEffect(() => {
@@ -169,24 +174,23 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       // tag: tempTags
     } as IArticleProps;
     if (isEdit && currentArticle) {
-      try {
-        dispatch(editSingleArticle(id, tempArticle));
-      } catch (error) {
-        console.log(error);
-        // TODO: @juimdpp
-        // todo: handle error
-        // when: when all pull requests are merged and I start handling error
-      }
+      dispatch(editSingleArticle(id, tempArticle)).then((id: number) => {
+        if (id != -1) {
+          navigation.navigate('Article', {
+            screen: 'ArticlePage',
+            params: { id: id },
+          });
+        }
+      });
     } else {
-      try {
-        dispatch(createSingleArticle(tempArticle));
-        // TOOOOODOOOOOOloading
-      } catch (error) {
-        console.log(error);
-        // TODO: @juimdpp
-        // todo: handle error
-        // when: when all pull requests are merged and I start handling error
-      }
+      dispatch(createSingleArticle(tempArticle)).then((id: number) => {
+        if (id != -1) {
+          navigation.navigate('Article', {
+            screen: 'ArticlePage',
+            params: { id: id },
+          });
+        }
+      });
     }
   };
 
@@ -194,8 +198,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     <ScrollView style={{ backgroundColor: 'white' }}>
       {hasError ? (
         Error(pageStatus, () => {
-          submit();
+          Alert.alert('Need to fix this part');
         })
+      ) : isLoading ? (
+        <Text>Loading Page</Text>
       ) : (
         <View>
           <Tags tags={tags} toggleTags={toggleTags} />

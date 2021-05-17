@@ -10,7 +10,7 @@ import {
   PAGE_SIZE,
   GetArticleSumStatus,
 } from '@/constants/article';
-import { AppThunk } from '@/store';
+import { AppThunk, RootState } from '@/store';
 import {
   IArticleProps,
   IArticleSumProps,
@@ -19,14 +19,6 @@ import {
   IArticleSumResponse,
   TLoad,
 } from '@/types/article';
-
-import * as RootNavigation from '../../../RootNavigation';
-
-// CHECK:
-
-// TODO: @juimdpp
-// currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
-// when: ~3/12
 
 export interface IArticleSlice {
   hasError: boolean;
@@ -60,7 +52,7 @@ const initialState: IArticleSlice = {
   GetArticleErrorStatus: -100,
   WriteArticleHasError: false,
   WriteArticleErrorStatus: -100,
-  WriteArticleIsLoading: true,
+  WriteArticleIsLoading: false,
   isLastPage: false,
   isFirstPage: true,
   newId: -1,
@@ -145,8 +137,13 @@ const articleSlice = createSlice({
       state.WriteArticleIsLoading = false;
     },
 
+    writeArticleSuccess: (state, { payload }: PayloadAction<IArticleProps>) => {
+      state.currentArticle = payload;
+      state.WriteArticleHasError = false;
+      state.WriteArticleIsLoading = false;
+    },
+
     writeArticleLoading: (state) => {
-      console.log('distress');
       state.WriteArticleIsLoading = true;
     },
   },
@@ -156,6 +153,7 @@ const {
   getArticleSumSuccess,
   getArticleSumFailure,
   writeArticleFailure,
+  writeArticleSuccess,
   writeArticleLoading,
   setLoading,
   setCurrentArticle,
@@ -214,9 +212,6 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
       } else {
         dispatch(getSingleArticleFail({ errorStatus: UNKNOWN_ERR }));
       }
-      // TODO: @juimdpp
-      // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
-      // when: 로딩 페이지 구현할 때 같이 할게요
     });
 };
 
@@ -224,49 +219,43 @@ export const editSingleArticle = (
   id: number,
   body: IArticleProps
 ): AppThunk => (dispatch) => {
-  articleAPI
+  dispatch(writeArticleLoading());
+  return articleAPI
     .editArticle(id, body)
     .then((res: AxiosResponse) => {
-      dispatch(setCurrentArticle(res.data));
+      dispatch(writeArticleSuccess(res.data));
       return res.data.article_id;
-    })
-    .then((id: number) => {
-      RootNavigation.navigate('ArticlePage', {
-        id: id,
-      });
     })
     .catch((err: AxiosError) => {
       if (err.response) {
         dispatch(writeArticleFailure({ errorStatus: err.response.status }));
+        return -1;
       } else {
         dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
+        return -1;
       }
     });
 };
 
-export const createSingleArticle = (body: IArticleProps): AppThunk => (
-  dispatch
-) => {
-  // dispatch(writeArticleLoading())
-
-  articleAPI
-    .create(body)
-    .then((res: AxiosResponse) => {
-      dispatch(setCurrentArticle(res.data));
-      return res.data.article_id;
-    })
-    .then((id: number) => {
-      RootNavigation.navigate('ArticlePage', {
-        id: id,
+export const createSingleArticle = (body: IArticleProps): AppThunk => {
+  return (dispatch) => {
+    dispatch(writeArticleLoading());
+    return articleAPI
+      .create(body)
+      .then((res: AxiosResponse) => {
+        dispatch(writeArticleSuccess(res.data));
+        return res.data.article_id;
+      })
+      .catch((err: AxiosError) => {
+        if (err.response) {
+          dispatch(writeArticleFailure({ errorStatus: err.response.status }));
+          return -1;
+        } else {
+          dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
+          return -1;
+        }
       });
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        dispatch(writeArticleFailure({ errorStatus: err.response.status }));
-      } else {
-        dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
-      }
-    });
+  };
 };
 
 export default articleSlice.reducer;
