@@ -62,7 +62,6 @@ function ChatDrawer(): JSX.Element {
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
-  console.log('currentChatInfo', currentChatInfo);
 
   useEffect(() => {
     dispatch(getChatInfo(id));

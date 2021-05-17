@@ -43,7 +43,6 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   const [date, setDate] = useState(today);
   const [dayArr, setDayArr] = useState(initWeek);
 
-  console.log(today);
   const onChange = (selectedDate: Date | undefined) => {
     setDate(selectedDate ? selectedDate : date);
   };

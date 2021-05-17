@@ -73,7 +73,6 @@ export const changeOrderStatus = (
   chatAPI
     .changeStatus(id, { order_status: orderStatus })
     .then((response: AxiosResponse) => {
-      console.log(response);
       dispatch(setCurrentChatInfo(response.data)); // TODO: @juimdpp
       // todo: json server returns entire object, but backend returns status string --> must update to setOrderStatus(response.data)
       // when: 서버 잘 되면 (json-server에서는 저렇게 하는 수 밖에 없어서...)
