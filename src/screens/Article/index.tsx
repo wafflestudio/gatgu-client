@@ -29,8 +29,6 @@ function ArticlePage(): JSX.Element {
   const [chatInfo, setChatInfo] = useState<IChattingRoom>(initialChatInfo);
   const [GetisLoading, setGetLoadingStatus] = useState(true);
   const [GethasError, setGetErrorStatus] = useState(false);
-  const [WriteisLoading, setWriteLoadingStatus] = useState(true);
-  const [WritehasError, setWriteErrorStatus] = useState(false);
   const [errno, setErrno] = useState(-100);
   const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
   const id = route.params.id;
@@ -42,33 +40,31 @@ function ArticlePage(): JSX.Element {
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
-  const loading = useSelector(
+  const _loading = useSelector(
     (state: RootState) => state.article.GetArticleIsLoading
   );
-  const error = useSelector(
+  const _error = useSelector(
     (state: RootState) => state.article.GetArticleHasError
   );
-  const errNum = useSelector(
+  const _errNum = useSelector(
     (state: RootState) => state.article.GetArticleErrorStatus
   );
 
   useEffect(() => {
-    setGetLoadingStatus(loading);
-  }, [loading]);
+    setGetLoadingStatus(_loading);
+  }, [_loading]);
 
   useEffect(() => {
-    setGetErrorStatus(error);
-  }, [error]);
+    setGetErrorStatus(_error);
+  }, [_error]);
 
   useEffect(() => {
-    setErrno(errNum);
-  }, [errNum]);
+    setErrno(_errNum);
+  }, [_errNum]);
 
   useEffect(() => {
     dispatch(getSingleArticle(id));
     dispatch(getChatInfo(id));
-    setGetLoadingStatus(true);
-    setGetErrorStatus(false);
   }, [dispatch]);
 
   useEffect(() => {

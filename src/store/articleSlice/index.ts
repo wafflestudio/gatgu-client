@@ -109,13 +109,12 @@ const articleSlice = createSlice({
       state.isLoading = true;
     },
 
-    setCurrentArticle: (state, { payload }: PayloadAction<IArticleProps>) => {
+    getSingleArticleSuccess: (
+      state,
+      { payload }: PayloadAction<IArticleProps>
+    ) => {
       state.currentArticle = payload;
       state.GetArticleHasError = false;
-      state.GetArticleIsLoading = true;
-    },
-
-    doneGettingSingleArticle: (state) => {
       state.GetArticleIsLoading = false;
     },
 
@@ -126,6 +125,9 @@ const articleSlice = createSlice({
       state.GetArticleHasError = true;
       state.GetArticleIsLoading = false;
       state.GetArticleErrorStatus = payload.errorStatus;
+    },
+    getSingleArticleLoading: (state) => {
+      state.GetArticleIsLoading = true;
     },
 
     writeArticleFailure: (
@@ -156,9 +158,9 @@ const {
   writeArticleSuccess,
   writeArticleLoading,
   setLoading,
-  setCurrentArticle,
+  getSingleArticleSuccess,
   getSingleArticleFail,
-  doneGettingSingleArticle,
+  getSingleArticleLoading,
 } = articleSlice.actions;
 
 // Asynchronous thunk action
@@ -198,13 +200,11 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
 
 // get single article
 export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
+  dispatch(getSingleArticleLoading());
   articleAPI
     .getSingleArticle(id)
     .then((response: AxiosResponse) => {
-      dispatch(setCurrentArticle(response.data));
-    })
-    .then(() => {
-      dispatch(doneGettingSingleArticle());
+      dispatch(getSingleArticleSuccess(response.data));
     })
     .catch((err: AxiosError) => {
       if (err.response) {
