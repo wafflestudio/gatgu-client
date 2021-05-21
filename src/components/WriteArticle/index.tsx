@@ -91,7 +91,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   useEffect(() => {
     setLoadingStatus(_loadingStatus);
-  });
+  }, [_loadingStatus]);
 
   useEffect(() => {
     if (isEdit) dispatch(getSingleArticle(id));
