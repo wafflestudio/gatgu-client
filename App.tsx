@@ -1,24 +1,19 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
-import {
-  useFonts,
-  NotoSansKR_500Medium,
-  NotoSansKR_400Regular,
-  NotoSansKR_700Bold,
-} from '@expo-google-fonts/noto-sans-kr';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import BottomNavigation from '@/components/BottomNavigation';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import routes from '@/helpers/routes';
 import { AppLoading } from '@/screens';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
-import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { setInfo } from '@/store/userSlice';
-import { asyncStoragekey } from '@/constants/asyncStorage';
 
 const { ChattingRoom, Login, SignUp } = routes;
 
@@ -26,11 +21,6 @@ const Stack = createStackNavigator();
 
 function App(): JSX.Element {
   const [userLoaded, setUserLoaded] = useState(false);
-  const [fontsLoaded] = useFonts({
-    NotoSansKR_500Medium,
-    NotoSansKR_400Regular,
-    NotoSansKR_700Bold,
-  });
 
   const loadUserData = useCallback(() => {
     ObjectStorage.getObject(asyncStoragekey.USER)
@@ -49,7 +39,7 @@ function App(): JSX.Element {
     loadUserData();
   }, []);
 
-  if (!fontsLoaded || !userLoaded) {
+  if (!userLoaded) {
     return <AppLoading />;
   }
   return (
