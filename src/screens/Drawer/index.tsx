@@ -30,6 +30,8 @@ function DrawerTemplate(props: any): JSX.Element {
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
   );
+  const currentUser = useSelector((state: RootState) => state.user.info);
+  const loggedIn = useSelector((state: RootState) => state.user.logged);
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
@@ -101,21 +103,17 @@ function DrawerTemplate(props: any): JSX.Element {
   };
 
   const editArticle = () => {
-    // if (currentArticle.writer_id ==
-    ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
-      const id = res;
-      if (res == null) {
-        Alert.alert('로그인을 해주세요');
+    if (!loggedIn) {
+      Alert.alert('로그인을 해주세요');
+    } else {
+      if (currentUser['id'] === currentArticle.writer_id) {
+        navigation.navigate('EditArticle', {
+          id: currentArticle.article_id,
+        });
       } else {
-        if (res['id'] === currentArticle.writer_id) {
-          navigation.navigate('EditArticle', {
-            id: currentArticle.article_id,
-          });
-        } else {
-          Alert.alert('타인의 글을 수정할 수 없습니다.');
-        }
+        Alert.alert('타인의 글을 수정할 수 없습니다.');
       }
-    });
+    }
   };
 
   return (
