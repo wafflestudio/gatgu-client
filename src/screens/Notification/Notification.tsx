@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native';
 
 import { INotifyItem } from '@/types/Notification';
 
-import NotificationBox from './NotificationBox';
+import NotificationBox from './NotificationBox/NotificationBox';
 
 const mockData: INotifyItem[] = [
   {

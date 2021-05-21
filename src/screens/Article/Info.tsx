@@ -7,7 +7,7 @@ import { Need } from '@/constants/Enum';
 import { typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
 
-import GoalTopBubbleBar from './GoalTopBubble/index';
+import GoalTopBubbleBar from './GoalTopBubble/GoalTopBubble';
 import styles from './Info.style';
 
 // will change input type (left it because will probably need it afterwards)

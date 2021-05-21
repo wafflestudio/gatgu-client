@@ -6,8 +6,8 @@ import { useSelector } from '@/helpers/hooks';
 import { initSearchData } from '@/store/searchSlice';
 
 import styles from './Search.style';
-import SearchBar from './SearchBar';
-import SearchSection from './SearchSection';
+import SearchBar from './SearchBar/SearchBar';
+import SearchSection from './SearchSection/SearchSection';
 
 function Search(): JSX.Element {
   const dispatch = useDispatch();

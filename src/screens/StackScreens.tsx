@@ -15,7 +15,7 @@ import { RootState } from '@/store';
 import { logout } from '@/store/userSlice';
 import { palette, typo } from '@/styles';
 
-import DrawerTemplate from './Drawer';
+import DrawerTemplate from './Drawer/Drawer';
 
 const {
   Home,

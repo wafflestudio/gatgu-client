@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import _ from 'lodash';
 
 import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/article';
-import AppLoading from '@/screens/AppLoading';
+import AppLoading from '@/screens/AppLoading/AppLoading';
 import { IArticleSumProps, TLoad } from '@/types/article';
 
 import ArticleBox from '../ArticleBox/ArticleBox';

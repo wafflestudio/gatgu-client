@@ -4,9 +4,9 @@ import { View, Text, Image } from 'react-native';
 import { IChatMessage } from '@/types/chat';
 
 import ChatContainerStyle from '../ChatContainer.style';
-import Bubble from './Bubble';
+import Bubble from './Bubble/Bubble';
 import styles from './ChatBox.style';
-import SystemMessage from './SystemMessage';
+import SystemMessage from './SystemMessage/SystemMessage';
 
 interface IChatBoxProps {
   current: IChatMessage;

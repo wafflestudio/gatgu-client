@@ -4,8 +4,8 @@ import { View } from 'react-native';
 import { useSelector } from '@/helpers/hooks';
 
 import styles from '../Search.style';
-import SearchBar from '../SearchBar';
-import SearchedList from './SearchedList';
+import SearchBar from '../SearchBar/SearchBar';
+import SearchedList from './SearchedList/SearchedList';
 
 function SearchListScreen(): JSX.Element {
   const searchText = useSelector((state) => state.search.keyword);

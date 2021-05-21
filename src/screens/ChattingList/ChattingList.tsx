@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native';
 
 import { IChattingRoom } from '@/types/chat';
 
-import ChattingBox from './ChattingBox';
+import ChattingBox from './ChattingBox/ChattingBox';
 
 const mockData: IChattingRoom[] = [
   {

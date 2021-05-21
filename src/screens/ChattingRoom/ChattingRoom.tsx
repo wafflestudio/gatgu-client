@@ -9,7 +9,7 @@ import { getChatInfo } from '@/store/chatSlice';
 import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChattingRoomTemplate from './ChattingRoomTemplate';
-import RightDrawer from './Drawer';
+import RightDrawer from './Drawer/Drawer';
 
 const Drawer = createDrawerNavigator();
 

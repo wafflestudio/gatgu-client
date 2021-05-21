@@ -12,7 +12,7 @@ import _ from 'lodash';
 import { ArticleBox } from '@/components';
 import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/article';
 import { createError } from '@/helpers/functions';
-import AppLoading from '@/screens/AppLoading';
+import AppLoading from '@/screens/AppLoading/AppLoading';
 import { RootState } from '@/store';
 import { getArticlesSum } from '@/store/articleSlice';
 import { IArticleSumProps, TLoad } from '@/types/article';

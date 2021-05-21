@@ -4,8 +4,8 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { useSelector } from '@/helpers/hooks';
 
-import RecentSearch from './RecentSearch';
-import TagList from './TagList';
+import RecentSearch from './RecentSearch/RecentSearch';
+import TagList from './TagList/TagList';
 
 function SearchSection(): JSX.Element {
   const { recentSearch } = useSelector((state) => state.search);

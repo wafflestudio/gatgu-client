@@ -6,7 +6,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { initialArticle, initialChatInfo } from '@/constants/InitialState';
 import { createError } from '@/helpers/functions';
-import AppLoading from '@/screens/AppLoading';
+import AppLoading from '@/screens/AppLoading/AppLoading';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 import { getChatInfo } from '@/store/chatSlice';

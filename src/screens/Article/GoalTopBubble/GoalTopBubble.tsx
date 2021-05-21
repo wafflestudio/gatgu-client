@@ -8,7 +8,7 @@ import { Need } from '@/constants/Enum';
 import { IParticipantsSummary } from '@/types/article';
 
 import styles from './GoalTopBubble.style';
-import TopBubble from './TopBubble';
+import TopBubble from './TopBubble/TopBubble';
 
 interface IGoalTopBubbleProps {
   summary: IParticipantsSummary | undefined;

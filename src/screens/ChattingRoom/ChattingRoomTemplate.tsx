@@ -5,7 +5,7 @@ import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 import { Header } from '@/components';
 
-import ChatsContainer from './ChatsContainer';
+import ChatsContainer from './ChatsContainer/ChatsContainer';
 import messages from './mockChat';
 
 export default function ChattingRoom(): JSX.Element {
