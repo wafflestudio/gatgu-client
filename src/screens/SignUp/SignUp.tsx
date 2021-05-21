@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { userAPI } from '@/apis';
 import { Button } from '@/components';
 import * as validate from '@/helpers/functions/validate';
-import { login } from '@/store/userSlice';
+import { login } from '@/store/userSlice/userSlice';
 import { flexRow } from '@/styles/wrapper';
 
 import Check, { ICheckProps } from './Check';

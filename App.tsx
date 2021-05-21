@@ -17,7 +17,7 @@ import { AppLoading } from '@/screens';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
-import { setInfo } from '@/store/userSlice';
+import { setInfo } from '@/store/userSlice/userSlice';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 
 const { ChattingRoom, Login, SignUp } = routes;

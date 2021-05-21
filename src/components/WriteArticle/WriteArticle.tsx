@@ -11,12 +11,12 @@ import { articleAPI } from '@/apis';
 import { Need } from '@/constants/Enum';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
-import { RootState } from '@/store';
 import {
   createSingleArticle,
   editSingleArticle,
   getSingleArticle,
-} from '@/store/articleSlice';
+} from '@/store/articleSlice/articleSlice';
+import { RootState } from '@/store/rootState';
 import { IArticleProps, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
 

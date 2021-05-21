@@ -11,8 +11,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Logo from '@/assets/Logo';
 import { Button } from '@/components';
 import routes from '@/helpers/routes';
-import { RootState } from '@/store';
-import { logout } from '@/store/userSlice';
+import { RootState } from '@/store/rootState';
+import { logout } from '@/store/userSlice/userSlice';
 import { palette, typo } from '@/styles';
 
 import DrawerTemplate from './Drawer/Drawer';

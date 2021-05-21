@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { useSelector } from '@/helpers/hooks';
-import { initSearchData } from '@/store/searchSlice';
+import { initSearchData } from '@/store/searchSlice/searchSlice';
 
 import styles from './Search.style';
 import SearchBar from './SearchBar/SearchBar';

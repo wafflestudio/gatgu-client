@@ -3,8 +3,8 @@ import { useSelector, shallowEqual } from 'react-redux';
 
 import ArticleListTemplate from '@/components/ArticleListTemplate/ArticleListTemplate';
 import { createError } from '@/helpers/functions';
-import { RootState } from '@/store';
-import { searchArticles } from '@/store/searchSlice';
+import { RootState } from '@/store/rootState';
+import { searchArticles } from '@/store/searchSlice/searchSlice';
 
 const [Error] = createError();
 

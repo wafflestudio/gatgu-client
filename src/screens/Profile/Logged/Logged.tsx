@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { FootTerms } from '@/components';
-import { RootState } from '@/store';
+import { RootState } from '@/store/rootState';
 
 import Force from './Force';
 import History from './HistoryList';

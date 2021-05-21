@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import logo from '@/assets/Logo';
 import { Button } from '@/components';
-import { login } from '@/store/userSlice';
+import { login } from '@/store/userSlice/userSlice';
 import { palette } from '@/styles';
 
 import styles from './Login.style';

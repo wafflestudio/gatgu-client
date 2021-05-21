@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RouteProp, useRoute } from '@react-navigation/core';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { RootState } from '@/store';
-import { getChatInfo } from '@/store/chatSlice';
+import { getChatInfo } from '@/store/chatSlice/chatSlice';
+import { RootState } from '@/store/rootState';
 import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChattingRoomTemplate from './ChattingRoomTemplate';

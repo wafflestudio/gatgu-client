@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StringInput } from '@/components';
 import { GetArticleSumStatus, SearchType } from '@/constants/article';
 import { useKeywordDispatch } from '@/helpers/hooks';
-import { searchArticles } from '@/store/searchSlice';
+import { searchArticles } from '@/store/searchSlice/searchSlice';
 
 import styles from './SearchBar.style';
 

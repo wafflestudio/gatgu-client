@@ -1,9 +1,9 @@
 import { combineReducers, ThunkAction, Action } from '@reduxjs/toolkit';
 
-import articleReducer from './articleSlice';
-import chatReducer from './chatSlice';
-import searchedReducer from './searchSlice';
-import userReducer from './userSlice';
+import articleReducer from './articleSlice/articleSlice';
+import chatReducer from './chatSlice/chatSlice';
+import searchedReducer from './searchSlice/searchSlice';
+import userReducer from './userSlice/userSlice';
 
 const rootReducer = combineReducers({
   article: articleReducer,

@@ -8,7 +8,7 @@ import Tag from '@/components/Button/Button';
 import { GetArticleSumStatus, SearchType } from '@/constants/article';
 import tagList from '@/constants/tagList';
 import { useKeywordDispatch } from '@/helpers/hooks';
-import { searchArticles } from '@/store/searchSlice';
+import { searchArticles } from '@/store/searchSlice/searchSlice';
 
 import SearchStyle from '../../Search.style';
 import styles from './TagList.style';

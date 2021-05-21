@@ -13,8 +13,8 @@ import { ArticleBox } from '@/components';
 import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/article';
 import { createError } from '@/helpers/functions';
 import AppLoading from '@/screens/AppLoading/AppLoading';
-import { RootState } from '@/store';
-import { getArticlesSum } from '@/store/articleSlice';
+import { getArticlesSum } from '@/store/articleSlice/articleSlice';
+import { RootState } from '@/store/rootState';
 import { IArticleSumProps, TLoad } from '@/types/article';
 
 import styles from './Home.style';

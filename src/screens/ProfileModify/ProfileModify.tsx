@@ -6,7 +6,7 @@ import ModifyButton from '@/assets/ProfileModifyPage/modifyButton.svg';
 import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
 import { StringInput } from '@/components';
 import { validateNN } from '@/helpers/functions/validate';
-import { RootState } from '@/store';
+import { RootState } from '@/store/rootState';
 
 import styles from './ProfileModify.styles';
 

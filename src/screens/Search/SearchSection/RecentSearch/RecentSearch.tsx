@@ -10,7 +10,7 @@ import Tag from '@/components/Button/Button';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ArrayStorage } from '@/helpers/functions/asyncStorage';
 import { useKeywordDispatch } from '@/helpers/hooks';
-import { removeKeyword } from '@/store/searchSlice';
+import { removeKeyword } from '@/store/searchSlice/searchSlice';
 
 import SearchStyle from '../../Search.style';
 import styles from './RecentSearch.style';

@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { chatAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { initialChatInfo } from '@/constants/InitialState';
-import { AppThunk } from '@/store';
+import { AppThunk } from '@/store/rootState';
 import { IGetFailPayload } from '@/types/article';
 import { IChattingRoom, IChangeStatusProps } from '@/types/chat';
 

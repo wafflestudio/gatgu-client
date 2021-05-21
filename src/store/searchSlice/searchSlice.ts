@@ -13,7 +13,7 @@ import {
   GetArticleSumStatus,
 } from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { AppThunk } from '@/store';
+import { AppThunk } from '@/store/rootState';
 import {
   IGetArticleSumSuccessPayload,
   IGetArticleSumFailPayload,

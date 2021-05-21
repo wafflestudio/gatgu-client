@@ -9,7 +9,7 @@ import { userAPI } from '@/apis';
 import { setToken, removeToken } from '@/apis/BaseInstance';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
-import { AppThunk } from '@/store';
+import { AppThunk } from '@/store/rootState';
 import { IUserProps } from '@/types/user';
 
 const initialState = {

@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ArrayStorage } from '@/helpers/functions/asyncStorage';
-import { setKeyword, addRecentSearch } from '@/store/searchSlice';
+import { setKeyword, addRecentSearch } from '@/store/searchSlice/searchSlice';
 
 type TUseKeywordDispath = () => (keyword: string) => void;
 

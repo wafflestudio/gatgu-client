@@ -10,7 +10,7 @@ import {
   PAGE_SIZE,
   GetArticleSumStatus,
 } from '@/constants/article';
-import { AppThunk, RootState } from '@/store';
+import { AppThunk, RootState } from '@/store/rootState';
 import {
   IArticleProps,
   IArticleSumProps,
