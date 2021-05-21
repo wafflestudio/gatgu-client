@@ -13,7 +13,7 @@ import { MAX_ARTICLE_NUM, GetArticleSumStatus } from '@/constants/article';
 import AppLoading from '@/screens/AppLoading';
 import { IArticleSumProps, TLoad } from '@/types/article';
 
-import ArticleBox from '../ArticleBox';
+import ArticleBox from '../ArticleBox/ArticleBox';
 import styles from './ArticleListTemplate.style';
 
 interface IArticleListTemplateProps {

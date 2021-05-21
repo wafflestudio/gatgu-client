@@ -6,7 +6,7 @@ import { Icon } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
-import Tag from '@/components/Button';
+import Tag from '@/components/Button/Button';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ArrayStorage } from '@/helpers/functions/asyncStorage';
 import { useKeywordDispatch } from '@/helpers/hooks';

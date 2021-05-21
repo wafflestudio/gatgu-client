@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
-import Tag from '@/components/Button';
+import Tag from '@/components/Button/Button';
 import { useKeywordDispatch } from '@/helpers/hooks';
 
 import SearchStyle from '../../Search.style';

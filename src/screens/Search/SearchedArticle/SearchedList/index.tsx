@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 
-import ArticleListTemplate from '@/components/ArticleListTemplate';
+import ArticleListTemplate from '@/components/ArticleListTemplate/ArticleListTemplate';
 import { createError } from '@/helpers/functions';
 import { RootState } from '@/store';
 import { searchArticles } from '@/store/searchSlice';

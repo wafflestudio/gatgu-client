@@ -4,9 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Text, View } from 'native-base';
 
-import { palette } from '@/styles';
-
-import styles from './CheckBox.style';
+import { palette } from '../../styles';
 
 interface CheckBoxProps {
   selected: boolean;

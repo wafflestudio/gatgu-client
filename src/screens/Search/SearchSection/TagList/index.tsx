@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 
-import Tag from '@/components/Button';
+import Tag from '@/components/Button/Button';
 import { GetArticleSumStatus, SearchType } from '@/constants/article';
 import tagList from '@/constants/tagList';
 import { useKeywordDispatch } from '@/helpers/hooks';

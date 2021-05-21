@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { palette } from '@/styles';
+
 const CheckBoxStyles = StyleSheet.create({
   defaultWrapper: {
     borderWidth: 1,

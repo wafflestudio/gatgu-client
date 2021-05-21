@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Error from '@/components/Error';
+import Error from '@/components/Error/Error';
 import defaultErrorMsg from '@/constants/ErrorCode';
 import customObj from '@/helpers/functions/object';
 

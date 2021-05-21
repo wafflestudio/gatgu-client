@@ -8,7 +8,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 import { Button, Profile } from '@/components';
-import CheckBox from '@/components/CheckBox';
+import CheckBox from '@/components/CheckBox/CheckBox';
 import { IChatUserProps, IUserSumProps } from '@/types/user';
 
 import styles from './Drawer.style';
