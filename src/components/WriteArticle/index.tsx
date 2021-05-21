@@ -44,8 +44,8 @@ const TagArray = tagNames.map((item, indx) => {
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<(string | null | undefined)[]>([]);
-  const [need_people, _setPeople] = useState('');
-  const [need_price, _setPrice] = useState('');
+  const [need_people, setPeople] = useState('');
+  const [need_price, setPrice] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
@@ -75,13 +75,13 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return state.article.WriteArticleIsLoading;
   });
 
-  const setPeople = (inp: any) => {
-    if (inp == 'NaN') _setPeople('');
-    else _setPeople(inp);
+  const handlePeople = (inp: string) => {
+    if (inp === 'NaN') setPeople('');
+    else setPeople(inp);
   };
-  const setPrice = (inp: any) => {
-    if (inp == 'NaN') _setPrice('');
-    else _setPrice(inp);
+  const handlePrice = (inp: string) => {
+    if (inp === 'NaN') setPrice('');
+    else setPrice(inp);
   };
 
   useEffect(() => {
@@ -114,11 +114,11 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             ? Need.IS_PEOPLE
             : Need.IS_MONEY
         );
-      setPeople(currentArticle.people_min.toString());
-      setPrice(currentArticle.price_min.toString());
+      handlePeople(`${currentArticle.people_min}`);
+      handlePrice(`${currentArticle.price_min}`);
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
-          return { id: i, tag: num.toString(), selected: false };
+          return { id: i, tag: `${num}`, selected: false };
         });
         toggleTags(temp);
       }
@@ -211,8 +211,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             needPeople={need_people}
             needPrice={need_price}
             selected={selected}
-            setPeople={setPeople}
-            setPrice={setPrice}
+            setPeople={handlePeople}
+            setPrice={handlePrice}
             setSelected={setSelected}
           />
           <Location location={location} setLocation={setLocation} />

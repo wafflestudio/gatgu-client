@@ -31,8 +31,8 @@ function Recruiting({
   ];
 
   const changeNumber = (txt: number, num: number) => {
-    if (num === Need.IS_PEOPLE) setPeople(txt.toString());
-    else setPrice(txt.toString());
+    if (num === Need.IS_PEOPLE) setPeople(`${txt}`);
+    else setPrice(`${txt}`);
   };
 
   const Input = (str: string, maxL: number) => {
@@ -43,12 +43,8 @@ function Recruiting({
           placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
-          onChangeText={(txt) => changeNumber(parseInt(txt), selected)}
-          value={
-            selected === Need.IS_PEOPLE
-              ? needPeople.toString()
-              : needPrice.toString()
-          }
+          onChangeText={(txt: string) => changeNumber(parseInt(txt), selected)}
+          value={selected === Need.IS_PEOPLE ? `${needPeople}` : `${needPrice}`}
           maxLength={maxL}
         />
         <Text>{selected === Need.IS_PEOPLE ? '명' : '원'}</Text>
