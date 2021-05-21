@@ -18,6 +18,15 @@ import {
 
 import requester from './BaseInstance';
 
+const getToken = (res: any) => {
+  const token = res['token'];
+  const headers = {
+    'Content-type': 'application/json',
+    Authorization: `token ${token}`,
+  };
+  return headers;
+};
+
 export const getArticleSummary = (
   url: string | null,
   keyword?: string,
@@ -44,11 +53,7 @@ export const create = (
   article: IArticleProps
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
-    const token = res['token'];
-    const headers = {
-      'Content-type': 'application/json',
-      Authorization: `token ${token}`,
-    };
+    const headers = getToken(res);
     return requester.post('article/', article, { headers });
   });
 };
@@ -71,11 +76,7 @@ export const editArticle = (
   body: IArticleProps
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
-    const token = res['token'];
-    const headers = {
-      'Content-type': 'application/json',
-      Authorization: `token ${token}`,
-    };
+    const headers = getToken(res);
     return requester.put(`article/${id}/`, body, { headers });
   });
 };
