@@ -40,27 +40,27 @@ function ArticlePage(): JSX.Element {
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
-  const _loading = useSelector(
+  const loading = useSelector(
     (state: RootState) => state.article.GetArticleIsLoading
   );
-  const _error = useSelector(
+  const error = useSelector(
     (state: RootState) => state.article.GetArticleHasError
   );
-  const _errNum = useSelector(
+  const errNum = useSelector(
     (state: RootState) => state.article.GetArticleErrorStatus
   );
 
   useEffect(() => {
-    setGetLoadingStatus(_loading);
-  }, [_loading]);
+    setGetLoadingStatus(loading);
+  }, [loading]);
 
   useEffect(() => {
-    setGetErrorStatus(_error);
-  }, [_error]);
+    setGetErrorStatus(error);
+  }, [error]);
 
   useEffect(() => {
-    setErrno(_errNum);
-  }, [_errNum]);
+    setErrno(errNum);
+  }, [errNum]);
 
   useEffect(() => {
     dispatch(getSingleArticle(id));
