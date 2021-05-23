@@ -40,7 +40,7 @@ android_build_config(
 
 android_resource(
     name = "res",
-    package = "com.wafflestudio.gatgue",
+    package = "com.wafflestudio.gatgu",
     res = "src/main/res",
 )
 
