@@ -38,12 +38,16 @@ function ArticleListTemplate({
   getArticles,
 }: IArticleListTemplateProps): JSX.Element {
   const dispatch = useDispatch();
-  const getArticleSumCB = useCallback(
-    (type: TLoad) => {
-      if ((type === 'next' || type === 'first') && isLastPage) return;
-      dispatch(getArticles(type));
-    },
-    [dispatch, isLastPage]
+
+  const getArticleSumCBMap: { [key in TLoad]: () => void } = useMemo(
+    () => ({
+      next: () =>
+        !isLastPage && dispatch(getArticles(GetArticleSumStatus.NEXT)),
+      first: () =>
+        !isLastPage && dispatch(getArticles(GetArticleSumStatus.FIRST)),
+      previous: () => dispatch(getArticles(GetArticleSumStatus.PREVIOUS)),
+    }),
+    [isLastPage, dispatch]
   );
 
   const renderArticle = useCallback(
@@ -54,33 +58,36 @@ function ArticleListTemplate({
   // 아티클 개수가 MAX_ARTICLE_NUM 보다 많으면 추가적으로 아티클을 받을 때 앞의 아티클을
   // 날린다. 이후 다시 위로 올라가면 기존의 아티클을 받아와야 하기 때문에, 아티클이 MAX_ARTICLE_NUM
   // 보다 많고 쓰로틀링된 상태가 아니라면 리퀘스트 보냄
-  const onContentOffsetChanged = useCallback(
-    (distanceFromTop: number) => {
-      if (
-        articles.length < MAX_ARTICLE_NUM ||
-        distanceFromTop !== 0 ||
-        isFirstPage
-      )
-        return;
-      _.throttle(() => getArticleSumCB(GetArticleSumStatus.PREVIOUS), 300)();
-    },
-    [articles, getArticleSumCB]
-  );
+  const onContentOffsetChanged = _.throttle((distanceFromTop: number) => {
+    if (
+      articles.length < MAX_ARTICLE_NUM ||
+      distanceFromTop !== 0 ||
+      isFirstPage
+    )
+      return;
+    getArticleSumCBMap[GetArticleSumStatus.PREVIOUS]();
+  }, 300);
 
-  const onScrollCB = useCallback(
-    (event: NativeSyntheticEvent<NativeScrollEvent>) =>
-      onContentOffsetChanged(event.nativeEvent.contentOffset.y),
-    [onContentOffsetChanged]
-  );
+  const onScrollCB = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    onContentOffsetChanged(event.nativeEvent.contentOffset.y);
+  };
 
-  const ArticleList = useMemo(
-    () => (
+  if (isLoading && !articles.length) {
+    return <AppLoading />;
+  }
+
+  if (hasError) {
+    return <View style={styles.root}>{Error(errorStatus)}</View>;
+  }
+
+  return (
+    <View style={styles.root}>
       <FlatList
         data={articles}
         renderItem={renderArticle}
         keyExtractor={(_, ind) => String(ind)}
-        onRefresh={() => getArticleSumCB(GetArticleSumStatus.FIRST)}
-        onEndReached={() => getArticleSumCB(GetArticleSumStatus.NEXT)}
+        onRefresh={getArticleSumCBMap[GetArticleSumStatus.FIRST]}
+        onEndReached={getArticleSumCBMap[GetArticleSumStatus.NEXT]}
         onEndReachedThreshold={1}
         onScroll={onScrollCB}
         scrollEventThrottle={1}
@@ -91,17 +98,6 @@ function ArticleListTemplate({
           index,
         })}
       />
-    ),
-    [articles, getArticleSumCB]
-  );
-
-  if (isLoading && !articles.length) {
-    return <AppLoading />;
-  }
-
-  return (
-    <View style={styles.root}>
-      {hasError ? Error(errorStatus) : ArticleList}
     </View>
   );
 }
