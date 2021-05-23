@@ -41,13 +41,13 @@ function ArticlePage(): JSX.Element {
     (state: RootState) => state.chat.currentChatInfo
   );
   const loading = useSelector(
-    (state: RootState) => state.article.GetArticleIsLoading
+    (state: RootState) => state.article.articleIsLoading
   );
   const error = useSelector(
-    (state: RootState) => state.article.GetArticleHasError
+    (state: RootState) => state.article.articleHasError
   );
   const errNum = useSelector(
-    (state: RootState) => state.article.GetArticleErrorStatus
+    (state: RootState) => state.article.articleErrorStatus
   );
 
   useEffect(() => {

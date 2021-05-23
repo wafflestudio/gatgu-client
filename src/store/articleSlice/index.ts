@@ -28,9 +28,9 @@ export interface IArticleSlice {
   next: string | null;
   previous: string | null;
   currentArticle: IArticleProps;
-  GetArticleIsLoading: boolean;
-  GetArticleHasError: boolean;
-  GetArticleErrorStatus: number;
+  articleIsLoading: boolean;
+  articleHasError: boolean;
+  articleErrorStatus: number;
   WriteArticleHasError: boolean;
   WriteArticleErrorStatus: number;
   WriteArticleIsLoading: boolean;
@@ -47,9 +47,9 @@ const initialState: IArticleSlice = {
   next: '',
   previous: '',
   currentArticle: initialArticle,
-  GetArticleIsLoading: true,
-  GetArticleHasError: false,
-  GetArticleErrorStatus: -100,
+  articleIsLoading: true,
+  articleHasError: false,
+  articleErrorStatus: -100,
   WriteArticleHasError: false,
   WriteArticleErrorStatus: -100,
   WriteArticleIsLoading: false,
@@ -114,20 +114,20 @@ const articleSlice = createSlice({
       { payload }: PayloadAction<IArticleProps>
     ) => {
       state.currentArticle = payload;
-      state.GetArticleHasError = false;
-      state.GetArticleIsLoading = false;
+      state.articleHasError = false;
+      state.articleIsLoading = false;
     },
 
     getSingleArticleFail: (
       state,
       { payload }: PayloadAction<IGetFailPayload>
     ) => {
-      state.GetArticleHasError = true;
-      state.GetArticleIsLoading = false;
-      state.GetArticleErrorStatus = payload.errorStatus;
+      state.articleHasError = true;
+      state.articleIsLoading = false;
+      state.articleErrorStatus = payload.errorStatus;
     },
     getSingleArticleLoading: (state) => {
-      state.GetArticleIsLoading = true;
+      state.articleIsLoading = true;
     },
 
     writeArticleFailure: (
