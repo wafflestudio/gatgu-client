@@ -55,7 +55,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.gatgu.android</string>
+				<string>com.wafflestudio.gatgu</string>
 			</array>
 		</dict>
 	</array>

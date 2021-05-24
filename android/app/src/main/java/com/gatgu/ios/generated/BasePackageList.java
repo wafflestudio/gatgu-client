@@ -1,4 +1,4 @@
-package com.gatgu.ios.generated;
+package com.wafflestudio.gatgu.generated;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,6 @@ public class BasePackageList {
         new expo.modules.filesystem.FileSystemPackage(),
         new expo.modules.font.FontLoaderPackage(),
         new expo.modules.imageloader.ImageLoaderPackage(),
-        new expo.modules.imagepicker.ImagePickerPackage(),
         new expo.modules.keepawake.KeepAwakePackage(),
         new expo.modules.lineargradient.LinearGradientPackage(),
         new expo.modules.location.LocationPackage(),

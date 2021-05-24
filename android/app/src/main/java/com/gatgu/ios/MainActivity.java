@@ -1,4 +1,4 @@
-package com.gatgu.ios;
+package com.wafflestudio.gatgu;
 
 import android.os.Bundle;
 

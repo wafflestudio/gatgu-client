@@ -482,7 +482,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gatgu.android;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wafflestudio.gatgu;
 				PRODUCT_NAME = android;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -558,7 +558,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gatgu.android;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wafflestudio.gatgu;
 				PRODUCT_NAME = android;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
