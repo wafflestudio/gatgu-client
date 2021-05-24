@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:975813922047:android:059e7bb5e7be8a9c2550ca",
+        "mobilesdk_app_id": "1:975813922047:android:bca23fa0f22e798d2550ca",
         "android_client_info": {
-          "package_name": "com.wafflestudio.android"
+          "package_name": "com.wafflestudio.gatgu"
         }
       },
       "oauth_client": [
