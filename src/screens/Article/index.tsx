@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { initialArticle, initialChatInfo } from '@/constants/InitialState';
 import { createError } from '@/helpers/functions';
+import AppLoading from '@/screens/AppLoading';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 import { getChatInfo } from '@/store/chatSlice';
@@ -26,7 +27,9 @@ const [Error] = createError();
 function ArticlePage(): JSX.Element {
   const [article, setArticle] = useState<IArticleProps>(initialArticle);
   const [chatInfo, setChatInfo] = useState<IChattingRoom>(initialChatInfo);
-  const [hasError, setError] = useState(false);
+  const [GetisLoading, setGetLoadingStatus] = useState(true);
+  const [GethasError, setGetErrorStatus] = useState(false);
+  const [errno, setErrno] = useState(-100);
   const route = useRoute<RouteProp<ArticleDrawerParamList, 'ArticlePage'>>();
   const id = route.params.id;
   const dispatch = useDispatch();
@@ -37,17 +40,36 @@ function ArticlePage(): JSX.Element {
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
+  const loading = useSelector(
+    (state: RootState) => state.article.articleIsLoading
+  );
+  const error = useSelector(
+    (state: RootState) => state.article.articleHasError
+  );
+  const errNum = useSelector(
+    (state: RootState) => state.article.articleErrorStatus
+  );
+
+  useEffect(() => {
+    setGetLoadingStatus(loading);
+  }, [loading]);
+
+  useEffect(() => {
+    setGetErrorStatus(error);
+  }, [error]);
+
+  useEffect(() => {
+    setErrno(errNum);
+  }, [errNum]);
 
   useEffect(() => {
     dispatch(getSingleArticle(id));
     dispatch(getChatInfo(id));
-    // handle error true case
   }, [dispatch]);
 
   useEffect(() => {
     setArticle(currentArticle);
     setChatInfo(currentChatInfo);
-    setError(false);
   }, [currentArticle, currentChatInfo]);
 
   const productImageProps = {
@@ -68,8 +90,12 @@ function ArticlePage(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      {hasError ? (
-        Error(401)
+      {GethasError ? (
+        Error(errno, () => {
+          dispatch(getSingleArticle(id));
+        })
+      ) : GetisLoading ? (
+        <AppLoading />
       ) : (
         <ScrollView>
           <ProductImages {...productImageProps} />

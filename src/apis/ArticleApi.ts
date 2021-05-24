@@ -7,6 +7,8 @@ import qs from 'querystring';
 // when: until 3/12
 // for home page
 import { PAGE_SIZE, SearchType } from '@/constants/article';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
   IMessageRet,
@@ -15,6 +17,15 @@ import {
 } from '@/types/article';
 
 import requester from './BaseInstance';
+
+const getToken = (res: any) => {
+  const token = res['token'];
+  const headers = {
+    'Content-type': 'application/json',
+    Authorization: `token ${token}`,
+  };
+  return headers;
+};
 
 export const getArticleSummary = (
   url: string | null,
@@ -40,12 +51,11 @@ export const getArticleSummary = (
 // for article page
 export const create = (
   article: IArticleProps
-): Promise<AxiosResponse<IArticleProps>> => {
-  console.log(article);
-  const headers = {
-    'Content-type': 'application/json',
-  };
-  return requester.post('article/', article, { headers });
+): Promise<AxiosResponse<IMessageRet>> => {
+  return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
+    const headers = getToken(res);
+    return requester.post('article/', article, { headers });
+  });
 };
 
 // get a single article with its id
@@ -65,9 +75,8 @@ export const editArticle = (
   id: number,
   body: IArticleProps
 ): Promise<AxiosResponse<IMessageRet>> => {
-  const headers = {
-    'Content-type': 'application/json',
-    Authorization: `${requester.defaults.headers['Authorization']}`,
-  };
-  return requester.put(`article/${id}/`, body, { headers });
+  return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
+    const headers = getToken(res);
+    return requester.put(`article/${id}/`, body, { headers });
+  });
 };

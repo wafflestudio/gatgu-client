@@ -30,7 +30,6 @@ function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
 
   const renderedParticipants = users.map((user, ind) => (
     <View key={ind} style={styles.profileBox}>
-      {console.log(user.id)}
       <Profile
         profile_id={user.participant.profile_id}
         picture={user.participant.picture}

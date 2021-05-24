@@ -3,17 +3,17 @@ import { View, Text } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 
 import { StringInput } from '@/components';
-import { IS_PEOPLE } from '@/constants/Enum';
+import { Need } from '@/constants/Enum';
 
 import waStyles from '../WriteArticle.style';
 import styles, { switchSelector } from './Recruiting.style';
 
 interface RecruitingProps {
-  needPeople: number;
-  needPrice: number;
+  needPeople: string;
+  needPrice: string;
   selected: number;
-  setPeople: Dispatch<SetStateAction<number>>;
-  setPrice: Dispatch<SetStateAction<number>>;
+  setPeople: Dispatch<SetStateAction<string>>;
+  setPrice: Dispatch<SetStateAction<string>>;
   setSelected: Dispatch<SetStateAction<number>>;
 }
 
@@ -31,11 +31,8 @@ function Recruiting({
   ];
 
   const changeNumber = (txt: number, num: number) => {
-    console.log(num);
-    // code for dismissing all letters
-    // code for max limit
-    if (num === IS_PEOPLE) setPeople(txt);
-    else setPrice(txt);
+    if (num === Need.IS_PEOPLE) setPeople(`${txt}`);
+    else setPrice(`${txt}`);
   };
 
   const Input = (str: string, maxL: number) => {
@@ -46,15 +43,11 @@ function Recruiting({
           placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
-          onChangeText={(txt) => changeNumber(parseInt(txt), selected)}
-          value={
-            selected === IS_PEOPLE
-              ? needPeople.toString()
-              : needPrice.toString()
-          }
+          onChangeText={(txt: string) => changeNumber(parseInt(txt), selected)}
+          value={selected === Need.IS_PEOPLE ? `${needPeople}` : `${needPrice}`}
           maxLength={maxL}
         />
-        <Text>{selected === IS_PEOPLE ? '명' : '원'}</Text>
+        <Text>{selected === Need.IS_PEOPLE ? '명' : '원'}</Text>
       </View>
     );
   };
@@ -65,13 +58,14 @@ function Recruiting({
         <SwitchSelector
           options={options}
           onPress={(value) => {
-            console.log(value);
             setSelected(Number(value));
           }}
           {...switchSelector}
         />
       </View>
-      {selected === IS_PEOPLE ? Input('필요인원', 5) : Input('필요금액', 10)}
+      {selected === Need.IS_PEOPLE
+        ? Input('필요인원', 5)
+        : Input('필요금액', 10)}
     </View>
   );
 }
