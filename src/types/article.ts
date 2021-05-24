@@ -69,7 +69,7 @@ export interface IArticleProps {
   price_min: number;
   people_min: number;
   tag?: number[];
-  time_in: string;
+  time_in: Date;
   created_at?: string; // should be date but json server doesn't accept Date
   updated_at?: string;
   participants_summary?: {

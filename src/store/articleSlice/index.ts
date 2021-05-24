@@ -10,7 +10,7 @@ import {
   PAGE_SIZE,
   GetArticleSumStatus,
 } from '@/constants/article';
-import { AppThunk } from '@/store';
+import { AppThunk, RootState } from '@/store';
 import {
   IArticleProps,
   IArticleSumProps,
@@ -20,12 +20,6 @@ import {
   TLoad,
 } from '@/types/article';
 
-// CHECK:
-
-// TODO: @juimdpp
-// currentArticle도 getSuccess, getFail 함수 만들어도 괜찮을듯
-// when: ~3/12
-
 export interface IArticleSlice {
   hasError: boolean;
   errorStatus: number;
@@ -34,8 +28,15 @@ export interface IArticleSlice {
   next: string | null;
   previous: string | null;
   currentArticle: IArticleProps;
+  articleIsLoading: boolean;
+  articleHasError: boolean;
+  articleErrorStatus: number;
+  WriteArticleHasError: boolean;
+  WriteArticleErrorStatus: number;
+  WriteArticleIsLoading: boolean;
   isLastPage: boolean;
   isFirstPage: boolean;
+  newId: number;
 }
 
 const initialState: IArticleSlice = {
@@ -46,8 +47,15 @@ const initialState: IArticleSlice = {
   next: '',
   previous: '',
   currentArticle: initialArticle,
+  articleIsLoading: true,
+  articleHasError: false,
+  articleErrorStatus: -100,
+  WriteArticleHasError: false,
+  WriteArticleErrorStatus: -100,
+  WriteArticleIsLoading: false,
   isLastPage: false,
   isFirstPage: true,
+  newId: -1,
 };
 
 // article store + basic action
@@ -101,8 +109,44 @@ const articleSlice = createSlice({
       state.isLoading = true;
     },
 
-    setCurrentArticle: (state, { payload }: PayloadAction<IArticleProps>) => {
+    getSingleArticleSuccess: (
+      state,
+      { payload }: PayloadAction<IArticleProps>
+    ) => {
       state.currentArticle = payload;
+      state.articleHasError = false;
+      state.articleIsLoading = false;
+    },
+
+    getSingleArticleFail: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
+      state.articleHasError = true;
+      state.articleIsLoading = false;
+      state.articleErrorStatus = payload.errorStatus;
+    },
+    getSingleArticleLoading: (state) => {
+      state.articleIsLoading = true;
+    },
+
+    writeArticleFailure: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
+      state.WriteArticleErrorStatus = payload.errorStatus;
+      state.WriteArticleHasError = true;
+      state.WriteArticleIsLoading = false;
+    },
+
+    writeArticleSuccess: (state, { payload }: PayloadAction<IArticleProps>) => {
+      state.currentArticle = payload;
+      state.WriteArticleHasError = false;
+      state.WriteArticleIsLoading = false;
+    },
+
+    writeArticleLoading: (state) => {
+      state.WriteArticleIsLoading = true;
     },
   },
 });
@@ -110,8 +154,13 @@ const articleSlice = createSlice({
 const {
   getArticleSumSuccess,
   getArticleSumFailure,
+  writeArticleFailure,
+  writeArticleSuccess,
+  writeArticleLoading,
   setLoading,
-  setCurrentArticle,
+  getSingleArticleSuccess,
+  getSingleArticleFail,
+  getSingleArticleLoading,
 } = articleSlice.actions;
 
 // Asynchronous thunk action
@@ -151,16 +200,62 @@ export const getArticlesSum = (type: TLoad): AppThunk => (
 
 // get single article
 export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
+  dispatch(getSingleArticleLoading());
   articleAPI
     .getSingleArticle(id)
     .then((response: AxiosResponse) => {
-      dispatch(setCurrentArticle(response.data));
+      dispatch(getSingleArticleSuccess(response.data));
     })
-    .catch(() => {
-      // TODO: @juimdpp
-      // todo: handle error appropriately (아마 에러 페이지 띄우기..?)
-      // when: 로딩 페이지 구현할 때 같이 할게요
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(getSingleArticleFail({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getSingleArticleFail({ errorStatus: UNKNOWN_ERR }));
+      }
     });
+};
+
+export const editSingleArticle = (
+  id: number,
+  body: IArticleProps
+): AppThunk => (dispatch) => {
+  dispatch(writeArticleLoading());
+  return articleAPI
+    .editArticle(id, body)
+    .then((res: AxiosResponse) => {
+      dispatch(writeArticleSuccess(res.data));
+      return res.data.article_id;
+    })
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(writeArticleFailure({ errorStatus: err.response.status }));
+        return -1;
+      } else {
+        dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
+        return -1;
+      }
+    });
+};
+
+export const createSingleArticle = (body: IArticleProps): AppThunk => {
+  return (dispatch) => {
+    dispatch(writeArticleLoading());
+    return articleAPI
+      .create(body)
+      .then((res: AxiosResponse) => {
+        dispatch(writeArticleSuccess(res.data));
+        return res.data.article_id;
+      })
+      .catch((err: AxiosError) => {
+        if (err.response) {
+          dispatch(writeArticleFailure({ errorStatus: err.response.status }));
+          return -1;
+        } else {
+          dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
+          return -1;
+        }
+      });
+  };
 };
 
 export default articleSlice.reducer;

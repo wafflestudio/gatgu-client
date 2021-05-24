@@ -6,7 +6,7 @@ import { View } from 'native-base';
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
 import { IArticleProps } from '@/types/article';
-import { IUserProps, IUserSumProps } from '@/types/user';
+import { IUserSumProps } from '@/types/user';
 
 import Chat from './Chat';
 import styles from './ProfileChat.style';
@@ -32,7 +32,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       <View style={styles.profileContainer}>
         <Profile {...writer} />
       </View>
-      <Chat orderStatus={orderStatus} />
+      <Chat orderStatus={orderStatus} article_id={article.article_id} />
     </View>
   );
 }

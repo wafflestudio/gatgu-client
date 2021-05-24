@@ -29,6 +29,7 @@ const {
   ProfileModify,
   SignUp,
   TOS,
+  EditArticle,
 } = routes;
 
 const Drawer = createDrawerNavigator();
@@ -40,11 +41,10 @@ function ArticleDrawer(): JSX.Element {
       drawerStyle={{ width: '57%' }}
     >
       <Drawer.Screen name={Article.name} component={Article.component} />
-      {/* 
-        TODO: @juimdpp 
-          Add this screen: 
-        <Drawer.Screen name="ArticleEdit" component={ArticleEditScreen} /> 
-      */}
+      <Drawer.Screen
+        name={EditArticle.name}
+        component={EditArticle.component}
+      />
     </Drawer.Navigator>
   );
 }

@@ -9,4 +9,5 @@ export const palette = {
   yellow: '#FFDC48',
   blue: '#114093',
   warnRed: '#FF0017',
+  borderBlue: '#1B428E',
 };

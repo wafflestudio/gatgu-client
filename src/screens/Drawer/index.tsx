@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 import { articleAPI, userAPI } from '@/apis';
 import { Button, Profile } from '@/components';
 import { Status } from '@/constants/Enum';
-import { createError } from '@/helpers/functions';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { RootState } from '@/store';
 import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
 import { palette } from '@/styles';
@@ -29,10 +30,11 @@ function DrawerTemplate(props: any): JSX.Element {
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
   );
+  const currentUser = useSelector((state: RootState) => state.user.info);
+  const loggedIn = useSelector((state: RootState) => state.user.logged);
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
-
   useEffect(() => {
     if (currentArticle.article_id !== 0) {
       const id = currentArticle.article_id;
@@ -55,9 +57,8 @@ function DrawerTemplate(props: any): JSX.Element {
       let tempArr: JSX.Element[] = [];
       chatInfo?.participant_profile.map((part, ind) => {
         userAPI
-          .getUser(part) // TODO: @juimdpp 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
+          .getUser(part.id) // TODO: @juimdpp 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
           .then((response: AxiosResponse<IUserProps>) => {
-            console.log(response);
             const user = response.data.userprofile;
             tempArr = tempArr.concat(<Profile key={ind} {...user} />);
           })
@@ -101,6 +102,20 @@ function DrawerTemplate(props: any): JSX.Element {
     }
   };
 
+  const editArticle = () => {
+    if (!loggedIn) {
+      Alert.alert('로그인을 해주세요');
+    } else {
+      if (currentUser['id'] === currentArticle.writer_id) {
+        navigation.navigate('EditArticle', {
+          id: currentArticle.article_id,
+        });
+      } else {
+        Alert.alert('타인의 글을 수정할 수 없습니다.');
+      }
+    }
+  };
+
   return (
     <DrawerContentScrollView {...props}>
       {hasError ? (
@@ -115,7 +130,7 @@ function DrawerTemplate(props: any): JSX.Element {
             />
             <Button
               title="수정하기"
-              onPress={() => Alert.alert('navigate to edit page')}
+              onPress={editArticle}
               textStyle={styles.upperLabelText}
             />
             <Button
