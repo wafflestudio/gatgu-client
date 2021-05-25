@@ -1,6 +1,6 @@
 import { Alert } from 'react-native';
 
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { NavigationProp } from '@react-navigation/native';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -11,6 +11,8 @@ import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { AppThunk } from '@/store';
 import { IUserProps } from '@/types/user';
+import { err } from 'react-native-svg/lib/typescript/xml';
+import get from 'lodash/get';
 
 const initialState = {
   info: {
@@ -70,13 +72,21 @@ export const login = (
       dispatch(setInfo(response.data));
       navigation.navigate('Home');
     })
-    .catch((err: AxiosError) => {
-      switch (parseInt(err.code + '')) {
-        case 403:
-          Alert.alert(err.message);
-          break;
-        default:
-          Alert.alert('unknown error');
+    .catch((error: AxiosError) => {
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            Alert.alert(get(error, ['response', 'data', 'error']));
+            break;
+          case 403:
+            Alert.alert(get(error, ['response', 'data', 'detail']));
+            break;
+          default:
+            // 예상치 못한 에러 코드
+            Alert.alert(
+              '예상치 못한 에러가 발생했습니다. 고객센터로 문의해주시기 바랍니다.'
+            );
+        }
       }
     });
 };
