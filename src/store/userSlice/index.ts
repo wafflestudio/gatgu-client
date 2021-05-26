@@ -11,6 +11,7 @@ import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { AppThunk } from '@/store';
 import { IUserProps } from '@/types/user';
+import get from 'lodash/get';
 
 const initialState = {
   info: {
@@ -70,21 +71,48 @@ export const login = (
       dispatch(setInfo(response.data));
       navigation.navigate('Home');
     })
-    .catch((err: AxiosError) => {
-      switch (parseInt(err.code + '')) {
-        case 403:
-          Alert.alert(err.message);
-          break;
-        default:
-          Alert.alert('unknown error');
+    .catch((error: AxiosError) => {
+      if (error.response) {
+        // 서버에서 2xx 가 아닌 response를 내려줌
+        switch (error.response.status) {
+          case 401:
+            // wrong id / pw
+            Alert.alert(get(error, ['response', 'data', 'error']));
+            break;
+          case 403:
+            // csrf error
+            Alert.alert(get(error, ['response', 'data', 'detail']));
+            dispatch(logout());
+            break;
+          default:
+            // 예상치 못한 에러 코드
+            Alert.alert(
+              '예상치 못한 에러가 발생했습니다. 고객센터로 문의해주시기 바랍니다.'
+            );
+        }
+      } else if (error.request) {
+        // 서버에서 response 자체가 안 옴
+        Alert.alert('서버와 연결할 수 없습니다.');
+      } else {
+        // 뭔지 모를 때 디버깅 용도
+        console.debug(error.config);
       }
     });
 };
 
 export const logout = (): AppThunk => (dispatch) => {
-  removeToken();
-  ObjectStorage.removeObject(asyncStoragekey.USER);
-  dispatch(clearInfo());
+  userAPI
+    .logout()
+    .then(() => {
+      removeToken();
+      ObjectStorage.removeObject(asyncStoragekey.USER);
+      dispatch(clearInfo());
+    })
+    .catch((error: AxiosError) => {
+      console.debug(error.config);
+      console.debug(error.response?.data);
+      console.debug(error.response?.status);
+    });
 };
 
 export const modify = (

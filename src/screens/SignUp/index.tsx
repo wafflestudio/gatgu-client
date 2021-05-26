@@ -187,8 +187,8 @@ function SignUpTemplate(): JSX.Element {
         dispatch(login(id, pw, navigation));
       })
       .catch((err: AxiosError) => {
-        console.error(err);
-        switch (parseInt(err.code + '')) {
+        console.error(err.config);
+        switch (err.response?.status) {
           case 400:
             Alert.alert(err.message);
             break;
