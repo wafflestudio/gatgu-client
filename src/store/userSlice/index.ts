@@ -1,6 +1,6 @@
 import { Alert } from 'react-native';
 
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 import { NavigationProp } from '@react-navigation/native';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -11,7 +11,6 @@ import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { AppThunk } from '@/store';
 import { IUserProps } from '@/types/user';
-import { err } from 'react-native-svg/lib/typescript/xml';
 import get from 'lodash/get';
 
 const initialState = {
@@ -74,6 +73,7 @@ export const login = (
     })
     .catch((error: AxiosError) => {
       if (error.response) {
+        // 서버에서 2xx 가 아닌 response를 내려줌
         switch (error.response.status) {
           case 401:
             Alert.alert(get(error, ['response', 'data', 'error']));
@@ -87,6 +87,12 @@ export const login = (
               '예상치 못한 에러가 발생했습니다. 고객센터로 문의해주시기 바랍니다.'
             );
         }
+      } else if (error.request) {
+        // 서버에서 response 자체가 안 옴
+        Alert.alert('서버와 연결할 수 없습니다.');
+      } else {
+        // 뭔지 모를 때 디버깅 용도
+        console.debug(error.config);
       }
     });
 };
