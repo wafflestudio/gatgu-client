@@ -23,6 +23,7 @@ import { EditArticleParamList } from '@/types/navigation';
 
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
+import DueDate from './DueDate/DueDate';
 import Link from './Link/Link';
 import Location from './Location/Location';
 import Recruiting from './Recruiting/Recruiting';
@@ -48,6 +49,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
   const [title, setTitle] = useState('');
+  const [dueDate, setDueDate] = useState(new Date());
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
@@ -193,6 +195,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       ) : (
         <View>
           <Tags tags={tags} toggleTags={toggleTags} />
+          <DueDate dueDate={dueDate} setDueDate={setDueDate} />
           <AddImage images={images} setImages={setImages} />
           <Title title={title} setTitle={setTitle} />
           <Recruiting
