@@ -76,10 +76,13 @@ export const login = (
         // 서버에서 2xx 가 아닌 response를 내려줌
         switch (error.response.status) {
           case 401:
+            // wrong id / pw
             Alert.alert(get(error, ['response', 'data', 'error']));
             break;
           case 403:
+            // csrf error
             Alert.alert(get(error, ['response', 'data', 'detail']));
+            dispatch(logout());
             break;
           default:
             // 예상치 못한 에러 코드
@@ -98,9 +101,18 @@ export const login = (
 };
 
 export const logout = (): AppThunk => (dispatch) => {
-  removeToken();
-  ObjectStorage.removeObject(asyncStoragekey.USER);
-  dispatch(clearInfo());
+  userAPI
+    .logout()
+    .then(() => {
+      removeToken();
+      ObjectStorage.removeObject(asyncStoragekey.USER);
+      dispatch(clearInfo());
+    })
+    .catch((error: AxiosError) => {
+      console.debug(error.config);
+      console.debug(error.response?.data);
+      console.debug(error.response?.status);
+    });
 };
 
 export const modify = (

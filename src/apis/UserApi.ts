@@ -9,7 +9,7 @@ export const readMyInfo = (): Promise<AxiosResponse<IUserProps>> => {
 };
 
 export const logout = (): Promise<AxiosResponse<any>> => {
-  return requester.put('user/logout/', {});
+  return requester.put('user/logout/');
 };
 
 export const login = (
