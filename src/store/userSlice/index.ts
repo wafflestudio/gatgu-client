@@ -1,6 +1,7 @@
 import { Alert } from 'react-native';
 
 import { AxiosError } from 'axios';
+import get from 'lodash/get';
 
 import { NavigationProp } from '@react-navigation/native';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -11,7 +12,6 @@ import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { AppThunk } from '@/store';
 import { IUserProps } from '@/types/user';
-import get from 'lodash/get';
 
 const initialState = {
   info: {
