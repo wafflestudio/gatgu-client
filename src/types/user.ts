@@ -72,3 +72,8 @@ export interface IChatUserProps {
   //  이거 타입 확인 부탁드립니당
   participant: IUserProfileDetail;
 }
+
+export interface ILoginResponse {
+  message: string;
+  token: string;
+}

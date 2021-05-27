@@ -1,63 +1,65 @@
-import { AxiosResponse } from 'axios';
+import requester from '@/apis/BaseInstance';
+import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
 
-import { IUserProps } from '@/types/user';
-
-import requester from './BaseInstance';
-
-export const readMyInfo = (): Promise<AxiosResponse<IUserProps>> => {
+// 내 정보 받아오기
+export const getMyData = (): Promise<IUserDetail> => {
   return requester.get('user/me/');
 };
 
-export const logout = (): Promise<AxiosResponse<any>> => {
-  return requester.put('user/logout/');
+// 다른 유저 정보 받아오기
+export const getOtherUserData = (userId: number): Promise<IUserSimple> => {
+  return requester.get(`user/${userId}/`);
 };
 
+// 로그인
 export const login = (
   username: string,
   password: string
-): Promise<AxiosResponse<IUserProps>> => {
-  return requester.put('user/login/', { username, password });
+): Promise<ILoginResponse> => {
+  return requester.put(`user/login/`, {
+    username,
+    password,
+  });
 };
 
+// 로그아웃
+export const logout = (): Promise<{ message: string }> => {
+  return requester.put('user/logout/');
+};
+
+// 회원가입
 export const signUp = (
   username: string,
   password: string,
+  email: string,
   nickname: string,
-  email: string
-): Promise<AxiosResponse<IUserProps>> => {
-  return requester.post('user/', {
+  trading_address: string
+): Promise<IUserDetail> => {
+  return requester.post(`user/`, {
     username,
     password,
+    email,
     nickname,
+    trading_address,
+  });
+};
+
+// 이메일 인증코드 신청
+export const sendConfirmCodeMail = (
+  email: string
+): Promise<{ message: string }> => {
+  return requester.put('user/confirm/', {
     email,
   });
 };
 
-export const modify = (
-  nickname: string,
-  password: string,
-  picture: string
-): Promise<AxiosResponse<IUserProps>> => {
-  return requester.put('user/me/', {
-    nickname,
-    password,
-    picture,
-  });
-};
-
-export const getUser = (
-  profile_id: number
-): Promise<AxiosResponse<IUserProps>> => {
-  return requester.get(`user/${profile_id}/`);
-};
-
-export const confirm = (email: string): Promise<AxiosResponse<any>> => {
-  return requester.put('user/confirm/', { email });
-};
-
-export const activate = (
+// 이메일 인증
+export const confirmMailCode = (
   email: string,
   code: string
-): Promise<AxiosResponse<any>> => {
-  return requester.put('user/activate/', { email, code });
+): Promise<{ message: string }> => {
+  return requester.put('user/activate/', {
+    email,
+    code,
+  });
 };
