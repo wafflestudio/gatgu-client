@@ -3,13 +3,15 @@ import { View, ScrollView, Text, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { AxiosError } from 'axios';
+import get from 'lodash/get';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { userAPI } from '@/apis';
+import { flushSession, login } from '@/apis/UserApi';
 import { Button } from '@/components';
 import * as validate from '@/helpers/functions/validate';
-import { login } from '@/store/userSlice';
+import { setToken } from '@/store/userSlice';
 import { flexRow } from '@/styles/wrapper';
 
 import Check, { ICheckProps } from './Check';
@@ -94,7 +96,7 @@ function SignUpTemplate(): JSX.Element {
         buttonString: '인증',
         buttonOnPress: () =>
           userAPI
-            .confirm(em + '@snu.ac.kr')
+            .sendConfirmCodeMail(em + '@snu.ac.kr')
             .then(() => Alert.alert('인증 메일을 발송하였습니다.'))
             .catch(() => Alert.alert('인증 메일 발송에 실패하였습니다.')),
         marginBottom: 6,
@@ -112,7 +114,7 @@ function SignUpTemplate(): JSX.Element {
         buttonString: '확인',
         buttonOnPress: () =>
           userAPI
-            .activate(em + '@snu.ac.kr', cd)
+            .confirmMailCode(em + '@snu.ac.kr', cd)
             .then(() => Alert.alert('인증되었습니다.'))
             .catch(() => Alert.alert('잘못된 코드입니다.')),
         marginBottom: 6,
@@ -182,21 +184,38 @@ function SignUpTemplate(): JSX.Element {
   const signUp = useCallback(() => {
     if (!signUpAble) return;
     userAPI
-      .signUp(id, pw, nn, em + '@snu.ac.kr')
+      .signUp(id, pw, em + '@snu.ac.kr', nn, '')
       .then(() => {
-        dispatch(login(id, pw, navigation));
+        login(id, pw).then((response) => {
+          navigation.navigate('Home');
+          dispatch(setToken(response.token));
+        });
       })
-      .catch((err: AxiosError) => {
-        console.error(err.config);
-        switch (err.response?.status) {
-          case 400:
-            Alert.alert(err.message);
-            break;
-          default:
-            Alert.alert('unknown error');
-            console.error(err);
-            break;
+      .catch((error: AxiosError) => {
+        if (error.response) {
+          // 서버에서 2xx 가 아닌 response를 내려줌
+          switch (error.response.status) {
+            case 400:
+              // 무슨 메세지가 있을거임
+              Alert.alert(get(error, ['response', 'data', 'error']));
+              break;
+            case 403:
+              // csrf error
+              Alert.alert(get(error, ['response', 'data', 'detail']));
+              flushSession();
+              break;
+            default:
+              // 예상치 못한 에러 코드
+              Alert.alert(
+                '예상치 못한 에러가 발생했습니다. 고객센터로 문의해주시기 바랍니다.'
+              );
+          }
+        } else if (error.request) {
+          // 서버에서 response 자체가 안 옴
+          Alert.alert('서버와 연결할 수 없습니다.');
         }
+        // 디버깅 용도
+        console.debug(error.config);
       });
   }, [id, pw, nn, em, dispatch, navigation, signUpAble]);
 
