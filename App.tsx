@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -22,14 +22,12 @@ const Stack = createStackNavigator();
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
-  const dispatch = useDispatch();
-
   useEffect(() => {
     // check if user data exists
     ObjectStorage.getObject(asyncStoragekey.TOKEN)
       .then((data) => {
         if (data) {
-          dispatch(setToken(data));
+          store.dispatch(setToken(data));
         } else {
           ObjectStorage.removeObject(asyncStoragekey.TOKEN);
         }

@@ -13,9 +13,3 @@ export const USER_SIMPLE = '@user/userSimple';
   DESC
     MUTATION KEYS 
  */
-
-// 로그인
-export const LOGIN = '@user/login';
-
-// 로그아웃
-export const LOGOUT = '@user/logout';

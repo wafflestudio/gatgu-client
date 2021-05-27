@@ -63,3 +63,8 @@ export const confirmMailCode = (
     code,
   });
 };
+
+// 세션 flush (CSRF 이슈)
+export const flushSession = (): Promise<any> => {
+  return requester.get('user/flush/');
+};
