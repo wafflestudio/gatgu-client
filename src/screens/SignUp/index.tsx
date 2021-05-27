@@ -23,9 +23,11 @@ function SignUpTemplate(): JSX.Element {
   // input
   const [id, setID] = useState(''); // ID
   const [pw, setPW] = useState(''); // PassWord
-  const [pc, setPC] = useState(''); // Password Confirmation
   const [nn, setNN] = useState(''); // NickName
   const [em, setEM] = useState(''); // EMail
+  const [ta, setTA] = useState(''); // Trade Address
+
+  const [pc, setPC] = useState(''); // Password Confirmation
   const [cd, setCD] = useState(''); // verification CoDe
 
   // checkboxes
@@ -37,7 +39,7 @@ function SignUpTemplate(): JSX.Element {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // TODO: woohm402
+  // TODO: @woohm402
   //   API call 해서 중복 닉네임 | Id인지 확인
   const inputs: IInputProps[] = [
     useMemo(
@@ -84,6 +86,17 @@ function SignUpTemplate(): JSX.Element {
         isValid: validate.validateNN(nn),
       }),
       [nn, setNN]
+    ),
+    useMemo(
+      () => ({
+        value: ta,
+        onChangeText: setTA,
+        title: '주 거래 지역',
+        invalidString: '필수정보입니다.',
+        validString: '',
+        isValid: true,
+      }),
+      [ta, setTA]
     ),
     useMemo(
       () => ({
@@ -184,12 +197,9 @@ function SignUpTemplate(): JSX.Element {
   const signUp = useCallback(() => {
     if (!signUpAble) return;
     userAPI
-      .signUp(id, pw, em + '@snu.ac.kr', nn, '')
+      .signUp(id, pw, em + '@snu.ac.kr', nn, ta)
       .then(() => {
-        login(id, pw).then((response) => {
-          navigation.navigate('Home');
-          dispatch(setToken(response.token));
-        });
+        navigation.navigate('Login');
       })
       .catch((error: AxiosError) => {
         if (error.response) {
@@ -217,7 +227,7 @@ function SignUpTemplate(): JSX.Element {
         // 디버깅 용도
         console.debug(error.config);
       });
-  }, [id, pw, nn, em, dispatch, navigation, signUpAble]);
+  }, [id, pw, nn, em, ta, dispatch, navigation, signUpAble]);
 
   return (
     <ScrollView style={styles.container}>
