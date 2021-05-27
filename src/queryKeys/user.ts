@@ -13,3 +13,5 @@ export const USER_SIMPLE = '@user/userSimple';
   DESC
     MUTATION KEYS 
  */
+
+export const USER_MODIFY_DATA = '@user/userModifyData';
