@@ -29,7 +29,7 @@ function LoginTemplate(): JSX.Element {
   const loginReq = useCallback(() => {
     login(id, pw)
       .then((response) => {
-        dispatch(setToken(response.token));
+        dispatch(setToken(response.data.token));
       })
       .catch((error: AxiosError) => {
         if (error.response) {

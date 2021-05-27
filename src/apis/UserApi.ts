@@ -1,13 +1,17 @@
+import { AxiosResponse } from 'axios';
+
 import requester from '@/apis/BaseInstance';
 import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
 
 // 내 정보 받아오기
-export const getMyData = (): Promise<IUserDetail> => {
+export const getMyData = (): Promise<AxiosResponse<IUserDetail>> => {
   return requester.get('user/me/');
 };
 
 // 다른 유저 정보 받아오기
-export const getOtherUserData = (userId: number): Promise<IUserSimple> => {
+export const getOtherUserData = (
+  userId: number
+): Promise<AxiosResponse<IUserSimple>> => {
   return requester.get(`user/${userId}/`);
 };
 
@@ -15,7 +19,7 @@ export const getOtherUserData = (userId: number): Promise<IUserSimple> => {
 export const login = (
   username: string,
   password: string
-): Promise<ILoginResponse> => {
+): Promise<AxiosResponse<ILoginResponse>> => {
   return requester.put(`user/login/`, {
     username,
     password,
@@ -23,7 +27,7 @@ export const login = (
 };
 
 // 로그아웃
-export const logout = (): Promise<{ message: string }> => {
+export const logout = (): Promise<AxiosResponse<{ message: string }>> => {
   return requester.put('user/logout/');
 };
 
@@ -34,7 +38,7 @@ export const signUp = (
   email: string,
   nickname: string,
   trading_address: string
-): Promise<IUserDetail> => {
+): Promise<AxiosResponse<IUserDetail>> => {
   return requester.post(`user/`, {
     username,
     password,
@@ -47,7 +51,7 @@ export const signUp = (
 // 이메일 인증코드 신청
 export const sendConfirmCodeMail = (
   email: string
-): Promise<{ message: string }> => {
+): Promise<AxiosResponse<{ message: string }>> => {
   return requester.put('user/confirm/', {
     email,
   });
@@ -57,7 +61,7 @@ export const sendConfirmCodeMail = (
 export const confirmMailCode = (
   email: string,
   code: string
-): Promise<{ message: string }> => {
+): Promise<AxiosResponse<{ message: string }>> => {
   return requester.put('user/activate/', {
     email,
     code,
@@ -65,6 +69,7 @@ export const confirmMailCode = (
 };
 
 // 세션 flush (CSRF 이슈)
-export const flushSession = (): Promise<any> => {
+//  문서에 없는 api 라 response 가 뭐가 올지 모르겠어서 any 로 두었습니다.
+export const flushSession = (): Promise<AxiosResponse<any>> => {
   return requester.get('user/flush/');
 };
