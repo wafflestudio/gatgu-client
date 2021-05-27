@@ -5,12 +5,12 @@ const requester = axios.create({
 });
 
 // set user auth token
-export const setToken = (token: string): void => {
+export const setRequesterToken = (token: string): void => {
   requester.defaults.headers['Authorization'] = `token ${token}`;
 };
 
 // remove user auth token
-export const removeToken = (): void => {
+export const removeRequesterToken = (): void => {
   requester.defaults.headers['Authorization'] = undefined;
 };
 
