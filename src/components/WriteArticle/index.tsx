@@ -78,6 +78,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return state.article.WriteArticleIsLoading;
   });
 
+  const currentUser = useSelector((state: RootState) => {
+    return state.user.logged;
+  });
+
   const handlePeople = (inp: string) => {
     if (inp === 'NaN') setPeople('');
     else setPeople(inp);
@@ -135,15 +139,22 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   };
 
   const submit = () => {
-    const tempTags = tags
-      .filter((item) => item.selected)
-      .map((item) => item.id);
-
+    if (!currentUser) {
+      Alert.alert('로그인을 해주세요');
+      // TODO @juimdpp
+      // 로그인 페이지로 redirect 되는 페이지 구현
+      // 디자인 나오면...?
+      return;
+    }
     const res = checkInput();
     if (res != '') {
       Alert.alert(res);
       return;
     }
+
+    const tempTags = tags
+      .filter((item) => item.selected)
+      .map((item) => item.id);
 
     const tempArticle = {
       title: title,
