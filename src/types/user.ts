@@ -17,11 +17,11 @@ export interface IUserProfileDetail {
   profile_id: number;
   picture: string;
   nickname: string;
-  grade: 'grade (integer, choice)';
+  grade: 1 | 2 | 3 | 4;
   point: number;
-  updated_at: 'updated time (time)';
-  withdrew_at: 'withdrew time (time)';
-  trading_address: '(str)';
+  updated_at: Date; // TODO 확인필요: string 일 수도
+  withdrew_at: Date;
+  trading_address: string;
 }
 
 // 다른 사람 정보
@@ -35,8 +35,8 @@ export interface IUserProfileSimple {
   profile_id: number;
   picture: string;
   nickname: string;
-  grade: 'grade (integer, choice)';
-  trading_address: '(str)';
+  grade: 1 | 2 | 3 | 4;
+  trading_address: string;
 }
 
 // TODO: this type is deprecated
