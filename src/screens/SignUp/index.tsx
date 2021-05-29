@@ -199,6 +199,7 @@ function SignUpTemplate(): JSX.Element {
     userAPI
       .signUp(id, pw, em + '@snu.ac.kr', nn, ta)
       .then(() => {
+        Alert.alert('회원가입이 완료되었습니다.');
         navigation.navigate('Login');
       })
       .catch((error: AxiosError) => {

@@ -57,9 +57,9 @@ export interface IUserProps {
 }
 
 export interface IUserSumProps {
-  profile_id?: number | undefined;
-  picture?: string | undefined;
-  nickname?: string | undefined;
+  profile_id?: number;
+  picture?: string;
+  nickname?: string;
 }
 
 export interface IChatUserProps {
@@ -68,8 +68,8 @@ export interface IChatUserProps {
   pay_status: boolean;
   wish_price: number;
 
-  // TODO @ssu1018
-  //  이거 타입 확인 부탁드립니당
+  // TODO: @ssu1018
+  //  타입 나오면 Detail 인지 Simple 인지 정하기
   participant: IUserProfileDetail;
 }
 
