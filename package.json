@@ -23,6 +23,7 @@
     "expo": "~40.0.0",
     "expo-splash-screen": "~0.8.0",
     "expo-updates": "~0.4.0",
+    "formik": "^2.2.8",
     "lodash": "^4.17.20",
     "native-base": "^2.15.2",
     "querystring": "^0.2.1",
@@ -49,7 +50,8 @@
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "xregexp": "^5.0.1"
+    "xregexp": "^5.0.1",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

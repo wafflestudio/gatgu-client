@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import ModifyButton from '@/assets/ProfileModifyPage/modifyButton.svg';
 import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
 import { StringInput } from '@/components';
-import { validateNN } from '@/helpers/functions/validate';
+import { isValidNickname } from '@/helpers/functions/validate';
 import { RootState } from '@/store';
 
 import styles from './ProfileModify.styles';
@@ -44,7 +44,7 @@ function ProfileModify(): JSX.Element {
           }}
           placeholder="별명"
         />
-        {!validateNN(nickname) && nnTyping ? (
+        {!isValidNickname(nickname) && nnTyping ? (
           <Text style={styles.nickText}>사용 불가능한 닉네임입니다.</Text>
         ) : null}
       </View>
