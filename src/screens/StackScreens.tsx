@@ -129,62 +129,69 @@ function ProfileStackScreen(): JSX.Element {
           title: '더보기',
           headerTitleAlign: 'center',
           // eslint-disable-next-line react/display-name
-          headerRight: () =>
-            logged ? (
-              <View style={{ position: 'relative' }}>
-                <TouchableHighlight onPress={() => setShow(!show)}>
-                  <Icon name="menu" />
-                </TouchableHighlight>
-                {show ? (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      top: 40,
-                      width: 169,
-                      right: 2,
-                      backgroundColor: 'white',
-                      height: 127,
-                      borderRadius: 10,
-                      borderWidth: 1,
-                      borderColor: palette.borderGray,
-                      paddingLeft: 33,
-                      justifyContent: 'space-evenly',
-                    }}
-                  >
-                    <Button
-                      title="수정하기"
-                      textStyle={{
-                        ...typo.bigTitle,
-                      }}
-                      onPress={() => navigation.navigate('ProfileModify')}
-                    />
-                    <Button
-                      title="로그아웃하기"
-                      textStyle={{
-                        ...typo.bigTitle,
-                      }}
-                      onPress={logoutReq}
-                    />
-                  </View>
-                ) : null}
-              </View>
-            ) : null,
+          headerRight: () => (
+            // FIXME:
+            // 메뉴 버튼 클릭이 안되서 임시로 이렇게 빼 놓음
+            <Button
+              title="수정하기"
+              textStyle={{
+                ...typo.bigTitle,
+              }}
+              onPress={() => navigation.navigate('ProfileModify')}
+            />
+          ),
+          // logged ? (
+          //   <View style={{ position: 'relative' }}>
+          //     <TouchableHighlight onPress={() => setShow(!show)}>
+          //       <Icon name="menu" />
+          //     </TouchableHighlight>
+          //     {show ? (
+          //       <View
+          //         style={{
+          //           position: 'absolute',
+          //           top: 40,
+          //           width: 169,
+          //           right: 2,
+          //           backgroundColor: 'white',
+          //           height: 127,
+          //           borderRadius: 10,
+          //           borderWidth: 1,
+          //           borderColor: palette.borderGray,
+          //           paddingLeft: 33,
+          //           justifyContent: 'space-evenly',
+          //         }}
+          //       >
+          //         <Button
+          //           title="수정하기"
+          //           textStyle={{
+          //             ...typo.bigTitle,
+          //           }}
+          //           onPress={() => navigation.navigate('ProfileModify')}
+          //         />
+          //         <Button
+          //           title="야야"
+          //           onPress={() => {
+          //             console.log('');
+          //           }}
+          //         />
+          //         <Button
+          //           title="로그아웃하기"
+          //           textStyle={{
+          //             ...typo.bigTitle,
+          //           }}
+          //           onPress={logoutReq}
+          //         />
+          //       </View>
+          //     ) : null}
+          //   </View>
+          // ) : null,
         }}
       />
       <ProfileStack.Screen
         name={ProfileModify.name}
         component={ProfileModify.component}
         options={{
-          headerTitleAlign: 'center',
-          // eslint-disable-next-line react/display-name
-          headerRight: () => (
-            <Button
-              title="완료"
-              onPress={() => {
-                modifyReq();
-              }}
-            />
-          ),
+          headerShown: false,
         }}
       />
     </ProfileStack.Navigator>
