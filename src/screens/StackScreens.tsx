@@ -193,8 +193,6 @@ function ProfileStackScreen(): JSX.Element {
 
 const WriteArticleStack = createStackNavigator();
 function WriteArticleStackScreen(): JSX.Element {
-  const navigation = useNavigation();
-
   return (
     <WriteArticleStack.Navigator>
       <WriteArticleStack.Screen
@@ -202,19 +200,6 @@ function WriteArticleStackScreen(): JSX.Element {
         component={WriteArticle.component}
         options={{
           headerTitleAlign: 'center',
-          // eslint-disable-next-line react/display-name
-          headerRight: () => (
-            // TODO: @juimdpp
-            //  must modify;
-            //  this does only routing but doesn't post article...
-            <Button
-              title="완료"
-              // TODO: @juimdpp
-              // todo: add styles
-              // when: api 고칠 때...
-              onPress={() => navigation.navigate('Article')}
-            />
-          ),
         }}
       />
     </WriteArticleStack.Navigator>

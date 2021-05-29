@@ -184,6 +184,13 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     }
   };
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerRight: () => <Button title="완료" onPress={submit} />,
+    });
+  });
+
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
       {hasError ? (
@@ -212,7 +219,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             description={description}
             setDescription={setDescription}
           />
-          <Button title="완료" onPress={submit} />
         </View>
       )}
     </ScrollView>
