@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -11,10 +11,9 @@ import BottomNavigation from '@/components/BottomNavigation';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import routes from '@/helpers/routes';
-import { AppLoading } from '@/screens';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
-import { setInfo } from '@/store/userSlice';
+import { setToken } from '@/store/userSlice';
 
 const { ChattingRoom, Login, SignUp } = routes;
 
@@ -23,28 +22,21 @@ const Stack = createStackNavigator();
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
-  const [userLoaded, setUserLoaded] = useState(false);
-
-  const loadUserData = useCallback(() => {
-    ObjectStorage.getObject(asyncStoragekey.USER)
+  useEffect(() => {
+    // check if user data exists
+    ObjectStorage.getObject(asyncStoragekey.TOKEN)
       .then((data) => {
-        if (data) store.dispatch(setInfo(data));
-        setUserLoaded(true);
+        if (data) {
+          store.dispatch(setToken(data));
+        } else {
+          ObjectStorage.removeObject(asyncStoragekey.TOKEN);
+        }
       })
-      .catch((err) => {
-        console.error(err);
-        setUserLoaded(true);
+      .catch(() => {
+        ObjectStorage.removeObject(asyncStoragekey.TOKEN);
       });
   }, []);
 
-  useEffect(() => {
-    // check if user data exists
-    loadUserData();
-  }, []);
-
-  if (!userLoaded) {
-    return <AppLoading />;
-  }
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>

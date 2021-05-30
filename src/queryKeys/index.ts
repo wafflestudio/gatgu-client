@@ -7,3 +7,5 @@
 
       export const EXAMPLE_LIST = '@example/exampleList'
  */
+
+export * from './user';
