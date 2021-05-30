@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { ImageBackground, View, Text, Alert } from 'react-native';
 import { useQuery } from 'react-query';
 
@@ -18,16 +18,13 @@ interface IUserModify {
   nickname: string;
 }
 
+const formikInitialValues: IUserModify = {
+  nickname: '',
+};
+
 const ProfileModify: React.FC = () => {
   const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
-  );
-
-  const formikInitialValues = useMemo(
-    () => ({
-      nickname: '',
-    }),
-    []
   );
 
   const modifyUserProfile = useCallback((values: IUserModify) => {
@@ -51,15 +48,7 @@ const ProfileModify: React.FC = () => {
     return null;
   }
 
-  const profileImgExist = !!info.userprofile.picture;
-  const profileImg = profileImgExist ? (
-    <ImageBackground
-      source={{ uri: info.userprofile.picture }}
-      style={styles.profileImg}
-    />
-  ) : (
-    <ProfileDummyImage width="121" height="121" />
-  );
+  const profileImgExists = !!info.userprofile.picture;
 
   return (
     <Formik<IUserModify>
@@ -71,7 +60,14 @@ const ProfileModify: React.FC = () => {
         <View style={styles.container}>
           <View style={styles.imgContainer}>
             <View style={styles.profileImgWrap}>
-              {profileImg}
+              {profileImgExists ? (
+                <ImageBackground
+                  source={{ uri: info.userprofile.picture }}
+                  style={styles.profileImg}
+                />
+              ) : (
+                <ProfileDummyImage width="121" height="121" />
+              )}
               <ModifyButton style={styles.imgPickBtn} />
             </View>
           </View>
