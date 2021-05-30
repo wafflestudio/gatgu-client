@@ -28,6 +28,8 @@ const ProfileModify: React.FC = () => {
   );
 
   const modifyUserProfile = useCallback((values: IUserModify) => {
+    // TODO @woohm402
+    //  api 말씀드려뒀음 https://wafflestudio.slack.com/archives/C01LD8Q0Q72/p1622395205174200
     console.log(values);
   }, []);
 
