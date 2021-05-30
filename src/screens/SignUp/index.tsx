@@ -191,14 +191,17 @@ const SignUpTemplate: React.FC = () => {
               userAPI
                 .sendConfirmCodeMail(values.email + '@snu.ac.kr')
                 .then(() => Alert.alert('인증 메일을 발송하였습니다.'))
-                .catch(() => Alert.alert('인증 메일 발송에 실패하였습니다.'))
+                .catch((error) => {
+                  Alert.alert('인증 메일 발송에 실패하였습니다.');
+                  console.debug(error.config);
+                })
             }
             marginBottom={6}
             errorStr={errors.email}
           />
           <Input
             value={values.emailConfirm}
-            onChangeText={handleChange(values.emailConfirm)}
+            onChangeText={handleChange('emailConfirm')}
             title="인증번호"
             buttonString="확인"
             buttonOnPress={() =>
@@ -208,7 +211,9 @@ const SignUpTemplate: React.FC = () => {
                   values.emailConfirm
                 )
                 .then(() => Alert.alert('인증되었습니다.'))
-                .catch(() => Alert.alert('잘못된 코드입니다.'))
+                .catch(() => {
+                  Alert.alert('잘못된 코드입니다.');
+                })
             }
             marginBottom={6}
             errorStr={errors.emailConfirm}

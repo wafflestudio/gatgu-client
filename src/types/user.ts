@@ -17,7 +17,6 @@ export interface IUserProfileDetail {
   profile_id: number;
   picture: string;
   nickname: string;
-  grade: 1 | 2 | 3 | 4;
   point: number;
   updated_at: Date; // TODO 확인필요: string 일 수도
   withdrew_at: Date;
@@ -35,7 +34,6 @@ export interface IUserProfileSimple {
   profile_id: number;
   picture: string;
   nickname: string;
-  grade: 1 | 2 | 3 | 4;
   trading_address: string;
 }
 
