@@ -3,12 +3,12 @@ import { View, Text } from 'react-native';
 
 import Open from '@/assets/ProfilePage/open.svg';
 import Part from '@/assets/ProfilePage/participate.svg';
-import { IUserProps } from '@/types/user';
+import { IUserDetail, IUserProps } from '@/types/user';
 
 import styles from './Force.style';
 
 interface ForceProps {
-  profile: IUserProps;
+  profile: IUserDetail;
 }
 
 // Gragde JSX: 등급 있는 그 칸

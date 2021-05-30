@@ -2,13 +2,12 @@ import React from 'react';
 import { View, Text, ImageBackground } from 'react-native';
 
 import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
-import { IUserProps } from '@/types/user';
+import { IUserDetail } from '@/types/user';
 
 import styles from './Information.style';
 
 interface IInfoProps {
-  profile: IUserProps;
-  color: string;
+  profile: IUserDetail;
 }
 
 // Info JSX: 유저 이름 ~ 인증 여부

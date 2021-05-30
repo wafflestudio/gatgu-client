@@ -30,6 +30,7 @@ function LoginTemplate(): JSX.Element {
     login(id, pw)
       .then((response) => {
         dispatch(setToken(response.data.token));
+        navigation.navigate('Home');
       })
       .catch((error: AxiosError) => {
         if (error.response) {
