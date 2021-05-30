@@ -1,19 +1,55 @@
-import React, { useState } from 'react';
-import { ImageBackground, View, Text } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useMemo } from 'react';
+import { ImageBackground, View, Text, Alert } from 'react-native';
+import { useQuery } from 'react-query';
 
+import { Formik } from 'formik';
+
+import { getMyData } from '@/apis/UserApi';
 import ModifyButton from '@/assets/ProfileModifyPage/modifyButton.svg';
 import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
 import { StringInput } from '@/components';
 import { isValidNickname } from '@/helpers/functions/validate';
-import { RootState } from '@/store';
+import { USER_DETAIL } from '@/queryKeys';
+import { IUserDetail } from '@/types/user';
 
 import styles from './ProfileModify.styles';
 
-function ProfileModify(): JSX.Element {
-  const [nickname, setNickname] = useState<string>('');
-  const [nnTyping, setNNTypinig] = useState<boolean>(false);
-  const info = useSelector((state: RootState) => state.user.info);
+interface IUserModify {
+  nickname: string;
+}
+
+const ProfileModify: React.FC = () => {
+  const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
+    getMyData().then((response) => response.data)
+  );
+
+  const formikInitialValues = useMemo(
+    () => ({
+      nickname: '',
+    }),
+    []
+  );
+
+  const modifyUserProfile = useCallback((values: IUserModify) => {
+    console.log(values);
+  }, []);
+
+  const validate = (values: IUserModify) => {
+    const errors = {};
+    // nickname
+    const nickname =
+      values.nickname && !isValidNickname(values.nickname) && '필수정보입니다.';
+    if (nickname) Object.assign(errors, { nickname });
+
+    return errors;
+  };
+
+  if (userQuery.isLoading || userQuery.isError) return null;
+  const info = userQuery.data;
+  if (!info) {
+    Alert.alert('유저 데이터를 불러오는 데 실패했습니다.');
+    return null;
+  }
 
   const profileImgExist = !!info.userprofile.picture;
   const profileImg = profileImgExist ? (
@@ -26,30 +62,35 @@ function ProfileModify(): JSX.Element {
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imgContainer}>
-        <View style={styles.profileImgWrap}>
-          {profileImg}
-          <ModifyButton style={styles.imgPickBtn} />
+    <Formik<IUserModify>
+      initialValues={formikInitialValues}
+      onSubmit={modifyUserProfile}
+      validate={validate}
+    >
+      {({ values, handleChange, errors }) => (
+        <View style={styles.container}>
+          <View style={styles.imgContainer}>
+            <View style={styles.profileImgWrap}>
+              {profileImg}
+              <ModifyButton style={styles.imgPickBtn} />
+            </View>
+          </View>
+          <View style={styles.nickContainer}>
+            <StringInput
+              style={styles.nickInput}
+              placeholderStyle={styles.nickInput}
+              value={values.nickname}
+              onChangeText={handleChange('nickname')}
+              placeholder="별명"
+            />
+            {errors.nickname && (
+              <Text style={styles.nickText}>사용 불가능한 닉네임입니다.</Text>
+            )}
+          </View>
         </View>
-      </View>
-      <View style={styles.nickContainer}>
-        <StringInput
-          style={styles.nickInput}
-          placeholderStyle={styles.nickInput}
-          value={nickname}
-          onChangeText={(e) => {
-            setNickname(e);
-            setNNTypinig(true);
-          }}
-          placeholder="별명"
-        />
-        {!isValidNickname(nickname) && nnTyping ? (
-          <Text style={styles.nickText}>사용 불가능한 닉네임입니다.</Text>
-        ) : null}
-      </View>
-    </View>
+      )}
+    </Formik>
   );
-}
+};
 
 export default ProfileModify;
