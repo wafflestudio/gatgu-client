@@ -18,3 +18,11 @@ export enum Status {
   WAITING_SHARE = 6,
   GATGU_COMPLETE = 7,
 }
+
+export enum OrderStatus {
+  UNDEFINED_STATUS,
+  RECRUITING = 1, // 모집중
+  WAITING_MONEY = 2, // 입금대기중
+  IN_DELIVERY = 3, // 배송중
+  GATGU_COMPLETE = 4, // 거래완료
+}

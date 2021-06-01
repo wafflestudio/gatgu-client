@@ -1,6 +1,8 @@
 import { Need } from '@/constants/Enum';
 import { SearchType } from '@/constants/article';
 
+import { IChattingRoom, IOrderChat } from './chat';
+
 interface IPagination {
   next: string;
   previous: string;
@@ -84,10 +86,8 @@ export interface IArticleProps {
   created_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
   //
-  participants_summary?: {
-    count: number;
-    price: number;
-  };
+  order_chat: IOrderChat;
+  participants_summary: IParticipantsSummary;
 }
 
 // Used for sending POST request for article
