@@ -14,20 +14,17 @@ interface IGoalTopBubbleProps {
   summary: IParticipantsSummary | undefined;
   current: number | undefined;
   min_required: number;
-  type: number | undefined;
 }
 
 function GoalTopBubble({
   summary,
   current,
   min_required,
-  type,
 }: IGoalTopBubbleProps): JSX.Element {
   const [end, setEnd] = useState<number>(0);
   const [pEnd, setPend] = useState<number>(0);
 
   const percent = current ? (current / min_required) * 100 : 0;
-  const isMoney = type === Need.IS_MONEY;
 
   const getEnd = (event: LayoutChangeEvent) => {
     setEnd(event.nativeEvent.layout.width);
@@ -42,14 +39,13 @@ function GoalTopBubble({
         <TopBubble
           current={current}
           goal={min_required}
-          type={type}
           end={end}
           pEnd={pEnd}
         />
       </View>
       <View style={styles.goalWrapper} onLayout={getEnd}>
         <View style={{ width: `${percent}%` }} onLayout={getPend} />
-        <GoalBar summary={summary} min_required={min_required} type={type} />
+        <GoalBar summary={summary} min_required={min_required} type={0} />
       </View>
     </View>
   );
