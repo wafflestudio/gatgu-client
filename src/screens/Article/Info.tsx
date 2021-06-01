@@ -11,17 +11,7 @@ import GoalTopBubbleBar from './GoalTopBubble/index';
 import styles from './Info.style';
 
 // will change input type (left it because will probably need it afterwards)
-function Info({
-  location,
-  participants_summary,
-  need_type,
-  people_min,
-  price_min,
-}: IArticleProps): JSX.Element {
-  const current =
-    need_type === Need.IS_MONEY
-      ? participants_summary?.price
-      : participants_summary?.count;
+function Info({ participants_summary, price_min }: IArticleProps): JSX.Element {
   return (
     <View style={styles.subContainer}>
       <View style={styles.subConNoBorder}>
@@ -33,8 +23,7 @@ function Info({
         <GoalTopBubbleBar
           summary={participants_summary}
           current={current}
-          min_required={need_type === Need.IS_MONEY ? price_min : people_min}
-          type={need_type}
+          min_required={price_min}
         />
       </View>
     </View>
