@@ -12,8 +12,8 @@ interface RecruitingProps {
   needPeople: string;
   needPrice: string;
   selected: number;
-  setPeople: Dispatch<SetStateAction<string>>;
-  setPrice: Dispatch<SetStateAction<string>>;
+  setPeople: (inp: string) => void;
+  setPrice: (inp: string) => void;
   setSelected: Dispatch<SetStateAction<number>>;
 }
 
