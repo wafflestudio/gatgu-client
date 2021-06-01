@@ -1,4 +1,4 @@
-import { Need } from '@/constants/Enum';
+import { Need, ArticleStatus } from '@/constants/Enum';
 import { SearchType } from '@/constants/article';
 
 import { IChattingRoom, IOrderChat } from './chat';
@@ -85,7 +85,7 @@ export interface IArticleProps {
   tag: number[];
   created_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
-  //
+  article_status: ArticleStatus;
   order_chat: IOrderChat;
   participants_summary: IParticipantsSummary;
 }

@@ -4,14 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { initialArticle, initialChatInfo } from '@/constants/InitialState';
 import { createError } from '@/helpers/functions';
 import AppLoading from '@/screens/AppLoading';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
-import { getChatInfo } from '@/store/chatSlice';
 import { IArticleProps } from '@/types/article';
-import { IChattingRoom } from '@/types/chat';
 import { ArticleDrawerParamList } from '@/types/navigation';
 
 import Desc from './Desc';
@@ -25,8 +22,6 @@ import TitleInfo from './TitleInfo';
 const [Error] = createError();
 
 function ArticlePage(): JSX.Element {
-  const [article, setArticle] = useState<IArticleProps>(initialArticle);
-  const [chatInfo, setChatInfo] = useState<IChattingRoom>(initialChatInfo);
   const [GetisLoading, setGetLoadingStatus] = useState(true);
   const [GethasError, setGetErrorStatus] = useState(false);
   const [errno, setErrno] = useState(-100);
@@ -36,9 +31,6 @@ function ArticlePage(): JSX.Element {
 
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
-  );
-  const currentChatInfo = useSelector(
-    (state: RootState) => state.chat.currentChatInfo
   );
   const loading = useSelector(
     (state: RootState) => state.article.articleIsLoading
@@ -64,28 +56,22 @@ function ArticlePage(): JSX.Element {
 
   useEffect(() => {
     dispatch(getSingleArticle(id));
-    dispatch(getChatInfo(id));
   }, [dispatch]);
 
-  useEffect(() => {
-    setArticle(currentArticle);
-    setChatInfo(currentChatInfo);
-  }, [currentArticle, currentChatInfo]);
-
   const productImageProps = {
-    thumbnail_url: article.image[0],
-    image_url: article.image,
-    orderStatus: chatInfo?.order_status,
+    thumbnail_url: currentArticle.image[0],
+    image_url: currentArticle.image,
+    orderStatus: currentArticle.article_status,
   };
 
   const profileChatProps = {
-    article: article,
-    orderStatus: chatInfo?.order_status,
+    article: currentArticle,
+    orderStatus: currentArticle.article_status,
   };
 
   const titleInfoProps = {
-    article: article,
-    orderStatus: chatInfo?.order_status,
+    article: currentArticle,
+    orderStatus: currentArticle.article_status,
   };
 
   return (
@@ -101,7 +87,7 @@ function ArticlePage(): JSX.Element {
           <ProductImages {...productImageProps} />
           <ProfileChat {...profileChatProps} />
           <TitleInfo {...titleInfoProps} />
-          <Desc {...article} />
+          <Desc {...currentArticle} />
         </ScrollView>
       )}
     </View>

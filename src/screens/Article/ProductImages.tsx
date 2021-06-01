@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, View, Text } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import { Status } from '@/constants/Enum';
+import { ArticleStatus } from '@/constants/Enum';
 import { palette } from '@/styles';
 
 import styles from './ProductImages.style';
@@ -13,7 +13,7 @@ import styles from './ProductImages.style';
 interface IArticleChat {
   thumbnail_url: string | null | undefined;
   image_url: (string | null | undefined)[] | undefined;
-  orderStatus: number;
+  orderStatus: ArticleStatus;
 }
 
 function ProductImages({
@@ -48,10 +48,10 @@ function ProductImages({
           {images}
         </Swiper>
       </View>
-      {orderStatus >= Status.ORDER_COMPLETE && (
+      {orderStatus >= ArticleStatus.COMPLETE && (
         <View style={styles.completeCover} />
       )}
-      {orderStatus >= Status.ORDER_COMPLETE && (
+      {orderStatus >= ArticleStatus.COMPLETE && (
         <View style={styles.completeTextContainer}>
           <Text style={styles.completeText}>모집완료</Text>
         </View>

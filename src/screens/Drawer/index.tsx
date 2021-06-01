@@ -9,9 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { articleAPI, userAPI } from '@/apis';
 import { Button, Profile } from '@/components';
-import { Status } from '@/constants/Enum';
-import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ObjectStorage } from '@/helpers/functions/asyncStorage';
+import { ArticleStatus } from '@/constants/Enum';
 import { RootState } from '@/store';
 import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
 import { palette } from '@/styles';
@@ -32,25 +30,13 @@ function DrawerTemplate(props: any): JSX.Element {
   );
   const currentUser = useSelector((state: RootState) => state.user.info);
   const loggedIn = useSelector((state: RootState) => state.user.logged);
-  const currentChatInfo = useSelector(
-    (state: RootState) => state.chat.currentChatInfo
-  );
+
   useEffect(() => {
     if (currentArticle.article_id !== 0) {
       const id = currentArticle.article_id;
       dispatch(getChatInfo(id));
     }
   }, []);
-
-  useEffect(() => {
-    if (currentArticle.id !== '0') {
-      setChatInfo(currentChatInfo);
-      setError(false);
-      // TODO: @juimdpp
-      // handle error from chatSlice
-      // when: 로딩창 구현할 때
-    }
-  }, [currentChatInfo]);
 
   useEffect(() => {
     if (chatInfo?.id !== 0) {
@@ -75,9 +61,9 @@ function DrawerTemplate(props: any): JSX.Element {
     // change status
     if (chatInfo !== undefined) {
       const temp =
-        chatInfo.order_status < Status.ORDER_COMPLETE
-          ? Status.ORDER_COMPLETE
-          : Status.WAITING_MEMBERS;
+        chatInfo.order_status <= ArticleStatus.BARGAINING
+          ? ArticleStatus.COMPLETE
+          : ArticleStatus.BARGAINING;
       // TODO: @juimdpp
       // todo: 추후에 쓸 수 있을 듯
       // when: api 고칠 때 보기
