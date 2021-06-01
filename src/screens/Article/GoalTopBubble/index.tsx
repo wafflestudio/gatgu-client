@@ -4,7 +4,6 @@ import { LayoutChangeEvent } from 'react-native';
 import { View } from 'native-base';
 
 import GoalBar from '@/components/ArticleBox/GoalBar';
-import { Need } from '@/constants/Enum';
 import { IParticipantsSummary } from '@/types/article';
 
 import styles from './GoalTopBubble.style';

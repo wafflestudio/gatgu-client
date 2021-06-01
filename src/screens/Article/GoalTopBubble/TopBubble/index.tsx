@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { LayoutChangeEvent, Text, View } from 'react-native';
 
-import { Need } from '@/constants/Enum';
-
 import styles from './TopBubble.style';
 
 interface ITopBubbleProps {

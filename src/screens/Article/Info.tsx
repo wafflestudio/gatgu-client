@@ -3,7 +3,6 @@ import { Text } from 'react-native';
 
 import { Label, View } from 'native-base';
 
-import { Need } from '@/constants/Enum';
 import { typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
 

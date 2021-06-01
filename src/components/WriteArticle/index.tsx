@@ -2,13 +2,9 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AxiosResponse } from 'axios';
-
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { articleAPI } from '@/apis';
-import { Need } from '@/constants/Enum';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
@@ -46,14 +42,12 @@ const TagArray = tagNames.map((item, indx) => {
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<(string | null | undefined)[]>([]);
-  const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState(new Date());
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
-  const [selected, setSelected] = useState(Need.IS_PEOPLE); // IS_PEOPLE-1 because selector takes 0 or 1 not 1 or 2 as in API
   const [tags, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
@@ -82,10 +76,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return state.user.logged;
   });
 
-  const handlePeople = (inp: string) => {
-    if (inp === 'NaN') setPeople('');
-    else setPeople(inp);
-  };
   const handlePrice = (inp: string) => {
     if (inp === 'NaN') setPrice('');
     else setPrice(inp);
@@ -199,14 +189,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           <DueDate dueDate={dueDate} setDueDate={setDueDate} />
           <AddImage images={images} setImages={setImages} />
           <Title title={title} setTitle={setTitle} />
-          <Recruiting
-            needPeople={need_people}
-            needPrice={need_price}
-            selected={selected}
-            setPeople={handlePeople}
-            setPrice={handlePrice}
-            setSelected={setSelected}
-          />
+          <Recruiting needPrice={need_price} setPrice={handlePrice} />
           <Location location={location} setLocation={setLocation} />
           <Link link={link} setLink={setLink} />
           <Description
