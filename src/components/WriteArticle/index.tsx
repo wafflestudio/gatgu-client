@@ -18,7 +18,7 @@ import {
   editSingleArticle,
   getSingleArticle,
 } from '@/store/articleSlice';
-import { IArticleProps, ITagType } from '@/types/article';
+import { IArticleProps, IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
 
 import AddImage from './AddImage/AddImage';
@@ -108,21 +108,12 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (isEdit && currentArticle) {
       setTitle(currentArticle.title);
       setDescription(currentArticle.description);
-      setLocation(currentArticle.location);
-      currentArticle.product_url && setLink(currentArticle.product_url);
-      if (currentArticle.thumbnail_url && currentArticle.image) {
-        const tempImage = currentArticle.image.slice();
-        tempImage.unshift(currentArticle.thumbnail_url);
-        setImages(tempImage);
-      }
-      currentArticle.need_type &&
-        setSelected(
-          currentArticle.need_type === Need.IS_PEOPLE
-            ? Need.IS_PEOPLE
-            : Need.IS_MONEY
-        );
-      handlePeople(`${currentArticle.people_min}`);
+      setLocation(currentArticle.trading_place);
+      setLink(currentArticle.product_url);
       handlePrice(`${currentArticle.price_min}`);
+      setDueDate(currentArticle.time_in);
+      // optional:
+      currentArticle.image && setImages(currentArticle.image);
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
           return { id: i, tag: `${num}`, selected: false };
@@ -159,21 +150,13 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     const tempArticle = {
       title: title,
       description: description,
-      location: location,
+      trading_place: location,
       price_min: parseInt(need_price),
-      people_min: parseInt(need_people),
-      // time_in: new Date('2021-03-17'),
-      // TODO: @juimdpp
-      // todo: implement dueDate modal + 백엔드와 확인 (정확하게 원하는 타입이 무엇인지)
-      // when: after I finish issue 166
+      time_in: new Date('2021-03-17'),
       product_url: link,
-      thumbnail_url: !images[0]
-        ? 'https://trello.com/b/9EsYdmZU/team'
-        : images[0],
-      // image: images.slice(1),
-      need_type: selected,
+      // image: images
       // tag: tempTags
-    } as IArticleProps;
+    } as IPostArticle;
     if (isEdit && currentArticle) {
       dispatch(editSingleArticle(id, tempArticle)).then((id: number) => {
         if (id != -1) {
