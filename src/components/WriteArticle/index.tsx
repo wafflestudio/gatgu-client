@@ -1,13 +1,16 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert, Text } from 'react-native';
+import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import { getMyData } from '@/apis/UserApi';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
+import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import {
   createSingleArticle,
@@ -16,6 +19,7 @@ import {
 } from '@/store/articleSlice';
 import { IArticleProps, IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
+import { IUserDetail } from '@/types/user';
 
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -42,20 +46,20 @@ const TagArray = tagNames.map((item, indx) => {
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<(string | null | undefined)[]>([]);
-  const [need_price, setPrice] = useState('');
-  const [title, setTitle] = useState('');
-  const [dueDate, setDueDate] = useState(new Date());
-  const [description, setDescription] = useState('');
-  const [link, setLink] = useState('');
-  const [location, setLocation] = useState('');
+  const [need_price, setPrice] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [dueDate, setDueDate] = useState<Date>(new Date());
+  const [description, setDescription] = useState<string>('');
+  const [link, setLink] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
   const [tags, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
   const { id } = isEdit ? route.params : { id: 0 };
   const dispatch = useDispatch();
-  const [pageStatus, setPageStatus] = useState(-100);
-  const [hasError, setErrorStatus] = useState(false);
-  const [isLoading, setLoadingStatus] = useState(false);
+  const [pageStatus, setPageStatus] = useState<number>(-100);
+  const [hasError, setErrorStatus] = useState<boolean>(false);
+  const [isLoading, setLoadingStatus] = useState<boolean>(false);
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
@@ -72,9 +76,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return state.article.WriteArticleIsLoading;
   });
 
-  const currentUser = useSelector((state: RootState) => {
-    return state.user.logged;
-  });
+  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
+    getMyData().then((response) => response.data)
+  ).data;
 
   const handlePrice = (inp: string) => {
     if (inp === 'NaN') setPrice('');
