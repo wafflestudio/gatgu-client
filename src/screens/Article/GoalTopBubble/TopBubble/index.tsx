@@ -10,7 +10,7 @@ interface ITopBubbleProps {
   pEnd: number;
 }
 
-function TopBubble({ current, goal, end, pEnd }: ITopBubbleProps): JSX.Element {
+const TopBubble: React.FC<ITopBubbleProps> = ({ current, goal, end, pEnd }) => {
   const [width, setWidth] = useState(0);
 
   const getCoorBar = (event: LayoutChangeEvent) => {
@@ -55,5 +55,5 @@ function TopBubble({ current, goal, end, pEnd }: ITopBubbleProps): JSX.Element {
       </View>
     </View>
   );
-}
+};
 export default TopBubble;
