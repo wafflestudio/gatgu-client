@@ -76,9 +76,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return state.article.WriteArticleIsLoading;
   });
 
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const isUserLoggedIn = !!useSelector((state: RootState) => state.user.token);
 
   const handlePrice = (inp: string) => {
     if (inp === 'NaN') setPrice('');
@@ -124,7 +122,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   };
 
   const submit = () => {
-    if (!currentUser) {
+    if (!isUserLoggedIn) {
       Alert.alert('로그인을 해주세요');
       // TODO @juimdpp
       // 로그인 페이지로 redirect 되는 페이지 구현
