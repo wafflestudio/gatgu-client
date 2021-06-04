@@ -30,11 +30,12 @@ import Recruiting from './Recruiting/Recruiting';
 import Tags from './Tags/Tags';
 import Title from './Title/Title';
 
-// TODO: @juimdpp
-// when: 엄청 급한게 아니라 모든 코드 마스터로 머지 되고, 다시 수정할때..?
-//  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
-// when: 기획 잡히면:
-//  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
+/*TODO: @juimdpp
+ when: 엄청 급한게 아니라 모든 코드 마스터로 머지 되고, 다시 수정할때..?
+  - input 받을 때 인풋창 잘 보이게 (focus되게) 화면 조정
+ when: 기획 잡히면:
+  - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
+*/
 const [Error] = createError();
 interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
@@ -124,9 +125,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const submit = () => {
     if (!isUserLoggedIn) {
       Alert.alert('로그인을 해주세요');
-      // TODO @juimdpp
-      // 로그인 페이지로 redirect 되는 페이지 구현
-      // 디자인 나오면...?
+      /* TODO @juimdpp
+        로그인 페이지로 redirect 되는 페이지 구현
+        디자인 나오면...? 
+      */
       return;
     }
     const res = checkInput();
