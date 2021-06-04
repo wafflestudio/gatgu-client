@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 
 import { Label, View } from 'native-base';
 
-import { Status } from '@/constants/Enum';
+import { ArticleStatus } from '@/constants/Enum';
 import { calcTimeDiff } from '@/helpers/functions';
 import { palette, typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
@@ -12,7 +12,7 @@ import styles from './Title.style';
 
 interface ITitleProps {
   article: IArticleProps;
-  orderStatus: number;
+  orderStatus: ArticleStatus;
 }
 
 function Title({ article, orderStatus }: ITitleProps): JSX.Element {
@@ -27,7 +27,7 @@ function Title({ article, orderStatus }: ITitleProps): JSX.Element {
       ? calcTimeDiff(article.created_at, 'current')
       : { diff: 0, type: 0 };
 
-  const isDone = orderStatus >= Status.ORDER_COMPLETE;
+  const isDone = orderStatus >= ArticleStatus.COMPLETE;
 
   return (
     <View style={styles.subContainer}>

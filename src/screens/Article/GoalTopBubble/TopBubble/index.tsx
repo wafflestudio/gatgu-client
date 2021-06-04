@@ -1,25 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { LayoutChangeEvent, Text, View } from 'react-native';
 
-import { Need } from '@/constants/Enum';
-
 import styles from './TopBubble.style';
 
 interface ITopBubbleProps {
   current?: number;
   goal: number;
-  type?: number;
   end: number;
   pEnd: number;
 }
 
-function TopBubble({
-  current,
-  goal,
-  type,
-  end,
-  pEnd,
-}: ITopBubbleProps): JSX.Element {
+const TopBubble: React.FC<ITopBubbleProps> = ({ current, goal, end, pEnd }) => {
   const [width, setWidth] = useState(0);
 
   const getCoorBar = (event: LayoutChangeEvent) => {
@@ -57,14 +48,12 @@ function TopBubble({
   return (
     <View style={{ alignSelf: calcLeft.side, left: calcLeft.left }}>
       <View style={styles.box} onLayout={getCoorBar}>
-        <Text style={styles.text}>{`${goal} 중 ${current}${
-          type === Need.IS_MONEY ? '원' : '명'
-        } 모였어요!`}</Text>
+        <Text style={styles.text}>{`${goal} 중 ${current}'원' 모였어요!`}</Text>
       </View>
       <View style={{ width: width }}>
         <View style={[styles.triangle, { left: calcLeft.sliderPos }]} />
       </View>
     </View>
   );
-}
+};
 export default TopBubble;

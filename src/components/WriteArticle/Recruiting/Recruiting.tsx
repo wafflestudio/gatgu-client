@@ -3,38 +3,18 @@ import { View, Text } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 
 import { StringInput } from '@/components';
-import { Need } from '@/constants/Enum';
 
 import waStyles from '../WriteArticle.style';
 import styles, { switchSelector } from './Recruiting.style';
 
 interface RecruitingProps {
-  needPeople: string;
   needPrice: string;
-  selected: number;
-  setPeople: Dispatch<SetStateAction<string>>;
-  setPrice: Dispatch<SetStateAction<string>>;
-  setSelected: Dispatch<SetStateAction<number>>;
+  setPrice: (inp: string) => void;
 }
 
-function Recruiting({
-  needPeople,
-  needPrice,
-  selected,
-  setPeople,
-  setPrice,
-  setSelected,
-}: RecruitingProps): JSX.Element {
-  const options = [
-    { label: '모집인원/필요인원', value: '1' },
-    { label: '모금금액/필요금액', value: '2' },
-  ];
-
-  const changeNumber = (txt: number, num: number) => {
-    if (num === Need.IS_PEOPLE) setPeople(`${txt}`);
-    else setPrice(`${txt}`);
-  };
-
+// TODO @juimdpp
+// Check if this works correctly after API works
+function Recruiting({ needPrice, setPrice }: RecruitingProps): JSX.Element {
   const Input = (str: string, maxL: number) => {
     return (
       <View style={waStyles.subContainer}>
@@ -43,11 +23,11 @@ function Recruiting({
           placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
-          onChangeText={(txt: string) => changeNumber(parseInt(txt), selected)}
-          value={selected === Need.IS_PEOPLE ? `${needPeople}` : `${needPrice}`}
+          onChangeText={(txt: string) => setPrice(txt)}
+          value={`${needPrice}`}
           maxLength={maxL}
         />
-        <Text>{selected === Need.IS_PEOPLE ? '명' : '원'}</Text>
+        <Text>원</Text>
       </View>
     );
   };
@@ -55,17 +35,10 @@ function Recruiting({
   return (
     <View style={styles.bigContainer}>
       <View style={styles.switchContainer}>
-        <SwitchSelector
-          options={options}
-          onPress={(value) => {
-            setSelected(Number(value));
-          }}
-          {...switchSelector}
-        />
+        <Text>모금금액/필요금액</Text>{' '}
+        {/** TODO @juimdpp 화면 확인 가능할 때 디자인 수정하기*/}
       </View>
-      {selected === Need.IS_PEOPLE
-        ? Input('필요인원', 5)
-        : Input('필요금액', 10)}
+      {Input('필요금액', 10)}
     </View>
   );
 }
