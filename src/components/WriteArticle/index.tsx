@@ -123,6 +123,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   };
 
   const submit = () => {
+
     if (!isUserLoggedIn) {
       Alert.alert('로그인을 해주세요');
       /* TODO @juimdpp
