@@ -23,6 +23,7 @@ import { EditArticleParamList } from '@/types/navigation';
 
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
+import DueDate from './DueDate/DueDate';
 import Link from './Link/Link';
 import Location from './Location/Location';
 import Recruiting from './Recruiting/Recruiting';
@@ -48,6 +49,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [need_people, setPeople] = useState('');
   const [need_price, setPrice] = useState('');
   const [title, setTitle] = useState('');
+  const [dueDate, setDueDate] = useState(new Date());
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [location, setLocation] = useState('');
@@ -74,6 +76,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   });
   const _loadingStatus = useSelector((state: RootState) => {
     return state.article.WriteArticleIsLoading;
+  });
+
+  const currentUser = useSelector((state: RootState) => {
+    return state.user.logged;
   });
 
   const handlePeople = (inp: string) => {
@@ -133,15 +139,22 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   };
 
   const submit = () => {
-    const tempTags = tags
-      .filter((item) => item.selected)
-      .map((item) => item.id);
-
+    if (!currentUser) {
+      Alert.alert('로그인을 해주세요');
+      // TODO @juimdpp
+      // 로그인 페이지로 redirect 되는 페이지 구현
+      // 디자인 나오면...?
+      return;
+    }
     const res = checkInput();
     if (res != '') {
       Alert.alert(res);
       return;
     }
+
+    const tempTags = tags
+      .filter((item) => item.selected)
+      .map((item) => item.id);
 
     const tempArticle = {
       title: title,
@@ -182,6 +195,13 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     }
   };
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      // eslint-disable-next-line react/display-name
+      headerRight: () => <Button title="완료" onPress={submit} />,
+    });
+  });
+
   return (
     <ScrollView style={{ backgroundColor: 'white' }}>
       {hasError ? (
@@ -193,6 +213,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       ) : (
         <View>
           <Tags tags={tags} toggleTags={toggleTags} />
+          <DueDate dueDate={dueDate} setDueDate={setDueDate} />
           <AddImage images={images} setImages={setImages} />
           <Title title={title} setTitle={setTitle} />
           <Recruiting
@@ -209,7 +230,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             description={description}
             setDescription={setDescription}
           />
-          <Button title="완료" onPress={submit} />
         </View>
       )}
     </ScrollView>
