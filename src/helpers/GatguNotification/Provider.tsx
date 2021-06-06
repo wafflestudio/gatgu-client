@@ -74,7 +74,7 @@ const NotificationProvider: React.FC = ({ children }) => {
     return fcmToken;
   };
 
-  const _getNotificationConfig = useCallback(async () => {
+  const _getNotificationConfig = async () => {
     const _notificationConfig = await ObjectStorage.getObject<INotificationConfig>(
       asyncStoragekey.NOTIFICATION_CONFIG
     );
@@ -91,9 +91,10 @@ const NotificationProvider: React.FC = ({ children }) => {
         defaultConfig
       );
       setNotificationConfig(defaultConfig);
+    } else {
+      setNotificationConfig(_notificationConfig);
     }
-    setNotificationConfig(notificationConfig);
-  }, [notificationConfig]);
+  };
 
   const _setRouting = () => {
     // background state
@@ -189,7 +190,7 @@ const NotificationProvider: React.FC = ({ children }) => {
 
   useEffectOnce(() => {
     handlePermission();
-    _getNotificationConfig;
+    _getNotificationConfig();
     _setRouting();
   });
 
