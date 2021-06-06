@@ -70,7 +70,7 @@ export const confirmMailCode = (
 
 export const refreshAccessToken = (
   refresh: string
-): Promise<AxiosResponse<{ access: string }>> => {
+): Promise<AxiosResponse<{ access: string; refresh: string }>> => {
   return requester.post('token/refresh/', {
     refresh,
   });

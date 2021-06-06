@@ -11,10 +11,11 @@ import { setRequesterToken } from '@/apis/BaseInstance';
 import { refreshAccessToken } from '@/apis/UserApi';
 import BottomNavigation from '@/components/BottomNavigation';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ObjectStorage } from '@/helpers/functions/asyncStorage';
+import { ObjectStorage, StringStorage } from '@/helpers/functions/asyncStorage';
 import routes from '@/helpers/routes';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
+import { setAccessToken } from '@/store/userSlice';
 
 const { ChattingRoom, Login, SignUp } = routes;
 
@@ -37,7 +38,10 @@ function App(): JSX.Element {
     // 있으면 정보 받아오기
     try {
       const newTokenResponse = await refreshAccessToken(refreshToken);
-      setRequesterToken(newTokenResponse.data.access);
+      const { access, refresh } = newTokenResponse.data;
+      setRequesterToken(access);
+      setAccessToken(access);
+      StringStorage.add(asyncStoragekey.REFRESH_TOKEN, refresh);
     } catch (err) {
       switch (err.response.data.error_code) {
         case 101: // refresh token 만료
@@ -52,7 +56,6 @@ function App(): JSX.Element {
   };
 
   useEffect(() => {
-    // check if user data exists
     initializeApp();
   }, []);
 
