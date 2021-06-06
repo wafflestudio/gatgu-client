@@ -30,8 +30,6 @@ function LoginTemplate(): JSX.Element {
     try {
       const loginResponse = await login(id, pw);
       const { access, refresh } = loginResponse.data.token;
-      console.log(access);
-      console.log(refresh);
       dispatch(setAccessToken(access));
       setRequesterToken(access);
       StringStorage.add(asyncStoragekey.REFRESH_TOKEN, refresh);
