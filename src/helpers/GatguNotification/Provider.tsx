@@ -12,7 +12,6 @@ import { asyncStoragekey } from '@/constants/asyncStorage';
 import { INotificationConfig } from '@/types/Notification';
 
 import { ObjectStorage } from '../functions/asyncStorage';
-import useEffectOnce from '../hooks/useEffectOnce';
 import { NotificationContext } from './Context';
 
 PushNotification.configure({
