@@ -43,6 +43,7 @@ const NotificationProvider: React.FC = ({ children }) => {
     notificationConfig,
     setNotificationConfig,
   ] = useState<INotificationConfig | null>(null);
+
   /**
    * ios prevents messages containing notification payloads from being displayed
    * without permision. This function provides native permission dialog for requesting
@@ -188,11 +189,12 @@ const NotificationProvider: React.FC = ({ children }) => {
     return enabled;
   };
 
-  useEffectOnce(() => {
+  // react-use
+  useEffect(() => {
     handlePermission();
     _getNotificationConfig();
     _setRouting();
-  });
+  }, []);
 
   useEffect(() => {
     const unsubscribe = _subscribeForegroundNotification();
