@@ -108,7 +108,7 @@ function HomeStackScreen(): JSX.Element {
 const ProfileStack = createStackNavigator();
 function ProfileStackScreen(): JSX.Element {
   const [show, setShow] = useState(false);
-  const logged = !!useSelector((state: RootState) => state.user.token);
+  const logged = !!useSelector((state: RootState) => state.user.accessToken);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
