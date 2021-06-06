@@ -1,4 +1,6 @@
 export enum asyncStoragekey {
   RECENT_SEARCH = 'RECENT_SEARCH ',
+  FCM_TOKEN = 'FCM_TOKEN',
   USER = 'USER',
+  NOTIFICATION_CONFIG = 'NOTIFICATION_CONFIG',
 }

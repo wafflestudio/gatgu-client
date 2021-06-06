@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomNavigation from '@/components/BottomNavigation';
 import { asyncStoragekey } from '@/constants/asyncStorage';
+import { NotificationProvider } from '@/helpers/GatguNotification';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import routes from '@/helpers/routes';
 import { AppLoading } from '@/screens';
@@ -44,43 +45,46 @@ function App(): JSX.Element {
   }
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          }}
-        >
-          <Stack.Navigator>
-            <Stack.Screen
-              name="BottomNavigation"
-              component={BottomNavigation}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name={ChattingRoom.name}
-              component={ChattingRoom.component}
-              options={{
-                headerShown: false,
-                // eslint-disable-next-line react/display-name
-                header: () => <></>,
-              }}
-            />
-            <Stack.Screen
-              name={Login.name}
-              component={Login.component}
-              options={{ title: '로그인' }}
-            />
-            <Stack.Screen
-              name={SignUp.name}
-              component={SignUpStackScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
-          </Stack.Navigator>
-        </SafeAreaView>
-      </NavigationContainer>
+      <NotificationProvider>
+        <NavigationContainer>
+          <SafeAreaView
+            style={{
+              flex: 1,
+              marginTop:
+                Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+            }}
+          >
+            <Stack.Navigator>
+              <Stack.Screen
+                name="BottomNavigation"
+                component={BottomNavigation}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name={ChattingRoom.name}
+                component={ChattingRoom.component}
+                options={{
+                  headerShown: false,
+                  // eslint-disable-next-line react/display-name
+                  header: () => <></>,
+                }}
+              />
+              <Stack.Screen
+                name={Login.name}
+                component={Login.component}
+                options={{ title: '로그인' }}
+              />
+              <Stack.Screen
+                name={SignUp.name}
+                component={SignUpStackScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack.Navigator>
+          </SafeAreaView>
+        </NavigationContainer>
+      </NotificationProvider>
     </Provider>
   );
 }
