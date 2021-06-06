@@ -23,8 +23,8 @@ PushNotification.configure({
   },
 
   onAction: function (notification) {
-    console.log('ACTION:', notification.action);
-    console.log('NOTIFICATION:', notification);
+    console.debug('ACTION:', notification.action);
+    console.debug('NOTIFICATION:', notification);
 
     // process the action
   },
