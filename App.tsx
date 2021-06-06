@@ -2,18 +2,15 @@ import React, { useEffect } from 'react';
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
 import 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomNavigation from '@/components/BottomNavigation';
-import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import routes from '@/helpers/routes';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
-import { setToken } from '@/store/userSlice';
 
 const { ChattingRoom, Login, SignUp } = routes;
 
@@ -22,19 +19,13 @@ const Stack = createStackNavigator();
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
+  const initializeApp = async () => {
+    // check if refresh token exists
+  };
+
   useEffect(() => {
     // check if user data exists
-    ObjectStorage.getObject(asyncStoragekey.TOKEN)
-      .then((data) => {
-        if (data) {
-          store.dispatch(setToken(data));
-        } else {
-          ObjectStorage.removeObject(asyncStoragekey.TOKEN);
-        }
-      })
-      .catch(() => {
-        ObjectStorage.removeObject(asyncStoragekey.TOKEN);
-      });
+    initializeApp();
   }, []);
 
   return (

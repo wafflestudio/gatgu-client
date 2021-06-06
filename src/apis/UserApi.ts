@@ -68,8 +68,10 @@ export const confirmMailCode = (
   });
 };
 
-// 세션 flush (CSRF 이슈)
-//  문서에 없는 api 라 response 가 뭐가 올지 모르겠어서 any 로 두었습니다.
-export const flushSession = (): Promise<AxiosResponse<any>> => {
-  return requester.get('user/flush/');
+export const refreshAccessToken = (
+  refresh: string
+): Promise<AxiosResponse<{ access: string }>> => {
+  return requester.post('token/refresh/', {
+    refresh,
+  });
 };
