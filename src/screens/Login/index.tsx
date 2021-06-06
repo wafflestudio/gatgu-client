@@ -44,7 +44,7 @@ function LoginTemplate(): JSX.Element {
           break;
       }
     }
-  }, [id, pw, dispatch]);
+  }, [id, pw, dispatch, navigation]);
 
   const signUp = () => {
     navigation.navigate('SignUp');

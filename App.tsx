@@ -4,7 +4,7 @@ import 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { setRequesterToken } from '@/apis/BaseInstance';
@@ -24,8 +24,6 @@ const Stack = createStackNavigator();
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
-  const navigation = useNavigation();
-
   const initializeApp = async () => {
     // check if refresh token exists
     const refreshToken = await ObjectStorage.getObject(
@@ -46,7 +44,6 @@ function App(): JSX.Element {
       switch (err.response.data.error_code) {
         case 101: // refresh token 만료
           Alert.alert(err.response.data.detail);
-          navigation.navigate('Login');
           break;
         default:
           // cannot reach here: 아마 서버 에러

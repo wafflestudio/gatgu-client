@@ -6,7 +6,7 @@ const requester = axios.create({
 
 // set user auth token
 export const setRequesterToken = (token: string): void => {
-  requester.defaults.headers['Authorization'] = `JWT ${token}`;
+  requester.defaults.headers['Authorization'] = `Bearer ${token}`;
 };
 
 // remove user auth token
