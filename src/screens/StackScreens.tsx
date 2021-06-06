@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { TouchableHighlight, Text, View } from 'react-native';
+import { TouchableHighlight, Text, View, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Icon } from 'native-base';
@@ -8,11 +8,15 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { removeRequesterToken } from '@/apis/BaseInstance';
+import { logout } from '@/apis/UserApi';
 import Logo from '@/assets/Logo';
 import { Button } from '@/components';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { StringStorage } from '@/helpers/functions/asyncStorage';
 import routes from '@/helpers/routes';
 import { RootState } from '@/store';
-import { logout } from '@/store/userSlice';
+import { clearAccessToken } from '@/store/userSlice';
 import { palette, typo } from '@/styles';
 
 import DrawerTemplate from './Drawer';
@@ -112,13 +116,17 @@ function ProfileStackScreen(): JSX.Element {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const logoutReq = useCallback(() => {
-    dispatch(logout());
-  }, [dispatch]);
+  const logoutReq = async () => {
+    await logout();
+    await StringStorage.remove(asyncStoragekey.REFRESH_TOKEN);
+    dispatch(clearAccessToken());
+    removeRequesterToken();
+    Alert.alert('로그아웃 되었습니다.');
+  };
 
-  const modifyReq = useCallback(() => {
-    //
-  }, [dispatch]);
+  const modifyReq = () => {
+    navigation.navigate('ProfileModify');
+  };
 
   return (
     <ProfileStack.Navigator>
