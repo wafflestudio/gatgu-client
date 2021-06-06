@@ -4,7 +4,7 @@ import { AxiosPromise, AxiosRequestConfig } from 'axios';
 
 import requester from './BaseInstance';
 
-const treatGxiosResponse = (promise: AxiosPromise) => {
+const treatGatguResponse = (promise: AxiosPromise) => {
   return promise
     .then((response) => response)
     .catch((err) => {
@@ -21,31 +21,31 @@ const treatGxiosResponse = (promise: AxiosPromise) => {
 
 class GatguAxios {
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> {
-    return treatGxiosResponse(requester.get(url, config));
+    return treatGatguResponse(requester.get(url, config));
   }
   put<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
   ): AxiosPromise<T> {
-    return treatGxiosResponse(requester.put(url, data, config));
+    return treatGatguResponse(requester.put(url, data, config));
   }
   post<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
   ): AxiosPromise<T> {
-    return treatGxiosResponse(requester.post(url, data, config));
+    return treatGatguResponse(requester.post(url, data, config));
   }
   delete<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> {
-    return treatGxiosResponse(requester.delete(url, config));
+    return treatGatguResponse(requester.delete(url, config));
   }
   patch<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
   ): AxiosPromise<T> {
-    return treatGxiosResponse(requester.patch(url, data, config));
+    return treatGatguResponse(requester.patch(url, data, config));
   }
 }
 

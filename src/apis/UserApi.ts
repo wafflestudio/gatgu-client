@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import gatguAxios from '@/apis/gxios';
+import gatguAxios from '@/apis/gatguAxios';
 import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
 
 // 내 정보 받아오기

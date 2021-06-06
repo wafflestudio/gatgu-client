@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { TouchableHighlight, Text, View, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableHighlight, View, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Icon } from 'native-base';

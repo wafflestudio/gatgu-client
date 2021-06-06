@@ -13,7 +13,7 @@ import { setRequesterToken } from '@/apis/BaseInstance';
 import { refreshAccessToken } from '@/apis/UserApi';
 import BottomNavigation from '@/components/BottomNavigation';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ObjectStorage, StringStorage } from '@/helpers/functions/asyncStorage';
+import { StringStorage } from '@/helpers/functions/asyncStorage';
 import routes from '@/helpers/routes';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
