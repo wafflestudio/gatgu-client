@@ -21,6 +21,11 @@ export const StringStorage = {
   add: (key: string, value: string): void => {
     AsyncStorage.setItem(key, value);
   },
+  //< @brief        delete value by key
+  //< @params key   asyncStorage에서 삭제할 key값
+  remove: (key: string): Promise<void> => {
+    return AsyncStorage.removeItem(key);
+  },
 };
 
 // 배열을 다루는 로직

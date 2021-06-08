@@ -34,7 +34,7 @@ const DrawerTemplate: React.FC<any> = (props) => {
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;
-  const loggedIn = !!useSelector((state: RootState) => state.user.token);
+  const loggedIn = !!useSelector((state: RootState) => state.user.accessToken);
 
   useEffect(() => {
     if (currentArticle.article_id !== 0) {

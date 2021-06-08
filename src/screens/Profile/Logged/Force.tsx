@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import Open from '@/assets/ProfilePage/open.svg';
 import Part from '@/assets/ProfilePage/participate.svg';
-import { IUserDetail, IUserProps } from '@/types/user';
+import { IUserDetail } from '@/types/user';
 
 import styles from './Force.style';
 
