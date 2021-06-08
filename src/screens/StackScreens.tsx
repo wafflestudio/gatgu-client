@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { TouchableHighlight, View, Alert } from 'react-native';
+import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useFormik } from 'formik';
 import { Icon } from 'native-base';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -9,12 +11,15 @@ import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { removeRequesterToken } from '@/apis/BaseInstance';
-import { logout } from '@/apis/UserApi';
+import { logout, modifyMyInfo } from '@/apis/UserApi';
 import Logo from '@/assets/Logo';
 import { Button } from '@/components';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { StringStorage } from '@/helpers/functions/asyncStorage';
+import { isValidNickname } from '@/helpers/functions/validate';
 import routes from '@/helpers/routes';
+import { USER_DETAIL } from '@/queryKeys';
+import { IUserModify } from '@/screens/ProfileModify';
 import { RootState } from '@/store';
 import { clearAccessToken } from '@/store/userSlice';
 import { palette, typo } from '@/styles';
@@ -56,6 +61,7 @@ function ArticleDrawer(): JSX.Element {
 const HomeStack = createStackNavigator();
 function HomeStackScreen(): JSX.Element {
   const navigation = useNavigation();
+
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -69,7 +75,9 @@ function HomeStackScreen(): JSX.Element {
           // eslint-disable-next-line react/display-name
           headerRight: () => (
             <TouchableHighlight
-              onPress={() => navigation.navigate('Notification')}
+              onPress={() => {
+                //
+              }}
             >
               <Icon type={'Ionicons'} name="ios-notifications-outline" />
             </TouchableHighlight>
@@ -115,6 +123,7 @@ function ProfileStackScreen(): JSX.Element {
   const logged = !!useSelector((state: RootState) => state.user.accessToken);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const logoutReq = async () => {
     await logout();
@@ -124,9 +133,29 @@ function ProfileStackScreen(): JSX.Element {
     Alert.alert('로그아웃 되었습니다.');
   };
 
-  const modifyReq = () => {
-    navigation.navigate('ProfileModify');
-  };
+  const modifyUserProfileMutation = useMutation((values: IUserModify) => {
+    return modifyMyInfo(values);
+  });
+
+  const profileModifyFormik = useFormik<IUserModify>({
+    initialValues: {
+      nickname: '',
+    },
+    validate: (values: IUserModify) => {
+      const errors = {};
+      // nickname
+      const nickname =
+        values.nickname &&
+        !isValidNickname(values.nickname) &&
+        '필수정보입니다.';
+      if (nickname) Object.assign(errors, { nickname });
+
+      return errors;
+    },
+    onSubmit: () => {
+      // 아 이 옵션 어떻게 안넣는방법 없나
+    },
+  });
 
   return (
     <ProfileStack.Navigator>
@@ -181,20 +210,27 @@ function ProfileStackScreen(): JSX.Element {
       />
       <ProfileStack.Screen
         name={ProfileModify.name}
-        component={ProfileModify.component}
         options={{
           headerTitleAlign: 'center',
           // eslint-disable-next-line react/display-name
           headerRight: () => (
             <Button
               title="완료"
-              onPress={() => {
-                modifyReq();
+              onPress={async () => {
+                await modifyUserProfileMutation.mutateAsync(
+                  profileModifyFormik.values
+                );
+                await queryClient.invalidateQueries(USER_DETAIL);
+                navigation.goBack();
               }}
             />
           ),
         }}
-      />
+      >
+        {(props) => (
+          <ProfileModify.component {...props} formik={profileModifyFormik} />
+        )}
+      </ProfileStack.Screen>
     </ProfileStack.Navigator>
   );
 }
