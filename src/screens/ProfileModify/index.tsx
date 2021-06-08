@@ -13,6 +13,8 @@ import styles from './ProfileModify.styles';
 
 export interface IUserModify {
   nickname: string;
+  password: string;
+  trading_address: string;
 }
 
 interface Props {
@@ -33,7 +35,10 @@ const ProfileModify: React.FC<Props> = ({ formik }) => {
   const info = userQuery.data;
 
   useEffect(() => {
-    if (info) setFieldValue('nickname', info.userprofile.nickname);
+    if (info) {
+      setFieldValue('nickname', info.userprofile.nickname);
+      setFieldValue('trading_address', info.userprofile.trading_address);
+    }
   }, [info]);
 
   if (userQuery.isLoading || userQuery.isError) return null;
@@ -59,17 +64,31 @@ const ProfileModify: React.FC<Props> = ({ formik }) => {
           <ModifyButton style={styles.imgPickBtn} />
         </View>
       </View>
-      <View style={styles.nickContainer}>
+      <View style={styles.inputContainer}>
         <StringInput
-          style={styles.nickInput}
-          placeholderStyle={styles.nickInput}
+          style={styles.input}
+          placeholderStyle={styles.input}
           value={values.nickname}
           onChangeText={handleChange('nickname')}
           placeholder="별명"
         />
         {errors.nickname && (
-          <Text style={styles.nickText}>사용 불가능한 닉네임입니다.</Text>
+          <Text style={styles.text}>사용 불가능한 닉네임입니다.</Text>
         )}
+        <StringInput
+          style={styles.input}
+          placeholderStyle={styles.input}
+          value={values.password}
+          onChangeText={handleChange('password')}
+          placeholder="비밀번호"
+        />
+        <StringInput
+          style={styles.input}
+          placeholderStyle={styles.input}
+          value={values.trading_address}
+          onChangeText={handleChange('trading_address')}
+          placeholder="주 거래 지역"
+        />
       </View>
     </View>
   );

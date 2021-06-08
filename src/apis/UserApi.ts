@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios';
 
 import gatguAxios from '@/apis/gatguAxios';
-import { IUserModify } from '@/screens/ProfileModify';
 import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
 
 // 내 정보 받아오기
@@ -10,22 +9,16 @@ export const getMyData = (): Promise<AxiosResponse<IUserDetail>> => {
 };
 
 export const modifyMyInfo = ({
-  username,
   password,
-  email,
   nickname,
   trading_address,
 }: {
-  username?: string;
   password?: string;
-  email?: string;
   nickname?: string;
   trading_address?: string;
 }): Promise<AxiosResponse> => {
   return gatguAxios.patch('user/me/edit/', {
-    username,
-    password,
-    email,
+    password: password || undefined,
     nickname,
     trading_address,
   });

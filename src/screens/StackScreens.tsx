@@ -140,6 +140,8 @@ function ProfileStackScreen(): JSX.Element {
   const profileModifyFormik = useFormik<IUserModify>({
     initialValues: {
       nickname: '',
+      password: '',
+      trading_address: '',
     },
     validate: (values: IUserModify) => {
       const errors = {};
