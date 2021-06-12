@@ -8,3 +8,4 @@ export { default as Profile } from './ProfileBox';
 export { default as StringInput } from './StringInput';
 export { default as Thumbnail } from './Thumbnail';
 export { default as WriteArticle } from './WriteArticle';
+export { default as CursorFlatList } from './CursorFlatList/CursorFlatList';
