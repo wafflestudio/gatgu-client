@@ -13,6 +13,7 @@ import styles from './ArticleBox.style';
 const ArticleBox: React.FC<IArticleSummary> = ({
   article_id,
   title,
+  trading_place,
   time_in,
   image,
 }) => {
@@ -41,7 +42,7 @@ const ArticleBox: React.FC<IArticleSummary> = ({
             {`${timeBefore} ${typeBefore} 전`} ·{' '}
           </Text>
           <Text style={styles.description}>{remainTime(time_in)} · </Text>
-          <Text style={styles.description}>{location}</Text>
+          <Text style={styles.description}>{trading_place}</Text>
         </View>
       </View>
     </TouchableOpacity>

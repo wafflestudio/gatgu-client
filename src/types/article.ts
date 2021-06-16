@@ -50,10 +50,7 @@ export interface IArticleProps {
   participants_summary: IParticipantsSummary;
 }
 
-export type IArticleSummary = Omit<
-  IGetArticleResponse,
-  'trading_place' | 'updated_at' | 'tag'
->;
+export type IArticleSummary = Omit<IGetArticleResponse, 'updated_at' | 'tag'>;
 
 // Used for sending POST request for articlse
 export type IPostArticle = Pick<
