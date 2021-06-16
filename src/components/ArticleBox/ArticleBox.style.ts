@@ -37,6 +37,7 @@ const PostBoxStyles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 15,
     paddingHorizontal: 20,
+    backgroundColor: palette.white,
   },
   infoWrapper: {
     ...flexRow,
