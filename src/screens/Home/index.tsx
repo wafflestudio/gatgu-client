@@ -8,7 +8,12 @@ import { useCursorPagination } from '@/helpers/hooks';
 import { IArticleSummary } from '@/types/article';
 
 const Home: React.FC = () => {
-  const { items, refreshing, getItems } = useCursorPagination<IArticleSummary>({
+  const {
+    items,
+    refreshing,
+    fetching,
+    getItems,
+  } = useCursorPagination<IArticleSummary>({
     fetchFunc: articleAPI.getArticles,
   });
 
@@ -20,12 +25,14 @@ const Home: React.FC = () => {
   const renderArticle = ({ item }: { item: IArticleSummary }) => (
     <ArticleBox {...item} />
   );
+  console.log(items.length);
 
   return (
     <CursorFlatList
       items={items}
       refreshing={refreshing}
       isFirstPage={false}
+      fetching={fetching}
       getItems={getItems}
       renderItem={renderArticle}
     />

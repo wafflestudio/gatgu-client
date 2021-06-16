@@ -25,12 +25,14 @@ const useCursorPagination = <T>({
   const [error, setError] = useState<AxiosError<unknown>>();
   const [isFirstPage, setIsFirstPage] = useState(true);
   const [isLastPage, setIsLastPage] = useState(false);
-
+  const [fetching, setFetching] = useState(false);
   const getItems = async (pageType: TPageType) => {
     const url = pageType != 'first' ? cursorUrl[pageType] : undefined;
 
     if (pageType === 'first') {
       setRefreshing(true);
+    } else {
+      setFetching(true);
     }
 
     try {
@@ -48,9 +50,10 @@ const useCursorPagination = <T>({
       return res.data;
     } catch (err) {
       setError(err);
+    } finally {
+      setRefreshing(false);
+      setFetching(false);
     }
-
-    setRefreshing(false);
   };
 
   const handleItems = (pageType: TPageType, newItems: T[]) => {
@@ -99,6 +102,7 @@ const useCursorPagination = <T>({
     error,
     isFirstPage,
     isLastPage,
+    fetching,
     handleItems,
     getItems,
   };

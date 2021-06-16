@@ -7,7 +7,9 @@ import {
 } from 'react-native';
 
 import _ from 'lodash';
+import { Spinner } from 'native-base';
 
+import { palette } from '@/styles';
 import { TPageType } from '@/types/shared';
 
 interface ICursorFlatListProps {
@@ -21,6 +23,8 @@ interface ICursorFlatListProps {
   maxItemCount?: number;
   /** is FlatList horizontal */
   horizontal?: boolean;
+  /** is fetching next items */
+  fetching?: boolean;
   /** get items. */
   getItems: (pageType: TPageType) => void;
   /** render item component */
@@ -33,6 +37,7 @@ const CursorFlatList: React.FC<ICursorFlatListProps> = ({
   isFirstPage,
   horizontal,
   refreshing,
+  fetching,
   getItems,
   renderItem,
 }) => {
@@ -47,18 +52,24 @@ const CursorFlatList: React.FC<ICursorFlatListProps> = ({
   };
 
   return (
-    <FlatList
-      data={items}
-      keyExtractor={(_, idx) => `${idx}`}
-      horizontal={horizontal}
-      refreshing={refreshing}
-      scrollEventThrottle={0.5}
-      renderItem={renderItem}
-      onRefresh={() => getItems('first')}
-      onEndReached={() => getItems('next')}
-      onEndReachedThreshold={0.1}
-      onScroll={handleScroll}
-    ></FlatList>
+    <>
+      <FlatList
+        data={items}
+        keyExtractor={(_, idx) => `${idx}`}
+        horizontal={horizontal}
+        refreshing={refreshing}
+        scrollEventThrottle={0.5}
+        renderItem={renderItem}
+        onRefresh={() => getItems('first')}
+        onEndReached={() => getItems('next')}
+        onEndReachedThreshold={0.1}
+        onScroll={handleScroll}
+        ListFooterComponent={fetching ? <Spinner /> : null}
+        // TODO:
+        ListEmptyComponent={null}
+        style={{ backgroundColor: palette.white }}
+      />
+    </>
   );
 };
 
