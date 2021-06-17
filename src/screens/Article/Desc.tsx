@@ -7,10 +7,13 @@ import { IArticleProps } from '@/types/article';
 
 import styles from './Desc.style';
 
-function Desc({ description }: IArticleProps): JSX.Element {
+function Desc({ description, product_url }: IArticleProps): JSX.Element {
   return (
     <View>
       <Text style={styles.descText}>{description}</Text>
+      <View style={styles.linkBox}>
+        <Text style={styles.descText}>{product_url}</Text>
+      </View>
     </View>
   );
 }
