@@ -59,7 +59,7 @@ function ArticlePage(): JSX.Element {
   }, [dispatch]);
 
   const productImageProps = {
-    thumbnail_url: currentArticle.image[0],
+    thumbnail_url: currentArticle.image ? currentArticle.image[0] : null,
     image_url: currentArticle.image,
     orderStatus: currentArticle.article_status,
   };

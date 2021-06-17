@@ -17,7 +17,7 @@ interface IArticleChat {
 }
 
 function ProductImages({
-  // thumbnail_url, // TODO: @juimdpp 백에서 이미지를 어떻게 줄지 몰라서 일단 보류
+  thumbnail_url, // TODO: @juimdpp 백에서 이미지를 어떻게 줄지 몰라서 일단 보류
   image_url,
   orderStatus,
 }: IArticleChat): JSX.Element {

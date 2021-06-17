@@ -22,7 +22,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
 
   useEffect(() => {
     if (article.writer_id) {
-      userAPI.getUser(article.writer_id).then((res: AxiosResponse) => {
+      userAPI.getMyData().then((res: AxiosResponse) => {
         setWriter(res.data.userprofile);
       });
     }
