@@ -16,15 +16,16 @@ interface ITitleProps {
 }
 
 function Title({ article, orderStatus }: ITitleProps): JSX.Element {
+  console.log('ㅁㄱ샤', article.written_at, article.time_in);
   // 남은 시간
   const { diff: timeLeft, type: typeLeft } =
-    article.created_at !== undefined
-      ? calcTimeDiff(article.created_at, article.time_in)
+    article.written_at !== undefined
+      ? calcTimeDiff(article.written_at, article.time_in)
       : { diff: 0, type: 0 };
   // 몇 분 전
   const { diff: timeBefore, type: typeBefore } =
-    article.created_at !== undefined
-      ? calcTimeDiff(article.created_at, 'current')
+    article.written_at !== undefined
+      ? calcTimeDiff(article.written_at, new Date())
       : { diff: 0, type: 0 };
 
   const isDone = orderStatus >= ArticleStatus.COMPLETE;

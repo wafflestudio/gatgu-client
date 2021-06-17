@@ -83,7 +83,7 @@ export interface IArticleProps {
   time_in: Date;
   image: (string | null | undefined)[]; // 확실하지 않음... api에 타입이 안 적혀있음
   tag: number[];
-  created_at: Date; // should be date but json server doesn't accept Date
+  written_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
   article_status: ArticleStatus;
   order_chat: IOrderChat;

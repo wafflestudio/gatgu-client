@@ -27,7 +27,7 @@ export const initialArticle: IArticleProps = {
   time_in: new Date(),
   image: [], // 확실하지 않음... api에 타입이 안 적혀있음
   tag: [],
-  created_at: new Date(), // should be date but json server doesn't accept Date
+  written_at: new Date(), // should be date but json server doesn't accept Date
   updated_at: new Date(),
   article_status: ArticleStatus.UNDEFINED_STATUS,
   order_chat: initialOrderChat,

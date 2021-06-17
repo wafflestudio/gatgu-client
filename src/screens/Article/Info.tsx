@@ -15,8 +15,7 @@ function Info({
   price_min,
   trading_place,
 }: IArticleProps): JSX.Element {
-  const current = participants_summary?.price;
-
+  const current = participants_summary?.price ? participants_summary?.price : 0;
   return (
     <View style={styles.subContainer}>
       <View style={styles.subConNoBorder}>
@@ -24,7 +23,7 @@ function Info({
         <Text style={{ ...typo.info }}>{trading_place}</Text>
       </View>
       <View style={styles.subConNoBorder}>
-        <Label style={styles.label}>모집 인원</Label>
+        <Label style={styles.label}>모집 금액</Label>
         <GoalTopBubbleBar
           summary={participants_summary}
           current={current}

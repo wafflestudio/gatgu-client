@@ -27,8 +27,8 @@ function ArticleBox({
   const navigation = useNavigation();
 
   const { diff: timeBefore, type: typeBefore } = calcTimeDiff(
-    'current',
-    written_at
+    new Date(),
+    new Date()
   );
 
   return (
