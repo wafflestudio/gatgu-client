@@ -6,17 +6,24 @@ import { Label, View } from 'native-base';
 import { ArticleStatus } from '@/constants/Enum';
 import { calcTimeDiff } from '@/helpers/functions';
 import { palette, typo } from '@/styles';
-import { IArticleProps } from '@/types/article';
+import { IArticleProps, IArticleStatus } from '@/types/article';
 
 import styles from './Title.style';
 
 interface ITitleProps {
   article: IArticleProps;
-  orderStatus: ArticleStatus;
+  orderStatus: IArticleStatus;
 }
+const StringArticleStatus = [
+  'UNDEFINED',
+  '모집중',
+  '거래중',
+  '거래완료',
+  '기간만료',
+];
+const Color = ['black', palette.yellow, 'orange', palette.blue, palette.gray];
 
 function Title({ article, orderStatus }: ITitleProps): JSX.Element {
-  console.log('ㅁㄱ샤', article.written_at, article.time_in);
   // 남은 시간
   const { diff: timeLeft, type: typeLeft } =
     article.written_at !== undefined
@@ -28,7 +35,7 @@ function Title({ article, orderStatus }: ITitleProps): JSX.Element {
       ? calcTimeDiff(article.written_at, new Date())
       : { diff: 0, type: 0 };
 
-  const isDone = orderStatus >= ArticleStatus.COMPLETE;
+  const progress_status = orderStatus.progress_status;
 
   return (
     <View style={styles.subContainer}>
@@ -37,10 +44,10 @@ function Title({ article, orderStatus }: ITitleProps): JSX.Element {
           style={[
             styles.label,
             { ...typo.bigTitle },
-            !isDone ? { color: palette.yellow } : { color: palette.gray },
+            { color: Color[progress_status] },
           ]}
         >
-          {isDone ? '완료' : '판매'}
+          {StringArticleStatus[progress_status]}
         </Label>
         <Text style={{ ...typo.bigTitle }}>{article.title}</Text>
       </View>

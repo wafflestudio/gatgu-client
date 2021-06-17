@@ -4,6 +4,7 @@ import Swiper from 'react-native-swiper';
 
 import { ArticleStatus } from '@/constants/Enum';
 import { palette } from '@/styles';
+import { IArticleStatus } from '@/types/article';
 
 import styles from './ProductImages.style';
 
@@ -13,7 +14,7 @@ import styles from './ProductImages.style';
 interface IArticleChat {
   thumbnail_url: string | null | undefined;
   image_url: (string | null | undefined)[] | undefined;
-  orderStatus: ArticleStatus;
+  orderStatus: IArticleStatus;
 }
 
 function ProductImages({

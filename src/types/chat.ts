@@ -21,8 +21,6 @@ export interface IChattingRoom {
 export interface IOrderChat {
   id: number;
   participant_profile: IChatUserProps[];
-  article: number;
-  order_status: OrderStatus;
   tracking_number: number;
 }
 

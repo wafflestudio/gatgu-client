@@ -72,6 +72,12 @@ export type TSearchType = SearchType.TITLE | SearchType.TAG;
 //   order_chat: IChattingRoom; // @ASAP: must change
 // }
 
+export interface IArticleStatus {
+  progress_status: ArticleStatus;
+  cur_people_sum: number;
+  cur_price_sum: number;
+}
+
 export interface IArticleProps {
   writer_id: number;
   article_id: number;
@@ -85,7 +91,7 @@ export interface IArticleProps {
   tag: number[];
   written_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
-  article_status: ArticleStatus;
+  article_status: IArticleStatus;
   order_chat: IOrderChat;
   participants_summary: IParticipantsSummary;
 }

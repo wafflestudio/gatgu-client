@@ -31,10 +31,11 @@ const DrawerTemplate: React.FC<any> = (props) => {
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
   );
+
+  const loggedIn = !!useSelector((state: RootState) => state.user.token);
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;
-  const loggedIn = !!useSelector((state: RootState) => state.user.token);
 
   useEffect(() => {
     if (currentArticle.article_id !== 0) {
@@ -93,13 +94,11 @@ const DrawerTemplate: React.FC<any> = (props) => {
     }
   };
 
-  if (!currentUser) return null;
-
   const editArticle = () => {
     if (!loggedIn) {
       Alert.alert('로그인을 해주세요');
     } else {
-      if (currentUser['id'] === currentArticle.writer_id) {
+      if (currentUser && currentUser['id'] === currentArticle.writer_id) {
         navigation.navigate('EditArticle', {
           id: currentArticle.article_id,
         });

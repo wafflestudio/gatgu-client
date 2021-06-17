@@ -8,11 +8,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import { ArticleStatus } from '@/constants/Enum';
 import { palette } from '@/styles';
+import { IArticleStatus } from '@/types/article';
 
 import styles from './Chat.style';
 
 interface IChatProps {
-  orderStatus: ArticleStatus;
+  orderStatus: IArticleStatus;
   article_id: number | undefined;
 }
 
