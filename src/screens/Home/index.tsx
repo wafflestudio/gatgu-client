@@ -25,7 +25,6 @@ const Home: React.FC = () => {
   const renderArticle = ({ item }: { item: IArticleSummary }) => (
     <ArticleBox {...item} />
   );
-  console.log(items.length);
 
   return (
     <CursorFlatList

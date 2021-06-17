@@ -25,7 +25,7 @@ const getToken = (res: any) => {
 };
 
 export const getArticles = (
-  url?: string,
+  url?: string | null,
   keyword?: string,
   searchType?: TSearchType
 ): Promise<AxiosResponse<IGetArticlesResponse>> => {

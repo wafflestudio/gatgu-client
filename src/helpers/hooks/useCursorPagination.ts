@@ -8,7 +8,7 @@ import { ICursorPaginationResponse, TPageType } from '@/types/shared';
 interface IUserCursorPaginationOption {
   countPerFetch?: number;
   maxItemCount?: number;
-  fetchFunc: (url?: string) => Promise<AxiosResponse<unknown>>;
+  fetchFunc: (url: string | null) => Promise<AxiosResponse<unknown>>;
 }
 
 const useCursorPagination = <T>({
@@ -19,15 +19,18 @@ const useCursorPagination = <T>({
   const [items, setItems] = useState<T[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [cursorUrl, setCursorUrl] = useState<{
-    next?: string;
-    previous?: string;
-  }>({});
+    next: string | null;
+    previous: string | null;
+  }>({
+    next: null,
+    previous: null,
+  });
   const [error, setError] = useState<AxiosError<unknown>>();
   const [isFirstPage, setIsFirstPage] = useState(true);
   const [isLastPage, setIsLastPage] = useState(false);
   const [fetching, setFetching] = useState(false);
   const getItems = async (pageType: TPageType) => {
-    const url = pageType != 'first' ? cursorUrl[pageType] : undefined;
+    const url = pageType !== 'first' ? cursorUrl[pageType] : null;
 
     if (pageType === 'first') {
       setRefreshing(true);
