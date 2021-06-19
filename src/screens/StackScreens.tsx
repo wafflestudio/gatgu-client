@@ -219,6 +219,11 @@ function ProfileStackScreen(): JSX.Element {
             <Button
               title="완료"
               onPress={async () => {
+                if (profileModifyFormik.errors) {
+                  Alert.alert('올바른 정보를 입력해 주세요.');
+                  return;
+                }
+
                 await modifyUserProfileMutation.mutateAsync(
                   profileModifyFormik.values
                 );
