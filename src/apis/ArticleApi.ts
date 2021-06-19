@@ -2,19 +2,15 @@
 import { AxiosResponse } from 'axios';
 import qs from 'querystring';
 
-// TODO: @ssu1018
-// - Refactore all apisrelated with ArticleSumaary
-// when: until 3/12
-// for home page
 import { PAGE_SIZE, SearchType } from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
   IMessageRet,
-  IArticleSumResponse,
   TSearchType,
   IPostArticle,
+  IGetArticlesResponse,
 } from '@/types/article';
 
 import requester from './BaseInstance';
@@ -28,11 +24,11 @@ const getToken = (res: any) => {
   return headers;
 };
 
-export const getArticleSummary = (
-  url: string | null,
+export const getArticles = (
+  url?: string | null,
   keyword?: string,
   searchType?: TSearchType
-): Promise<AxiosResponse<IArticleSumResponse>> => {
+): Promise<AxiosResponse<IGetArticlesResponse>> => {
   // keyword가 있고, url이 없으면 search 쿼리 생성
   const searchObj =
     !url &&

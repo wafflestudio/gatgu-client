@@ -1,76 +1,36 @@
-import { Need, ArticleStatus } from '@/constants/Enum';
+import { ArticleStatus } from '@/constants/Enum';
 import { SearchType } from '@/constants/article';
+import * as Enums from '@/enums';
 
-import { IChattingRoom, IOrderChat } from './chat';
-
-interface IPagination {
-  next: string;
-  previous: string;
-}
+import { IOrderChat } from './chat';
+import { ICursorPaginationResponse } from './shared';
 
 export interface IParticipantsSummary {
   count: number;
   price: number;
 }
 
-// article summary props
-export interface IArticleSumProps {
-  id: number;
-  title: string;
-  location: string;
-  thumbnail_url: string;
-  need_type: Need;
-  price_min: number;
-  people_min: number;
-  time_in: string;
-  written_at: string;
-  article_id: string;
-  participants_summary: IParticipantsSummary | undefined;
-}
-
-interface IArticleDetail extends IArticleSumProps {
+// response type
+export interface IGetArticleResponse {
   writer_id: number;
-  description: string;
-  product_url: string;
-  image: string;
-  tag: string[];
+  article_id: number;
+  title: string;
+  trading_place: string;
+  image: string | null;
+  price_min: number;
+  tag: number;
+  time_in: string;
+  article_status: {
+    count: number;
+    price: number;
+    progress_status: Enums.ArticleStatus;
+  };
   updated_at: string;
 }
 
-export interface IArticleSumResponse extends IPagination {
-  results: IArticleDetail[];
-}
-
-export interface IArticleSliceBasis {
-  hasError: boolean;
-  errorStatus: number;
-  data: IArticleSumProps[];
-  isLoading: boolean;
-  next: string | null;
-  previous: string | null;
-  isLastPage: boolean;
-  isFirstPage: boolean;
-}
+export type IGetArticlesResponse = ICursorPaginationResponse<IGetArticleResponse>;
 
 export type TSearchType = SearchType.TITLE | SearchType.TAG;
-
-//article detail
-// export interface IArticleProps { // used for response from server
-//   writer_id: number;
-//   article_id: number;
-//   title: string;
-//   description: string;
-//   trading_place: string;
-//   product_url: string;
-//   image: (string | null | undefined)[]; // 확실하지 않음... api에 타입이 안 적혀있음 @TODO: juimddp / when: when I get answer
-//   price_min: number;
-//   tag: number[];
-//   time_in: Date;
-//   created_at: Date;
-//   updated_at: Date;
-//   article_status: Article_Status;
-//   order_chat: IChattingRoom; // @ASAP: must change
-// }
 
 export interface IArticleStatus {
   progress_status: ArticleStatus;
@@ -96,7 +56,9 @@ export interface IArticleProps {
   participants_summary: IParticipantsSummary;
 }
 
-// Used for sending POST request for article
+export type IArticleSummary = Omit<IGetArticleResponse, 'updated_at' | 'tag'>;
+
+// Used for sending POST request for articlse
 export type IPostArticle = Pick<
   Required<IArticleProps>,
   | 'title'
@@ -117,25 +79,3 @@ export interface ITagType {
 export interface IGetFailPayload {
   errorStatus: number;
 }
-
-export type TLoad = 'first' | 'next' | 'previous';
-
-export interface IGetArticleSumSuccessPayload extends IPagination {
-  data: IArticleSumProps[];
-  type: TLoad;
-}
-
-export interface IMessageRet {
-  message: string;
-}
-
-/*
-  writer: {
-    profile_id: number;
-    picture: string;
-    nickname: string;
-    address: string;
-    phonenumber: string;
-  };
-
-*/
