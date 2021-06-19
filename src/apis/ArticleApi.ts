@@ -41,7 +41,7 @@ export const getArticles = (
   });
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
-  url = `article/${url ? `${url}&` : '?'}`;
+  url = `articles/${url ? `${url}&` : '?'}`;
   return requester.get(`${url}${query}`);
 };
 
@@ -51,7 +51,7 @@ export const create = (
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
-    return requester.post('article/', article, { headers });
+    return requester.post('articles/', article, { headers });
   });
 };
 
@@ -59,13 +59,13 @@ export const create = (
 export const getSingleArticle = (
   id: number
 ): Promise<AxiosResponse<IArticleProps>> => {
-  return requester.get(`article/${id}/`);
+  return requester.get(`articles/${id}/`);
 };
 
 export const deleteArticle = (
   id: number
 ): Promise<AxiosResponse<IMessageRet>> => {
-  return requester.delete(`article/${id}/`);
+  return requester.delete(`articles/${id}/`);
 };
 
 export const editArticle = (
@@ -74,6 +74,6 @@ export const editArticle = (
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
-    return requester.put(`article/${id}/`, body, { headers });
+    return requester.put(`articles/${id}/`, body, { headers });
   });
 };
