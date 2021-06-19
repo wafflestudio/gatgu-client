@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 
 import { Label, View } from 'native-base';
 
-import { ArticleStatus } from '@/constants/Enum';
+import { ColorArticleStatus, StringArticleStatus } from '@/enums/articleStatus';
 import { calcTimeDiff } from '@/helpers/functions';
 import { palette, typo } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
@@ -14,25 +14,17 @@ interface ITitleProps {
   article: IArticleProps;
   orderStatus: IArticleStatus;
 }
-const StringArticleStatus = [
-  'UNDEFINED',
-  '모집중',
-  '거래중',
-  '거래완료',
-  '기간만료',
-];
-const Color = ['black', palette.yellow, 'orange', palette.blue, palette.gray];
 
 function Title({ article, orderStatus }: ITitleProps): JSX.Element {
   // 남은 시간
   const { diff: timeLeft, type: typeLeft } =
-    article.written_at !== undefined
-      ? calcTimeDiff(article.written_at, article.time_in)
+    article.created_at !== undefined
+      ? calcTimeDiff(article.created_at, article.time_in)
       : { diff: 0, type: 0 };
   // 몇 분 전
   const { diff: timeBefore, type: typeBefore } =
-    article.written_at !== undefined
-      ? calcTimeDiff(article.written_at, new Date())
+    article.created_at !== undefined
+      ? calcTimeDiff(article.created_at, new Date())
       : { diff: 0, type: 0 };
 
   const progress_status = orderStatus.progress_status;
@@ -44,7 +36,7 @@ function Title({ article, orderStatus }: ITitleProps): JSX.Element {
           style={[
             styles.label,
             { ...typo.bigTitle },
-            { color: Color[progress_status] },
+            { color: ColorArticleStatus[progress_status] },
           ]}
         >
           {StringArticleStatus[progress_status]}
