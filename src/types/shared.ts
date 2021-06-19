@@ -5,3 +5,8 @@ export interface ICursorPaginationResponse<T> {
   previous: string;
   results: T[];
 }
+
+export interface ImageDict {
+  id: number;
+  img_url: string;
+}

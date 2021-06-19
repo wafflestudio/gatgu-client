@@ -3,7 +3,7 @@ import { SearchType } from '@/constants/article';
 import * as Enums from '@/enums';
 
 import { IOrderChat } from './chat';
-import { ICursorPaginationResponse } from './shared';
+import { ICursorPaginationResponse, ImageDict } from './shared';
 
 export interface IParticipantsSummary {
   count: number;
@@ -47,9 +47,9 @@ export interface IArticleProps {
   product_url: string;
   price_min: number;
   time_in: Date;
-  image: (string | null | undefined)[]; // 확실하지 않음... api에 타입이 안 적혀있음
+  image: ImageDict[] | undefined; // 확실하지 않음... api에 타입이 안 적혀있음
   tag: number[];
-  written_at: Date; // should be date but json server doesn't accept Date
+  created_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
   article_status: IArticleStatus;
   order_chat: IOrderChat;
