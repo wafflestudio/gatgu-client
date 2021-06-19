@@ -106,7 +106,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       handlePrice(`${currentArticle.price_min}`);
       setDueDate(currentArticle.time_in);
       // optional:
-      currentArticle.image && setImages(currentArticle.image);
+      currentArticle.image && setImages(images);
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
           return { id: i, tag: `${num}`, selected: false };

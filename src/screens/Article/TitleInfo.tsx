@@ -2,7 +2,6 @@ import React from 'react';
 
 import { View } from 'native-base';
 
-import { ArticleStatus } from '@/constants/Enum';
 import { IArticleProps, IArticleStatus } from '@/types/article';
 
 import Info from './Info';

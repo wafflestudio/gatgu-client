@@ -1,6 +1,4 @@
-import { OrderStatus } from '@/constants/Enum';
-
-import { IChatUserProps, IUserProfile } from './user';
+import { IChatUserProps } from './user';
 
 export interface IChattingRoom {
   id: number;

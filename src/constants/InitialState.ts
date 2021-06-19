@@ -1,13 +1,10 @@
+import { ArticleStatus, OrderStatus } from '@/enums';
 import { IArticleProps, IParticipantsSummary } from '@/types/article';
 import { IChattingRoom, IOrderChat } from '@/types/chat';
-
-import { ArticleStatus, OrderStatus } from './Enum';
 
 export const initialOrderChat: IOrderChat = {
   id: 0,
   participant_profile: [],
-  article: 0,
-  order_status: 0,
   tracking_number: 0,
 };
 
@@ -27,9 +24,13 @@ export const initialArticle: IArticleProps = {
   time_in: new Date(),
   image: [], // 확실하지 않음... api에 타입이 안 적혀있음
   tag: [],
-  written_at: new Date(), // should be date but json server doesn't accept Date
+  created_at: new Date(), // should be date but json server doesn't accept Date
   updated_at: new Date(),
-  article_status: ArticleStatus.UNDEFINED_STATUS,
+  article_status: {
+    progress_status: ArticleStatus.Undefined,
+    cur_people_sum: 0,
+    cur_price_sum: 0,
+  },
   order_chat: initialOrderChat,
   participants_summary: initialParticipantsSummary,
 };
@@ -38,7 +39,7 @@ export const initialChatInfo: IChattingRoom = {
   id: 0,
   participant_profile: [],
   article: 0,
-  order_status: OrderStatus.UNDEFINED_STATUS,
+  order_status: OrderStatus.Undefined,
   tracking_number: 0,
   // not in api
   uri: '',

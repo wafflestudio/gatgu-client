@@ -1,4 +1,3 @@
-import { ArticleStatus } from '@/constants/Enum';
 import { SearchType } from '@/constants/article';
 import * as Enums from '@/enums';
 
@@ -33,7 +32,7 @@ export type IGetArticlesResponse = ICursorPaginationResponse<IGetArticleResponse
 export type TSearchType = SearchType.TITLE | SearchType.TAG;
 
 export interface IArticleStatus {
-  progress_status: ArticleStatus;
+  progress_status: Enums.ArticleStatus;
   cur_people_sum: number;
   cur_price_sum: number;
 }

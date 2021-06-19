@@ -3,7 +3,7 @@ import { LayoutChangeEvent } from 'react-native';
 
 import { View } from 'native-base';
 
-import GoalBar from '@/components/ArticleBox/GoalBar';
+// import GoalBar from '@/components/ArticleBox/GoalBar';
 import { IParticipantsSummary } from '@/types/article';
 
 import styles from './GoalTopBubble.style';
@@ -44,7 +44,7 @@ function GoalTopBubble({
       </View>
       <View style={styles.goalWrapper} onLayout={getEnd}>
         <View style={{ width: `${percent}%` }} onLayout={getPend} />
-        <GoalBar summary={summary} min_required={min_required} type={0} />
+        {/* <GoalBar summary={summary} min_required={min_required} type={0} /> */}
       </View>
     </View>
   );
