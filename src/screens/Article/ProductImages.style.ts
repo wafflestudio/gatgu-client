@@ -39,7 +39,7 @@ const ProductImagesStyles = StyleSheet.create({
   },
 
   dot: {
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: 'rgba(25,25,5,0.5)',
     opacity: 100,
     width: 8,
     height: 8,
