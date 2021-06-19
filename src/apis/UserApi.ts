@@ -5,7 +5,7 @@ import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
 
 // 내 정보 받아오기
 export const getMyData = (): Promise<AxiosResponse<IUserDetail>> => {
-  return gatguAxios.get('user/me/');
+  return gatguAxios.get('users/me/');
 };
 
 export const modifyMyInfo = ({
@@ -17,7 +17,7 @@ export const modifyMyInfo = ({
   nickname?: string;
   trading_address?: string;
 }): Promise<AxiosResponse> => {
-  return gatguAxios.patch('user/me/edit/', {
+  return gatguAxios.patch('users/me/', {
     password: password || undefined,
     nickname,
     trading_address,
@@ -28,7 +28,7 @@ export const modifyMyInfo = ({
 export const getOtherUserData = (
   userId: number
 ): Promise<AxiosResponse<IUserSimple>> => {
-  return gatguAxios.get(`user/${userId}/`);
+  return gatguAxios.get(`users/${userId}/`);
 };
 
 // 로그인
@@ -36,7 +36,7 @@ export const login = (
   username: string,
   password: string
 ): Promise<AxiosResponse<ILoginResponse>> => {
-  return gatguAxios.put(`user/login/`, {
+  return gatguAxios.put(`users/login/`, {
     username,
     password,
   });
@@ -44,7 +44,7 @@ export const login = (
 
 // 로그아웃
 export const logout = (): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('user/logout/');
+  return gatguAxios.put('users/logout/');
 };
 
 // 회원가입
@@ -55,7 +55,7 @@ export const signUp = (
   nickname: string,
   trading_address: string
 ): Promise<AxiosResponse<IUserDetail>> => {
-  return gatguAxios.post(`user/`, {
+  return gatguAxios.post(`users/`, {
     username,
     password,
     email,
@@ -68,7 +68,7 @@ export const signUp = (
 export const sendConfirmCodeMail = (
   email: string
 ): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('user/confirm/', {
+  return gatguAxios.put('users/confirm/', {
     email,
   });
 };
@@ -78,7 +78,7 @@ export const confirmMailCode = (
   email: string,
   code: string
 ): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('user/activate/', {
+  return gatguAxios.put('users/activate/', {
     email,
     code,
   });
