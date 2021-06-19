@@ -21,6 +21,11 @@ export const StringStorage = {
   add: (key: string, value: string): void => {
     AsyncStorage.setItem(key, value);
   },
+  //< @brief        delete value by key
+  //< @params key   asyncStorage에서 삭제할 key값
+  remove: (key: string): Promise<void> => {
+    return AsyncStorage.removeItem(key);
+  },
 };
 
 // 배열을 다루는 로직
@@ -50,12 +55,15 @@ export const ObjectStorage = {
   //< @brief        add object by key
   //< @params key   asyncStorage에 저장할 key값
   //< @params value asyncStorage[key]에 저장할 값
-  addObject: (key: string, value: Record<string, any>): void => {
+  addObject: <T extends any>(
+    key: string,
+    value: T | Record<string, unknown>
+  ): void => {
     AsyncStorage.setItem(key, JSON.stringify(value));
   },
   //< @brief        get object by key
   //< @params key   asyncStorage에서 찾고 싶은 key값
-  getObject: async (key: string): Promise<any> => {
+  getObject: async <T>(key: string): Promise<T | null> => {
     const result = await AsyncStorage.getItem(key);
     if (result) return JSON.parse(result);
     else return null;

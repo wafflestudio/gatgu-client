@@ -72,6 +72,8 @@ export interface IChatUserProps {
 }
 
 export interface ILoginResponse {
-  message: string;
-  token: string;
+  token: {
+    refresh: string;
+    access: string;
+  };
 }

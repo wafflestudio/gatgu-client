@@ -7,7 +7,9 @@ import LoggedProfile from './Logged';
 import UnloggedProfile from './UnLogged';
 
 function Profile(): JSX.Element {
-  const isTokenExists = !!useSelector((state: RootState) => state.user.token);
+  const isTokenExists = !!useSelector(
+    (state: RootState) => state.user.accessToken
+  );
 
   return isTokenExists ? <LoggedProfile /> : <UnloggedProfile />;
 }

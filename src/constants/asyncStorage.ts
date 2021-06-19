@@ -1,7 +1,7 @@
 export enum asyncStoragekey {
   RECENT_SEARCH = 'RECENT_SEARCH ',
-  // TODO this is deprecated:
-  //  USER is no more supported
+  REFRESH_TOKEN = 'REFRESH_TOKEN',
+  FCM_TOKEN = 'FCM_TOKEN',
   USER = 'USER',
-  TOKEN = 'token',
+  NOTIFICATION_CONFIG = 'NOTIFICATION_CONFIG',
 }
