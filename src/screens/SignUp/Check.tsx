@@ -8,19 +8,19 @@ import { flexRow } from '@/styles/wrapper';
 
 import styles from './Check.style';
 
-export interface ICheckProps {
+interface ICheckProps {
   title: string;
   checked: boolean;
-  isOptional: boolean;
+  isOptional?: boolean;
   onPress: () => void;
 }
 
-function Check({
+const Check: React.FC<ICheckProps> = ({
   title,
   checked,
-  isOptional,
+  isOptional = false,
   onPress,
-}: ICheckProps): JSX.Element {
+}: ICheckProps) => {
   const navigation = useNavigation();
 
   const goToTOS = () => {
@@ -51,6 +51,6 @@ function Check({
       </View>
     </View>
   );
-}
+};
 
 export default Check;

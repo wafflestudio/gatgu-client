@@ -1,18 +1,29 @@
 import React from 'react';
-import { View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { Alert, View } from 'react-native';
+import { useQuery } from 'react-query';
 
+import { getMyData } from '@/apis/UserApi';
 import { FootTerms } from '@/components';
-import { RootState } from '@/store';
+import { USER_DETAIL } from '@/queryKeys';
+import { IUserDetail } from '@/types/user';
 
 import Force from './Force';
 import History from './HistoryList';
 import Info from './Information';
 
 // Profile Component
-function ProfileTemplate(): JSX.Element {
-  const info = useSelector((state: RootState) => state.user.info);
-  console.debug(info);
+const ProfileTemplate: React.FC = () => {
+  const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
+    getMyData().then((response) => response.data)
+  );
+
+  if (userQuery.isLoading || userQuery.isError) return null;
+  if (!userQuery.data) {
+    Alert.alert('유저 데이터를 불러오는 데 실패했습니다.');
+    return null;
+  }
+
+  const info = userQuery.data;
 
   /*
   FIXME: @woohm402
@@ -51,6 +62,6 @@ function ProfileTemplate(): JSX.Element {
       </View>
     </>
   );
-}
+};
 
 export default ProfileTemplate;

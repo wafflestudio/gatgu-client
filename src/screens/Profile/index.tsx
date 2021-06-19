@@ -7,9 +7,11 @@ import LoggedProfile from './Logged';
 import UnloggedProfile from './UnLogged';
 
 function Profile(): JSX.Element {
-  const logged = useSelector((state: RootState) => state.user.logged);
+  const isTokenExists = !!useSelector(
+    (state: RootState) => state.user.accessToken
+  );
 
-  return logged ? <LoggedProfile /> : <UnloggedProfile />;
+  return isTokenExists ? <LoggedProfile /> : <UnloggedProfile />;
 }
 
 export default Profile;

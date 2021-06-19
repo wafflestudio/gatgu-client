@@ -18,6 +18,7 @@ import {
   IGetFailPayload,
   IArticleSumResponse,
   TLoad,
+  IPostArticle,
 } from '@/types/article';
 
 export interface IArticleSlice {
@@ -215,10 +216,9 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     });
 };
 
-export const editSingleArticle = (
-  id: number,
-  body: IArticleProps
-): AppThunk => (dispatch) => {
+export const editSingleArticle = (id: number, body: IPostArticle): AppThunk => (
+  dispatch
+) => {
   dispatch(writeArticleLoading());
   return articleAPI
     .editArticle(id, body)
@@ -237,7 +237,7 @@ export const editSingleArticle = (
     });
 };
 
-export const createSingleArticle = (body: IArticleProps): AppThunk => {
+export const createSingleArticle = (body: IPostArticle): AppThunk => {
   return (dispatch) => {
     dispatch(writeArticleLoading());
     return articleAPI

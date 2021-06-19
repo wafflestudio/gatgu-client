@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 
 import { Button, StringInput } from '@/components';
@@ -8,42 +8,33 @@ import styles from './Input.style';
 
 export interface IInputProps {
   value: string;
-  onChangeText: React.Dispatch<React.SetStateAction<string>>;
+  onChangeText: (e: string) => void;
   title: string;
-  invalidString: string;
-  isValid: boolean;
+
+  errorStr?: string;
   buttonString?: string;
   buttonOnPress?: () => void;
   marginBottom?: number;
 }
 
-function Input({
+const Input: React.FC<IInputProps> = ({
   value,
   onChangeText,
   title,
-  invalidString,
-  isValid,
   buttonString,
   buttonOnPress,
-  marginBottom,
-}: IInputProps): JSX.Element {
-  const [typing, setTyping] = useState(false);
+  marginBottom = 24,
+  errorStr,
+}: IInputProps) => {
   return (
-    <View style={{ ...styles.container, marginBottom: marginBottom || 24 }}>
+    <View style={{ ...styles.container, marginBottom }}>
       <View style={styles.titleBox}>
         <Text style={styles.title}>{title}</Text>
-        {!isValid && typing ? (
-          <Text style={styles.warnText}>{invalidString}</Text>
-        ) : (
-          <Text style={styles.warnText} />
-        )}
+        {errorStr && <Text style={styles.warnText}>{errorStr}</Text>}
       </View>
       <StringInput
         value={value}
-        onChangeText={(e) => {
-          setTyping(true);
-          onChangeText(e);
-        }}
+        onChangeText={onChangeText}
         placeholder={title}
         style={styles.inputBox}
         placeholderStyle={styles.inputBox}
@@ -62,6 +53,6 @@ function Input({
       )}
     </View>
   );
-}
+};
 
 export default Input;

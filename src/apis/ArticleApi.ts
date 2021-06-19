@@ -14,6 +14,7 @@ import {
   IMessageRet,
   IArticleSumResponse,
   TSearchType,
+  IPostArticle,
 } from '@/types/article';
 
 import requester from './BaseInstance';
@@ -48,9 +49,9 @@ export const getArticleSummary = (
   return requester.get(`${url}${query}`);
 };
 
-// for article page
+// for article POST
 export const create = (
-  article: IArticleProps
+  article: IPostArticle
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
@@ -73,7 +74,7 @@ export const deleteArticle = (
 
 export const editArticle = (
   id: number,
-  body: IArticleProps
+  body: IPostArticle
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);

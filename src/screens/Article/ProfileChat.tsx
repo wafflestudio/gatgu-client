@@ -5,6 +5,7 @@ import { View } from 'native-base';
 
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
+import { ArticleStatus } from '@/constants/Enum';
 import { IArticleProps } from '@/types/article';
 import { IUserSumProps } from '@/types/user';
 
@@ -13,7 +14,7 @@ import styles from './ProfileChat.style';
 
 interface IProfileChat {
   article: IArticleProps;
-  orderStatus: number;
+  orderStatus: ArticleStatus;
 }
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {

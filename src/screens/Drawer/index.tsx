@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Alert } from 'react-native';
+import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AxiosResponse } from 'axios';
@@ -8,19 +9,19 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 
 import { articleAPI, userAPI } from '@/apis';
+import { getMyData } from '@/apis/UserApi';
 import { Button, Profile } from '@/components';
-import { Status } from '@/constants/Enum';
-import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ObjectStorage } from '@/helpers/functions/asyncStorage';
+import { ArticleStatus } from '@/constants/Enum';
+import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
 import { palette } from '@/styles';
 import { IChattingRoom } from '@/types/chat';
-import { IUserProps } from '@/types/user';
+import { IUserDetail, IUserSimple } from '@/types/user';
 
 import styles from './Drawer.style';
 
-function DrawerTemplate(props: any): JSX.Element {
+const DrawerTemplate: React.FC<any> = (props) => {
   const [chatInfo, setChatInfo] = useState<IChattingRoom>();
   const [participants, setParticipants] = useState<JSX.Element[]>([]);
   const [hasError, setError] = useState(false);
@@ -30,11 +31,11 @@ function DrawerTemplate(props: any): JSX.Element {
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
   );
-  const currentUser = useSelector((state: RootState) => state.user.info);
-  const loggedIn = useSelector((state: RootState) => state.user.logged);
-  const currentChatInfo = useSelector(
-    (state: RootState) => state.chat.currentChatInfo
-  );
+  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
+    getMyData().then((response) => response.data)
+  ).data;
+  const loggedIn = !!useSelector((state: RootState) => state.user.accessToken);
+
   useEffect(() => {
     if (currentArticle.article_id !== 0) {
       const id = currentArticle.article_id;
@@ -43,22 +44,12 @@ function DrawerTemplate(props: any): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (currentArticle.id !== '0') {
-      setChatInfo(currentChatInfo);
-      setError(false);
-      // TODO: @juimdpp
-      // handle error from chatSlice
-      // when: 로딩창 구현할 때
-    }
-  }, [currentChatInfo]);
-
-  useEffect(() => {
     if (chatInfo?.id !== 0) {
       let tempArr: JSX.Element[] = [];
       chatInfo?.participant_profile.map((part, ind) => {
         userAPI
-          .getUser(part.id) // TODO: @juimdpp 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
-          .then((response: AxiosResponse<IUserProps>) => {
+          .getOtherUserData(part.id) // TODO: @juimdpp 여기 부분 getArticleSum 처럼 getUserSum 해놓고 싶은데, 베포 되고 나서 요청할게요
+          .then((response: AxiosResponse<IUserSimple>) => {
             const user = response.data.userprofile;
             tempArr = tempArr.concat(<Profile key={ind} {...user} />);
           })
@@ -75,9 +66,9 @@ function DrawerTemplate(props: any): JSX.Element {
     // change status
     if (chatInfo !== undefined) {
       const temp =
-        chatInfo.order_status < Status.ORDER_COMPLETE
-          ? Status.ORDER_COMPLETE
-          : Status.WAITING_MEMBERS;
+        chatInfo.order_status <= ArticleStatus.BARGAINING
+          ? ArticleStatus.COMPLETE
+          : ArticleStatus.BARGAINING;
       // TODO: @juimdpp
       // todo: 추후에 쓸 수 있을 듯
       // when: api 고칠 때 보기
@@ -101,6 +92,8 @@ function DrawerTemplate(props: any): JSX.Element {
         });
     }
   };
+
+  if (!currentUser) return null;
 
   const editArticle = () => {
     if (!loggedIn) {
@@ -152,6 +145,6 @@ function DrawerTemplate(props: any): JSX.Element {
       )}
     </DrawerContentScrollView>
   );
-}
+};
 
 export default DrawerTemplate;
