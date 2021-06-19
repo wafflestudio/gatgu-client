@@ -15,6 +15,7 @@ import {
   EditArticle,
   Login,
 } from '@/screens';
+import UserGatgu from '@/screens/UserGatgu';
 
 const routes = {
   Home: {
@@ -76,6 +77,10 @@ const routes = {
   Login: {
     name: 'Login',
     component: Login,
+  },
+  UserGatgu: {
+    name: 'UserGatgu',
+    component: UserGatgu,
   },
 };
 

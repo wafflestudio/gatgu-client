@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PushNotification from 'react-native-push-notification';
 
 import _ from 'lodash';
@@ -6,7 +6,7 @@ import _ from 'lodash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging, { firebase } from '@react-native-firebase/messaging';
-import { useNavigation } from '@react-navigation/core';
+import { NavigationContainerRef } from '@react-navigation/native';
 
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { INotificationConfig } from '@/types/Notification';
@@ -33,8 +33,15 @@ PushNotification.configure({
   },
 });
 
-const NotificationProvider: React.FC = ({ children }) => {
-  const navigation = useNavigation();
+interface NotificationProviderProps {
+  navigation: NavigationContainerRef | null;
+}
+
+const NotificationProvider: React.FC<NotificationProviderProps> = ({
+  children,
+  navigation,
+}) => {
+  // const navigation = useNavigation();
 
   const [initialRoute, setInitialRoute] = useState('');
   const [loading, setLoading] = useState(true);
@@ -99,7 +106,7 @@ const NotificationProvider: React.FC = ({ children }) => {
   const _setRouting = () => {
     // background state
     firebase.messaging().onNotificationOpenedApp((msg) => {
-      navigation.navigate(msg.data?.routeName ?? 'home');
+      navigation?.navigate(msg.data?.routeName ?? 'home');
     });
 
     // quit state

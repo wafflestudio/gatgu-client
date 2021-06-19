@@ -10,13 +10,18 @@ export interface IParticipantsSummary {
   price: number;
 }
 
+export interface IArticleImage {
+  id: number;
+  img_url: string;
+}
+
 // response type
 export interface IGetArticleResponse {
   writer_id: number;
   article_id: number;
   title: string;
   trading_place: string;
-  image: string | null;
+  image: IArticleImage[];
   price_min: number;
   tag: number;
   time_in: string;

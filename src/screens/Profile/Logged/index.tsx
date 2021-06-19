@@ -17,6 +17,9 @@ const ProfileTemplate: React.FC = () => {
     getMyData().then((response) => response.data)
   );
 
+  console.log(`userQuery.isLoading`, userQuery.isLoading);
+  console.log(`userQuery.isError`, userQuery.isError);
+
   if (userQuery.isLoading || userQuery.isError) return null;
   if (!userQuery.data) {
     Alert.alert('유저 데이터를 불러오는 데 실패했습니다.');
@@ -36,6 +39,16 @@ const ProfileTemplate: React.FC = () => {
     return `#555555`;
   }, [point]);
   */
+
+  if (userQuery.isLoading) {
+    return (
+      <View
+        style={{ height: 100, alignItems: 'center', justifyContent: 'center' }}
+      >
+        <FootTerms />
+      </View>
+    );
+  }
 
   return (
     <>

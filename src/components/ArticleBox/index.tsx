@@ -34,7 +34,11 @@ const ArticleBox: React.FC<IArticleSummary> = ({
         })
       }
     >
-      <Thumbnail uri={image} w={$thumnail_size} h={$thumnail_size} />
+      <Thumbnail
+        uri={image[0]?.img_url}
+        w={$thumnail_size}
+        h={$thumnail_size}
+      />
       <View style={styles.articleBox}>
         <Text style={styles.Head}>{title}</Text>
         <View style={styles.infoWrapper}>

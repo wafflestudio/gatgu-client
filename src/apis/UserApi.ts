@@ -5,7 +5,7 @@ import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
 
 // 내 정보 받아오기
 export const getMyData = (): Promise<AxiosResponse<IUserDetail>> => {
-  return gatguAxios.get('user/me/');
+  return gatguAxios.get('users/me/');
 };
 
 // 다른 유저 정보 받아오기
@@ -20,7 +20,7 @@ export const login = (
   username: string,
   password: string
 ): Promise<AxiosResponse<ILoginResponse>> => {
-  return gatguAxios.put(`user/login/`, {
+  return gatguAxios.put(`users/login/`, {
     username,
     password,
   });
@@ -28,7 +28,7 @@ export const login = (
 
 // 로그아웃
 export const logout = (): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('user/logout/');
+  return gatguAxios.put('users/logout/');
 };
 
 // 회원가입
