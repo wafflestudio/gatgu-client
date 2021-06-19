@@ -41,7 +41,7 @@ export const getArticles = (
   });
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
-  url = `article/${url ? `${url}&` : '?'}`;
+  url = `articles/${url ? `${url}&` : '?'}`;
   return requester.get(`${url}${query}`);
 };
 
