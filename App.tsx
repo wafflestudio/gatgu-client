@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 
 import get from 'lodash/get';
 
-import { firebase } from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -27,8 +26,6 @@ const Stack = createStackNavigator();
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
-  const navigationRef = React.useRef(null);
-
   const initializeApp = async () => {
     // check if refresh token exists
     const refreshToken = await StringStorage.get(asyncStoragekey.REFRESH_TOKEN);

@@ -37,16 +37,6 @@ const ProfileTemplate: React.FC = () => {
   }, [point]);
   */
 
-  if (userQuery.isLoading) {
-    return (
-      <View
-        style={{ height: 100, alignItems: 'center', justifyContent: 'center' }}
-      >
-        <FootTerms />
-      </View>
-    );
-  }
-
   return (
     <>
       <Info profile={info} />

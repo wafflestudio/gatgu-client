@@ -23,7 +23,6 @@ const UserGatguList: React.FC<IUserGatguListProps> = ({ type }) => {
     fetchFunc: (url) => articleAPI.getUserArticles(url, type, null),
   });
 
-  console.log(`items`, items);
   // 초기 렌더링
   useEffect(() => {
     getItems('first');
