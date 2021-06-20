@@ -37,6 +37,8 @@ const DrawerTemplate: React.FC<any> = (props) => {
     getMyData().then((response) => response.data)
   ).data;
 
+  const loggedIn = !!useSelector((state: RootState) => state.user.accessToken);
+
   useEffect(() => {
     if (currentArticle.article_id !== 0) {
       const id = currentArticle.article_id;
