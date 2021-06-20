@@ -8,11 +8,27 @@ export const getMyData = (): Promise<AxiosResponse<IUserDetail>> => {
   return gatguAxios.get('users/me/');
 };
 
+export const modifyMyInfo = ({
+  password,
+  nickname,
+  trading_address,
+}: {
+  password?: string;
+  nickname?: string;
+  trading_address?: string;
+}): Promise<AxiosResponse> => {
+  return gatguAxios.patch('users/me/', {
+    password: password || undefined,
+    nickname,
+    trading_address,
+  });
+};
+
 // 다른 유저 정보 받아오기
 export const getOtherUserData = (
   userId: number
 ): Promise<AxiosResponse<IUserSimple>> => {
-  return gatguAxios.get(`user/${userId}/`);
+  return gatguAxios.get(`users/${userId}/`);
 };
 
 // 로그인
@@ -39,7 +55,7 @@ export const signUp = (
   nickname: string,
   trading_address: string
 ): Promise<AxiosResponse<IUserDetail>> => {
-  return gatguAxios.post(`user/`, {
+  return gatguAxios.post(`users/`, {
     username,
     password,
     email,
@@ -52,7 +68,7 @@ export const signUp = (
 export const sendConfirmCodeMail = (
   email: string
 ): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('user/confirm/', {
+  return gatguAxios.put('users/confirm/', {
     email,
   });
 };
@@ -62,12 +78,13 @@ export const confirmMailCode = (
   email: string,
   code: string
 ): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('user/activate/', {
+  return gatguAxios.put('users/activate/', {
     email,
     code,
   });
 };
 
+// access 토큰 재발행
 export const refreshAccessToken = (
   refresh: string
 ): Promise<AxiosResponse<{ access: string; refresh: string }>> => {

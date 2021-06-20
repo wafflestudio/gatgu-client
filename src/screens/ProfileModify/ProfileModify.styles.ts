@@ -33,25 +33,27 @@ const ProfileModifyStyles = StyleSheet.create({
     borderColor: palette.borderGray,
     borderWidth: 1,
   },
-  // nickname
-  nickContainer: {
+  // inputs
+  inputContainer: {
     height: 45,
     paddingLeft: 40,
     paddingRight: 40,
   },
-  nickInput: {
+  input: {
     width: '100%',
     height: '90%',
     borderColor: palette.borderGray,
     borderWidth: 1,
     borderRadius: 10,
     paddingLeft: 10,
+    marginBottom: 8,
   },
-  nickText: {
+  text: {
     marginLeft: 11,
     marginTop: 5,
     ...typo.info,
     color: palette.warnRed,
+    marginBottom: 8,
   },
 });
 
