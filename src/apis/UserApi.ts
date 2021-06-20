@@ -20,7 +20,7 @@ export const login = (
   username: string,
   password: string
 ): Promise<AxiosResponse<ILoginResponse>> => {
-  return requester.put(`user/login/`, {
+  return requester.put(`users/login/`, {
     username,
     password,
   });

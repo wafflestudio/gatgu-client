@@ -37,6 +37,11 @@ export interface IArticleStatus {
   cur_price_sum: number;
 }
 
+export interface IReqPresignedURL {
+  method: string;
+  file_name: string;
+}
+
 export interface IArticleProps {
   writer_id: number;
   article_id: number;

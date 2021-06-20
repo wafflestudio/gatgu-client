@@ -35,7 +35,7 @@ function Recruiting({ needPrice, setPrice }: RecruitingProps): JSX.Element {
   return (
     <View style={styles.bigContainer}>
       <View style={styles.switchContainer}>
-        <Text>모금금액/필요금액</Text>{' '}
+        <Text>모금금액/필요금액</Text>
         {/** TODO @juimdpp 화면 확인 가능할 때 디자인 수정하기*/}
       </View>
       {Input('필요금액', 10)}

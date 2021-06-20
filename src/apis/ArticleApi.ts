@@ -1,5 +1,5 @@
 // thunk functions that return promises
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import qs from 'querystring';
 
 import { PAGE_SIZE, SearchType } from '@/constants/article';
@@ -11,6 +11,7 @@ import {
   TSearchType,
   IPostArticle,
   IGetArticlesResponse,
+  IReqPresignedURL,
 } from '@/types/article';
 
 import requester from './BaseInstance';
@@ -19,7 +20,7 @@ const getToken = (res: any) => {
   const token = res['token'];
   const headers = {
     'Content-type': 'application/json',
-    Authorization: `token ${token}`,
+    Authorization: `Bearer ${token}`,
   };
   return headers;
 };
@@ -49,9 +50,14 @@ export const getArticles = (
 export const create = (
   article: IPostArticle
 ): Promise<AxiosResponse<IMessageRet>> => {
+  console.log(article);
+  // console.log(requester.defaults.headers)
+  // return requester.post('articles/', JSON.stringify(article));
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
-    return requester.post('articles/', article, { headers });
+    console.log('res', res);
+    console.log(JSON.stringify(article));
+    return requester.post('articles/', JSON.stringify(article), { headers });
   });
 };
 
@@ -76,4 +82,26 @@ export const editArticle = (
     const headers = getToken(res);
     return requester.put(`articles/${id}/`, body, { headers });
   });
+};
+
+export const getPresignedURL = (
+  id: number,
+  file_name: string
+): Promise<AxiosResponse<IMessageRet>> => {
+  const body = {
+    method: 'get',
+    file_name: file_name,
+  };
+  return requester.put(`articles/${id}/get_presigned_url/`, body);
+};
+
+export const putPresignedURL = (
+  id: number,
+  file_name: string
+): Promise<AxiosResponse<IMessageRet>> => {
+  const body = {
+    method: 'get',
+    file_name: file_name,
+  };
+  return requester.put(`articles/${id}/get_presigned_url/`, body);
 };
