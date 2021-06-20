@@ -1,18 +1,27 @@
 import React, { useCallback, useState } from 'react';
-import { TouchableHighlight, Text, View } from 'react-native';
+import { TouchableHighlight, View, Alert } from 'react-native';
+import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useFormik } from 'formik';
 import { Icon } from 'native-base';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { removeRequesterToken } from '@/apis/BaseInstance';
+import { logout, modifyMyInfo } from '@/apis/UserApi';
 import Logo from '@/assets/Logo';
 import { Button } from '@/components';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { StringStorage } from '@/helpers/functions/asyncStorage';
+import { isValidNickname } from '@/helpers/functions/validate';
 import routes from '@/helpers/routes';
+import { USER_DETAIL } from '@/queryKeys';
+import { IUserModify } from '@/screens/ProfileModify';
 import { RootState } from '@/store';
-import { logout } from '@/store/userSlice';
+import { clearAccessToken } from '@/store/userSlice';
 import { palette, typo } from '@/styles';
 
 import DrawerTemplate from './Drawer';
@@ -52,6 +61,7 @@ function ArticleDrawer(): JSX.Element {
 const HomeStack = createStackNavigator();
 function HomeStackScreen(): JSX.Element {
   const navigation = useNavigation();
+
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -65,7 +75,9 @@ function HomeStackScreen(): JSX.Element {
           // eslint-disable-next-line react/display-name
           headerRight: () => (
             <TouchableHighlight
-              onPress={() => navigation.navigate('Notification')}
+              onPress={() => {
+                //
+              }}
             >
               <Icon type={'Ionicons'} name="ios-notifications-outline" />
             </TouchableHighlight>
@@ -100,92 +112,14 @@ function HomeStackScreen(): JSX.Element {
   );
 }
 
-// FIXME: @woohm402
-//   todo: 그때 말했던 폴더 구조 관련된 큰 체인지가 필요해 보입니다
-//         일단 어디로든 옮겨질 파일이라 생각하고 여러 군데 흩뿌려놓으면 나중에 찾기 힘드니까 여기다 다 몰아놓을게요
-//         현재 더보기창 디자인도 진행중인 관계로 정확하게 디자인하진 않겠습니당
-//   when: 폴더 구조 회의 완료되면
 const ProfileStack = createStackNavigator();
 function ProfileStackScreen(): JSX.Element {
-  const [show, setShow] = useState(false);
-  const logged = !!useSelector((state: RootState) => state.user.token);
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-
-  const logoutReq = useCallback(() => {
-    dispatch(logout());
-  }, [dispatch]);
-
-  const modifyReq = useCallback(() => {
-    //
-  }, [dispatch]);
-
   return (
     <ProfileStack.Navigator>
-      <ProfileStack.Screen
-        name={Profile.name}
-        component={Profile.component}
-        options={{
-          title: '더보기',
-          headerTitleAlign: 'center',
-          // eslint-disable-next-line react/display-name
-          headerRight: () =>
-            logged ? (
-              <View style={{ position: 'relative' }}>
-                <TouchableHighlight onPress={() => setShow(!show)}>
-                  <Icon name="menu" />
-                </TouchableHighlight>
-                {show ? (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      top: 40,
-                      width: 169,
-                      right: 2,
-                      backgroundColor: 'white',
-                      height: 127,
-                      borderRadius: 10,
-                      borderWidth: 1,
-                      borderColor: palette.borderGray,
-                      paddingLeft: 33,
-                      justifyContent: 'space-evenly',
-                    }}
-                  >
-                    <Button
-                      title="수정하기"
-                      textStyle={{
-                        ...typo.bigTitle,
-                      }}
-                      onPress={() => navigation.navigate('ProfileModify')}
-                    />
-                    <Button
-                      title="로그아웃하기"
-                      textStyle={{
-                        ...typo.bigTitle,
-                      }}
-                      onPress={logoutReq}
-                    />
-                  </View>
-                ) : null}
-              </View>
-            ) : null,
-        }}
-      />
+      <ProfileStack.Screen name={Profile.name} component={Profile.component} />
       <ProfileStack.Screen
         name={ProfileModify.name}
         component={ProfileModify.component}
-        options={{
-          headerTitleAlign: 'center',
-          // eslint-disable-next-line react/display-name
-          headerRight: () => (
-            <Button
-              title="완료"
-              onPress={() => {
-                modifyReq();
-              }}
-            />
-          ),
-        }}
       />
     </ProfileStack.Navigator>
   );

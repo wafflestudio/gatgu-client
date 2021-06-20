@@ -1,18 +1,34 @@
 import { AxiosResponse } from 'axios';
 
-import requester from '@/apis/BaseInstance';
+import gatguAxios from '@/apis/gatguAxios';
 import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
 
 // 내 정보 받아오기
 export const getMyData = (): Promise<AxiosResponse<IUserDetail>> => {
-  return requester.get('user/me/');
+  return gatguAxios.get('users/me/');
+};
+
+export const modifyMyInfo = ({
+  password,
+  nickname,
+  trading_address,
+}: {
+  password?: string;
+  nickname?: string;
+  trading_address?: string;
+}): Promise<AxiosResponse> => {
+  return gatguAxios.patch('users/me/', {
+    password: password || undefined,
+    nickname,
+    trading_address,
+  });
 };
 
 // 다른 유저 정보 받아오기
 export const getOtherUserData = (
   userId: number
 ): Promise<AxiosResponse<IUserSimple>> => {
-  return requester.get(`user/${userId}/`);
+  return gatguAxios.get(`users/${userId}/`);
 };
 
 // 로그인
@@ -20,7 +36,7 @@ export const login = (
   username: string,
   password: string
 ): Promise<AxiosResponse<ILoginResponse>> => {
-  return requester.put(`users/login/`, {
+  return gatguAxios.put(`users/login/`, {
     username,
     password,
   });
@@ -28,7 +44,7 @@ export const login = (
 
 // 로그아웃
 export const logout = (): Promise<AxiosResponse<{ message: string }>> => {
-  return requester.put('user/logout/');
+  return gatguAxios.put('users/logout/');
 };
 
 // 회원가입
@@ -39,7 +55,7 @@ export const signUp = (
   nickname: string,
   trading_address: string
 ): Promise<AxiosResponse<IUserDetail>> => {
-  return requester.post(`user/`, {
+  return gatguAxios.post(`users/`, {
     username,
     password,
     email,
@@ -52,7 +68,7 @@ export const signUp = (
 export const sendConfirmCodeMail = (
   email: string
 ): Promise<AxiosResponse<{ message: string }>> => {
-  return requester.put('user/confirm/', {
+  return gatguAxios.put('users/confirm/', {
     email,
   });
 };
@@ -62,14 +78,17 @@ export const confirmMailCode = (
   email: string,
   code: string
 ): Promise<AxiosResponse<{ message: string }>> => {
-  return requester.put('user/activate/', {
+  return gatguAxios.put('users/activate/', {
     email,
     code,
   });
 };
 
-// 세션 flush (CSRF 이슈)
-//  문서에 없는 api 라 response 가 뭐가 올지 모르겠어서 any 로 두었습니다.
-export const flushSession = (): Promise<AxiosResponse<any>> => {
-  return requester.get('user/flush/');
+// access 토큰 재발행
+export const refreshAccessToken = (
+  refresh: string
+): Promise<AxiosResponse<{ access: string; refresh: string }>> => {
+  return gatguAxios.post('token/refresh/', {
+    refresh,
+  });
 };

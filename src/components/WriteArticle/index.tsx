@@ -73,7 +73,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return state.article.WriteArticleIsLoading;
   });
 
-  const isUserLoggedIn = !!useSelector((state: RootState) => state.user.token);
+  const isUserLoggedIn = !!useSelector(
+    (state: RootState) => state.user.accessToken
+  );
 
   const handlePrice = (inp: string) => {
     if (inp === 'NaN') setPrice('');
