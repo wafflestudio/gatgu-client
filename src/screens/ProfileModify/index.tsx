@@ -1,12 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { ImageBackground, View, Text, Alert } from 'react-native';
-import { useQuery } from 'react-query';
+import {
+  useIsMutating,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
 
-import { getMyData } from '@/apis/UserApi';
+import { useFormik } from 'formik';
+import isEmpty from 'lodash/isEmpty';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { getMyData, modifyMyInfo } from '@/apis/UserApi';
 import ModifyButton from '@/assets/ProfileModifyPage/modifyButton.svg';
 import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
-import { StringInput } from '@/components';
+import { Button, StringInput } from '@/components';
+import { isValidNickname } from '@/helpers/functions/validate';
 import { USER_DETAIL } from '@/queryKeys';
+import { AppLoading } from '@/screens';
 import { IUserDetail } from '@/types/user';
 
 import styles from './ProfileModify.styles';
@@ -17,21 +29,47 @@ export interface IUserModify {
   trading_address: string;
 }
 
-interface Props {
-  formik: {
-    values: IUserModify;
-    handleChange: any;
-    setFieldValue: any;
-    errors: any;
-  };
-}
+const ProfileModify: React.FC = () => {
+  const {
+    values,
+    handleChange,
+    errors,
+    setFieldValue,
+    handleSubmit,
+  } = useFormik<IUserModify>({
+    initialValues: {
+      nickname: '',
+      password: '',
+      trading_address: '',
+    },
+    validate: (values: IUserModify) => {
+      const errors = {};
+      // nickname
+      const nickname =
+        values.nickname &&
+        !isValidNickname(values.nickname) &&
+        '필수정보입니다.';
+      if (nickname) Object.assign(errors, { nickname });
 
-const ProfileModify: React.FC<Props> = ({ formik }) => {
-  const { values, handleChange, errors, setFieldValue } = formik;
+      return errors;
+    },
+    onSubmit: async (values) => {
+      if (!isEmpty(errors)) {
+        Alert.alert('올바른 정보를 입력해 주세요.');
+        return;
+      }
+
+      await modifyUserProfileMutation.mutateAsync(values);
+      navigation.navigate('Profile');
+      await queryClient.invalidateQueries(USER_DETAIL);
+    },
+  });
+
   const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   );
 
+  const navigation = useNavigation();
   const info = userQuery.data;
 
   useEffect(() => {
@@ -39,7 +77,23 @@ const ProfileModify: React.FC<Props> = ({ formik }) => {
       setFieldValue('nickname', info.userprofile.nickname);
       setFieldValue('trading_address', info.userprofile.trading_address);
     }
-  }, [info]);
+  }, [info, setFieldValue]);
+
+  const isMutating = useIsMutating();
+
+  const modifyUserProfileMutation = useMutation((values: IUserModify) => {
+    return modifyMyInfo(values);
+  });
+
+  const queryClient = useQueryClient();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitleAlign: 'center',
+      // eslint-disable-next-line react/display-name
+      headerRight: () => <Button title="완료" onPress={handleSubmit} />,
+    });
+  }, [handleSubmit, navigation]);
 
   if (userQuery.isLoading || userQuery.isError) return null;
   if (!info) {
@@ -89,6 +143,7 @@ const ProfileModify: React.FC<Props> = ({ formik }) => {
           onChangeText={handleChange('trading_address')}
           placeholder="주 거래 지역"
         />
+        <Text>{!!isMutating && '수정사항을 반영중입니다.'}</Text>
       </View>
     </View>
   );
