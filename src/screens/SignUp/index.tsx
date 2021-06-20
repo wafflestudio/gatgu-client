@@ -1,16 +1,17 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { View, ScrollView, Text, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { AxiosError } from 'axios';
 import { Formik } from 'formik';
 import get from 'lodash/get';
+import { DateTime } from 'luxon';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { userAPI } from '@/apis';
-import { flushSession } from '@/apis/UserApi';
 import { Button } from '@/components';
+import Timer from '@/components/Common/Timer';
 import {
   isValidEmail,
   isValidUsername,
@@ -42,6 +43,7 @@ export interface ISignUpValues {
 const SignUpTemplate: React.FC = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [sentEmailAt, setSentEmailAt] = useState<DateTime | null>(null);
 
   const signUp = useCallback(
     (values: ISignUpValues) => {
@@ -68,7 +70,6 @@ const SignUpTemplate: React.FC = () => {
               case 403:
                 // csrf error
                 Alert.alert(get(error, ['response', 'data', 'detail']));
-                flushSession();
                 break;
               default:
                 // 예상치 못한 에러 코드
@@ -190,7 +191,10 @@ const SignUpTemplate: React.FC = () => {
             buttonOnPress={() =>
               userAPI
                 .sendConfirmCodeMail(values.email + '@snu.ac.kr')
-                .then(() => Alert.alert('인증 메일을 발송하였습니다.'))
+                .then(() => {
+                  Alert.alert('인증 메일을 발송하였습니다.');
+                  setSentEmailAt(DateTime.local());
+                })
                 .catch((error) => {
                   Alert.alert('인증 메일 발송에 실패하였습니다.');
                   console.debug(error.config);
@@ -220,10 +224,12 @@ const SignUpTemplate: React.FC = () => {
           />
 
           <View style={styles.emailControl}>
-            {/*
-               TODO @woohm402 유효시간 실시간 변경
-            */}
-            <Text style={{ color: 'red' }}>유효시간 00분 00초</Text>
+            {sentEmailAt && (
+              <Timer
+                style={{ color: 'red' }}
+                endAt={sentEmailAt?.plus({ minute: 3 })}
+              />
+            )}
             <View style={{ ...flexRow }}>
               <Button
                 title="재발송"
