@@ -1,12 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert, Text } from 'react-native';
-import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { getMyData } from '@/apis/UserApi';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
@@ -17,9 +15,8 @@ import {
   editSingleArticle,
   getSingleArticle,
 } from '@/store/articleSlice';
-import { IArticleProps, IPostArticle, ITagType } from '@/types/article';
+import { IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
-import { IUserDetail } from '@/types/user';
 
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -27,7 +24,6 @@ import DueDate from './DueDate/DueDate';
 import Link from './Link/Link';
 import Location from './Location/Location';
 import Recruiting from './Recruiting/Recruiting';
-import Tags from './Tags/Tags';
 import Title from './Title/Title';
 
 /*TODO: @juimdpp

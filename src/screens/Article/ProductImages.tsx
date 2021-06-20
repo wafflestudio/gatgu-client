@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, View, Text } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import { ArticleStatus } from '@/enums';
 import { ColorArticleStatus, StringArticleStatus } from '@/enums/articleStatus';
 import { palette } from '@/styles';
 import { IArticleStatus } from '@/types/article';

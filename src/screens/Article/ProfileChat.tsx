@@ -5,7 +5,6 @@ import { View } from 'native-base';
 
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
-import { ArticleStatus } from '@/constants/Enum';
 import { IArticleProps, IArticleStatus } from '@/types/article';
 import { IUserSumProps } from '@/types/user';
 

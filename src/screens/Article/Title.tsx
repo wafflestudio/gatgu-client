@@ -5,7 +5,7 @@ import { Label, View } from 'native-base';
 
 import { ColorArticleStatus, StringArticleStatus } from '@/enums/articleStatus';
 import { calcTimeDiff } from '@/helpers/functions';
-import { palette, typo } from '@/styles';
+import { typo } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
 
 import styles from './Title.style';

@@ -1,4 +1,4 @@
-import React, { useState, createRef, Dispatch, SetStateAction } from 'react';
+import React, { createRef, Dispatch, SetStateAction } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 

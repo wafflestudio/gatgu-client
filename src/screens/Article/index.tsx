@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -8,7 +8,6 @@ import { createError } from '@/helpers/functions';
 import AppLoading from '@/screens/AppLoading';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
-import { IArticleProps } from '@/types/article';
 import { ArticleDrawerParamList } from '@/types/navigation';
 
 import Desc from './Desc';
