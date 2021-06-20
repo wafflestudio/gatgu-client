@@ -228,6 +228,9 @@ const SignUpTemplate: React.FC = () => {
               <Timer
                 style={{ color: 'red' }}
                 endAt={sentEmailAt?.plus({ minute: 3 })}
+                options={{
+                  format: 'mm:ss',
+                }}
               />
             )}
             <View style={{ ...flexRow }}>

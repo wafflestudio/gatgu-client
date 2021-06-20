@@ -20,20 +20,25 @@ const Timer: React.FC<ITimerProps> = ({
   options = {},
 }) => {
   const [isEnded, setIsEnded] = useState<boolean | null>(null);
+  const [displayText, setDisplayText] = useState<string>('');
   const { format = 'yyyy-MM-dd hh:mm:ss', enableMinusTime = false } = options;
-  const currentTime = DateTime.local();
-  const diff = currentTime.diff(endAt);
 
   useEffect(() => {
-    if (diff.toMillis() < 0) {
-      if (isEnded === false) onEnd();
-      setIsEnded(true);
-    }
-  }, [diff]);
+    const countdown = setInterval(() => {
+      const currentTime = DateTime.local();
+      const diff = endAt.diff(currentTime);
+      if (diff.toMillis() < 0) {
+        if (isEnded === false) onEnd();
+        setIsEnded(true);
+      }
+      setDisplayText(diff.toFormat(format));
+    }, 500);
+    return () => clearInterval(countdown);
+  }, [format]);
 
   if (isEnded && !enableMinusTime) return null;
 
-  return <Text style={style}>{diff.toFormat(format)}</Text>;
+  return <Text style={style}>{displayText}</Text>;
 };
 
 export default Timer;
