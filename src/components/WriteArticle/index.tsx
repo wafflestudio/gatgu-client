@@ -189,7 +189,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         <Text>Loading Page</Text>
       ) : (
         <View>
-          <Tags tags={tags} toggleTags={toggleTags} />
+          {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
           <DueDate dueDate={dueDate} setDueDate={setDueDate} />
           <AddImage images={images} setImages={setImages} />
           <Title title={title} setTitle={setTitle} />
