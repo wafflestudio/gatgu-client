@@ -231,6 +231,7 @@ const SignUpTemplate: React.FC = () => {
                 options={{
                   format: 'mm:ss',
                 }}
+                onEnd={() => setSentEmailAt(null)}
               />
             )}
             <View style={{ ...flexRow }}>
