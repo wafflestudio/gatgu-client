@@ -43,7 +43,7 @@ export interface ISignUpValues {
 const SignUpTemplate: React.FC = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [sentEmailAt, setSentEmailAt] = useState<DateTime | null>(null);
+  const [emailEndsAt, setEmailEndsAt] = useState<DateTime | null>(null);
 
   const signUp = useCallback(
     (values: ISignUpValues) => {
@@ -193,7 +193,7 @@ const SignUpTemplate: React.FC = () => {
                 .sendConfirmCodeMail(values.email + '@snu.ac.kr')
                 .then(() => {
                   Alert.alert('인증 메일을 발송하였습니다.');
-                  setSentEmailAt(DateTime.local());
+                  setEmailEndsAt(DateTime.local().plus({ minute: 3 }));
                 })
                 .catch((error) => {
                   Alert.alert('인증 메일 발송에 실패하였습니다.');
@@ -224,14 +224,14 @@ const SignUpTemplate: React.FC = () => {
           />
 
           <View style={styles.emailControl}>
-            {sentEmailAt && (
+            {emailEndsAt && (
               <Timer
                 style={{ color: 'red' }}
-                endAt={sentEmailAt?.plus({ minute: 3 })}
+                endAt={emailEndsAt}
                 options={{
                   format: 'mm:ss',
                 }}
-                onEnd={() => setSentEmailAt(null)}
+                onEnd={() => setEmailEndsAt(null)}
               />
             )}
             <View style={{ ...flexRow }}>
