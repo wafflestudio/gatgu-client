@@ -15,7 +15,7 @@ const ArticleBox: React.FC<IArticleSummary> = ({
   title,
   trading_place,
   time_in,
-  image,
+  images,
 }) => {
   const navigation = useNavigation();
 
@@ -35,7 +35,7 @@ const ArticleBox: React.FC<IArticleSummary> = ({
       }
     >
       <Thumbnail
-        uri={image[0]?.img_url}
+        uri={images[0]?.img_url}
         w={$thumnail_size}
         h={$thumnail_size}
       />

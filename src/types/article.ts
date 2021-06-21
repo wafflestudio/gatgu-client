@@ -21,7 +21,7 @@ export interface IGetArticleResponse {
   article_id: number;
   title: string;
   trading_place: string;
-  image: IArticleImage[];
+  images: IArticleImage[];
   price_min: number;
   tag: number;
   time_in: string;
