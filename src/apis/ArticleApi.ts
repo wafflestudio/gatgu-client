@@ -88,14 +88,14 @@ export const getUserArticles = (
 ) => {
   const defaultUrl = `users/${userId || 'me'}/articles/`;
 
-  const querystring = qs.stringify({
+  const searchParams = new URLSearchParams({
     activity,
-    page_size: PAGE_SIZE,
+    page_size: `${PAGE_SIZE}`,
   });
 
   return gatguAxios.get(
     defaultUrl +
       (cursorSearchParams ? `${cursorSearchParams}&` : '?') +
-      querystring
+      searchParams
   );
 };
