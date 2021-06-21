@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert, Text } from 'react-native';
+import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Form } from 'formik';
 
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { articleAPI } from '@/apis';
+import requester from '@/apis/BaseInstance';
+import { getMyData } from '@/apis/UserApi';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
@@ -18,8 +19,9 @@ import {
   editSingleArticle,
   getSingleArticle,
 } from '@/store/articleSlice';
-import { IPostArticle, ITagType } from '@/types/article';
+import { IArticleProps, IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
+import { IUserDetail } from '@/types/user';
 
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -27,6 +29,7 @@ import DueDate from './DueDate/DueDate';
 import Link from './Link/Link';
 import Location from './Location/Location';
 import Recruiting from './Recruiting/Recruiting';
+import Tags from './Tags/Tags';
 import Title from './Title/Title';
 
 /*TODO: @juimdpp
@@ -45,7 +48,7 @@ const TagArray = tagNames.map((item, indx) => {
 });
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
-  const [images, setImages] = useState<(string | Blob)[]>([]);
+  const [images, setImages] = useState<(string | null | undefined)[]>([]);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -115,10 +118,33 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     }
   }, [currentArticle]);
 
-  const uploadImage = async (url: string, body: any) => {
+  const checkInput = (): string => {
+    let str = '';
+    if (!validateLink(link)) str += 'Link is invalid.\n';
+    return str;
+  };
+
+  const getPresignedURL = async (id: number, file_name: string) => {
+    const response = await fetch(
+      `https://api.gatgu.site/v1/articles/${id}/get_presigned_url/`,
+      {
+        method: 'PUT',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ method: 'PUT', file_name: file_name }),
+      }
+    );
+    return response.json();
+    // const url = await response.json()
+    // return url
+  };
+
+  const uploadImage = async (url: string, image: string | null | undefined) => {
     const response = await fetch(url, {
       method: 'PUT',
-      body: body,
+      body: image,
       headers: {
         'Content-Type': 'image/*',
       },
@@ -127,60 +153,30 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     else console.log('GOOD');
   };
 
-  const handleImage = () => {
-    images.forEach((img) => {
-      // put presigned url
-      articleAPI.putPresignedURL(91, 'image').then((res) => {
-        const url = res.data.presigned_url;
-        const fname = res.data.file_name;
-        const body = new FormData();
-        body.append(fname, img);
-        uploadImage(url, body).then((res) => {
-          console.log(res);
-        });
-      });
-    });
-  };
-
-  const getPreSignedUrl = async (fileName: any) => {
-    const response = await fetch(
-      `https://api.gatgu.site/v1/articles/92/get_presigned_url/`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ method: 'put', file_name: fileName }),
-      }
-    );
-
-    const url = await response.json();
-    return url;
-  };
-
-  const uploadToBucket = async (preSignedUrl: string, file: any) => {
+  const uploadToBucket = async (
+    preSignedUrl: string,
+    file: string | null | undefined
+  ) => {
     const option = {
       method: 'PUT',
       body: file,
     };
 
-    await fetch(preSignedUrl, option);
+    return await fetch(preSignedUrl, option);
   };
-  const upload = async (e: any) => {
-    e.preventDefault();
 
-    const file = fileInput.current.files[0];
-    const fileName = file.name;
+  const handleImage = () => {
+    const num = 93;
 
-    const preSignedUrl = await getPreSignedUrl(fileName);
-    uploadToBucket(preSignedUrl.presigned_url, file);
-  };
-  const fileInput = React.createRef<HTMLInputElement>();
-
-  const checkInput = (): string => {
-    let str = '';
-    if (!validateLink(link)) str += 'Link is invalid.\n';
-    return str;
+    articleAPI
+      .presignedURL(num, { method: 'put', file_name: 'new_name' })
+      .then((res) => {
+        const response = res.data;
+        const url = response['presigned_url'];
+        const file_name = response['file_name'];
+        uploadToBucket(url, images[0]);
+        /// Formdata
+      });
   };
 
   const submit = () => {
@@ -250,10 +246,11 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         <Text>Loading Page</Text>
       ) : (
         <View>
-          {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
+          <Tags tags={tags} toggleTags={toggleTags} />
           <DueDate dueDate={dueDate} setDueDate={setDueDate} />
+
           <AddImage images={images} setImages={setImages} />
-          <Button title="ok" onPress={handleImage} />
+          <Button title={'hello'} onPress={handleImage} />
           <Title title={title} setTitle={setTitle} />
           <Recruiting needPrice={need_price} setPrice={handlePrice} />
           <Location location={location} setLocation={setLocation} />
