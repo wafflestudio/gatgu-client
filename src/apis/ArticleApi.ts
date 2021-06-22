@@ -50,13 +50,8 @@ export const getArticles = (
 export const create = (
   article: IPostArticle
 ): Promise<AxiosResponse<IMessageRet>> => {
-  console.log(article);
-  // console.log(requester.defaults.headers)
-  // return requester.post('articles/', JSON.stringify(article));
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
-    console.log('res', res);
-    console.log(JSON.stringify(article));
     return requester.post('articles/', JSON.stringify(article), { headers });
   });
 };
@@ -100,7 +95,7 @@ export const putPresignedURL = (
   file_name: string
 ): Promise<AxiosResponse<IMessageRet>> => {
   const body = {
-    method: 'get',
+    method: 'put',
     file_name: file_name,
   };
   return requester.put(`articles/${id}/get_presigned_url/`, body);

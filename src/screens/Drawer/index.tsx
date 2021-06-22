@@ -32,7 +32,7 @@ const DrawerTemplate: React.FC<any> = (props) => {
     (state: RootState) => state.article.currentArticle
   );
 
-  const loggedIn = !!useSelector((state: RootState) => state.user.token);
+  const loggedIn = !!useSelector((state: RootState) => state.user.accessToken);
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;

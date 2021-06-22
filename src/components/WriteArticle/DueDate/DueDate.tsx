@@ -43,7 +43,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   const [date, setDate] = useState(today);
   const [dayArr, setDayArr] = useState(initWeek);
 
-  const onChange = (event: any, selectedDate: Date | undefined) => {
+  const handleChange = (event: any, selectedDate: Date | undefined) => {
     setDate(selectedDate ? selectedDate : date);
   };
   const showDatePicker = () => {
@@ -139,7 +139,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
               is24Hour={true}
               display="spinner"
               minuteInterval={30}
-              onChange={onChange}
+              onChange={handleChange}
             />
           </View>
         </View>

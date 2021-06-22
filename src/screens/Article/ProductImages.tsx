@@ -13,15 +13,14 @@ import styles from './ProductImages.style';
 // - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단
 
 interface IArticleChat {
-  image_urls: ImageDict[] | undefined;
+  image_urls: ImageDict[];
   orderStatus: IArticleStatus;
 }
 
 function ProductImages({ image_urls, orderStatus }: IArticleChat): JSX.Element {
   const dot = <View style={styles.dot} />;
-  console.log('images:', orderStatus);
   const images =
-    image_urls == undefined ? (
+    image_urls.length == 0 ? (
       <Image source={require('@/assets/images/no-image.png')} />
     ) : (
       image_urls
