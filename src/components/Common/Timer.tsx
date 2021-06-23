@@ -24,6 +24,8 @@ const Timer: React.FC<ITimerProps> = ({
   const { format = 'yyyy-MM-dd hh:mm:ss', enableMinusTime = false } = options;
 
   useEffect(() => {
+    setIsEnded(false);
+    setDisplayText('');
     const countdown = setInterval(() => {
       const currentTime = DateTime.local();
       const diff = endAt.diff(currentTime);
@@ -34,7 +36,7 @@ const Timer: React.FC<ITimerProps> = ({
       setDisplayText(diff.toFormat(format));
     }, 500);
     return () => clearInterval(countdown);
-  }, [format]);
+  }, [format, endAt]);
 
   if (isEnded && !enableMinusTime) return null;
 
