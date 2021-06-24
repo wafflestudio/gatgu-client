@@ -4,6 +4,7 @@ import qs from 'querystring';
 
 import { PAGE_SIZE, SearchType } from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
+import { UserArticleActivity } from '@/enums';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
@@ -15,6 +16,7 @@ import {
 } from '@/types/article';
 
 import requester from './BaseInstance';
+import gatguAxios from './gatguAxios';
 
 const getToken = (res: any) => {
   const token = res['token'];
@@ -99,4 +101,24 @@ export const putPresignedURL = (
     file_name: file_name,
   };
   return requester.put(`articles/${id}/get_presigned_url/`, body);
+};
+
+// 유저 같구 리스트
+export const getUserArticles = (
+  cursorSearchParams: string | null,
+  activity: UserArticleActivity,
+  userId: number | null
+) => {
+  const defaultUrl = `users/${userId || 'me'}/articles/`;
+
+  const searchParams = new URLSearchParams({
+    activity,
+    page_size: `${PAGE_SIZE}`,
+  });
+
+  return gatguAxios.get(
+    defaultUrl +
+      (cursorSearchParams ? `${cursorSearchParams}&` : '?') +
+      searchParams
+  );
 };
