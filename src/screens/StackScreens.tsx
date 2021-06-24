@@ -39,6 +39,7 @@ const {
   SignUp,
   TOS,
   EditArticle,
+  UserGatgu,
 } = routes;
 
 const Drawer = createDrawerNavigator();
@@ -120,6 +121,10 @@ function ProfileStackScreen(): JSX.Element {
       <ProfileStack.Screen
         name={ProfileModify.name}
         component={ProfileModify.component}
+      />
+      <ProfileStack.Screen
+        name={UserGatgu.name}
+        component={UserGatgu.component}
       />
     </ProfileStack.Navigator>
   );
