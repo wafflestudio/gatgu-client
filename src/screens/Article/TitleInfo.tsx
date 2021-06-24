@@ -2,8 +2,7 @@ import React from 'react';
 
 import { View } from 'native-base';
 
-import { ArticleStatus } from '@/constants/Enum';
-import { IArticleProps } from '@/types/article';
+import { IArticleProps, IArticleStatus } from '@/types/article';
 
 import Info from './Info';
 import Title from './Title';
@@ -11,7 +10,7 @@ import styles from './TitleInfo.style';
 
 interface ITitleChat {
   article: IArticleProps;
-  orderStatus: ArticleStatus;
+  orderStatus: IArticleStatus;
 }
 // will change input type
 function TitleInfo({ article, orderStatus }: ITitleChat): JSX.Element {

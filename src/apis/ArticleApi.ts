@@ -1,5 +1,5 @@
 // thunk functions that return promises
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import qs from 'querystring';
 
 import { PAGE_SIZE, SearchType } from '@/constants/article';
@@ -12,6 +12,7 @@ import {
   TSearchType,
   IPostArticle,
   IGetArticlesResponse,
+  IReqPresignedURL,
 } from '@/types/article';
 
 import requester from './BaseInstance';
@@ -21,7 +22,7 @@ const getToken = (res: any) => {
   const token = res['token'];
   const headers = {
     'Content-type': 'application/json',
-    Authorization: `token ${token}`,
+    Authorization: `Bearer ${token}`,
   };
   return headers;
 };
@@ -53,7 +54,7 @@ export const create = (
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
-    return requester.post('article/', article, { headers });
+    return requester.post('articles/', JSON.stringify(article), { headers });
   });
 };
 
@@ -61,13 +62,13 @@ export const create = (
 export const getSingleArticle = (
   id: number
 ): Promise<AxiosResponse<IArticleProps>> => {
-  return requester.get(`article/${id}/`);
+  return requester.get(`articles/${id}/`);
 };
 
 export const deleteArticle = (
   id: number
 ): Promise<AxiosResponse<IMessageRet>> => {
-  return requester.delete(`article/${id}/`);
+  return requester.delete(`articles/${id}/`);
 };
 
 export const editArticle = (
@@ -76,8 +77,30 @@ export const editArticle = (
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
-    return requester.put(`article/${id}/`, body, { headers });
+    return requester.put(`articles/${id}/`, body, { headers });
   });
+};
+
+export const getPresignedURL = (
+  id: number,
+  file_name: string
+): Promise<AxiosResponse<IMessageRet>> => {
+  const body = {
+    method: 'get',
+    file_name: file_name,
+  };
+  return requester.put(`articles/${id}/get_presigned_url/`, body);
+};
+
+export const putPresignedURL = (
+  id: number,
+  file_name: string
+): Promise<AxiosResponse<IMessageRet>> => {
+  const body = {
+    method: 'put',
+    file_name: file_name,
+  };
+  return requester.put(`articles/${id}/get_presigned_url/`, body);
 };
 
 // 유저 같구 리스트

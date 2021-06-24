@@ -2,8 +2,10 @@ import React from 'react';
 import { Image, View, Text } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import { ArticleStatus } from '@/constants/Enum';
+import { ColorArticleStatus, StringArticleStatus } from '@/enums/articleStatus';
 import { palette } from '@/styles';
+import { IArticleStatus } from '@/types/article';
+import { ImageDict } from '@/types/shared';
 
 import styles from './ProductImages.style';
 
@@ -11,30 +13,40 @@ import styles from './ProductImages.style';
 // - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단
 
 interface IArticleChat {
-  thumbnail_url: string | null | undefined;
-  image_url: (string | null | undefined)[] | undefined;
-  orderStatus: ArticleStatus;
+  image_urls: ImageDict[];
+  orderStatus: IArticleStatus;
 }
 
-function ProductImages({
-  // thumbnail_url, // TODO: @juimdpp 백에서 이미지를 어떻게 줄지 몰라서 일단 보류
-  image_url,
-  orderStatus,
-}: IArticleChat): JSX.Element {
+function ProductImages({ image_urls, orderStatus }: IArticleChat): JSX.Element {
   const dot = <View style={styles.dot} />;
-
   const images =
-    image_url != undefined &&
-    image_url?.map((url, _ind) => {
-      return (
-        <Image
-          key={_ind}
-          style={styles.image}
-          source={{ uri: url as string }}
-        />
-      );
-    });
-
+    image_urls.length == 0 ? (
+      <Image source={require('@/assets/images/no-image.png')} />
+    ) : (
+      image_urls
+        .map((item, _) => {
+          return (
+            <Image
+              key={_}
+              style={styles.image}
+              source={{ uri: item.img_url as string }}
+            />
+          );
+        })
+        .concat(
+          <Image
+            key={1}
+            style={styles.image}
+            source={{
+              uri: 'https://user-images.githubusercontent.com/60267222/122652722-27921600-d17b-11eb-99d4-ca3ffccb858e.png' as string,
+            }}
+          />
+        )
+    );
+  /*
+    TODO: @juimdpp
+    remove concat (added it just to show that it works)
+*/
   return (
     <View>
       <View>
@@ -48,14 +60,28 @@ function ProductImages({
           {images}
         </Swiper>
       </View>
-      {orderStatus >= ArticleStatus.COMPLETE && (
+      {
+        <View
+          style={[
+            styles.completeTextContainer,
+            {
+              backgroundColor: ColorArticleStatus[orderStatus.progress_status],
+            },
+          ]}
+        >
+          <Text style={styles.completeText}>
+            {StringArticleStatus[orderStatus.progress_status]}
+          </Text>
+        </View>
+      }
+      {/* {orderStatus.progress_status >= ArticleStatus && (
         <View style={styles.completeCover} />
-      )}
-      {orderStatus >= ArticleStatus.COMPLETE && (
+      )} */}
+      {/* {orderStatus.progress_status >= ArticleStatus && (
         <View style={styles.completeTextContainer}>
           <Text style={styles.completeText}>모집완료</Text>
         </View>
-      )}
+      )} */}
     </View>
   );
 }

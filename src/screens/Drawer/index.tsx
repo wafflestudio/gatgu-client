@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { articleAPI, userAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
 import { Button, Profile } from '@/components';
-import { ArticleStatus } from '@/constants/Enum';
+import { OrderStatus } from '@/enums';
 import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { getChatInfo, changeOrderStatus } from '@/store/chatSlice';
@@ -31,10 +31,11 @@ const DrawerTemplate: React.FC<any> = (props) => {
   const currentArticle = useSelector(
     (state: RootState) => state.article.currentArticle
   );
+
+  const loggedIn = !!useSelector((state: RootState) => state.user.accessToken);
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;
-  const loggedIn = !!useSelector((state: RootState) => state.user.accessToken);
 
   useEffect(() => {
     if (currentArticle.article_id !== 0) {
@@ -66,9 +67,9 @@ const DrawerTemplate: React.FC<any> = (props) => {
     // change status
     if (chatInfo !== undefined) {
       const temp =
-        chatInfo.order_status <= ArticleStatus.BARGAINING
-          ? ArticleStatus.COMPLETE
-          : ArticleStatus.BARGAINING;
+        chatInfo.order_status <= OrderStatus.Complete
+          ? OrderStatus.Complete
+          : OrderStatus.Pending;
       // TODO: @juimdpp
       // todo: 추후에 쓸 수 있을 듯
       // when: api 고칠 때 보기
@@ -93,13 +94,11 @@ const DrawerTemplate: React.FC<any> = (props) => {
     }
   };
 
-  if (!currentUser) return null;
-
   const editArticle = () => {
     if (!loggedIn) {
       Alert.alert('로그인을 해주세요');
     } else {
-      if (currentUser['id'] === currentArticle.writer_id) {
+      if (currentUser && currentUser['id'] === currentArticle.writer_id) {
         navigation.navigate('EditArticle', {
           id: currentArticle.article_id,
         });

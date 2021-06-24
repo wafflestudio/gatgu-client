@@ -20,8 +20,8 @@ const ArticleBox: React.FC<IArticleSummary> = ({
   const navigation = useNavigation();
 
   const { diff: timeBefore, type: typeBefore } = calcTimeDiff(
-    'current',
-    time_in
+    new Date(),
+    new Date()
   );
 
   return (

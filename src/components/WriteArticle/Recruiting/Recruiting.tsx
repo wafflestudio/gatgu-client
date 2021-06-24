@@ -1,11 +1,10 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View, Text } from 'react-native';
-import SwitchSelector from 'react-native-switch-selector';
 
 import { StringInput } from '@/components';
 
 import waStyles from '../WriteArticle.style';
-import styles, { switchSelector } from './Recruiting.style';
+import styles from './Recruiting.style';
 
 interface RecruitingProps {
   needPrice: string;
@@ -35,7 +34,7 @@ function Recruiting({ needPrice, setPrice }: RecruitingProps): JSX.Element {
   return (
     <View style={styles.bigContainer}>
       <View style={styles.switchContainer}>
-        <Text>모금금액/필요금액</Text>{' '}
+        <Text>모금금액/필요금액</Text>
         {/** TODO @juimdpp 화면 확인 가능할 때 디자인 수정하기*/}
       </View>
       {Input('필요금액', 10)}

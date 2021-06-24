@@ -1,9 +1,8 @@
-import { ArticleStatus } from '@/constants/Enum';
 import { SearchType } from '@/constants/article';
 import * as Enums from '@/enums';
 
 import { IOrderChat } from './chat';
-import { ICursorPaginationResponse } from './shared';
+import { ICursorPaginationResponse, ImageDict } from './shared';
 
 export interface IParticipantsSummary {
   count: number;
@@ -37,6 +36,17 @@ export type IGetArticlesResponse = ICursorPaginationResponse<IGetArticleResponse
 
 export type TSearchType = SearchType.TITLE | SearchType.TAG;
 
+export interface IArticleStatus {
+  progress_status: Enums.ArticleStatus;
+  cur_people_sum: number;
+  cur_price_sum: number;
+}
+
+export interface IReqPresignedURL {
+  method: string;
+  file_name: string;
+}
+
 export interface IArticleProps {
   writer_id: number;
   article_id: number;
@@ -46,11 +56,11 @@ export interface IArticleProps {
   product_url: string;
   price_min: number;
   time_in: Date;
-  image: (string | null | undefined)[]; // 확실하지 않음... api에 타입이 안 적혀있음
+  images: ImageDict[]; // 확실하지 않음... api에 타입이 안 적혀있음
   tag: number[];
   created_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
-  article_status: ArticleStatus;
+  article_status: IArticleStatus;
   order_chat: IOrderChat;
   participants_summary: IParticipantsSummary;
 }
