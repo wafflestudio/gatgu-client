@@ -36,7 +36,6 @@ export const login = (
   username: string,
   password: string
 ): Promise<AxiosResponse<ILoginResponse>> => {
-
   return gatguAxios.put(`users/login/`, {
     username,
     password,
