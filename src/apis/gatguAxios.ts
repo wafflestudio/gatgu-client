@@ -8,12 +8,15 @@ const treatGatguResponse = (promise: AxiosPromise) => {
   return promise
     .then((response) => response)
     .catch((err) => {
-      switch (err.response.code) {
+      console.debug(err.config);
+      console.debug(err.response?.data);
+      switch (err.response?.code) {
         // handle util errors here
         case 500:
           Alert.alert('서버 에러입니다.');
           break;
         default:
+          break;
       }
       throw new Error(err);
     });

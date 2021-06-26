@@ -46,10 +46,9 @@ function ArticleListTemplate({
     [dispatch, isLastPage]
   );
 
-  const renderArticle = useCallback(
-    ({ item }: { item: IArticleSumProps }) => <ArticleBox {...item} />,
-    []
-  );
+  const renderArticle = useCallback(({ item }: { item: IArticleSumProps }) => {
+    <ArticleBox {...item} />;
+  }, []);
 
   // 아티클 개수가 MAX_ARTICLE_NUM 보다 많으면 추가적으로 아티클을 받을 때 앞의 아티클을
   // 날린다. 이후 다시 위로 올라가면 기존의 아티클을 받아와야 하기 때문에, 아티클이 MAX_ARTICLE_NUM

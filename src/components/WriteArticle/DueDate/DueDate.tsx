@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -43,7 +43,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   const [date, setDate] = useState(today);
   const [dayArr, setDayArr] = useState(initWeek);
 
-  const onChange = (selectedDate: Date | undefined) => {
+  const handleChange = (event: any, selectedDate: Date | undefined) => {
     setDate(selectedDate ? selectedDate : date);
   };
   const showDatePicker = () => {
@@ -139,7 +139,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
               is24Hour={true}
               display="spinner"
               minuteInterval={30}
-              onChange={(event, selectedDate) => onChange(selectedDate)}
+              onChange={handleChange}
             />
           </View>
         </View>

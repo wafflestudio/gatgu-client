@@ -10,11 +10,10 @@ export const remainTime = (deadline: string): string => {
 };
 
 // for current date (new Date()), use 'current' as input
-export const calcTimeDiff = (start: string, end: string) => {
-  const startDate = start === 'current' ? new Date() : new Date(start);
-  const endDate = end === 'current' ? new Date() : new Date(end);
-
-  const miliseconds = startDate.valueOf() - endDate.valueOf();
+export const calcTimeDiff = (start: Date, end: Date) => {
+  // const startDate = start === 'current' ? new Date() : new Date(start);
+  // const endDate = end === 'current' ? new Date() : new Date(end);
+  const miliseconds = start.valueOf() - end.valueOf();
   const seconds = Math.trunc(miliseconds / 1000);
   const min = Math.trunc(seconds / 60);
   const hour = Math.trunc(min / 60);
@@ -26,6 +25,6 @@ export const calcTimeDiff = (start: string, end: string) => {
   else if (min !== 0) (result = min), (type = '분');
   else if (seconds !== 0) (result = seconds), (type = '초');
   else (result = 0), (type = '초');
-
+  if (isNaN(result)) (result = 0), (type = '일');
   return { diff: result, type: type };
 };

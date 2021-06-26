@@ -5,8 +5,7 @@ import { View } from 'native-base';
 
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
-import { ArticleStatus } from '@/constants/Enum';
-import { IArticleProps } from '@/types/article';
+import { IArticleProps, IArticleStatus } from '@/types/article';
 import { IUserSumProps } from '@/types/user';
 
 import Chat from './Chat';
@@ -14,7 +13,7 @@ import styles from './ProfileChat.style';
 
 interface IProfileChat {
   article: IArticleProps;
-  orderStatus: ArticleStatus;
+  orderStatus: IArticleStatus;
 }
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
@@ -22,7 +21,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
 
   useEffect(() => {
     if (article.writer_id) {
-      userAPI.getUser(article.writer_id).then((res: AxiosResponse) => {
+      userAPI.getMyData().then((res: AxiosResponse) => {
         setWriter(res.data.userprofile);
       });
     }

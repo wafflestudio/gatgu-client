@@ -1,38 +1,37 @@
 // thunk functions that return promises
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import qs from 'querystring';
 
-// TODO: @ssu1018
-// - Refactore all apisrelated with ArticleSumaary
-// when: until 3/12
-// for home page
 import { PAGE_SIZE, SearchType } from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
+import { UserArticleActivity } from '@/enums';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
   IMessageRet,
-  IArticleSumResponse,
   TSearchType,
   IPostArticle,
+  IGetArticlesResponse,
+  IReqPresignedURL,
 } from '@/types/article';
 
 import requester from './BaseInstance';
+import gatguAxios from './gatguAxios';
 
 const getToken = (res: any) => {
   const token = res['token'];
   const headers = {
     'Content-type': 'application/json',
-    Authorization: `token ${token}`,
+    Authorization: `Bearer ${token}`,
   };
   return headers;
 };
 
-export const getArticleSummary = (
-  url: string | null,
+export const getArticles = (
+  url?: string | null,
   keyword?: string,
   searchType?: TSearchType
-): Promise<AxiosResponse<IArticleSumResponse>> => {
+): Promise<AxiosResponse<IGetArticlesResponse>> => {
   // keyword가 있고, url이 없으면 search 쿼리 생성
   const searchObj =
     !url &&
@@ -45,7 +44,7 @@ export const getArticleSummary = (
   });
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
-  url = `article/${url ? `${url}&` : '?'}`;
+  url = `articles/${url ? `${url}&` : '?'}`;
   return requester.get(`${url}${query}`);
 };
 
@@ -55,7 +54,7 @@ export const create = (
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
-    return requester.post('article/', article, { headers });
+    return requester.post('articles/', JSON.stringify(article), { headers });
   });
 };
 
@@ -63,13 +62,13 @@ export const create = (
 export const getSingleArticle = (
   id: number
 ): Promise<AxiosResponse<IArticleProps>> => {
-  return requester.get(`article/${id}/`);
+  return requester.get(`articles/${id}/`);
 };
 
 export const deleteArticle = (
   id: number
 ): Promise<AxiosResponse<IMessageRet>> => {
-  return requester.delete(`article/${id}/`);
+  return requester.delete(`articles/${id}/`);
 };
 
 export const editArticle = (
@@ -78,6 +77,48 @@ export const editArticle = (
 ): Promise<AxiosResponse<IMessageRet>> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
-    return requester.put(`article/${id}/`, body, { headers });
+    return requester.put(`articles/${id}/`, body, { headers });
   });
+};
+
+export const getPresignedURL = (
+  id: number,
+  file_name: string
+): Promise<AxiosResponse<IMessageRet>> => {
+  const body = {
+    method: 'get',
+    file_name: file_name,
+  };
+  return requester.put(`articles/${id}/get_presigned_url/`, body);
+};
+
+export const putPresignedURL = (
+  id: number,
+  file_name: string
+): Promise<AxiosResponse<IMessageRet>> => {
+  const body = {
+    method: 'put',
+    file_name: file_name,
+  };
+  return requester.put(`articles/${id}/get_presigned_url/`, body);
+};
+
+// 유저 같구 리스트
+export const getUserArticles = (
+  cursorSearchParams: string | null,
+  activity: UserArticleActivity,
+  userId: number | null
+) => {
+  const defaultUrl = `users/${userId || 'me'}/articles/`;
+
+  const searchParams = new URLSearchParams({
+    activity,
+    page_size: `${PAGE_SIZE}`,
+  });
+
+  return gatguAxios.get(
+    defaultUrl +
+      (cursorSearchParams ? `${cursorSearchParams}&` : '?') +
+      searchParams
+  );
 };

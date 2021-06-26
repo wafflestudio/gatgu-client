@@ -1,6 +1,4 @@
-import { OrderStatus } from '@/constants/Enum';
-
-import { IChatUserProps, IUserProfile } from './user';
+import { IChatUserProps } from './user';
 
 export interface IChattingRoom {
   id: number;
@@ -21,8 +19,6 @@ export interface IChattingRoom {
 export interface IOrderChat {
   id: number;
   participant_profile: IChatUserProps[];
-  article: number;
-  order_status: OrderStatus;
   tracking_number: number;
 }
 

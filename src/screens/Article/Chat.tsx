@@ -6,20 +6,21 @@ import { View } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { ArticleStatus } from '@/constants/Enum';
+import { ArticleStatus } from '@/enums';
 import { palette } from '@/styles';
+import { IArticleStatus } from '@/types/article';
 
 import styles from './Chat.style';
 
 interface IChatProps {
-  orderStatus: ArticleStatus;
+  orderStatus: IArticleStatus;
   article_id: number | undefined;
 }
 
 function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
   const navigateToChatRoom = () => {
-    if (orderStatus <= ArticleStatus.BARGAINING) {
+    if (orderStatus.progress_status <= ArticleStatus.Dealing) {
       navigation.navigate('ChattingRoom', { id: article_id });
     }
   };
@@ -29,7 +30,7 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
         <View
           style={[
             styles.chattingButton,
-            orderStatus <= ArticleStatus.BARGAINING
+            orderStatus.progress_status <= ArticleStatus.Dealing
               ? { backgroundColor: palette.blue, borderColor: palette.blue }
               : {
                   backgroundColor: palette.borderGray,
