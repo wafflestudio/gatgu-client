@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 
 import get from 'lodash/get';
 
+import AppRouter from '@/App.router';
 import { setRequesterToken } from '@/apis/BaseInstance';
 import { refreshAccessToken } from '@/apis/UserApi';
 import { asyncStoragekey } from '@/constants/asyncStorage';
@@ -54,7 +55,9 @@ function App(): JSX.Element {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}></Provider>
+      <Provider store={store}>
+        <AppRouter />
+      </Provider>
     </QueryClientProvider>
   );
 }
