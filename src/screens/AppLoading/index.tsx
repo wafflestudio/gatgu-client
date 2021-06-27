@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import logo from '@/assets/Logo';
+import logo from '@/assets/icons/Logo';
 
 import styles from './AppLoading.style';
 

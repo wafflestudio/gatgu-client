@@ -12,7 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { removeRequesterToken } from '@/apis/BaseInstance';
 import { logout, modifyMyInfo } from '@/apis/UserApi';
-import Logo from '@/assets/Logo';
+import Logo from '@/assets/icons/Logo';
 import { Button } from '@/components';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { StringStorage } from '@/helpers/functions/asyncStorage';
