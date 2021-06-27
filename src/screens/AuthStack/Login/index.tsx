@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { setRequesterToken } from '@/apis/BaseInstance';
 import { login } from '@/apis/UserApi';
-import logo from '@/assets/Logo';
+import Logo from '@/assets/icons/Logo';
 import { Button } from '@/components';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { StringStorage } from '@/helpers/functions/asyncStorage';
@@ -52,7 +52,7 @@ function LoginTemplate(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <logo.subLogo style={styles.logo} />
+      <Logo.subLogo style={styles.logo} />
       <View>
         <TextInput
           style={styles.input}

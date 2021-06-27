@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import GradeBar from '@/assets/ProfilePage/GradeBar.svg';
+import GradeBar from '@/assets/icons/GradeBar/GradeBar.svg';
 
 import styles from './Grade.style';
 

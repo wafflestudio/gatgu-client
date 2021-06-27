@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import logo from '@/assets/Logo';
+import logo from '@/assets/icons/Logo';
 
 import ArticleStackScreen, {
   TArticleStackScreenParamList,

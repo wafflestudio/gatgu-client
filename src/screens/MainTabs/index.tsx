@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { BottomTabIcon } from '@/assets/Icon';
+import { BottomTabIcon } from '@/assets/BottomTabIndex';
 
 import ChattingStackScreen, {
   TChattingListStackParamList,

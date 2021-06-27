@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ImageBackground } from 'react-native';
 
-import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
+import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
 import { IUserDetail } from '@/types/user';
 
 import styles from './Information.style';
