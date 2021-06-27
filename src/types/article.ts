@@ -77,7 +77,7 @@ export type IPostArticle = Pick<
   | 'price_min'
   | 'time_in'
 > &
-  Pick<Partial<IArticleProps>, 'image' | 'tag'>;
+  Pick<Partial<IArticleProps>, 'images' | 'tag'>;
 
 export interface ITagType {
   id: number;

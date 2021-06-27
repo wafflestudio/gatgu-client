@@ -16,7 +16,6 @@ interface IGoalTopBubbleProps {
 }
 
 function GoalTopBubble({
-  summary,
   current,
   min_required,
 }: IGoalTopBubbleProps): JSX.Element {

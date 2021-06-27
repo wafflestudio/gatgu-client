@@ -147,7 +147,7 @@ const NotificationProvider: React.FC = ({ children }) => {
 
   // processing background, quit notification
   const _setBackgroundNotification = useCallback(() => {
-    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    messaging().setBackgroundMessageHandler(async () => {
       // processing msg
     });
   }, []);
@@ -193,6 +193,7 @@ const NotificationProvider: React.FC = ({ children }) => {
     handlePermission();
     _getNotificationConfig();
     _setRouting();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

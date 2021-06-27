@@ -22,7 +22,7 @@ import { IUserDetail, IUserSimple } from '@/types/user';
 import styles from './Drawer.style';
 
 const DrawerTemplate: React.FC<any> = (props) => {
-  const [chatInfo, setChatInfo] = useState<IChattingRoom>();
+  const [chatInfo] = useState<IChattingRoom>();
   const [participants, setParticipants] = useState<JSX.Element[]>([]);
   const [hasError, setError] = useState(false);
   const navigation = useNavigation();
@@ -42,7 +42,7 @@ const DrawerTemplate: React.FC<any> = (props) => {
       const id = currentArticle.article_id;
       dispatch(getChatInfo(id));
     }
-  }, []);
+  }, [dispatch, currentArticle]);
 
   useEffect(() => {
     if (chatInfo?.id !== 0) {

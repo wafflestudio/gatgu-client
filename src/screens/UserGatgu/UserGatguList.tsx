@@ -26,6 +26,7 @@ const UserGatguList: React.FC<IUserGatguListProps> = ({ type }) => {
   // 초기 렌더링
   useEffect(() => {
     getItems('first');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderArticle = ({ item }: { item: IArticleSummary }) => (

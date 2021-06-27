@@ -66,6 +66,7 @@ function ChatDrawer(): JSX.Element {
   useEffect(() => {
     dispatch(getChatInfo(id));
     // handle error case
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // FIXME

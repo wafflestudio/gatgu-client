@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { View, ScrollView, Text, Alert } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import { AxiosError } from 'axios';
 import { Formik } from 'formik';
@@ -42,7 +41,6 @@ export interface ISignUpValues {
 
 const SignUpTemplate: React.FC = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const [emailEndsAt, setEmailEndsAt] = useState<DateTime | null>(null);
 
   const signUp = useCallback(
@@ -85,7 +83,7 @@ const SignUpTemplate: React.FC = () => {
           console.debug(error.config);
         });
     },
-    [dispatch, navigation]
+    [navigation]
   );
 
   const signUpInitialValues = useMemo(

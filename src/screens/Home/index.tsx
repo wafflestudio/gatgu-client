@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 
-import _ from 'lodash';
-
 import { articleAPI } from '@/apis';
 import { ArticleBox, CursorFlatList } from '@/components';
 import { useCursorPagination } from '@/helpers/hooks';
@@ -20,6 +18,7 @@ const Home: React.FC = () => {
   // 초기 렌더링
   useEffect(() => {
     getItems('first');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderArticle = ({ item }: { item: IArticleSummary }) => (

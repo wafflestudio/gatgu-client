@@ -16,6 +16,7 @@ function Search(): JSX.Element {
   useEffect(() => {
     // set recent keyword
     dispatch(initSearchData());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,5 +1,5 @@
 // thunk functions that return promises
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import qs from 'querystring';
 
 import { PAGE_SIZE, SearchType } from '@/constants/article';
@@ -8,11 +8,9 @@ import { UserArticleActivity } from '@/enums';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
-  IMessageRet,
   TSearchType,
   IPostArticle,
   IGetArticlesResponse,
-  IReqPresignedURL,
 } from '@/types/article';
 
 import requester from './BaseInstance';
@@ -49,9 +47,7 @@ export const getArticles = (
 };
 
 // for article POST
-export const create = (
-  article: IPostArticle
-): Promise<AxiosResponse<IMessageRet>> => {
+export const create = (article: IPostArticle): Promise<AxiosResponse> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
     return requester.post('articles/', JSON.stringify(article), { headers });
@@ -65,16 +61,14 @@ export const getSingleArticle = (
   return requester.get(`articles/${id}/`);
 };
 
-export const deleteArticle = (
-  id: number
-): Promise<AxiosResponse<IMessageRet>> => {
+export const deleteArticle = (id: number): Promise<AxiosResponse> => {
   return requester.delete(`articles/${id}/`);
 };
 
 export const editArticle = (
   id: number,
   body: IPostArticle
-): Promise<AxiosResponse<IMessageRet>> => {
+): Promise<AxiosResponse> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
     const headers = getToken(res);
     return requester.put(`articles/${id}/`, body, { headers });
@@ -84,7 +78,7 @@ export const editArticle = (
 export const getPresignedURL = (
   id: number,
   file_name: string
-): Promise<AxiosResponse<IMessageRet>> => {
+): Promise<AxiosResponse> => {
   const body = {
     method: 'get',
     file_name: file_name,
@@ -95,7 +89,7 @@ export const getPresignedURL = (
 export const putPresignedURL = (
   id: number,
   file_name: string
-): Promise<AxiosResponse<IMessageRet>> => {
+): Promise<AxiosResponse> => {
   const body = {
     method: 'put',
     file_name: file_name,

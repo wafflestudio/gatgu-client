@@ -25,10 +25,13 @@ function RecentSearch({ tags }: IRecentSearchProps): JSX.Element {
   const keywordDispatch = useKeywordDispatch();
 
   // x 누르면 asyncstorage와 recentSearchStorage 갱신
-  const onPressXIcon = useCallback((tag: string) => {
-    ArrayStorage.removeElem(asyncStoragekey.RECENT_SEARCH, tag);
-    dispatch(removeKeyword({ keyword: tag }));
-  }, []);
+  const onPressXIcon = useCallback(
+    (tag: string) => {
+      ArrayStorage.removeElem(asyncStoragekey.RECENT_SEARCH, tag);
+      dispatch(removeKeyword({ keyword: tag }));
+    },
+    [dispatch]
+  );
 
   const renderedTags = tags.map((tag, ind) => (
     <View key={ind} style={[SearchStyle.tagBox, styles.tagsWrapper]}>

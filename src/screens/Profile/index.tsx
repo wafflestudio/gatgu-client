@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { Alert, TouchableHighlight, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -28,13 +28,13 @@ function Profile(): JSX.Element {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const logoutReq = async () => {
+  const logoutReq = useCallback(async () => {
     await logout();
     await StringStorage.remove(asyncStoragekey.REFRESH_TOKEN);
     dispatch(clearAccessToken());
     removeRequesterToken();
     Alert.alert('로그아웃 되었습니다.');
-  };
+  }, [dispatch]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
-
-import {
-  useIsDrawerOpen,
-  DrawerContentScrollView,
-} from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
 
 import { Button, Profile } from '@/components';
 import CheckBox from '@/components/CheckBox';
-import { IChatUserProps, IUserSumProps } from '@/types/user';
+import { IChatUserProps } from '@/types/user';
 
 import styles from './Drawer.style';
 

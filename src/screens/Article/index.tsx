@@ -55,7 +55,7 @@ function ArticlePage(): JSX.Element {
 
   useEffect(() => {
     dispatch(getSingleArticle(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   const productImageProps = {
     image_urls: currentArticle.images,

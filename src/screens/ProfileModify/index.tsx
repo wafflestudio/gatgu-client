@@ -18,7 +18,6 @@ import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
 import { Button, StringInput } from '@/components';
 import { isValidNickname } from '@/helpers/functions/validate';
 import { USER_DETAIL } from '@/queryKeys';
-import { AppLoading } from '@/screens';
 import { IUserDetail } from '@/types/user';
 
 import styles from './ProfileModify.styles';

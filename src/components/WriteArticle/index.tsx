@@ -8,7 +8,6 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
-import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import {
   createSingleArticle,
@@ -49,7 +48,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [description, setDescription] = useState<string>('');
   const [link, setLink] = useState<string>('');
   const [location, setLocation] = useState<string>('');
-  const [tags, toggleTags] = useState<ITagType[]>(TagArray);
+  const [, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
   const { id } = isEdit ? route.params : { id: 0 };
@@ -93,7 +92,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   useEffect(() => {
     if (isEdit) dispatch(getSingleArticle(id));
-  }, []);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (isEdit && currentArticle) {
@@ -104,7 +104,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       handlePrice(`${currentArticle.price_min}`);
       setDueDate(currentArticle.time_in);
       // optional:
-      currentArticle.image && setImages(images);
+      currentArticle.images[0] && setImages(images);
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
           return { id: i, tag: `${num}`, selected: false };
@@ -112,6 +112,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         toggleTags(temp);
       }
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentArticle]);
 
   const checkInput = (): string => {
@@ -135,10 +136,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       return;
     }
 
-    const tempTags = tags
-      .filter((item) => item.selected)
-      .map((item) => item.id);
-
     const tempArticle = {
       title: title,
       description: description,
@@ -150,23 +147,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       // tag: tempTags
     } as IPostArticle;
     if (isEdit && currentArticle) {
-      dispatch(editSingleArticle(id, tempArticle)).then((id: number) => {
-        if (id != -1) {
-          navigation.navigate('Article', {
-            screen: 'ArticlePage',
-            params: { id: id },
-          });
-        }
-      });
+      dispatch(editSingleArticle(id, tempArticle));
     } else {
-      dispatch(createSingleArticle(tempArticle)).then((id: number) => {
-        if (id != -1) {
-          navigation.navigate('Article', {
-            screen: 'ArticlePage',
-            params: { id: id },
-          });
-        }
-      });
+      dispatch(createSingleArticle(tempArticle));
     }
   };
 
