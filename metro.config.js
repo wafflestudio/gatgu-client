@@ -1,6 +1,7 @@
-import { getDefaultConfig } from '@expo/metro-config';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { getDefaultConfig } = require('@expo/metro-config');
 
-export default (async () => {
+module.exports = (async () => {
   const {
     resolver: { sourceExts, assetExts },
   } = await getDefaultConfig(__dirname);
