@@ -29,7 +29,7 @@ const ArticleBox: React.FC<IArticleSummary> = ({
       style={styles.postBox}
       onPress={() =>
         navigation.navigate('Article', {
-          screen: 'ArticlePage',
+          screen: 'Article',
           params: { id: article_id },
         })
       }

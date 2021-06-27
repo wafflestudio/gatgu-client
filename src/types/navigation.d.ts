@@ -5,13 +5,6 @@ export type RootStackParamList = {
   NotFound: undefined;
 };
 
-// type to use when using useRoute for ArticleDrawer screens
-export type ArticleDrawerParamList = {
-  ArticlePage: {
-    id: number;
-  };
-};
-
 export type EditArticleParamList = {
   EditArticle: {
     id: number;
