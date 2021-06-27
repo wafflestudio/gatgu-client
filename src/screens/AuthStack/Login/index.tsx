@@ -29,15 +29,12 @@ function LoginTemplate(): JSX.Element {
   const loginReq = useCallback(async () => {
     try {
       const loginResponse = await login(id, pw);
-      console.log(`loginResponse`, loginResponse);
       const { access, refresh } = loginResponse.data.token;
       dispatch(setAccessToken(access));
       setRequesterToken(access);
       StringStorage.add(asyncStoragekey.REFRESH_TOKEN, refresh);
       navigation.navigate('Home');
     } catch (err) {
-      console.error(err.response.status);
-      // console.error('Login Request', err.response);
       switch (err.response.data.error_code) {
         case 106:
           Alert.alert(err.response.data.detail);

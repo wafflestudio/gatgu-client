@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 
 import get from 'lodash/get';
 
-import AppRouter from '@/App.router';
 import { setRequesterToken } from '@/apis/BaseInstance';
 import { refreshAccessToken } from '@/apis/UserApi';
 import { asyncStoragekey } from '@/constants/asyncStorage';
@@ -26,18 +25,18 @@ function App(): JSX.Element {
 
     // 있으면 정보 받아오기
     try {
-      // const newTokenResponse = await refreshAccessToken(refreshToken);
-      // const access = get(newTokenResponse, ['data', 'access']);
-      // const refresh = get(newTokenResponse, ['data', 'refresh']);
-      // setRequesterToken(access);
-      // store.dispatch(setAccessToken(access));
-      // if (refresh) {
-      //   // https://wafflestudio.slack.com/archives/C01LD8Q0Q72/p1622979609312500
-      //   // 이 스레드 해결되고 나면 if문 지워져도 됨
-      //   StringStorage.add(asyncStoragekey.REFRESH_TOKEN, refresh);
-      // }
+      const newTokenResponse = await refreshAccessToken(refreshToken);
+      const access = get(newTokenResponse, ['data', 'access']);
+      const refresh = get(newTokenResponse, ['data', 'refresh']);
+      setRequesterToken(access);
+      store.dispatch(setAccessToken(access));
+      if (refresh) {
+        // https://wafflestudio.slack.com/archives/C01LD8Q0Q72/p1622979609312500
+        // 이 스레드 해결되고 나면 if문 지워져도 됨
+        StringStorage.add(asyncStoragekey.REFRESH_TOKEN, refresh);
+      }
     } catch (err) {
-      console.log('App mountLogin', err);
+      console.log(err);
       switch (err.response.data.error_code) {
         case 101: // refresh token 만료
           Alert.alert(err.response.data.detail);
@@ -55,9 +54,7 @@ function App(): JSX.Element {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <AppRouter />
-      </Provider>
+      <Provider store={store}></Provider>
     </QueryClientProvider>
   );
 }

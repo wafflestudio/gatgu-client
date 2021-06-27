@@ -14,9 +14,13 @@ import ChattingRoomStackScreen, {
   TChattingRoomStackParamList,
 } from './screens/ChattingRoomStack/ChattingRoomStack';
 
-export type TAppStackParamList = TMainTabsParamList &
-  TChattingRoomStackParamList &
-  TAuthStackParamList;
+export type TAppStackParamList = {
+  AuthStack: { screen: keyof TAuthStackParamList };
+  MainStack: { screen: keyof TMainTabsParamList };
+  ChattingRoomStack: { screen: keyof TChattingRoomStackParamList };
+} & TAuthStackParamList &
+  TMainTabsParamList &
+  TChattingRoomStackParamList;
 
 const AppStack = createStackNavigator<TAppStackParamList>();
 
@@ -31,17 +35,17 @@ const AppRouter: React.FC = () => {
       >
         <AppStack.Navigator>
           <AppStack.Screen
-            name="Home"
+            name="MainStack"
             component={MainStack}
             options={{ headerShown: false }}
           />
           <AppStack.Screen
-            name="ChattingRoom"
+            name="ChattingRoomStack"
             component={ChattingRoomStackScreen}
             options={{ headerShown: false }}
           />
           <AppStack.Screen
-            name="Login"
+            name="AuthStack"
             component={AuthStackScreen}
             options={{ headerShown: false }}
           />
