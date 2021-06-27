@@ -7,7 +7,9 @@ import { IArticleProps } from '@/types/article';
 
 import styles from './Desc.style';
 
-function Desc({ description, product_url }: IArticleProps): JSX.Element {
+type TDescProps = Pick<IArticleProps, 'description' | 'product_url'>;
+
+function Desc({ description, product_url }: TDescProps): JSX.Element {
   return (
     <View>
       <Text style={styles.descText}>{description}</Text>

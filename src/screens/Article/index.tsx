@@ -57,20 +57,11 @@ function ArticlePage(): JSX.Element {
     dispatch(getSingleArticle(id));
   }, [dispatch, id]);
 
-  const productImageProps = {
-    image_urls: currentArticle.images,
-    orderStatus: currentArticle.article_status,
-  };
-
-  const profileChatProps = {
-    article: currentArticle,
-    orderStatus: currentArticle.article_status,
-  };
-
-  const titleInfoProps = {
-    article: currentArticle,
-    orderStatus: currentArticle.article_status,
-  };
+  if (currentArticle.article_status === undefined) {
+    // TODO:
+    // loading
+    return <> </>;
+  }
 
   return (
     <View style={styles.container}>
@@ -82,10 +73,22 @@ function ArticlePage(): JSX.Element {
         <AppLoading />
       ) : (
         <ScrollView>
-          <ProductImages {...productImageProps} />
-          <ProfileChat {...profileChatProps} />
-          <TitleInfo {...titleInfoProps} />
-          <Desc {...currentArticle} />
+          <ProductImages
+            image_urls={currentArticle.images}
+            orderStatus={currentArticle.article_status}
+          />
+          <ProfileChat
+            article={currentArticle}
+            orderStatus={currentArticle.article_status}
+          />
+          <TitleInfo
+            article={currentArticle}
+            orderStatus={currentArticle.article_status}
+          />
+          <Desc
+            description={currentArticle.description}
+            product_url={currentArticle.product_url}
+          />
         </ScrollView>
       )}
     </View>

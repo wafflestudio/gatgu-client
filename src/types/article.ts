@@ -60,7 +60,7 @@ export interface IArticleProps {
   tag: number[];
   created_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
-  article_status: Partial<IArticleStatus>;
+  article_status?: IArticleStatus;
   order_chat: IOrderChat;
   participants_summary: IParticipantsSummary;
 }

@@ -38,11 +38,7 @@ const initialState: IArticleSlice = {
     tag: [],
     created_at: new Date(), // should be date but json server doesn't accept Date
     updated_at: new Date(),
-    article_status: {
-      progress_status: undefined,
-      cur_people_sum: 0,
-      cur_price_sum: 0,
-    },
+    article_status: undefined,
     order_chat: {
       id: 0,
       participant_profile: [],
