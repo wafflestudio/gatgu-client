@@ -20,11 +20,11 @@ function ProfileTemplate(): JSX.Element {
       </Text>
       <Image
         style={styles.image}
-        source={require('@/assets/ProfilePage/Image1.png')}
+        source={require('@/assets/images/ProfilePageImage1.png')}
       />
       <Image
         style={styles.image}
-        source={require('@/assets/ProfilePage/Image2.png')}
+        source={require('@/assets/images/ProfilePageImage2.png')}
       />
       <Button
         title="로그인하러 가기"

@@ -6,7 +6,7 @@ import styles from './HDRBackBtn.style';
 function HDRBackBtn(): JSX.Element {
   return (
     <Image
-      source={require('@/assets/icons/BackIcon/BackIcon.png')}
+      source={require('@/assets/images/BackIcon.png')}
       style={styles.image}
     />
   );
