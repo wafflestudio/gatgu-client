@@ -1,15 +1,14 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
-
 import { Button, FootTerms } from '@/components';
+import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 
 import styles from './UnLogged.style';
 
 // Profile Component
 function ProfileTemplate(): JSX.Element {
-  const navigation = useNavigation();
+  const navigation = useAppNavigation();
 
   return (
     <View style={styles.container}>
@@ -30,13 +29,13 @@ function ProfileTemplate(): JSX.Element {
         title="로그인하러 가기"
         style={styles.loginBtn}
         textStyle={styles.loginBtnText}
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.navigate('AuthStack', { screen: 'Login' })}
       />
       <Button
         title="회원가입하러 가기"
         style={styles.signUpBtn}
         textStyle={styles.signUpBtnText}
-        onPress={() => navigation.navigate('SignUp')}
+        onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}
       />
       <FootTerms />
     </View>
