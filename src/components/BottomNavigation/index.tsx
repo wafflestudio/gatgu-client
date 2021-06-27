@@ -5,7 +5,7 @@ import {
   BottomTabNavigationOptions,
 } from '@react-navigation/bottom-tabs';
 
-import { BottomTabIcon } from '@/assets/Icon';
+import { BottomTabIcon } from '@/assets/BottomTabIndex';
 
 import navigationRoute from './navigationRoute';
 

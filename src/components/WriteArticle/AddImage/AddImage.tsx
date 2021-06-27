@@ -3,8 +3,8 @@ import { View, Image, TouchableHighlight, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import XSign from '@/assets/CrossSign';
-import PlusSign from '@/assets/PlusSign';
+import XSign from '@/assets/icons/CrossSign';
+import PlusSign from '@/assets/icons/PlusSign';
 
 import styles from './AddImage.style';
 

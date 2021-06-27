@@ -13,8 +13,8 @@ import isEmpty from 'lodash/isEmpty';
 import { useNavigation } from '@react-navigation/native';
 
 import { getMyData, modifyMyInfo } from '@/apis/UserApi';
-import ModifyButton from '@/assets/ProfileModifyPage/modifyButton.svg';
-import ProfileDummyImage from '@/assets/ProfilePage/ProfileDummyImage.svg';
+import ModifyButton from '@/assets/icons/ModifyButton/modifyButton.svg';
+import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
 import { Button, StringInput } from '@/components';
 import { isValidNickname } from '@/helpers/functions/validate';
 import { USER_DETAIL } from '@/queryKeys';
