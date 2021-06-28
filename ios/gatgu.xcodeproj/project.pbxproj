@@ -17,6 +17,7 @@
 		7D6625513E184CC5A95B1E69 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ECC336D4CB5D43FA8A309D53 /* NotoSansKR-Regular.otf */; };
 		8CB67EEF2674EE2F00B85A01 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		96905EF65AED1B983A6B3ABC /* libPods-gatgu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-gatgu.a */; };
+		AFE7BDC22688BAD300683FF2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFE7BDC12688BAD300683FF2 /* GoogleService-Info.plist */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		DD63ABAFF44145E6AF3045FE /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 435F549035EF416299A0E3E0 /* NotoSansKR-Black.otf */; };
 		F3A447DF8F7B4276A2AD0B56 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C5DBF486FDE9452D9FE3D923 /* NotoSansKR-Medium.otf */; };
@@ -59,6 +60,7 @@
 		934C9255BA25458C8FF62DA7 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = gatgu/SplashScreen.storyboard; sourceTree = "<group>"; };
 		AA67C1B80C944D8F8CF6A442 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		AFE7BDC12688BAD300683FF2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9AE3CC7D5814E00954AC178 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		BD590E5B5A894F89A1BF1F6A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				AFE7BDC12688BAD300683FF2 /* GoogleService-Info.plist */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -284,6 +287,7 @@
 				035BF6FE4ABC436EBF0E5DB6 /* NotoSansKR-Bold.otf in Resources */,
 				1CD1C6DDFC8147AFBC281B96 /* NotoSansKR-Light.otf in Resources */,
 				F3A447DF8F7B4276A2AD0B56 /* NotoSansKR-Medium.otf in Resources */,
+				AFE7BDC22688BAD300683FF2 /* GoogleService-Info.plist in Resources */,
 				7D6625513E184CC5A95B1E69 /* NotoSansKR-Regular.otf in Resources */,
 				65BB25D14D4B4C99B52D16A7 /* NotoSansKR-Thin.otf in Resources */,
 			);
