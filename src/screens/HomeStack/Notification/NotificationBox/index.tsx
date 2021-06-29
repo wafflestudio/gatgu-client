@@ -13,18 +13,32 @@ const noticeTemplate: {
     `${user}님이 "${title}" 글에 채팅을 요청했습니다`,
 };
 
-function NotificationBox({ item }: { item: any }): JSX.Element {
+export interface INotificationBoxProps {
+  uri: string;
+  title: string;
+  user: string;
+  time: number;
+  noticeType: string;
+}
+
+const NotificationBox: React.FC<INotificationBoxProps> = ({
+  uri,
+  noticeType,
+  title,
+  user,
+  time,
+}) => {
   return (
     <InfoContainer>
-      <Thumbnail uri={item.uri} w={64} h={64} style={styles.thunmnail} />
+      <Thumbnail uri={uri} w={64} h={64} style={styles.thunmnail} />
       <View style={styles.textWrapper}>
         <Text style={styles.Head}>
-          {noticeTemplate[item.noticeType](item.title, item.user)}
+          {noticeTemplate[noticeType](title, user)}
         </Text>
-        <Text style={styles.description}>{item.time}시간 전</Text>
+        <Text style={styles.description}>{time}시간 전</Text>
       </View>
     </InfoContainer>
   );
-}
+};
 
 export default NotificationBox;

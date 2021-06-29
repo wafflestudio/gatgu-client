@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, FlatList } from 'react-native';
 
-import NotificationBox from './NotificationBox';
+import NotificationBox, { INotificationBoxProps } from './NotificationBox';
 
 const mockData = [
   {
@@ -23,8 +23,8 @@ const mockData = [
 ];
 
 function Notification(): JSX.Element {
-  const renderItem = ({ item }: { item: any }) => (
-    <NotificationBox item={item} />
+  const renderItem = ({ item }: { item: INotificationBoxProps }) => (
+    <NotificationBox {...item} />
   );
 
   return (
