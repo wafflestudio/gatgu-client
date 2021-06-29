@@ -18,6 +18,7 @@ import routes from '@/helpers/routes';
 import { SignUpStackScreen } from '@/screens/StackScreens';
 import store from '@/store/rootStore';
 import { setAccessToken } from '@/store/userSlice';
+import { AuthProvider } from '@/helpers/Chatting/Provider';
 
 const { ChattingRoom, Login, SignUp } = routes;
 
@@ -65,6 +66,7 @@ function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
+        <AuthProvider>
         <NavigationContainer>
           <SafeAreaView
             style={{
@@ -103,6 +105,7 @@ function App(): JSX.Element {
             </Stack.Navigator>
           </SafeAreaView>
         </NavigationContainer>
+        </AuthProvider>
       </Provider>
     </QueryClientProvider>
   );

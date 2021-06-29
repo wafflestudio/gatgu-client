@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Alert, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ import { login } from '@/apis/UserApi';
 import Logo from '@/assets/icons/Logo';
 import { Button } from '@/components';
 import { asyncStoragekey } from '@/constants/asyncStorage';
+import { AuthContext } from '@/helpers/Chatting/Context';
 import { StringStorage } from '@/helpers/functions/asyncStorage';
 import { setAccessToken } from '@/store/userSlice';
 import { palette } from '@/styles';
@@ -25,11 +26,14 @@ function LoginTemplate(): JSX.Element {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const ChattingContext = useContext(AuthContext);
+  const chattingLogin = ChattingContext.login;
 
   const loginReq = useCallback(async () => {
     try {
       const loginResponse = await login(id, pw);
       const { access, refresh } = loginResponse.data.token;
+      chattingLogin(id, pw);
       dispatch(setAccessToken(access));
       setRequesterToken(access);
       StringStorage.add(asyncStoragekey.REFRESH_TOKEN, refresh);
