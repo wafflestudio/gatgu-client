@@ -4,8 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { WriteArticle } from '@/components';
 
+export enum EWriteArticleStackScreens {
+  WriteArticle = 'WriteArticles',
+}
+
 export type TWriteArticleStackParamList = {
-  WriteArticle: undefined;
+  [EWriteArticleStackScreens.WriteArticle]: undefined;
 };
 
 const WriteArticleStack = createStackNavigator<TWriteArticleStackParamList>();
@@ -14,7 +18,7 @@ function WriteArticleStackScreen(): JSX.Element {
   return (
     <WriteArticleStack.Navigator>
       <WriteArticleStack.Screen
-        name="WriteArticle"
+        name={EWriteArticleStackScreens.WriteArticle}
         component={WriteArticle}
         options={{
           headerTitleAlign: 'center',

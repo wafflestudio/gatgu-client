@@ -6,10 +6,16 @@ import Profile from './Profile';
 import ProfileModify from './ProfileModify';
 import UserGatgu from './UserGatgu';
 
+export enum EUserStackScreens {
+  Profile = 'Profile',
+  ProfileModify = 'ProfileModify',
+  UserGatgu = 'UserGatgu',
+}
+
 export type TUserStackParamList = {
-  Profile: undefined;
-  ProfileModify: undefined;
-  UserGatgu: undefined;
+  [EUserStackScreens.Profile]: undefined;
+  [EUserStackScreens.ProfileModify]: undefined;
+  [EUserStackScreens.UserGatgu]: undefined;
 };
 
 const UserStack = createStackNavigator<TUserStackParamList>();
@@ -17,9 +23,15 @@ const UserStack = createStackNavigator<TUserStackParamList>();
 const UserStackScreen: React.FC = () => {
   return (
     <UserStack.Navigator>
-      <UserStack.Screen name="Profile" component={Profile} />
-      <UserStack.Screen name="ProfileModify" component={ProfileModify} />
-      <UserStack.Screen name="UserGatgu" component={UserGatgu} />
+      <UserStack.Screen name={EUserStackScreens.Profile} component={Profile} />
+      <UserStack.Screen
+        name={EUserStackScreens.ProfileModify}
+        component={ProfileModify}
+      />
+      <UserStack.Screen
+        name={EUserStackScreens.UserGatgu}
+        component={UserGatgu}
+      />
     </UserStack.Navigator>
   );
 };

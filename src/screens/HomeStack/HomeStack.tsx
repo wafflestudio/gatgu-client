@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { NavigationProp, NavigatorScreenParams } from '@react-navigation/core';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import logo from '@/assets/icons/Logo';
+import { AppRoutes } from '@/helpers/routes';
 
 import ArticleStackScreen, {
   TArticleStackScreenParamList,
@@ -10,9 +12,16 @@ import ArticleStackScreen, {
 import Home from './Home';
 import Notification from './Notification';
 
+export enum EHomeStackScreens {
+  Home = 'Home',
+  Notification = 'Notification',
+  ArticleStack = 'ArticleStack',
+}
+
 export type THomeStackParamList = {
-  Home: undefined;
-  Notification: undefined;
+  [EHomeStackScreens.Home]: undefined;
+  [EHomeStackScreens.Notification]: undefined;
+  [EHomeStackScreens.ArticleStack]: NavigatorScreenParams<TArticleStackScreenParamList>;
 } & TArticleStackScreenParamList;
 
 const HomeStack = createStackNavigator<THomeStackParamList>();
@@ -21,7 +30,7 @@ const HomeStackScreen: React.FC = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name="Home"
+        name={EHomeStackScreens.Home}
         component={Home}
         options={{
           headerTitle: () => (
@@ -32,13 +41,16 @@ const HomeStackScreen: React.FC = () => {
         }}
       />
       <HomeStack.Screen
-        name="Notification"
+        name={EHomeStackScreens.Notification}
         component={Notification}
         options={{
           headerTitleAlign: 'center',
         }}
       />
-      <HomeStack.Screen name="Article" component={ArticleStackScreen} />
+      <HomeStack.Screen
+        name={EHomeStackScreens.ArticleStack}
+        component={ArticleStackScreen}
+      />
     </HomeStack.Navigator>
   );
 };

@@ -2,7 +2,10 @@ import React from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
@@ -14,10 +17,16 @@ import ChattingRoomStackScreen, {
   TChattingRoomStackParamList,
 } from './screens/ChattingRoomStack/ChattingRoomStack';
 
+export enum EAppStackScreens {
+  AuthStack = 'AuthStack',
+  MainStack = 'MainStack',
+  ChattingRoomStack = 'ChattingRoomStack',
+}
+
 export type TAppStackParamList = {
-  AuthStack: { screen: keyof TAuthStackParamList };
-  MainStack: { screen: keyof TMainTabsParamList };
-  ChattingRoomStack: { screen: keyof TChattingRoomStackParamList };
+  [EAppStackScreens.AuthStack]: NavigatorScreenParams<TAuthStackParamList>;
+  [EAppStackScreens.MainStack]: NavigatorScreenParams<TMainTabsParamList>;
+  [EAppStackScreens.ChattingRoomStack]: NavigatorScreenParams<TChattingRoomStackParamList>;
 } & TAuthStackParamList &
   TMainTabsParamList &
   TChattingRoomStackParamList;
@@ -35,17 +44,17 @@ const AppRouter: React.FC = () => {
       >
         <AppStack.Navigator>
           <AppStack.Screen
-            name="MainStack"
+            name={EAppStackScreens.MainStack}
             component={MainStack}
             options={{ headerShown: false }}
           />
           <AppStack.Screen
-            name="ChattingRoomStack"
+            name={EAppStackScreens.ChattingRoomStack}
             component={ChattingRoomStackScreen}
             options={{ headerShown: false }}
           />
           <AppStack.Screen
-            name="AuthStack"
+            name={EAppStackScreens.AuthStack}
             component={AuthStackScreen}
             options={{ headerShown: false }}
           />

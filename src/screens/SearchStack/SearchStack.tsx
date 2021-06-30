@@ -5,9 +5,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Search from '.';
 import SearchedList from './SearchedArticle/SearchedList';
 
+export enum ESearchStackScreens {
+  Search = 'Search',
+  SearchResult = 'SearchResult',
+}
 export type TSearchStackParamList = {
-  Search: undefined;
-  SearchResult: {
+  [ESearchStackScreens.Search]: undefined;
+  [ESearchStackScreens.SearchResult]: {
     keyword: string;
   };
 };
@@ -18,7 +22,7 @@ const SearchStackScreen: React.FC = () => {
   return (
     <SearchStack.Navigator>
       <SearchStack.Screen
-        name="Search"
+        name={ESearchStackScreens.Search}
         component={Search}
         options={{
           title: '검색',
@@ -26,7 +30,7 @@ const SearchStackScreen: React.FC = () => {
         }}
       />
       <SearchStack.Screen
-        name="SearchResult"
+        name={ESearchStackScreens.SearchResult}
         component={SearchedList}
         options={{
           title: '검색결과',

@@ -11,8 +11,12 @@ import { ChattingDrawerParamList } from '@/types/navigation';
 import ChattingRoomTemplate from './ChattingRoomTemplate';
 import RightDrawer from './Drawer';
 
+export enum EChattingRoomStackScreens {
+  ChattingRoom = 'ChattingRoom',
+}
+
 export type TChattingRoomStackParamList = {
-  ChattingRoom: undefined;
+  [EChattingRoomStackScreens.ChattingRoom]: undefined;
 };
 
 const Drawer = createDrawerNavigator<TChattingRoomStackParamList>();
@@ -56,7 +60,10 @@ function ChattingRoomStackScreen(): JSX.Element {
       drawerContent={() => <RightDrawer pictureUrls={urls} users={[]} />}
       drawerStyle={{ width: '57%' }}
     >
-      <Drawer.Screen name="ChattingRoom" component={ChattingRoomTemplate} />
+      <Drawer.Screen
+        name={EChattingRoomStackScreens.ChattingRoom}
+        component={ChattingRoomTemplate}
+      />
     </Drawer.Navigator>
   );
 }

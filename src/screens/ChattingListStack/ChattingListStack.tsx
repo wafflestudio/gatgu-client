@@ -4,8 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import ChattingList from './ChattingList';
 
+export enum EChattingListStackScreens {
+  ChattingList = 'ChattingList',
+}
+
 export type TChattingListStackParamList = {
-  ChattingList: undefined;
+  [EChattingListStackScreens.ChattingList]: undefined;
 };
 
 const ChattingListStack = createStackNavigator<TChattingListStackParamList>();
@@ -14,7 +18,7 @@ const ChattingListStackScreen: React.FC = () => {
   return (
     <ChattingListStack.Navigator>
       <ChattingListStack.Screen
-        name="ChattingList"
+        name={EChattingListStackScreens.ChattingList}
         component={ChattingList}
         options={{
           headerTitleAlign: 'center',

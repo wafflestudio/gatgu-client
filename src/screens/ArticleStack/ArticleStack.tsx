@@ -11,11 +11,16 @@ import DrawerTemplate from '@/screens/ArticleStack/DrawerContent';
 import ArticlePage from './Article';
 import EditArticleTemplate from './EditArticle';
 
+export enum EArticleStackScreens {
+  Article = 'Article',
+  EditArticle = 'EditArticle',
+}
+
 export type TArticleStackScreenParamList = {
-  Article: {
+  [EArticleStackScreens.Article]: {
     id: number;
   };
-  EditArticle: undefined;
+  [EArticleStackScreens.EditArticle]: undefined;
 };
 
 const ArticleDrawer = createDrawerNavigator<TArticleStackScreenParamList>();
@@ -42,9 +47,12 @@ const ArticleStackScreen = () => {
       drawerContent={(props) => <DrawerTemplate {...props} />}
       drawerStyle={{ width: '57%' }}
     >
-      <ArticleDrawer.Screen name="Article" component={ArticlePage} />
       <ArticleDrawer.Screen
-        name="EditArticle"
+        name={EArticleStackScreens.Article}
+        component={ArticlePage}
+      />
+      <ArticleDrawer.Screen
+        name={EArticleStackScreens.EditArticle}
         component={EditArticleTemplate}
       />
     </ArticleDrawer.Navigator>

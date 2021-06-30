@@ -3,6 +3,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { BottomTabIcon } from '@/assets/BottomTabIndex';
+import { AppRoutes } from '@/helpers/routes';
 
 import ChattingStackScreen, {
   TChattingListStackParamList,
@@ -42,7 +43,7 @@ function MainTabs(): JSX.Element {
   return (
     <Tab.Navigator tabBarOptions={tarBarOptions}>
       <Tab.Screen
-        name="Home"
+        name={AppRoutes.Home}
         component={HomeStackScreen}
         options={{
           tabBarIcon: ({ color }: any): JSX.Element =>
@@ -55,7 +56,7 @@ function MainTabs(): JSX.Element {
         }}
       />
       <Tab.Screen
-        name="Search"
+        name={AppRoutes.Search}
         component={SearchStackScreen}
         options={{
           tabBarIcon: ({ color }: any): JSX.Element =>
@@ -68,7 +69,7 @@ function MainTabs(): JSX.Element {
         }}
       />
       <Tab.Screen
-        name="WriteArticle"
+        name={AppRoutes.WriteArticle}
         component={WriteArticleStackScreen}
         options={{
           tabBarIcon: ({ color }: any): JSX.Element =>
@@ -81,7 +82,7 @@ function MainTabs(): JSX.Element {
         }}
       />
       <Tab.Screen
-        name="ChattingList"
+        name={AppRoutes.ChattingList}
         component={ChattingStackScreen}
         options={{
           tabBarIcon: ({ color }: any): JSX.Element =>
@@ -94,7 +95,7 @@ function MainTabs(): JSX.Element {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name={AppRoutes.Profile}
         component={UserStackScreen}
         options={{
           tabBarIcon: ({ color }: any): JSX.Element =>
