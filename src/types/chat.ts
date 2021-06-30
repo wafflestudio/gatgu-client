@@ -27,6 +27,7 @@ export interface IChangeStatusProps {
 }
 
 export interface IChatMessage {
+  _id: string;
   message: string;
   system: boolean;
   sent_at: string;

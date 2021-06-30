@@ -21,7 +21,10 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
   const navigateToChatRoom = () => {
     if (orderStatus.progress_status <= ArticleStatus.Dealing) {
-      navigation.navigate('ChattingRoom', { id: article_id });
+      navigation.navigate('ChattingRoom', {
+        screen: 'chatDrawer',
+        params: { id: article_id },
+      });
     }
   };
   return (

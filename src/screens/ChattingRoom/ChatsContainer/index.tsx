@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 
 import { mobile } from '@/helpers/mobile';
 import { IChatMessage } from '@/types/chat';
@@ -10,9 +10,13 @@ import InputBar from './InputBar';
 
 interface IChattingRoomInterface {
   chatList: IChatMessage[];
+  handleSend: (newMessage: string) => Promise<void>;
 }
 
-function ChattingRoom({ chatList }: IChattingRoomInterface): JSX.Element {
+function ChattingRoom({
+  chatList,
+  handleSend,
+}: IChattingRoomInterface): JSX.Element {
   const renderItem = ({
     item,
     index,
@@ -31,7 +35,6 @@ function ChattingRoom({ chatList }: IChattingRoomInterface): JSX.Element {
     <View
       style={{
         justifyContent: 'flex-end',
-        height: mobile.height - 56,
       }}
     >
       <FlatList
@@ -40,7 +43,7 @@ function ChattingRoom({ chatList }: IChattingRoomInterface): JSX.Element {
         style={styles.msgContainer}
         keyExtractor={(_, ind) => `${ind}`}
       />
-      <InputBar />
+      <InputBar handleSend={handleSend} />
     </View>
   );
 }
