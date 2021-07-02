@@ -1,29 +1,12 @@
 import { Alert } from 'react-native';
 
-import { AxiosResponse, AxiosError } from 'axios';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { articleAPI, SearchAPI } from '@/apis';
-import { UNKNOWN_ERR } from '@/constants/ErrorCode';
-import {
-  MAX_ARTICLE_NUM,
-  PAGE_SIZE,
-  GetArticleSumStatus,
-} from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { AppThunk } from '@/store';
-import {
-  IGetArticleSumSuccessPayload,
-  IGetArticleSumFailPayload,
-  IArticleSumResponse,
-  TLoad,
-  TSearchType,
-} from '@/types/article';
-import { IArticleSliceBasis } from '@/types/article';
 
-export interface ISearchedArticleSlice extends IArticleSliceBasis {
+export interface ISearchedArticleSlice {
   keyword: string;
   recentSearch: string[];
 }
@@ -37,14 +20,6 @@ interface IKeywordListPayload {
 }
 
 const initialState: ISearchedArticleSlice = {
-  hasError: false,
-  errorStatus: -100,
-  data: [],
-  isLoading: false,
-  next: '',
-  previous: '',
-  isLastPage: false,
-  isFirstPage: true,
   keyword: '',
   recentSearch: [],
 };
@@ -53,52 +28,6 @@ const searchedArticleSlice = createSlice({
   name: 'searchedArticle',
   initialState,
   reducers: {
-    getArticleSumSuccess: (
-      state,
-      { payload }: PayloadAction<IGetArticleSumSuccessPayload>
-    ) => {
-      switch (payload.type) {
-        case GetArticleSumStatus.FIRST:
-          state.data = payload.data;
-          break;
-        case GetArticleSumStatus.NEXT:
-          state.data.push(...payload.data);
-          // 리덕스에 저장되는 article 갯수 제한
-          if (state.data.length > MAX_ARTICLE_NUM)
-            state.data.splice(0, PAGE_SIZE);
-
-          break;
-        case GetArticleSumStatus.PREVIOUS:
-          state.data.unshift(...payload.data);
-          // 리덕스에 저장되는 article 갯수 제한
-          if (state.data.length > MAX_ARTICLE_NUM)
-            state.data.splice(MAX_ARTICLE_NUM - PAGE_SIZE, PAGE_SIZE);
-          break;
-        default:
-          break;
-      }
-      state.hasError = false;
-      state.isLoading = false;
-      state.isLastPage = payload.next === null;
-      state.next = payload.next;
-      state.isFirstPage = payload.previous === null;
-      state.previous = payload.previous;
-      state.keyword = '';
-    },
-
-    // if getting data fail, show error screen by hasError state.
-    getArticleSumFailure: (
-      state,
-      { payload }: PayloadAction<IGetArticleSumFailPayload>
-    ) => {
-      state.hasError = true;
-      state.isLoading = false;
-      state.errorStatus = payload.errorStatus;
-    },
-    setLoading(state) {
-      state.isLoading = true;
-    },
-
     setKeyword(state, { payload }: PayloadAction<ISetKeywordPayload>) {
       state.keyword = payload.keyword;
     },
@@ -118,45 +47,11 @@ const searchedArticleSlice = createSlice({
 });
 
 const {
-  getArticleSumSuccess,
-  getArticleSumFailure,
   setKeyword,
   setRecentSearch,
   addRecentSearch,
   removeKeyword,
 } = searchedArticleSlice.actions;
-
-const searchArticles = (
-  type: TLoad,
-  keyword: string,
-  searchType: TSearchType
-): AppThunk => (dispatch, getState) => {
-  const url =
-    type === GetArticleSumStatus.FIRST
-      ? null
-      : type === GetArticleSumStatus.NEXT
-      ? getState().article.next
-      : getState().article.previous;
-  articleAPI
-    .getArticleSummary(url, keyword, searchType)
-    .then((response: AxiosResponse<IArticleSumResponse>) => {
-      dispatch(
-        getArticleSumSuccess({
-          data: response.data.results,
-          next: response.data.next,
-          previous: response.data.previous,
-          type: type,
-        })
-      );
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        dispatch(getArticleSumFailure({ errorStatus: err.response.status }));
-      } else {
-        dispatch(getArticleSumFailure({ errorStatus: UNKNOWN_ERR }));
-      }
-    });
-};
 
 // 초기에 popularSearch와 RecentSearch 설정
 const initSearchData = (): AppThunk => (dispatch) => {
@@ -168,17 +63,11 @@ const initSearchData = (): AppThunk => (dispatch) => {
         dispatch(setRecentSearch({ data: JSON.parse(res) }));
       }
     })
-    .catch((err) => {
+    .catch(() => {
       Alert.alert('최근 검색 데이터를 불러오지 못했습니다.');
     });
 };
 
-export {
-  setKeyword,
-  addRecentSearch,
-  removeKeyword,
-  searchArticles,
-  initSearchData,
-};
+export { setKeyword, addRecentSearch, removeKeyword, initSearchData };
 
 export default searchedArticleSlice.reducer;

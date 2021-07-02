@@ -60,7 +60,7 @@ export interface IArticleProps {
   tag: number[];
   created_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
-  article_status: IArticleStatus;
+  article_status?: IArticleStatus;
   order_chat: IOrderChat;
   participants_summary: IParticipantsSummary;
 }
@@ -77,7 +77,7 @@ export type IPostArticle = Pick<
   | 'price_min'
   | 'time_in'
 > &
-  Pick<Partial<IArticleProps>, 'image' | 'tag'>;
+  Pick<Partial<IArticleProps>, 'images' | 'tag'>;
 
 export interface ITagType {
   id: number;

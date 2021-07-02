@@ -36,7 +36,7 @@ const returnArrayDate = (today: Date) => {
   return arr;
 };
 
-function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
+function DueDate({ setDueDate }: DueDateProps): JSX.Element {
   const [today, setToday] = useState(new Date());
   const [initWeek, setInitWeek] = useState(returnArrayDate(today));
   const [modalVisible, setModalVisible] = useState(false);

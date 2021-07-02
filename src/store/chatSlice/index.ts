@@ -4,10 +4,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { chatAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
-import { initialChatInfo } from '@/constants/InitialState';
 import { AppThunk } from '@/store';
 import { IGetFailPayload } from '@/types/article';
-import { IChattingRoom, IChangeStatusProps } from '@/types/chat';
+import { IChattingRoom } from '@/types/chat';
 
 export interface IChatSlice {
   hasError: boolean;
@@ -18,7 +17,19 @@ export interface IChatSlice {
 const initialState: IChatSlice = {
   hasError: false,
   errorStatus: -100,
-  currentChatInfo: initialChatInfo,
+  currentChatInfo: {
+    id: 0,
+    participant_profile: [],
+    article: 0,
+    order_status: 0,
+    tracking_number: 0,
+    // not in api
+    uri: '',
+    title: '',
+    chat: '',
+    time: 0,
+    nickName: '',
+  },
 };
 
 const chatSlice = createSlice({
@@ -36,12 +47,6 @@ const chatSlice = createSlice({
     ) => {
       state.hasError = true;
       state.errorStatus = payload.errorStatus;
-    },
-
-    setOrderStatus: (state, { payload }: PayloadAction<IChangeStatusProps>) => {
-      // TODO: @juimdpp
-      // todo: implement this function that updates order status of state
-      // when: 서버 잘 되면
     },
   },
 });

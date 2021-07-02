@@ -36,6 +36,7 @@ const Timer: React.FC<ITimerProps> = ({
       setDisplayText(diff.toFormat(format));
     }, 500);
     return () => clearInterval(countdown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [format, endAt]);
 
   if (isEnded && !enableMinusTime) return null;
