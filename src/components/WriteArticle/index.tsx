@@ -141,7 +141,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       description: description,
       trading_place: location,
       price_min: parseInt(need_price),
-      time_in: new Date('2021-03-17'),
+      time_in: dueDate.toISOString().split('T')[0],
       product_url: link,
       // image: images
       // tag: tempTags
