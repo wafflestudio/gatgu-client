@@ -55,7 +55,7 @@ export interface IArticleProps {
   trading_place: string;
   product_url: string;
   price_min: number;
-  time_in: Date;
+  time_in: string;
   images: ImageDict[]; // 확실하지 않음... api에 타입이 안 적혀있음
   tag: number[];
   created_at: Date; // should be date but json server doesn't accept Date

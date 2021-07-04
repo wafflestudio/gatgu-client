@@ -48,10 +48,7 @@ export const getArticles = (
 
 // for article POST
 export const create = (article: IPostArticle): Promise<AxiosResponse> => {
-  return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
-    const headers = getToken(res);
-    return requester.post('articles/', JSON.stringify(article), { headers });
-  });
+  return requester.post('articles/', article);
 };
 
 // get a single article with its id
