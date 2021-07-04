@@ -102,7 +102,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       setLocation(currentArticle.trading_place);
       setLink(currentArticle.product_url);
       handlePrice(`${currentArticle.price_min}`);
-      setDueDate(currentArticle.time_in);
+      setDueDate(new Date(currentArticle.time_in));
       // optional:
       currentArticle.images[0] && setImages(images);
       if (currentArticle.tag) {
