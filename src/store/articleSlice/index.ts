@@ -1,5 +1,6 @@
 import { AxiosResponse, AxiosError } from 'axios';
 
+import firestore from '@react-native-firebase/firestore';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { articleAPI } from '@/apis';
@@ -137,6 +138,30 @@ export const createSingleArticle = (body: IPostArticle): AppThunk => {
       .create(body)
       .then((res: AxiosResponse) => {
         dispatch(writeArticleSuccess(res.data));
+        // add firestore chatting room
+        firestore()
+          .collection('THREADS')
+          .doc(res.data.article_id)
+          .set({
+            name: res.data.title,
+            latestMessage: {
+              image: '',
+              sent_at: new Date().getTime(),
+              message: `Chatting room created.`,
+              system: true,
+            },
+          })
+          .then((docRef) => {
+            console.log(typeof docRef);
+            // docRef.collection('MESSAGES')
+            //       .add({
+            //         image: "",
+            //         message: `Chatting room created.`,
+            //         sent_at: new Date().getTime(),
+            //         system: true
+            //       })
+          });
+
         return res.data.article_id;
       })
       .catch((err: AxiosError) => {
