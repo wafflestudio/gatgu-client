@@ -15,19 +15,26 @@ import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChatsContainer from './ChatsContainer';
 import messageList from './mockChat';
+import { useQuery } from 'react-query';
+import { IUserDetail } from '@/types/user';
+import { USER_DETAIL } from '@/queryKeys';
+import { getMyData } from '@/apis/UserApi';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
   const [messages, setMessages] = useState(messageList);
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const id = `${route.params.id}`;
+  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
+    getMyData().then((response) => response.data)
+  ).data;
 
   useEffect(() => {
     const messageListener = firestore()
       .collection('THREADS')
       .doc(id)
       .collection('MESSAGES')
-      //  .orderBy('createdAt', 'desc')
+       .orderBy('sent_at', 'asc')
       .onSnapshot((querySnapShot) => {
         const msgs = querySnapShot.docs.map((message) => {
           const firebaseData = message.data();
@@ -39,12 +46,12 @@ export default function ChattingRoom(): JSX.Element {
             system: true,
             ...firebaseData,
           } as IChatMessage;
-          // if(!firebaseData.system){
-          //     data.user = {
-          //         ...firebaseData.user,
-          //         name: firebaseData.user.email
-          //     }
-          // }
+          if(!firebaseData.system){
+              data.user = {
+                  ...firebaseData.user,
+                  // name: firebaseData.user.email
+              }
+          }
           return data;
         });
         setMessages(msgs);
@@ -53,16 +60,18 @@ export default function ChattingRoom(): JSX.Element {
   }, []);
 
   async function handleSend(newMessage: string) {
-    firestore().collection('THREADS').doc(id).collection('MESSAGES').add({
+    const data = {
       message: newMessage,
       sent_at: new Date().toISOString(),
       image: '',
       system: false,
-      // user: {
-      //     _id: currentUser.uid,
-      //     email: currentUser.email
-      // }
-    });
+    } as IChatMessage
+    if(currentUser) data.user = {
+        _id: `${currentUser.id}`,
+        picture: currentUser.userprofile.picture,
+        username: currentUser.username
+    }
+    firestore().collection('THREADS').doc(id).collection('MESSAGES').add(data);
     await firestore()
       .collection('THREADS')
       .doc(id)

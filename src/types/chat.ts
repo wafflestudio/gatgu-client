@@ -33,8 +33,9 @@ export interface IChatMessage {
   sent_at: string;
   image: string;
   // 보낸사람
-  sent_by?: {
-    nickname: string;
+  user?: {
+    _id: string;
     picture: string;
+    username: string;
   };
 }
