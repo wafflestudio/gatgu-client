@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { AxiosError, AxiosResponse } from 'axios';
 import _ from 'lodash';
@@ -29,74 +29,80 @@ const useCursorPagination = <T>({
   const [isFirstPage, setIsFirstPage] = useState(true);
   const [isLastPage, setIsLastPage] = useState(false);
   const [fetching, setFetching] = useState(false);
-  const getItems = async (pageType: TPageType) => {
-    const url = pageType !== 'first' ? cursorUrl[pageType] : null;
 
-    if (pageType === 'first') {
-      setRefreshing(true);
-    } else {
-      setFetching(true);
-    }
+  const handleItems = useCallback(
+    (pageType: TPageType, newItems: T[]) => {
+      switch (pageType) {
+        case 'first':
+          setItems(newItems);
+          break;
 
-    try {
-      const res = (await fetchFunc(url)) as AxiosResponse<
-        ICursorPaginationResponse<T>
-      >;
+        case 'next':
+          setItems((prev) => {
+            if (prev.length < maxItemCount - countPerFetch) {
+              return [...prev, ...newItems];
+            }
 
-      const { results, next, previous } = res.data;
-      handleItems(pageType, results);
-      setCursorUrl({ next, previous });
+            const deepClonedPrevItem = _.cloneDeep(prev);
 
-      setIsLastPage(Boolean(next));
-      setIsFirstPage(Boolean(previous));
+            return [
+              ...deepClonedPrevItem.slice(
+                countPerFetch,
+                deepClonedPrevItem.length
+              ),
+              ...newItems,
+            ];
+          });
+          break;
 
-      return res.data;
-    } catch (err) {
-      setError(err);
-    } finally {
-      setRefreshing(false);
-      setFetching(false);
-    }
-  };
+        case 'previous':
+          setItems((prev) => {
+            const deepClonedPrevItem = _.cloneDeep(prev);
 
-  const handleItems = (pageType: TPageType, newItems: T[]) => {
-    switch (pageType) {
-      case 'first':
-        setItems(newItems);
-        break;
+            return [
+              ...newItems,
+              ...deepClonedPrevItem.splice(0, maxItemCount - countPerFetch),
+            ];
+          });
+          break;
+        // no default case
+      }
+    },
+    [countPerFetch, maxItemCount]
+  );
 
-      case 'next':
-        setItems((prev) => {
-          if (prev.length < maxItemCount - countPerFetch) {
-            return [...prev, ...newItems];
-          }
+  const getItems = useCallback(
+    async (pageType: TPageType) => {
+      const url = pageType !== 'first' ? cursorUrl[pageType] : null;
 
-          const deepClonedPrevItem = _.cloneDeep(prev);
+      if (pageType === 'first') {
+        setRefreshing(true);
+      } else {
+        setFetching(true);
+      }
 
-          return [
-            ...deepClonedPrevItem.slice(
-              countPerFetch,
-              deepClonedPrevItem.length
-            ),
-            ...newItems,
-          ];
-        });
-        break;
+      try {
+        const res = (await fetchFunc(url)) as AxiosResponse<
+          ICursorPaginationResponse<T>
+        >;
 
-      case 'previous':
-        setItems((prev) => {
-          const deepClonedPrevItem = _.cloneDeep(prev);
+        const { results, next, previous } = res.data;
+        handleItems(pageType, results);
+        setCursorUrl({ next, previous });
 
-          return [
-            ...newItems,
-            ...deepClonedPrevItem.splice(0, maxItemCount - countPerFetch),
-          ];
-        });
-        break;
+        setIsLastPage(Boolean(next));
+        setIsFirstPage(Boolean(previous));
 
-      // no default case
-    }
-  };
+        return res.data;
+      } catch (err) {
+        setError(err);
+      } finally {
+        setRefreshing(false);
+        setFetching(false);
+      }
+    },
+    [cursorUrl, fetchFunc, handleItems]
+  );
 
   return {
     items,
