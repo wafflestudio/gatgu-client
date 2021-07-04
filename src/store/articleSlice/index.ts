@@ -150,21 +150,22 @@ export const createSingleArticle = (body: IPostArticle): AppThunk => {
               message: `Chatting room created.`,
               system: true,
             },
-          })
-          .then((docRef) => {
-            console.log(typeof docRef);
-            // docRef.collection('MESSAGES')
-            //       .add({
-            //         image: "",
-            //         message: `Chatting room created.`,
-            //         sent_at: new Date().getTime(),
-            //         system: true
-            //       })
+          });
+        firestore()
+          .collection('THREADS')
+          .doc(res.data.article_id)
+          .collection('MESSAGES')
+          .add({
+            image: '',
+            message: `Chatting room created.`,
+            sent_at: new Date().getTime(),
+            system: true,
           });
 
         return res.data.article_id;
       })
       .catch((err: AxiosError) => {
+        console.log(err);
         if (err.response) {
           dispatch(writeArticleFailure({ errorStatus: err.response.status }));
           return -1;

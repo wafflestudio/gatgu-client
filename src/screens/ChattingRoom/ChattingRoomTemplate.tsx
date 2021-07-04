@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { KeyboardAvoidingView, Platform, Text } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import { useQuery } from 'react-query';
 
 import firestore from '@react-native-firebase/firestore';
@@ -89,6 +94,31 @@ export default function ChattingRoom(): JSX.Element {
       );
   }
 
+  async function handlePress() {
+    firestore()
+      .collection('THREADS')
+      .doc('bla')
+      .set({
+        name: 'res.data.title',
+        latestMessage: {
+          image: '',
+          sent_at: new Date().getTime(),
+          message: `Chatting room created.`,
+          system: true,
+        },
+      });
+    await firestore()
+      .collection('THREADS')
+      .doc('bla')
+      .collection('MESSAGES')
+      .add({
+        image: '',
+        message: `Chatting room created.`,
+        sent_at: new Date().getTime(),
+        system: true,
+      });
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -110,6 +140,9 @@ export default function ChattingRoom(): JSX.Element {
         }}
       />
       <ChatsContainer chatList={messages} handleSend={handleSend} />
+      <TouchableOpacity onPress={handlePress}>
+        <Text>Hello</Text>
+      </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 }
