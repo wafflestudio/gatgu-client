@@ -1,8 +1,12 @@
 import React from 'react';
 import { View, FlatList, Text } from 'react-native';
+import { useQuery } from 'react-query';
 
+import { getMyData } from '@/apis/UserApi';
 import { mobile } from '@/helpers/mobile';
+import { USER_DETAIL } from '@/queryKeys';
 import { IChatMessage } from '@/types/chat';
+import { IUserDetail } from '@/types/user';
 
 import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
@@ -17,6 +21,10 @@ function ChattingRoom({
   chatList,
   handleSend,
 }: IChattingRoomInterface): JSX.Element {
+  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
+    getMyData().then((response) => response.data)
+  ).data;
+
   const renderItem = ({
     item,
     index,
@@ -28,7 +36,7 @@ function ChattingRoom({
       current={item}
       previous={chatList[index - 1]}
       next={chatList[index + 1]}
-      selfNickname="heesu"
+      selfId={`${currentUser?.id}`}
     />
   );
   return (

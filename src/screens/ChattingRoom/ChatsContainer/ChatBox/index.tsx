@@ -14,7 +14,7 @@ interface IChatBoxProps {
   next?: IChatMessage;
 
   // user nickname that decide left,right posision
-  selfNickname: string;
+  selfId: string;
 }
 
 // one line of message
@@ -22,13 +22,13 @@ function ChatBox({
   current,
   previous,
   next,
-  selfNickname,
+  selfId,
 }: IChatBoxProps): JSX.Element {
-  const { message, system, sent_at, image, sent_by } = current;
+  const { message, system, sent_at, image, user } = current;
 
-  const isSameUser = sent_by?.nickname === previous?.sent_by?.nickname;
+  const isSameUser = user?._id === previous?.user?._id;
 
-  const isSelf = selfNickname === sent_by?.nickname;
+  const isSelf = selfId === user?._id;
 
   const isSameTime = sent_at === next?.sent_at && next?.system === false;
 
@@ -61,21 +61,21 @@ function ChatBox({
       !isSelf &&
       !isSameUser && (
         <View>
-          <Text style={styles.nameText}>{sent_by?.nickname}</Text>
+          <Text style={styles.nameText}>{user?.username}</Text>
         </View>
       ),
-    [sent_by, isSelf, isSameUser]
+    [user, isSelf, isSameUser]
   );
 
   const renderedProfile = useMemo(
     () =>
       !isSelf && (
         <Image
-          source={{ uri: !isSameUser ? sent_by?.picture : undefined }}
+          source={{ uri: !isSameUser ? user?.picture : undefined }}
           style={styles.avatar}
         />
       ),
-    [sent_by, isSameUser, isSelf]
+    [user, isSameUser, isSelf]
   );
 
   return system ? (
