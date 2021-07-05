@@ -17,7 +17,7 @@ const useCursorPagination = <T>({
   fetchFunc,
 }: IUserCursorPaginationOption) => {
   const [items, setItems] = useState<T[]>([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [firstFetching, setFirstFetching] = useState(false);
   const [cursorUrl, setCursorUrl] = useState<{
     next: string | null;
     previous: string | null;
@@ -74,11 +74,10 @@ const useCursorPagination = <T>({
   const getItems = useCallback(
     async (pageType: TPageType) => {
       const url = pageType !== 'first' ? cursorUrl[pageType] : null;
-
+      setFetching(true);
+      setError(undefined);
       if (pageType === 'first') {
-        setRefreshing(true);
-      } else {
-        setFetching(true);
+        setFirstFetching(true);
       }
 
       try {
@@ -97,7 +96,7 @@ const useCursorPagination = <T>({
       } catch (err) {
         setError(err);
       } finally {
-        setRefreshing(false);
+        setFirstFetching(false);
         setFetching(false);
       }
     },
@@ -107,7 +106,7 @@ const useCursorPagination = <T>({
   return {
     items,
     cursorUrl,
-    refreshing,
+    firstFetching,
     error,
     isFirstPage,
     isLastPage,
