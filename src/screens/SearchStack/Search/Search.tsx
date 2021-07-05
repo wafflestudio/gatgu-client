@@ -1,6 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Box, Divider, Input, SearchIcon, VStack } from 'native-base';
+import {
+  Box,
+  Divider,
+  Image,
+  Input,
+  SearchIcon,
+  Text,
+  VStack,
+} from 'native-base';
 
 import { articleAPI } from '@/apis';
 import { ArticleBox, CursorFlatList } from '@/components';
@@ -18,8 +26,9 @@ const Search: React.FC = () => {
 
   const {
     items,
-    refreshing,
+    firstFetching,
     fetching,
+    isFirstPage,
     getItems,
   } = useCursorPagination<IArticleSummary>({
     fetchFunc: (url) => articleAPI.getArticles(url, searchKeyword),
@@ -76,9 +85,32 @@ const Search: React.FC = () => {
       {isSearchResultStage ? (
         <CursorFlatList
           items={items}
-          refreshing={refreshing}
-          isFirstPage={false}
+          isFirstPage={isFirstPage}
           fetching={fetching}
+          loading={firstFetching}
+          ListEmptyComponent={
+            <VStack
+              minHeight="100%"
+              justifyContent="center"
+              alignItems="center"
+              backgroundColor={palette.whiteGray}
+            >
+              <Image
+                source={require('@/assets/images/empty.png')}
+                alt="no search result"
+              />
+              <Box>
+                <Box>
+                  <Text color={palette.blue}>{searchKeyword}</Text>
+                  <Text>의 검색 결과가 존재하지 않습니다.</Text>
+                </Box>
+                <Text>
+                  다른 검색어를 입력하거나, 보다 더 포괄적인 키워드로
+                  검색해보세요.
+                </Text>
+              </Box>
+            </VStack>
+          }
           getItems={getItems}
           renderItem={renderArticle}
         />
