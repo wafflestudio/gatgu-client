@@ -9,8 +9,8 @@ import PlusSign from '@/assets/icons/PlusSign';
 import styles from './AddImage.style';
 
 interface AddImageProps {
-  images: (string | null | undefined)[];
-  setImages: Dispatch<SetStateAction<(string | null | undefined)[]>>;
+  images: { mime: string; uri: string }[];
+  setImages: Dispatch<SetStateAction<{ mime: string; uri: string }[]>>;
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
@@ -20,7 +20,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
 
   const pickImage = () => {
     const tempArrPrev: { mime: string; data: string | null | undefined }[] = [];
-    const tempArrSend: (string | null | undefined)[] = [];
+    const tempArrSend: { mime: string; uri: string }[] = [];
     ImagePicker.openPicker({
       width: 300,
       height: 400,
@@ -32,7 +32,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
       .then((images) => {
         images.forEach((item) => {
           tempArrPrev.push({ mime: item.mime, data: item.data });
-          tempArrSend.push(item.data);
+          tempArrSend.push({ mime: item.mime, uri: item.path });
         });
       })
       .then(() => {
@@ -52,7 +52,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
   };
 
   const previews =
-    images[0] !== '' &&
+    images.length > 0 &&
     prev.map(
       (item, key): JSX.Element => (
         <View style={styles.photoContainer} key={key}>
@@ -81,7 +81,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
               <PlusSign style={styles.defaultPhoto} />
             </View>
           </TouchableHighlight>
-          {images[0] !== '' && previews}
+          {images.length > 0 && previews}
         </ScrollView>
       </View>
     </View>
