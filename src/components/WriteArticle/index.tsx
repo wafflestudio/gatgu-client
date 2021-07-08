@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import { articleAPI } from '@/apis';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
@@ -51,7 +52,8 @@ const TagArray = tagNames.map((item, indx) => {
 });
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
-  const [images, setImages] = useState<(string | null | undefined)[]>([]);
+  const [images, setImages] = useState<{ mime: string; uri: string }[]>([]);
+  const [imageURLs, setImageURLs] = useState<string[]>([]);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -146,6 +148,50 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       return;
     }
 
+    // 이미지 처리:
+    if (images.length > 0) {
+      images.forEach((image, key) => {
+        articleAPI
+          .putPresignedURL(id, `image_${key}`)
+          .then(async (res) => {
+            const filename = res.data.file_name;
+            const url = res.data.response.url;
+            const fields = res.data.response.fields;
+
+            // set body fields (for s3 authentication)
+            const body = new FormData();
+            fieldNames.forEach((key) => {
+              body.append(key, fields[key]);
+            });
+
+            // append image file
+            const img = {
+              uri: image.uri,
+              type: image.mime,
+              name: filename as string,
+            };
+            body.append('file', JSON.stringify(img));
+
+            // send file to s3
+            await fetch(url, {
+              method: 'POST',
+              body: body,
+            })
+              .then((r: any) => {
+                const newArr = imageURLs;
+                newArr.push(r.headers['map']['location']);
+                setImageURLs(newArr);
+              })
+              .catch((e) => {
+                console.log('ERROR', e);
+              });
+          })
+          .catch((err) => {
+            console.log('ERROR', err);
+          });
+      });
+    }
+
     const tempArticle = {
       title: title,
       description: description,
@@ -153,7 +199,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       price_min: parseInt(need_price),
       time_in: dueDate.toISOString().split('T')[0],
       product_url: link,
-      // image: images
+      image: imageURLs,
       // tag: tempTags
     } as IPostArticle;
     if (isEdit && currentArticle) {
