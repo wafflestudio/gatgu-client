@@ -170,7 +170,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
               type: image.mime,
               name: filename as string,
             };
-            body.append('file', JSON.stringify(img));
+            body.append('file', img);
 
             // send file to s3
             await fetch(url, {
@@ -178,6 +178,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
               body: body,
             })
               .then((r: any) => {
+                console.log(r.headers['map']['location']);
                 const newArr = imageURLs;
                 newArr.push(r.headers['map']['location']);
                 setImageURLs(newArr);
