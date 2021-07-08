@@ -36,6 +36,16 @@ interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
 }
 
+const fieldNames = [
+  'key',
+  'x-amz-algorithm',
+  'x-amz-credential',
+  'x-amz-date',
+  'x-amz-security-token',
+  'policy',
+  'x-amz-signature',
+];
+
 const TagArray = tagNames.map((item, indx) => {
   return { id: indx, tag: item, selected: false };
 });
