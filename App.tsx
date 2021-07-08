@@ -10,6 +10,7 @@ import AppRouter from '@/App.router';
 import { setRequesterToken } from '@/apis/BaseInstance';
 import { refreshAccessToken } from '@/apis/UserApi';
 import { asyncStoragekey } from '@/constants/asyncStorage';
+import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { StringStorage } from '@/helpers/functions/asyncStorage';
 import store from '@/store/rootStore';
 import { setAccessToken } from '@/store/userSlice';
@@ -56,7 +57,9 @@ function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <AppRouter />
+        <GatguWebsocket.Provider>
+          <AppRouter />
+        </GatguWebsocket.Provider>
       </Provider>
     </QueryClientProvider>
   );

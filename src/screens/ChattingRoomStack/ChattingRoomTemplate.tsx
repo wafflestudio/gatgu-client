@@ -4,12 +4,37 @@ import { KeyboardAvoidingView, Platform, Text } from 'react-native';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 import { Header } from '@/components';
+import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { IChatMessage } from '@/types/chat';
 
 import ChatsContainer from './ChatsContainer';
-import messages from './mockChat';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
+
+  const [chats, setChats] = React.useState<IChatMessage[]>([]);
+
+  GatguWebsocket.useMessage<{
+    user: number;
+    data: string;
+  }>({
+    onmessage: (e) => {
+      setChats((prev) => [
+        ...prev,
+        {
+          message: e.data.data,
+          system: false,
+          image: '',
+          sent_at: new Date().toDateString(),
+          sent_by: {
+            nickname: `${e.data.user}`,
+            picture: `https://placeimg.com/140/${e.data.user}/any`,
+          },
+        },
+      ]);
+    },
+  });
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -30,7 +55,7 @@ export default function ChattingRoom(): JSX.Element {
           navigation.goBack();
         }}
       />
-      <ChatsContainer chatList={messages} />
+      <ChatsContainer chatList={chats} />
     </KeyboardAvoidingView>
   );
 }
