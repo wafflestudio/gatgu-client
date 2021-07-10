@@ -131,29 +131,29 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     });
 };
 
-export const editSingleArticle = (id: number, body: IPostArticle): AppThunk => (
-  dispatch
-) => {
-  dispatch(writeArticleLoading());
-  return articleAPI
-    .editArticle(id, body)
-    .then((res: AxiosResponse) => {
-      dispatch(writeArticleSuccess(res.data));
-      return res.data.article_id;
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        dispatch(writeArticleFailure({ errorStatus: err.response.status }));
-        return -1;
-      } else {
-        dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
-        return -1;
-      }
-    });
+export const editSingleArticle = (id: number, body: IPostArticle): AppThunk => {
+  return async (dispatch) => {
+    dispatch(writeArticleLoading());
+    return articleAPI
+      .editArticle(id, body)
+      .then((res: AxiosResponse) => {
+        dispatch(writeArticleSuccess(res.data));
+        return res.data.article_id;
+      })
+      .catch((err: AxiosError) => {
+        if (err.response) {
+          dispatch(writeArticleFailure({ errorStatus: err.response.status }));
+          return -1;
+        } else {
+          dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
+          return -1;
+        }
+      });
+  };
 };
 
 export const createSingleArticle = (body: IPostArticle): AppThunk => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(writeArticleLoading());
     return articleAPI
       .create(body)
