@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
-
 import Thumbnail from '@/components/Thumbnail';
 import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';

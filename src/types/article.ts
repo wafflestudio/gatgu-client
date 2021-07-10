@@ -2,7 +2,7 @@ import { SearchType } from '@/constants/article';
 import * as Enums from '@/enums';
 
 import { IOrderChat } from './chat';
-import { ICursorPaginationResponse, ImageDict } from './shared';
+import { ICursorPaginationResponse } from './shared';
 
 export interface IParticipantsSummary {
   count: number;

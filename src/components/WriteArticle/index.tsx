@@ -58,7 +58,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
   const [isLoading, setLoadingStatus] = useState<boolean>(false);
-  const { uploadSingleImage, uploadMultipleImages } = useImageUpload(id);
+  const { uploadMultipleImages } = useImageUpload(id);
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {

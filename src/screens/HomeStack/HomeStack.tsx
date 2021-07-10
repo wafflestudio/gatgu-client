@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { NavigationProp, NavigatorScreenParams } from '@react-navigation/core';
+import { NavigatorScreenParams } from '@react-navigation/core';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import logo from '@/assets/icons/Logo';
-import { AppRoutes } from '@/helpers/routes';
 
 import ArticleStackScreen, {
   TArticleStackScreenParamList,
