@@ -9,6 +9,7 @@ import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
+import { AppRoutes } from '@/helpers/routes';
 import { RootState } from '@/store';
 import {
   createSingleArticle,
@@ -155,9 +156,25 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         } as IPostArticle;
         if (urls.length > 0) tempArticle.image = urls;
         if (isEdit && currentArticle) {
-          dispatch(editSingleArticle(id, tempArticle));
+          const pr = dispatch(editSingleArticle(id, tempArticle));
+          Promise.resolve(pr).then(() => {
+            navigation.navigate(AppRoutes.ArticleStack, {
+              screen: AppRoutes.Article,
+              params: {
+                id: id,
+              },
+            });
+          });
         } else {
-          dispatch(createSingleArticle(tempArticle));
+          const pr = dispatch(createSingleArticle(tempArticle));
+          Promise.resolve(pr).then((newID) => {
+            navigation.navigate(AppRoutes.ArticleStack, {
+              screen: AppRoutes.Article,
+              params: {
+                id: newID,
+              },
+            });
+          });
         }
       })
       .catch((e) => {
