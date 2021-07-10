@@ -14,6 +14,15 @@ export interface IChattingRoom {
   nickName: string;
 }
 
+export interface IChattingListEntry {
+  id: number;
+  order_status: number;
+  tracking_number: number;
+  recent_message: IChatMessage;
+  sent_by_id: number;
+  sent_at: Date; // written time but not sure
+}
+
 // TODO: @ssu1018 @juimdpp
 // Chatting API 확정되면 IChattingRoom이랑 합칠지 말지 결정하기
 export interface IOrderChat {

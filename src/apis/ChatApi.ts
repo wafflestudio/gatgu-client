@@ -1,7 +1,7 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 
-import { IChattingRoom, IChangeStatusProps } from '@/types/chat';
+import { IChattingRoom, IChangeStatusProps, IChattingListEntry } from '@/types/chat';
 
 import requester from './BaseInstance';
 
@@ -21,4 +21,9 @@ export const changeStatus = (
   // TODO: @juimdpp
   // todo: requester.put(`chat/${id}/`, body); url ends with: /set_status/
   // when: api 고칠 때
+};
+
+// 나의 채팅방 리스트 조회
+export const getMyChatList = (id: number): Promise<AxiosResponse<IChattingListEntry[]>> => {
+  return requester.get(`users/${id}/chattings/`)
 };
