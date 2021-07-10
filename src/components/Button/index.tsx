@@ -7,7 +7,11 @@ interface ButtonProps {
   textStyle?: StyleProp<TextStyle>;
   [x: string]: any;
 }
-
+/**
+ * 💀 DO NOT USE THIS COMPONENT!!
+ *
+ * please use "Button" from **native-base**
+ */
 function Button({
   title,
   onPress,

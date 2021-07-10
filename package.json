@@ -31,7 +31,7 @@
     "formik": "^2.2.8",
     "lodash": "^4.17.20",
     "luxon": "^1.27.0",
-    "native-base": "^2.15.2",
+    "native-base": "^3.0.3",
     "querystring": "^0.2.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",

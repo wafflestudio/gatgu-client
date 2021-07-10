@@ -17,7 +17,7 @@ const SearchStyles = StyleSheet.create({
   tagBox: {
     borderRadius: 15,
     minWidth: 54,
-    height: 28,
+    height: 30,
     borderColor: palette.borderGray,
     borderWidth: 1,
     justifyContent: 'center',

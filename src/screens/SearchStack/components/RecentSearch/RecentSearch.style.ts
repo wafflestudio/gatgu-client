@@ -7,11 +7,6 @@ const RecentSearchStyle = StyleSheet.create({
     alignItems: 'center',
     paddingRight: 7,
   },
-  Icon: {
-    fontSize: 15,
-    color: 'gray',
-    paddingLeft: 3,
-  },
 });
 
 export default RecentSearchStyle;

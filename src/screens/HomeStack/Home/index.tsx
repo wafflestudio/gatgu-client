@@ -8,7 +8,8 @@ import { IArticleSummary } from '@/types/article';
 const Home: React.FC = () => {
   const {
     items,
-    refreshing,
+    firstFetching,
+    isFirstPage,
     fetching,
     getItems,
   } = useCursorPagination<IArticleSummary>({
@@ -28,8 +29,8 @@ const Home: React.FC = () => {
   return (
     <CursorFlatList
       items={items}
-      refreshing={refreshing}
-      isFirstPage={false}
+      loading={firstFetching && isFirstPage}
+      isFirstPage={isFirstPage}
       fetching={fetching}
       getItems={getItems}
       renderItem={renderArticle}

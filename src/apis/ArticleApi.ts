@@ -2,13 +2,12 @@
 import { AxiosResponse } from 'axios';
 import qs from 'querystring';
 
-import { PAGE_SIZE, SearchType } from '@/constants/article';
+import { PAGE_SIZE } from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { UserArticleActivity } from '@/enums';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
-  TSearchType,
   IPostArticle,
   IGetArticlesResponse,
 } from '@/types/article';
@@ -27,14 +26,10 @@ const getToken = (res: any) => {
 
 export const getArticles = (
   url?: string | null,
-  keyword?: string,
-  searchType?: TSearchType
+  keyword?: string
 ): Promise<AxiosResponse<IGetArticlesResponse>> => {
   // keyword가 있고, url이 없으면 search 쿼리 생성
-  const searchObj =
-    !url &&
-    keyword &&
-    (searchType === SearchType.TITLE ? { title: keyword } : { tag: keyword });
+  const searchObj = !url && keyword && { title: keyword };
 
   const query = qs.stringify({
     ...searchObj,

@@ -15,7 +15,7 @@ const UserGatguList: React.FC<IUserGatguListProps> = ({ type }) => {
   const {
     isFirstPage,
     items,
-    refreshing,
+    firstFetching,
     fetching,
     getItems,
   } = useCursorPagination<IArticleSummary>({
@@ -36,7 +36,7 @@ const UserGatguList: React.FC<IUserGatguListProps> = ({ type }) => {
   return (
     <CursorFlatList
       items={items}
-      refreshing={refreshing}
+      loading={firstFetching}
       isFirstPage={isFirstPage}
       fetching={fetching}
       getItems={getItems}

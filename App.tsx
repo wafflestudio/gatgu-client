@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 
 import get from 'lodash/get';
+import { NativeBaseProvider } from 'native-base';
 
 import AppRouter from '@/App.router';
 import { setRequesterToken } from '@/apis/BaseInstance';
@@ -56,7 +57,9 @@ function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <AppRouter />
+        <NativeBaseProvider>
+          <AppRouter />
+        </NativeBaseProvider>
       </Provider>
     </QueryClientProvider>
   );

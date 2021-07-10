@@ -16,6 +16,11 @@ interface CheckBoxProps {
   [x: string]: any;
 }
 
+/**
+ * 💀 DO NOT USE THIS COMPONENT!!
+ *
+ * please use "Checkbox" from **native-base**
+ */
 function CheckBox({
   selected,
   size,
