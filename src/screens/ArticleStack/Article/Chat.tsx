@@ -7,6 +7,7 @@ import { View } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import { ArticleStatus } from '@/enums';
+import { AppRoutes } from '@/helpers/routes';
 import { palette } from '@/styles';
 import { IArticleStatus } from '@/types/article';
 
@@ -21,7 +22,12 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
   const navigateToChatRoom = () => {
     if (orderStatus.progress_status <= ArticleStatus.Dealing) {
-      navigation.navigate('ChattingRoom', { id: article_id });
+      navigation.navigate(AppRoutes.ChattingRoomStack, {
+        screen: 'ChattingRoom', // 왜 때문인지 AppRoutes.ChattingRoom으로 하면 안 됨...
+        params: {
+          id: article_id,
+        },
+      });
     }
   };
   return (

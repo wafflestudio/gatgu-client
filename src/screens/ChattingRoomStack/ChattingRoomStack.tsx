@@ -61,10 +61,7 @@ function ChattingRoomStackScreen(): JSX.Element {
       drawerContent={() => <RightDrawer pictureUrls={urls} users={[]} />}
       drawerStyle={{ width: '57%' }}
     >
-      <Drawer.Screen
-        name={EChattingRoomStackScreens.ChattingRoom}
-        component={ChattingRoomTemplate}
-      />
+      <Drawer.Screen name="ChattingRoom" component={ChattingRoomTemplate} />
     </Drawer.Navigator>
   );
 }
