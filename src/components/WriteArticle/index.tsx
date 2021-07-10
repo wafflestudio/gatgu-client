@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { articleAPI } from '@/apis';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
+import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { RootState } from '@/store';
 import {
   createSingleArticle,
@@ -37,23 +37,12 @@ interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
 }
 
-const fieldNames = [
-  'key',
-  'x-amz-algorithm',
-  'x-amz-credential',
-  'x-amz-date',
-  'x-amz-security-token',
-  'policy',
-  'x-amz-signature',
-];
-
 const TagArray = tagNames.map((item, indx) => {
   return { id: indx, tag: item, selected: false };
 });
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<{ mime: string; uri: string }[]>([]);
-  const [imageURLs, setImageURLs] = useState<string[]>([]);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -68,6 +57,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
   const [isLoading, setLoadingStatus] = useState<boolean>(false);
+  const { uploadSingleImage, uploadMultipleImages } = useImageUpload(id);
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
@@ -116,7 +106,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       handlePrice(`${currentArticle.price_min}`);
       setDueDate(new Date(currentArticle.time_in));
       // optional:
-      currentArticle.images[0] && setImages(images);
+      currentArticle.image[0] && setImages(images);
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
           return { id: i, tag: `${num}`, selected: false };
@@ -133,6 +123,11 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return str;
   };
 
+  const checkImages =
+    images.length > 0
+      ? uploadMultipleImages(images)
+      : new Promise<string[]>((resolve) => resolve([]));
+
   const submit = () => {
     if (!isUserLoggedIn) {
       Alert.alert('로그인을 해주세요');
@@ -148,66 +143,26 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       return;
     }
 
-    // 이미지 처리:
-    if (images.length > 0) {
-      images.forEach((image, key) => {
-        articleAPI
-          .putPresignedURL(id, `image_${key}`)
-          .then(async (res) => {
-            const filename = res.data.file_name;
-            const url = res.data.response.url;
-            const fields = res.data.response.fields;
-
-            // set body fields (for s3 authentication)
-            const body = new FormData();
-            fieldNames.forEach((key) => {
-              body.append(key, fields[key]);
-            });
-
-            // append image file
-            const img = {
-              uri: image.uri,
-              type: image.mime,
-              name: filename as string,
-            };
-            body.append('file', img);
-
-            // send file to s3
-            await fetch(url, {
-              method: 'POST',
-              body: body,
-            })
-              .then((r: any) => {
-                console.log(r.headers['map']['location']);
-                const newArr = imageURLs;
-                newArr.push(r.headers['map']['location']);
-                setImageURLs(newArr);
-              })
-              .catch((e) => {
-                console.log('ERROR', e);
-              });
-          })
-          .catch((err) => {
-            console.log('ERROR', err);
-          });
+    checkImages
+      .then((urls) => {
+        const tempArticle = {
+          title: title,
+          description: description,
+          trading_place: location,
+          price_min: parseInt(need_price),
+          time_in: dueDate.toISOString().split('T')[0],
+          product_url: link,
+        } as IPostArticle;
+        if (urls.length > 0) tempArticle.image = urls;
+        if (isEdit && currentArticle) {
+          dispatch(editSingleArticle(id, tempArticle));
+        } else {
+          dispatch(createSingleArticle(tempArticle));
+        }
+      })
+      .catch((e) => {
+        console.log('ERROR', e);
       });
-    }
-
-    const tempArticle = {
-      title: title,
-      description: description,
-      trading_place: location,
-      price_min: parseInt(need_price),
-      time_in: dueDate.toISOString().split('T')[0],
-      product_url: link,
-      image: imageURLs,
-      // tag: tempTags
-    } as IPostArticle;
-    if (isEdit && currentArticle) {
-      dispatch(editSingleArticle(id, tempArticle));
-    } else {
-      dispatch(createSingleArticle(tempArticle));
-    }
   };
 
   React.useLayoutEffect(() => {
