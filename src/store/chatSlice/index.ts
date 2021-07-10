@@ -6,12 +6,16 @@ import { chatAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { IGetFailPayload } from '@/types/article';
-import { IChattingRoom } from '@/types/chat';
+import { IChattingListEntry, IChattingRoom } from '@/types/chat';
 
 export interface IChatSlice {
   hasError: boolean;
   errorStatus: number;
   currentChatInfo: IChattingRoom;
+  chattingListIsLoading: boolean;
+  chattingListHasError: boolean;
+  chattingListErrorStatus: number;
+  chattingList: IChattingListEntry[];
 }
 
 const initialState: IChatSlice = {
@@ -30,6 +34,10 @@ const initialState: IChatSlice = {
     time: 0,
     nickName: '',
   },
+  chattingListIsLoading: true,
+  chattingListHasError: false,
+  chattingListErrorStatus: -100,
+  chattingList: [],
 };
 
 const chatSlice = createSlice({
@@ -48,10 +56,43 @@ const chatSlice = createSlice({
       state.hasError = true;
       state.errorStatus = payload.errorStatus;
     },
+
+    getChattingListLoading: (state) => {
+      state.chattingListIsLoading = true;
+      state.chattingList = [];
+      state.chattingListHasError = false;
+      state.chattingListErrorStatus = -100;
+    },
+
+    getChattingListSuccess: (
+      state,
+      { payload }: PayloadAction<IChattingListEntry[]>
+    ) => {
+      state.chattingList = payload;
+      state.chattingListIsLoading = false;
+      state.chattingListHasError = false;
+      state.chattingListErrorStatus = -100;
+    },
+
+    getChattingListFail: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
+      state.chattingListIsLoading = false;
+      state.chattingListErrorStatus = payload.errorStatus;
+      state.chattingListHasError = true;
+      state.chattingList = [];
+    },
   },
 });
 
-const { setCurrentChatInfo, failSetCurrentChatInfo } = chatSlice.actions;
+const {
+  setCurrentChatInfo,
+  failSetCurrentChatInfo,
+  getChattingListLoading,
+  getChattingListSuccess,
+  getChattingListFail,
+} = chatSlice.actions;
 
 // get chat info
 export const getChatInfo = (id: number | undefined): AppThunk => (dispatch) => {
@@ -87,6 +128,22 @@ export const changeOrderStatus = (
       // TODO: @juimdpp
       // todo: handle error
       // when: 로딩 페이지 구현할 때 같이 할게요
+    });
+};
+
+export const getChattingList = (id: number): AppThunk => (dispatch) => {
+  dispatch(getChattingListLoading());
+  chatAPI
+    .getMyChatList(id)
+    .then((response: AxiosResponse) => {
+      dispatch(getChattingListSuccess(response.data));
+    })
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(getChattingListFail({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getChattingListFail({ errorStatus: UNKNOWN_ERR }));
+      }
     });
 };
 

@@ -1,7 +1,11 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
 
-import { IChattingRoom, IChangeStatusProps, IChattingListEntry } from '@/types/chat';
+import {
+  IChattingRoom,
+  IChangeStatusProps,
+  IChattingListEntry,
+} from '@/types/chat';
 
 import requester from './BaseInstance';
 
@@ -24,6 +28,8 @@ export const changeStatus = (
 };
 
 // 나의 채팅방 리스트 조회
-export const getMyChatList = (id: number): Promise<AxiosResponse<IChattingListEntry[]>> => {
-  return requester.get(`users/${id}/chattings/`)
+export const getMyChatList = (
+  id: number
+): Promise<AxiosResponse<IChattingListEntry[]>> => {
+  return requester.get(`users/${id}/chattings/`);
 };
