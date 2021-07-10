@@ -50,7 +50,6 @@ const useImageUpload = (id: number) => {
             body: body,
           })
             .then((r: any) => {
-              console.log('upsin');
               resolve(r.headers['map']['location']);
             })
             .catch((e) => {
