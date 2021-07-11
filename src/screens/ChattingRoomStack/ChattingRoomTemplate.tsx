@@ -1,18 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { DrawerActions, useNavigation } from '@react-navigation/native';
+import {
+  DrawerActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
+import { getChatMessages } from '@/apis/ChatApi';
 import { Header } from '@/components';
+import AppLoadingTemplate from '@/components/AppLoading';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { RootState } from '@/store';
 import { IChatMessage } from '@/types/chat';
+import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChatsContainer from './ChatsContainer';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+  const id = route.params.id;
 
-  const [chats, setChats] = React.useState<IChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [, setErrno] = useState(-100);
+
+  const chatMessages = useSelector(
+    (state: RootState) => state.chat.chatMessages
+  );
+  const loading = useSelector(
+    (state: RootState) => state.chat.chatMessagesIsLoading
+  );
+  const error = useSelector(
+    (state: RootState) => state.chat.chatMessagesHasError
+  );
+  const errNumber = useSelector(
+    (state: RootState) => state.chat.chatMessagesErrorStatus
+  );
+
+  useEffect(() => {
+    dispatch(getChatMessages(id));
+  }, [dispatch]);
+  useEffect(() => {
+    setIsLoading(loading);
+  }, [loading]);
+  useEffect(() => {
+    setHasError(error);
+  }, [error]);
+  useEffect(() => {
+    setErrno(errNumber);
+  }, [errNumber]);
 
   GatguWebsocket.useMessage<{
     user: number;
@@ -55,7 +96,11 @@ export default function ChattingRoom(): JSX.Element {
           navigation.goBack();
         }}
       />
-      <ChatsContainer chatList={chats} />
+      {isLoading ? (
+        <AppLoadingTemplate />
+      ) : hasError ? null : (
+        <ChatsContainer chatList={chatMessages} />
+      )}
     </KeyboardAvoidingView>
   );
 }
