@@ -5,6 +5,7 @@ import {
   IChattingRoom,
   IChangeStatusProps,
   IChattingListEntry,
+  IChatMessage,
 } from '@/types/chat';
 
 import requester from './BaseInstance';
@@ -32,4 +33,10 @@ export const getMyChatList = (
   id: number
 ): Promise<AxiosResponse<IChattingListEntry[]>> => {
   return requester.get(`users/${id}/chattings/`);
+};
+
+export const getChatMessages = (
+  chatting_id: number
+): Promise<AxiosResponse<IChatMessage[]>> => {
+  return requester.get(`chattings/${chatting_id}/messages`);
 };

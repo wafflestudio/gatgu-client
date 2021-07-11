@@ -6,7 +6,7 @@ import { chatAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { IGetFailPayload } from '@/types/article';
-import { IChattingListEntry, IChattingRoom } from '@/types/chat';
+import { IChatMessage, IChattingListEntry, IChattingRoom } from '@/types/chat';
 
 export interface IChatSlice {
   hasError: boolean;
@@ -16,6 +16,10 @@ export interface IChatSlice {
   chattingListHasError: boolean;
   chattingListErrorStatus: number;
   chattingList: IChattingListEntry[];
+  chatMessages: IChatMessage[];
+  chatMessagesIsLoading: boolean;
+  chatMessagesHasError: boolean;
+  chatMessagesErrorStatus: number;
 }
 
 const initialState: IChatSlice = {
@@ -38,6 +42,10 @@ const initialState: IChatSlice = {
   chattingListHasError: false,
   chattingListErrorStatus: -100,
   chattingList: [],
+  chatMessages: [],
+  chatMessagesIsLoading: true,
+  chatMessagesHasError: false,
+  chatMessagesErrorStatus: -100,
 };
 
 const chatSlice = createSlice({
@@ -63,7 +71,6 @@ const chatSlice = createSlice({
       state.chattingListHasError = false;
       state.chattingListErrorStatus = -100;
     },
-
     getChattingListSuccess: (
       state,
       { payload }: PayloadAction<IChattingListEntry[]>
@@ -73,7 +80,6 @@ const chatSlice = createSlice({
       state.chattingListHasError = false;
       state.chattingListErrorStatus = -100;
     },
-
     getChattingListFail: (
       state,
       { payload }: PayloadAction<IGetFailPayload>
@@ -82,6 +88,31 @@ const chatSlice = createSlice({
       state.chattingListErrorStatus = payload.errorStatus;
       state.chattingListHasError = true;
       state.chattingList = [];
+    },
+
+    getChatMessageLoading: (state) => {
+      state.chatMessagesIsLoading = true;
+      state.chatMessages = [];
+      state.chatMessagesHasError = false;
+      state.chatMessagesErrorStatus = -100;
+    },
+    getChatMessageSuccess: (
+      state,
+      { payload }: PayloadAction<IChatMessage[]>
+    ) => {
+      state.chatMessagesIsLoading = false;
+      state.chatMessages = payload;
+      state.chatMessagesHasError = false;
+      state.chatMessagesErrorStatus = -100;
+    },
+    getChatMessageFail: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
+      state.chatMessagesIsLoading = false;
+      state.chatMessages = [];
+      state.chatMessagesHasError = true;
+      state.chatMessagesErrorStatus = payload.errorStatus;
     },
   },
 });
@@ -92,6 +123,9 @@ const {
   getChattingListLoading,
   getChattingListSuccess,
   getChattingListFail,
+  getChatMessageLoading,
+  getChatMessageSuccess,
+  getChatMessageFail,
 } = chatSlice.actions;
 
 // get chat info
@@ -143,6 +177,24 @@ export const getChattingList = (id: number): AppThunk => (dispatch) => {
         dispatch(getChattingListFail({ errorStatus: err.response.status }));
       } else {
         dispatch(getChattingListFail({ errorStatus: UNKNOWN_ERR }));
+      }
+    });
+};
+
+export const getChattingMessages = (chatting_id: number): AppThunk => (
+  dispatch
+) => {
+  dispatch(getChatMessageLoading());
+  chatAPI
+    .getChatMessages(chatting_id)
+    .then((response: AxiosResponse) => {
+      dispatch(getChatMessageSuccess(response.data));
+    })
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(getChatMessageFail({ errorStatus: err.response.status }));
+      } else {
+        dispatch(getChatMessageFail({ errorStatus: UNKNOWN_ERR }));
       }
     });
 };
