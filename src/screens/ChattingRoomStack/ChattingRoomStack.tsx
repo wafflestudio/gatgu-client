@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RouteProp, useRoute } from '@react-navigation/core';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { RootState } from '@/store';
 import { getChatInfo } from '@/store/chatSlice';
 import { ChattingDrawerParamList } from '@/types/navigation';
@@ -33,8 +34,8 @@ const mockUrls = [
 // when: when api becomes stable
 
 function ChattingRoomStackScreen(): JSX.Element {
-  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
-  const id = route.params.id;
+  // const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+  // const id = route.params.id;
 
   const dispatch = useDispatch();
 
@@ -43,7 +44,7 @@ function ChattingRoomStackScreen(): JSX.Element {
   );
 
   useEffect(() => {
-    dispatch(getChatInfo(id));
+    // dispatch(getChatInfo(id));
     // handle error case
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

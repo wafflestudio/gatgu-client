@@ -5,11 +5,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 
 import get from 'lodash/get';
+import { NativeBaseProvider } from 'native-base';
 
 import AppRouter from '@/App.router';
 import { setRequesterToken } from '@/apis/BaseInstance';
 import { refreshAccessToken } from '@/apis/UserApi';
 import { asyncStoragekey } from '@/constants/asyncStorage';
+import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { StringStorage } from '@/helpers/functions/asyncStorage';
 import store from '@/store/rootStore';
 import { setAccessToken } from '@/store/userSlice';
@@ -56,7 +58,11 @@ function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <AppRouter />
+        <GatguWebsocket.Provider>
+          <NativeBaseProvider>
+            <AppRouter />
+          </NativeBaseProvider>
+        </GatguWebsocket.Provider>
       </Provider>
     </QueryClientProvider>
   );

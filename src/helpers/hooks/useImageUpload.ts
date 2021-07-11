@@ -1,10 +1,13 @@
 import { articleAPI } from '@/apis';
+
 import { TShortImage } from '@/types/shared';
+
 
 const fieldNames = [
   'key',
   'x-amz-algorithm',
   'x-amz-credential',
+
   'x-amz-date',
   'x-amz-security-token',
   'policy',
@@ -64,6 +67,7 @@ const useImageUpload = (id: number) => {
         return uploadSingleImage(image);
       })
     );
+
   };
 
   return { uploadSingleImage, uploadMultipleImages };
