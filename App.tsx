@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 
 import get from 'lodash/get';
+import { NativeBaseProvider } from 'native-base';
 
 import AppRouter from '@/App.router';
 import { setRequesterToken } from '@/apis/BaseInstance';
@@ -58,7 +59,9 @@ function App(): JSX.Element {
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <GatguWebsocket.Provider>
-          <AppRouter />
+          <NativeBaseProvider>
+            <AppRouter />
+          </NativeBaseProvider>
         </GatguWebsocket.Provider>
       </Provider>
     </QueryClientProvider>
