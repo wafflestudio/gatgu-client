@@ -25,6 +25,7 @@ export default function ChattingRoom(): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const id = route.params.id;
 
+  const [chats, setChats] = useState<IChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [, setErrno] = useState(-100);
