@@ -9,12 +9,15 @@ import usePickImage from '@/helpers/hooks/usePickImage';
 
 import styles from './AddImage.style';
 
+type TShortImage = Pick<Required<TImage>, 'mime' | 'path'>;
 interface AddImageProps {
-  images: { mime: string; uri: string }[];
-  setImages: Dispatch<SetStateAction<{ mime: string; uri: string }[]>>;
+  images: TShortImage[];
+  setImages: Dispatch<SetStateAction<TShortImage[]>>;
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
+  const [prev, setPrev] = useState<TShortImage[]>([]);
+
   const { pickMultipleImage } = usePickImage({
     width: 300,
     height: 400,
@@ -23,19 +26,17 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     includeBase64: true,
     mediaType: 'photo',
   });
-  const [prev, setPrev] = useState<
-    { mime: string; data: string | null | undefined }[]
-  >([]);
 
   const pickImage = () => {
-    const tempArrPrev: { mime: string; data: string | null | undefined }[] = [];
-    const tempArrSend: { mime: string; uri: string }[] = [];
-    pickMultipleImage
-      .then((images) => {
-        images &&
-          images.forEach((item: TImage) => {
-            tempArrPrev.push({ mime: item.mime, data: item.data });
-            tempArrSend.push({ mime: item.mime, uri: item.path });
+    const tempArrPrev: TShortImage[] = [];
+    const tempArrSend: TShortImage[] = [];
+
+    pickMultipleImage()
+      .then((imgs) => {
+        imgs &&
+          imgs.forEach((item: TImage) => {
+            tempArrPrev.push({ mime: item.mime, path: item.path });
+            tempArrSend.push({ mime: item.mime, path: item.path });
           });
       })
       .then(() => {
@@ -56,10 +57,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     prev.map(
       (item, key): JSX.Element => (
         <View style={styles.photoContainer} key={key}>
-          <Image
-            style={styles.photo}
-            source={{ uri: `data:${item.mime};base64,${item.data}` }}
-          />
+          <Image style={styles.photo} source={{ uri: item.path }} />
           <TouchableHighlight
             style={styles.buttonContainer}
             onPress={() => deleteImage(key)}
@@ -76,7 +74,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     <View style={styles.container}>
       <View style={styles.subContainer}>
         <ScrollView horizontal scrollEnabled={true}>
-          <TouchableHighlight onPress={() => pickImage()}>
+          <TouchableHighlight onPress={pickImage}>
             <View style={styles.plusSignCon}>
               <PlusSign style={styles.defaultPhoto} />
             </View>

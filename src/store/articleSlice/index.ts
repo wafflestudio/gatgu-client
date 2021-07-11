@@ -34,7 +34,7 @@ const initialState: IArticleSlice = {
     product_url: '',
     price_min: 0,
     time_in: '',
-    images: [], // 확실하지 않음... api에 타입이 안 적혀있음
+    image: [], // 확실하지 않음... api에 타입이 안 적혀있음
     tag: [],
     created_at: new Date(), // should be date but json server doesn't accept Date
     updated_at: new Date(),
