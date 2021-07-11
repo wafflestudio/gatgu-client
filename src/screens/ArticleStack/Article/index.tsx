@@ -29,7 +29,7 @@ function ArticlePage(): JSX.Element {
     articleHasError,
     articleErrorStatus,
   } = useSelector((state: RootState) => state.article);
-  console.log(currentArticle);
+
   useEffect(() => {
     dispatch(getSingleArticle(id));
   }, [dispatch, id]);
