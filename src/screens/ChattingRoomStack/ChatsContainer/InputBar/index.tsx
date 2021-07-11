@@ -1,11 +1,17 @@
 import React from 'react';
 import { View, TextInput, Text } from 'react-native';
 
+import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { palette } from '@/styles';
 
 import styles from './InputBar.style';
 
+const user = Math.floor(Math.random() * 1000);
+
 function InputBar(): JSX.Element {
+  const { sendWsMessage } = GatguWebsocket.useMessage();
+  const [input, setInput] = React.useState('');
+
   return (
     <View style={styles.bar}>
       <View style={styles.inputIcon}>
@@ -21,9 +27,22 @@ function InputBar(): JSX.Element {
           style={styles.input}
           multiline={true}
           numberOfLines={4}
+          value={input}
+          onChangeText={setInput}
         />
       </View>
-      <View style={styles.inputIcon}>
+      <View
+        style={styles.inputIcon}
+        onTouchEnd={() => {
+          sendWsMessage({
+            type: 'CHAT',
+            data: {
+              input,
+              user,
+            },
+          });
+        }}
+      >
         <Text>3</Text>
       </View>
     </View>

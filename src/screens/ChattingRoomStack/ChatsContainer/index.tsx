@@ -24,7 +24,7 @@ function ChattingRoom({ chatList }: IChattingRoomInterface): JSX.Element {
       current={item}
       previous={chatList[index - 1]}
       next={chatList[index + 1]}
-      selfNickname="heesu"
+      selfNickname="270"
     />
   );
   return (
@@ -34,13 +34,13 @@ function ChattingRoom({ chatList }: IChattingRoomInterface): JSX.Element {
         height: mobile.height - 56,
       }}
     >
+      <InputBar />
       <FlatList
         data={chatList}
         renderItem={renderItem}
         style={styles.msgContainer}
         keyExtractor={(_, ind) => `${ind}`}
       />
-      <InputBar />
     </View>
   );
 }
