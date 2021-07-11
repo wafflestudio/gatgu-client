@@ -15,8 +15,11 @@ export default function ChattingRoom(): JSX.Element {
   const [chats, setChats] = React.useState<IChatMessage[]>([]);
 
   GatguWebsocket.useMessage<{
-    user: number;
-    data: string;
+    type: string;
+    data: {
+      user: number;
+      data: string;
+    };
   }>({
     onmessage: (e) => {
       setChats((prev) => [

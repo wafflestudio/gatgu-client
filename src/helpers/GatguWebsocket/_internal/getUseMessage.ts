@@ -4,7 +4,7 @@ import { DeviceEventEmitter } from 'react-native';
 import { WebsocketCustomEvent, WebsocketEventMap, WsContext } from './types';
 
 export type TUseWsCallbacks<T = any> = {
-  onmessage: (msg: WebsocketEventMap<T>['onmessage']) => void;
+  onmessage: (msg: WebsocketEventMap<T>['onmessage']['data']) => void;
   onerror: (e: WebsocketEventMap['onerror']) => void;
   onopen: (e: WebsocketEventMap['onopen']) => void;
   onclose: (e: WebsocketEventMap['onclose']) => void;

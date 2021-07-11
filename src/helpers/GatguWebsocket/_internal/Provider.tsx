@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { DeviceEventEmitter } from 'react-native';
 
 import BaseWebsocket, { IBaseWebsocketOption } from './BaseWebsocket';
-import { WebsocketCustomEvent } from './types';
+import { TWsMessage, WebsocketCustomEvent } from './types';
 
 const getWsProvider = (Context: any): React.FC => ({ children }) => {
   const wsRef = useRef<BaseWebsocket>();
@@ -40,7 +40,7 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     wsRef.current = ws;
   };
 
-  const sendWsMessage = (data: any) => {
+  const sendWsMessage = (data: TWsMessage) => {
     if (!wsRef.current) {
       throw new Error(`Don't use "sendWsMessage" before init Websocket"`);
     }
