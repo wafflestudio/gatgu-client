@@ -1,4 +1,5 @@
 import { articleAPI } from '@/apis';
+import { TShortImage } from '@/types/shared';
 
 const fieldNames = [
   'key',
@@ -21,56 +22,49 @@ interface IImageDict {
 // type TUseImageUpload = ;
 
 const useImageUpload = (id: number) => {
-  const uploadSingleImage = (image: IImageDict) =>
-    new Promise<string>((resolve) => {
-      articleAPI
-        .putPresignedURL(id, `image_${Math.floor(Math.random() * 1000000)}`)
-        .then(async (res) => {
-          const filename = res.data.file_name;
-          const url = res.data.response.url;
-          const fields = res.data.response.fields;
+  const uploadSingleImage = async (image: TShortImage) => {
+    return await articleAPI
+      .putPresignedURL(id, `image_${Math.floor(Math.random() * 1000000)}`)
+      .then(async (res) => {
+        const filename = res.data.file_name;
+        const url = res.data.response.url;
+        const fields = res.data.response.fields;
 
-          // set body fields (for s3 authentication)
-          const body = new FormData();
-          fieldNames.forEach((key) => {
-            body.append(key, fields[key]);
-          });
-
-          // append image file
-          const img = {
-            uri: image.uri,
-            type: image.mime,
-            name: filename as string,
-          };
-          body.append('file', img);
-
-          // send file to s3
-          await fetch(url, {
-            method: 'POST',
-            body: body,
-          })
-            .then((r: any) => {
-              resolve(r.headers['map']['location']);
-            })
-            .catch((e) => {
-              console.log('ERROR: inner', e);
-            });
-        })
-        .catch((err) => {
-          console.log('ERROR: ext', err);
+        // set body fields (for s3 authentication)
+        const body = new FormData();
+        fieldNames.forEach((key) => {
+          body.append(key, fields[key]);
         });
-    });
 
-  const uploadMultipleImages = async (images: IImageDict[]) =>
-    new Promise<string[]>((resolve) => {
-      const promiseArray: Promise<string>[] = images.map((image) => {
+        // append image file
+        const img = {
+          uri: image.path,
+          type: image.mime,
+          name: filename as string,
+        };
+        body.append('file', img);
+        console.log('dp');
+        // send file to s3
+        return await fetch(url, {
+          method: 'POST',
+          body: body,
+        }).then((r: any) => {
+          return r.headers['map']['location'];
+        });
+      })
+      .catch((err) => {
+        console.log('ERROR: ext', err);
+      });
+  };
+
+  const uploadMultipleImages = async (images: TShortImage[]) => {
+    return await Promise.all(
+      images.map((image) => {
+        console.log('everything');
         return uploadSingleImage(image);
-      });
-
-      Promise.all(promiseArray).then((urls) => {
-        resolve(urls);
-      });
-    });
+      })
+    );
+  };
 
   return { uploadSingleImage, uploadMultipleImages };
 };

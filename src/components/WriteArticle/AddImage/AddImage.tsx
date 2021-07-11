@@ -6,10 +6,10 @@ import ImagePicker, { Image as TImage } from 'react-native-image-crop-picker';
 import XSign from '@/assets/icons/CrossSign';
 import PlusSign from '@/assets/icons/PlusSign';
 import usePickImage from '@/helpers/hooks/usePickImage';
+import { TShortImage } from '@/types/shared';
 
 import styles from './AddImage.style';
 
-type TShortImage = Pick<Required<TImage>, 'mime' | 'path'>;
 interface AddImageProps {
   images: TShortImage[];
   setImages: Dispatch<SetStateAction<TShortImage[]>>;

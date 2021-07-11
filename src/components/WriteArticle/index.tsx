@@ -18,6 +18,7 @@ import {
 } from '@/store/articleSlice';
 import { IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
+import { TShortImage } from '@/types/shared';
 
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -43,7 +44,7 @@ const TagArray = tagNames.map((item, indx) => {
 });
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
-  const [images, setImages] = useState<{ mime: string; uri: string }[]>([]);
+  const [images, setImages] = useState<TShortImage[]>([]);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -124,11 +125,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return str;
   };
 
-  const checkImages =
-    images.length > 0
-      ? uploadMultipleImages(images)
-      : new Promise<string[]>((resolve) => resolve([]));
-
   const submit = () => {
     if (!isUserLoggedIn) {
       Alert.alert('로그인을 해주세요');
@@ -143,6 +139,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       Alert.alert(res);
       return;
     }
+    const checkImages =
+      images.length > 0
+        ? uploadMultipleImages(images)
+        : new Promise<string[]>((resolve) => resolve([]));
 
     checkImages
       .then((urls) => {
