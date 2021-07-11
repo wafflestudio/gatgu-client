@@ -35,10 +35,10 @@ class BaseWebsocket {
       ...options,
     } as Required<IBaseWebsocketOption>;
 
-    this._ws.onopen = this._onOpen.bind(this);
+    this._ws.onopen = this._onopen.bind(this);
     this._ws.onmessage = this._onmessage.bind(this);
-    this._ws.onerror = this._onError.bind(this);
-    this._ws.onclose = this._onClose.bind(this);
+    this._ws.onerror = this._onerror.bind(this);
+    this._ws.onclose = this._onclose.bind(this);
   }
 
   private _startHeartBeat() {
@@ -75,7 +75,7 @@ class BaseWebsocket {
     clearInterval(this._pongCheckingIntervalId);
   }
 
-  private _onOpen(e: WebsocketEventMap['onopen']) {
+  private _onopen(e: WebsocketEventMap['onopen']) {
     this._startHeartBeat();
 
     if (this.onopen) {
@@ -83,7 +83,7 @@ class BaseWebsocket {
     }
   }
 
-  private _onClose(e: WebsocketEventMap['onclose']) {
+  private _onclose(e: WebsocketEventMap['onclose']) {
     this._stopHeartBeat();
 
     if (this.onclose) {
@@ -91,7 +91,7 @@ class BaseWebsocket {
     }
   }
 
-  private _onError(e: WebsocketEventMap['onerror']) {
+  private _onerror(e: WebsocketEventMap['onerror']) {
     if (this.onerror) {
       this.onerror(e);
     }
