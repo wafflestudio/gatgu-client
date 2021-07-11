@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { View, Image, TouchableHighlight, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker, { Image as TImage } from 'react-native-image-crop-picker';
 
 import XSign from '@/assets/icons/CrossSign';
 import PlusSign from '@/assets/icons/PlusSign';
+import usePickImage from '@/helpers/hooks/usePickImage';
 
 import styles from './AddImage.style';
 
@@ -14,6 +15,14 @@ interface AddImageProps {
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
+  const { pickMultipleImage } = usePickImage({
+    width: 300,
+    height: 400,
+    cropping: true,
+    multiple: true,
+    includeBase64: true,
+    mediaType: 'photo',
+  });
   const [prev, setPrev] = useState<
     { mime: string; data: string | null | undefined }[]
   >([]);
@@ -21,26 +30,17 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
   const pickImage = () => {
     const tempArrPrev: { mime: string; data: string | null | undefined }[] = [];
     const tempArrSend: { mime: string; uri: string }[] = [];
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-      multiple: true,
-      includeBase64: true,
-      mediaType: 'photo',
-    })
+    pickMultipleImage
       .then((images) => {
-        images.forEach((item) => {
-          tempArrPrev.push({ mime: item.mime, data: item.data });
-          tempArrSend.push({ mime: item.mime, uri: item.path });
-        });
+        images &&
+          images.forEach((item: TImage) => {
+            tempArrPrev.push({ mime: item.mime, data: item.data });
+            tempArrSend.push({ mime: item.mime, uri: item.path });
+          });
       })
       .then(() => {
         setPrev(tempArrPrev);
         setImages(tempArrSend);
-      })
-      .catch(() => {
-        Alert.alert('갤러리를 여는데 실패했습니다...');
       });
   };
 
