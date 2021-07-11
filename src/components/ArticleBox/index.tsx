@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 
-import Thumbnail from '@/components/Thumbnail';
+import { Image } from 'native-base';
+
 import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
@@ -36,8 +37,13 @@ const ArticleBox: React.FC<IArticleSummary> = ({
         })
       }
     >
-      <Thumbnail
-        uri={images[0]?.img_url}
+      <Image
+        source={{
+          uri: images[0]?.img_url,
+        }}
+        fallbackSource={require('@/assets/images/defaultThumnail.png')}
+        loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
+        alt="article thumnail"
         w={$thumnail_size}
         h={$thumnail_size}
       />

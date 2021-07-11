@@ -10,6 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
 
+import GatguWebsocket from './helpers/GatguWebsocket/GatguWebsocket';
 import AuthStackScreen, {
   TAuthStackParamList,
 } from './screens/AuthStack/AuthStack';
@@ -34,6 +35,12 @@ export type TAppStackParamList = {
 const AppStack = createStackNavigator<TAppStackParamList>();
 
 const AppRouter: React.FC = () => {
+  GatguWebsocket.useInit({
+    url: 'ws://localhost:6969',
+    token: '',
+    options: { debug: true },
+  });
+
   return (
     <NavigationContainer>
       <SafeAreaView
