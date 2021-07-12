@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 
-import { Button, FootTerms } from '@/components';
+import { Button } from '@/components';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 
+import FootTerms from '../../components/FootTerms';
 import styles from './UnLogged.style';
 
 // Profile Component

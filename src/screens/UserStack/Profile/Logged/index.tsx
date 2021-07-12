@@ -3,10 +3,10 @@ import { Alert, View } from 'react-native';
 import { useQuery } from 'react-query';
 
 import { getMyData } from '@/apis/UserApi';
-import { FootTerms } from '@/components';
 import { USER_DETAIL } from '@/queryKeys';
 import { IUserDetail } from '@/types/user';
 
+import FootTerms from '../../components/FootTerms';
 import Force from './Force';
 import History from './HistoryList';
 import Info from './Information';
