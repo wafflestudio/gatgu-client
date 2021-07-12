@@ -8,7 +8,8 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
-import { USER_DETAIL } from '@/queryKeys';
+import useImageUpload from '@/helpers/hooks/useImageUpload';
+import { AppRoutes } from '@/helpers/routes';
 import { RootState } from '@/store';
 import {
   createSingleArticle,
@@ -17,6 +18,7 @@ import {
 } from '@/store/articleSlice';
 import { IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
+import { TShortImage } from '@/types/shared';
 
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -42,14 +44,14 @@ const TagArray = tagNames.map((item, indx) => {
 });
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
-  const [images, setImages] = useState<(string | null | undefined)[]>([]);
+  const [images, setImages] = useState<TShortImage[]>([]);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [dueDate, setDueDate] = useState<Date>(new Date());
   const [description, setDescription] = useState<string>('');
   const [link, setLink] = useState<string>('');
   const [location, setLocation] = useState<string>('');
-  const [tags, toggleTags] = useState<ITagType[]>(TagArray);
+  const [, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
   const { id } = isEdit ? route.params : { id: 0 };
@@ -57,6 +59,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
   const [isLoading, setLoadingStatus] = useState<boolean>(false);
+  const { uploadMultipleImages } = useImageUpload(id);
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
@@ -93,7 +96,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   useEffect(() => {
     if (isEdit) dispatch(getSingleArticle(id));
-  }, []);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (isEdit && currentArticle) {
@@ -102,9 +106,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       setLocation(currentArticle.trading_place);
       setLink(currentArticle.product_url);
       handlePrice(`${currentArticle.price_min}`);
-      setDueDate(currentArticle.time_in);
+      setDueDate(new Date(currentArticle.time_in));
       // optional:
-      currentArticle.image && setImages(images);
+      currentArticle.image[0] && setImages(images);
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
           return { id: i, tag: `${num}`, selected: false };
@@ -112,6 +116,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         toggleTags(temp);
       }
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentArticle]);
 
   const checkInput = (): string => {
@@ -134,40 +139,47 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       Alert.alert(res);
       return;
     }
+    const checkImages =
+      images.length > 0
+        ? uploadMultipleImages(images)
+        : new Promise<string[]>((resolve) => resolve([]));
 
-    const tempTags = tags
-      .filter((item) => item.selected)
-      .map((item) => item.id);
-
-    const tempArticle = {
-      title: title,
-      description: description,
-      trading_place: location,
-      price_min: parseInt(need_price),
-      time_in: new Date('2021-03-17'),
-      product_url: link,
-      // image: images
-      // tag: tempTags
-    } as IPostArticle;
-    if (isEdit && currentArticle) {
-      dispatch(editSingleArticle(id, tempArticle)).then((id: number) => {
-        if (id != -1) {
-          navigation.navigate('Article', {
-            screen: 'ArticlePage',
-            params: { id: id },
+    checkImages
+      .then((urls) => {
+        const tempArticle = {
+          title: title,
+          description: description,
+          trading_place: location,
+          price_min: parseInt(need_price),
+          time_in: dueDate.toISOString().split('T')[0],
+          product_url: link,
+        } as IPostArticle;
+        if (urls.length > 0) tempArticle.image = urls;
+        if (isEdit && currentArticle) {
+          const pr = dispatch(editSingleArticle(id, tempArticle));
+          Promise.resolve(pr).then(() => {
+            navigation.navigate(AppRoutes.ArticleStack, {
+              screen: AppRoutes.Article,
+              params: {
+                id: id,
+              },
+            });
+          });
+        } else {
+          const pr = dispatch(createSingleArticle(tempArticle));
+          Promise.resolve(pr).then((newID) => {
+            navigation.navigate(AppRoutes.ArticleStack, {
+              screen: AppRoutes.Article,
+              params: {
+                id: newID,
+              },
+            });
           });
         }
+      })
+      .catch((e) => {
+        console.log('ERROR', e);
       });
-    } else {
-      dispatch(createSingleArticle(tempArticle)).then((id: number) => {
-        if (id != -1) {
-          navigation.navigate('Article', {
-            screen: 'ArticlePage',
-            params: { id: id },
-          });
-        }
-      });
-    }
   };
 
   React.useLayoutEffect(() => {

@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Text, View } from 'native-base';
+import { View } from 'native-base';
 
 import { palette } from '@/styles';
-
-import styles from './CheckBox.style';
 
 interface CheckBoxProps {
   selected: boolean;
@@ -18,15 +16,17 @@ interface CheckBoxProps {
   [x: string]: any;
 }
 
+/**
+ * 💀 DO NOT USE THIS COMPONENT!!
+ *
+ * please use "Checkbox" from **native-base**
+ */
 function CheckBox({
   selected,
-  onPress,
   size,
   iconSize,
-  wrapperStyle,
-  // textStyle,
-  ...rest
-}: CheckBoxProps): JSX.Element {
+}: // textStyle,
+CheckBoxProps): JSX.Element {
   return (
     <View
       style={[

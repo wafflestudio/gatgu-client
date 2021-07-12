@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -96,6 +102,11 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
     </TouchableHighlight>
   ));
 
+  const parsedDate = useMemo(() => {
+    const iso = dueDate.toISOString().split('T');
+    return `${iso[0]}  ${iso[1].split(':')[0]}:${iso[1].split(':')[1]} `;
+  }, [dueDate]);
+
   return (
     <View>
       <View style={styles.labelContainer}>
@@ -103,7 +114,10 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
           onPress={() => showDatePicker()}
           underlayColor={palette.whiteGray}
         >
-          <Label style={styles.label}>모집기한</Label>
+          <View style={styles.timeContainer}>
+            <Label style={styles.label}>모집기한</Label>
+            <Text style={styles.label}>{parsedDate}</Text>
+          </View>
         </TouchableHighlight>
       </View>
       <Modal

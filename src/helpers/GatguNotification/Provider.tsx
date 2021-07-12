@@ -99,7 +99,7 @@ const NotificationProvider: React.FC = ({ children }) => {
   const _setRouting = () => {
     // background state
     firebase.messaging().onNotificationOpenedApp((msg) => {
-      navigation.navigate(msg.data?.routeName ?? 'home');
+      navigation.navigate(msg.data?.routeName ?? 'Home');
     });
 
     // quit state
@@ -107,7 +107,7 @@ const NotificationProvider: React.FC = ({ children }) => {
       .messaging()
       .getInitialNotification()
       .then((msg) => {
-        setInitialRoute(msg?.data?.routeName ?? 'home');
+        setInitialRoute(msg?.data?.routeName ?? 'Home');
       });
 
     setLoading(false);
@@ -147,7 +147,7 @@ const NotificationProvider: React.FC = ({ children }) => {
 
   // processing background, quit notification
   const _setBackgroundNotification = useCallback(() => {
-    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    messaging().setBackgroundMessageHandler(async () => {
       // processing msg
     });
   }, []);
@@ -193,6 +193,7 @@ const NotificationProvider: React.FC = ({ children }) => {
     handlePermission();
     _getNotificationConfig();
     _setRouting();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

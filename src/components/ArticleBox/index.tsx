@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
+import { Image } from 'native-base';
 
-import Thumbnail from '@/components/Thumbnail';
 import { remainTime, calcTimeDiff } from '@/helpers/functions/time';
+import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
+import { AppRoutes } from '@/helpers/routes';
 import { $thumnail_size } from '@/styles/size';
 import { IArticleSummary } from '@/types/article';
 
@@ -17,7 +18,7 @@ const ArticleBox: React.FC<IArticleSummary> = ({
   time_in,
   images,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useAppNavigation();
 
   const { diff: timeBefore, type: typeBefore } = calcTimeDiff(
     new Date(),
@@ -28,14 +29,21 @@ const ArticleBox: React.FC<IArticleSummary> = ({
     <TouchableOpacity
       style={styles.postBox}
       onPress={() =>
-        navigation.navigate('Article', {
-          screen: 'ArticlePage',
-          params: { id: article_id },
+        navigation.navigate(AppRoutes.ArticleStack, {
+          screen: AppRoutes.Article,
+          params: {
+            id: article_id,
+          },
         })
       }
     >
-      <Thumbnail
-        uri={images[0]?.img_url}
+      <Image
+        source={{
+          uri: images[0]?.img_url,
+        }}
+        fallbackSource={require('@/assets/images/defaultThumnail.png')}
+        loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
+        alt="article thumnail"
         w={$thumnail_size}
         h={$thumnail_size}
       />

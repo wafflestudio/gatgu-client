@@ -4,7 +4,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { articleAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
-import { initialArticle } from '@/constants/InitialState';
 import { AppThunk } from '@/store';
 import { IArticleProps, IGetFailPayload, IPostArticle } from '@/types/article';
 
@@ -26,7 +25,30 @@ const initialState: IArticleSlice = {
   hasError: false,
   errorStatus: -100,
   isLoading: false,
-  currentArticle: initialArticle,
+  currentArticle: {
+    writer_id: 0,
+    article_id: 0,
+    title: '',
+    description: '',
+    trading_place: '',
+    product_url: '',
+    price_min: 0,
+    time_in: '',
+    image: [], // 확실하지 않음... api에 타입이 안 적혀있음
+    tag: [],
+    created_at: new Date(), // should be date but json server doesn't accept Date
+    updated_at: new Date(),
+    article_status: undefined,
+    order_chat: {
+      id: 0,
+      participant_profile: [],
+      tracking_number: 0,
+    },
+    participants_summary: {
+      count: 0,
+      price: 0,
+    },
+  },
   articleIsLoading: true,
   articleHasError: false,
   articleErrorStatus: -100,
@@ -109,29 +131,29 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     });
 };
 
-export const editSingleArticle = (id: number, body: IPostArticle): AppThunk => (
-  dispatch
-) => {
-  dispatch(writeArticleLoading());
-  return articleAPI
-    .editArticle(id, body)
-    .then((res: AxiosResponse) => {
-      dispatch(writeArticleSuccess(res.data));
-      return res.data.article_id;
-    })
-    .catch((err: AxiosError) => {
-      if (err.response) {
-        dispatch(writeArticleFailure({ errorStatus: err.response.status }));
-        return -1;
-      } else {
-        dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
-        return -1;
-      }
-    });
+export const editSingleArticle = (id: number, body: IPostArticle): AppThunk => {
+  return async (dispatch) => {
+    dispatch(writeArticleLoading());
+    return articleAPI
+      .editArticle(id, body)
+      .then((res: AxiosResponse) => {
+        dispatch(writeArticleSuccess(res.data));
+        return res.data.article_id;
+      })
+      .catch((err: AxiosError) => {
+        if (err.response) {
+          dispatch(writeArticleFailure({ errorStatus: err.response.status }));
+          return -1;
+        } else {
+          dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
+          return -1;
+        }
+      });
+  };
 };
 
 export const createSingleArticle = (body: IPostArticle): AppThunk => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(writeArticleLoading());
     return articleAPI
       .create(body)
