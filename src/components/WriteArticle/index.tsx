@@ -8,6 +8,8 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import tagNames from '@/constants/tagList';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
+import useImageUpload from '@/helpers/hooks/useImageUpload';
+import { AppRoutes } from '@/helpers/routes';
 import { RootState } from '@/store';
 import {
   createSingleArticle,
@@ -16,6 +18,7 @@ import {
 } from '@/store/articleSlice';
 import { IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
+import { TShortImage } from '@/types/shared';
 
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -41,7 +44,7 @@ const TagArray = tagNames.map((item, indx) => {
 });
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
-  const [images, setImages] = useState<(string | null | undefined)[]>([]);
+  const [images, setImages] = useState<TShortImage[]>([]);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -56,6 +59,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
   const [isLoading, setLoadingStatus] = useState<boolean>(false);
+  const { uploadMultipleImages } = useImageUpload(id);
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
@@ -104,7 +108,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       handlePrice(`${currentArticle.price_min}`);
       setDueDate(new Date(currentArticle.time_in));
       // optional:
-      currentArticle.images[0] && setImages(images);
+      currentArticle.image[0] && setImages(images);
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
           return { id: i, tag: `${num}`, selected: false };
@@ -135,22 +139,47 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       Alert.alert(res);
       return;
     }
+    const checkImages =
+      images.length > 0
+        ? uploadMultipleImages(images)
+        : new Promise<string[]>((resolve) => resolve([]));
 
-    const tempArticle = {
-      title: title,
-      description: description,
-      trading_place: location,
-      price_min: parseInt(need_price),
-      time_in: dueDate.toISOString().split('T')[0],
-      product_url: link,
-      // image: images
-      // tag: tempTags
-    } as IPostArticle;
-    if (isEdit && currentArticle) {
-      dispatch(editSingleArticle(id, tempArticle));
-    } else {
-      dispatch(createSingleArticle(tempArticle));
-    }
+    checkImages
+      .then((urls) => {
+        const tempArticle = {
+          title: title,
+          description: description,
+          trading_place: location,
+          price_min: parseInt(need_price),
+          time_in: dueDate.toISOString().split('T')[0],
+          product_url: link,
+        } as IPostArticle;
+        if (urls.length > 0) tempArticle.image = urls;
+        if (isEdit && currentArticle) {
+          const pr = dispatch(editSingleArticle(id, tempArticle));
+          Promise.resolve(pr).then(() => {
+            navigation.navigate(AppRoutes.ArticleStack, {
+              screen: AppRoutes.Article,
+              params: {
+                id: id,
+              },
+            });
+          });
+        } else {
+          const pr = dispatch(createSingleArticle(tempArticle));
+          Promise.resolve(pr).then((newID) => {
+            navigation.navigate(AppRoutes.ArticleStack, {
+              screen: AppRoutes.Article,
+              params: {
+                id: newID,
+              },
+            });
+          });
+        }
+      })
+      .catch((e) => {
+        console.log('ERROR', e);
+      });
   };
 
   React.useLayoutEffect(() => {

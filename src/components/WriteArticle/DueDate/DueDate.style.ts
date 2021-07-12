@@ -15,6 +15,9 @@ const DescriptionStyle = StyleSheet.create({
     ...typo.bigTitle,
     marginLeft: 20,
   },
+  timeContainer: {
+    flexDirection: 'row',
+  },
 
   modalView: {
     height: '45%',

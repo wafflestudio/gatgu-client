@@ -75,7 +75,7 @@ export const getPresignedURL = (
     method: 'get',
     file_name: file_name,
   };
-  return requester.put(`articles/${id}/get_presigned_url/`, body);
+  return requester.put(`users/get_presigned_url/`, body);
 };
 
 export const putPresignedURL = (
@@ -86,7 +86,7 @@ export const putPresignedURL = (
     method: 'put',
     file_name: file_name,
   };
-  return requester.put(`articles/${id}/get_presigned_url/`, body);
+  return requester.put(`users/get_presigned_url/`, body);
 };
 
 // 유저 같구 리스트

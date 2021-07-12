@@ -1,46 +1,47 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { View, Image, TouchableHighlight, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker, { Image as TImage } from 'react-native-image-crop-picker';
 
 import XSign from '@/assets/icons/CrossSign';
 import PlusSign from '@/assets/icons/PlusSign';
+import usePickImage from '@/helpers/hooks/usePickImage';
+import { TShortImage } from '@/types/shared';
 
 import styles from './AddImage.style';
 
 interface AddImageProps {
-  images: (string | null | undefined)[];
-  setImages: Dispatch<SetStateAction<(string | null | undefined)[]>>;
+  images: TShortImage[];
+  setImages: Dispatch<SetStateAction<TShortImage[]>>;
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
-  const [prev, setPrev] = useState<
-    { mime: string; data: string | null | undefined }[]
-  >([]);
+  const [prev, setPrev] = useState<TShortImage[]>([]);
+
+  const { pickMultipleImage } = usePickImage({
+    width: 300,
+    height: 400,
+    cropping: true,
+    multiple: true,
+    includeBase64: true,
+    mediaType: 'photo',
+  });
 
   const pickImage = () => {
-    const tempArrPrev: { mime: string; data: string | null | undefined }[] = [];
-    const tempArrSend: (string | null | undefined)[] = [];
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-      multiple: true,
-      includeBase64: true,
-      mediaType: 'photo',
-    })
-      .then((images) => {
-        images.forEach((item) => {
-          tempArrPrev.push({ mime: item.mime, data: item.data });
-          tempArrSend.push(item.data);
-        });
+    const tempArrPrev: TShortImage[] = [];
+    const tempArrSend: TShortImage[] = [];
+
+    pickMultipleImage()
+      .then((imgs) => {
+        imgs &&
+          imgs.forEach((item: TImage) => {
+            tempArrPrev.push({ mime: item.mime, path: item.path });
+            tempArrSend.push({ mime: item.mime, path: item.path });
+          });
       })
       .then(() => {
         setPrev(tempArrPrev);
         setImages(tempArrSend);
-      })
-      .catch(() => {
-        Alert.alert('갤러리를 여는데 실패했습니다...');
       });
   };
 
@@ -52,14 +53,11 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
   };
 
   const previews =
-    images[0] !== '' &&
+    images.length > 0 &&
     prev.map(
       (item, key): JSX.Element => (
         <View style={styles.photoContainer} key={key}>
-          <Image
-            style={styles.photo}
-            source={{ uri: `data:${item.mime};base64,${item.data}` }}
-          />
+          <Image style={styles.photo} source={{ uri: item.path }} />
           <TouchableHighlight
             style={styles.buttonContainer}
             onPress={() => deleteImage(key)}
@@ -76,12 +74,12 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     <View style={styles.container}>
       <View style={styles.subContainer}>
         <ScrollView horizontal scrollEnabled={true}>
-          <TouchableHighlight onPress={() => pickImage()}>
+          <TouchableHighlight onPress={pickImage}>
             <View style={styles.plusSignCon}>
               <PlusSign style={styles.defaultPhoto} />
             </View>
           </TouchableHighlight>
-          {images[0] !== '' && previews}
+          {images.length > 0 && previews}
         </ScrollView>
       </View>
     </View>
