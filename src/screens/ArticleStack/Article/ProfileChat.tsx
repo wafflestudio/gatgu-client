@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
 import { AxiosResponse } from 'axios';
-import { View } from 'native-base';
+import { Button, Flex, View } from 'native-base';
 
+import { EAppStackScreens } from '@/App.router';
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
+import { ArticleStatus } from '@/enums';
+import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
+import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
+import { palette } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
 import { IUserSumProps } from '@/types/user';
 
-import Chat from './Chat';
 import styles from './ProfileChat.style';
 
 interface IProfileChat {
@@ -17,7 +21,21 @@ interface IProfileChat {
 }
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
+  const navigation = useAppNavigation();
+
+  const isChattingButtonDisabled =
+    orderStatus.progress_status > ArticleStatus.Dealing;
+
   const [writer, setWriter] = useState<IUserSumProps>();
+
+  const handleChattingButtonClick = () => {
+    navigation.navigate(EAppStackScreens.ChattingRoomStack, {
+      screen: EChattingRoomStackScreens.ChattingRoom,
+      params: {
+        id: article.article_id,
+      },
+    });
+  };
 
   useEffect(() => {
     if (article.writer_id) {
@@ -28,12 +46,19 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   }, [article.writer_id]);
 
   return (
-    <View style={styles.userContainer}>
+    <Flex direction="row" justify="space-between">
       <View style={styles.profileContainer}>
         <Profile {...writer} />
       </View>
-      <Chat orderStatus={orderStatus} article_id={article.article_id} />
-    </View>
+      <Button
+        backgroundColor={palette.blue}
+        color={palette.white}
+        disabled={isChattingButtonDisabled}
+        onPress={handleChattingButtonClick}
+      >
+        구매 채팅으로 가기
+      </Button>
+    </Flex>
   );
 }
 export default ProfileChat;
