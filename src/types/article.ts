@@ -15,7 +15,7 @@ export interface IArticleImage {
 }
 
 // response type
-export interface IGetArticleResponse {
+export interface IArticleSummary {
   writer_id: number;
   article_id: number;
   title: string;
@@ -25,14 +25,13 @@ export interface IGetArticleResponse {
   tag: number;
   time_in: string;
   article_status: {
-    count: number;
-    price: number;
+    cur_price_sum: number;
     progress_status: Enums.ArticleStatus;
   };
   updated_at: string;
 }
 
-export type IGetArticlesResponse = ICursorPaginationResponse<IGetArticleResponse>;
+export type IGetArticlesResponse = ICursorPaginationResponse<IArticleSummary>;
 
 export type TSearchType = SearchType.TITLE | SearchType.TAG;
 
@@ -64,8 +63,6 @@ export interface IArticleProps {
   order_chat: IOrderChat;
   participants_summary: IParticipantsSummary;
 }
-
-export type IArticleSummary = Omit<IGetArticleResponse, 'updated_at' | 'tag'>;
 
 // Used for sending POST request for articlse
 export type IPostArticle = Pick<
