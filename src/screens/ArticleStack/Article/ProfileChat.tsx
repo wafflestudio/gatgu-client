@@ -8,6 +8,7 @@ import { userAPI } from '@/apis';
 import { Profile } from '@/components';
 import { ArticleStatus } from '@/enums';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
+import useShallowSelector from '@/helpers/hooks/useSelector';
 import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { palette } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
@@ -22,6 +23,8 @@ interface IProfileChat {
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const navigation = useAppNavigation();
+
+  const isLogined = !!useShallowSelector((state) => state.user.accessToken);
 
   const isChattingButtonDisabled =
     orderStatus.progress_status > ArticleStatus.Dealing;
@@ -38,18 +41,30 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   };
 
   useEffect(() => {
-    if (article.writer_id) {
-      userAPI.getMyData().then((res: AxiosResponse) => {
-        setWriter(res.data.userprofile);
-      });
+    if (!isLogined) return;
+
+    userAPI.getOtherUserData(article.writer_id).then((res) => {
+      console.log(res.data);
+      setWriter(res.data.userprofile);
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  const renderProfile = () => {
+    if (!isLogined) {
+      return null;
     }
-  }, [article.writer_id]);
+
+    return <Profile {...writer} />;
+  };
 
   return (
-    <Flex direction="row" justify="space-between">
-      <View style={styles.profileContainer}>
-        <Profile {...writer} />
-      </View>
+    <Flex
+      direction="row"
+      justify="space-between"
+      style={styles.profileChatContainer}
+    >
+      {renderProfile()}
       <Button
         backgroundColor={palette.blue}
         color={palette.white}

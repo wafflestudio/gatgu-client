@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, Image, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
-import { View } from 'native-base';
+import { Image, View } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -22,7 +22,12 @@ function Profile({
       <TouchableOpacity
         onPress={() => navigation.navigate('Profile', { params: profile_id })}
       >
-        <Image style={styles.profileImg} source={{ uri: picture }} />
+        <Image
+          alt="profile"
+          source={{ uri: picture }}
+          fallbackSource={require('@/assets/images/defaultThumnail.png')}
+          style={styles.profileImg}
+        />
       </TouchableOpacity>
       <Text style={{ ...typo.semiTitle }}>{nickname}</Text>
     </View>

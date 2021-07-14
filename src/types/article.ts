@@ -4,14 +4,14 @@ import * as Enums from '@/enums';
 import { IOrderChat } from './chat';
 import { ICursorPaginationResponse } from './shared';
 
-export interface IParticipantsSummary {
-  count: number;
-  price: number;
-}
-
 export interface IArticleImage {
   id: number;
   img_url: string;
+}
+
+export interface IArticleStatus {
+  progress_status: Enums.ArticleStatus;
+  cur_price_sum: number;
 }
 
 // response type
@@ -24,22 +24,13 @@ export interface IArticleSummary {
   price_min: number;
   tag: number;
   time_in: string;
-  article_status: {
-    cur_price_sum: number;
-    progress_status: Enums.ArticleStatus;
-  };
+  article_status: IArticleStatus;
   updated_at: string;
 }
 
 export type IGetArticlesResponse = ICursorPaginationResponse<IArticleSummary>;
 
 export type TSearchType = SearchType.TITLE | SearchType.TAG;
-
-export interface IArticleStatus {
-  progress_status: Enums.ArticleStatus;
-  cur_people_sum: number;
-  cur_price_sum: number;
-}
 
 export interface IReqPresignedURL {
   method: string;
@@ -55,13 +46,12 @@ export interface IArticleProps {
   product_url: string;
   price_min: number;
   time_in: string;
-  image: string[]; // 확실하지 않음... api에 타입이 안 적혀있음
+  images: IArticleImage[]; // 확실하지 않음... api에 타입이 안 적혀있음
   tag: number[];
   created_at: Date; // should be date but json server doesn't accept Date
   updated_at: Date;
-  article_status?: IArticleStatus;
+  article_status: IArticleStatus;
   order_chat: IOrderChat;
-  participants_summary: IParticipantsSummary;
 }
 
 // Used for sending POST request for articlse
@@ -74,7 +64,7 @@ export type IPostArticle = Pick<
   | 'price_min'
   | 'time_in'
 > &
-  Pick<Partial<IArticleProps>, 'image' | 'tag'>;
+  Pick<Partial<IArticleProps>, 'images' | 'tag'>;
 
 export interface ITagType {
   id: number;
