@@ -22,14 +22,17 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     options,
   }: {
     url: string;
-    token: string;
+    token: number;
     options: IBaseWebsocketOption;
   }) => {
     if (wsRef.current) {
-      return;
+      console.log('bye');
+      // return;
+      wsRef.current.close();
     }
+    if (isNaN(token)) return;
 
-    const ws = new BaseWebsocket(`${url}/${token}`, options);
+    const ws = new BaseWebsocket(`${url}/${token}/`, options);
 
     ws.onopen = (e) => DeviceEventEmitter.emit(WebsocketCustomEvent.Open, e);
     ws.onmessage = (e) =>

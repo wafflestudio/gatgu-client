@@ -49,6 +49,7 @@ class BaseWebsocket {
       this.send({
         type: 'PING',
         data: Date.now(),
+        pp: this._pingpongCount,
       });
 
       this._pingpongCount += 1;

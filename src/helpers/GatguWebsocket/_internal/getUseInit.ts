@@ -6,7 +6,6 @@ const getUseInit = (wsContext: WsContext) => (
   ...option: Parameters<TWsInit>
 ) => {
   const { init } = useContext(wsContext);
-
   useEffect(() => {
     init(...option);
   }, [option, init]);
