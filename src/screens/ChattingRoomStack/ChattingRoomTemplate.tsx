@@ -1,16 +1,32 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, Text } from 'react-native';
+import { useQuery } from 'react-query';
 
-import { DrawerActions, useNavigation } from '@react-navigation/native';
+import {
+  DrawerActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
+import { getMyData } from '@/apis/UserApi';
 import { Header } from '@/components';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { USER_DETAIL } from '@/queryKeys';
 import { IChatMessage } from '@/types/chat';
+import { ChattingDrawerParamList } from '@/types/navigation';
+import { IUserDetail } from '@/types/user';
 
 import ChatsContainer from './ChatsContainer';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
+    getMyData().then((response) => response.data)
+  ).data;
+  const user_id = currentUser?.id;
+  const room_id = route.params.id;
 
   const [chats, setChats] = React.useState<IChatMessage[]>([]);
 
@@ -58,7 +74,7 @@ export default function ChattingRoom(): JSX.Element {
           navigation.goBack();
         }}
       />
-      <ChatsContainer chatList={chats} />
+      <ChatsContainer chatList={chats} userID={user_id} roomID={room_id} />
     </KeyboardAvoidingView>
   );
 }

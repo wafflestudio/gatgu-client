@@ -1,9 +1,17 @@
 import React from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
+import { useQuery } from 'react-query';
 
+import { RouteProp, useRoute } from '@react-navigation/native';
+
+import { getMyData } from '@/apis/UserApi';
 import { Button, Profile } from '@/components';
 import CheckBox from '@/components/CheckBox';
-import { IChatUserProps } from '@/types/user';
+import { WSMessage } from '@/enums';
+import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { USER_DETAIL } from '@/queryKeys';
+import { ChattingDrawerParamList } from '@/types/navigation';
+import { IChatUserProps, IUserDetail } from '@/types/user';
 
 import styles from './Drawer.style';
 
@@ -14,12 +22,30 @@ interface IDrawerTemplateProps {
 }
 
 function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
+  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
+    getMyData().then((response) => response.data)
+  ).data;
+  const { sendWsMessage } = GatguWebsocket.useMessage();
+  const userID = currentUser?.id;
+  const roomID = route.params.id;
+
   const renderPicure = ({ item: uri }: { item: string }) => (
     <Image source={{ uri }} style={styles.image} />
   );
 
   const handleCheck = () => {
     console.log('handle check not yet');
+  };
+
+  const handlePressExit = () => {
+    sendWsMessage({
+      type: WSMessage.EXIT_ROOM,
+      data: {
+        user_id: userID,
+        room_id: roomID,
+      },
+    });
   };
 
   const renderedParticipants = users.map((user, ind) => (
@@ -65,7 +91,7 @@ function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
       <View style={styles.optionContainer}>
         <Button
           title="나가기"
-          onPress={() => Alert.alert('not yet: 나가기')}
+          onPress={handlePressExit}
           textStyle={styles.smallLabelText}
         />
       </View>

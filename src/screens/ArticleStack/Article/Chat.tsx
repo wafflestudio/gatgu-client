@@ -34,11 +34,14 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
       sendWsMessage({
         type: WSMessage.ENTER_ROOM,
         data: {
-          room_id: 5,
+          room_id: article_id,
           user_id: currentUser?.id,
         },
       });
-      navigation.navigate('ChattingRoom', { id: article_id });
+      navigation.navigate('ChattingRoom', {
+        screen: 'ChattingRoom',
+        params: { id: article_id },
+      });
     }
   };
   return (

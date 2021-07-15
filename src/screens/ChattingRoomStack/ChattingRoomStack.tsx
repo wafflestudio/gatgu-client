@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
+import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RouteProp, useRoute } from '@react-navigation/core';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import { getMyData } from '@/apis/UserApi';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { getChatInfo } from '@/store/chatSlice';
 import { ChattingDrawerParamList } from '@/types/navigation';
+import { IUserDetail } from '@/types/user';
 
 import ChattingRoomTemplate from './ChattingRoomTemplate';
 import RightDrawer from './Drawer';
@@ -34,9 +38,6 @@ const mockUrls = [
 // when: when api becomes stable
 
 function ChattingRoomStackScreen(): JSX.Element {
-  // const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
-  // const id = route.params.id;
-
   const dispatch = useDispatch();
 
   const currentChatInfo = useSelector(
