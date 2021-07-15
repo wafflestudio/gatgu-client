@@ -10,9 +10,15 @@ import InputBar from './InputBar';
 
 interface IChattingRoomInterface {
   chatList: IChatMessage[];
+  userID?: number;
+  roomID: number;
 }
 
-function ChattingRoom({ chatList }: IChattingRoomInterface): JSX.Element {
+function ChattingRoom({
+  chatList,
+  userID,
+  roomID,
+}: IChattingRoomInterface): JSX.Element {
   const renderItem = ({
     item,
     index,
@@ -34,7 +40,7 @@ function ChattingRoom({ chatList }: IChattingRoomInterface): JSX.Element {
         height: mobile.height - 56,
       }}
     >
-      <InputBar />
+      <InputBar userID={userID} roomID={roomID} />
       <FlatList
         data={chatList}
         renderItem={renderItem}

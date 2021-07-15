@@ -1,14 +1,19 @@
 import React from 'react';
 import { View, TextInput, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { palette } from '@/styles';
 
 import styles from './InputBar.style';
 
-const user = Math.floor(Math.random() * 1000);
+interface IInputBarInterface {
+  userID?: number;
+  roomID: number;
+}
 
-function InputBar(): JSX.Element {
+function InputBar({ userID, roomID }: IInputBarInterface): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage();
   const [input, setInput] = React.useState('');
 
@@ -31,20 +36,25 @@ function InputBar(): JSX.Element {
           onChangeText={setInput}
         />
       </View>
-      <View
-        style={styles.inputIcon}
-        onTouchEnd={() => {
+      <TouchableOpacity
+        onPress={() => {
           sendWsMessage({
-            type: 'CHAT',
+            type: WSMessage.SEND_MESSAGE,
             data: {
-              input,
-              user,
+              room_id: roomID,
+              user_id: userID,
+              message: {
+                text: input,
+                img: 'www.google.com',
+              },
             },
           });
         }}
       >
-        <Text>3</Text>
-      </View>
+        <View style={styles.inputIcon}>
+          <Text>3</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
