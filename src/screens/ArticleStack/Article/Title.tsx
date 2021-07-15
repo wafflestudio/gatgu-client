@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-import { Label, View } from 'native-base';
+import { View } from 'native-base';
 
 import { ColorArticleStatus, StringArticleStatus } from '@/constants/article';
 import { calcTimeDiff } from '@/helpers/functions';
@@ -32,7 +32,7 @@ function Title({ article, orderStatus }: ITitleProps): JSX.Element {
   return (
     <View style={styles.subContainer}>
       <View style={styles.subConNoBorder}>
-        <Label
+        <Text
           style={[
             styles.label,
             { ...typo.bigTitle },
@@ -40,7 +40,7 @@ function Title({ article, orderStatus }: ITitleProps): JSX.Element {
           ]}
         >
           {StringArticleStatus[progress_status]}
-        </Label>
+        </Text>
         <Text style={{ ...typo.bigTitle }}>{article.title}</Text>
       </View>
       <View style={[styles.subConNoBorder, { paddingLeft: 15 }]}>

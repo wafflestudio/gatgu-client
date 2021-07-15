@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-import { Label, View } from 'native-base';
+import { View } from 'native-base';
 
 import { typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
@@ -19,11 +19,11 @@ function Info({
   return (
     <View style={styles.subContainer}>
       <View style={styles.subConNoBorder}>
-        <Label style={styles.label}>거래 지역</Label>
+        <Text style={styles.label}>거래 지역</Text>
         <Text style={{ ...typo.info }}>{trading_place}</Text>
       </View>
       <View style={styles.subConNoBorder}>
-        <Label style={styles.label}>모집 금액</Label>
+        <Text style={styles.label}>모집 금액</Text>
         <GoalTopBubbleBar
           summary={participants_summary}
           current={current}

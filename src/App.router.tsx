@@ -43,7 +43,7 @@ const AppRouter: React.FC = () => {
     getMyData().then((response) => response.data)
   );
   GatguWebsocket.useInit({
-    url: 'ws://8f29934e7ea4.ngrok.io/ws/chat',
+    url: 'ws://e91195b727de.ngrok.io/ws/chat',
     token: parseInt(`${userQuery.data?.id}/`),
     options: { debug: true },
   });
@@ -63,7 +63,7 @@ const AppRouter: React.FC = () => {
             options={{ headerShown: false }}
           />
           <AppStack.Screen
-            name={EAppStackScreens.ChattingRoomStack}
+            name="ChattingRoom"
             component={ChattingRoomStackScreen}
             options={{ headerShown: false }}
           />
