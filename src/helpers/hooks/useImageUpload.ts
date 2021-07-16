@@ -1,7 +1,5 @@
 import { articleAPI } from '@/apis';
-
 import { TShortImage } from '@/types/shared';
-
 
 const fieldNames = [
   'key',
@@ -67,7 +65,6 @@ const useImageUpload = (id: number) => {
         return uploadSingleImage(image);
       })
     );
-
   };
 
   return { uploadSingleImage, uploadMultipleImages };

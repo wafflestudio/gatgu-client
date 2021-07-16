@@ -40,7 +40,7 @@ const useAutoLogin = () => {
     return accessToken;
   };
 
-  const loginWithToken = async () => {
+  const autoLogin = async () => {
     try {
       const accessTokenWithExpiry = await ObjectStorage.getObject<DataWithExpiry>(
         asyncStoragekey.ACCESS_TOKEN
@@ -73,7 +73,7 @@ const useAutoLogin = () => {
   };
 
   useEffect(() => {
-    loginWithToken().finally(() => {
+    autoLogin().finally(() => {
       setLoading(false);
     });
     // eslint-disable-next-line
