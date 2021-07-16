@@ -36,8 +36,8 @@ const initialState: IArticleSlice = {
     time_in: '',
     images: [],
     tag: [],
-    created_at: new Date(), // should be date but json server doesn't accept Date
-    updated_at: new Date(),
+    created_at: new Date().getTime(), // should be date but json server doesn't accept Date
+    updated_at: new Date().getTime(),
     article_status: {
       progress_status: 1,
       cur_price_sum: 0,
@@ -46,6 +46,7 @@ const initialState: IArticleSlice = {
       id: 0,
       participant_profile: [],
       tracking_number: 0,
+      order_status: 0,
     },
   },
   articleIsLoading: true,
