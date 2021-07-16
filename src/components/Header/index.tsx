@@ -14,8 +14,6 @@ import styles from './Header.style';
 export interface IHeaderProps {
   // 헤더 한가운데 들어갈 타이틀 텍스트
   title: string;
-  // 타이틀 텍스트 보여줄 지 결정
-  titleShown?: boolean;
   // 타이틀 텍스트 스타일
   titleStyle?: StyleProp<TextStyle>;
   // 타이틀 텍스트 컨테이너의 스타일
@@ -35,7 +33,6 @@ function Header({
   title,
   left,
   right,
-  titleShown,
   titleStyle,
   leftCallback,
   rightCallback,
@@ -53,13 +50,13 @@ function Header({
           {left}
         </TouchableHighlight>
       ) : (
-        <View style={styles.leftButton} />
+        <View style={[styles.leftButton, leftContainerStyle]} />
       )}
-      {titleShown && (
-        <View style={[styles.titleContainer, titleContainerStyle]}>
+      <View style={[styles.titleContainer, titleContainerStyle]}>
+        {title && (
           <Text style={[styles.basicTitleText, titleStyle]}>{title}</Text>
-        </View>
-      )}
+        )}
+      </View>
       {right ? (
         <TouchableHighlight
           style={[styles.rightButton, rightContainerStyle]}
@@ -68,7 +65,7 @@ function Header({
           {right}
         </TouchableHighlight>
       ) : (
-        <View style={styles.rightButton} />
+        <View style={[styles.rightButton, rightContainerStyle]} />
       )}
     </View>
   );
