@@ -2,19 +2,20 @@ import React, { useCallback, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Box, Center, Progress, Text } from 'native-base';
+import { ArrowBackIcon, Center, HamburgerIcon, Progress } from 'native-base';
 
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { DrawerActions, RouteProp, useRoute } from '@react-navigation/native';
 
 import { TAppStackParamList } from '@/App.router';
+import { Header } from '@/components';
 import Error from '@/components/Error';
+import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 
 import { EArticleStackScreens } from '../ArticleStack';
 import { ArticleHeader } from './ArticleHeader';
 import Desc from './Desc';
-// import { ArticleHeader } from './ArticleHeader';
 import ProductImages from './ProductImages';
 import ProfileChat from './ProfileChat';
 
@@ -24,6 +25,9 @@ function ArticlePage(): JSX.Element {
   >();
   const id = route.params.id;
   const dispatch = useDispatch();
+  const navigation = useAppNavigation();
+
+  const islogined = !!useSelector((state: RootState) => state.user.accessToken);
 
   const {
     currentArticle,
@@ -59,6 +63,16 @@ function ArticlePage(): JSX.Element {
 
   return (
     <View style={styles.container}>
+      <Header
+        title="글쓰기"
+        right={islogined ? <HamburgerIcon /> : null}
+        rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+        left={<ArrowBackIcon />}
+        leftCallback={() => {
+          navigation.goBack();
+        }}
+      />
+
       <ScrollView>
         <ProductImages
           image_urls={currentArticle.images}

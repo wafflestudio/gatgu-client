@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
 
-import { AxiosResponse } from 'axios';
-import { Button, Flex, View } from 'native-base';
+import { Button, Flex } from 'native-base';
 
 import { EAppStackScreens } from '@/App.router';
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
 import { ArticleStatus } from '@/enums';
+import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useShallowSelector from '@/helpers/hooks/useSelector';
 import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { palette } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
-import { IUserSumProps } from '@/types/user';
+import { IUserSimple } from '@/types/user';
 
 import styles from './ProfileChat.style';
+
+type TWsEnterRoomSuccess = {
+  type: 'ENTER_ROOM_SUCCESS';
+  data: unknown;
+};
 
 interface IProfileChat {
   article: IArticleProps;
@@ -24,17 +29,33 @@ interface IProfileChat {
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const navigation = useAppNavigation();
 
+  const { sendWsMessage } = GatguWebsocket.useMessage<TWsEnterRoomSuccess>({
+    onmessage: (e) => {
+      switch (e.type) {
+        case 'ENTER_ROOM_SUCCESS':
+          navigation.navigate(EAppStackScreens.ChattingRoomStack, {
+            screen: EChattingRoomStackScreens.ChattingRoom,
+            params: {
+              id: article.article_id,
+            },
+          });
+          break;
+        // no default
+      }
+    },
+  });
+
   const isLogined = !!useShallowSelector((state) => state.user.accessToken);
 
   const isChattingButtonDisabled =
-    orderStatus.progress_status > ArticleStatus.Dealing;
+    !isLogined || orderStatus.progress_status > ArticleStatus.Dealing;
 
-  const [writer, setWriter] = useState<IUserSumProps>();
+  const [writer, setWriter] = useState<IUserSimple>();
 
   const handleChattingButtonClick = () => {
-    navigation.navigate(EAppStackScreens.ChattingRoomStack, {
-      screen: EChattingRoomStackScreens.ChattingRoom,
-      params: {
+    sendWsMessage({
+      type: 'ENTER_ROOM',
+      data: {
         id: article.article_id,
       },
     });
@@ -44,8 +65,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
     if (!isLogined) return;
 
     userAPI.getOtherUserData(article.writer_id).then((res) => {
-      console.log(res.data);
-      setWriter(res.data.userprofile);
+      setWriter(res.data);
     });
     // eslint-disable-next-line
   }, []);
@@ -55,14 +75,19 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       return null;
     }
 
-    return <Profile {...writer} />;
+    return <Profile {...(writer as any)} />;
   };
 
   return (
     <Flex
       direction="row"
       justify="space-between"
-      style={styles.profileChatContainer}
+      style={[
+        styles.profileChatContainer,
+        !isLogined && {
+          justifyContent: 'flex-end',
+        },
+      ]}
     >
       {renderProfile()}
       <Button
