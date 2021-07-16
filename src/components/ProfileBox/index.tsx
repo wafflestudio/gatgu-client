@@ -6,17 +6,21 @@ import { Image, View } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import { typo } from '@/styles';
-import { IUserSumProps } from '@/types/user';
+import { IUserSimple } from '@/types/user';
 
 import styles from './Profile.style';
+
+type IProfileProps = Pick<
+  IUserSimple['userprofile'],
+  'profile_id' | 'nickname' | 'picture'
+>;
 
 function Profile({
   profile_id,
   picture,
   nickname,
-}: IUserSumProps): JSX.Element {
+}: IProfileProps): JSX.Element {
   const navigation = useNavigation();
-
   return (
     <View style={styles.profile}>
       <TouchableOpacity
@@ -24,8 +28,15 @@ function Profile({
       >
         <Image
           alt="profile"
-          source={{ uri: picture }}
-          fallbackSource={require('@/assets/images/defaultThumnail.png')}
+          source={
+            picture?.includes('http')
+              ? {
+                  uri: picture,
+                }
+              : require('@/assets/images/defaultProfile.png')
+          }
+          fallbackSource={require('@/assets/images/defaultProfile.png')}
+          defaultSource={require('@/assets/images/defaultProfile.png')}
           style={styles.profileImg}
         />
       </TouchableOpacity>
