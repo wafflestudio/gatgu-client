@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useQuery } from 'react-query';
 
@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import { chatAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
@@ -31,6 +32,18 @@ function ChattingRoom(): JSX.Element {
   const [pendingList, setPendingList] = useState<IChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [refresh, setRefresh] = useState(true);
+
+  useEffect(() => {
+    chatAPI
+      .getChattingMessages(roomID)
+      .then((chattingList) => {
+        // TODO: change with pagination
+        setChatList(chattingList.data.results);
+      })
+      .catch((e) => {
+        console.debug('GET CHATTING MESSAGES', e);
+      });
+  }, []);
 
   const handleSendMessage = () => {
     if (currentUser) {

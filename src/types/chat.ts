@@ -1,3 +1,4 @@
+import { ICursorPaginationResponse } from './shared';
 import { IChatUserProps } from './user';
 
 export interface IChattingRoom {
@@ -45,6 +46,8 @@ export interface IReceivedMessage {
   sent_at: number;
   system: boolean;
 }
+
+export type IAllMessagesResponse = ICursorPaginationResponse<IReceivedMessage>;
 
 export interface ISendMessage {
   room_id: number;
