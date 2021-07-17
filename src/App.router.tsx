@@ -1,6 +1,4 @@
 import React from 'react';
-import { Platform, StatusBar } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
   NavigationContainer,
@@ -40,6 +38,7 @@ const AppRouter: React.FC = () => {
   });
 
   return (
+<<<<<<< HEAD
     <NavigationContainer>
       <SafeAreaView
         style={{
@@ -66,6 +65,25 @@ const AppRouter: React.FC = () => {
         </AppStack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
+=======
+    <AppStack.Navigator>
+      <AppStack.Screen
+        name={EAppStackScreens.MainStack}
+        component={MainStack}
+        options={{ headerShown: false }}
+      />
+      <AppStack.Screen
+        name={EAppStackScreens.ChattingRoomStack}
+        component={ChattingRoomStackScreen}
+        options={{ headerShown: false }}
+      />
+      <AppStack.Screen
+        name={EAppStackScreens.AuthStack}
+        component={AuthStackScreen}
+        options={{ headerShown: false }}
+      />
+    </AppStack.Navigator>
+>>>>>>> 2abd3705 (initialize ios local push notification)
   );
 };
 

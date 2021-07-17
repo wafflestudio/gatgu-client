@@ -6,7 +6,7 @@ import _ from 'lodash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging, { firebase } from '@react-native-firebase/messaging';
-import { useNavigation } from '@react-navigation/core';
+import { NavigationContainerRef } from '@react-navigation/core';
 
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { INotificationConfig } from '@/types/Notification';
@@ -33,9 +33,14 @@ PushNotification.configure({
   },
 });
 
-const NotificationProvider: React.FC = ({ children }) => {
-  const navigation = useNavigation();
+interface INotificationProviderProps {
+  navigation: NavigationContainerRef;
+}
 
+const NotificationProvider: React.FC<INotificationProviderProps> = ({
+  navigation,
+  children,
+}) => {
   const [initialRoute, setInitialRoute] = useState('');
   const [loading, setLoading] = useState(true);
   const [
@@ -98,13 +103,12 @@ const NotificationProvider: React.FC = ({ children }) => {
 
   const _setRouting = () => {
     // background state
-    firebase.messaging().onNotificationOpenedApp((msg) => {
+    messaging().onNotificationOpenedApp((msg) => {
       navigation.navigate(msg.data?.routeName ?? 'Home');
     });
 
     // quit state
-    firebase
-      .messaging()
+    messaging()
       .getInitialNotification()
       .then((msg) => {
         setInitialRoute(msg?.data?.routeName ?? 'Home');
@@ -130,6 +134,8 @@ const NotificationProvider: React.FC = ({ children }) => {
       // fcm doesn't support foreground notification.
       // so, if foreground remotemessage has notification property, fire localNotification.
       if (!msg.notification) return;
+
+      console.log(msg);
 
       switch (true) {
         case notificationConfig?.announcement: {
@@ -172,7 +178,7 @@ const NotificationProvider: React.FC = ({ children }) => {
   );
 
   const handlePermission = async () => {
-    const authStatus = await firebase.messaging().hasPermission();
+    const authStatus = await messaging().hasPermission();
     let enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED;
 
     if (enabled) {
@@ -188,7 +194,6 @@ const NotificationProvider: React.FC = ({ children }) => {
     return enabled;
   };
 
-  // react-use
   useEffect(() => {
     handlePermission();
     _getNotificationConfig();
