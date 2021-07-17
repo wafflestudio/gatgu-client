@@ -24,18 +24,21 @@ function ChatBox({
   next,
   selfId,
 }: IChatBoxProps): JSX.Element {
-  const { text, system, sent_at, sent_by } = current;
+  const { text, type, sent_at, sent_by } = current;
+  const system = type === 'system' ? true : false;
 
   const isSameUser = sent_by?.id === previous?.sent_by?.id;
 
   const isSelf = selfId === sent_by?.id;
 
-  const isSameTime = sent_at === next?.sent_at && next?.system === false;
+  const isSameTime =
+    sent_at === next?.sent_at && (next?.type == 'system') === false;
 
   // 00:00 format
   const sentTime = useMemo(() => {
-    const fullDate = new Date(sent_at);
-    return `${fullDate.getHours()}:${fullDate.getMinutes()}`;
+    const split = sent_at.split('T');
+    return sent_at;
+    // return `${fullDate.getHours()}:${fullDate.getMinutes()}`;
   }, [sent_at]);
 
   // message + time
@@ -79,7 +82,7 @@ function ChatBox({
   );
 
   return system ? (
-    <SystemMessage message={text} previousSystem={previous?.system} />
+    <SystemMessage message={text} previousSystem={previous?.type == 'system'} />
   ) : (
     <View
       style={[
