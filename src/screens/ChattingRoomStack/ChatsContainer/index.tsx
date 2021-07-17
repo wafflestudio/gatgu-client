@@ -11,7 +11,7 @@ import { getMyData } from '@/apis/UserApi';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { USER_DETAIL } from '@/queryKeys';
-import { IChatMessage, IReceivedMessage, ISendMessage } from '@/types/chat';
+import { IChatMessage, ISendMessage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
 import { IUserDetail } from '@/types/user';
 
@@ -66,8 +66,9 @@ function ChattingRoom(): JSX.Element {
           // updated_at: currentUser.userprofile.updated_at.getTime()/1000,
           // withdrew_at: currentUser.userprofile.withdrew_at.getTime()/1000
         },
-        sent_at: DateTime.now().toSeconds(),
+        sent_at: `${DateTime.now()}`,
         system: false,
+        type: 'non-system',
       };
       const tempPendingList = pendingList;
       tempPendingList.push(message);
@@ -94,7 +95,7 @@ function ChattingRoom(): JSX.Element {
 
   GatguWebsocket.useMessage<{
     type: string;
-    data: IReceivedMessage;
+    data: IChatMessage;
   }>({
     onmessage: (socket) => {
       switch (socket.type) {
