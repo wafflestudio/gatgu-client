@@ -14,7 +14,7 @@ interface IChatBoxProps {
   next?: IChatMessage;
 
   // user nickname that decide left,right posision
-  selfNickname: string;
+  selfId?: number;
 }
 
 // one line of message
@@ -22,13 +22,13 @@ function ChatBox({
   current,
   previous,
   next,
-  selfNickname,
+  selfId,
 }: IChatBoxProps): JSX.Element {
-  const { message, system, sent_at, image, sent_by } = current;
+  const { text, system, sent_at, sent_by } = current;
 
-  const isSameUser = sent_by?.nickname === previous?.sent_by?.nickname;
+  const isSameUser = sent_by?.id === previous?.sent_by?.id;
 
-  const isSelf = selfNickname === sent_by?.nickname;
+  const isSelf = selfId === sent_by?.id;
 
   const isSameTime = sent_at === next?.sent_at && next?.system === false;
 
@@ -50,10 +50,10 @@ function ChatBox({
         {!isSameTime && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
-        <Bubble message={message} isSelf={isSelf} />
+        <Bubble message={text} isSelf={isSelf} />
       </View>
     ),
-    [isSelf, isSameTime, message, sentTime]
+    [isSelf, isSameTime, text, sentTime]
   );
 
   const renderedName = useMemo(
@@ -79,7 +79,7 @@ function ChatBox({
   );
 
   return system ? (
-    <SystemMessage message={message} previousSystem={previous?.system} />
+    <SystemMessage message={text} previousSystem={previous?.system} />
   ) : (
     <View
       style={[
@@ -91,11 +91,12 @@ function ChatBox({
         {renderedProfile}
         <View>
           {renderedName}
-          {image.length ? (
-            <Image source={{ uri: image }} style={styles.messageImage} />
+          {renderedBubbleTime}
+          {/* {image.img_url.length ? (
+            <Image source={{ uri: image.img_url }} style={styles.messageImage} />
           ) : (
             renderedBubbleTime
-          )}
+          )} */}
         </View>
       </View>
     </View>

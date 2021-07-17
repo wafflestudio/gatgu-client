@@ -26,14 +26,31 @@ export interface IChangeStatusProps {
   order_status: number;
 }
 
-export interface IChatMessage {
-  message: string;
-  system: boolean;
-  sent_at: string;
-  image: string;
-  // 보낸사람
-  sent_by?: {
+export type IChatMessage = Omit<IReceivedMessage, 'id'>;
+
+export interface IReceivedMessage {
+  id: number;
+  text: string;
+  image: {
+    id: number;
+    img_url: string;
+  }[];
+  sent_by: {
+    id: number;
     nickname: string;
     picture: string;
+    updated_at: number;
+    withdrew_at: number | null;
+  };
+  sent_at: number;
+  system: boolean;
+}
+
+export interface ISendMessage {
+  room_id: number;
+  user_id?: number;
+  message: {
+    text: string;
+    img: string;
   };
 }
