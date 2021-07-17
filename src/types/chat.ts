@@ -26,11 +26,8 @@ export interface IOrderChat {
 export interface IChangeStatusProps {
   order_status: number;
 }
-
-export type IChatMessage = Omit<IReceivedMessage, 'id'>;
-
-export interface IReceivedMessage {
-  id: number;
+export interface IChatMessage {
+  id?: number;
   text: string;
   image: {
     id: number;
@@ -43,11 +40,12 @@ export interface IReceivedMessage {
     updated_at: number;
     withdrew_at: number | null;
   };
-  sent_at: number;
-  system: boolean;
+  sent_at: string;
+  type: string;
+  system?: boolean;
 }
 
-export type IAllMessagesResponse = ICursorPaginationResponse<IReceivedMessage>;
+export type IAllMessagesResponse = ICursorPaginationResponse<IChatMessage>;
 
 export interface ISendMessage {
   room_id: number;
