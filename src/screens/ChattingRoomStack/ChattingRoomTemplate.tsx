@@ -21,38 +21,30 @@ import ChatsContainer from './ChatsContainer';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
-  const user_id = currentUser?.id;
-  const room_id = route.params.id;
 
-  const [chats, setChats] = React.useState<IChatMessage[]>([]);
-
-  GatguWebsocket.useMessage<{
-    type: string;
-    data: {
-      user: number;
-      data: string;
-    };
-  }>({
-    onmessage: (e) => {
-      setChats((prev) => [
-        ...prev,
-        {
-          message: e.data.data,
-          system: false,
-          image: '',
-          sent_at: new Date().toDateString(),
-          sent_by: {
-            nickname: `${e.data.user}`,
-            picture: `https://placeimg.com/140/${e.data.user}/any`,
-          },
-        },
-      ]);
-    },
-  });
+  // GatguWebsocket.useMessage<{
+  //   type: string;
+  //   data: {
+  //     user: number;
+  //     data: string;
+  //   };
+  // }>({
+  //   onmessage: (e) => {
+  //     setChat((prev) => [
+  //       ...prev,
+  //       {
+  //         message: e.data.data,
+  //         system: false,
+  //         image: '',
+  //         sent_at: new Date().toDateString(),
+  //         sent_by: {
+  //           nickname: `${e.data.user}`,
+  //           picture: `https://placeimg.com/140/${e.data.user}/any`,
+  //         },
+  //       },
+  //     ]);
+  //   },
+  // });
 
   return (
     <KeyboardAvoidingView
@@ -74,7 +66,7 @@ export default function ChattingRoom(): JSX.Element {
           navigation.goBack();
         }}
       />
-      <ChatsContainer chatList={chats} userID={user_id} roomID={room_id} />
+      <ChatsContainer />
     </KeyboardAvoidingView>
   );
 }
