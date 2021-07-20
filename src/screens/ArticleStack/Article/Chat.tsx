@@ -3,6 +3,7 @@ import { Alert, Text } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useQuery } from 'react-query';
 
+import { DateTime } from 'luxon';
 import { View } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
@@ -60,6 +61,7 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
           room_id: article_id,
           user_id: currentUser?.id,
         },
+        websocket_id: `${DateTime.now()}`,
       });
     }
   };

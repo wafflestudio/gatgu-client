@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
 import { useQuery } from 'react-query';
 
+import { DateTime } from 'luxon';
+
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { getMyData } from '@/apis/UserApi';
@@ -45,6 +47,7 @@ function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
         user_id: userID,
         room_id: roomID,
       },
+      websocket_id: `${DateTime.now()}`,
     });
   };
 

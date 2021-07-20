@@ -54,4 +54,5 @@ export interface ISendMessage {
     text: string;
     img: string;
   };
+  websocket_id: string;
 }

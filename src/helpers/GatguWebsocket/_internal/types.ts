@@ -23,6 +23,7 @@ export type WebsocketEventMap<T = any> = {
 export interface TWsMessage {
   type: string;
   data?: any;
+  websocket_id?: string;
 }
 
 export type TWsInit = ({
