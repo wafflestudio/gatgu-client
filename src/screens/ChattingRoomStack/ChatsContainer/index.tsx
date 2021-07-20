@@ -19,6 +19,16 @@ import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
 import InputBar from './InputBar';
 
+interface IObject {
+  [key: string]: [number, number]; // [timeoutID, retry count]
+}
+
+export interface IWSChatMessage {
+  message: IChatMessage;
+  websocket_id?: string;
+  repeat: boolean;
+}
+
 function ChattingRoom(): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage();
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
@@ -28,8 +38,9 @@ function ChattingRoom(): JSX.Element {
   const userID = currentUser?.id;
   const roomID = route.params.id;
 
-  const [chatList, setChatList] = useState<IChatMessage[]>([]);
-  const [pendingList, setPendingList] = useState<IChatMessage[]>([]);
+  const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
+  const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
+  const [retryMap, setRetryMap] = useState<IObject>({});
   const [input, setInput] = useState('');
   const [refresh, setRefresh] = useState(true);
 
@@ -38,41 +49,84 @@ function ChattingRoom(): JSX.Element {
       .getChattingMessages(roomID)
       .then((chattingList) => {
         // TODO: change with pagination
-        setChatList(chattingList.data.results);
+        const tempChatList = chattingList.data.results.reverse().map((chat) => {
+          return {
+            message: chat,
+            repeat: false,
+          };
+        });
+        setChatList(tempChatList);
       })
       .catch((e) => {
         console.debug('GET CHATTING MESSAGES', e);
       });
   }, []);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (input: string, resend: string) => {
     if (currentUser) {
+      // set timeout
+      const key = parseInt(resend) < 0 ? `${DateTime.now()}` : resend;
+      const timeoutID = setTimeout(handleSendMessage, 5000, input, key);
+      const tempMap = retryMap;
+      try {
+        tempMap[key] = [timeoutID, tempMap[key][1] + 1];
+      } catch {
+        tempMap[key] = [timeoutID, 1];
+      }
+      setRetryMap(tempMap);
+
+      // if more than 5 retries
+      if (retryMap[key][1] > 5) {
+        // clear timeout
+        clearTimeout(retryMap[key][0]);
+
+        // mark delete or resend in pendingList
+        const tempPendingList = pendingList.map((chat) =>
+          chat.websocket_id === `${retryMap[key][0]}`
+            ? { ...chat, repeat: true }
+            : chat
+        );
+        setPendingList(tempPendingList);
+
+        // delete from map
+        const tempMap = retryMap;
+        delete tempMap[key];
+        setRetryMap(tempMap);
+        return;
+      }
+
       // add to pendingList
       const message = {
-        text: input,
-        image: [
-          {
-            id: 0, // @juimdpp TODO
-            img_url: 'www.google.com',
+        message: {
+          text: input,
+          image: [
+            {
+              id: 0, // @juimdpp TODO
+              img_url: 'www.google.com',
+            },
+          ],
+          sent_by: {
+            id: currentUser.id,
+            nickname: currentUser.username,
+            picture: currentUser.userprofile.picture,
+            updated_at: 20210716,
+            withdrew_at: null,
+            // TODO: remove comments before pushing
+            // updated_at: currentUser.userprofile.updated_at.getTime()/1000,
+            // withdrew_at: currentUser.userprofile.withdrew_at.getTime()/1000
           },
-        ],
-        sent_by: {
-          id: currentUser.id,
-          nickname: currentUser.username,
-          picture: currentUser.userprofile.picture,
-          updated_at: 20210716,
-          withdrew_at: null,
-          // TODO: remove comments before pushing
-          // updated_at: currentUser.userprofile.updated_at.getTime()/1000,
-          // withdrew_at: currentUser.userprofile.withdrew_at.getTime()/1000
+          sent_at: `${DateTime.now()}`,
+          system: false,
+          type: 'non-system',
         },
-        sent_at: `${DateTime.now()}`,
-        system: false,
-        type: 'non-system',
+        websocket_id: key,
+        repeat: false,
       };
-      const tempPendingList = pendingList;
-      tempPendingList.push(message);
-      setPendingList(tempPendingList);
+      if (!resend) {
+        const tempPendingList = pendingList;
+        tempPendingList.push(message);
+        setPendingList(tempPendingList);
+      }
       setRefresh(!refresh);
 
       // send websocket message to server
@@ -85,7 +139,8 @@ function ChattingRoom(): JSX.Element {
             text: input,
             img: 'www.google.com',
           },
-        } as ISendMessage,
+        },
+        websocket_id: key, // tempID used for internal purposes
       });
 
       // reset input
@@ -93,35 +148,57 @@ function ChattingRoom(): JSX.Element {
     }
   };
 
+  /*
+  ## (SEND_MESSAGE)           : setTimeout + put to pendingList
+  ## (RECEIVE_MESSAGE_SUCCESS): clearTimeout + add to chatList + remove from pendingList
+  (RECEIVE_MESSAGE_FAILURE): clearTimeout + delete or resend
+*/
+
   GatguWebsocket.useMessage<{
     type: string;
     data: IChatMessage;
+    websocket_id: string;
   }>({
     onmessage: (socket) => {
       switch (socket.type) {
         case WSMessage.RECEIVE_MESSAGE_SUCCESS: {
           // add to chatList
           const tempChatList = chatList;
-          tempChatList.push(socket.data);
+          tempChatList.push({
+            message: socket.data,
+            repeat: false,
+          });
           setChatList(tempChatList);
 
           // remove from pendingList
-          const tempPendingList: IChatMessage[] = [];
-          let seen = false;
-          pendingList.forEach((message) => {
-            // want better logic for filtering out THE sent message
-            if (
-              !seen &&
-              message.text == socket.data.text &&
-              message.image[0].img_url == socket.data.image[0].img_url
-            ) {
-              seen = true;
-              return;
-            }
-            tempPendingList.push(message);
-          });
+          let tempPendingList: IWSChatMessage[] = [];
+          tempPendingList = pendingList.filter(
+            (message) => message.websocket_id !== socket.websocket_id
+          );
           setPendingList(tempPendingList);
           setRefresh(!refresh);
+
+          // clear timeout
+          clearTimeout(retryMap[socket.websocket_id][0]);
+          const tempMap = retryMap;
+          delete tempMap[socket.websocket_id];
+          setRetryMap(tempMap);
+          break;
+        }
+        case WSMessage.RECEIVE_MESSAGE_FAILURE: {
+          // clear timeout
+          clearTimeout(retryMap[socket.websocket_id][0]);
+          const tempMap = retryMap;
+          delete tempMap[socket.websocket_id];
+          setRetryMap(tempMap);
+
+          // mark delete or resend in pendingList
+          const tempPendingList = pendingList.map((chat) =>
+            chat.websocket_id === socket.websocket_id
+              ? { ...chat, repeat: true }
+              : chat
+          );
+          setPendingList(tempPendingList);
           break;
         }
         default: {
@@ -136,7 +213,7 @@ function ChattingRoom(): JSX.Element {
     item,
     index,
   }: {
-    item: IChatMessage;
+    item: IWSChatMessage;
     index: number;
   }) => (
     <ChatBox
@@ -155,24 +232,17 @@ function ChattingRoom(): JSX.Element {
       }}
     >
       <FlatList
-        data={chatList}
+        data={[...chatList, ...pendingList]}
         renderItem={renderItem}
         style={styles.msgContainer}
         keyExtractor={(_, ind) => `${ind}`}
         extraData={refresh}
         ListHeaderComponentStyle={{ borderWidth: 10 }}
       />
-      <FlatList
-        data={pendingList}
-        renderItem={renderItem}
-        style={styles.msgContainer}
-        keyExtractor={(_, ind) => `${ind}`}
-        extraData={refresh}
-      />
       <InputBar
         input={input}
         setInput={setInput}
-        handleSendMessage={handleSendMessage}
+        handleSendMessage={() => handleSendMessage(input, '-1')}
       />
     </View>
   );
