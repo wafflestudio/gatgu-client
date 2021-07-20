@@ -44,7 +44,7 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
           break;
         }
         default: {
-          console.log('NOPE!', socket);
+          break;
         }
       }
     },

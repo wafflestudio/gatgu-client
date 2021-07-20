@@ -3,15 +3,16 @@ import { View, Text, Image } from 'react-native';
 
 import { IChatMessage } from '@/types/chat';
 
+import { IWSChatMessage } from '..';
 import ChatContainerStyle from '../ChatContainer.style';
 import Bubble from './Bubble';
 import styles from './ChatBox.style';
 import SystemMessage from './SystemMessage';
 
 interface IChatBoxProps {
-  current: IChatMessage;
-  previous?: IChatMessage;
-  next?: IChatMessage;
+  current: IWSChatMessage;
+  previous?: IWSChatMessage;
+  next?: IWSChatMessage;
 
   // user nickname that decide left,right posision
   selfId?: number;
@@ -24,15 +25,18 @@ function ChatBox({
   next,
   selfId,
 }: IChatBoxProps): JSX.Element {
-  const { text, type, sent_at, sent_by } = current;
+  const { message, repeat } = current;
+  const { text, type, sent_at, sent_by } = message;
+  const prevItem = previous?.message;
+  const nextItem = next?.message;
   const system = type === 'system' ? true : false;
 
-  const isSameUser = sent_by?.id === previous?.sent_by?.id;
+  const isSameUser = sent_by?.id === prevItem?.sent_by?.id;
 
   const isSelf = selfId === sent_by?.id;
 
   const isSameTime =
-    sent_at === next?.sent_at && (next?.type == 'system') === false;
+    sent_at === nextItem?.sent_at && (nextItem?.type == 'system') === false;
 
   // 00:00 format
   const sentTime = useMemo(() => {
@@ -82,7 +86,7 @@ function ChatBox({
   );
 
   return system ? (
-    <SystemMessage message={text} previousSystem={previous?.type == 'system'} />
+    <SystemMessage message={text} previousSystem={prevItem?.type == 'system'} />
   ) : (
     <View
       style={[
@@ -95,6 +99,12 @@ function ChatBox({
         <View>
           {renderedName}
           {renderedBubbleTime}
+          {repeat ? (
+            <View>
+              <Text>REP</Text>
+              <Text>DEL</Text>
+            </View>
+          ) : null}
           {/* {image.img_url.length ? (
             <Image source={{ uri: image.img_url }} style={styles.messageImage} />
           ) : (
