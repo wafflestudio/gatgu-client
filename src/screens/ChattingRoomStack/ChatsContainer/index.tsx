@@ -62,8 +62,27 @@ function ChattingRoom(): JSX.Element {
       });
   }, []);
 
+  /**
+   * resend: string representing key of retryMap to retrieve timeoutID
+   *         -1 -> when sending message for first time
+   *         0  -> resend upon clicking resend
+   */
   const handleSendMessage = (input: string, resend: string) => {
     if (currentUser) {
+      let mockPendingList: IWSChatMessage[] = pendingList;
+      if (parseInt(resend) < 0) {
+        mockPendingList = mockPendingList.filter((message) => {
+          console.log(
+            'DD',
+            message.websocket_id,
+            resend.slice(1),
+            message.websocket_id !== resend.slice(1)
+          );
+          return message.websocket_id !== resend.slice(1);
+        });
+        setRefresh(!refresh);
+      }
+
       // set timeout
       const key = parseInt(resend) < 0 ? `${DateTime.now()}` : resend;
       const timeoutID = setTimeout(handleSendMessage, 5000, input, key);
@@ -81,7 +100,7 @@ function ChattingRoom(): JSX.Element {
         clearTimeout(retryMap[key][0]);
 
         // mark delete or resend in pendingList
-        const tempPendingList = pendingList.map((chat) =>
+        const tempPendingList = mockPendingList.map((chat) =>
           chat.websocket_id === `${retryMap[key][0]}`
             ? { ...chat, repeat: true }
             : chat
@@ -122,8 +141,8 @@ function ChattingRoom(): JSX.Element {
         websocket_id: key,
         repeat: false,
       };
-      if (!resend) {
-        const tempPendingList = pendingList;
+      if (parseInt(resend) < 0) {
+        const tempPendingList = mockPendingList;
         tempPendingList.push(message);
         setPendingList(tempPendingList);
       }
@@ -209,6 +228,21 @@ function ChattingRoom(): JSX.Element {
     },
   });
 
+  const handleErase = (resend: string) => {
+    let tempPendingList: IWSChatMessage[] = [];
+    tempPendingList = pendingList.filter((message) => {
+      console.log(
+        'DD',
+        message.websocket_id,
+        resend.slice(1),
+        message.websocket_id !== resend.slice(1)
+      );
+      return message.websocket_id !== resend.slice(1);
+    });
+    setPendingList(tempPendingList);
+    setRefresh(!refresh);
+  };
+
   const renderItem = ({
     item,
     index,
@@ -221,6 +255,8 @@ function ChattingRoom(): JSX.Element {
       previous={chatList[index - 1]}
       next={chatList[index + 1]}
       selfId={currentUser?.id}
+      resend={handleSendMessage}
+      erase={handleErase}
     />
   );
 

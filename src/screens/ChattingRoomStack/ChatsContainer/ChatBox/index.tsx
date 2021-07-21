@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { IChatMessage } from '@/types/chat';
 
@@ -13,9 +14,10 @@ interface IChatBoxProps {
   current: IWSChatMessage;
   previous?: IWSChatMessage;
   next?: IWSChatMessage;
-
   // user nickname that decide left,right posision
   selfId?: number;
+  resend: (input: string, resend: string) => void;
+  erase: (resend: string) => void;
 }
 
 // one line of message
@@ -24,8 +26,10 @@ function ChatBox({
   previous,
   next,
   selfId,
+  resend,
+  erase,
 }: IChatBoxProps): JSX.Element {
-  const { message, repeat } = current;
+  const { message, repeat, websocket_id } = current;
   const { text, type, sent_at, sent_by } = message;
   const prevItem = previous?.message;
   const nextItem = next?.message;
@@ -40,7 +44,7 @@ function ChatBox({
 
   // 00:00 format
   const sentTime = useMemo(() => {
-    const split = sent_at.split('T');
+    // const split = sent_at.split('T');
     return sent_at;
     // return `${fullDate.getHours()}:${fullDate.getMinutes()}`;
   }, [sent_at]);
@@ -101,8 +105,14 @@ function ChatBox({
           {renderedBubbleTime}
           {repeat ? (
             <View>
-              <Text>REP</Text>
-              <Text>DEL</Text>
+              <TouchableOpacity
+                onPress={() => resend(text, `-${websocket_id}`)}
+              >
+                <Text>REP</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => erase(`-${websocket_id}`)}>
+                <Text>DEL</Text>
+              </TouchableOpacity>
             </View>
           ) : null}
           {/* {image.img_url.length ? (
