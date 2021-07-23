@@ -35,6 +35,7 @@ const ArticleStackScreen = () => {
       <ArticleDrawer.Screen
         name={EArticleStackScreens.EditArticle}
         component={EditArticleTemplate}
+        options={{ swipeEnabled: false }}
       />
     </ArticleDrawer.Navigator>
   );

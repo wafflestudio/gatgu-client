@@ -50,7 +50,9 @@ const ArticleBox: React.FC<IArticleSummary> = ({
           </Flex>
           <View style={styles.infoWrapper}>
             <Text style={styles.description}>{1} 분 전</Text>
-            <Text style={styles.description}>{remainTime(time_in)} · </Text>
+            <Text style={styles.description}>
+              {remainTime(time_in)} &nbsp; · &nbsp;
+            </Text>
             <Text style={styles.description}>{trading_place}</Text>
           </View>
         </Flex>

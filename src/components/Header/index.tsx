@@ -13,7 +13,7 @@ import styles from './Header.style';
 // need to pass functions for the buttons
 export interface IHeaderProps {
   // 헤더 한가운데 들어갈 타이틀 텍스트
-  title: string;
+  title?: string;
   // 타이틀 텍스트 스타일
   titleStyle?: StyleProp<TextStyle>;
   // 타이틀 텍스트 컨테이너의 스타일

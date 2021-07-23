@@ -14,7 +14,7 @@ import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 
 import { EArticleStackScreens } from '../ArticleStack';
-import { ArticleHeader } from './ArticleHeader';
+import ArticleHeader from './ArticleHeader';
 import Desc from './Desc';
 import ProductImages from './ProductImages';
 import ProfileChat from './ProfileChat';
@@ -64,7 +64,6 @@ function ArticlePage(): JSX.Element {
   return (
     <View style={styles.container}>
       <Header
-        title="글쓰기"
         right={islogined ? <HamburgerIcon /> : null}
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         left={<ArrowBackIcon />}
