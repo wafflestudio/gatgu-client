@@ -17,7 +17,9 @@ export enum EChattingRoomStackScreens {
 }
 
 export type TChattingRoomStackParamList = {
-  [EChattingRoomStackScreens.ChattingRoom]: undefined;
+  [EChattingRoomStackScreens.ChattingRoom]: {
+    id: number;
+  };
 };
 
 const Drawer = createDrawerNavigator<TChattingRoomStackParamList>();
