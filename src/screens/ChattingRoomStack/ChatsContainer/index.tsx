@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { useQuery } from 'react-query';
 
 import { DateTime } from 'luxon';
@@ -8,10 +8,11 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { chatAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
+import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { USER_DETAIL } from '@/queryKeys';
-import { IChatMessage, ISendMessage } from '@/types/chat';
+import { IChatMessage, IMessageImage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
 import { IUserDetail } from '@/types/user';
 
@@ -41,7 +42,10 @@ function ChattingRoom(): JSX.Element {
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
   const [retryMap, setRetryMap] = useState<IObject>({});
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState<IMessageImage>({
+    text: '',
+    imgUrl: emptyURL,
+  } as IMessageImage);
   const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
@@ -67,31 +71,25 @@ function ChattingRoom(): JSX.Element {
    *         -1 -> when sending message for first time
    *         0  -> resend upon clicking resend
    */
-  const handleSendMessage = (input: string, resend: string) => {
+  const handleSendMessage = (input: IMessageImage, resend: string) => {
     if (currentUser) {
       let mockPendingList: IWSChatMessage[] = pendingList;
-      if (parseInt(resend) < 0) {
+      const firstSend = parseInt(resend) === -1;
+      // if resend
+      if (!firstSend) {
+        // delete message from pendingList
         mockPendingList = mockPendingList.filter((message) => {
-          console.log(
-            'DD',
-            message.websocket_id,
-            resend.slice(1),
-            message.websocket_id !== resend.slice(1)
-          );
           return message.websocket_id !== resend.slice(1);
         });
-        setRefresh(!refresh);
       }
 
       // set timeout
-      const key = parseInt(resend) < 0 ? `${DateTime.now()}` : resend;
-      const timeoutID = setTimeout(handleSendMessage, 5000, input, key);
+      const key = firstSend ? `${DateTime.now()}` : resend;
+      const timeoutID = setTimeout(handleSendMessage, 2000, input, key);
       const tempMap = retryMap;
-      try {
-        tempMap[key] = [timeoutID, tempMap[key][1] + 1];
-      } catch {
-        tempMap[key] = [timeoutID, 1];
-      }
+      tempMap[key] = firstSend
+        ? [timeoutID, 1]
+        : [timeoutID, tempMap[key][1] + 1];
       setRetryMap(tempMap);
 
       // if more than 5 retries
@@ -101,9 +99,7 @@ function ChattingRoom(): JSX.Element {
 
         // mark delete or resend in pendingList
         const tempPendingList = mockPendingList.map((chat) =>
-          chat.websocket_id === `${retryMap[key][0]}`
-            ? { ...chat, repeat: true }
-            : chat
+          chat.websocket_id === `${key}` ? { ...chat, repeat: true } : chat
         );
         setPendingList(tempPendingList);
 
@@ -111,17 +107,18 @@ function ChattingRoom(): JSX.Element {
         const tempMap = retryMap;
         delete tempMap[key];
         setRetryMap(tempMap);
+        setRefresh(!refresh);
         return;
       }
 
       // add to pendingList
       const message = {
         message: {
-          text: input,
+          text: input.text,
           image: [
             {
               id: 0, // @juimdpp TODO
-              img_url: 'www.google.com',
+              img_url: input.imgUrl,
             },
           ],
           sent_by: {
@@ -141,10 +138,9 @@ function ChattingRoom(): JSX.Element {
         websocket_id: key,
         repeat: false,
       };
-      if (parseInt(resend) < 0) {
-        const tempPendingList = mockPendingList;
-        tempPendingList.push(message);
-        setPendingList(tempPendingList);
+      if (firstSend) {
+        mockPendingList.push(message);
+        setPendingList(mockPendingList);
       }
       setRefresh(!refresh);
 
@@ -155,15 +151,15 @@ function ChattingRoom(): JSX.Element {
           room_id: roomID,
           user_id: userID,
           message: {
-            text: input,
-            img: 'www.google.com',
+            text: input.text,
+            image: input.imgUrl === '{' ? '' : input.imgUrl,
           },
         },
         websocket_id: key, // tempID used for internal purposes
       });
 
       // reset input
-      setInput('');
+      setInput({} as IMessageImage);
     }
   };
 
@@ -231,12 +227,6 @@ function ChattingRoom(): JSX.Element {
   const handleErase = (resend: string) => {
     let tempPendingList: IWSChatMessage[] = [];
     tempPendingList = pendingList.filter((message) => {
-      console.log(
-        'DD',
-        message.websocket_id,
-        resend.slice(1),
-        message.websocket_id !== resend.slice(1)
-      );
       return message.websocket_id !== resend.slice(1);
     });
     setPendingList(tempPendingList);
@@ -279,6 +269,7 @@ function ChattingRoom(): JSX.Element {
         input={input}
         setInput={setInput}
         handleSendMessage={() => handleSendMessage(input, '-1')}
+        id={currentUser?.id}
       />
     </View>
   );

@@ -56,3 +56,8 @@ export interface ISendMessage {
   };
   websocket_id: string;
 }
+
+export interface IMessageImage {
+  text: string;
+  imgUrl: string;
+}

@@ -17,7 +17,7 @@ const InputBarStyle = StyleSheet.create({
   bar: {
     flexDirection: 'row',
     backgroundColor: palette.white,
-    height: 50,
+    // height: 50,
     padding: 0,
   },
   input: {
@@ -30,9 +30,13 @@ const InputBarStyle = StyleSheet.create({
     ...commonStyle.Icon,
   },
   inputWrapper: {
-    height: 50,
+    height: 200,
     paddingBottom: 8,
     justifyContent: 'center',
+  },
+  image: {
+    height: 100,
+    width: 100,
   },
 });
 

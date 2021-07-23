@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import { View, Text, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { IChatMessage } from '@/types/chat';
+import { emptyURL } from '@/constants/image';
+import { IMessageImage } from '@/types/chat';
 
 import { IWSChatMessage } from '..';
 import ChatContainerStyle from '../ChatContainer.style';
@@ -16,7 +17,7 @@ interface IChatBoxProps {
   next?: IWSChatMessage;
   // user nickname that decide left,right posision
   selfId?: number;
-  resend: (input: string, resend: string) => void;
+  resend: (input: IMessageImage, resend: string) => void;
   erase: (resend: string) => void;
 }
 
@@ -30,7 +31,7 @@ function ChatBox({
   erase,
 }: IChatBoxProps): JSX.Element {
   const { message, repeat, websocket_id } = current;
-  const { text, type, sent_at, sent_by } = message;
+  const { text, image, type, sent_at, sent_by } = message;
   const prevItem = previous?.message;
   const nextItem = next?.message;
   const system = type === 'system' ? true : false;
@@ -46,7 +47,6 @@ function ChatBox({
   const sentTime = useMemo(() => {
     // const split = sent_at.split('T');
     return sent_at;
-    // return `${fullDate.getHours()}:${fullDate.getMinutes()}`;
   }, [sent_at]);
 
   // message + time
@@ -62,6 +62,12 @@ function ChatBox({
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
         <Bubble message={text} isSelf={isSelf} />
+        {image.length > 0 && image[0].img_url !== emptyURL && (
+          <Image
+            source={{ uri: image[0].img_url }}
+            style={{ width: 101, height: 76, marginRight: 10 }}
+          />
+        )}
       </View>
     ),
     [isSelf, isSameTime, text, sentTime]
@@ -106,7 +112,12 @@ function ChatBox({
           {repeat ? (
             <View>
               <TouchableOpacity
-                onPress={() => resend(text, `-${websocket_id}`)}
+                onPress={() =>
+                  resend(
+                    { text: text, imgUrl: 'www.google.com' },
+                    `-${websocket_id}`
+                  )
+                }
               >
                 <Text>REP</Text>
               </TouchableOpacity>
