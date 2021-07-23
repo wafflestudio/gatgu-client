@@ -43,6 +43,7 @@ export const getArticles = (
 
 // for article POST
 export const create = (article: IPostArticle): Promise<AxiosResponse> => {
+  console.log(article);
   return requester.post('articles/', article);
 };
 
@@ -65,28 +66,6 @@ export const editArticle = (
     const headers = getToken(res);
     return requester.put(`articles/${id}/`, body, { headers });
   });
-};
-
-export const getPresignedURL = (
-  id: number,
-  file_name: string
-): Promise<AxiosResponse> => {
-  const body = {
-    method: 'get',
-    file_name: file_name,
-  };
-  return requester.put(`users/get_presigned_url/`, body);
-};
-
-export const putPresignedURL = (
-  id: number,
-  file_name: string
-): Promise<AxiosResponse> => {
-  const body = {
-    method: 'put',
-    file_name: file_name,
-  };
-  return requester.put(`users/get_presigned_url/`, body);
 };
 
 // 유저 같구 리스트

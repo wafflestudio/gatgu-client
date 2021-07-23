@@ -1,4 +1,8 @@
-import { articleAPI } from '@/apis';
+import { AxiosPromise, AxiosResponse } from 'axios';
+
+import { articleAPI, chatAPI, userAPI } from '@/apis';
+import requester from '@/apis/BaseInstance';
+import { APItype } from '@/enums/image';
 import { TShortImage } from '@/types/shared';
 
 const fieldNames = [
@@ -22,10 +26,15 @@ interface IImageDict {
 }
 // type TUseImageUpload = ;
 
-const useImageUpload = (id: number) => {
+const useImageUpload = (type: APItype, id?: number) => {
+  const createPresignedPost = (id?: number): Promise<AxiosResponse> => {
+    const ID = type === APItype.user ? '' : `${id}/`;
+    console.log(`${type}/${ID}create_presigned_post/`);
+    return requester.put(`${type}/${ID}create_presigned_post/`);
+  };
+
   const uploadSingleImage = async (image: TShortImage) => {
-    return await articleAPI
-      .putPresignedURL(id, `image_${Math.floor(Math.random() * 1000000)}`)
+    return await createPresignedPost(id)
       .then(async (res) => {
         const filename = res.data.file_name;
         const url = res.data.response.url;
@@ -44,12 +53,13 @@ const useImageUpload = (id: number) => {
           name: filename as string,
         };
         body.append('file', img);
-        console.log('dp');
+
         // send file to s3
         return await fetch(url, {
           method: 'POST',
           body: body,
         }).then((r: any) => {
+          console.log(r.headers['map']['location']);
           return r.headers['map']['location'];
         });
       })
