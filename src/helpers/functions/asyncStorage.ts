@@ -64,8 +64,8 @@ export const ObjectStorage = {
   addObject: <T extends any>(
     key: string,
     value: T | Record<string, unknown>
-  ): void => {
-    AsyncStorage.setItem(key, JSON.stringify(value));
+  ): Promise<void> => {
+    return AsyncStorage.setItem(key, JSON.stringify(value));
   },
   //< @brief        get object by key
   //< @params key   asyncStorage에서 찾고 싶은 key값

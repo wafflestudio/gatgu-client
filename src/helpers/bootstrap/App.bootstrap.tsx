@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -6,27 +6,31 @@ import { Provider } from 'react-redux';
 
 import { NativeBaseProvider } from 'native-base';
 
-import {
-  NavigationContainer,
-  NavigationContainerRef,
-} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 
 import AppLoadingTemplate from '@/components/AppLoading';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import store from '@/store/rootStore';
 
-import { NotificationProvider } from '../GatguNotification';
-import { useAutoLogin } from './hooks';
-import useNotificationClick from './hooks/useNotificationClick';
+import {
+  useAutoLogin,
+  useEffectOnceAfterAppLoaded,
+  usePushNotification,
+} from './hooks';
+import { navigationRef } from './rootNavigation';
+import { linking } from './utils/navigation';
 
 const queryClient = new QueryClient();
 
 const AppBootstrap: React.FC = ({ children }) => {
   const { authLoading } = useAutoLogin();
-  useNotificationClick();
-  const navigationContainerRef = useRef<NavigationContainerRef>(null);
+  const { handlePermission } = usePushNotification();
 
   const appLoading = [authLoading].some(Boolean);
+
+  useEffectOnceAfterAppLoaded(() => {
+    handlePermission();
+  }, appLoading);
 
   if (appLoading) {
     return <AppLoadingTemplate />;
@@ -35,23 +39,23 @@ const AppBootstrap: React.FC = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <NotificationProvider
-          navigation={navigationContainerRef.current as NavigationContainerRef}
-        >
-          <GatguWebsocket.Provider>
-            <NativeBaseProvider>
-              <NavigationContainer ref={navigationContainerRef}>
-                <SafeAreaView
-                  style={{
-                    flex: 1,
-                  }}
-                >
-                  {children}
-                </SafeAreaView>
-              </NavigationContainer>
-            </NativeBaseProvider>
-          </GatguWebsocket.Provider>
-        </NotificationProvider>
+        <GatguWebsocket.Provider>
+          <NativeBaseProvider>
+            <NavigationContainer
+              ref={navigationRef}
+              linking={linking}
+              fallback={<AppLoadingTemplate />}
+            >
+              <SafeAreaView
+                style={{
+                  flex: 1,
+                }}
+              >
+                {children}
+              </SafeAreaView>
+            </NavigationContainer>
+          </NativeBaseProvider>
+        </GatguWebsocket.Provider>
       </Provider>
     </QueryClientProvider>
   );

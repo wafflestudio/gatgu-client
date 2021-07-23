@@ -1,3 +1,5 @@
+import { PushNotificationType } from '@/enums';
+
 /**
  * - announcement
  * - chat
@@ -10,4 +12,12 @@ export interface INotificationConfig {
   chat: boolean;
   /** get event notification possilbe */
   event: boolean;
+}
+
+export interface INotificationMessage {
+  data: {
+    link?: string;
+    type?: PushNotificationType;
+    storedData?: any;
+  };
 }
