@@ -1,11 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
+
+import { IconButton, View } from 'native-base';
 
 import { articleAPI } from '@/apis';
+import NotifcationIcon from '@/assets/icons/Notification/notification.svg';
 import { ArticleBox, CursorFlatList } from '@/components';
 import { useCursorPagination } from '@/helpers/hooks';
+import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
+import { AppRoutes } from '@/helpers/routes';
 import { IArticleSummary } from '@/types/article';
 
 const Home: React.FC = () => {
+  const navigation = useAppNavigation();
+
   const {
     items,
     firstFetching,
@@ -15,6 +22,20 @@ const Home: React.FC = () => {
   } = useCursorPagination<IArticleSummary>({
     fetchFunc: articleAPI.getArticles,
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View
+          onTouchEnd={() => {
+            navigation.navigate(AppRoutes.Notification);
+          }}
+        >
+          <NotifcationIcon />
+        </View>
+      ),
+    });
+  }, [navigation]);
 
   // 초기 렌더링
   useEffect(() => {
