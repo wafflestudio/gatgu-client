@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { KeyboardAvoidingView } from 'native-base';
+
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
@@ -106,7 +108,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       setLocation(currentArticle.trading_place);
       setLink(currentArticle.product_url);
       handlePrice(`${currentArticle.price_min}`);
-      setDueDate(new Date(currentArticle.time_in));
+      setDueDate(new Date()); // FIXME:
       // optional:
       currentArticle.image[0] && setImages(images);
       if (currentArticle.tag) {
@@ -198,7 +200,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       ) : isLoading ? (
         <Text>Loading Page</Text>
       ) : (
-        <View>
+        <KeyboardAvoidingView>
           {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
           <DueDate dueDate={dueDate} setDueDate={setDueDate} />
           <AddImage images={images} setImages={setImages} />
@@ -210,7 +212,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             description={description}
             setDescription={setDescription}
           />
-        </View>
+        </KeyboardAvoidingView>
       )}
     </ScrollView>
   );

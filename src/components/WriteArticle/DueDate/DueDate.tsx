@@ -1,21 +1,14 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import _ from 'lodash';
-import { Label } from 'native-base';
+import { Button } from 'native-base';
 
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
 // npm i react-native-modal-datetime-picker @react-native-community/datetimepicker
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { Button } from '@/components';
 import { palette, typo } from '@/styles';
 
 import styles from './DueDate.style';
@@ -115,7 +108,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
           underlayColor={palette.whiteGray}
         >
           <View style={styles.timeContainer}>
-            <Label style={styles.label}>모집기한</Label>
+            <Text style={styles.label}>모집기한</Text>
             <Text style={styles.label}>{parsedDate}</Text>
           </View>
         </TouchableHighlight>
@@ -134,13 +127,12 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
             <View style={styles.titleContainer}>
               <Text style={{ ...typo.bigTitle }}>모집기한</Text>
             </View>
-            <View style={styles.completeButton}>
-              <Button
-                title={'완료'}
-                onPress={() => handleComplete()}
-                textStyle={styles.buttonText}
-              />
-            </View>
+            <Button
+              style={styles.completeButton}
+              onPress={() => handleComplete()}
+            >
+              <Text style={styles.buttonText}>완료</Text>
+            </Button>
           </View>
           <View style={styles.scrollDayContainer}>
             <ScrollView horizontal={true}>{renderDates}</ScrollView>

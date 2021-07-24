@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 
-import { IconButton, View } from 'native-base';
+import { View } from 'native-base';
 
 import { articleAPI } from '@/apis';
 import NotifcationIcon from '@/assets/icons/Notification/notification.svg';
