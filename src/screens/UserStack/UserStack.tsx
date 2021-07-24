@@ -22,7 +22,11 @@ const UserStack = createStackNavigator<TUserStackParamList>();
 
 const UserStackScreen: React.FC = () => {
   return (
-    <UserStack.Navigator>
+    <UserStack.Navigator
+      screenOptions={{
+        headerStatusBarHeight: 0,
+      }}
+    >
       <UserStack.Screen name={EUserStackScreens.Profile} component={Profile} />
       <UserStack.Screen
         name={EUserStackScreens.ProfileModify}

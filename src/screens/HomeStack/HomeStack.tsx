@@ -27,13 +27,17 @@ const HomeStack = createStackNavigator<THomeStackParamList>();
 
 const HomeStackScreen: React.FC = () => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerStatusBarHeight: 0,
+      }}
+    >
       <HomeStack.Screen
         name={EHomeStackScreens.Home}
         component={Home}
         options={{
           headerTitle: () => (
-            <logo.subLogo style={{ width: 94.4, height: 30 }} />
+            <logo.subLogo style={{ width: 94.4, height: 25 }} />
           ),
           headerRightContainerStyle: { paddingRight: 10, paddingTop: 5 },
           headerTitleAlign: 'center',

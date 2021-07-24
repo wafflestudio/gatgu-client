@@ -16,7 +16,11 @@ const WriteArticleStack = createStackNavigator<TWriteArticleStackParamList>();
 
 function WriteArticleStackScreen(): JSX.Element {
   return (
-    <WriteArticleStack.Navigator>
+    <WriteArticleStack.Navigator
+      screenOptions={{
+        headerStatusBarHeight: 0,
+      }}
+    >
       <WriteArticleStack.Screen
         name={EWriteArticleStackScreens.WriteArticle}
         component={WriteArticle}
