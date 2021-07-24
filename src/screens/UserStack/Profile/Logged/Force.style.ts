@@ -4,10 +4,9 @@ import { palette, typo } from '@/styles';
 
 const ForceStyle = StyleSheet.create({
   container: {
-    height: 87,
-    paddingLeft: 20,
-    paddingTop: 15,
-    paddingRight: 20,
+    height: 97,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
     backgroundColor: palette.white,
   },
 
@@ -18,6 +17,7 @@ const ForceStyle = StyleSheet.create({
   },
   headerText: {
     ...typo.bigTitle,
+    fontWeight: 'bold',
   },
 
   // body

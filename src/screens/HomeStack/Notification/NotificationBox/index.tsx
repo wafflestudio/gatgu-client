@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { InfoContainer, Thumbnail } from '@/components';
+import { Image } from 'native-base';
+
+import { InfoContainer } from '@/components';
 
 import styles from './NotificationBox.style';
 
@@ -30,7 +32,13 @@ const NotificationBox: React.FC<INotificationBoxProps> = ({
 }) => {
   return (
     <InfoContainer>
-      <Thumbnail uri={uri} w={64} h={64} style={styles.thunmnail} />
+      <Image
+        source={{ uri }}
+        w="64px"
+        h="64px"
+        alt={noticeType}
+        style={styles.thunmnail}
+      />
       <View style={styles.textWrapper}>
         <Text style={styles.Head}>
           {noticeTemplate[noticeType](title, user)}
