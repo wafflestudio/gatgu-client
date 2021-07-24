@@ -16,7 +16,6 @@ export enum SearchType {
 }
 
 export const StringOrderStatus = [
-  'UNDEFINED',
   '모집중',
   '입금 대기중',
   '배송중',
@@ -31,13 +30,7 @@ export const ColorOrderStatus = [
   palette.gray,
 ];
 
-export const StringArticleStatus = [
-  'UNDEFINED',
-  '모집중',
-  '거래중',
-  '거래완료',
-  '기간만료',
-];
+export const StringArticleStatus = ['모집중', '거래중', '거래완료', '기간만료'];
 
 export const ColorArticleStatus = [
   'black',

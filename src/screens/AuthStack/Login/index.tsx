@@ -3,6 +3,8 @@ import { Alert, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 
+import { DateTime } from 'luxon';
+
 import { useNavigation } from '@react-navigation/native';
 
 import { setRequesterToken } from '@/apis/BaseInstance';
@@ -10,7 +12,7 @@ import { login } from '@/apis/UserApi';
 import Logo from '@/assets/icons/Logo';
 import { Button } from '@/components';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { StringStorage } from '@/helpers/functions/asyncStorage';
+import { ObjectStorage, StringStorage } from '@/helpers/functions/asyncStorage';
 import { setAccessToken } from '@/store/userSlice';
 import { palette } from '@/styles';
 
@@ -32,7 +34,15 @@ function LoginTemplate(): JSX.Element {
       const { access, refresh } = loginResponse.data.token;
       dispatch(setAccessToken(access));
       setRequesterToken(access);
-      StringStorage.add(asyncStoragekey.REFRESH_TOKEN, refresh);
+
+      ObjectStorage.addObject(asyncStoragekey.ACCESS_TOKEN, {
+        data: access,
+        expiry: DateTime.now().plus({ day: 1 }).toSeconds(),
+      });
+      ObjectStorage.addObject(asyncStoragekey.REFRESH_TOKEN, {
+        data: refresh,
+        expiry: DateTime.now().plus({ day: 30 }).toSeconds(),
+      });
       navigation.navigate('Home');
     } catch (err) {
       switch (err.response.data.error_code) {

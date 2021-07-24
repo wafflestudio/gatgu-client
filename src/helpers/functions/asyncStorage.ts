@@ -71,7 +71,7 @@ export const ObjectStorage = {
   //< @params key   asyncStorage에서 찾고 싶은 key값
   getObject: async <T>(key: string): Promise<T | null> => {
     const result = await AsyncStorage.getItem(key);
-    if (result) return JSON.parse(result);
+    if (result) return JSON.parse(result) as T;
     else return null;
   },
   //< @brief        remove object by key
