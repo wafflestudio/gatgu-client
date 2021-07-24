@@ -19,6 +19,7 @@ const GradeStyle = StyleSheet.create({
   },
   headerText: {
     ...typo.bigTitle,
+    fontWeight: 'bold',
   },
 
   // graph
