@@ -20,7 +20,9 @@ import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
 import InputBar from './InputBar';
 
-interface IObject {
+// import { ResendMessage } from '@/helpers/hooks/useResendMessage';
+
+interface IChattingRetryMap {
   [key: string]: [number, number]; // [timeoutID, retry count]
 }
 
@@ -41,7 +43,7 @@ function ChattingRoom(): JSX.Element {
 
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
-  const [retryMap, setRetryMap] = useState<IObject>({});
+  const [retryMap, setRetryMap] = useState<IChattingRetryMap>({});
   const [input, setInput] = useState<IMessageImage>({
     text: '',
     imgUrl: emptyURL,
