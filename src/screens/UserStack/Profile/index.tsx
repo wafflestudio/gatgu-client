@@ -1,8 +1,7 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { Alert, TouchableHighlight, View } from 'react-native';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Icon } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -46,9 +45,11 @@ function Profile(): JSX.Element {
       headerRight: () =>
         isTokenExists ? (
           <View style={{ position: 'relative' }}>
-            <TouchableHighlight onPress={() => setShow(!show)}>
-              <Icon name="menu" />
-            </TouchableHighlight>
+            <FeatherIcon
+              name="more-vertical"
+              style={{ fontSize: 20, marginRight: 10 }}
+              onPress={() => setShow(!show)}
+            />
             {show ? (
               <View style={styles.headerRightModal}>
                 <Button

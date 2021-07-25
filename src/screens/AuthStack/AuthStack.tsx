@@ -22,7 +22,11 @@ const AuthStack = createStackNavigator<TAuthStackParamList>();
 
 const AuthStackScreen = () => {
   return (
-    <AuthStack.Navigator>
+    <AuthStack.Navigator
+      screenOptions={{
+        headerStatusBarHeight: 0,
+      }}
+    >
       <AuthStack.Screen
         name={EAuthStackScreens.Login}
         component={LoginTemplate}

@@ -3,10 +3,6 @@ import { StyleSheet } from 'react-native';
 import { palette, typo } from '@/styles';
 
 const TitleStyle = StyleSheet.create({
-  bigContainer: {
-    height: 130,
-  },
-
   switchContainer: {
     width: '100%',
     paddingRight: 20,

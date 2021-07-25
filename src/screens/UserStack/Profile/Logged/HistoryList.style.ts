@@ -15,6 +15,7 @@ const HistoryListStyle = StyleSheet.create({
   },
   historyBtnText: {
     ...typo.bigTitle,
+    fontWeight: 'bold',
   },
 });
 

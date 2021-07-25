@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { View, FlatList } from 'react-native';
+
+import { Box } from 'native-base';
+
+import BackIcon from '@/assets/icons/BackIcon/BackIcon.svg';
+import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 
 import NotificationBox, { INotificationBoxProps } from './NotificationBox';
 
@@ -23,6 +28,22 @@ const mockData = [
 ];
 
 function Notification(): JSX.Element {
+  const navigation = useAppNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Box
+          pl="20px"
+          onTouchEnd={() => {
+            navigation.goBack();
+          }}
+        >
+          <BackIcon />
+        </Box>
+      ),
+    });
+  }, [navigation]);
+
   const renderItem = ({ item }: { item: INotificationBoxProps }) => (
     <NotificationBox {...item} />
   );
