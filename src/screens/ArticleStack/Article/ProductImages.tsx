@@ -1,6 +1,8 @@
 import React from 'react';
-import { Image, View, Text } from 'react-native';
+import { View } from 'react-native';
 import Swiper from 'react-native-swiper';
+
+import { Image } from 'native-base';
 
 import { ColorArticleStatus, StringArticleStatus } from '@/constants/article';
 import { palette } from '@/styles';
@@ -9,44 +11,37 @@ import { ImageDict } from '@/types/shared';
 
 import styles from './ProductImages.style';
 
-// TODO: @juimdpp
-// - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단
-
 interface IArticleChat {
   image_urls: ImageDict[];
-  orderStatus: IArticleStatus;
+  articleStatus: IArticleStatus;
 }
 
-function ProductImages({ image_urls, orderStatus }: IArticleChat): JSX.Element {
+function ProductImages({
+  image_urls,
+  articleStatus,
+}: IArticleChat): JSX.Element {
   const dot = <View style={styles.dot} />;
+
   const images =
     image_urls.length == 0 ? (
-      <Image source={require('@/assets/images/no-image.png')} />
+      <Image
+        alt="article_img"
+        h={283}
+        source={require('@/assets/images/no-image.png')}
+      />
     ) : (
-      image_urls
-        .map((item, _) => {
-          return (
-            <Image
-              key={_}
-              style={styles.image}
-              source={{ uri: item.img_url as string }}
-            />
-          );
-        })
-        .concat(
-          <Image
-            key={1}
-            style={styles.image}
-            source={{
-              uri: 'https://user-images.githubusercontent.com/60267222/122652722-27921600-d17b-11eb-99d4-ca3ffccb858e.png' as string,
-            }}
-          />
-        )
+      image_urls.map((item, idx) => (
+        <Image
+          key={idx}
+          alt="article_img"
+          h={283}
+          style={styles.image}
+          source={{ uri: item.img_url }}
+          fallbackSource={require('@/assets/images/defaultThumnail.png')}
+        />
+      ))
     );
-  /*
-    TODO: @juimdpp
-    remove concat (added it just to show that it works)
-*/
+
   return (
     <View>
       <View>
@@ -60,20 +55,21 @@ function ProductImages({ image_urls, orderStatus }: IArticleChat): JSX.Element {
           {images}
         </Swiper>
       </View>
-      {
+      {/* {
         <View
           style={[
             styles.completeTextContainer,
             {
-              backgroundColor: ColorArticleStatus[orderStatus.progress_status],
+              backgroundColor:
+                ColorArticleStatus[articleStatus.progress_status],
             },
           ]}
         >
           <Text style={styles.completeText}>
-            {StringArticleStatus[orderStatus.progress_status]}
+            {StringArticleStatus[articleStatus.progress_status]}
           </Text>
         </View>
-      }
+      } */}
       {/* {orderStatus.progress_status >= ArticleStatus && (
         <View style={styles.completeCover} />
       )} */}

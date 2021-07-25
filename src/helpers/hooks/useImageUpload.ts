@@ -1,6 +1,5 @@
-import { AxiosPromise, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
-import { articleAPI, chatAPI, userAPI } from '@/apis';
 import requester from '@/apis/BaseInstance';
 import { APItype } from '@/enums/image';
 import { TShortImage } from '@/types/shared';

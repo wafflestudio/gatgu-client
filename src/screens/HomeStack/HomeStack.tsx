@@ -49,6 +49,9 @@ const HomeStackScreen: React.FC = () => {
       <HomeStack.Screen
         name={EHomeStackScreens.ArticleStack}
         component={ArticleStackScreen}
+        options={{
+          headerShown: false,
+        }}
       />
     </HomeStack.Navigator>
   );

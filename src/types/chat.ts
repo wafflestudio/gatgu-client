@@ -1,3 +1,5 @@
+import { OrderStatus } from '@/enums';
+
 import { ICursorPaginationResponse } from './shared';
 import { IChatUserProps } from './user';
 
@@ -21,6 +23,7 @@ export interface IOrderChat {
   id: number;
   participant_profile: IChatUserProps[];
   tracking_number: number;
+  order_status: OrderStatus;
 }
 
 export interface IChangeStatusProps {

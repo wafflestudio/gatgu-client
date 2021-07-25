@@ -4,10 +4,11 @@ import { palette, typo } from '@/styles';
 
 const DescStyles = StyleSheet.create({
   descText: {
-    ...typo.info,
-    padding: 15,
+    ...typo.semiTitle,
+    padding: 20,
   },
   linkBox: {
+    padding: 20,
     borderTopWidth: 1,
     borderColor: palette.borderGray,
   },
