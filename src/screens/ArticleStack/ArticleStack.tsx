@@ -1,9 +1,5 @@
-import React, { useLayoutEffect } from 'react';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import React from 'react';
 
-import { Icon } from 'native-base';
-
-import { DrawerActions, useNavigation } from '@react-navigation/core';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import DrawerTemplate from '@/screens/ArticleStack/DrawerContent';
@@ -26,21 +22,6 @@ export type TArticleStackScreenParamList = {
 const ArticleDrawer = createDrawerNavigator<TArticleStackScreenParamList>();
 
 const ArticleStackScreen = () => {
-  const navigation = useNavigation();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitleAlign: 'center',
-      headerRight: () => (
-        <TouchableHighlight
-          onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        >
-          <Icon name="menu" />
-        </TouchableHighlight>
-      ),
-    });
-  }, [navigation]);
-
   return (
     <ArticleDrawer.Navigator
       drawerPosition="right"
@@ -54,6 +35,7 @@ const ArticleStackScreen = () => {
       <ArticleDrawer.Screen
         name={EArticleStackScreens.EditArticle}
         component={EditArticleTemplate}
+        options={{ swipeEnabled: false }}
       />
     </ArticleDrawer.Navigator>
   );

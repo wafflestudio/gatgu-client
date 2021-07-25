@@ -10,7 +10,7 @@ import { removeRequesterToken } from '@/apis/BaseInstance';
 import { logout } from '@/apis/UserApi';
 import { Button } from '@/components';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { StringStorage } from '@/helpers/functions/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { RootState } from '@/store';
 import { clearAccessToken } from '@/store/userSlice';
 import { typo } from '@/styles';
@@ -30,9 +30,11 @@ function Profile(): JSX.Element {
 
   const logoutReq = useCallback(async () => {
     await logout();
-    await StringStorage.remove(asyncStoragekey.REFRESH_TOKEN);
     dispatch(clearAccessToken());
     removeRequesterToken();
+
+    ObjectStorage.removeObject(asyncStoragekey.ACCESS_TOKEN);
+    ObjectStorage.removeObject(asyncStoragekey.REFRESH_TOKEN);
     Alert.alert('로그아웃 되었습니다.');
   }, [dispatch]);
 

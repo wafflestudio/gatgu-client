@@ -5,7 +5,6 @@ import { palette, typo } from '@/styles';
 const DrawerStyles = StyleSheet.create({
   upperContainer: {
     paddingLeft: '12.6%',
-    paddingTop: '9%',
     paddingBottom: '14.1%',
     borderBottomWidth: 1,
     borderBottomColor: palette.borderGray,
