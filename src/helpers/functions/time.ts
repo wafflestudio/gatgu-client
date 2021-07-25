@@ -28,3 +28,7 @@ export const calcTimeDiff = (start: Date, end: Date) => {
   if (isNaN(result)) (result = 0), (type = '일');
   return { diff: result, type: type };
 };
+
+export const toUnix = (date: Date): number => {
+  return Math.floor(date.getTime() / 1000);
+};

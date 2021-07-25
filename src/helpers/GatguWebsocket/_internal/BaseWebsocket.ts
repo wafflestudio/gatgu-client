@@ -25,6 +25,7 @@ class BaseWebsocket {
   private _retryCount: number;
 
   constructor(url: string, options: IBaseWebsocketOption) {
+    console.log('Websocket');
     this._ws = new ReconnectingWebsocket(`${url}`);
 
     this._pingpongCount = 0;
@@ -49,6 +50,7 @@ class BaseWebsocket {
       this.send({
         type: 'PING',
         data: Date.now(),
+        pp: this._pingpongCount,
       });
 
       this._pingpongCount += 1;
@@ -107,6 +109,7 @@ class BaseWebsocket {
         break;
 
       default:
+        console.log('-------------', message);
         if (this.onmessage) {
           this.onmessage({ ...e, data: message });
         }

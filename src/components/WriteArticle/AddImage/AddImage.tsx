@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { View, Image, TouchableHighlight, Alert } from 'react-native';
+import { View, Image, TouchableHighlight } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import ImagePicker, { Image as TImage } from 'react-native-image-crop-picker';
+import { Image as TImage } from 'react-native-image-crop-picker';
 
 import XSign from '@/assets/icons/CrossSign';
 import PlusSign from '@/assets/icons/PlusSign';

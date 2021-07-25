@@ -132,7 +132,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       Alert.alert('로그인을 해주세요');
       /* TODO @juimdpp
         로그인 페이지로 redirect 되는 페이지 구현
-        디자인 나오면...? 
+        디자인 나오면...?
       */
       return;
     }

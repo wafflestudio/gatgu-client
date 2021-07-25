@@ -1,42 +1,50 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, Text } from 'react-native';
+import { useQuery } from 'react-query';
 
-import { DrawerActions, useNavigation } from '@react-navigation/native';
+import {
+  DrawerActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
+import { getMyData } from '@/apis/UserApi';
 import { Header } from '@/components';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { USER_DETAIL } from '@/queryKeys';
 import { IChatMessage } from '@/types/chat';
+import { ChattingDrawerParamList } from '@/types/navigation';
+import { IUserDetail } from '@/types/user';
 
 import ChatsContainer from './ChatsContainer';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
 
-  const [chats, setChats] = React.useState<IChatMessage[]>([]);
-
-  GatguWebsocket.useMessage<{
-    type: string;
-    data: {
-      user: number;
-      data: string;
-    };
-  }>({
-    onmessage: (e) => {
-      setChats((prev) => [
-        ...prev,
-        {
-          message: e.data.data,
-          system: false,
-          image: '',
-          sent_at: new Date().toDateString(),
-          sent_by: {
-            nickname: `${e.data.user}`,
-            picture: `https://placeimg.com/140/${e.data.user}/any`,
-          },
-        },
-      ]);
-    },
-  });
+  // GatguWebsocket.useMessage<{
+  //   type: string;
+  //   data: {
+  //     user: number;
+  //     data: string;
+  //   };
+  // }>({
+  //   onmessage: (e) => {
+  //     setChat((prev) => [
+  //       ...prev,
+  //       {
+  //         message: e.data.data,
+  //         system: false,
+  //         image: '',
+  //         sent_at: new Date().toDateString(),
+  //         sent_by: {
+  //           nickname: `${e.data.user}`,
+  //           picture: `https://placeimg.com/140/${e.data.user}/any`,
+  //         },
+  //       },
+  //     ]);
+  //   },
+  // });
 
   return (
     <KeyboardAvoidingView
@@ -57,7 +65,7 @@ export default function ChattingRoom(): JSX.Element {
           navigation.goBack();
         }}
       />
-      <ChatsContainer chatList={chats} />
+      <ChatsContainer />
     </KeyboardAvoidingView>
   );
 }

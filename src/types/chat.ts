@@ -1,5 +1,6 @@
 import { OrderStatus } from '@/enums';
 
+import { ICursorPaginationResponse } from './shared';
 import { IChatUserProps } from './user';
 
 export interface IChattingRoom {
@@ -28,15 +29,38 @@ export interface IOrderChat {
 export interface IChangeStatusProps {
   order_status: number;
 }
-
 export interface IChatMessage {
-  message: string;
-  system: boolean;
-  sent_at: string;
-  image: string;
-  // 보낸사람
-  sent_by?: {
+  id?: number;
+  text: string;
+  image: {
+    id: number;
+    img_url: string;
+  }[];
+  sent_by: {
+    id: number;
     nickname: string;
     picture: string;
+    updated_at: number;
+    withdrew_at: number | null;
   };
+  sent_at: string;
+  type: string;
+  system?: boolean;
+}
+
+export type IAllMessagesResponse = ICursorPaginationResponse<IChatMessage>;
+
+export interface ISendMessage {
+  room_id: number;
+  user_id?: number;
+  message: {
+    text: string;
+    img: string;
+  };
+  websocket_id: string;
+}
+
+export interface IMessageImage {
+  text: string;
+  imgUrl: string;
 }

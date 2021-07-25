@@ -1,20 +1,24 @@
 import React, { useMemo } from 'react';
 import { View, Text, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { IChatMessage } from '@/types/chat';
+import { emptyURL } from '@/constants/image';
+import { IMessageImage } from '@/types/chat';
 
+import { IWSChatMessage } from '..';
 import ChatContainerStyle from '../ChatContainer.style';
 import Bubble from './Bubble';
 import styles from './ChatBox.style';
 import SystemMessage from './SystemMessage';
 
 interface IChatBoxProps {
-  current: IChatMessage;
-  previous?: IChatMessage;
-  next?: IChatMessage;
-
+  current: IWSChatMessage;
+  previous?: IWSChatMessage;
+  next?: IWSChatMessage;
   // user nickname that decide left,right posision
-  selfNickname: string;
+  selfId?: number;
+  resend: (input: IMessageImage, resend: string) => void;
+  erase: (resend: string) => void;
 }
 
 // one line of message
@@ -22,20 +26,27 @@ function ChatBox({
   current,
   previous,
   next,
-  selfNickname,
+  selfId,
+  resend,
+  erase,
 }: IChatBoxProps): JSX.Element {
-  const { message, system, sent_at, image, sent_by } = current;
+  const { message, repeat, websocket_id } = current;
+  const { text, image, type, sent_at, sent_by } = message;
+  const prevItem = previous?.message;
+  const nextItem = next?.message;
+  const system = type === 'system' ? true : false;
 
-  const isSameUser = sent_by?.nickname === previous?.sent_by?.nickname;
+  const isSameUser = sent_by?.id === prevItem?.sent_by?.id;
 
-  const isSelf = selfNickname === sent_by?.nickname;
+  const isSelf = selfId === sent_by?.id;
 
-  const isSameTime = sent_at === next?.sent_at && next?.system === false;
+  const isSameTime =
+    sent_at === nextItem?.sent_at && (nextItem?.type == 'system') === false;
 
   // 00:00 format
   const sentTime = useMemo(() => {
-    const fullDate = new Date(sent_at);
-    return `${fullDate.getHours()}:${fullDate.getMinutes()}`;
+    // const split = sent_at.split('T');
+    return sent_at;
   }, [sent_at]);
 
   // message + time
@@ -50,10 +61,16 @@ function ChatBox({
         {!isSameTime && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
-        <Bubble message={message} isSelf={isSelf} />
+        <Bubble message={text} isSelf={isSelf} />
+        {image.length > 0 && image[0].img_url !== emptyURL && (
+          <Image
+            source={{ uri: image[0].img_url }}
+            style={{ width: 101, height: 76, marginRight: 10 }}
+          />
+        )}
       </View>
     ),
-    [isSelf, isSameTime, message, sentTime]
+    [isSelf, isSameTime, text, sentTime]
   );
 
   const renderedName = useMemo(
@@ -79,7 +96,7 @@ function ChatBox({
   );
 
   return system ? (
-    <SystemMessage message={message} previousSystem={previous?.system} />
+    <SystemMessage message={text} previousSystem={prevItem?.type == 'system'} />
   ) : (
     <View
       style={[
@@ -91,11 +108,29 @@ function ChatBox({
         {renderedProfile}
         <View>
           {renderedName}
-          {image.length ? (
-            <Image source={{ uri: image }} style={styles.messageImage} />
+          {renderedBubbleTime}
+          {repeat ? (
+            <View>
+              <TouchableOpacity
+                onPress={() =>
+                  resend(
+                    { text: text, imgUrl: 'www.google.com' },
+                    `-${websocket_id}`
+                  )
+                }
+              >
+                <Text>REP</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => erase(`-${websocket_id}`)}>
+                <Text>DEL</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+          {/* {image.img_url.length ? (
+            <Image source={{ uri: image.img_url }} style={styles.messageImage} />
           ) : (
             renderedBubbleTime
-          )}
+          )} */}
         </View>
       </View>
     </View>
