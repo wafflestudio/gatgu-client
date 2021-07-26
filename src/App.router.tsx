@@ -43,7 +43,7 @@ const AppRouter: React.FC = () => {
     getMyData().then((response) => response.data)
   );
   GatguWebsocket.useInit({
-    url: 'ws://e91195b727de.ngrok.io/ws/chat',
+    url: 'ws://e2b808ab505c.ngrok.io/ws/chat',
     token: parseInt(`${userQuery.data?.id}/`),
     options: { debug: true },
   });

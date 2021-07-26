@@ -9,8 +9,8 @@ import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import _ from 'lodash';
-import { Label } from 'native-base';
 
+// import { Label } from 'native-base';
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
 // npm i react-native-modal-datetime-picker @react-native-community/datetimepicker
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -115,7 +115,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
           underlayColor={palette.whiteGray}
         >
           <View style={styles.timeContainer}>
-            <Label style={styles.label}>모집기한</Label>
+            <Text style={styles.label}>모집기한</Text>
             <Text style={styles.label}>{parsedDate}</Text>
           </View>
         </TouchableHighlight>

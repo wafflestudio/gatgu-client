@@ -58,8 +58,8 @@ export interface IArticleProps {
   time_in: string;
   image: string[]; // 확실하지 않음... api에 타입이 안 적혀있음
   tag: number[];
-  created_at: Date; // should be date but json server doesn't accept Date
-  updated_at: Date;
+  created_at: string; // should be date but json server doesn't accept Date
+  updated_at: string;
   article_status?: IArticleStatus;
   order_chat: IOrderChat;
   participants_summary: IParticipantsSummary;
