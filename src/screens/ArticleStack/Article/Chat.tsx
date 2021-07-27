@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert, Text } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useQuery } from 'react-query';
@@ -24,8 +24,16 @@ interface IChatProps {
   article_id: number | undefined;
 }
 
+interface IWsRetry {
+  websocketID: string;
+  timeoutID: number;
+  count: number;
+}
+const initRetry = { websocketID: '-1', timeoutID: -1, count: 0 };
+
 function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
+  const [retry, setRetry] = useState<IWsRetry>(initRetry);
   const { sendWsMessage } = GatguWebsocket.useMessage<{
     type: string;
     data: IChatMessage;
@@ -33,6 +41,8 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
     onmessage: (socket) => {
       switch (socket.type) {
         case WSMessage.ENTER_ROOM_SUCCESS: {
+          clearTimeout(retry.timeoutID);
+          setRetry(initRetry);
           navigation.navigate('ChattingRoom', {
             screen: 'ChattingRoom',
             params: { id: article_id },
@@ -40,7 +50,9 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
           break;
         }
         case WSMessage.ENTER_ROOM_FAILURE: {
-          Alert.alert("CAN'T ACCESS CHATROOM");
+          clearTimeout(retry.timeoutID);
+          setRetry(initRetry);
+          Alert.alert("Can't access chatroom. Check your connection");
           break;
         }
         default: {
@@ -53,8 +65,24 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
     getMyData().then((response) => response.data)
   ).data;
 
-  const navigateToChatRoom = () => {
+  const navigateToChatRoom = (resendKey: string) => {
     if (orderStatus.progress_status <= ArticleStatus.Dealing) {
+      // check if resend
+      const resend = !(parseInt(resendKey) === -1);
+      // set timeout and fix websocket appropriately
+      const key = resend ? resendKey : `${DateTime.now()}`;
+      const timeoutID = setTimeout(navigateToChatRoom, 2000, resendKey);
+      if (resend) {
+        setRetry({ ...retry, count: retry.count + 1 });
+      } else {
+        setRetry({ websocketID: key, timeoutID: timeoutID, count: 1 });
+      }
+      // if retry more than 5 times, alert
+      if (retry.count > 5) {
+        clearTimeout(retry.timeoutID);
+        setRetry(initRetry);
+      }
+      // send websocket
       sendWsMessage({
         type: WSMessage.ENTER_ROOM,
         data: {
@@ -65,9 +93,10 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
       });
     }
   };
+
   return (
     <View style={styles.userContainer}>
-      <TouchableHighlight onPress={navigateToChatRoom}>
+      <TouchableHighlight onPress={() => navigateToChatRoom('-1')}>
         <View
           style={[
             styles.chattingButton,
