@@ -5,6 +5,7 @@ import {
   IChattingRoom,
   IChangeStatusProps,
   IAllMessagesResponse,
+  IChatListAllPreview,
 } from '@/types/chat';
 
 import requester from './BaseInstance';
@@ -31,4 +32,10 @@ export const getChattingMessages = (
   roomId: number
 ): Promise<AxiosResponse<IAllMessagesResponse>> => {
   return requester.get(`chattings/${roomId}/messages/`);
+};
+
+export const getMyChattingList = (): Promise<
+  AxiosResponse<IChatListAllPreview>
+> => {
+  return requester.get(`users/me/chattings/`);
 };

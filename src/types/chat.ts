@@ -1,5 +1,5 @@
 import { ICursorPaginationResponse } from './shared';
-import { IChatUserProps } from './user';
+import { IChatUserProps, IUserListPreview } from './user';
 
 export interface IChattingRoom {
   id: number;
@@ -13,6 +13,24 @@ export interface IChattingRoom {
   chat: string;
   time: number;
   nickName: string;
+}
+
+export interface IChatListSinglePreview {
+  id: number;
+  order_status: number;
+  tracking_number: string;
+  recent_message: IChatMessagePreview[];
+}
+
+export type IChatListAllPreview = ICursorPaginationResponse<IChatListSinglePreview>;
+
+export interface IChatMessagePreview {
+  id: number;
+  image: string[];
+  sent_at: number;
+  sent_by: IUserListPreview;
+  text: string;
+  type: string;
 }
 
 // TODO: @ssu1018 @juimdpp

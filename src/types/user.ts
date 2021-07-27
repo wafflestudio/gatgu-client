@@ -18,8 +18,8 @@ export interface IUserProfileDetail {
   picture: string;
   nickname: string;
   point: number;
-  updated_at: Date; // TODO 확인필요: string 일 수도
-  withdrew_at: Date;
+  updated_at: number; // TODO 확인필요: string 일 수도
+  withdrew_at: number;
   trading_address: string;
 }
 
@@ -36,6 +36,11 @@ export interface IUserProfileSimple {
   nickname: string;
   trading_address: string;
 }
+
+export type IUserListPreview = Omit<IUserProfileDetail, 'profile_id'> & {
+  grade: number;
+  id: number;
+};
 
 // TODO: this type is deprecated
 export interface IUserProps {
