@@ -31,7 +31,12 @@ function ChattingList(): JSX.Element {
     return (
       <TouchableHighlight
         onPress={() => {
-          navigation.navigate(AppRoutes.ChattingRoomStack);
+          navigation.navigate('ChattingRoom', {
+            screen: 'ChattingRoom',
+            params: {
+              id: item.id,
+            },
+          });
         }}
       >
         <Text>{item.id}</Text>

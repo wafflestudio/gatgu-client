@@ -21,7 +21,8 @@ import ChatsContainer from './ChatsContainer';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
-
+  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+  console.log(route.params);
   // GatguWebsocket.useMessage<{
   //   type: string;
   //   data: {
