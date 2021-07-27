@@ -1,39 +1,17 @@
 import React, { useEffect } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { useQuery } from 'react-query';
-import { useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/core';
 
 import { chatAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
 import { CursorFlatList } from '@/components';
-import StartEndFlatList from '@/components/StartEndFlatList/StartEndFlatList';
 import { useCursorPagination } from '@/helpers/hooks';
-import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
-import { USER_DETAIL } from '@/queryKeys';
-import {
-  IChatListAllPreview,
-  IChatListSinglePreview,
-  IChattingRoom,
-} from '@/types/chat';
-import { IUserDetail } from '@/types/user';
+import { IChatListSinglePreview } from '@/types/chat';
 
-import ChattingBox from './ChattingBox';
-
-// const mockData: IChattingRoom[] = [1];
-const mockData = [1];
 function ChattingList(): JSX.Element {
-  // const renderItem = ({ item }: { item: IChattingRoom }) => (
-  //   <ChattingBox item={item} />
-  // );
-
   const navigation = useNavigation();
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
   const {
     items,
     firstFetching,
