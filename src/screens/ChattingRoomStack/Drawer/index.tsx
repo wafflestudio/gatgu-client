@@ -37,10 +37,26 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;
-  const { sendWsMessage } = GatguWebsocket.useMessage();
   const userID = currentUser?.id;
   const roomID = route.params.params.id; // TODO @juimdpp to debug
-  // const [participants, setParticipants] = useState<IChatUserProps[]>([]);
+  const { sendWsMessage } = GatguWebsocket.useMessage<{
+    type: WSMessage;
+    data: any;
+    websocketID: string;
+  }>({
+    onmessage: (socket) => {
+      switch (socket.type) {
+        case WSMessage.RECEIVE_UPDATED_STATUS: {
+          dispatch(fetchingParticipants(roomID));
+          break;
+        }
+        default: {
+          console.log('DEFAULT', socket);
+          break;
+        }
+      }
+    },
+  });
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
