@@ -14,6 +14,7 @@ export interface IChatSlice {
   errorStatus: number;
   currentChatInfo: IChattingRoom;
   participantsList: IChatUserProps[];
+  toggleChatList: boolean;
 }
 
 const initialState: IChatSlice = {
@@ -33,6 +34,7 @@ const initialState: IChatSlice = {
     nickName: '',
   },
   participantsList: [],
+  toggleChatList: false,
 };
 
 const chatSlice = createSlice({
@@ -58,6 +60,10 @@ const chatSlice = createSlice({
     ) => {
       state.participantsList = payload;
     },
+
+    setToggle: (state, { payload }: PayloadAction<boolean>) => {
+      state.toggleChatList = !state.toggleChatList;
+    },
   },
 });
 
@@ -65,6 +71,7 @@ const {
   setCurrentChatInfo,
   failSetCurrentChatInfo,
   setParticipantsList,
+  setToggle,
 } = chatSlice.actions;
 
 // get chat info
@@ -116,6 +123,10 @@ export const fetchingParticipants = (roomId: number): AppThunk => (
     .catch((err: AxiosError) => {
       console.log(err);
     });
+};
+
+export const refetchChattingList = (): AppThunk => (dispatch) => {
+  dispatch(setToggle);
 };
 
 export default chatSlice.reducer;

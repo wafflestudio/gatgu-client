@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/core';
 
 import { chatAPI } from '@/apis';
 import { CursorFlatList } from '@/components';
+import { WSMessage } from '@/enums';
+import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useCursorPagination } from '@/helpers/hooks';
 import { AppRoutes } from '@/helpers/routes';
+import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';
 
 function ChattingList(): JSX.Element {
@@ -23,9 +27,11 @@ function ChattingList(): JSX.Element {
     fetchFunc: chatAPI.getMyChattingList,
   });
 
+  const toggle = useSelector((state: RootState) => state.chat.toggleChatList);
+
   useEffect(() => {
     getItems('first');
-  }, []);
+  }, [toggle]);
 
   const renderItem = ({ item }: { item: IChatListSinglePreview }) => {
     return (
