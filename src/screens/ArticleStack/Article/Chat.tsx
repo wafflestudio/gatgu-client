@@ -41,12 +41,18 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
     onmessage: (socket) => {
       switch (socket.type) {
         case WSMessage.ENTER_ROOM_SUCCESS: {
-          clearTimeout(retry.timeoutID);
-          setRetry(initRetry);
-          navigation.navigate('ChattingRoom', {
-            screen: 'ChattingRoom',
-            params: { id: article_id },
-          });
+          clearTimeout(retry.get(socket.websocketID)?.timeoutID);
+          // setsRetry(initRetry);
+          if (article_id) {
+            navigation.navigate('ChattingRoom', {
+              screen: 'ChattingRoom',
+              params: { id: article_id },
+            });
+            // trigger fetch to change store's participantsList -> affect chatting drawer
+            if (socket.data == 201) {
+              dispatch(fetchingParticipants(article_id));
+            }
+          }
           break;
         }
         case WSMessage.ENTER_ROOM_FAILURE: {

@@ -170,7 +170,7 @@ function ChattingRoom(): JSX.Element {
 */
 
   GatguWebsocket.useMessage<{
-    type: string;
+    type: WSMessage;
     data: IChatMessage;
     websocket_id: string;
   }>({

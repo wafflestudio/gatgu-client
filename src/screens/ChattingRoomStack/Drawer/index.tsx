@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useQuery } from 'react-query';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
 import { Checkbox } from 'native-base';
+import { stringify } from 'querystring';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
@@ -15,6 +17,9 @@ import CheckBox from '@/components/CheckBox';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { USER_DETAIL } from '@/queryKeys';
+import { RootState } from '@/store';
+import { fetchingParticipants } from '@/store/chatSlice';
+import { IChatMessage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
 import { IChatUserProps, IUserDetail } from '@/types/user';
 
@@ -28,19 +33,22 @@ interface IDrawerTemplateProps {
 
 function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+  const dispatch = useDispatch();
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;
   const { sendWsMessage } = GatguWebsocket.useMessage();
   const userID = currentUser?.id;
   const roomID = route.params.params.id; // TODO @juimdpp to debug
-  const [participants, setParticipants] = useState<IChatUserProps[]>([]);
+  // const [participants, setParticipants] = useState<IChatUserProps[]>([]);
+
+  const participants = useSelector(
+    (state: RootState) => state.chat.participantsList
+  );
 
   useEffect(() => {
-    chatAPI.getChatParticipants(roomID).then((res) => {
-      setParticipants(res.data);
-    });
-  }, []);
+    dispatch(fetchingParticipants(roomID));
+  }, [roomID]);
 
   const renderPicure = ({ item: uri }: { item: string }) => (
     <Image source={{ uri }} style={styles.image} />
