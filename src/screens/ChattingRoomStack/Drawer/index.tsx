@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useQuery } from 'react-query';
 
 import { DateTime } from 'luxon';
+import { Checkbox } from 'native-base';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import { chatAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
 import { Button, Profile } from '@/components';
 import CheckBox from '@/components/CheckBox';
@@ -23,21 +26,28 @@ interface IDrawerTemplateProps {
   // [x: string]: any;
 }
 
-function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
+function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;
   const { sendWsMessage } = GatguWebsocket.useMessage();
   const userID = currentUser?.id;
-  const roomID = route.params.id;
+  const roomID = route.params.params.id; // TODO @juimdpp to debug
+  const [participants, setParticipants] = useState<IChatUserProps[]>([]);
+
+  useEffect(() => {
+    chatAPI.getChatParticipants(roomID).then((res) => {
+      setParticipants(res.data);
+    });
+  }, []);
 
   const renderPicure = ({ item: uri }: { item: string }) => (
     <Image source={{ uri }} style={styles.image} />
   );
 
   const handleCheck = () => {
-    console.log('handle check not yet');
+    console.log("handle check not yet (api doesn't work for pay_status)");
   };
 
   const handlePressExit = () => {
@@ -51,7 +61,7 @@ function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
     });
   };
 
-  const renderedParticipants = users.map((user, ind) => (
+  const renderedParticipants = participants.map((user, ind) => (
     <View key={ind} style={styles.profileBox}>
       <Profile
         profile_id={user.participant.profile_id}
@@ -59,14 +69,12 @@ function Drawer({ pictureUrls, users }: IDrawerTemplateProps): JSX.Element {
         nickname={user.participant.nickname}
       />
       <View style={styles.infoWrapper}>
-        <View style={styles.checkBoxWrapper}>
-          <CheckBox
-            selected={user.pay_status}
-            onPress={() => handleCheck()}
-            size={20}
-            iconSize={16}
-          />
-        </View>
+        <Checkbox
+          aria-label={`${ind}`}
+          value={`${ind}_${user.pay_status}`}
+          onChange={handleCheck}
+          defaultIsChecked={false}
+        />
         <View>
           <Text style={styles.priceText}>
             {user.wish_price.toLocaleString()}원

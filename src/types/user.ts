@@ -68,7 +68,7 @@ export interface IUserSumProps {
 export interface IChatUserProps {
   id: number;
   joined_at: any; // should be time
-  pay_status: boolean;
+  pay_status: number;
   wish_price: number;
 
   // TODO: @ssu1018
