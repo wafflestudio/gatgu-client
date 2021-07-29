@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Alert, Text } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
 
 import { DateTime } from 'luxon';
 import { View } from 'native-base';
@@ -12,6 +13,7 @@ import { getMyData } from '@/apis/UserApi';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { USER_DETAIL } from '@/queryKeys';
+import { fetchingParticipants } from '@/store/chatSlice';
 import { palette } from '@/styles';
 import { IArticleStatus } from '@/types/article';
 import { IChatMessage } from '@/types/chat';
@@ -25,23 +27,36 @@ interface IChatProps {
 }
 
 interface IWsRetry {
-  websocketID: string;
+  // websocketID: string;
   timeoutID: number;
   count: number;
 }
-const initRetry = { websocketID: '-1', timeoutID: -1, count: 0 };
+
+interface IObject {
+  [key: string]: [number, number]; // [timeoutID, retry count]
+}
+
+const initRetry = { timeoutID: -1, count: 0 } as IWsRetry;
 
 function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
   const navigation = useNavigation();
-  const [retry, setRetry] = useState<IWsRetry>(initRetry);
+  const dispatch = useDispatch();
+
+  const [retryMap, setRetryMap] = useState<IObject>({});
   const { sendWsMessage } = GatguWebsocket.useMessage<{
     type: string;
-    data: IChatMessage;
+    data: number;
+    websocketID: string;
   }>({
     onmessage: (socket) => {
       switch (socket.type) {
         case WSMessage.ENTER_ROOM_SUCCESS: {
-          clearTimeout(retry.get(socket.websocketID)?.timeoutID);
+          // clear timeout
+          clearTimeout(retryMap[socket.websocketID][0]);
+          const tempMap = retryMap;
+          delete tempMap[socket.websocketID];
+          setRetryMap(tempMap);
+
           // setsRetry(initRetry);
           if (article_id) {
             navigation.navigate('ChattingRoom', {
@@ -56,8 +71,12 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
           break;
         }
         case WSMessage.ENTER_ROOM_FAILURE: {
-          clearTimeout(retry.timeoutID);
-          setRetry(initRetry);
+          // clear timeout
+          clearTimeout(retryMap[socket.websocketID][0]);
+          const tempMap = retryMap;
+          delete tempMap[socket.websocketID];
+          setRetryMap(tempMap);
+          // setRetry(initRetry);
           Alert.alert("Can't access chatroom. Check your connection");
           break;
         }
@@ -77,16 +96,17 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
       const resend = !(parseInt(resendKey) === -1);
       // set timeout and fix websocket appropriately
       const key = resend ? resendKey : `${DateTime.now()}`;
-      const timeoutID = setTimeout(navigateToChatRoom, 2000, resendKey);
-      if (resend) {
-        setRetry({ ...retry, count: retry.count + 1 });
-      } else {
-        setRetry({ websocketID: key, timeoutID: timeoutID, count: 1 });
-      }
-      // if retry more than 5 times, alert
-      if (retry.count > 5) {
-        clearTimeout(retry.timeoutID);
-        setRetry(initRetry);
+      const timeoutID = setTimeout(navigateToChatRoom, 5000, key);
+      const tempMap = retryMap;
+      tempMap[key] = resend ? [timeoutID, tempMap[key][1] + 1] : [timeoutID, 1];
+      setRetryMap(tempMap);
+
+      if (retryMap[key][1] > 3) {
+        console.log('RESET');
+        clearTimeout(retryMap[key][0]);
+        const tempMap = retryMap;
+        delete tempMap[key];
+        setRetryMap(tempMap);
       }
       // send websocket
       sendWsMessage({
@@ -97,6 +117,7 @@ function Chat({ article_id, orderStatus }: IChatProps): JSX.Element {
         },
         websocket_id: `${DateTime.now()}`,
       });
+      // setRetry({websocketID: key, timeoutID: timeoutID, count: count})
     }
   };
 

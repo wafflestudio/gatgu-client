@@ -22,30 +22,6 @@ import ChatsContainer from './ChatsContainer';
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
-  console.log(route.params);
-  // GatguWebsocket.useMessage<{
-  //   type: string;
-  //   data: {
-  //     user: number;
-  //     data: string;
-  //   };
-  // }>({
-  //   onmessage: (e) => {
-  //     setChat((prev) => [
-  //       ...prev,
-  //       {
-  //         message: e.data.data,
-  //         system: false,
-  //         image: '',
-  //         sent_at: new Date().toDateString(),
-  //         sent_by: {
-  //           nickname: `${e.data.user}`,
-  //           picture: `https://placeimg.com/140/${e.data.user}/any`,
-  //         },
-  //       },
-  //     ]);
-  //   },
-  // });
 
   return (
     <KeyboardAvoidingView
