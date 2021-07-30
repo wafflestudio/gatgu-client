@@ -21,7 +21,7 @@ export interface IChatListSinglePreview {
   id: number;
   order_status: number;
   tracking_number: string;
-  recent_message: IChatMessagePreview[];
+  recent_message: IChatMessagePreview;
 }
 
 export type IChatListAllPreview = ICursorPaginationResponse<IChatListSinglePreview>;

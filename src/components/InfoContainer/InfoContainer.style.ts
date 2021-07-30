@@ -13,6 +13,7 @@ const InfoContainerStyle = StyleSheet.create({
     borderColor: palette.borderGray,
     backgroundColor: palette.white,
     flexDirection: 'row',
+    flex: 1,
   },
 });
 

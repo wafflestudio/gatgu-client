@@ -1,30 +1,63 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text } from 'react-native';
 
-import { InfoContainer, Thumbnail } from '@/components';
-import { IChattingRoom } from '@/types/chat';
+import { Image } from 'native-base';
+
+import { InfoContainer } from '@/components';
+import { OrderStatus } from '@/enums';
+import { toUnix } from '@/helpers/functions/time';
+import { IChatListSinglePreview, IChattingRoom } from '@/types/chat';
 
 import styles from './ChattingBox.style';
 
-function ChattingBox({ item }: { item: IChattingRoom }): JSX.Element {
+const parseSysMsg = (msg: string): string => {
+  let ret = '';
+  switch (msg) {
+    case 'exit_room':
+      ret = '누군가가 나갔습니다';
+      break;
+    default:
+      ret = 'SYSTEM';
+  }
+  return ret;
+};
+
+function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
+  const { recent_message } = item;
+  const { sent_by } = recent_message;
+  const sent_at = useMemo(() => {
+    return toUnix(recent_message?.sent_at);
+  }, [recent_message]);
+  console.log('SENT', sent_at);
+  console.log('recent', recent_message);
   return (
     <InfoContainer>
-      <Thumbnail uri={item.uri} w={64} h={64} style={styles.thunmnail} />
-      <View style={styles.textWrapper}>
-        <View style={styles.writerTimeWrapper}>
-          <Text style={styles.Head}>{item.nickName}</Text>
-          <Text style={styles.description}>{item.time}시간 전</Text>
+      <Image
+        source={{
+          uri: sent_by?.picture,
+        }}
+        fallbackSource={require('@/assets/images/defaultThumnail.png')}
+        loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
+        alt="article thumnail"
+        style={styles.thumbnail}
+      />
+      <View style={styles.container}>
+        <View style={styles.textWrapper}>
+          <Text style={styles.Head}>{sent_by?.nickname}</Text>
+          <Text style={styles.timeWrapper}>{sent_at}시간 전</Text>
         </View>
         <View style={styles.Box}>
           <Text style={styles.Head} ellipsizeMode={'tail'} numberOfLines={1}>
-            {item.chat}
+            {recent_message.type == 'system'
+              ? parseSysMsg(recent_message.text)
+              : recent_message.text}
           </Text>
           <Text
             style={styles.description}
             ellipsizeMode={'tail'}
             numberOfLines={1}
           >
-            {item.title}
+            {OrderStatus[1]}
           </Text>
         </View>
       </View>

@@ -20,6 +20,8 @@ import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';
 import { IUserDetail } from '@/types/user';
 
+import ChattingBox from './ChattingBox';
+
 interface IObject {
   [key: string]: [number, number, number]; // [timeoutID, retry count, articleID]
 }
@@ -113,7 +115,7 @@ function ChattingList(): JSX.Element {
   const renderItem = ({ item }: { item: IChatListSinglePreview }) => {
     return (
       <TouchableHighlight onPress={() => navigateToChatRoom('-1', item.id)}>
-        <Text>{item.id}</Text>
+        <ChattingBox item={item} />
       </TouchableHighlight>
     );
   };

@@ -17,17 +17,23 @@ const ChattingListStyles = StyleSheet.create({
     flexWrap: 'wrap',
     height: 22,
   },
-  thunmnail: {
+  thumbnail: {
     borderRadius: 32,
+    width: 64,
+    height: 64,
   },
   textWrapper: {
-    alignItems: 'flex-start',
-    marginLeft: '3.6%',
-  },
-  writerTimeWrapper: {
     flexDirection: 'row',
-    width: '70%',
+    width: '103%',
     justifyContent: 'space-between',
+  },
+  timeWrapper: {
+    ...typo.info,
+    color: palette.gray,
+  },
+  container: {
+    flex: 1,
+    marginLeft: '3.6%',
   },
 });
 
