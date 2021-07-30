@@ -29,6 +29,6 @@ export const calcTimeDiff = (start: Date, end: Date) => {
   return { diff: result, type: type };
 };
 
-export const toUnix = (date: Date): number => {
-  return Math.floor(date.getTime() / 1000);
+export const toUnix = (date: number): number => {
+  return Math.floor(date / 10000000000);
 };
