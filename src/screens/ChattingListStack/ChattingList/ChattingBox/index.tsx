@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { Image } from 'native-base';
 
 import { InfoContainer } from '@/components';
+import Thumbnail from '@/components/Thumbnail/Thumbnail';
 import { OrderStatus } from '@/enums';
 import { toUnix } from '@/helpers/functions/time';
 import { IChatListSinglePreview, IChattingRoom } from '@/types/chat';
@@ -32,15 +33,7 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
   console.log('recent', recent_message);
   return (
     <InfoContainer>
-      <Image
-        source={{
-          uri: sent_by?.picture,
-        }}
-        fallbackSource={require('@/assets/images/defaultThumnail.png')}
-        loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
-        alt="article thumnail"
-        style={styles.thumbnail}
-      />
+      <Thumbnail uri={sent_by?.picture} />
       <View style={styles.container}>
         <View style={styles.textWrapper}>
           <Text style={styles.Head}>{sent_by?.nickname}</Text>
