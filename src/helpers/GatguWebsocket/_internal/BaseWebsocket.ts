@@ -1,6 +1,8 @@
 import ReconnectingWebsocket from 'reconnecting-websocket';
 
-import { WebsocketEventMap } from './types';
+import { WSMessage } from '@/enums';
+
+import { TWsMessage, WebsocketEventMap } from './types';
 
 export interface IBaseWebsocketOption {
   maxRetryCount?: number;
@@ -24,6 +26,16 @@ class BaseWebsocket {
   private _pongCheckingIntervalId?: number;
   private _retryCount: number;
 
+  public wsMap: Map<
+    any,
+    {
+      resolve: any;
+      reject: any;
+      count: number;
+      timeoutID: number;
+    }
+  >;
+
   constructor(url: string, options: IBaseWebsocketOption) {
     console.log('Websocket');
     this._ws = new ReconnectingWebsocket(`${url}`);
@@ -35,6 +47,8 @@ class BaseWebsocket {
       ...DEFAULT_WEBSOCKET_OPTION,
       ...options,
     } as Required<IBaseWebsocketOption>;
+
+    this.wsMap = new Map();
 
     this._ws.onopen = this._onopen.bind(this);
     this._ws.onmessage = this._onmessage.bind(this);
@@ -100,7 +114,8 @@ class BaseWebsocket {
   }
 
   private _onmessage(e: WebsocketEventMap['onmessage']) {
-    const message = JSON.parse(e.data);
+    const message = JSON.parse(e.data) as TWsMessage;
+    console.log('-------------', message);
 
     switch (message.type) {
       case 'PONG':
@@ -108,15 +123,35 @@ class BaseWebsocket {
         this._log(message);
         break;
 
+      // success cases
+      case WSMessage.ENTER_ROOM_SUCCESS:
+      case WSMessage.RECEIVE_MESSAGE_SUCCESS: {
+        const promise = this.wsMap.get(message.websocket_id);
+        if (!promise) return;
+        promise.resolve(message);
+        this.wsMap.delete(message.websocket_id);
+        break;
+      }
+
+      // failure cases
+      case WSMessage.ENTER_ROOM_FAILURE:
+      case WSMessage.RECEIVE_MESSAGE_FAILURE: {
+        const promise = this.wsMap.get(message.websocket_id);
+        if (!promise) return;
+        promise.reject(message);
+        this.wsMap.delete(message.websocket_id);
+        break;
+      }
+
+      // other cases
       default:
-        console.log('-------------', message);
         if (this.onmessage) {
           this.onmessage({ ...e, data: message });
         }
     }
   }
 
-  private _log(message: string) {
+  private _log(message: any) {
     if (this._options.debug) {
       console.debug(message);
     }
