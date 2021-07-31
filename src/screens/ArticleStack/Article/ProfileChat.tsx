@@ -42,50 +42,8 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const article_id = article.article_id;
   const [retryMap, setRetryMap] = useState<IObject>({});
   const dispatch = useDispatch();
+  const { sendWsMessage } = GatguWebsocket.useMessage();
 
-  const { sendWsMessage } = GatguWebsocket.useMessage<{
-    type: string;
-    data: number;
-    websocketID: string;
-  }>({
-    onmessage: (socket) => {
-      switch (socket.type) {
-        case WSMessage.ENTER_ROOM_SUCCESS: {
-          // clear timeout
-          clearTimeout(retryMap[socket.websocketID][0]);
-          const tempMap = retryMap;
-          delete tempMap[socket.websocketID];
-          setRetryMap(tempMap);
-
-          // setsRetry(initRetry);
-          if (article_id) {
-            navigation.navigate(AppRoutes.ChattingRoom, {
-              screen: 'ChattingRoom',
-              params: { id: article_id },
-            });
-            // trigger fetch to change store's participantsList -> affect chatting drawer
-            if (socket.data == 201) {
-              dispatch(fetchingParticipants(article_id));
-            }
-          }
-          break;
-        }
-        case WSMessage.ENTER_ROOM_FAILURE: {
-          // clear timeout
-          clearTimeout(retryMap[socket.websocketID][0]);
-          const tempMap = retryMap;
-          delete tempMap[socket.websocketID];
-          setRetryMap(tempMap);
-          // setRetry(initRetry);
-          Alert.alert("Can't access chatroom. Check your connection");
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    },
-  });
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;
@@ -97,35 +55,37 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
 
   const [writer, setWriter] = useState<IUserSimple>();
 
-  const handleChattingButtonClick = (resendKey: string) => {
-    if (orderStatus.progress_status <= ArticleStatus.Dealing) {
-      // check if resend
-      const resend = !(parseInt(resendKey) === -1);
-      // set timeout and fix websocket appropriately
-      const key = resend ? resendKey : `${DateTime.now()}`;
-      const timeoutID = setTimeout(handleChattingButtonClick, 5000, key);
-      const tempMap = retryMap;
-      tempMap[key] = resend ? [timeoutID, tempMap[key][1] + 1] : [timeoutID, 1];
-      setRetryMap(tempMap);
 
-      if (retryMap[key][1] > 3) {
-        console.log('RESET');
-        clearTimeout(retryMap[key][0]);
-        const tempMap = retryMap;
-        delete tempMap[key];
-        setRetryMap(tempMap);
-      }
-      // send websocket
-      sendWsMessage({
-        type: WSMessage.ENTER_ROOM,
-        data: {
-          room_id: article_id,
-          user_id: currentUser?.id,
-        },
-        websocket_id: `${DateTime.now()}`,
+
+
+  const handleChattingButtonClick = (resendKey: string) => {
+    const resend = !(parseInt(resendKey) === -1);
+    const websocket_id = resend ? resendKey : `${DateTime.now()}`;
+
+    const wsMessage = {
+      type: WSMessage.ENTER_ROOM,
+      data: {
+        room_id: 150, //article_id,
+        user_id: currentUser?.id,
+      },
+      websocket_id: websocket_id,
+    };
+    sendWsMessage(wsMessage)
+      .then((result) => {
+        if (article_id) {
+          navigation.navigate(AppRoutes.ChattingRoom, {
+            screen: 'ChattingRoom',
+            params: { id: article_id },
+          });
+          // trigger fetch to change store's participantsList -> affect chatting drawer
+          if (result.data == 201) {
+            dispatch(fetchingParticipants(article_id));
+          }
+        }
+      })
+      .catch((e) => {
+        Alert.alert("Can't access chatroom. Check your connection");
       });
-      // setRetry({websocketID: key, timeoutID: timeoutID, count: count})
-    }
   };
 
   useEffect(() => {
