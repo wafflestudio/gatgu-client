@@ -4,8 +4,7 @@ import { Flex, Text } from 'native-base';
 
 import { StringArticleStatus } from '@/constants/article';
 import { ArticleStatus } from '@/enums';
-import { getRemainTime } from '@/helpers/functions';
-import { getPassedTime } from '@/helpers/functions/time';
+import { getPassedTime, getRemainTime } from '@/helpers/functions/time';
 import { palette, typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
 

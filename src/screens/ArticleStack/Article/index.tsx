@@ -84,7 +84,7 @@ function ArticlePage(): JSX.Element {
         <ArticleHeader
           title={currentArticle.title}
           time_in={currentArticle.time_in}
-          created_at={currentArticle?.created_at}
+          updated_at={currentArticle?.updated_at}
           article_status={currentArticle.article_status}
           trading_place={currentArticle.trading_place}
           price_min={currentArticle.price_min}

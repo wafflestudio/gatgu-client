@@ -10,20 +10,24 @@ const units = [
 ] as const;
 const koUnits = ['년', '달', '일', '시간', '분', '초'];
 
-export const getTs = (date?: Date): number => {
+export const getTs = (date?: Date | DateTime): number => {
   if (typeof date === 'undefined') {
-    return Math.floor(DateTime.now().toSeconds());
+    return DateTime.now().toMillis();
   }
 
-  return Math.floor(DateTime.fromJSDate(date).toSeconds());
+  if (date instanceof Date) {
+    return DateTime.fromJSDate(date).toMillis();
+  }
+
+  return date.toMillis();
 };
 
 export const getTimeDiffWithUnit = (startTs: number, endTs: number) => {
   let unitIdx = -1;
-  const tsDiff = Math.floor(Math.abs(endTs - startTs));
-  const duration = DateTime.fromSeconds(tsDiff).diff(
-    DateTime.fromSeconds(startTs),
-    'second'
+  const tsDiff = Math.abs(endTs - startTs);
+  const duration = DateTime.fromMillis(tsDiff).diff(
+    DateTime.fromMillis(startTs),
+    'milliseconds'
   );
 
   while (units[++unitIdx]) {
@@ -36,12 +40,12 @@ export const getTimeDiffWithUnit = (startTs: number, endTs: number) => {
 
 export const getPassedTime = (ts: number) => {
   const currTs = getTs();
+
   if (ts > currTs) {
     return '';
   }
-  console.log('ts:', ts);
 
-  return `${getTimeDiffWithUnit(currTs, ts)} 전`;
+  return `${getTimeDiffWithUnit(ts, currTs)} 전`;
 };
 
 export const getRemainTime = (ts: number) => {
