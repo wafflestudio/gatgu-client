@@ -12,10 +12,11 @@ import AppLoadingTemplate from '@/components/AppLoading';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import store from '@/store/rootStore';
 
+import usePushNotification from '../hooks/usePushNotification';
 import {
   useAutoLogin,
   useEffectOnceAfterAppLoaded,
-  usePushNotification,
+  usePushNotificationInit,
 } from './hooks';
 import { navigationRef } from './rootNavigation';
 import { linking } from './utils/navigation';
@@ -23,6 +24,7 @@ import { linking } from './utils/navigation';
 const queryClient = new QueryClient();
 
 const AppBootstrap: React.FC = ({ children }) => {
+  usePushNotificationInit();
   const { authLoading } = useAutoLogin();
   const { handlePermission } = usePushNotification();
 

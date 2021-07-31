@@ -14,10 +14,33 @@ export interface INotificationConfig {
   event: boolean;
 }
 
-export interface INotificationMessage {
-  data: {
-    link?: string;
-    type?: PushNotificationType;
-    storedData?: any;
+export type TNewChattingNotificaitonData = {
+  type: PushNotificationType.NewChatting;
+  payload: {
+    params: {
+      room_id: number;
+    };
   };
-}
+};
+
+export type TAnnouncementNotificationData = {
+  type: PushNotificationType.Announcement;
+  payload: null;
+};
+
+export type TKeywordNotificationData = {
+  type: PushNotificationType.ArticleKeyword;
+  payload: {
+    params: {
+      article_id: number;
+    };
+  };
+};
+
+export type TNotificationData = {
+  link?: string;
+} & (
+  | TNewChattingNotificaitonData
+  | TAnnouncementNotificationData
+  | TKeywordNotificationData
+);
