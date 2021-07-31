@@ -8,7 +8,6 @@ interface IThumbnailProps {
   uri: string;
 }
 function Thumbnail({ uri }: IThumbnailProps): JSX.Element {
-  console.log(uri);
   return (
     <Image
       source={{

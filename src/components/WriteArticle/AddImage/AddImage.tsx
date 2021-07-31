@@ -1,7 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { View, Image, TouchableHighlight } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Image as TImage } from 'react-native-image-crop-picker';
+
+import _ from 'lodash';
 
 import XSign from '@/assets/icons/CrossSign';
 import PlusSign from '@/assets/icons/PlusSign';
@@ -16,8 +18,6 @@ interface AddImageProps {
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
-  const [prev, setPrev] = useState<TShortImage[]>([]);
-
   const { pickMultipleImage } = usePickImage({
     width: 300,
     height: 400,
@@ -28,33 +28,29 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
   });
 
   const pickImage = () => {
-    const tempArrPrev: TShortImage[] = [];
-    const tempArrSend: TShortImage[] = [];
+    const tempArrSend: TShortImage[] = _.cloneDeep(images);
 
     pickMultipleImage()
       .then((imgs) => {
         imgs &&
           imgs.forEach((item: TImage) => {
-            tempArrPrev.push({ mime: item.mime, path: item.path });
             tempArrSend.push({ mime: item.mime, path: item.path });
           });
       })
       .then(() => {
-        setPrev(tempArrPrev);
+        console.log('dh', tempArrSend);
         setImages(tempArrSend);
       });
   };
 
   const deleteImage = (key: number) => {
     const tempArrSend = images.filter((_, ind) => ind !== key);
-    const tempArrPrev = prev.filter((_, ind) => ind !== key);
     setImages(tempArrSend);
-    setPrev(tempArrPrev);
   };
 
   const previews =
     images.length > 0 &&
-    prev.map(
+    images.map(
       (item, key): JSX.Element => (
         <View style={styles.photoContainer} key={key}>
           <Image style={styles.photo} source={{ uri: item.path }} />
