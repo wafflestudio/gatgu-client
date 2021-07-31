@@ -1,10 +1,25 @@
-{
-  /* <Image source={{
-          uri: sent_by?.picture,
-        }}
-        fallbackSource={require('@/assets/images/defaultThumnail.png')}
-        loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
-        alt="article thumnail"
-        style={styles.thumbnail}
-        /> */
+import React from 'react';
+
+import { Image } from 'native-base';
+
+import styles from './Thumbnail.style';
+
+interface IThumbnailProps {
+  uri: string;
 }
+function Thumbnail({ uri }: IThumbnailProps): JSX.Element {
+  console.log(uri);
+  return (
+    <Image
+      source={{
+        uri: uri,
+      }}
+      fallbackSource={require('@/assets/images/defaultThumnail.png')}
+      loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
+      alt="thumnail"
+      style={styles.thumbnail}
+    />
+  );
+}
+
+export default Thumbnail;
