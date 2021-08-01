@@ -12,6 +12,6 @@
     "baseUrl": "./",
     "paths":{"@/*":["src/*"]},
     "typeRoots": ["types/"],
-    "types": ["styled-components-react-native"],
+    "types": ["styled-components-react-native"]
   }
 }
