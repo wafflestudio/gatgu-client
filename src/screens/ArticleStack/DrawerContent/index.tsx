@@ -11,6 +11,7 @@ import {
 import { articleAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
 import { Button, ReportModal } from '@/components';
+import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { OrderStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { USER_DETAIL } from '@/queryKeys';
@@ -20,7 +21,6 @@ import { palette } from '@/styles';
 import { IUserDetail } from '@/types/user';
 
 import styles from './Drawer.style';
-import { ARTICLE_REPORT_REASONS } from './ducks/constants';
 
 const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const navigation = props.navigation;
