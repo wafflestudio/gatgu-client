@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 
 import { AspectRatio, Flex, Image, Text } from 'native-base';
 
-import { remainTime } from '@/helpers/functions/time';
+import { getPassedTime, getRemainTime } from '@/helpers/functions/time';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
 import { IArticleSummary } from '@/types/article';
@@ -18,6 +18,7 @@ const ArticleBox: React.FC<IArticleSummary> = ({
   images,
   price_min,
   article_status,
+  updated_at,
 }) => {
   const navigation = useAppNavigation();
 
@@ -49,9 +50,11 @@ const ArticleBox: React.FC<IArticleSummary> = ({
             <Text style={styles.Head}>{title}</Text>
           </Flex>
           <View style={styles.infoWrapper}>
-            <Text style={styles.description}>{1} 분 전</Text>
             <Text style={styles.description}>
-              {remainTime(time_in)} &nbsp; · &nbsp;
+              {getPassedTime(updated_at)}&nbsp; · &nbsp;
+            </Text>
+            <Text style={styles.description}>
+              {getRemainTime(time_in)}&nbsp; · &nbsp;
             </Text>
             <Text style={styles.description}>{trading_place}</Text>
           </View>

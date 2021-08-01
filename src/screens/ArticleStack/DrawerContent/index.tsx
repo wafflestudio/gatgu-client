@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,8 +10,10 @@ import {
 
 import { articleAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
-import { Button } from '@/components';
+import { Button, ReportModal } from '@/components';
+import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { OrderStatus } from '@/enums';
+import { useToaster } from '@/helpers/hooks';
 import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { changeOrderStatus } from '@/store/chatSlice';
@@ -23,6 +25,7 @@ import styles from './Drawer.style';
 const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const navigation = props.navigation;
   const dispatch = useDispatch();
+  const toaster = useToaster();
 
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
@@ -32,6 +35,9 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
     (state: RootState) => state.article.currentArticle
   );
   const isMyArticle = writer_id === currentUser?.id;
+
+  const [isReportModalOpen, setReportModalOpen] = useState(false);
+  const [isReportModalSubmitting, setReportModalSubmitting] = useState(false);
 
   const toggleStatus = () => {
     // change status
@@ -64,6 +70,23 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
     navigation.navigate('EditArticle', {
       id: article_id,
     });
+  };
+
+  const handleReportSubmit = (content: string) => {
+    setReportModalSubmitting(true);
+    articleAPI
+      .postArticleReport(article_id, content)
+      .then(() => {
+        toaster.success('신고가 접수되었습니다.');
+        setReportModalOpen(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        toaster.error('에러가 발생했습니다. 다시 시도해주세요');
+      })
+      .finally(() => {
+        setReportModalSubmitting(false);
+      });
   };
 
   const renderParticipants = () => {
@@ -99,7 +122,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
           ) : null}
           <Button
             title="신고하기"
-            onPress={() => Alert.alert('not yet: 신고하기')}
+            onPress={() => setReportModalOpen(true)}
             textStyle={styles.upperLabelText}
           />
         </View>
@@ -108,6 +131,15 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
           {renderParticipants()}
         </View>
       </View>
+
+      {isReportModalOpen ? (
+        <ReportModal
+          reasons={ARTICLE_REPORT_REASONS}
+          submitting={isReportModalSubmitting}
+          onHide={() => setReportModalOpen(false)}
+          onSubmit={handleReportSubmit}
+        />
+      ) : null}
     </DrawerContentScrollView>
   );
 };

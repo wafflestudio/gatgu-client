@@ -3,6 +3,7 @@ import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import _ from 'lodash';
+import { DateTime } from 'luxon';
 import { Button } from 'native-base';
 
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -96,8 +97,8 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   ));
 
   const parsedDate = useMemo(() => {
-    const iso = dueDate.toISOString().split('T');
-    return `${iso[0]}  ${iso[1].split(':')[0]}:${iso[1].split(':')[1]} `;
+    const iso = DateTime.fromJSDate(dueDate).toFormat(`yyyy-MM-dd hh:mm`);
+    return iso;
   }, [dueDate]);
 
   return (
