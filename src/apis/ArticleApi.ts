@@ -87,3 +87,11 @@ export const getUserArticles = (
       searchParams
   );
 };
+
+// 글 신고하기
+export const postArticleReport = (articleId: number, contents: string) => {
+  return requester.post('reports/', {
+    article_id: articleId,
+    contents,
+  });
+};
