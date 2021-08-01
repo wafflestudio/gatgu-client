@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Modal } from 'react-native';
+import { View, Modal, Pressable } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Swiper from 'react-native-swiper';
@@ -38,7 +38,7 @@ function ProductImages({
   articleStatus,
 }: IArticleChat): JSX.Element {
   const [isImageViewerOpen, setImageViewerOpen] = useState(false);
-
+  const [currentIndex, setCurrentIndex] = useState(0);
   const isArticleStatusAboveComplete =
     articleStatus.progress_status >= ArticleStatus.Complete;
 
@@ -61,38 +61,43 @@ function ProductImages({
       />
     ) : (
       image_urls.map((item, idx) => (
-        <StyledImage
+        <Pressable
           key={idx}
-          alt="article_img"
-          h={283}
-          isEnd={isArticleStatusAboveComplete}
-          style={styles.image}
-          source={{ uri: item.img_url }}
-          fallbackSource={require('@/assets/images/defaultThumnail.png')}
-        />
+          onPress={() => {
+            isOpenImageViewerPossible && setImageViewerOpen(true);
+          }}
+        >
+          <StyledImage
+            alt="article_img"
+            h={283}
+            isEnd={isArticleStatusAboveComplete}
+            style={styles.image}
+            source={{ uri: item.img_url }}
+            fallbackSource={require('@/assets/images/defaultThumnail.png')}
+          />
+        </Pressable>
       ))
     );
 
   return (
     <View>
-      <View>
-        <Swiper
-          style={styles.swiper}
-          loop={false}
-          activeDotColor={palette.white}
-          dot={dot}
-          paginationStyle={styles.pageStyle}
-          onTouchEnd={() =>
-            isOpenImageViewerPossible && setImageViewerOpen(true)
-          }
-        >
-          {images}
-        </Swiper>
-      </View>
+      <Swiper
+        index={currentIndex}
+        style={styles.swiper}
+        loop={false}
+        activeDotColor={palette.white}
+        dot={dot}
+        paginationStyle={styles.pageStyle}
+        onIndexChanged={setCurrentIndex}
+      >
+        {images}
+      </Swiper>
       {isImageViewerOpen ? (
         <Modal transparent>
           <ImageViewer
             enableSwipeDown
+            index={currentIndex}
+            imageUrls={imageViewerImages}
             renderHeader={() => (
               <StyledImageViewerCloseButton
                 onPress={() => setImageViewerOpen(false)}
@@ -100,7 +105,6 @@ function ProductImages({
                 <Icon name="close" size={36} color={palette.gray} />
               </StyledImageViewerCloseButton>
             )}
-            imageUrls={imageViewerImages}
             onCancel={() => setImageViewerOpen(false)}
           />
         </Modal>
