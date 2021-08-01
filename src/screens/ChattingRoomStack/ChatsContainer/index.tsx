@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
 
 import { DateTime } from 'luxon';
 
@@ -12,6 +13,7 @@ import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { USER_DETAIL } from '@/queryKeys';
+import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
 import { IUserDetail } from '@/types/user';
@@ -35,11 +37,13 @@ export interface IWSChatMessage {
 function ChattingRoom(): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage();
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+  const dispatch = useDispatch();
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
     getMyData().then((response) => response.data)
   ).data;
   const userID = currentUser?.id;
   const roomID = route.params.id;
+  console.log('room', route);
 
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
@@ -172,7 +176,7 @@ function ChattingRoom(): JSX.Element {
 */
 
   GatguWebsocket.useMessage<{
-    type: string;
+    type: WSMessage;
     data: IChatMessage;
     websocket_id: string;
   }>({
@@ -200,6 +204,9 @@ function ChattingRoom(): JSX.Element {
           const tempMap = retryMap;
           delete tempMap[socket.websocket_id];
           setRetryMap(tempMap);
+
+          // trigger chatting list update
+          dispatch(refetchChattingList);
           break;
         }
         case WSMessage.RECEIVE_MESSAGE_FAILURE: {

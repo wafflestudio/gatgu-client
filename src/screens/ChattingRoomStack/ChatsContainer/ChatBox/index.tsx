@@ -121,7 +121,7 @@ function ChatBox({
               >
                 <Text>REP</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => erase(`-${websocket_id}`)}>
+              <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
                 <Text>DEL</Text>
               </TouchableOpacity>
             </View>
