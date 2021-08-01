@@ -1,87 +1,114 @@
-import React from 'react';
-import { Image, View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Modal, Pressable } from 'react-native';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Swiper from 'react-native-swiper';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { ColorArticleStatus, StringArticleStatus } from '@/constants/article';
+import { Image } from 'native-base';
+import styled from 'styled-components/native';
+
+import { ArticleStatus } from '@/enums';
 import { palette } from '@/styles';
 import { IArticleStatus } from '@/types/article';
 import { ImageDict } from '@/types/shared';
 
 import styles from './ProductImages.style';
 
-// TODO: @juimdpp
-// - 백에서 썸네일 + 기타 사진을 어떻게 줄지에 따라서 변경여부 판단
-
 interface IArticleChat {
   image_urls: ImageDict[];
-  orderStatus: IArticleStatus;
+  articleStatus: IArticleStatus;
 }
 
-function ProductImages({ image_urls, orderStatus }: IArticleChat): JSX.Element {
+const StyledImageViewerCloseButton = styled.TouchableHighlight`
+  position: absolute;
+  right: 10px;
+  top: 0;
+  margin-top: ${getStatusBarHeight()}px;
+  font-size: 10px;
+  z-index: 100;
+`;
+
+const StyledImage = styled(Image)<{ isEnd?: boolean }>`
+  opacity: ${(props) => (props.isEnd ? 0.3 : 1)};
+`;
+
+function ProductImages({
+  image_urls,
+  articleStatus,
+}: IArticleChat): JSX.Element {
+  const [isImageViewerOpen, setImageViewerOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const isArticleStatusAboveComplete =
+    articleStatus.progress_status >= ArticleStatus.Complete;
+
   const dot = <View style={styles.dot} />;
+  const isOpenImageViewerPossible = image_urls.length > 0;
+
+  const imageViewerImages = image_urls.map((image) => {
+    return {
+      url: image.img_url,
+    };
+  });
+
   const images =
     image_urls.length == 0 ? (
-      <Image source={require('@/assets/images/no-image.png')} />
+      <StyledImage
+        alt="article_img"
+        h={283}
+        isEnd={isArticleStatusAboveComplete}
+        source={require('@/assets/images/no-image.png')}
+      />
     ) : (
-      image_urls
-        .map((item, _) => {
-          return (
-            <Image
-              key={_}
-              style={styles.image}
-              source={{ uri: item.img_url as string }}
-            />
-          );
-        })
-        .concat(
-          <Image
-            key={1}
+      image_urls.map((item, idx) => (
+        <Pressable
+          key={idx}
+          onPress={() => {
+            isOpenImageViewerPossible && setImageViewerOpen(true);
+          }}
+        >
+          <StyledImage
+            alt="article_img"
+            h={283}
+            isEnd={isArticleStatusAboveComplete}
             style={styles.image}
-            source={{
-              uri: 'https://user-images.githubusercontent.com/60267222/122652722-27921600-d17b-11eb-99d4-ca3ffccb858e.png' as string,
-            }}
+            source={{ uri: item.img_url }}
+            fallbackSource={require('@/assets/images/defaultThumnail.png')}
           />
-        )
+        </Pressable>
+      ))
     );
-  /*
-    TODO: @juimdpp
-    remove concat (added it just to show that it works)
-*/
+
   return (
     <View>
-      <View>
-        <Swiper
-          style={styles.swiper}
-          loop={false}
-          activeDotColor={palette.white}
-          dot={dot}
-          paginationStyle={styles.pageStyle}
-        >
-          {images}
-        </Swiper>
-      </View>
-      {
-        <View
-          style={[
-            styles.completeTextContainer,
-            {
-              backgroundColor: ColorArticleStatus[orderStatus.progress_status],
-            },
-          ]}
-        >
-          <Text style={styles.completeText}>
-            {StringArticleStatus[orderStatus.progress_status]}
-          </Text>
-        </View>
-      }
-      {/* {orderStatus.progress_status >= ArticleStatus && (
-        <View style={styles.completeCover} />
-      )} */}
-      {/* {orderStatus.progress_status >= ArticleStatus && (
-        <View style={styles.completeTextContainer}>
-          <Text style={styles.completeText}>모집완료</Text>
-        </View>
-      )} */}
+      <Swiper
+        index={currentIndex}
+        style={styles.swiper}
+        loop={false}
+        activeDotColor={palette.white}
+        dot={dot}
+        paginationStyle={styles.pageStyle}
+        onIndexChanged={setCurrentIndex}
+      >
+        {images}
+      </Swiper>
+      {isImageViewerOpen ? (
+        <Modal transparent>
+          <ImageViewer
+            enableSwipeDown
+            index={currentIndex}
+            imageUrls={imageViewerImages}
+            renderHeader={() => (
+              <StyledImageViewerCloseButton
+                onPress={() => setImageViewerOpen(false)}
+              >
+                <Icon name="close" size={36} color={palette.gray} />
+              </StyledImageViewerCloseButton>
+            )}
+            onCancel={() => setImageViewerOpen(false)}
+          />
+        </Modal>
+      ) : null}
     </View>
   );
 }

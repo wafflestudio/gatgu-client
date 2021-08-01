@@ -33,12 +33,19 @@ function Force({ profile }: ForceProps): JSX.Element {
       <View style={styles.bodyView}>
         <View style={styles.bodyElem}>
           <Open style={styles.bodyIcon} />
-          <Text style={styles.bodyText}>모집횟수 {profile.hosted_count}회</Text>
+          <Text style={styles.bodyText}>
+            모집횟수&nbsp;
+            <Text style={{ fontWeight: 'bold' }}>{profile.hosted_count}</Text>회
+          </Text>
         </View>
         <View style={styles.bodyElem}>
           <Part style={styles.bodyIcon} />
           <Text style={styles.bodyText}>
-            참여횟수 {profile.participated_count}회
+            참여횟수&nbsp;
+            <Text style={{ fontWeight: 'bold' }}>
+              {profile.participated_count}
+            </Text>
+            회
           </Text>
         </View>
       </View>

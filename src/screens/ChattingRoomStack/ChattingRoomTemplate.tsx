@@ -29,7 +29,6 @@ export default function ChattingRoom(): JSX.Element {
     >
       <Header
         title="채팅방"
-        titleShown={true}
         // FIXME: @ssu1018
         // 더보기 아이콘으로 수정
         // when: #118 이슈 해결할 때

@@ -16,7 +16,11 @@ const ChattingListStack = createStackNavigator<TChattingListStackParamList>();
 
 const ChattingListStackScreen: React.FC = () => {
   return (
-    <ChattingListStack.Navigator>
+    <ChattingListStack.Navigator
+      screenOptions={{
+        headerStatusBarHeight: 0,
+      }}
+    >
       <ChattingListStack.Screen
         name={EChattingListStackScreens.ChattingList}
         component={ChattingList}

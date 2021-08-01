@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { articleAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
+import { OrderStatus } from '@/enums';
 import { AppThunk } from '@/store';
 import { IArticleProps, IGetFailPayload, IPostArticle } from '@/types/article';
 
@@ -33,20 +34,20 @@ const initialState: IArticleSlice = {
     trading_place: '',
     product_url: '',
     price_min: 0,
-    time_in: '',
-    image: [], // 확실하지 않음... api에 타입이 안 적혀있음
+    time_in: new Date().getTime(),
+    images: [],
     tag: [],
-    created_at: `${new Date()}`, // should be date but json server doesn't accept Date
-    updated_at: `${new Date()}`,
-    article_status: undefined,
+    created_at: new Date().getTime(), // should be date but json server doesn't accept Date
+    updated_at: new Date().getTime(),
+    article_status: {
+      progress_status: 1,
+      cur_price_sum: 0,
+    },
     order_chat: {
       id: 0,
       participant_profile: [],
       tracking_number: 0,
-    },
-    participants_summary: {
-      count: 0,
-      price: 0,
+      order_status: OrderStatus.Pending,
     },
   },
   articleIsLoading: true,

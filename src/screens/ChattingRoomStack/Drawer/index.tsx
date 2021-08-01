@@ -39,6 +39,7 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   ).data;
   const userID = currentUser?.id;
   const roomID = route.params.params.id; // TODO @juimdpp to debug
+  console.log('drawer', route);
   const { sendWsMessage } = GatguWebsocket.useMessage<{
     type: WSMessage;
     data: any;

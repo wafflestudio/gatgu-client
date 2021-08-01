@@ -5,23 +5,16 @@ import { palette } from '@/styles';
 const infoStyle = StyleSheet.create({
   // container
   container: {
+    width: '100%',
     height: 111,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 30,
     alignItems: 'center',
-    textAlign: 'center',
     flexDirection: 'row',
     borderColor: palette.borderGray,
     borderWidth: 1,
     backgroundColor: palette.white,
-  },
-
-  profileImgOuterWrapper: {
-    width: 82,
-    height: 82,
-    borderRadius: 40,
     overflow: 'hidden',
-    marginRight: 25,
-    padding: 5.5,
   },
 
   profileImgInnerWrapper: {
@@ -38,30 +31,18 @@ const infoStyle = StyleSheet.create({
     width: '100%',
   },
 
-  // content
-  content: {
-    height: 71,
-    width: 120,
-    marginRight: 71,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
   // detail & content common
   detailText: {
     fontSize: 13,
     color: 'gray',
-    margin: 2,
   },
   detailNameText: {
     fontSize: 18,
     color: 'black',
     margin: 2,
     fontWeight: 'bold',
-  },
-  authView: {},
-  textWrapper: {
-    flexDirection: 'row',
+    overflow: 'hidden',
+    flex: 1,
   },
 });
 

@@ -2,24 +2,18 @@ import { StyleSheet } from 'react-native';
 
 import { mobile } from '@/helpers/mobile';
 import { typo, palette } from '@/styles';
-import {
-  $postBox_pad_horizontal,
-  $thumnail_size,
-  $thumnail_margin_right,
-} from '@/styles/size';
-import { flexRow } from '@/styles/wrapper';
+
+// percentage is not applied in Flatlist
+const BOX_HEIGHT = 142;
+const IMAGE_RIGHT_MARGIN = 20;
+const ARTICLE_BOX_HORIZONTAL_PADDING = 20;
 
 const PostBoxStyles = StyleSheet.create({
   articleBox: {
-    width:
-      mobile.width -
-      $thumnail_size -
-      2 * $postBox_pad_horizontal -
-      $thumnail_margin_right,
+    width: mobile.width - 142 - 2 * ARTICLE_BOX_HORIZONTAL_PADDING,
+    marginLeft: IMAGE_RIGHT_MARGIN,
     flexDirection: 'column',
-    marginLeft: '5.3%',
-    justifyContent: 'flex-start',
-    height: '100%',
+    justifyContent: 'space-between',
   },
   Head: {
     ...typo.semiTitle,
@@ -29,26 +23,24 @@ const PostBoxStyles = StyleSheet.create({
     ...typo.info,
     color: palette.gray,
   },
+  priceText: {
+    ...typo.info,
+    color: palette.dark,
+  },
   postBox: {
-    ...flexRow,
-    height: 142,
+    flexDirection: 'row',
+    width: mobile.width,
+    height: BOX_HEIGHT,
     borderBottomColor: palette.borderGray,
     borderBottomWidth: 1,
-    paddingTop: 16,
-    paddingBottom: 15,
-    paddingHorizontal: 20,
+    paddingVertical: 15,
+    paddingHorizontal: ARTICLE_BOX_HORIZONTAL_PADDING,
     backgroundColor: palette.white,
   },
   infoWrapper: {
-    ...flexRow,
     height: 16,
     marginTop: 11,
     flexWrap: 'wrap',
-  },
-  goalWrapper: {
-    position: 'absolute',
-    bottom: 1,
-    width: '100%',
   },
 });
 

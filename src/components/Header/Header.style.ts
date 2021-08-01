@@ -11,7 +11,8 @@ const commonStyle = StyleSheet.create({
 
 const HeaderStyles = StyleSheet.create({
   header: {
-    height: 59,
+    width: '100%',
+    height: 44,
     borderBottomWidth: 1,
     borderBottomColor: palette.borderGray,
     flexDirection: 'row',

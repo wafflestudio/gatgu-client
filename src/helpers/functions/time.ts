@@ -1,34 +1,59 @@
-// deadline: date 객체가 string 형태로 들어옴.
+import { DateTime } from 'luxon';
 
-export const remainTime = (deadline: string): string => {
-  const deadlineDay: number = new Date(deadline).getDate();
-  const today: number = new Date().getDate();
+const units = [
+  'years',
+  'months',
+  'days',
+  'hours',
+  'minutes',
+  'seconds',
+] as const;
+const koUnits = ['년', '달', '일', '시간', '분', '초'];
 
-  const dayLeft: number = deadlineDay - today;
+export const getTs = (date?: Date | DateTime): number => {
+  if (typeof date === 'undefined') {
+    return DateTime.now().toMillis();
+  }
 
-  return dayLeft ? `${dayLeft}일 남음.` : '오늘 마감';
+  if (date instanceof Date) {
+    return DateTime.fromJSDate(date).toMillis();
+  }
+
+  return date.toMillis();
 };
 
-// for current date (new Date()), use 'current' as input
-export const calcTimeDiff = (start: Date, end: Date) => {
-  // const startDate = start === 'current' ? new Date() : new Date(start);
-  // const endDate = end === 'current' ? new Date() : new Date(end);
-  const miliseconds = start.valueOf() - end.valueOf();
-  const seconds = Math.trunc(miliseconds / 1000);
-  const min = Math.trunc(seconds / 60);
-  const hour = Math.trunc(min / 60);
-  const day = Math.trunc(hour / 24);
+export const getTimeDiffWithUnit = (startTs: number, endTs: number) => {
+  let unitIdx = -1;
+  const tsDiff = Math.abs(endTs - startTs);
+  const duration = DateTime.fromMillis(tsDiff).diff(
+    DateTime.fromMillis(startTs),
+    'milliseconds'
+  );
 
-  let result, type;
-  if (day !== 0) (result = day), (type = '일');
-  else if (hour !== 0) (result = hour), (type = '시간');
-  else if (min !== 0) (result = min), (type = '분');
-  else if (seconds !== 0) (result = seconds), (type = '초');
-  else (result = 0), (type = '초');
-  if (isNaN(result)) (result = 0), (type = '일');
-  return { diff: result, type: type };
+  while (units[++unitIdx]) {
+    const timeDiff = Math.floor(duration.as(units[unitIdx]));
+    if (timeDiff) {
+      return `${timeDiff}${koUnits[unitIdx]}`;
+    }
+  }
 };
 
-export const toUnix = (date: Date): number => {
-  return Math.floor(date.getTime() / 1000);
+export const getPassedTime = (ts: number) => {
+  const currTs = getTs();
+
+  if (ts > currTs) {
+    return '';
+  }
+
+  return `${getTimeDiffWithUnit(ts, currTs)} 전`;
+};
+
+export const getRemainTime = (ts: number) => {
+  const currTs = getTs();
+
+  if (ts < currTs) {
+    return '기간 만료';
+  }
+
+  return `${getTimeDiffWithUnit(currTs, ts)} 남음`;
 };

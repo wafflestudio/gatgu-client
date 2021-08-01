@@ -15,7 +15,11 @@ const SearchStack = createStackNavigator<TSearchStackParamList>();
 
 const SearchStackScreen: React.FC = () => {
   return (
-    <SearchStack.Navigator>
+    <SearchStack.Navigator
+      screenOptions={{
+        headerStatusBarHeight: 0,
+      }}
+    >
       <SearchStack.Screen
         name={ESearchStackScreens.Search}
         component={Search}

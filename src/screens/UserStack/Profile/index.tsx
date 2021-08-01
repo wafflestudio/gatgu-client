@@ -1,8 +1,7 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { Alert, TouchableHighlight, View } from 'react-native';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Icon } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,7 +9,7 @@ import { removeRequesterToken } from '@/apis/BaseInstance';
 import { logout } from '@/apis/UserApi';
 import { Button } from '@/components';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { StringStorage } from '@/helpers/functions/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { RootState } from '@/store';
 import { clearAccessToken } from '@/store/userSlice';
 import { typo } from '@/styles';
@@ -30,9 +29,11 @@ function Profile(): JSX.Element {
 
   const logoutReq = useCallback(async () => {
     await logout();
-    await StringStorage.remove(asyncStoragekey.REFRESH_TOKEN);
     dispatch(clearAccessToken());
     removeRequesterToken();
+
+    ObjectStorage.removeObject(asyncStoragekey.ACCESS_TOKEN);
+    ObjectStorage.removeObject(asyncStoragekey.REFRESH_TOKEN);
     Alert.alert('로그아웃 되었습니다.');
   }, [dispatch]);
 
@@ -44,9 +45,11 @@ function Profile(): JSX.Element {
       headerRight: () =>
         isTokenExists ? (
           <View style={{ position: 'relative' }}>
-            <TouchableHighlight onPress={() => setShow(!show)}>
-              <Icon name="menu" />
-            </TouchableHighlight>
+            <FeatherIcon
+              name="more-vertical"
+              style={{ fontSize: 20, marginRight: 10 }}
+              onPress={() => setShow(!show)}
+            />
             {show ? (
               <View style={styles.headerRightModal}>
                 <Button

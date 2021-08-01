@@ -2,11 +2,13 @@ import React from 'react';
 import { Alert, View } from 'react-native';
 import { useQuery } from 'react-query';
 
+import { Flex } from 'native-base';
+
 import { getMyData } from '@/apis/UserApi';
-import { FootTerms } from '@/components';
 import { USER_DETAIL } from '@/queryKeys';
 import { IUserDetail } from '@/types/user';
 
+import FootTerms from '../../components/FootTerms';
 import Force from './Force';
 import History from './HistoryList';
 import Info from './Information';
@@ -38,29 +40,18 @@ const ProfileTemplate: React.FC = () => {
   */
 
   return (
-    <>
-      <Info profile={info} />
-      {/*
-        FIXME: @woohm402
-          todo: 위에 줄 아래 코드로 수정해야 함
-          when: grade 생기는 버전에서
-
-        <Info profile={info} color={myColor} />
-        <Grade />
-      */}
-      <Force profile={info} />
-      <History />
-      {/*
-        FIXME: @woohm402
-          todo: 디자인 제대로 나오면 수정할게요 
-          when: 최최최종 PR에서 하겠습니다
-      */}
+    <Flex justifyContent="space-between" h="100%">
+      <View>
+        <Info profile={info} />
+        <Force profile={info} />
+        <History />
+      </View>
       <View
         style={{ height: 100, alignItems: 'center', justifyContent: 'center' }}
       >
         <FootTerms />
       </View>
-    </>
+    </Flex>
   );
 };
 
