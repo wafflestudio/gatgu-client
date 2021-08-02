@@ -39,6 +39,7 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   ).data;
   const userID = currentUser?.id;
   const roomID = route.params.params.id; // TODO @juimdpp to debug
+<<<<<<< HEAD
   console.log('drawer', route);
   const { sendWsMessage } = GatguWebsocket.useMessage<{
     type: WSMessage;
@@ -58,6 +59,9 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
       }
     },
   });
+=======
+  const { sendWsMessage } = GatguWebsocket.useMessage();
+>>>>>>> chatting refactoring done
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
@@ -76,14 +80,23 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   };
 
   const handlePressExit = () => {
-    sendWsMessage({
+    const wsMessage = {
       type: WSMessage.EXIT_ROOM,
       data: {
         user_id: userID,
         room_id: roomID,
       },
       websocket_id: `${DateTime.now()}`,
-    });
+    };
+    sendWsMessage(wsMessage)
+      .then(() => {
+        if (roomID) {
+          dispatch(fetchingParticipants(roomID));
+        }
+      })
+      .catch(() => {
+        Alert.alert("Can't access chatroom. Check your connection");
+      });
   };
 
   const renderedParticipants = participants.map((user, ind) => (

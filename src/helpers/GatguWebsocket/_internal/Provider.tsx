@@ -45,16 +45,14 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
 
   const sendWsMessage = (data: TWsMessage): Promise<TWsMessage> => {
     if (!wsRef.current) {
-      // throw new Error(`Don't use "sendWsMessage" before init Websocket"`);
-      return new Promise((resolve, reject) => {
-        reject('FAILURE');
-      });
+      throw new Error(`Don't use "sendWsMessage" before init Websocket"`);
     }
 
     return new Promise((resolve, reject) => {
       if (wsRef.current) {
         // save websocket in wsMap
         const id = data.websocket_id;
+
         wsRef.current.wsMap.set(id, {
           resolve,
           reject,
@@ -63,18 +61,16 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
         });
         // send websocket
         wsRef.current.send(data);
-        // try 5 times
-        // let ws;
-        // while(ws = wsRef.current.wsMap.get(id)){
-        //   if(ws)
-        // }
+
+        // retry,,,?
+
         // set timeout in case of failure
         setTimeout(() => {
           if (wsRef.current) {
             wsRef.current.wsMap.delete(id);
-            reject('FAILURE');
+            reject(data);
           }
-        }, 10000);
+        }, 5000);
       }
     });
   };

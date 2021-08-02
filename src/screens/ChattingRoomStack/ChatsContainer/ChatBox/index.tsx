@@ -114,8 +114,8 @@ function ChatBox({
               <TouchableOpacity
                 onPress={() =>
                   resend(
-                    { text: text, imgUrl: 'www.google.com' },
-                    `-${websocket_id}`
+                    { text: text, imgUrl: image[0].img_url },
+                    `${websocket_id}`
                   )
                 }
               >

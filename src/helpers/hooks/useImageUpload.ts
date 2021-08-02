@@ -36,9 +36,8 @@ const useImageUpload = (type: APItype, id?: number) => {
     return await createPresignedPost(id)
       .then(async (res) => {
         const filename = res.data.file_name;
-        const url = res.data.response.url;
         const fields = res.data.response.fields;
-
+        const url = `${res.data.object_url}/`;
         // set body fields (for s3 authentication)
         const body = new FormData();
         fieldNames.forEach((key) => {
@@ -58,6 +57,7 @@ const useImageUpload = (type: APItype, id?: number) => {
           method: 'POST',
           body: body,
         }).then((r: any) => {
+          console.log(r);
           console.log(r.headers['map']['location']);
           return r.headers['map']['location'];
         });
