@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { default as FIcon } from 'react-native-vector-icons/FontAwesome';
+import { default as MIcon } from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { emptyURL } from '@/constants/image';
 import { IMessageImage } from '@/types/chat';
@@ -119,10 +121,10 @@ function ChatBox({
                   )
                 }
               >
-                <Text>REP</Text>
+                <FIcon name="repeat" size={16} color="#00000" />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
-                <Text>DEL</Text>
+                <MIcon name="delete" size={16} color="#00000" />
               </TouchableOpacity>
             </View>
           ) : null}
