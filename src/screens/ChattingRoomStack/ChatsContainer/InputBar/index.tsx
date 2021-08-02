@@ -47,7 +47,6 @@ function InputBar({
         img &&
           uploadSingleImage({ mime: img.mime, path: img.path })
             .then((ret: string) => {
-              console.log('url', ret);
               return ret;
             })
             .then((url) => {
@@ -66,6 +65,10 @@ function InputBar({
     setInput({ text: input.text, imgUrl: emptyURL });
   };
 
+  const handleUpdateStatusRequest = () => {
+    console.log('hello');
+  };
+
   return (
     <View style={styles.bar}>
       <TouchableOpacity onPress={() => Alert.alert('open camera')}>
@@ -76,6 +79,11 @@ function InputBar({
       <TouchableOpacity onPress={pickFromGallery}>
         <View style={styles.inputIcon}>
           <Text>2</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleUpdateStatusRequest}>
+        <View style={styles.inputIcon}>
+          <Text>3</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.inputWrapper}>
