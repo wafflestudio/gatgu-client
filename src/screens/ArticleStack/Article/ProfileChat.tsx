@@ -70,14 +70,10 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
     sendWsMessage(wsMessage)
       .then((result) => {
         if (article_id) {
-          navigation.navigate(
-            AppRoutes.ChattingRoom,
-            // {
-            // screen: 'ChattingRoom',
-            // params:
-            { id: article_id }
-            // }
-          );
+          navigation.navigate(AppRoutes.ChattingRoom, {
+            screen: 'ChattingRoom',
+            params: { id: article_id },
+          });
           // trigger fetch to change store's participantsList -> affect chatting drawer
           if (result.data == 201) {
             dispatch(fetchingParticipants(article_id));
