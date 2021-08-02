@@ -43,7 +43,6 @@ function ChattingRoom(): JSX.Element {
   ).data;
   const userID = currentUser?.id;
   const roomID = route.params.id;
-  console.log('room', route);
 
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);

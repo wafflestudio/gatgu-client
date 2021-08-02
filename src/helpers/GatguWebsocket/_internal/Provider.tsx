@@ -31,8 +31,7 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     }
     // if (isNaN(token)) return;
 
-    console.log(`${url}/${token}/`);
-    const ws = new BaseWebsocket(`${url}/${token}/`, options);
+    const ws = new BaseWebsocket(`${url}`, options);
 
     ws.onopen = (e) => DeviceEventEmitter.emit(WebsocketCustomEvent.Open, e);
     ws.onmessage = (e) =>

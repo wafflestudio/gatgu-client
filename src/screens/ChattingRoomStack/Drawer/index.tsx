@@ -39,29 +39,7 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   ).data;
   const userID = currentUser?.id;
   const roomID = route.params.params.id; // TODO @juimdpp to debug
-<<<<<<< HEAD
-  console.log('drawer', route);
-  const { sendWsMessage } = GatguWebsocket.useMessage<{
-    type: WSMessage;
-    data: any;
-    websocketID: string;
-  }>({
-    onmessage: (socket) => {
-      switch (socket.type) {
-        case WSMessage.RECEIVE_UPDATED_STATUS: {
-          dispatch(fetchingParticipants(roomID));
-          break;
-        }
-        default: {
-          console.log('DEFAULT', socket);
-          break;
-        }
-      }
-    },
-  });
-=======
   const { sendWsMessage } = GatguWebsocket.useMessage();
->>>>>>> chatting refactoring done
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
