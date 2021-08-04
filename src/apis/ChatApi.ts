@@ -46,3 +46,9 @@ export const getChatParticipants = (
 ): Promise<AxiosResponse<IChatUserProps[]>> => {
   return requester.get(`chattings/${roomId}/participants/`);
 };
+
+export const getChatPictures = (
+  roomId: number
+): Promise<AxiosResponse<any>> => {
+  return requester.get(`chattings/${roomId}/images/`);
+};

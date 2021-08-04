@@ -8,6 +8,7 @@ import {
   Image,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Button, Modal, TextArea, ToastProvider } from 'native-base';
 
@@ -57,9 +58,11 @@ function InputBar({
         img &&
           uploadSingleImage({ mime: img.mime, path: img.path })
             .then((ret: string) => {
+              console.log(ret);
               return ret;
             })
             .then((url) => {
+              console.log(url);
               setInput({ text: input.text, imgUrl: url });
             })
             .catch((e) => {
@@ -94,24 +97,26 @@ function InputBar({
         setSubmitIsLoading(false);
       });
   };
-
+  console.log('INPUT', input.imgUrl);
   return (
     <View style={styles.bar}>
-      <TouchableOpacity onPress={() => Alert.alert('open camera')}>
-        <View style={styles.inputIcon}>
-          <Text>1</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={pickFromGallery}>
-        <View style={styles.inputIcon}>
-          <Text>2</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => setModalOpen(true)}>
-        <View style={styles.inputIcon}>
-          <Text>3</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.iconBar}>
+        <TouchableOpacity onPress={() => Alert.alert('open camera')}>
+          <View style={styles.inputIcon}>
+            <Icon name="camera-alt" size={25} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={pickFromGallery}>
+          <View style={styles.inputIcon}>
+            <Icon name="image-search" size={25} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setModalOpen(true)}>
+          <View style={styles.inputIcon}>
+            <Icon name="attach-money" size={25} />
+          </View>
+        </TouchableOpacity>
+      </View>
       <View style={styles.inputWrapper}>
         <TextInput
           placeholderTextColor={palette.gray}
@@ -122,6 +127,11 @@ function InputBar({
           value={input.text}
           onChangeText={(txt) => setInput({ text: txt, imgUrl: input.imgUrl })}
         />
+        <TouchableOpacity onPress={handleSendMessage}>
+          <View style={styles.inputIcon}>
+            <Icon name="send" size={20} />
+          </View>
+        </TouchableOpacity>
         {input.imgUrl !== emptyURL && (
           <View>
             <Image source={{ uri: input.imgUrl }} style={styles.image} />
@@ -131,11 +141,6 @@ function InputBar({
           </View>
         )}
       </View>
-      <TouchableOpacity onPress={handleSendMessage}>
-        <View style={styles.inputIcon}>
-          <Text>3</Text>
-        </View>
-      </TouchableOpacity>
 
       {modalOpen ? (
         <Modal isOpen size="lg" onClose={() => setModalOpen(false)}>

@@ -32,7 +32,7 @@ interface IDrawerTemplateProps {
   // [x: string]: any;
 }
 
-function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
+function Drawer(): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const dispatch = useDispatch();
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
@@ -52,6 +52,7 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   // 0+: id of clicked user (modal open)
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [user, setUser] = useState<IChatUserProps>();
+  const [pictureUrls, setPictureUrls] = useState<any>([]);
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
@@ -65,8 +66,16 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   }, [participants]);
 
   useEffect(() => {
+    // fetch participants' info
     dispatch(fetchingParticipants(roomID));
   }, [roomID]);
+  useEffect(() => {
+    // fetch all images
+    chatAPI.getChatPictures(roomID).then((res) => {
+      console.log(res.data);
+      setPictureUrls(res.data);
+    });
+  }, []);
 
   const renderPicure = ({ item: uri }: { item: string }) => (
     <Image source={{ uri }} style={styles.image} />
