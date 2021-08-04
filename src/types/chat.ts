@@ -45,7 +45,7 @@ export interface IOrderChat {
 }
 
 export interface IChangeStatusProps {
-  order_status?: number;
+  pay_status?: number;
   wish_price?: number;
   participant_id: number;
 }
