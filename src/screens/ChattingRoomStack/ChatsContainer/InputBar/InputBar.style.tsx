@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
 
+import { margin } from 'styled-system';
+
 import { mobile } from '@/helpers/mobile';
-import { palette } from '@/styles';
+import { palette, typo } from '@/styles';
 
 const commonStyle = StyleSheet.create({
   Icon: {
@@ -37,6 +39,21 @@ const InputBarStyle = StyleSheet.create({
   image: {
     height: 100,
     width: 100,
+  },
+  modalBox: {
+    borderWidth: 1,
+    borderRadius: 4,
+    justifyContent: 'space-between',
+    paddingBottom: 8,
+    paddingLeft: 3,
+    paddingRight: 5,
+    paddingTop: 10,
+    flexDirection: 'row',
+    marginBottom: 10,
+    borderColor: palette.borderGray,
+  },
+  button: {
+    backgroundColor: palette.blue,
   },
 });
 

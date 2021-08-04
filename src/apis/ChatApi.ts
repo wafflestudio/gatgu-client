@@ -19,11 +19,11 @@ export const getChatInfo = (
 };
 
 // change status of order
-export const changeStatus = (
+export const changeParticipantStatus = (
   id: number,
   body: IChangeStatusProps
 ): Promise<AxiosResponse<IChangeStatusProps>> => {
-  return requester.put(`chat/${id}/set_status/`, body);
+  return requester.patch(`chattings/${id}/participants/`, body);
   // TODO: @juimdpp
   // todo: requester.put(`chat/${id}/`, body); url ends with: /set_status/
   // when: api 고칠 때

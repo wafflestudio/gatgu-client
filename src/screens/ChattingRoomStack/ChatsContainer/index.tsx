@@ -213,6 +213,7 @@ function ChattingRoom(): JSX.Element {
         setInput={setInput}
         handleSendMessage={() => handleSendMessage(input, '-1')}
         id={currentUser?.id}
+        article_id={roomID}
       />
     </View>
   );

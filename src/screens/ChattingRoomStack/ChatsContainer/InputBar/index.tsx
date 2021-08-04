@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import {
   View,
   TextInput,
@@ -9,8 +9,12 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import { Button, Modal, TextArea, ToastProvider } from 'native-base';
+
+import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
 import { APItype } from '@/enums/image';
+import { useToaster } from '@/helpers/hooks';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import usePickImage from '@/helpers/hooks/usePickImage';
 import { palette } from '@/styles';
@@ -23,6 +27,7 @@ interface IInputBarInterface {
   setInput: (value: IMessageImage) => void;
   handleSendMessage: (event: GestureResponderEvent) => void;
   id?: number;
+  article_id: number;
 }
 
 function InputBar({
@@ -30,7 +35,9 @@ function InputBar({
   setInput,
   handleSendMessage,
   id,
+  article_id,
 }: IInputBarInterface): JSX.Element {
+  const toaster = useToaster();
   const { pickSingleImage } = usePickImage({
     width: 300,
     height: 400,
@@ -40,6 +47,9 @@ function InputBar({
   });
   const selfId = id ? id : -1;
   const { uploadSingleImage } = useImageUpload(APItype.chat, selfId);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [wishPrice, setWishPrice] = useState<string>('');
+  const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
 
   const pickFromGallery = () => {
     pickSingleImage()
@@ -66,7 +76,23 @@ function InputBar({
   };
 
   const handleUpdateStatusRequest = () => {
-    console.log('hello');
+    setSubmitIsLoading(true);
+    chatAPI
+      .changeParticipantStatus(article_id, {
+        wish_price: parseInt(wishPrice),
+        participant_id: selfId,
+      })
+      .then(() => {
+        toaster.success('상태가 바뀌었습니다.');
+        setModalOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
+      })
+      .finally(() => {
+        setSubmitIsLoading(false);
+      });
   };
 
   return (
@@ -81,7 +107,7 @@ function InputBar({
           <Text>2</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleUpdateStatusRequest}>
+      <TouchableOpacity onPress={() => setModalOpen(true)}>
         <View style={styles.inputIcon}>
           <Text>3</Text>
         </View>
@@ -110,6 +136,41 @@ function InputBar({
           <Text>3</Text>
         </View>
       </TouchableOpacity>
+
+      {modalOpen ? (
+        <Modal isOpen size="lg" onClose={() => setModalOpen(false)}>
+          <Modal.Content>
+            <Modal.CloseButton />
+            <Modal.Header>희망 금액</Modal.Header>
+
+            <Modal.Body height="100%">
+              <View style={styles.modalBox}>
+                <TextInput
+                  placeholder="제출하고 싶은 희망 금액을 입력해주세요."
+                  placeholderTextColor={palette.gray}
+                  value={wishPrice}
+                  maxLength={10}
+                  onChangeText={(txt) =>
+                    setWishPrice(txt.replace(/[^0-9]/g, ''))
+                  }
+                  keyboardType="number-pad"
+                />
+                <Text>원</Text>
+              </View>
+
+              <Button
+                isLoading={submitIsLoading}
+                onPress={handleUpdateStatusRequest}
+                style={styles.button}
+              >
+                제출하기
+              </Button>
+            </Modal.Body>
+
+            <Modal.Footer></Modal.Footer>
+          </Modal.Content>
+        </Modal>
+      ) : null}
     </View>
   );
 }
