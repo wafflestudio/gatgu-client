@@ -16,6 +16,7 @@ import { Button, Profile } from '@/components';
 import CheckBox from '@/components/CheckBox';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
@@ -39,7 +40,14 @@ function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   ).data;
   const userID = currentUser?.id;
   const roomID = route.params.params.id; // TODO @juimdpp to debug
-  const { sendWsMessage } = GatguWebsocket.useMessage();
+  const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
+    onmessage: (socket) => {
+      // refetch participant list when a status has been updated
+      if (socket.type === WSMessage.RECEIVE_UPDATED_STATUS) {
+        dispatch(fetchingParticipants(roomID));
+      }
+    },
+  });
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
