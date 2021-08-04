@@ -20,7 +20,7 @@ export const getChatInfo = (
 
 // change status of order
 export const changeParticipantStatus = (
-  id: number,
+  id: number, // roomID
   body: IChangeStatusProps
 ): Promise<AxiosResponse<IChangeStatusProps>> => {
   return requester.patch(`chattings/${id}/participants/`, body);
