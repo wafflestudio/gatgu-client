@@ -29,7 +29,6 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
   const sent_at = useMemo(() => {
     return toUnix(recent_message?.sent_at);
   }, [recent_message]);
-
   return (
     <InfoContainer>
       <Thumbnail uri={sent_by?.picture} />

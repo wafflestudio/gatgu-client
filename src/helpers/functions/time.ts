@@ -1,4 +1,4 @@
- import { DateTime } from 'luxon';
+import { DateTime } from 'luxon';
 
 const units = [
   'years',
@@ -56,4 +56,8 @@ export const getRemainTime = (ts: number) => {
   }
 
   return `${getTimeDiffWithUnit(currTs, ts)} 남음`;
+};
+// to remove!! TODO @juimdpp
+export const toUnix = (date: number): number => {
+  return Math.floor(date / 10000000000);
 };
