@@ -38,6 +38,7 @@ class BaseWebsocket {
 
   constructor(url: string, options: IBaseWebsocketOption) {
     console.log('Websocket');
+    console.log(`${url}`);
     this._ws = new ReconnectingWebsocket(`${url}`);
 
     this._pingpongCount = 0;
@@ -127,20 +128,28 @@ class BaseWebsocket {
       case WSMessage.ENTER_ROOM_SUCCESS:
       case WSMessage.RECEIVE_MESSAGE_SUCCESS: {
         const promise = this.wsMap.get(message.websocket_id);
-        if (!promise) return;
-        promise.resolve(message);
-        this.wsMap.delete(message.websocket_id);
-        break;
+        if (promise) {
+          promise.resolve(message);
+          this.wsMap.delete(message.websocket_id);
+        }
+        if (this.onmessage) {
+          this.onmessage({ ...e, data: message });
+        }
+        return;
       }
 
       // failure cases
       case WSMessage.ENTER_ROOM_FAILURE:
       case WSMessage.RECEIVE_MESSAGE_FAILURE: {
         const promise = this.wsMap.get(message.websocket_id);
-        if (!promise) return;
-        promise.reject(message);
-        this.wsMap.delete(message.websocket_id);
-        break;
+        if (promise) {
+          promise.reject(message);
+          this.wsMap.delete(message.websocket_id);
+        }
+        if (this.onmessage) {
+          this.onmessage({ ...e, data: message });
+        }
+        return;
       }
 
       // other cases

@@ -8,13 +8,15 @@ import { ICursorPaginationResponse, TPageType } from '@/types/shared';
 interface IUserCursorPaginationOption {
   countPerFetch?: number;
   maxItemCount?: number;
-  fetchFunc: (url: string | null) => Promise<AxiosResponse<unknown>>;
+  fetchFunc: (...args: any[]) => Promise<AxiosResponse<unknown>>;
+  [key: string]: any;
 }
 
 const useCursorPagination = <T>({
   countPerFetch = 20,
   maxItemCount = 500,
   fetchFunc,
+  ...input
 }: IUserCursorPaginationOption) => {
   const [items, setItems] = useState<T[]>([]);
   const [firstFetching, setFirstFetching] = useState(false);
@@ -81,9 +83,10 @@ const useCursorPagination = <T>({
       }
 
       try {
-        const res = (await fetchFunc(url)) as AxiosResponse<
-          ICursorPaginationResponse<T>
-        >;
+        const res = (await fetchFunc(
+          ...Object.values(input),
+          url
+        )) as AxiosResponse<ICursorPaginationResponse<T>>;
 
         const { results, next, previous } = res.data;
         handleItems(pageType, results);

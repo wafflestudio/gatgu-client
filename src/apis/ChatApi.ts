@@ -6,6 +6,7 @@ import {
   IChangeStatusProps,
   IAllMessagesResponse,
   IChatListAllPreview,
+  IApiImage,
 } from '@/types/chat';
 import { IChatUserProps } from '@/types/user';
 
@@ -30,9 +31,12 @@ export const changeParticipantStatus = (
 };
 
 export const getChattingMessages = (
-  roomId: number
+  roomId: number,
+  url?: string | null
 ): Promise<AxiosResponse<IAllMessagesResponse>> => {
-  return requester.get(`chattings/${roomId}/messages/`);
+  url = `${url ? `${url}&` : '?'}`;
+  console.log(`chattings/${roomId}/messages/${url}page_size=5`);
+  return requester.get(`chattings/${roomId}/messages/${url}page_size=10`);
 };
 
 export const getMyChattingList = (): Promise<
@@ -49,6 +53,6 @@ export const getChatParticipants = (
 
 export const getChatPictures = (
   roomId: number
-): Promise<AxiosResponse<any>> => {
+): Promise<AxiosResponse<IApiImage[]>> => {
   return requester.get(`chattings/${roomId}/images/`);
 };
