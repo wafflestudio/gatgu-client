@@ -63,13 +63,15 @@ function ChatBox({
         {!isSameTime && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
-        {text.length != 0 ? <Bubble message={text} isSelf={isSelf} /> : null}
-        {image.length > 0 && image[0].img_url !== emptyURL && (
-          <Image
-            source={{ uri: image[0].img_url }}
-            style={styles.messageImage}
-          />
-        )}
+        <View>
+          {text.length != 0 ? <Bubble message={text} isSelf={isSelf} /> : null}
+          {image.length > 0 && image[0].img_url !== emptyURL && (
+            <Image
+              source={{ uri: image[0].img_url }}
+              style={styles.messageImage}
+            />
+          )}
+        </View>
       </View>
     ),
     [isSelf, isSameTime, text, sentTime]
@@ -124,7 +126,7 @@ function ChatBox({
                 <FIcon name="repeat" size={16} color="#00000" />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
-                <MIcon name="delete" size={16} color="#00000" />
+                <MIcon name="delete" size={16} />
               </TouchableOpacity>
             </View>
           ) : null}

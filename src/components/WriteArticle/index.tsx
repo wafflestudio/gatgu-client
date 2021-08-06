@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import tagNames from '@/constants/tagList';
+import { APItype } from '@/enums/image';
 import { createError } from '@/helpers/functions';
 import { validateLink } from '@/helpers/functions/validate';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
@@ -61,7 +62,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
   const [isLoading, setLoadingStatus] = useState<boolean>(false);
-  const { uploadMultipleImages } = useImageUpload(id);
+  const { uploadMultipleImages } = useImageUpload(APItype.article, id);
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
@@ -110,7 +111,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       handlePrice(`${currentArticle.price_min}`);
       setDueDate(new Date()); // FIXME:
       // optional:
-      currentArticle.image[0] && setImages(images);
+      currentArticle.images[0] && setImages(images);
       if (currentArticle.tag) {
         const temp = currentArticle.tag.map((i, num) => {
           return { id: i, tag: `${num}`, selected: false };
@@ -153,10 +154,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           description: description,
           trading_place: location,
           price_min: parseInt(need_price),
-          time_in: dueDate.toISOString().split('T')[0],
+          time_in: dueDate.getTime(),
           product_url: link,
         } as IPostArticle;
-        if (urls.length > 0) tempArticle.image = urls;
+        if (urls.length > 0) tempArticle.images = urls;
         if (isEdit && currentArticle) {
           const pr = dispatch(editSingleArticle(id, tempArticle));
           Promise.resolve(pr).then(() => {

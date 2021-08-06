@@ -19,7 +19,6 @@ import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
-import { IChatMessage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
 import { IChatUserProps, IUserDetail } from '@/types/user';
 
@@ -52,7 +51,7 @@ function Drawer(): JSX.Element {
   // 0+: id of clicked user (modal open)
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [user, setUser] = useState<IChatUserProps>();
-  const [pictureUrls, setPictureUrls] = useState<any>([]);
+  const [pictureUrls, setPictureUrls] = useState<string[]>([]);
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
@@ -72,8 +71,7 @@ function Drawer(): JSX.Element {
   useEffect(() => {
     // fetch all images
     chatAPI.getChatPictures(roomID).then((res) => {
-      console.log(res.data);
-      setPictureUrls(res.data);
+      setPictureUrls(res.data.map((img) => img.img_url));
     });
   }, []);
 
@@ -147,12 +145,9 @@ function Drawer(): JSX.Element {
         {renderedParticipants}
       </View>
       <View style={styles.optionContainer}>
-        <Button
-          onPress={handlePressExit}
-          colorScheme="rgba(255, 255, 255, 1.0)"
-        >
+        <TouchableOpacity onPress={handlePressExit}>
           <Text style={styles.smallLabelText}>나가기</Text>
-        </Button>
+        </TouchableOpacity>
       </View>
       {modalOpen ? (
         <StatusModal

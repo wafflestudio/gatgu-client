@@ -84,3 +84,8 @@ export interface IMessageImage {
   text: string;
   imgUrl: string;
 }
+
+export interface IApiImage {
+  id: number;
+  img_url: string;
+}

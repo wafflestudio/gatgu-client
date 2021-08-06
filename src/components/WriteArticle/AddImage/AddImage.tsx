@@ -38,7 +38,6 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
           });
       })
       .then(() => {
-        console.log('dh', tempArrSend);
         setImages(tempArrSend);
       });
   };

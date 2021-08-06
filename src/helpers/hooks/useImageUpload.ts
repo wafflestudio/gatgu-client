@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import requester, { requester2 } from '@/apis/BaseInstance';
+import requester from '@/apis/BaseInstance';
 import { APItype } from '@/enums/image';
 import { TShortImage } from '@/types/shared';
 

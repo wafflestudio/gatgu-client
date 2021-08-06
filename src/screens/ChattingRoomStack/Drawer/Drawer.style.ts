@@ -33,6 +33,7 @@ const DrawerStyles = StyleSheet.create({
   optionContainer: {
     paddingTop: 25,
     height: '24%',
+    alignItems: 'center',
   },
   smallLabelText: {
     ...typo.bigInfo,

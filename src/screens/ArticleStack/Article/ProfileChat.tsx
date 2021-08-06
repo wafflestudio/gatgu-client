@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { DateTime } from 'luxon';
 import { Button, Flex } from 'native-base';
 
-import { EAppStackScreens } from '@/App.router';
 import { userAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
 import { Profile } from '@/components';
@@ -16,7 +15,6 @@ import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useShallowSelector from '@/helpers/hooks/useSelector';
 import { AppRoutes } from '@/helpers/routes';
 import { USER_DETAIL } from '@/queryKeys';
-import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { palette } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
@@ -62,7 +60,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
     const wsMessage = {
       type: WSMessage.ENTER_ROOM,
       data: {
-        room_id: 150, //article_id,
+        room_id: article_id,
         user_id: currentUser?.id,
       },
       websocket_id: websocket_id,
