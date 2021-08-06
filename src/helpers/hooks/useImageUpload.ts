@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import requester from '@/apis/BaseInstance';
+import requester, { requester2 } from '@/apis/BaseInstance';
 import { APItype } from '@/enums/image';
 import { TShortImage } from '@/types/shared';
 
@@ -28,16 +28,16 @@ interface IImageDict {
 const useImageUpload = (type: APItype, id?: number) => {
   const createPresignedPost = (id?: number): Promise<AxiosResponse> => {
     const ID = type === APItype.user ? '' : `${id}/`;
-    console.log(`${type}/${ID}create_presigned_post/`);
     return requester.put(`${type}/${ID}create_presigned_post/`);
   };
 
   const uploadSingleImage = async (image: TShortImage) => {
     return await createPresignedPost(id)
       .then(async (res) => {
-        const filename = res.data.file_name;
+        const filename = res.data.response.fields.key;
         const fields = res.data.response.fields;
-        const url = `${res.data.object_url}/`;
+        const url = res.data.response.url;
+
         // set body fields (for s3 authentication)
         const body = new FormData();
         fieldNames.forEach((key) => {
@@ -57,13 +57,11 @@ const useImageUpload = (type: APItype, id?: number) => {
           method: 'POST',
           body: body,
         }).then((r: any) => {
-          console.log(r);
-          console.log(r.headers['map']['location']);
           return r.headers['map']['location'];
         });
       })
       .catch((err) => {
-        console.log('ERROR: ext', err);
+        console.log('IMAGE UPLOAD ERROR', err);
       });
   };
 

@@ -72,6 +72,9 @@ function ChattingRoom(): JSX.Element {
   }, []);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
+    // reset input
+    setInput({ text: '', imgUrl: emptyURL } as IMessageImage);
+
     if (currentUser) {
       const mockPendingList: IWSChatMessage[] = pendingList;
       const firstSend = parseInt(resend) === -1;
@@ -161,9 +164,6 @@ function ChattingRoom(): JSX.Element {
           );
           setPendingList(tempPendingList);
         });
-
-      // reset input
-      setInput({} as IMessageImage);
     }
   };
 

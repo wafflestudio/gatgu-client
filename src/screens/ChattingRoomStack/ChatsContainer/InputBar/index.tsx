@@ -6,8 +6,10 @@ import {
   GestureResponderEvent,
   Alert,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Button, Modal, TextArea, ToastProvider } from 'native-base';
@@ -51,18 +53,15 @@ function InputBar({
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [wishPrice, setWishPrice] = useState<string>('');
   const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
+  const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
 
   const pickFromGallery = () => {
+    setImageIsLoading(true);
     pickSingleImage()
       .then((img) => {
         img &&
           uploadSingleImage({ mime: img.mime, path: img.path })
-            .then((ret: string) => {
-              console.log(ret);
-              return ret;
-            })
             .then((url) => {
-              console.log(url);
               setInput({ text: input.text, imgUrl: url });
             })
             .catch((e) => {
@@ -71,11 +70,39 @@ function InputBar({
       })
       .catch((e) => {
         console.log(e);
+      })
+      .finally(() => {
+        setImageIsLoading(false);
       });
   };
 
   const handleDelete = () => {
     setInput({ text: input.text, imgUrl: emptyURL });
+  };
+
+  const handleCamera = () => {
+    setImageIsLoading(true);
+    ImageCropPicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    })
+      .then((img) => {
+        img &&
+          uploadSingleImage({ mime: img.mime, path: img.path })
+            .then((url) => {
+              setInput({ text: input.text, imgUrl: url });
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+      })
+      .catch((e) => {
+        console.error('CAMERA', e);
+      })
+      .finally(() => {
+        setImageIsLoading(false);
+      });
   };
 
   const handleUpdateStatusRequest = () => {
@@ -97,11 +124,10 @@ function InputBar({
         setSubmitIsLoading(false);
       });
   };
-  console.log('INPUT', input.imgUrl);
   return (
     <View style={styles.bar}>
       <View style={styles.iconBar}>
-        <TouchableOpacity onPress={() => Alert.alert('open camera')}>
+        <TouchableOpacity onPress={handleCamera}>
           <View style={styles.inputIcon}>
             <Icon name="camera-alt" size={25} />
           </View>
@@ -132,15 +158,20 @@ function InputBar({
             <Icon name="send" size={20} />
           </View>
         </TouchableOpacity>
-        {input.imgUrl !== emptyURL && (
-          <View>
-            <Image source={{ uri: input.imgUrl }} style={styles.image} />
-            <TouchableOpacity onPress={handleDelete}>
-              <Text>DEL</Text>
-            </TouchableOpacity>
-          </View>
-        )}
       </View>
+      {input.imgUrl !== emptyURL &&
+        (imageIsLoading ? (
+          <View>
+            <ActivityIndicator size={40} color={palette.blue} />
+          </View>
+        ) : (
+          <View>
+            <TouchableOpacity onPress={handleDelete}>
+              <Icon name="delete" size={27} />
+            </TouchableOpacity>
+            <Image source={{ uri: input.imgUrl }} style={styles.image} />
+          </View>
+        ))}
 
       {modalOpen ? (
         <Modal isOpen size="lg" onClose={() => setModalOpen(false)}>

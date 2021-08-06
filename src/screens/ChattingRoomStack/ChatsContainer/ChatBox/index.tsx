@@ -63,11 +63,11 @@ function ChatBox({
         {!isSameTime && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
-        <Bubble message={text} isSelf={isSelf} />
+        {text.length != 0 ? <Bubble message={text} isSelf={isSelf} /> : null}
         {image.length > 0 && image[0].img_url !== emptyURL && (
           <Image
             source={{ uri: image[0].img_url }}
-            style={{ width: 101, height: 76, marginRight: 10 }}
+            style={styles.messageImage}
           />
         )}
       </View>
@@ -128,11 +128,6 @@ function ChatBox({
               </TouchableOpacity>
             </View>
           ) : null}
-          {/* {image.img_url.length ? (
-            <Image source={{ uri: image.img_url }} style={styles.messageImage} />
-          ) : (
-            renderedBubbleTime
-          )} */}
         </View>
       </View>
     </View>
