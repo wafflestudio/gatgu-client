@@ -17,6 +17,7 @@ const Home: React.FC = () => {
     items,
     firstFetching,
     isFirstPage,
+    isLastPage,
     fetching,
     getItems,
   } = useCursorPagination<IArticleSummary>({
@@ -43,8 +44,9 @@ const Home: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderArticle = ({ item }: { item: IArticleSummary }) => (
-    <ArticleBox {...item} />
+  const renderArticle = React.useCallback(
+    ({ item }: { item: IArticleSummary }) => <ArticleBox {...item} />,
+    []
   );
 
   return (
@@ -52,6 +54,7 @@ const Home: React.FC = () => {
       items={items}
       loading={firstFetching && isFirstPage}
       isFirstPage={isFirstPage}
+      isLastPage={isLastPage}
       fetching={fetching}
       getItems={getItems}
       renderItem={renderArticle}
