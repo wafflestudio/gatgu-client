@@ -17,6 +17,7 @@ import ModifyButton from '@/assets/icons/ModifyButton/modifyButton.svg';
 import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
 import { Button, StringInput } from '@/components';
 import { isValidNickname } from '@/helpers/functions/validate';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { USER_DETAIL } from '@/queryKeys';
 import { IUserDetail } from '@/types/user';
 
@@ -64,9 +65,7 @@ const ProfileModify: React.FC = () => {
     },
   });
 
-  const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  );
+  const userQuery = useUserDetail();
 
   const navigation = useNavigation();
   const info = userQuery.data;

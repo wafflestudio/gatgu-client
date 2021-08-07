@@ -16,6 +16,7 @@ import { Button, Profile } from '@/components';
 import CheckBox from '@/components/CheckBox';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
@@ -34,9 +35,7 @@ interface IDrawerTemplateProps {
 function Drawer({ pictureUrls }: IDrawerTemplateProps): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const dispatch = useDispatch();
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
   const roomID = route.params.params.id; // TODO @juimdpp to debug
   console.log('drawer', route);

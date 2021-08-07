@@ -12,6 +12,7 @@ import { getMyData } from '@/apis/UserApi';
 import { Profile } from '@/components';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useShallowSelector from '@/helpers/hooks/useSelector';
 import { AppRoutes } from '@/helpers/routes';
@@ -86,9 +87,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       }
     },
   });
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const currentUser = useUserDetail().data;
 
   const isLogined = !!useShallowSelector((state) => state.user.accessToken);
 

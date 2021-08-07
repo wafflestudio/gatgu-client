@@ -12,6 +12,7 @@ import { getMyData } from '@/apis/UserApi';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { USER_DETAIL } from '@/queryKeys';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
@@ -38,9 +39,7 @@ function ChattingRoom(): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage();
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const dispatch = useDispatch();
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
   const roomID = route.params.id;
   console.log('room', route);
