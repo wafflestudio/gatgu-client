@@ -72,7 +72,10 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       },
       websocket_id: websocket_id,
     };
-    sendWsMessage(wsMessage)
+    sendWsMessage(wsMessage, {
+      resolveCondition: (data) => data.type === WSMessage.ENTER_ROOM_SUCCESS,
+      rejectCondition: (data) => data.type === WSMessage.ENTER_ROOM_FAILURE,
+    })
       .then((result) => {
         if (article_id) {
           navigation.navigate(AppRoutes.ChattingRoom, {

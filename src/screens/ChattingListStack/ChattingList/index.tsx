@@ -63,7 +63,10 @@ function ChattingList(): JSX.Element {
       },
       websocket_id: websocket_id,
     };
-    sendWsMessage(wsMessage)
+    sendWsMessage(wsMessage, {
+      resolveCondition: (data) => data.type === WSMessage.ENTER_ROOM_SUCCESS,
+      rejectCondition: (data) => data.type === WSMessage.ENTER_ROOM_FAILURE,
+    })
       .then(() => {
         if (articleID) {
           navigation.navigate('ChattingRoom', {

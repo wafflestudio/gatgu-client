@@ -151,7 +151,12 @@ function ChattingRoom(): JSX.Element {
         },
         websocket_id: websocket_id, // tempID used for internal purposes
       };
-      sendWsMessage(wsMessage)
+      sendWsMessage(wsMessage, {
+        resolveCondition: (data) =>
+          data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
+        rejectCondition: (data) =>
+          data.type === WSMessage.RECEIVE_MESSAGE_FAILURE,
+      })
         .then((result) => {
           // add to chatList
           setChatList((prev) => [

@@ -33,6 +33,8 @@ class BaseWebsocket {
       reject: any;
       count: number;
       timeoutID: number;
+      resolveCondition?: (data: TWsMessage) => boolean;
+      rejectCondition?: (data: TWsMessage) => boolean;
     }
   >;
 
@@ -123,39 +125,53 @@ class BaseWebsocket {
         this._log(message);
         break;
 
-      // success cases
-      case WSMessage.ENTER_ROOM_SUCCESS:
-      case WSMessage.RECEIVE_MESSAGE_SUCCESS: {
-        const promise = this.promiseByWsID.get(message.websocket_id);
-        if (promise) {
-          promise.resolve(message);
-          this.promiseByWsID.delete(message.websocket_id);
-        }
-        if (this.onmessage) {
-          this.onmessage({ ...e, data: message });
-        }
-        return;
-      }
+      // // success cases
+      // case WSMessage.ENTER_ROOM_SUCCESS:
+      // case WSMessage.RECEIVE_MESSAGE_SUCCESS: {
+      //   const promise = this.promiseByWsID.get(message.websocket_id);
+      //   if (promise) {
+      //     promise.resolve(message);
+      //     this.promiseByWsID.delete(message.websocket_id);
+      //   }
+      //   if (this.onmessage) {
+      //     this.onmessage({ ...e, data: message });
+      //   }
+      //   return;
+      // }
 
-      // failure cases
-      case WSMessage.ENTER_ROOM_FAILURE:
-      case WSMessage.RECEIVE_MESSAGE_FAILURE: {
-        const promise = this.promiseByWsID.get(message.websocket_id);
-        if (promise) {
-          promise.reject(message);
-          this.promiseByWsID.delete(message.websocket_id);
-        }
-        if (this.onmessage) {
-          this.onmessage({ ...e, data: message });
-        }
-        return;
-      }
+      // // failure cases
+      // case WSMessage.ENTER_ROOM_FAILURE:
+      // case WSMessage.RECEIVE_MESSAGE_FAILURE: {
+      //   const promise = this.promiseByWsID.get(message.websocket_id);
+      //   if (promise) {
+      //     promise.reject(message);
+      //     this.promiseByWsID.delete(message.websocket_id);
+      //   }
+      //   if (this.onmessage) {
+      //     this.onmessage({ ...e, data: message });
+      //   }
+      //   return;
+      // }
 
       // other cases
-      default:
+      default: {
+        const promise = this.promiseByWsID.get(message.websocket_id);
+        if (promise) {
+          if (promise.resolveCondition) {
+            promise.resolve(message);
+            this.promiseByWsID.delete(message.websocket_id);
+          } else if (promise.rejectCondition) {
+            promise.reject(message);
+            this.promiseByWsID.delete(message.websocket_id);
+          } else {
+            promise.reject(message);
+          }
+        }
+
         if (this.onmessage) {
           this.onmessage({ ...e, data: message });
         }
+      }
     }
   }
 
