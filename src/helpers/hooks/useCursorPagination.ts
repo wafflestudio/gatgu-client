@@ -75,6 +75,10 @@ const useCursorPagination = <T>({
 
   const getItems = useCallback(
     async (pageType: TPageType) => {
+      if (pageType === 'next' && isLastPage) {
+        return;
+      }
+
       const url = pageType !== 'first' ? cursorUrl[pageType] : null;
       setFetching(true);
       setError(undefined);
@@ -92,8 +96,8 @@ const useCursorPagination = <T>({
         handleItems(pageType, results);
         setCursorUrl({ next, previous });
 
-        setIsLastPage(Boolean(next));
-        setIsFirstPage(Boolean(previous));
+        setIsLastPage(!next);
+        setIsFirstPage(!previous);
 
         return res.data;
       } catch (err) {
@@ -103,7 +107,7 @@ const useCursorPagination = <T>({
         setFetching(false);
       }
     },
-    [cursorUrl, fetchFunc, handleItems]
+    [cursorUrl, fetchFunc, handleItems, isLastPage]
   );
 
   return {
