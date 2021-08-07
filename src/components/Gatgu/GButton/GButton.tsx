@@ -1,7 +1,9 @@
 import React from 'react';
 import { ButtonProps, ViewStyle } from 'react-native';
 
-import { Progress } from 'native-base';
+import { Spinner } from 'native-base';
+
+import { palette } from '@/styles';
 
 import { GText, GTextProps } from '../GText';
 import { StyledButtonWrapper } from './GButton.styled';
@@ -51,7 +53,11 @@ const GButton: React.FC<GButtonProps> = ({
 }) => {
   const renderButtonInner = () => {
     if (isLoading) {
-      return <Progress />;
+      return (
+        <Spinner
+          color={palette[buttonInnerTextProps[theme][variant].color ?? 'white']}
+        />
+      );
     }
 
     return (

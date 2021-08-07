@@ -79,7 +79,7 @@ const CursorFlatList: React.FC<ICursorFlatListProps> = ({
 
     return (
       <Flex justify="center" height="142px">
-        <Spinner />
+        <Spinner color={palette.blue} />
       </Flex>
     );
   };

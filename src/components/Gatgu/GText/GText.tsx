@@ -7,7 +7,7 @@ import { palette } from '@/styles';
 import { StyledText } from './GText.styled';
 
 export type GTextSizes = 'tiny' | 'small' | 'default' | 'big' | 'huge';
-export type GTextColors = keyof typeof palette | 'inherit';
+export type GTextColors = keyof typeof palette;
 
 export interface GTextProps extends TextProps {
   size?: GTextSizes;

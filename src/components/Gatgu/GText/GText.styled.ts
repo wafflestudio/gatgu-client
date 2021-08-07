@@ -29,8 +29,7 @@ const cssTextSizes: Record<GTextSizes, any> = {
 export const StyledText = styled.Text<PickedTextProps>`
   ${(props) => cssTextSizes[props.size]};
 
-  color: ${(props) =>
-    props.color === 'inherit' ? 'inherit' : palette[props.color]};
+  color: ${(props) => palette[props.color]};
   font-weight: ${(props) => (props.bold ? 'bold' : 'normal')};
   text-decoration-line: ${(props) => props.textDecorationLine ?? 'none'};
 `;
