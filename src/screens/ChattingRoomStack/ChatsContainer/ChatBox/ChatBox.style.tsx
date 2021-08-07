@@ -20,8 +20,10 @@ const ChatBoxStyle = StyleSheet.create({
   messageImage: {
     height: 112,
     width: 208,
-    borderRadius: 11,
-    marginTop: 4,
+    borderRadius: 7,
+    paddingVertical: 5,
+    paddingHorizontal: 9,
+    marginTop: 5,
   },
   avatar: {
     width: 31,

@@ -36,7 +36,7 @@ export type TWsInit = ({
   options?: IBaseWebsocketOption;
 }) => void;
 
-export type TSendWsMessage = (msg: TWsMessage) => void;
+export type TSendWsMessage = (msg: TWsMessage) => Promise<TWsMessage>;
 
 export type WsContextValue = {
   sendWsMessage: TSendWsMessage;

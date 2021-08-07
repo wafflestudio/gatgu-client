@@ -31,8 +31,7 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     }
     // if (isNaN(token)) return;
 
-    console.log(`${url}/${token}/`);
-    const ws = new BaseWebsocket(`${url}/${token}/`, options);
+    const ws = new BaseWebsocket(url, options);
 
     ws.onopen = (e) => DeviceEventEmitter.emit(WebsocketCustomEvent.Open, e);
     ws.onmessage = (e) =>
@@ -43,12 +42,36 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     wsRef.current = ws;
   };
 
-  const sendWsMessage = (data: TWsMessage) => {
+  const sendWsMessage = (data: TWsMessage): Promise<TWsMessage> => {
     if (!wsRef.current) {
       throw new Error(`Don't use "sendWsMessage" before init Websocket"`);
     }
 
-    wsRef.current.send(data);
+    return new Promise((resolve, reject) => {
+      if (wsRef.current) {
+        // save websocket in wsMap
+        const id = data.websocket_id;
+
+        wsRef.current.wsMap.set(id, {
+          resolve,
+          reject,
+          count: 0,
+          timeoutID: 0,
+        });
+        // send websocket
+        wsRef.current.send(data);
+
+        // retry,,,?
+
+        // set timeout in case of failure
+        setTimeout(() => {
+          if (wsRef.current) {
+            wsRef.current.wsMap.delete(id);
+            reject(data);
+          }
+        }, 5000);
+      }
+    });
   };
 
   return (

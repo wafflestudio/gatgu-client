@@ -121,7 +121,7 @@ export const fetchingParticipants = (roomId: number): AppThunk => (
       dispatch(setParticipantsList(response.data));
     })
     .catch((err: AxiosError) => {
-      console.log(err);
+      console.log('FETCHING PARTICIPANTS', err);
     });
 };
 

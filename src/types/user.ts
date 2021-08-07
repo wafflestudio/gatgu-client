@@ -14,7 +14,7 @@ export interface IUserDetail {
 }
 
 export interface IUserProfileDetail {
-  profile_id: number;
+  user_id: number;
   picture: string;
   nickname: string;
   point: number;
@@ -37,7 +37,7 @@ export interface IUserProfileSimple {
   trading_address: string;
 }
 
-export type IUserListPreview = Omit<IUserProfileDetail, 'profile_id'> & {
+export type IUserListPreview = Omit<IUserProfileDetail, 'user_id'> & {
   grade: number;
   id: number;
 };
