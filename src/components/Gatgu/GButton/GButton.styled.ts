@@ -18,44 +18,44 @@ type PickedGButtonProps = DeepNonNullable<
 
 const cssButtonSizes: Record<GButtonSize, any> = {
   small: css`
+    height: 32px;
     border-radius: 14;
+    padding: 0px 12px;
   `,
   default: css`
+    height: 38px;
     border-radius: 11;
+    padding: 0px 17px;
   `,
   large: css`
     border-radius: 11;
+    height: 46px;
+    padding: 0px 17px;
   `,
 };
 
-const cssButtonSizesWidth: Record<GButtonSize, Record<GButtonWidth, any>> = {
+const cssButtonWidths: Record<GButtonSize, Record<GButtonWidth, any>> = {
   small: {
     default: css`
       min-width: 66px;
-      height: 32px;
     `,
     full: css`
-      height: 32px;
       width: 100%;
     `,
   },
   default: {
     default: css`
       min-width: 120px;
-      height: 38px;
     `,
     full: css`
-      height: 38px;
       width: 100%;
     `,
   },
   large: {
     default: css`
       min-width: 146px;
-      height: 46px;
     `,
     full: css`
-      height: 46px;
       width: 100%;
     `,
   },
@@ -76,7 +76,7 @@ const cssButtonThemes: Record<GButtonTheme, Record<GButtonVariant, any>> = {
 
 export const StyledButtonWrapper = styled.TouchableOpacity<PickedGButtonProps>`
   ${(props) => cssButtonThemes[props.theme as GButtonTheme][props.variant]};
-  ${(props) => cssButtonSizesWidth[props.size][props.width]};
+  ${(props) => cssButtonWidths[props.size][props.width]};
   ${(props) => cssButtonSizes[props.size]};
 
   align-items: center;
