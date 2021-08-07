@@ -107,7 +107,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       handlePrice(`${currentArticle.price_min}`);
       setDueDate(new Date()); // FIXME:
       // optional:
-      currentArticle.images[0] && setImages(images);
+      currentArticle.img_urls[0] && setImages(images);
       /** ADD WHEN TAGS ARE USED
         if (currentArticle.tag) {
           const temp = currentArticle.tag.map((i, num) => {
@@ -156,7 +156,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           time_in: getTs(dueDate),
           product_url: link,
         } as IPostArticle;
-        if (urls.length > 0) tempArticle.images = urls;
+        if (urls.length > 0) tempArticle.img_urls = urls;
         if (isEdit && currentArticle) {
           const pr = dispatch(editSingleArticle(id, tempArticle));
           Promise.resolve(pr).then(() => {

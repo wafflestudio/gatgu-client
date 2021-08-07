@@ -46,7 +46,7 @@ export interface IArticleProps {
   product_url: string;
   price_min: number;
   time_in: number;
-  images: IArticleImage[]; // 확실하지 않음... api에 타입이 안 적혀있음
+  img_urls: IArticleImage[]; // 확실하지 않음... api에 타입이 안 적혀있음
   tag: number[];
   created_at: number; // should be date but json server doesn't accept Date
   updated_at: number;
@@ -64,7 +64,7 @@ export type IPostArticle = Pick<
   | 'price_min'
   | 'time_in'
 > &
-  Pick<Partial<IArticleProps>, 'images' | 'tag'>;
+  Pick<Partial<IArticleProps>, 'img_urls' | 'tag'>;
 
 export interface ITagType {
   id: number;
