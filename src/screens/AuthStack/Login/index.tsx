@@ -4,6 +4,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 
 import { DateTime } from 'luxon';
+import { Flex } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,6 +12,9 @@ import { setRequesterToken } from '@/apis/BaseInstance';
 import { login } from '@/apis/UserApi';
 import Logo from '@/assets/icons/Logo';
 import { Button } from '@/components';
+import { GButton } from '@/components/Gatgu/GButton';
+import { GSpace } from '@/components/Gatgu/GSpace';
+import { GText } from '@/components/Gatgu/GText';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage, StringStorage } from '@/helpers/functions/asyncStorage';
 import { setAccessToken } from '@/store/userSlice';
@@ -61,38 +65,46 @@ function LoginTemplate(): JSX.Element {
   };
 
   return (
-    <View style={styles.container}>
-      <Logo.subLogo style={styles.logo} />
-      <View>
-        <TextInput
-          style={styles.input}
-          value={id}
-          placeholder="아이디"
-          onChangeText={setID}
-          placeholderTextColor={palette.gray}
-        />
-        <TextInput
-          style={styles.input}
-          textContentType={'password'}
-          value={pw}
-          placeholder="비밀번호"
-          onChangeText={setPW}
-          placeholderTextColor={palette.gray}
-        />
-      </View>
-      <Button
-        title="로그인"
-        onPress={loginReq}
-        style={styles.loginBtn}
-        textStyle={styles.loginBtnText}
-      />
-      <Button
-        title="회원가입"
-        onPress={signUp}
-        style={styles.signUpBtn}
-        textStyle={styles.signUpBtnText}
-      />
-    </View>
+    <Flex alignItems="center" style={styles.container}>
+      <Flex width="262" alignItems="center">
+        <Logo.subLogo style={styles.logo} />
+        <View>
+          <TextInput
+            style={styles.input}
+            value={id}
+            placeholder="아이디"
+            onChangeText={setID}
+            placeholderTextColor={palette.gray}
+          />
+          <TextInput
+            style={styles.input}
+            textContentType={'password'}
+            value={pw}
+            placeholder="비밀번호"
+            onChangeText={setPW}
+            placeholderTextColor={palette.gray}
+          />
+        </View>
+        <GButton
+          width="full"
+          size="large"
+          textProps={{ bold: true }}
+          onPress={loginReq}
+        >
+          로그인
+        </GButton>
+        <GSpace h={20} />
+        <GText
+          touchable
+          size="big"
+          color="gray"
+          textDecorationLine="underline"
+          onPress={signUp}
+        >
+          회원가입
+        </GText>
+      </Flex>
+    </Flex>
   );
 }
 

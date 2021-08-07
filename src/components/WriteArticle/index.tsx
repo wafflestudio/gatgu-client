@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Button, View, Alert, Text } from 'react-native';
+import { ScrollView, Alert, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { KeyboardAvoidingView } from 'native-base';
@@ -22,6 +22,7 @@ import { IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
+import { GText } from '../Gatgu';
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
 import DueDate from './DueDate/DueDate';
@@ -187,7 +188,11 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/display-name
-      headerRight: () => <Button title="완료" onPress={submit} />,
+      headerRight: () => (
+        <GText touchable onPress={submit}>
+          완료
+        </GText>
+      ),
     });
   });
 

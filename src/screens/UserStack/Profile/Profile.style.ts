@@ -13,7 +13,6 @@ const ProfileStyle = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: palette.borderGray,
-    paddingLeft: 33,
     justifyContent: 'space-evenly',
   },
 });

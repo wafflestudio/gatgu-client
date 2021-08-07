@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { Text, Alert } from 'react-native';
 
-import Button from '../../../../components/Button';
+import { Flex } from 'native-base';
+
+import { GText } from '@/components/Gatgu/GText';
+
 import styles from './FootTerms.style';
 
 /* ------------------------ */
@@ -9,21 +12,23 @@ import styles from './FootTerms.style';
 /* ------------------------ */
 function FootTerms(): JSX.Element {
   return (
-    <View style={styles.smalls}>
-      <Button
-        style={styles.smallBtn}
-        textStyle={styles.smallBtnText}
-        title="약관"
+    <Flex alignItems="center" style={styles.smalls}>
+      <GText
+        size="tiny"
+        color="gray"
         onPress={() => Alert.alert('not implemented')}
-      />
+      >
+        약관
+      </GText>
       <Text style={styles.smallText}>|</Text>
-      <Button
-        style={styles.smallBtn}
-        textStyle={styles.smallBtnText}
-        title="개인정보 처리방침"
+      <GText
+        size="tiny"
+        color="gray"
         onPress={() => Alert.alert('not implemented')}
-      />
-    </View>
+      >
+        개인정보 처리방침
+      </GText>
+    </Flex>
   );
 }
 

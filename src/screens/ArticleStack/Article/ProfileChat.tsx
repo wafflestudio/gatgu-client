@@ -4,12 +4,13 @@ import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 
 import { DateTime } from 'luxon';
-import { Button, Flex } from 'native-base';
+import { Flex } from 'native-base';
 
 import { EAppStackScreens } from '@/App.router';
 import { userAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
 import { Profile } from '@/components';
+import { GButton } from '@/components/Gatgu/GButton';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
@@ -157,14 +158,12 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       ]}
     >
       {renderProfile()}
-      <Button
-        backgroundColor={palette.blue}
-        color={palette.white}
+      <GButton
         disabled={isChattingButtonDisabled}
         onPress={() => handleChattingButtonClick('-1')}
       >
         구매 채팅으로 가기
-      </Button>
+      </GButton>
     </Flex>
   );
 }

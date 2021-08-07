@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Text } from 'react-native';
 
-import { Button, Modal, Select, TextArea } from 'native-base';
+import { Modal, Select, TextArea } from 'native-base';
+
+import { GButton } from '../Gatgu/GButton';
 
 interface IReportModalProps {
   reasons: string[];
@@ -53,13 +55,13 @@ const ReportModal: React.FC<IReportModalProps> = ({
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
+          <GButton
             disabled={reportType === undefined}
             isLoading={submitting}
             onPress={handleSubmit}
           >
             제출하기
-          </Button>
+          </GButton>
         </Modal.Footer>
       </Modal.Content>
     </Modal>

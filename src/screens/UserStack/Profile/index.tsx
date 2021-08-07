@@ -1,18 +1,19 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
-import { Alert, TouchableHighlight, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { Flex } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { removeRequesterToken } from '@/apis/BaseInstance';
 import { logout } from '@/apis/UserApi';
-import { Button } from '@/components';
+import { GText } from '@/components/Gatgu';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { RootState } from '@/store';
 import { clearAccessToken } from '@/store/userSlice';
-import { typo } from '@/styles';
 
 import LoggedProfile from './Logged';
 import styles from './Profile.style';
@@ -51,25 +52,27 @@ function Profile(): JSX.Element {
               onPress={() => setShow(!show)}
             />
             {show ? (
-              <View style={styles.headerRightModal}>
-                <Button
-                  title="수정하기"
-                  textStyle={{
-                    ...typo.bigTitle,
-                  }}
+              <Flex style={styles.headerRightModal}>
+                <GText
+                  touchable
+                  size="huge"
+                  style={{ paddingLeft: 20 }}
                   onPress={() => {
                     setShow(false);
                     navigation.navigate('ProfileModify');
                   }}
-                />
-                <Button
-                  title="로그아웃하기"
-                  textStyle={{
-                    ...typo.bigTitle,
-                  }}
+                >
+                  프로필 수정
+                </GText>
+                <GText
+                  touchable
+                  size="huge"
+                  style={{ paddingLeft: 20 }}
                   onPress={logoutReq}
-                />
-              </View>
+                >
+                  로그아웃
+                </GText>
+              </Flex>
             ) : null}
           </View>
         ) : null,
