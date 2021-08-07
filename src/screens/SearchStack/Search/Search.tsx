@@ -22,6 +22,7 @@ const Search: React.FC = () => {
     firstFetching,
     fetching,
     isFirstPage,
+    isLastPage,
     getItems,
   } = useCursorPagination<IArticleSummary>({
     fetchFunc: (url) => articleAPI.getArticles(url, searchKeyword),
@@ -56,12 +57,17 @@ const Search: React.FC = () => {
     [handleSearch]
   );
 
-  const renderArticle = ({ item }: { item: IArticleSummary }) => (
-    <ArticleBox {...item} />
+  const renderArticle = React.useCallback(
+    ({ item }: { item: IArticleSummary }) => <ArticleBox {...item} />,
+    []
   );
 
   return (
-    <VStack backgroundColor={palette.white}>
+    <VStack
+      backgroundColor={palette.white}
+      justifyContent="flex-start"
+      flex={1}
+    >
       <Box paddingX="20px" paddingY="10px">
         <Input
           value={searchInput}
@@ -79,6 +85,7 @@ const Search: React.FC = () => {
         <CursorFlatList
           items={items}
           isFirstPage={isFirstPage}
+          isLastPage={isLastPage}
           fetching={fetching}
           loading={firstFetching}
           ListEmptyComponent={

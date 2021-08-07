@@ -42,7 +42,6 @@ function ChattingRoom(): JSX.Element {
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
   const roomID = route.params.id;
-  console.log('room', route);
 
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
@@ -71,49 +70,20 @@ function ChattingRoom(): JSX.Element {
       });
   }, []);
 
-  /**
-   * resend: string representing key of retryMap to retrieve timeoutID
-   *         -1 -> when sending message for first time
-   *         0  -> resend upon clicking resend
-   */
   const handleSendMessage = (input: IMessageImage, resend: string) => {
+    // reset input
+    setInput({ text: '', imgUrl: emptyURL } as IMessageImage);
+
     if (currentUser) {
-      let mockPendingList: IWSChatMessage[] = pendingList;
       const firstSend = parseInt(resend) === -1;
-      // if resend
+      const websocket_id = firstSend ? `${DateTime.now()}` : resend;
+
+      // if resend --> set as repeat false
       if (!firstSend) {
-        // delete message from pendingList
-        mockPendingList = mockPendingList.filter((message) => {
-          return message.websocket_id !== resend.slice(1);
-        });
-      }
-
-      // set timeout
-      const key = firstSend ? `${DateTime.now()}` : resend;
-      const timeoutID = setTimeout(handleSendMessage, 2000, input, key);
-      const tempMap = retryMap;
-      tempMap[key] = firstSend
-        ? [timeoutID, 1]
-        : [timeoutID, tempMap[key][1] + 1];
-      setRetryMap(tempMap);
-
-      // if more than 5 retries
-      if (retryMap[key][1] > 5) {
-        // clear timeout
-        clearTimeout(retryMap[key][0]);
-
-        // mark delete or resend in pendingList
-        const tempPendingList = mockPendingList.map((chat) =>
-          chat.websocket_id === `${key}` ? { ...chat, repeat: true } : chat
+        const tempPendingList = pendingList.map((chat) =>
+          chat.websocket_id === websocket_id ? { ...chat, repeat: false } : chat
         );
         setPendingList(tempPendingList);
-
-        // delete from map
-        const tempMap = retryMap;
-        delete tempMap[key];
-        setRetryMap(tempMap);
-        setRefresh(!refresh);
-        return;
       }
 
       // add to pendingList
@@ -140,104 +110,66 @@ function ChattingRoom(): JSX.Element {
           system: false,
           type: 'non-system',
         },
-        websocket_id: key,
+        websocket_id: websocket_id,
         repeat: false,
       };
       if (firstSend) {
-        mockPendingList.push(message);
-        setPendingList(mockPendingList);
+        const tempPendingList = pendingList;
+        tempPendingList.push(message);
+        setPendingList(tempPendingList);
       }
       setRefresh(!refresh);
 
       // send websocket message to server
-      sendWsMessage({
+      const wsMessage = {
         type: WSMessage.SEND_MESSAGE,
         data: {
           room_id: roomID,
           user_id: userID,
           message: {
             text: input.text,
-            image: input.imgUrl === '{' ? '' : input.imgUrl,
+            image: input.imgUrl === emptyURL ? '' : input.imgUrl,
           },
         },
-        websocket_id: key, // tempID used for internal purposes
-      });
-
-      // reset input
-      setInput({} as IMessageImage);
-    }
-  };
-
-  /*
-  ## (SEND_MESSAGE)           : setTimeout + put to pendingList
-  ## (RECEIVE_MESSAGE_SUCCESS): clearTimeout + add to chatList + remove from pendingList
-  (RECEIVE_MESSAGE_FAILURE): clearTimeout + delete or resend
-*/
-
-  GatguWebsocket.useMessage<{
-    type: WSMessage;
-    data: IChatMessage;
-    websocket_id: string;
-  }>({
-    onmessage: (socket) => {
-      switch (socket.type) {
-        case WSMessage.RECEIVE_MESSAGE_SUCCESS: {
+        websocket_id: websocket_id, // tempID used for internal purposes
+      };
+      sendWsMessage(wsMessage)
+        .then((result) => {
           // add to chatList
-          const tempChatList = chatList;
-          tempChatList.push({
-            message: socket.data,
-            repeat: false,
-          });
-          setChatList(tempChatList);
+          setChatList((prev) => [
+            ...prev,
+            { message: result.data, repeat: false },
+          ]);
 
           // remove from pendingList
-          let tempPendingList: IWSChatMessage[] = [];
-          tempPendingList = pendingList.filter(
-            (message) => message.websocket_id !== socket.websocket_id
+          setPendingList((prev) =>
+            prev.filter(
+              (message) => message.websocket_id !== result.websocket_id
+            )
           );
-          setPendingList(tempPendingList);
           setRefresh(!refresh);
-
-          // clear timeout
-          clearTimeout(retryMap[socket.websocket_id][0]);
-          const tempMap = retryMap;
-          delete tempMap[socket.websocket_id];
-          setRetryMap(tempMap);
 
           // trigger chatting list update
           dispatch(refetchChattingList);
-          break;
-        }
-        case WSMessage.RECEIVE_MESSAGE_FAILURE: {
-          // clear timeout
-          clearTimeout(retryMap[socket.websocket_id][0]);
-          const tempMap = retryMap;
-          delete tempMap[socket.websocket_id];
-          setRetryMap(tempMap);
-
+        })
+        .catch((e) => {
           // mark delete or resend in pendingList
           const tempPendingList = pendingList.map((chat) =>
-            chat.websocket_id === socket.websocket_id
+            chat.websocket_id === e.websocket_id
               ? { ...chat, repeat: true }
               : chat
           );
           setPendingList(tempPendingList);
-          break;
-        }
-        default: {
-          console.log('DEFAULT', socket);
-          break;
-        }
-      }
-    },
-  });
+        });
+    }
+  };
 
   const handleErase = (resend: string) => {
-    let tempPendingList: IWSChatMessage[] = [];
-    tempPendingList = pendingList.filter((message) => {
-      return message.websocket_id !== resend.slice(1);
-    });
-    setPendingList(tempPendingList);
+    setPendingList((prev) =>
+      prev.filter((message) => {
+        return message.websocket_id !== resend;
+      })
+    );
     setRefresh(!refresh);
   };
 
@@ -278,6 +210,7 @@ function ChattingRoom(): JSX.Element {
         setInput={setInput}
         handleSendMessage={() => handleSendMessage(input, '-1')}
         id={currentUser?.id}
+        article_id={roomID}
       />
     </View>
   );

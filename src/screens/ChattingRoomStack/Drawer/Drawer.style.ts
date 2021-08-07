@@ -31,7 +31,6 @@ const DrawerStyles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   optionContainer: {
-    ...commonStyle.container,
     paddingTop: 25,
     height: '24%',
   },
