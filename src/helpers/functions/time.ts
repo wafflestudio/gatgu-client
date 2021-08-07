@@ -57,10 +57,6 @@ export const getRemainTime = (ts: number) => {
 
   return `${getTimeDiffWithUnit(currTs, ts)} 남음`;
 };
-// to remove!! TODO @juimdpp
-export const toUnix = (date: number): number => {
-  return Math.floor(date / 10000000000);
-};
 
 /** Convert UNIX timestamp to time string without secs
  * @args date: number

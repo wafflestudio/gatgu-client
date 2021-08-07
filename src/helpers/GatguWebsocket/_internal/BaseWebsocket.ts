@@ -38,8 +38,7 @@ class BaseWebsocket {
 
   constructor(url: string, options: IBaseWebsocketOption) {
     console.log('Websocket');
-    console.log(`${url}`);
-    this._ws = new ReconnectingWebsocket(`${url}`);
+    this._ws = new ReconnectingWebsocket(url);
 
     this._pingpongCount = 0;
     this._retryCount = 0;
