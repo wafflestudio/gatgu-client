@@ -52,10 +52,20 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     images.length > 0 &&
     images.map(
       (item, key): JSX.Element => (
-        <View style={styles.photoContainer} key={key}>
-          <Image style={styles.photo} source={{ uri: item.path }} />
+        <View
+          style={key == 0 ? styles.thumbnailContainer : styles.photoContainer}
+          key={key}
+        >
+          <Image
+            style={key == 0 ? styles.thumbnail : styles.photo}
+            source={{ uri: item.path }}
+          />
           <TouchableHighlight
-            style={styles.buttonContainer}
+            style={
+              key == 0
+                ? styles.thumbnailButtonContainer
+                : styles.buttonContainer
+            }
             onPress={() => deleteImage(key)}
           >
             <View style={styles.button}>
