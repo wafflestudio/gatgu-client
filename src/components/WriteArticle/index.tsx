@@ -14,7 +14,7 @@ import { getTs } from '@/helpers/functions/time';
 import { validateLink } from '@/helpers/functions/validate';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { AppRoutes } from '@/helpers/routes';
-import { RootState } from '@/store';
+import { AppThunk, RootState } from '@/store';
 import {
   createSingleArticle,
   editSingleArticle,
@@ -159,23 +159,27 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         if (urls.length > 0) tempArticle.img_urls = urls;
         if (isEdit && currentArticle) {
           const pr = dispatch(editSingleArticle(id, tempArticle));
-          Promise.resolve(pr).then(() => {
-            navigation.navigate(AppRoutes.ArticleStack, {
-              screen: AppRoutes.Article,
-              params: {
-                id: id,
-              },
-            });
+          Promise.resolve(pr).then((newID: AppThunk) => {
+            if (newID.toString() != '-1') {
+              navigation.navigate(AppRoutes.ArticleStack, {
+                screen: AppRoutes.Article,
+                params: {
+                  id: newID,
+                },
+              });
+            }
           });
         } else {
           const pr = dispatch(createSingleArticle(tempArticle));
-          Promise.resolve(pr).then((newID) => {
-            navigation.navigate(AppRoutes.ArticleStack, {
-              screen: AppRoutes.Article,
-              params: {
-                id: newID,
-              },
-            });
+          Promise.resolve(pr).then((newID: AppThunk) => {
+            if (newID.toString() != '-1') {
+              navigation.navigate(AppRoutes.ArticleStack, {
+                screen: AppRoutes.Article,
+                params: {
+                  id: newID,
+                },
+              });
+            }
           });
         }
       })

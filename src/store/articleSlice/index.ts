@@ -35,7 +35,7 @@ const initialState: IArticleSlice = {
     product_url: '',
     price_min: 0,
     time_in: new Date().getTime(),
-    images: [],
+    img_urls: [],
     tag: [],
     created_at: new Date().getTime(), // should be date but json server doesn't accept Date
     updated_at: new Date().getTime(),
