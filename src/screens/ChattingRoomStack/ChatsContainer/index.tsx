@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 
+import _ from 'lodash';
 import { DateTime } from 'luxon';
 import { Flex, Spinner } from 'native-base';
 
@@ -10,11 +11,11 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { chatAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
+import { CursorFlatList } from '@/components';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
-import { useCursorPagination } from '@/helpers/hooks';
 import { USER_DETAIL } from '@/queryKeys';
 import { refetchChattingList } from '@/store/chatSlice';
 import {
@@ -42,13 +43,6 @@ export interface IWSChatMessage {
 }
 
 function ChattingRoom(): JSX.Element {
-  const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
-    onmessage: (socket) => {
-      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
-        getItems('first');
-      }
-    },
-  });
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const dispatch = useDispatch();
   const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
@@ -56,37 +50,42 @@ function ChattingRoom(): JSX.Element {
   ).data;
   const userID = currentUser?.id;
   const roomID = route.params.id;
-
-  // const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
+  const [nextCursor, setCursor] = useState<string | null>();
+  const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
+  const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
   const [input, setInput] = useState<IMessageImage>({
     text: '',
     imgUrl: emptyURL,
   } as IMessageImage);
   const [refresh, setRefresh] = useState(true);
-
-  const {
-    items,
-    firstFetching,
-    isFirstPage,
-    fetching,
-    getItems,
-  } = useCursorPagination<IChatMessage>({
-    fetchFunc: chatAPI.getChattingMessages,
-    roomID: roomID,
+  const getChattingMessages = (option: string | null | undefined) => {
+    setFetchingMessages(true);
+    chatAPI
+      .getChattingMessages(roomID, option)
+      .then((chattingList) => {
+        // TODO: change with pagination
+        setCursor(chattingList.data.next);
+        const tempChatList = chattingList.data.results.map((chat) => {
+          return {
+            message: chat,
+            repeat: false,
+          };
+        });
+        setChatList((prev) => [...prev, ...tempChatList]);
+      })
+      .finally(() => setFetchingMessages(false));
+  };
+  const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
+    onmessage: (socket) => {
+      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
+        getChattingMessages('next');
+      }
+    },
   });
-  const chats = useMemo(() => {
-    return items.reverse().map((chat) => {
-      return {
-        message: chat,
-        repeat: false,
-      };
-    });
-  }, [items]);
 
   useEffect(() => {
-    getItems('first');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getChattingMessages('first');
   }, []);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
@@ -155,13 +154,12 @@ function ChattingRoom(): JSX.Element {
       sendWsMessage(wsMessage)
         .then((result) => {
           // add to chatList
-          // const tempChatList = chatList;
-          // tempChatList.push({
-          //   message: result.data,
-          //   repeat: false,
-          // });
-          getItems('first');
-          // setChatList(tempChatList);
+          const tempChatList = chatList;
+          tempChatList.push({
+            message: result.data,
+            repeat: false,
+          });
+          setChatList(tempChatList);
 
           // remove from pendingList
           let tempPendingList: IWSChatMessage[] = [];
@@ -204,13 +202,18 @@ function ChattingRoom(): JSX.Element {
   }) => (
     <ChatBox
       current={item}
-      previous={chats[index - 1]}
-      next={chats[index + 1]}
+      previous={chatList[index - 1]}
+      next={chatList[index + 1]}
       selfId={currentUser?.id}
       resend={handleSendMessage}
       erase={handleErase}
     />
   );
+
+  const handleEndReach = () => {
+    if (!nextCursor || fetchingMessages) return;
+    getChattingMessages(nextCursor);
+  };
 
   return (
     <View
@@ -219,21 +222,24 @@ function ChattingRoom(): JSX.Element {
         height: '93%',
       }}
     >
-      {firstFetching && isFirstPage ? (
-        <Flex height="100%">
-          <Spinner paddingTop="50%" />
-        </Flex>
-      ) : (
+      {
+        // (
+        //   <Flex height="100%">
+        //     <Spinner paddingTop="50%" />
+        //   </Flex>
+        // )
         <FlatList
-          data={[...chats, ...pendingList]}
+          data={[...chatList, ...pendingList]}
           renderItem={renderItem}
           style={styles.msgContainer}
           keyExtractor={(_, ind) => `${ind}`}
           extraData={refresh}
+          inverted={true}
+          onEndReached={handleEndReach}
+          onEndReachedThreshold={0.1}
           ListHeaderComponentStyle={{ borderWidth: 10 }}
-          ListFooterComponent={fetching ? <Spinner /> : null}
         />
-      )}
+      }
       <InputBar
         input={input}
         setInput={setInput}

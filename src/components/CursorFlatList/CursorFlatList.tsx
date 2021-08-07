@@ -53,10 +53,10 @@ const CursorFlatList: React.FC<ICursorFlatListProps> = ({
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const distFromTop = e.nativeEvent.contentOffset.y;
 
-    if (items.length < maxItemCount || distFromTop !== 0 || isFirstPage) {
+    if (distFromTop !== 0 || isFirstPage) {
       return;
     }
-
+    console.log('PREVIOUS');
     _.throttle(() => getItems('previous'), 300)();
   };
 

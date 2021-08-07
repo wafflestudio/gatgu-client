@@ -54,6 +54,12 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const [writer, setWriter] = useState<IUserSimple>();
 
   const handleChattingButtonClick = (resendKey: string) => {
+    ///
+    navigation.navigate(AppRoutes.ChattingRoom, {
+      screen: 'ChattingRoom',
+      params: { id: article_id },
+    });
+    ///
     const resend = !(parseInt(resendKey) === -1);
     const websocket_id = resend ? resendKey : `${DateTime.now()}`;
 

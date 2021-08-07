@@ -34,9 +34,10 @@ export const getChattingMessages = (
   roomId: number,
   url?: string | null
 ): Promise<AxiosResponse<IAllMessagesResponse>> => {
-  url = `${url ? `${url}&` : '?'}`;
+  url = url === 'first' ? '?' : url ? `${url}&` : '?';
+
   console.log(`chattings/${roomId}/messages/${url}page_size=5`);
-  return requester.get(`chattings/${roomId}/messages/${url}page_size=10`);
+  return requester.get(`chattings/${roomId}/messages/${url}page_size=15`);
 };
 
 export const getMyChattingList = (): Promise<

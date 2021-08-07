@@ -61,7 +61,7 @@ function ChattingRoomStackScreen(): JSX.Element {
   return (
     <Drawer.Navigator
       drawerPosition="right"
-      drawerContent={() => <RightDrawer pictureUrls={urls} users={[]} />}
+      drawerContent={() => <RightDrawer />}
       drawerStyle={{ width: '57%' }}
     >
       <Drawer.Screen name="ChattingRoom" component={ChattingRoomTemplate} />
