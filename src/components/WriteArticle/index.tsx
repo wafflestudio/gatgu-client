@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { KeyboardAvoidingView } from 'native-base';
+import { KeyboardAvoidingView, Spinner } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -20,10 +20,12 @@ import {
   editSingleArticle,
   getSingleArticle,
 } from '@/store/articleSlice';
+import { palette } from '@/styles';
 import { IPostArticle, ITagType } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
+import AppLoadingTemplate from '../AppLoading';
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
 import DueDate from './DueDate/DueDate';
@@ -55,14 +57,12 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [description, setDescription] = useState<string>('');
   const [link, setLink] = useState<string>('');
   const [location, setLocation] = useState<string>('');
-  const [, toggleTags] = useState<ITagType[]>(TagArray);
   const navigation = useNavigation();
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
   const { id } = isEdit ? route.params : { id: 0 };
   const dispatch = useDispatch();
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
-  const [isLoading, setLoadingStatus] = useState<boolean>(false);
   const { uploadMultipleImages } = useImageUpload(APItype.article, id);
 
   // if edit, get article and send them to other subcomponents
@@ -76,13 +76,12 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const _errorState = useSelector((state: RootState) => {
     return state.article.WriteArticleHasError;
   });
-  const _loadingStatus = useSelector((state: RootState) => {
-    return state.article.WriteArticleIsLoading;
-  });
 
   const isUserLoggedIn = !!useSelector(
     (state: RootState) => state.user.accessToken
   );
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handlePrice = (inp: string) => {
     if (inp === 'NaN') setPrice('');
@@ -93,10 +92,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     setPageStatus(_pageStatus);
     setErrorStatus(_errorState);
   }, [_pageStatus, _errorState]);
-
-  useEffect(() => {
-    setLoadingStatus(_loadingStatus);
-  }, [_loadingStatus]);
 
   useEffect(() => {
     if (isEdit) dispatch(getSingleArticle(id));
@@ -132,6 +127,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   };
 
   const submit = () => {
+    setLoading(true);
     if (!isUserLoggedIn) {
       Alert.alert('로그인을 해주세요');
       /* TODO @juimdpp
@@ -185,6 +181,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       })
       .catch((e) => {
         console.log('ERROR', e);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -196,29 +195,39 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   });
 
   return (
-    <ScrollView style={{ backgroundColor: 'white' }}>
-      {hasError ? (
-        Error(pageStatus, () => {
-          Alert.alert('Need to fix this part');
-        })
-      ) : isLoading ? (
-        <Text>Loading Page</Text>
+    <View>
+      {loading ? (
+        <View style={{ height: '100%' }}>
+          <AppLoadingTemplate>
+            <View style={{ margin: 100 }}>
+              <Spinner color={palette.blue} size="large" />
+            </View>
+          </AppLoadingTemplate>
+        </View>
       ) : (
-        <KeyboardAvoidingView>
-          {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
-          <DueDate dueDate={dueDate} setDueDate={setDueDate} />
-          <AddImage images={images} setImages={setImages} />
-          <Title title={title} setTitle={setTitle} />
-          <Recruiting needPrice={need_price} setPrice={handlePrice} />
-          <Location location={location} setLocation={setLocation} />
-          <Link link={link} setLink={setLink} />
-          <Description
-            description={description}
-            setDescription={setDescription}
-          />
-        </KeyboardAvoidingView>
+        <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
+          {hasError ? (
+            Error(pageStatus, () => {
+              Alert.alert('Need to fix this part');
+            })
+          ) : (
+            <KeyboardAvoidingView>
+              {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
+              <DueDate dueDate={dueDate} setDueDate={setDueDate} />
+              <AddImage images={images} setImages={setImages} />
+              <Title title={title} setTitle={setTitle} />
+              <Recruiting needPrice={need_price} setPrice={handlePrice} />
+              <Location location={location} setLocation={setLocation} />
+              <Link link={link} setLink={setLink} />
+              <Description
+                description={description}
+                setDescription={setDescription}
+              />
+            </KeyboardAvoidingView>
+          )}
+        </ScrollView>
       )}
-    </ScrollView>
+    </View>
   );
 }
 
