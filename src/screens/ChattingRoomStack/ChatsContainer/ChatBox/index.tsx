@@ -5,6 +5,7 @@ import { default as FIcon } from 'react-native-vector-icons/FontAwesome';
 import { default as MIcon } from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { emptyURL } from '@/constants/image';
+import { toLocaleTimeStringNoSecs } from '@/helpers/functions/time';
 import { IMessageImage } from '@/types/chat';
 
 import { IWSChatMessage } from '..';
@@ -47,8 +48,7 @@ function ChatBox({
 
   // 00:00 format
   const sentTime = useMemo(() => {
-    // const split = sent_at.split('T');
-    return sent_at;
+    return toLocaleTimeStringNoSecs(sent_at);
   }, [sent_at]);
 
   // message + time

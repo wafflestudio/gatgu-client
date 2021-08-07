@@ -61,3 +61,15 @@ export const getRemainTime = (ts: number) => {
 export const toUnix = (date: number): number => {
   return Math.floor(date / 10000000000);
 };
+
+/** Convert UNIX timestamp to time string without secs
+ * @args date: number
+ * @returns string
+ * (example: 1628275380190 -> 3:43:00 AM)
+ */
+export const toLocaleTimeStringNoSecs = (date: number | string) => {
+  const arr = new Date(date).toLocaleTimeString().split(' ');
+  const time = arr[0].slice(0, -3);
+  const ret = time + ' ' + arr[1];
+  return ret;
+};
