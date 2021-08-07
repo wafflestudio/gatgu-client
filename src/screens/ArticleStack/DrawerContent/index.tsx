@@ -10,7 +10,7 @@ import {
 
 import { articleAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
-import { ReportModal } from '@/components';
+import { ProfileBox, ReportModal } from '@/components';
 import { GText } from '@/components/Gatgu/';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { OrderStatus } from '@/enums';
@@ -104,21 +104,30 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
           {isMyArticle ? (
             <>
               <StyledArticleDrawerMenuText
+                touchable
                 size="huge"
                 color="blue"
                 onPress={toggleStatus}
               >
                 모집 완료하기
               </StyledArticleDrawerMenuText>
-              <StyledArticleDrawerMenuText size="huge" onPress={editArticle}>
+              <StyledArticleDrawerMenuText
+                touchable
+                size="huge"
+                onPress={editArticle}
+              >
                 수정하기
               </StyledArticleDrawerMenuText>
-              <StyledArticleDrawerMenuText size="huge" onPress={delArticle}>
+              <StyledArticleDrawerMenuText
+                touchable
+                size="huge"
+                onPress={delArticle}
+              >
                 삭제하기
               </StyledArticleDrawerMenuText>
             </>
           ) : null}
-          <GText size="huge" onPress={() => setReportModalOpen(true)}>
+          <GText touchable size="huge" onPress={() => setReportModalOpen(true)}>
             신고하기
           </GText>
         </View>

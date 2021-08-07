@@ -19,16 +19,16 @@ type PickedGButtonProps = DeepNonNullable<
 const cssButtonSizes: Record<GButtonSize, any> = {
   small: css`
     height: 32px;
-    border-radius: 14;
+    border-radius: 14px;
     padding: 0px 12px;
   `,
   default: css`
     height: 38px;
-    border-radius: 11;
+    border-radius: 11px;
     padding: 0px 17px;
   `,
   large: css`
-    border-radius: 11;
+    border-radius: 11px;
     height: 46px;
     padding: 0px 17px;
   `,

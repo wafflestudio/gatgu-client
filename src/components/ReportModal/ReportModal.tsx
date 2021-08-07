@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
 
 import { Modal, Select, TextArea } from 'native-base';
+
+import { palette } from '@/styles';
 
 import { GButton } from '../Gatgu/GButton';
 
@@ -26,14 +27,12 @@ const ReportModal: React.FC<IReportModalProps> = ({
   };
 
   return (
-    <Modal isOpen size="lg" avoidKeyboard onClose={onHide}>
+    <Modal isOpen avoidKeyboard onClose={onHide}>
       <Modal.Content>
-        <Modal.CloseButton />
+        <Modal.CloseButton _pressed={{ backgroundColor: palette.whiteGray }} />
         <Modal.Header>신고하기</Modal.Header>
 
         <Modal.Body height="100%">
-          <Text> </Text>
-
           <Select
             placeholder="신고 항목"
             selectedValue={reportType}
@@ -53,8 +52,8 @@ const ReportModal: React.FC<IReportModalProps> = ({
             onChangeText={setReportContent}
           />
         </Modal.Body>
-
-        <Modal.Footer>
+        {/* native base modal margin error */}
+        <Modal.Footer marginRight="15px">
           <GButton
             disabled={reportType === undefined}
             isLoading={submitting}
