@@ -1,27 +1,14 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, Text } from 'react-native';
-import { useQuery } from 'react-query';
 
-import {
-  DrawerActions,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 
-import { getMyData } from '@/apis/UserApi';
 import { Header } from '@/components';
-import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
-import { USER_DETAIL } from '@/queryKeys';
-import { IChatMessage } from '@/types/chat';
-import { ChattingDrawerParamList } from '@/types/navigation';
-import { IUserDetail } from '@/types/user';
 
 import ChatsContainer from './ChatsContainer';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
 
   return (
     <KeyboardAvoidingView

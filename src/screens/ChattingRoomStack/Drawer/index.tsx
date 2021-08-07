@@ -5,8 +5,7 @@ import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
-import { Button, Checkbox, Modal } from 'native-base';
-import { stringify } from 'querystring';
+import { Checkbox } from 'native-base';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
