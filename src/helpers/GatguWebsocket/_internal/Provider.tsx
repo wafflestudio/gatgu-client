@@ -49,10 +49,10 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
 
     return new Promise((resolve, reject) => {
       if (wsRef.current) {
-        // save websocket in wsMap
+        // save websocket in promiseByWsID
         const id = data.websocket_id;
 
-        wsRef.current.wsMap.set(id, {
+        wsRef.current.promiseByWsID.set(id, {
           resolve,
           reject,
           count: 0,
@@ -66,7 +66,7 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
         // set timeout in case of failure
         setTimeout(() => {
           if (wsRef.current) {
-            wsRef.current.wsMap.delete(id);
+            wsRef.current.promiseByWsID.delete(id);
             reject(data);
           }
         }, 5000);
