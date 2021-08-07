@@ -51,9 +51,9 @@ function ChattingList(): JSX.Element {
 
   const navigateToChatRoom = (resendKey: string, articleID: number) => {
     // check if resend
-    const resend = !(parseInt(resendKey) === -1);
+    const isResent = !(parseInt(resendKey) === -1);
     // set timeout and fix websocket appropriately
-    const websocket_id = resend ? resendKey : `${DateTime.now()}`;
+    const websocket_id = isResent ? resendKey : `${DateTime.now()}`;
 
     const wsMessage = {
       type: WSMessage.ENTER_ROOM,

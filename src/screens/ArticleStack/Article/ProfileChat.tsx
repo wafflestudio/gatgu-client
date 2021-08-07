@@ -63,8 +63,8 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       params: { id: article_id },
     });
     ////
-    const resend = parseInt(resendKey) !== -1;
-    const websocket_id = resend ? resendKey : `${getTs()}`;
+    const isResent = parseInt(resendKey) !== -1;
+    const websocket_id = isResent ? resendKey : `${getTs()}`;
 
     const wsMessage = {
       type: WSMessage.ENTER_ROOM,
