@@ -76,7 +76,6 @@ function ChattingRoom(): JSX.Element {
     setInput({ text: '', imgUrl: emptyURL } as IMessageImage);
 
     if (currentUser) {
-      const mockPendingList: IWSChatMessage[] = pendingList;
       const firstSend = parseInt(resend) === -1;
       const websocket_id = firstSend ? `${DateTime.now()}` : resend;
 
@@ -116,8 +115,9 @@ function ChattingRoom(): JSX.Element {
         repeat: false,
       };
       if (firstSend) {
-        mockPendingList.push(message);
-        setPendingList(mockPendingList);
+        const tempPendingList = pendingList;
+        tempPendingList.push(message);
+        setPendingList(tempPendingList);
       }
       setRefresh(!refresh);
 
@@ -137,19 +137,17 @@ function ChattingRoom(): JSX.Element {
       sendWsMessage(wsMessage)
         .then((result) => {
           // add to chatList
-          const tempChatList = chatList;
-          tempChatList.push({
-            message: result.data,
-            repeat: false,
-          });
-          setChatList(tempChatList);
+          setChatList((prev) => [
+            ...prev,
+            { message: result.data, repeat: false },
+          ]);
 
           // remove from pendingList
-          let tempPendingList: IWSChatMessage[] = [];
-          tempPendingList = pendingList.filter(
-            (message) => message.websocket_id !== result.websocket_id
+          setPendingList((prev) =>
+            prev.filter(
+              (message) => message.websocket_id !== result.websocket_id
+            )
           );
-          setPendingList(tempPendingList);
           setRefresh(!refresh);
 
           // trigger chatting list update
@@ -168,11 +166,11 @@ function ChattingRoom(): JSX.Element {
   };
 
   const handleErase = (resend: string) => {
-    let tempPendingList: IWSChatMessage[] = [];
-    tempPendingList = pendingList.filter((message) => {
-      return message.websocket_id !== resend;
-    });
-    setPendingList(tempPendingList);
+    setPendingList((prev) =>
+      prev.filter((message) => {
+        return message.websocket_id !== resend;
+      })
+    );
     setRefresh(!refresh);
   };
 

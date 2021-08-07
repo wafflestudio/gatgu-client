@@ -1,4 +1,4 @@
-import { OrderStatus } from '@/enums';
+import { OrderStatus, ParticipantStatus } from '@/enums';
 
 import { ICursorPaginationResponse } from './shared';
 import { IChatUserProps, IUserListPreview } from './user';
@@ -45,7 +45,7 @@ export interface IOrderChat {
 }
 
 export interface IChangeStatusProps {
-  pay_status?: number;
+  pay_status?: ParticipantStatus;
   wish_price?: number;
   participant_id: number;
 }

@@ -12,6 +12,7 @@ import { getMyData } from '@/apis/UserApi';
 import { Profile } from '@/components';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { getTs } from '@/helpers/functions/time';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useShallowSelector from '@/helpers/hooks/useSelector';
 import { AppRoutes } from '@/helpers/routes';
@@ -56,8 +57,14 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const [writer, setWriter] = useState<IUserSimple>();
 
   const handleChattingButtonClick = (resendKey: string) => {
-    const resend = !(parseInt(resendKey) === -1);
-    const websocket_id = resend ? resendKey : `${DateTime.now()}`;
+    ////
+    navigation.navigate(AppRoutes.ChattingRoom, {
+      screen: 'ChattingRoom',
+      params: { id: article_id },
+    });
+    ////
+    const resend = parseInt(resendKey) !== -1;
+    const websocket_id = resend ? resendKey : `${getTs()}`;
 
     const wsMessage = {
       type: WSMessage.ENTER_ROOM,
