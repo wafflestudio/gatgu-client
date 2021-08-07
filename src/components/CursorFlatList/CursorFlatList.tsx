@@ -56,7 +56,6 @@ const CursorFlatList: React.FC<ICursorFlatListProps> = ({
     if (distFromTop !== 0 || isFirstPage) {
       return;
     }
-    console.log('PREVIOUS');
     _.throttle(() => getItems('previous'), 300)();
   };
 
