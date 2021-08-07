@@ -26,7 +26,7 @@ class BaseWebsocket {
   private _pongCheckingIntervalId?: number;
   private _retryCount: number;
 
-  public wsMap: Map<
+  public promiseByWsID: Map<
     any,
     {
       resolve: any;
@@ -48,7 +48,7 @@ class BaseWebsocket {
       ...options,
     } as Required<IBaseWebsocketOption>;
 
-    this.wsMap = new Map();
+    this.promiseByWsID = new Map();
 
     this._ws.onopen = this._onopen.bind(this);
     this._ws.onmessage = this._onmessage.bind(this);
@@ -126,20 +126,20 @@ class BaseWebsocket {
       // success cases
       case WSMessage.ENTER_ROOM_SUCCESS:
       case WSMessage.RECEIVE_MESSAGE_SUCCESS: {
-        const promise = this.wsMap.get(message.websocket_id);
+        const promise = this.promiseByWsID.get(message.websocket_id);
         if (!promise) return;
         promise.resolve(message);
-        this.wsMap.delete(message.websocket_id);
+        this.promiseByWsID.delete(message.websocket_id);
         break;
       }
 
       // failure cases
       case WSMessage.ENTER_ROOM_FAILURE:
       case WSMessage.RECEIVE_MESSAGE_FAILURE: {
-        const promise = this.wsMap.get(message.websocket_id);
+        const promise = this.promiseByWsID.get(message.websocket_id);
         if (!promise) return;
         promise.reject(message);
-        this.wsMap.delete(message.websocket_id);
+        this.promiseByWsID.delete(message.websocket_id);
         break;
       }
 
