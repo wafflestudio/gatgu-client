@@ -61,7 +61,7 @@ const chatSlice = createSlice({
       state.participantsList = payload;
     },
 
-    setToggle: (state, { payload }: PayloadAction<boolean>) => {
+    setToggle: (state) => {
       state.toggleChatList = !state.toggleChatList;
     },
   },
