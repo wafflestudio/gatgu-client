@@ -32,8 +32,6 @@ const mockUrls = [
 // when: when api becomes stable
 
 function ChattingRoomStackScreen(): JSX.Element {
-  const dispatch = useDispatch();
-
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );

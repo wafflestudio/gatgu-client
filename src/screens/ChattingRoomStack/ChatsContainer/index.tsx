@@ -46,7 +46,6 @@ function ChattingRoom(): JSX.Element {
 
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
-  const [retryMap, setRetryMap] = useState<IChattingRetryMap>({});
   const [input, setInput] = useState<IMessageImage>({
     text: '',
     imgUrl: emptyURL,
@@ -69,7 +68,7 @@ function ChattingRoom(): JSX.Element {
       .catch((e) => {
         console.debug('GET CHATTING MESSAGES', e);
       });
-  }, []);
+  }, [roomID]);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
     // reset input

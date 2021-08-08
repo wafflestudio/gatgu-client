@@ -18,7 +18,6 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
 
   const init = ({
     url,
-    token,
     options,
   }: {
     url: string;

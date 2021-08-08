@@ -5,7 +5,7 @@ import { InfoContainer } from '@/components';
 import Thumbnail from '@/components/Thumbnail/Thumbnail';
 import { OrderStatus } from '@/enums';
 import { toUnix } from '@/helpers/functions/time';
-import { IChatListSinglePreview, IChattingRoom } from '@/types/chat';
+import { IChatListSinglePreview } from '@/types/chat';
 
 import styles from './ChattingBox.style';
 

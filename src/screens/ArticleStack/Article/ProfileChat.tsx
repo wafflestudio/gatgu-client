@@ -26,9 +26,6 @@ interface IProfileChat {
   article: IArticleProps;
   orderStatus: IArticleStatus;
 }
-interface IObject {
-  [key: string]: [number, number]; // [timeoutID, retry count]
-}
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const navigation = useAppNavigation();

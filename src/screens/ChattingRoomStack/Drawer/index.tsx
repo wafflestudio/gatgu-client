@@ -54,19 +54,19 @@ function Drawer(): JSX.Element {
         return person.participant.user_id === userID;
       }).length === 0
     );
-  }, [participants]);
+  }, [participants, userID]);
 
   useEffect(() => {
     // fetch participants' info
     dispatch(fetchingParticipants(roomID));
-  }, [roomID]);
+  }, [roomID, dispatch]);
   useEffect(() => {
     // fetch all images
     chatAPI.getChatPictures(roomID).then((res) => {
       console.log(res.data);
       setPictureUrls(res.data);
     });
-  }, []);
+  }, [roomID]);
 
   const renderPicure = ({ item: uri }: { item: string }) => (
     <Image source={{ uri }} style={styles.image} />

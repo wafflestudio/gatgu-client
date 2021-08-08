@@ -7,7 +7,6 @@ import { KeyboardAvoidingView, Spinner } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import tagNames from '@/constants/tagList';
 import { APItype } from '@/enums/image';
 import { createError } from '@/helpers/functions';
 import { getTs } from '@/helpers/functions/time';
