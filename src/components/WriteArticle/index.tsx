@@ -26,6 +26,7 @@ import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
 import AppLoadingTemplate from '../AppLoading';
+import Header from '../Header';
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
 import DueDate from './DueDate/DueDate';
@@ -100,6 +101,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   useEffect(() => {
     if (isEdit && currentArticle) {
+      console.log(currentArticle);
       setTitle(currentArticle.title);
       setDescription(currentArticle.description);
       setLocation(currentArticle.trading_place);
@@ -107,7 +109,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       handlePrice(`${currentArticle.price_min}`);
       setDueDate(new Date()); // FIXME:
       // optional:
-      currentArticle.img_urls[0] && setImages(images);
+      currentArticle.images && setImages(images);
       /** ADD WHEN TAGS ARE USED
         if (currentArticle.tag) {
           const temp = currentArticle.tag.map((i, num) => {
@@ -200,6 +202,14 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   return (
     <View>
+      {isEdit ? (
+        <Header
+          title="글 수정하기"
+          left={<Button title="취소" onPress={submit} />}
+          right={<Button title="완료" onPress={submit} />}
+          rightCallback={submit}
+        />
+      ) : null}
       {loading ? (
         <View style={{ height: '100%' }}>
           <AppLoadingTemplate>
