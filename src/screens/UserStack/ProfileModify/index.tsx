@@ -10,7 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 import { modifyMyInfo } from '@/apis/UserApi';
 import ModifyButton from '@/assets/icons/ModifyButton/modifyButton.svg';
 import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
-import { Button, StringInput } from '@/components';
+import { StringInput } from '@/components';
+import { GButton } from '@/components/Gatgu';
 import { isValidNickname } from '@/helpers/functions/validate';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { USER_DETAIL } from '@/queryKeys';
@@ -83,7 +84,11 @@ const ProfileModify: React.FC = () => {
     navigation.setOptions({
       headerTitleAlign: 'center',
       // eslint-disable-next-line react/display-name
-      headerRight: () => <Button title="완료" onPress={handleSubmit} />,
+      headerRight: () => (
+        <GButton size="small" onPress={() => handleSubmit()}>
+          완료
+        </GButton>
+      ),
     });
   }, [handleSubmit, navigation]);
 

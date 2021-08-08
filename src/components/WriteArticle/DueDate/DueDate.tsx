@@ -11,6 +11,7 @@ import { Button } from 'native-base';
 // npm i react-native-modal-datetime-picker @react-native-community/datetimepicker
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { GButton } from '@/components/Gatgu/GButton';
 import { palette, typo } from '@/styles';
 
 import styles from './DueDate.style';
@@ -129,12 +130,9 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
             <View style={styles.titleContainer}>
               <Text style={{ ...typo.bigTitle }}>모집기한</Text>
             </View>
-            <Button
-              style={styles.completeButton}
-              onPress={() => handleComplete()}
-            >
-              <Text style={styles.buttonText}>완료</Text>
-            </Button>
+            <GButton size="small" onPress={() => handleComplete()}>
+              완료
+            </GButton>
           </View>
           <View style={styles.scrollDayContainer}>
             <ScrollView horizontal={true}>{renderDates}</ScrollView>

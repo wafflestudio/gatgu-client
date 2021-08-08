@@ -8,16 +8,16 @@ import {
 } from '@react-navigation/drawer';
 
 import { articleAPI } from '@/apis';
-import { Button, ReportModal } from '@/components';
+import { ReportModal } from '@/components';
+import { GText } from '@/components/Gatgu/';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { OrderStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { changeOrderStatus } from '@/store/chatSlice';
-import { palette } from '@/styles';
 
-import styles from './Drawer.style';
+import styles, { StyledArticleDrawerMenuText } from './Drawer.style';
 
 const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const navigation = props.navigation;
@@ -98,28 +98,33 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         <View style={styles.upperContainer}>
           {isMyArticle ? (
             <>
-              <Button
-                title="모집 완료하기"
+              <StyledArticleDrawerMenuText
+                touchable
+                size="huge"
+                color="blue"
                 onPress={toggleStatus}
-                textStyle={[styles.upperLabelText, { color: palette.blue }]}
-              />
-              <Button
-                title="수정하기"
+              >
+                모집 완료하기
+              </StyledArticleDrawerMenuText>
+              <StyledArticleDrawerMenuText
+                touchable
+                size="huge"
                 onPress={editArticle}
-                textStyle={styles.upperLabelText}
-              />
-              <Button
-                title="삭제하기"
+              >
+                수정하기
+              </StyledArticleDrawerMenuText>
+              <StyledArticleDrawerMenuText
+                touchable
+                size="huge"
                 onPress={delArticle}
-                textStyle={styles.upperLabelText}
-              />
+              >
+                삭제하기
+              </StyledArticleDrawerMenuText>
             </>
           ) : null}
-          <Button
-            title="신고하기"
-            onPress={() => setReportModalOpen(true)}
-            textStyle={styles.upperLabelText}
-          />
+          <GText touchable size="huge" onPress={() => setReportModalOpen(true)}>
+            신고하기
+          </GText>
         </View>
         <View style={styles.lowerContainer}>
           <Text style={styles.lowerLabelText}>모집 인원 목록</Text>

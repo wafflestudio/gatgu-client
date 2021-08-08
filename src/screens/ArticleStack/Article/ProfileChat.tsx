@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { DateTime } from 'luxon';
 import { Button, Flex } from 'native-base';
 
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
+import { GButton } from '@/components/Gatgu/GButton';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { getTs } from '@/helpers/functions/time';
@@ -105,14 +107,12 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       ]}
     >
       {renderProfile()}
-      <Button
-        backgroundColor={palette.blue}
-        color={palette.white}
+      <GButton
         disabled={isChattingButtonDisabled}
         onPress={() => handleChattingButtonClick('-1')}
       >
         구매 채팅으로 가기
-      </Button>
+      </GButton>
     </Flex>
   );
 }

@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Box, Divider, Input, SearchIcon, VStack } from 'native-base';
+import { Box, Divider, SearchIcon, VStack } from 'native-base';
 
 import { articleAPI } from '@/apis';
 import { ArticleBox, CursorFlatList } from '@/components';
+import { GInput } from '@/components/Gatgu';
 import { useCursorPagination } from '@/helpers/hooks';
 import { palette } from '@/styles';
 import { IArticleSummary } from '@/types/article';
@@ -69,11 +70,11 @@ const Search: React.FC = () => {
       flex={1}
     >
       <Box paddingX="20px" paddingY="10px">
-        <Input
+        <GInput
+          width="full"
+          theme="gray"
           value={searchInput}
           placeholder="키워드로 검색"
-          w="100%"
-          variant="filled"
           InputLeftElement={<SearchIcon m={2} />}
           onFocus={() => setSearchResultStage(false)}
           onChangeText={setSearchInput}

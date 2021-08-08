@@ -14,3 +14,7 @@ export interface ImageDict {
 }
 
 export type TShortImage = Pick<Required<Image>, 'mime' | 'path'>;
+
+export type DeepNonNullable<T extends Record<string, any>> = {
+  [key in keyof T]-?: NonNullable<T[key]>;
+};

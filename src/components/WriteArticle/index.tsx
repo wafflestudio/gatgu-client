@@ -25,6 +25,7 @@ import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
 import AppLoadingTemplate from '../AppLoading';
+import { GText } from '../Gatgu';
 import Header from '../Header';
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -191,7 +192,11 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/display-name
-      headerRight: () => <Button title="완료" onPress={submit} />,
+      headerRight: () => (
+        <GText touchable onPress={submit}>
+          완료
+        </GText>
+      ),
     });
   });
 
