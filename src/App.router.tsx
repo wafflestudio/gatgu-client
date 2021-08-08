@@ -1,7 +1,6 @@
 import React from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery } from 'react-query';
 
 import {
   NavigationContainer,
@@ -11,17 +10,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
 
-import { getMyData } from './apis/UserApi';
 import GatguWebsocket from './helpers/GatguWebsocket/GatguWebsocket';
 import { useUserDetail } from './helpers/hooks/api';
-import { USER_DETAIL } from './queryKeys';
 import AuthStackScreen, {
   TAuthStackParamList,
 } from './screens/AuthStack/AuthStack';
 import ChattingRoomStackScreen, {
   TChattingRoomStackParamList,
 } from './screens/ChattingRoomStack/ChattingRoomStack';
-import { IUserDetail } from './types/user';
 
 export enum EAppStackScreens {
   AuthStack = 'AuthStack',

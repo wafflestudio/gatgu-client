@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, Alert } from 'react-native';
-import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -9,17 +8,14 @@ import {
 } from '@react-navigation/drawer';
 
 import { articleAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
 import { Button, ReportModal } from '@/components';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { OrderStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { changeOrderStatus } from '@/store/chatSlice';
 import { palette } from '@/styles';
-import { IUserDetail } from '@/types/user';
 
 import styles from './Drawer.style';
 

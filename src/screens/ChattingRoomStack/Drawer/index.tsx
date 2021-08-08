@@ -16,7 +16,7 @@ import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { ChattingDrawerParamList } from '@/types/navigation';
-import { IChatUserProps, IUserDetail } from '@/types/user';
+import { IChatUserProps } from '@/types/user';
 
 import styles from './Drawer.style';
 import StatusModal from './Modal';

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
@@ -9,17 +8,13 @@ import { DateTime } from 'luxon';
 import { useNavigation } from '@react-navigation/core';
 
 import { chatAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
 import { CursorFlatList } from '@/components';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useCursorPagination } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { AppRoutes } from '@/helpers/routes';
-import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';
-import { IUserDetail } from '@/types/user';
 
 import ChattingBox from './ChattingBox';
 
