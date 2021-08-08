@@ -19,25 +19,18 @@ const fieldNames = [
         remove random key generator when api will change
 */
 
-interface IImageDict {
-  uri: string;
-  mime: string;
-}
-// type TUseImageUpload = ;
-
 const useImageUpload = (type: APItype, id?: number) => {
   const createPresignedPost = (id?: number): Promise<AxiosResponse> => {
     const ID = type === APItype.user ? '' : `${id}/`;
-    console.log(`${type}/${ID}create_presigned_post/`);
     return requester.put(`${type}/${ID}create_presigned_post/`);
   };
 
   const uploadSingleImage = async (image: TShortImage) => {
     return await createPresignedPost(id)
       .then(async (res) => {
-        const filename = res.data.file_name;
-        const url = res.data.response.url;
+        const filename = res.data.response.fields.key;
         const fields = res.data.response.fields;
+        const url = res.data.response.url;
 
         // set body fields (for s3 authentication)
         const body = new FormData();
@@ -58,12 +51,11 @@ const useImageUpload = (type: APItype, id?: number) => {
           method: 'POST',
           body: body,
         }).then((r: any) => {
-          console.log(r.headers['map']['location']);
           return r.headers['map']['location'];
         });
       })
       .catch((err) => {
-        console.log('ERROR: ext', err);
+        console.log('IMAGE UPLOAD ERROR', err);
       });
   };
 

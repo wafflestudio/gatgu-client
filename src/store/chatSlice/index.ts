@@ -61,7 +61,7 @@ const chatSlice = createSlice({
       state.participantsList = payload;
     },
 
-    setToggle: (state, { payload }: PayloadAction<boolean>) => {
+    setToggle: (state) => {
       state.toggleChatList = !state.toggleChatList;
     },
   },
@@ -121,7 +121,7 @@ export const fetchingParticipants = (roomId: number): AppThunk => (
       dispatch(setParticipantsList(response.data));
     })
     .catch((err: AxiosError) => {
-      console.log(err);
+      console.log('FETCHING PARTICIPANTS', err);
     });
 };
 

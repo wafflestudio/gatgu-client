@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Text, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import FAIcon from 'react-native-vector-icons/FontAwesome';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { emptyURL } from '@/constants/image';
 import { IMessageImage } from '@/types/chat';
@@ -61,16 +63,16 @@ function ChatBox({
         {!isSameTime && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
-        <Bubble message={text} isSelf={isSelf} />
+        {text.length != 0 ? <Bubble message={text} isSelf={isSelf} /> : null}
         {image.length > 0 && image[0].img_url !== emptyURL && (
           <Image
             source={{ uri: image[0].img_url }}
-            style={{ width: 101, height: 76, marginRight: 10 }}
+            style={styles.messageImage}
           />
         )}
       </View>
     ),
-    [isSelf, isSameTime, text, sentTime]
+    [isSelf, isSameTime, text, sentTime, image]
   );
 
   const renderedName = useMemo(
@@ -114,23 +116,18 @@ function ChatBox({
               <TouchableOpacity
                 onPress={() =>
                   resend(
-                    { text: text, imgUrl: 'www.google.com' },
-                    `-${websocket_id}`
+                    { text: text, imgUrl: image[0].img_url },
+                    `${websocket_id}`
                   )
                 }
               >
-                <Text>REP</Text>
+                <FAIcon name="repeat" size={16} color="#00000" />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
-                <Text>DEL</Text>
+                <MCIcon name="delete" size={16} color="#00000" />
               </TouchableOpacity>
             </View>
           ) : null}
-          {/* {image.img_url.length ? (
-            <Image source={{ uri: image.img_url }} style={styles.messageImage} />
-          ) : (
-            renderedBubbleTime
-          )} */}
         </View>
       </View>
     </View>

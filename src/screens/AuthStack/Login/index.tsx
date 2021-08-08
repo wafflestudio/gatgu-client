@@ -16,7 +16,7 @@ import { GButton } from '@/components/Gatgu/GButton';
 import { GSpace } from '@/components/Gatgu/GSpace';
 import { GText } from '@/components/Gatgu/GText';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ObjectStorage, StringStorage } from '@/helpers/functions/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { setAccessToken } from '@/store/userSlice';
 import { palette } from '@/styles';
 
