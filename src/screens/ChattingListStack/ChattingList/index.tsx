@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useQuery } from 'react-query';
@@ -14,7 +14,6 @@ import { CursorFlatList } from '@/components';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useCursorPagination } from '@/helpers/hooks';
-import { AppRoutes } from '@/helpers/routes';
 import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';

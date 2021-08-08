@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import requester, { requester2 } from '@/apis/BaseInstance';
+import requester from '@/apis/BaseInstance';
 import { APItype } from '@/enums/image';
 import { TShortImage } from '@/types/shared';
 
@@ -18,12 +18,6 @@ const fieldNames = [
 /* TODO:
         remove random key generator when api will change
 */
-
-interface IImageDict {
-  uri: string;
-  mime: string;
-}
-// type TUseImageUpload = ;
 
 const useImageUpload = (type: APItype, id?: number) => {
   const createPresignedPost = (id?: number): Promise<AxiosResponse> => {

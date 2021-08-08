@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactNodeArray } from 'react';
+import React, { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import logo from '@/assets/icons/Logo';

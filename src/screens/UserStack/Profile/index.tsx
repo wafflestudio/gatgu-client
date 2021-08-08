@@ -1,5 +1,5 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
-import { Alert, TouchableHighlight, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useDispatch, useSelector } from 'react-redux';
 

@@ -1,12 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, FlatList, Image, Alert } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
-import { Button, Checkbox, Modal } from 'native-base';
-import { stringify } from 'querystring';
+import { Button, Checkbox } from 'native-base';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
@@ -19,18 +17,11 @@ import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
-import { IChatMessage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
 import { IChatUserProps, IUserDetail } from '@/types/user';
 
 import styles from './Drawer.style';
 import StatusModal from './Modal';
-
-interface IDrawerTemplateProps {
-  pictureUrls: string[];
-  users: IChatUserProps[];
-  // [x: string]: any;
-}
 
 function Drawer(): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();

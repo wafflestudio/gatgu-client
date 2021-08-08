@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { View, Image, TouchableHighlight } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Image as TImage } from 'react-native-image-crop-picker';

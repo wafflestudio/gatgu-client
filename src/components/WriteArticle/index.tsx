@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Button, View, Alert, Text } from 'react-native';
+import { ScrollView, Button, View, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { KeyboardAvoidingView, Spinner } from 'native-base';
@@ -21,7 +21,7 @@ import {
   getSingleArticle,
 } from '@/store/articleSlice';
 import { palette } from '@/styles';
-import { IPostArticle, ITagType } from '@/types/article';
+import { IPostArticle } from '@/types/article';
 import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
@@ -45,10 +45,6 @@ const [Error] = createError();
 interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
 }
-
-const TagArray = tagNames.map((item, indx) => {
-  return { id: indx, tag: item, selected: false };
-});
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<TShortImage[]>([]);

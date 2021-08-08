@@ -94,7 +94,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
      * TODO:
      * order_chat.participant_profile 타입이 정해지면 구현하겠습니다.
      */
-    return order_chat.participant_profile.map((t) => <></>);
+    return order_chat.participant_profile.map(() => <></>);
   };
 
   return (

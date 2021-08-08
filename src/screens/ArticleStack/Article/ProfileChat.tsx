@@ -3,10 +3,8 @@ import { Alert } from 'react-native';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 
-import { DateTime } from 'luxon';
 import { Button, Flex } from 'native-base';
 
-import { EAppStackScreens } from '@/App.router';
 import { userAPI } from '@/apis';
 import { getMyData } from '@/apis/UserApi';
 import { Profile } from '@/components';
@@ -17,18 +15,12 @@ import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useShallowSelector from '@/helpers/hooks/useSelector';
 import { AppRoutes } from '@/helpers/routes';
 import { USER_DETAIL } from '@/queryKeys';
-import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { palette } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
 import { IUserDetail, IUserSimple } from '@/types/user';
 
 import styles from './ProfileChat.style';
-
-type TWsEnterRoomSuccess = {
-  type: 'ENTER_ROOM_SUCCESS';
-  data: unknown;
-};
 
 interface IProfileChat {
   article: IArticleProps;
@@ -41,7 +33,6 @@ interface IObject {
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const navigation = useAppNavigation();
   const article_id = article.article_id;
-  const [retryMap, setRetryMap] = useState<IObject>({});
   const dispatch = useDispatch();
   const { sendWsMessage } = GatguWebsocket.useMessage();
 
@@ -87,7 +78,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
           }
         }
       })
-      .catch((e) => {
+      .catch(() => {
         Alert.alert("Can't access chatroom. Check your connection");
       });
   };
