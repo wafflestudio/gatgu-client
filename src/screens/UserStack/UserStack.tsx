@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createGatguStackNavigator } from '@/helpers/functions/navigation';
 
 import { Configs } from './Configs';
 import Profile from './Profile';
@@ -21,14 +21,14 @@ export type TUserStackParamList = {
   [EUserStackScreens.Configs]: undefined;
 };
 
-const UserStack = createStackNavigator<TUserStackParamList>();
+const UserStack = createGatguStackNavigator<TUserStackParamList>();
 
 const UserStackScreen: React.FC = () => {
   return (
     <UserStack.Navigator
-      screenOptions={{
-        headerStatusBarHeight: 0,
-      }}
+    // screenOptions={{
+    //   headerStatusBarHeight: 0,
+    // }}
     >
       <UserStack.Screen name={EUserStackScreens.Profile} component={Profile} />
       <UserStack.Screen

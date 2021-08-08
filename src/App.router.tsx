@@ -6,11 +6,11 @@ import {
   NavigationContainer,
   NavigatorScreenParams,
 } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
 import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
 
 import GatguWebsocket from './helpers/GatguWebsocket/GatguWebsocket';
+import { createGatguStackNavigator } from './helpers/functions/navigation';
 import { useUserDetail } from './helpers/hooks/api';
 import AuthStackScreen, {
   TAuthStackParamList,
@@ -33,7 +33,7 @@ export type TAppStackParamList = {
   TMainTabsParamList &
   TChattingRoomStackParamList;
 
-const AppStack = createStackNavigator<TAppStackParamList>();
+const AppStack = createGatguStackNavigator<TAppStackParamList>();
 
 const AppRouter: React.FC = () => {
   const userQuery = useUserDetail();

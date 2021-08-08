@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { NavigatorScreenParams } from '@react-navigation/core';
-import { createStackNavigator } from '@react-navigation/stack';
 
 import logo from '@/assets/icons/Logo';
+import { createGatguStackNavigator } from '@/helpers/functions/navigation';
 
 import ArticleStackScreen, {
   TArticleStackScreenParamList,
@@ -23,15 +23,11 @@ export type THomeStackParamList = {
   [EHomeStackScreens.ArticleStack]: NavigatorScreenParams<TArticleStackScreenParamList>;
 } & TArticleStackScreenParamList;
 
-const HomeStack = createStackNavigator<THomeStackParamList>();
+const HomeStack = createGatguStackNavigator<THomeStackParamList>();
 
 const HomeStackScreen: React.FC = () => {
   return (
-    <HomeStack.Navigator
-      screenOptions={{
-        headerStatusBarHeight: 0,
-      }}
-    >
+    <HomeStack.Navigator>
       <HomeStack.Screen
         name={EHomeStackScreens.Home}
         component={Home}
