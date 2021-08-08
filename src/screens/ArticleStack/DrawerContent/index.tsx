@@ -14,6 +14,7 @@ import { Button, ReportModal } from '@/components';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { OrderStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { changeOrderStatus } from '@/store/chatSlice';
@@ -27,9 +28,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const dispatch = useDispatch();
   const toaster = useToaster();
 
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const currentUser = useUserDetail().data;
 
   const { order_chat, writer_id, article_id } = useSelector(
     (state: RootState) => state.article.currentArticle

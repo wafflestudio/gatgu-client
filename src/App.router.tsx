@@ -13,6 +13,7 @@ import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
 
 import { getMyData } from './apis/UserApi';
 import GatguWebsocket from './helpers/GatguWebsocket/GatguWebsocket';
+import { useUserDetail } from './helpers/hooks/api';
 import { USER_DETAIL } from './queryKeys';
 import AuthStackScreen, {
   TAuthStackParamList,
@@ -39,9 +40,7 @@ export type TAppStackParamList = {
 const AppStack = createStackNavigator<TAppStackParamList>();
 
 const AppRouter: React.FC = () => {
-  const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  );
+  const userQuery = useUserDetail();
   GatguWebsocket.useInit({
     url: `ws://e2b808ab505c.ngrok.io/ws/chat/${userQuery.data?.id}/`,
     // url: 'ws://67063aea84d4.ngrok.io/ws/chat',
