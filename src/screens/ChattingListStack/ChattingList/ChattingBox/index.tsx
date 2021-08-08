@@ -1,13 +1,11 @@
 import React, { useMemo } from 'react';
 import { View, Text } from 'react-native';
 
-import { Image } from 'native-base';
-
 import { InfoContainer } from '@/components';
 import Thumbnail from '@/components/Thumbnail/Thumbnail';
 import { OrderStatus } from '@/enums';
 import { toUnix } from '@/helpers/functions/time';
-import { IChatListSinglePreview, IChattingRoom } from '@/types/chat';
+import { IChatListSinglePreview } from '@/types/chat';
 
 import styles from './ChattingBox.style';
 

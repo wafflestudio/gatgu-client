@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, Alert } from 'react-native';
-import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -9,17 +8,14 @@ import {
 } from '@react-navigation/drawer';
 
 import { articleAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
 import { Button, ReportModal } from '@/components';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { OrderStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { USER_DETAIL } from '@/queryKeys';
 import { RootState } from '@/store';
 import { changeOrderStatus } from '@/store/chatSlice';
 import { palette } from '@/styles';
-import { IUserDetail } from '@/types/user';
 
 import styles from './Drawer.style';
 
@@ -93,7 +89,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
      * TODO:
      * order_chat.participant_profile 타입이 정해지면 구현하겠습니다.
      */
-    return order_chat.participant_profile.map((t) => <></>);
+    return order_chat.participant_profile.map(() => <></>);
   };
 
   return (

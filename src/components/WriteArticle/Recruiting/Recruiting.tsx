@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { Input as SInput } from 'native-base';
-
 import { StringInput } from '@/components';
 
 import waStyles from '../WriteArticle.style';

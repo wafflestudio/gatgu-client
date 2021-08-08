@@ -12,7 +12,7 @@ import { login } from '@/apis/UserApi';
 import Logo from '@/assets/icons/Logo';
 import { Button } from '@/components';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ObjectStorage, StringStorage } from '@/helpers/functions/asyncStorage';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { setAccessToken } from '@/store/userSlice';
 import { palette } from '@/styles';
 

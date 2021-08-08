@@ -63,8 +63,11 @@ export type IPostArticle = Pick<
   | 'product_url'
   | 'price_min'
   | 'time_in'
-> &
-  Pick<Partial<IArticleProps>, 'images' | 'tag'>;
+> & { img_urls: IArticleImage[] };
+/** when posting, must send with 'img_urls'
+ *  when receiving (get), must get with 'images'
+ *  Pick<Partial<IArticleProps>, 'img_urls' | 'tag'>;
+ */
 
 export interface ITagType {
   id: number;

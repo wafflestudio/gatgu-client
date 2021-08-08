@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
-import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 
 import { DateTime } from 'luxon';
@@ -8,26 +7,17 @@ import { DateTime } from 'luxon';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { chatAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { USER_DETAIL } from '@/queryKeys';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
-import { IUserDetail } from '@/types/user';
 
 import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
 import InputBar from './InputBar';
-
-// import { ResendMessage } from '@/helpers/hooks/useResendMessage';
-
-interface IChattingRetryMap {
-  [key: string]: [number, number]; // [timeoutID, retry count]
-}
 
 export interface IWSChatMessage {
   message: IChatMessage;
@@ -45,7 +35,6 @@ function ChattingRoom(): JSX.Element {
 
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
-  const [retryMap, setRetryMap] = useState<IChattingRetryMap>({});
   const [input, setInput] = useState<IMessageImage>({
     text: '',
     imgUrl: emptyURL,
@@ -68,7 +57,7 @@ function ChattingRoom(): JSX.Element {
       .catch((e) => {
         console.debug('GET CHATTING MESSAGES', e);
       });
-  }, []);
+  }, [roomID]);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
     // reset input
