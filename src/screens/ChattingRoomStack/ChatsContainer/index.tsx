@@ -22,12 +22,6 @@ import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
 import InputBar from './InputBar';
 
-// import { ResendMessage } from '@/helpers/hooks/useResendMessage';
-
-interface IChattingRetryMap {
-  [key: string]: [number, number]; // [timeoutID, retry count]
-}
-
 export interface IWSChatMessage {
   message: IChatMessage;
   websocket_id?: string;

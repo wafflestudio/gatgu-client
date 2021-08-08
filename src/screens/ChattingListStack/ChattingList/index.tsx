@@ -21,10 +21,6 @@ import { IUserDetail } from '@/types/user';
 
 import ChattingBox from './ChattingBox';
 
-interface IObject {
-  [key: string]: [number, number, number]; // [timeoutID, retry count, articleID]
-}
-
 function ChattingList(): JSX.Element {
   const navigation = useNavigation();
   const {
