@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
-import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 
 import { Button, Flex } from 'native-base';
 
 import { userAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
 import { Profile } from '@/components';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
@@ -15,11 +13,10 @@ import { useUserDetail } from '@/helpers/hooks/api';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useShallowSelector from '@/helpers/hooks/useSelector';
 import { AppRoutes } from '@/helpers/routes';
-import { USER_DETAIL } from '@/queryKeys';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { palette } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
-import { IUserDetail, IUserSimple } from '@/types/user';
+import { IUserSimple } from '@/types/user';
 
 import styles from './ProfileChat.style';
 
