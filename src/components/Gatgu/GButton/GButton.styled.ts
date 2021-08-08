@@ -72,6 +72,16 @@ const cssButtonThemes: Record<GButtonTheme, Record<GButtonVariant, any>> = {
       border: 1px solid ${palette.blue};
     `,
   },
+  gray: {
+    filled: css`
+      background-color: ${palette.gray};
+      border: 1px solid ${palette.gray};
+    `,
+    outlined: css`
+      background-color: ${palette.white};
+      border: 1px solid ${palette.gray};
+    `,
+  },
 };
 
 export const StyledButtonWrapper = styled.TouchableOpacity<PickedGButtonProps>`
