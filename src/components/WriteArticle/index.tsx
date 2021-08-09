@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Button, View, Alert } from 'react-native';
+import { ScrollView, Button, View, Alert, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { KeyboardAvoidingView, Spinner } from 'native-base';
+import {
+  KeyboardAvoidingView,
+  Spinner,
+  useStyledSystemPropsResolver,
+} from 'native-base';
+import { marginRight } from 'styled-system';
 
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -47,6 +52,7 @@ interface IWriteArticleProps {
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<TShortImage[]>([]);
+  const [imagesChanged, setImagesChanged] = useState<boolean>(false);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -59,7 +65,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const dispatch = useDispatch();
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
-  const { uploadMultipleImages } = useImageUpload(APItype.article, id);
+  const { uploadMultipleImages, uploadSingleImage } = useImageUpload(
+    APItype.article,
+    id
+  );
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
@@ -96,15 +105,21 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   useEffect(() => {
     if (isEdit && currentArticle) {
-      console.log(currentArticle);
       setTitle(currentArticle.title);
       setDescription(currentArticle.description);
       setLocation(currentArticle.trading_place);
       setLink(currentArticle.product_url);
       handlePrice(`${currentArticle.price_min}`);
-      setDueDate(new Date()); // FIXME:
+      setDueDate(new Date());
       // optional:
-      currentArticle.images && setImages(images);
+      if (currentArticle.images.length > 0) {
+        setImagesChanged(false);
+        setImages(
+          currentArticle.images.map((img) => {
+            return { mime: 'jpeg', path: img.img_url };
+          })
+        );
+      }
       /** ADD WHEN TAGS ARE USED
         if (currentArticle.tag) {
           const temp = currentArticle.tag.map((i, num) => {
@@ -139,12 +154,12 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       return;
     }
     const checkImages =
-      images.length > 0
+      images.length > 0 && imagesChanged
         ? uploadMultipleImages(images)
         : new Promise<string[]>((resolve) => resolve([]));
 
     checkImages
-      .then((urls) => {
+      .then((urls: any) => {
         const tempArticle = {
           title: title,
           description: description,
@@ -200,9 +215,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       {isEdit ? (
         <Header
           title="글 수정하기"
-          left={<Button title="취소" onPress={submit} />}
+          left={<Button title="취소" onPress={() => navigation.goBack()} />}
           right={<Button title="완료" onPress={submit} />}
-          rightCallback={submit}
         />
       ) : null}
       {loading ? (
@@ -223,7 +237,12 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             <KeyboardAvoidingView>
               {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
               <DueDate dueDate={dueDate} setDueDate={setDueDate} />
-              <AddImage images={images} setImages={setImages} />
+              <AddImage
+                images={images}
+                setImages={setImages}
+                isEdit={isEdit}
+                setChanged={setImagesChanged}
+              />
               <Title title={title} setTitle={setTitle} />
               <Recruiting needPrice={need_price} setPrice={handlePrice} />
               <Location location={location} setLocation={setLocation} />

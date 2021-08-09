@@ -15,9 +15,16 @@ import styles from './AddImage.style';
 interface AddImageProps {
   images: TShortImage[];
   setImages: Dispatch<SetStateAction<TShortImage[]>>;
+  isEdit: boolean;
+  setChanged: Dispatch<SetStateAction<boolean>>;
 }
 
-function AddImage({ images, setImages }: AddImageProps): JSX.Element {
+function AddImage({
+  images,
+  setImages,
+  isEdit,
+  setChanged,
+}: AddImageProps): JSX.Element {
   const { pickMultipleImage } = usePickImage({
     width: 300,
     height: 400,
@@ -32,6 +39,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
 
     pickMultipleImage()
       .then((imgs) => {
+        if (isEdit) setChanged(true);
         imgs &&
           imgs.forEach((item: TImage) => {
             tempArrSend.push({ mime: item.mime, path: item.path });
