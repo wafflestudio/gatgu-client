@@ -23,7 +23,7 @@ interface AddImageProps {
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean[]>([false]);
 
   const { pickMultipleImage } = usePickImage({
     width: 300,
@@ -60,7 +60,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
       (item, key): JSX.Element => (
         <View
           style={
-            loading
+            loading[key]
               ? styles.loading
               : key == 0
               ? styles.thumbnailContainer
@@ -69,13 +69,23 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
           key={key}
         >
           <Image
-            style={!loading && (key == 0 ? styles.thumbnail : styles.photo)}
+            style={
+              !loading[key] && (key == 0 ? styles.thumbnail : styles.photo)
+            }
             source={{ uri: item.path }}
-            onLoadStart={() => setLoading(true)}
-            onLoadEnd={() => setLoading(false)}
+            onLoadStart={() => {
+              const prev = _.cloneDeep(loading);
+              prev[key] = true;
+              setLoading(prev);
+            }}
+            onLoadEnd={() => {
+              const prev = _.cloneDeep(loading);
+              prev[key] = false;
+              setLoading(prev);
+            }}
           />
-          {loading && <ActivityIndicator />}
-          {!loading && (
+          {loading[key] && <ActivityIndicator />}
+          {!loading[key] && (
             <TouchableHighlight
               style={
                 key == 0
