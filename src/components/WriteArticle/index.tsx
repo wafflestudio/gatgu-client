@@ -52,7 +52,6 @@ interface IWriteArticleProps {
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<TShortImage[]>([]);
-  const [imagesChanged, setImagesChanged] = useState<boolean>(false);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -113,10 +112,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       setDueDate(new Date());
       // optional:
       if (currentArticle.images.length > 0) {
-        setImagesChanged(false);
         setImages(
           currentArticle.images.map((img) => {
-            return { mime: 'jpeg', path: img.img_url };
+            return { mime: 'uploaded', path: img.img_url };
           })
         );
       }
@@ -154,7 +152,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       return;
     }
     const checkImages =
-      images.length > 0 && imagesChanged
+      images.length > 0
         ? uploadMultipleImages(images)
         : new Promise<string[]>((resolve) => resolve([]));
 
@@ -237,12 +235,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             <KeyboardAvoidingView>
               {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
               <DueDate dueDate={dueDate} setDueDate={setDueDate} />
-              <AddImage
-                images={images}
-                setImages={setImages}
-                isEdit={isEdit}
-                setChanged={setImagesChanged}
-              />
+              <AddImage images={images} setImages={setImages} />
               <Title title={title} setTitle={setTitle} />
               <Recruiting needPrice={need_price} setPrice={handlePrice} />
               <Location location={location} setLocation={setLocation} />
