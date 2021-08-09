@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -23,7 +23,9 @@ interface AddImageProps {
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
-  const [loading, setLoading] = useState<boolean[]>([false]);
+  const [loading, setLoading] = useState<boolean[]>(
+    new Array(images.length).fill(false)
+  );
 
   const { pickMultipleImage } = usePickImage({
     width: 300,
