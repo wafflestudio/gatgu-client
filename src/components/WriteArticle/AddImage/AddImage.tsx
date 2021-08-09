@@ -38,7 +38,6 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
           });
       })
       .then(() => {
-        console.log('dh', tempArrSend);
         setImages(tempArrSend);
       });
   };
@@ -59,6 +58,7 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
           <Image
             style={key == 0 ? styles.thumbnail : styles.photo}
             source={{ uri: item.path }}
+            loadingIndicatorSource={require('@/assets/images/no-image.png')}
           />
           <TouchableHighlight
             style={
