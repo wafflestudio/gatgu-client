@@ -71,6 +71,13 @@ const AddImageStyle = StyleSheet.create({
     alignSelf: 'center',
   },
 
+  loading: {
+    width: 100,
+    height: 10,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+
   thumbnailButtonContainer: {
     position: 'absolute',
     top: -9,

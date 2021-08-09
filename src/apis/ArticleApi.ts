@@ -43,7 +43,7 @@ export const getArticles = (
 
 // for article POST
 export const create = (article: IPostArticle): Promise<AxiosResponse> => {
-  console.log(article);
+  console.log('POST ARTICLE', article);
   return requester.post('articles/', article);
 };
 
@@ -63,8 +63,7 @@ export const editArticle = (
   body: IPostArticle
 ): Promise<AxiosResponse> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
-    const headers = getToken(res);
-    return requester.put(`articles/${id}/`, body, { headers });
+    return requester.patch(`articles/${id}/`, body);
   });
 };
 

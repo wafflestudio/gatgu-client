@@ -62,8 +62,9 @@ const useImageUpload = (type: APItype, id?: number) => {
   const uploadMultipleImages = async (images: TShortImage[]) => {
     return await Promise.all(
       images.map((image) => {
-        console.log('everything');
-        return uploadSingleImage(image);
+        if (image.mime === 'uploaded') {
+          return new Promise<string>((resolve) => resolve(image.path));
+        } else return uploadSingleImage(image);
       })
     );
   };

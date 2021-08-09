@@ -1,5 +1,10 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { View, Image, TouchableHighlight } from 'react-native';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  View,
+  Image,
+  TouchableHighlight,
+  ActivityIndicator,
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Image as TImage } from 'react-native-image-crop-picker';
 
@@ -18,6 +23,10 @@ interface AddImageProps {
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
+  const [loading, setLoading] = useState<boolean[]>(
+    new Array(images.length).fill(false)
+  );
+
   const { pickMultipleImage } = usePickImage({
     width: 300,
     height: 400,
@@ -38,7 +47,6 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
           });
       })
       .then(() => {
-        console.log('dh', tempArrSend);
         setImages(tempArrSend);
       });
   };
@@ -53,25 +61,46 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     images.map(
       (item, key): JSX.Element => (
         <View
-          style={key == 0 ? styles.thumbnailContainer : styles.photoContainer}
+          style={
+            loading[key]
+              ? styles.loading
+              : key == 0
+              ? styles.thumbnailContainer
+              : styles.photoContainer
+          }
           key={key}
         >
           <Image
-            style={key == 0 ? styles.thumbnail : styles.photo}
-            source={{ uri: item.path }}
-          />
-          <TouchableHighlight
             style={
-              key == 0
-                ? styles.thumbnailButtonContainer
-                : styles.buttonContainer
+              !loading[key] && (key == 0 ? styles.thumbnail : styles.photo)
             }
-            onPress={() => deleteImage(key)}
-          >
-            <View style={styles.button}>
-              <XSign />
-            </View>
-          </TouchableHighlight>
+            source={{ uri: item.path }}
+            onLoadStart={() => {
+              const prev = _.cloneDeep(loading);
+              prev[key] = true;
+              setLoading(prev);
+            }}
+            onLoadEnd={() => {
+              const prev = _.cloneDeep(loading);
+              prev[key] = false;
+              setLoading(prev);
+            }}
+          />
+          {loading[key] && <ActivityIndicator />}
+          {!loading[key] && (
+            <TouchableHighlight
+              style={
+                key == 0
+                  ? styles.thumbnailButtonContainer
+                  : styles.buttonContainer
+              }
+              onPress={() => deleteImage(key)}
+            >
+              <View style={styles.button}>
+                <XSign />
+              </View>
+            </TouchableHighlight>
+          )}
         </View>
       )
     );
