@@ -1,5 +1,10 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { View, Image, TouchableHighlight } from 'react-native';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import {
+  View,
+  Image,
+  TouchableHighlight,
+  ActivityIndicator,
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Image as TImage } from 'react-native-image-crop-picker';
 
@@ -18,6 +23,8 @@ interface AddImageProps {
 }
 
 function AddImage({ images, setImages }: AddImageProps): JSX.Element {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const { pickMultipleImage } = usePickImage({
     width: 300,
     height: 400,
@@ -52,26 +59,36 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     images.map(
       (item, key): JSX.Element => (
         <View
-          style={key == 0 ? styles.thumbnailContainer : styles.photoContainer}
+          style={
+            loading
+              ? styles.loading
+              : key == 0
+              ? styles.thumbnailContainer
+              : styles.photoContainer
+          }
           key={key}
         >
           <Image
-            style={key == 0 ? styles.thumbnail : styles.photo}
+            style={!loading && (key == 0 ? styles.thumbnail : styles.photo)}
             source={{ uri: item.path }}
-            loadingIndicatorSource={require('@/assets/images/no-image.png')}
+            onLoadStart={() => setLoading(true)}
+            onLoadEnd={() => setLoading(false)}
           />
-          <TouchableHighlight
-            style={
-              key == 0
-                ? styles.thumbnailButtonContainer
-                : styles.buttonContainer
-            }
-            onPress={() => deleteImage(key)}
-          >
-            <View style={styles.button}>
-              <XSign />
-            </View>
-          </TouchableHighlight>
+          {loading && <ActivityIndicator />}
+          {!loading && (
+            <TouchableHighlight
+              style={
+                key == 0
+                  ? styles.thumbnailButtonContainer
+                  : styles.buttonContainer
+              }
+              onPress={() => deleteImage(key)}
+            >
+              <View style={styles.button}>
+                <XSign />
+              </View>
+            </TouchableHighlight>
+          )}
         </View>
       )
     );
