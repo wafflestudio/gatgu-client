@@ -124,7 +124,7 @@ function ChattingRoom(): JSX.Element {
             // updated_at: currentUser.userprofile.updated_at.getTime()/1000,
             // withdrew_at: currentUser.userprofile.withdrew_at.getTime()/1000
           },
-          sent_at: `${DateTime.now()}`,
+          sent_at: Date.now(),
           system: false,
           type: 'non-system',
         },

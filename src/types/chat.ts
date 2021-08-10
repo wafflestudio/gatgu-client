@@ -63,7 +63,7 @@ export interface IChatMessage {
     updated_at: number;
     withdrew_at: number | null;
   };
-  sent_at: string;
+  sent_at: number;
   type: string;
   system?: boolean;
 }

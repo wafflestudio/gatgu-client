@@ -37,15 +37,12 @@ export const getArticles = (
   });
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
-  console.log('HOME1', url, keyword);
   url = `articles/${url ? `${url}&` : '?'}`;
-  console.log('HOME', `${url} ***** ${query}`);
   return requester.get(`${url}${query}`);
 };
 
 // for article POST
 export const create = (article: IPostArticle): Promise<AxiosResponse> => {
-  console.log(article);
   return requester.post('articles/', article);
 };
 

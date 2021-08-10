@@ -4,8 +4,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { DateTime } from 'luxon';
+
 import { emptyURL } from '@/constants/image';
-import { toLocaleTimeStringNoSecs } from '@/helpers/functions/time';
 import { IMessageImage } from '@/types/chat';
 
 import { IWSChatMessage } from '..';
@@ -48,7 +49,7 @@ function ChatBox({
 
   // 00:00 format
   const sentTime = useMemo(() => {
-    return toLocaleTimeStringNoSecs(sent_at);
+    return DateTime.fromMillis(sent_at).toFormat('hh:mm');
   }, [sent_at]);
 
   // message + time
