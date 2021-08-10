@@ -4,6 +4,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 
 import { Button } from '@/components';
+import { GButton } from '@/components/Gatgu/GButton';
 import { SignUpStackParamList } from '@/types/navigation';
 
 import styles from './TOS.style';
@@ -41,12 +42,9 @@ const ServiceTerms: React.FC<IServiceTerms> = () => {
       <ScrollView style={styles.contentView}>
         <Text style={styles.contentText}>{contents[title]}</Text>
       </ScrollView>
-      <Button
-        style={styles.confirmBtn}
-        textStyle={styles.confirmBtnText}
-        title="동의하기"
-        onPress={confirm}
-      />
+      <GButton size="small" onPress={confirm}>
+        동의하기
+      </GButton>
     </View>
   );
 };

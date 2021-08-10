@@ -75,7 +75,7 @@ function ChatBox({
         </View>
       </View>
     ),
-    [isSelf, isSameTime, text, sentTime]
+    [isSelf, isSameTime, text, sentTime, image]
   );
 
   const renderedName = useMemo(

@@ -1,40 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
-import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
-import { Flex, Spinner } from 'native-base';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { chatAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
-import { CursorFlatList } from '@/components';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
-import { USER_DETAIL } from '@/queryKeys';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { refetchChattingList } from '@/store/chatSlice';
-import {
-  IAllMessagesResponse,
-  IChatMessage,
-  IMessageImage,
-} from '@/types/chat';
+import { IChatMessage, IMessageImage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
-import { IUserDetail } from '@/types/user';
 
 import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
 import InputBar from './InputBar';
-
-// import { ResendMessage } from '@/helpers/hooks/useResendMessage';
-
-interface IChattingRetryMap {
-  [key: string]: [number, number]; // [timeoutID, retry count]
-}
 
 export interface IWSChatMessage {
   message: IChatMessage;
@@ -45,9 +30,7 @@ export interface IWSChatMessage {
 function ChattingRoom(): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const dispatch = useDispatch();
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
   const roomID = route.params.id;
   const [nextCursor, setCursor] = useState<string | null>();

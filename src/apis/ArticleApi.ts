@@ -62,8 +62,7 @@ export const editArticle = (
   body: IPostArticle
 ): Promise<AxiosResponse> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
-    const headers = getToken(res);
-    return requester.put(`articles/${id}/`, body, { headers });
+    return requester.patch(`articles/${id}/`, body);
   });
 };
 

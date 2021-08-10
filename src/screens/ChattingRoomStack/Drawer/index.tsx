@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View, Text, FlatList, Image, Alert } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useQuery } from 'react-query';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
@@ -10,32 +15,23 @@ import { Checkbox } from 'native-base';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { chatAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
 import { Profile } from '@/components';
 import { ParticipantStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
-import { USER_DETAIL } from '@/queryKeys';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { ChattingDrawerParamList } from '@/types/navigation';
-import { IChatUserProps, IUserDetail } from '@/types/user';
+import { IChatUserProps } from '@/types/user';
 
 import styles from './Drawer.style';
 import StatusModal from './Modal';
 
-interface IDrawerTemplateProps {
-  pictureUrls: string[];
-  users: IChatUserProps[];
-  // [x: string]: any;
-}
-
 function Drawer(): JSX.Element {
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const dispatch = useDispatch();
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
   const roomID = route.params.params.id; // TODO @juimdpp to debug
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
@@ -61,18 +57,18 @@ function Drawer(): JSX.Element {
         return person.participant.user_id === userID;
       }).length === 0
     );
-  }, [participants]);
+  }, [participants, userID]);
 
   useEffect(() => {
     // fetch participants' info
     dispatch(fetchingParticipants(roomID));
-  }, [roomID]);
+  }, [roomID, dispatch]);
   useEffect(() => {
     // fetch all images
     chatAPI.getChatPictures(roomID).then((res) => {
       setPictureUrls(res.data.map((img) => img.img_url));
     });
-  }, []);
+  }, [roomID]);
 
   const renderPicure = ({ item: uri }: { item: string }) => (
     <Image source={{ uri }} style={styles.image} />

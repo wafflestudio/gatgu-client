@@ -19,6 +19,7 @@ const FootTermsStyle = StyleSheet.create({
   smallText: {
     ...typo.smallText,
     color: palette.gray,
+    marginHorizontal: 10,
   },
 });
 

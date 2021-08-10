@@ -1,10 +1,9 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TextInput,
   Text,
   GestureResponderEvent,
-  Alert,
   Image,
   ActivityIndicator,
 } from 'react-native';
@@ -12,7 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Button, Modal, TextArea, ToastProvider } from 'native-base';
+import { Button, Modal } from 'native-base';
 
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';

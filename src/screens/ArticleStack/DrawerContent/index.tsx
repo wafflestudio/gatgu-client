@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, Alert } from 'react-native';
-import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -9,27 +8,23 @@ import {
 } from '@react-navigation/drawer';
 
 import { articleAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
-import { Button, ReportModal } from '@/components';
+import { ReportModal } from '@/components';
+import { GText } from '@/components/Gatgu/';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { OrderStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
-import { USER_DETAIL } from '@/queryKeys';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { changeOrderStatus } from '@/store/chatSlice';
-import { palette } from '@/styles';
-import { IUserDetail } from '@/types/user';
 
-import styles from './Drawer.style';
+import styles, { StyledArticleDrawerMenuText } from './Drawer.style';
 
 const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const navigation = props.navigation;
   const dispatch = useDispatch();
   const toaster = useToaster();
 
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const currentUser = useUserDetail().data;
 
   const { order_chat, writer_id, article_id } = useSelector(
     (state: RootState) => state.article.currentArticle
@@ -94,7 +89,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
      * TODO:
      * order_chat.participant_profile 타입이 정해지면 구현하겠습니다.
      */
-    return order_chat.participant_profile.map((t) => <></>);
+    return order_chat.participant_profile.map(() => <></>);
   };
 
   return (
@@ -103,28 +98,33 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         <View style={styles.upperContainer}>
           {isMyArticle ? (
             <>
-              <Button
-                title="모집 완료하기"
+              <StyledArticleDrawerMenuText
+                touchable
+                size="huge"
+                color="blue"
                 onPress={toggleStatus}
-                textStyle={[styles.upperLabelText, { color: palette.blue }]}
-              />
-              <Button
-                title="수정하기"
+              >
+                모집 완료하기
+              </StyledArticleDrawerMenuText>
+              <StyledArticleDrawerMenuText
+                touchable
+                size="huge"
                 onPress={editArticle}
-                textStyle={styles.upperLabelText}
-              />
-              <Button
-                title="삭제하기"
+              >
+                수정하기
+              </StyledArticleDrawerMenuText>
+              <StyledArticleDrawerMenuText
+                touchable
+                size="huge"
                 onPress={delArticle}
-                textStyle={styles.upperLabelText}
-              />
+              >
+                삭제하기
+              </StyledArticleDrawerMenuText>
             </>
           ) : null}
-          <Button
-            title="신고하기"
-            onPress={() => setReportModalOpen(true)}
-            textStyle={styles.upperLabelText}
-          />
+          <GText touchable size="huge" onPress={() => setReportModalOpen(true)}>
+            신고하기
+          </GText>
         </View>
         <View style={styles.lowerContainer}>
           <Text style={styles.lowerLabelText}>모집 인원 목록</Text>

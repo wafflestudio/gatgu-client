@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { AxiosError, AxiosResponse } from 'axios';
 import _ from 'lodash';

@@ -1,24 +1,20 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { ImageBackground, View, Text, Alert } from 'react-native';
-import {
-  useIsMutating,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
+import { useIsMutating, useMutation, useQueryClient } from 'react-query';
 
 import { useFormik } from 'formik';
 import isEmpty from 'lodash/isEmpty';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { getMyData, modifyMyInfo } from '@/apis/UserApi';
+import { modifyMyInfo } from '@/apis/UserApi';
 import ModifyButton from '@/assets/icons/ModifyButton/modifyButton.svg';
 import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
-import { Button, StringInput } from '@/components';
+import { StringInput } from '@/components';
+import { GButton } from '@/components/Gatgu';
 import { isValidNickname } from '@/helpers/functions/validate';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { USER_DETAIL } from '@/queryKeys';
-import { IUserDetail } from '@/types/user';
 
 import styles from './ProfileModify.styles';
 
@@ -64,9 +60,7 @@ const ProfileModify: React.FC = () => {
     },
   });
 
-  const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  );
+  const userQuery = useUserDetail();
 
   const navigation = useNavigation();
   const info = userQuery.data;
@@ -90,7 +84,11 @@ const ProfileModify: React.FC = () => {
     navigation.setOptions({
       headerTitleAlign: 'center',
       // eslint-disable-next-line react/display-name
-      headerRight: () => <Button title="완료" onPress={handleSubmit} />,
+      headerRight: () => (
+        <GButton size="small" onPress={() => handleSubmit()}>
+          완료
+        </GButton>
+      ),
     });
   }, [handleSubmit, navigation]);
 

@@ -19,12 +19,6 @@ const fieldNames = [
         remove random key generator when api will change
 */
 
-interface IImageDict {
-  uri: string;
-  mime: string;
-}
-// type TUseImageUpload = ;
-
 const useImageUpload = (type: APItype, id?: number) => {
   const createPresignedPost = (id?: number): Promise<AxiosResponse> => {
     const ID = type === APItype.user ? '' : `${id}/`;
@@ -68,8 +62,9 @@ const useImageUpload = (type: APItype, id?: number) => {
   const uploadMultipleImages = async (images: TShortImage[]) => {
     return await Promise.all(
       images.map((image) => {
-        console.log('everything');
-        return uploadSingleImage(image);
+        if (image.mime === 'uploaded') {
+          return new Promise<string>((resolve) => resolve(image.path));
+        } else return uploadSingleImage(image);
       })
     );
   };

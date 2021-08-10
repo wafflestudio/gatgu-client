@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createGatguStackNavigator } from '@/helpers/functions/navigation';
 
 import LoginTemplate from './Login';
 import ServiceTerms from './ServiceTerms';
@@ -18,15 +18,11 @@ export type TAuthStackParamList = {
   [EAuthStackScreens.ServiceTerms]: undefined;
 };
 
-const AuthStack = createStackNavigator<TAuthStackParamList>();
+const AuthStack = createGatguStackNavigator<TAuthStackParamList>();
 
 const AuthStackScreen = () => {
   return (
-    <AuthStack.Navigator
-      screenOptions={{
-        headerStatusBarHeight: 0,
-      }}
-    >
+    <AuthStack.Navigator>
       <AuthStack.Screen
         name={EAuthStackScreens.Login}
         component={LoginTemplate}

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, FlatList } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Alert, FlatList } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
@@ -9,22 +8,15 @@ import { DateTime } from 'luxon';
 import { useNavigation } from '@react-navigation/core';
 
 import { chatAPI } from '@/apis';
-import { getMyData } from '@/apis/UserApi';
 import { CursorFlatList } from '@/components';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useCursorPagination } from '@/helpers/hooks';
-import { AppRoutes } from '@/helpers/routes';
-import { USER_DETAIL } from '@/queryKeys';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';
-import { IUserDetail } from '@/types/user';
 
 import ChattingBox from './ChattingBox';
-
-interface IObject {
-  [key: string]: [number, number, number]; // [timeoutID, retry count, articleID]
-}
 
 function ChattingList(): JSX.Element {
   const navigation = useNavigation();
@@ -41,9 +33,7 @@ function ChattingList(): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage();
 
   const toggle = useSelector((state: RootState) => state.chat.toggleChatList);
-  const currentUser = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  ).data;
+  const currentUser = useUserDetail().data;
 
   useEffect(() => {
     getItems('first');

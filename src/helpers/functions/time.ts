@@ -25,7 +25,7 @@ export const getTs = (date?: Date | DateTime): number => {
 export const getTimeDiffWithUnit = (startTs: number, endTs: number) => {
   let unitIdx = -1;
   const tsDiff = Math.abs(endTs - startTs);
-  const duration = DateTime.fromMillis(tsDiff).diff(
+  const duration = DateTime.fromMillis(startTs + tsDiff).diff(
     DateTime.fromMillis(startTs),
     'milliseconds'
   );

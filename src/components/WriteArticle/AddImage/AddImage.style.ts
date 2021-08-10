@@ -38,6 +38,24 @@ const AddImageStyle = StyleSheet.create({
     height: 37,
   },
 
+  thumbnail: {
+    width: '115%',
+    height: '115%',
+    borderWidth: 3,
+    borderColor: palette.dark,
+  },
+
+  thumbnailContainer: {
+    width: 100,
+    borderWidth: 1,
+    marginLeft: 20,
+    marginRight: 15,
+    borderColor: palette.borderGray,
+    marginTop: 8,
+    marginBottom: 8,
+    alignSelf: 'center',
+  },
+
   photo: {
     width: '100%',
     height: '100%',
@@ -50,6 +68,20 @@ const AddImageStyle = StyleSheet.create({
     borderColor: palette.borderGray,
     marginTop: 7,
     marginBottom: 7,
+    alignSelf: 'center',
+  },
+
+  loading: {
+    width: 100,
+    height: 10,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+
+  thumbnailButtonContainer: {
+    position: 'absolute',
+    top: -9,
+    right: -23,
   },
 
   buttonContainer: {

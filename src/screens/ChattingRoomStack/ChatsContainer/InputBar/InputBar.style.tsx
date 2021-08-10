@@ -1,9 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { margin } from 'styled-system';
-
-import { mobile } from '@/helpers/mobile';
-import { palette, typo } from '@/styles';
+import { palette } from '@/styles';
 
 const commonStyle = StyleSheet.create({
   Icon: {
