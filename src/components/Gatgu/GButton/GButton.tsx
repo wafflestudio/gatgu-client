@@ -11,7 +11,7 @@ import { StyledButtonWrapper } from './GButton.styled';
 export type GButtonWidth = 'default' | 'full';
 export type GButtonSize = 'small' | 'default' | 'large';
 export type GButtonVariant = 'filled' | 'outlined';
-export type GButtonTheme = 'primary';
+export type GButtonTheme = 'primary' | 'gray';
 
 type OmittedButtonProps = Omit<ButtonProps, 'theme' | 'title'>;
 
@@ -35,6 +35,14 @@ export const buttonInnerTextProps: Record<
     },
     outlined: {
       color: 'blue',
+    },
+  },
+  gray: {
+    filled: {
+      color: 'white',
+    },
+    outlined: {
+      color: 'gray',
     },
   },
 };

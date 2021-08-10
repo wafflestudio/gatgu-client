@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createGatguStackNavigator } from '@/helpers/functions/navigation';
 
 import ChattingList from './ChattingList';
 
@@ -12,15 +12,11 @@ export type TChattingListStackParamList = {
   [EChattingListStackScreens.ChattingList]: undefined;
 };
 
-const ChattingListStack = createStackNavigator<TChattingListStackParamList>();
+const ChattingListStack = createGatguStackNavigator<TChattingListStackParamList>();
 
 const ChattingListStackScreen: React.FC = () => {
   return (
-    <ChattingListStack.Navigator
-      screenOptions={{
-        headerStatusBarHeight: 0,
-      }}
-    >
+    <ChattingListStack.Navigator>
       <ChattingListStack.Screen
         name={EChattingListStackScreens.ChattingList}
         component={ChattingList}
