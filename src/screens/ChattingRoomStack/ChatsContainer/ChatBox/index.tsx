@@ -4,6 +4,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { DateTime } from 'luxon';
+
 import { emptyURL } from '@/constants/image';
 import { IMessageImage } from '@/types/chat';
 
@@ -47,8 +49,7 @@ function ChatBox({
 
   // 00:00 format
   const sentTime = useMemo(() => {
-    // const split = sent_at.split('T');
-    return sent_at;
+    return DateTime.fromMillis(sent_at).toFormat('hh:mm');
   }, [sent_at]);
 
   // message + time
@@ -63,13 +64,15 @@ function ChatBox({
         {!isSameTime && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
-        {text.length != 0 ? <Bubble message={text} isSelf={isSelf} /> : null}
-        {image.length > 0 && image[0].img_url !== emptyURL && (
-          <Image
-            source={{ uri: image[0].img_url }}
-            style={styles.messageImage}
-          />
-        )}
+        <View>
+          {text.length != 0 ? <Bubble message={text} isSelf={isSelf} /> : null}
+          {image.length > 0 && image[0].img_url !== emptyURL && (
+            <Image
+              source={{ uri: image[0].img_url }}
+              style={styles.messageImage}
+            />
+          )}
+        </View>
       </View>
     ),
     [isSelf, isSameTime, text, sentTime, image]

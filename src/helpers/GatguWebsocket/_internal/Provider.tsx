@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { DeviceEventEmitter } from 'react-native';
 
 import BaseWebsocket, { IBaseWebsocketOption } from './BaseWebsocket';
-import { TWsMessage, WebsocketCustomEvent } from './types';
+import { PromiseConditions, TWsMessage, WebsocketCustomEvent } from './types';
 
 const getWsProvider = (Context: any): React.FC => ({ children }) => {
   const wsRef = useRef<BaseWebsocket>();
@@ -41,21 +41,26 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     wsRef.current = ws;
   };
 
-  const sendWsMessage = (data: TWsMessage): Promise<TWsMessage> => {
+  const sendWsMessage = (
+    data: TWsMessage,
+    postOption?: PromiseConditions
+  ): Promise<TWsMessage> => {
     if (!wsRef.current) {
       throw new Error(`Don't use "sendWsMessage" before init Websocket"`);
     }
 
     return new Promise((resolve, reject) => {
       if (wsRef.current) {
-        // save websocket in wsMap
+        // save websocket in promiseByWsID
         const id = data.websocket_id;
 
-        wsRef.current.wsMap.set(id, {
+        wsRef.current.promiseByWsID.set(id, {
           resolve,
           reject,
           count: 0,
           timeoutID: 0,
+          resolveCondition: postOption?.resolveCondition,
+          rejectCondition: postOption?.rejectCondition,
         });
         // send websocket
         wsRef.current.send(data);
@@ -65,7 +70,7 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
         // set timeout in case of failure
         setTimeout(() => {
           if (wsRef.current) {
-            wsRef.current.wsMap.delete(id);
+            wsRef.current.promiseByWsID.delete(id);
             reject(data);
           }
         }, 5000);

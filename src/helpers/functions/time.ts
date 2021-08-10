@@ -57,3 +57,15 @@ export const getRemainTime = (ts: number) => {
 
   return `${getTimeDiffWithUnit(currTs, ts)} 남음`;
 };
+
+/** Convert UNIX timestamp to time string without secs
+ * @args date: number
+ * @returns string
+ * (example: 1628275380190 -> 3:43:00 AM)
+ */
+export const toLocaleTimeStringNoSecs = (date: number | string) => {
+  const arr = new Date(date).toLocaleTimeString().split(' ');
+  const time = arr[0].slice(0, -3);
+  const ret = time + ' ' + arr[1];
+  return ret;
+};

@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import { InfoContainer } from '@/components';
 import Thumbnail from '@/components/Thumbnail/Thumbnail';
 import { OrderStatus } from '@/enums';
-import { toUnix } from '@/helpers/functions/time';
+import { getPassedTime } from '@/helpers/functions/time';
 import { IChatListSinglePreview } from '@/types/chat';
 
 import styles from './ChattingBox.style';
@@ -25,7 +25,9 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
   const { recent_message } = item;
   const { sent_by } = recent_message;
   const sent_at = useMemo(() => {
-    return toUnix(recent_message?.sent_at);
+    return recent_message?.sent_at
+      ? getPassedTime(recent_message?.sent_at)
+      : '';
   }, [recent_message]);
   return (
     <InfoContainer>
@@ -33,7 +35,7 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
       <View style={styles.container}>
         <View style={styles.textWrapper}>
           <Text style={styles.Head}>{sent_by?.nickname}</Text>
-          <Text style={styles.timeWrapper}>{sent_at}시간 전</Text>
+          <Text style={styles.timeWrapper}>{sent_at}</Text>
         </View>
         <View style={styles.Box}>
           <Text style={styles.Head} ellipsizeMode={'tail'} numberOfLines={1}>

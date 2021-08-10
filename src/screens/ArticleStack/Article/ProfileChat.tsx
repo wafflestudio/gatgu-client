@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { DateTime } from 'luxon';
-import { Button, Flex } from 'native-base';
+import { Flex } from 'native-base';
 
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
@@ -16,7 +15,6 @@ import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useShallowSelector from '@/helpers/hooks/useSelector';
 import { AppRoutes } from '@/helpers/routes';
 import { fetchingParticipants } from '@/store/chatSlice';
-import { palette } from '@/styles';
 import { IArticleProps, IArticleStatus } from '@/types/article';
 import { IUserSimple } from '@/types/user';
 
@@ -43,7 +41,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const [writer, setWriter] = useState<IUserSimple>();
 
   const handleChattingButtonClick = (resendKey: string) => {
-    ////
+    ///
     navigation.navigate(AppRoutes.ChattingRoom, {
       screen: 'ChattingRoom',
       params: { id: article_id },
@@ -55,12 +53,15 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
     const wsMessage = {
       type: WSMessage.ENTER_ROOM,
       data: {
-        room_id: 150, //article_id,
+        room_id: article_id,
         user_id: currentUser?.id,
       },
       websocket_id: websocket_id,
     };
-    sendWsMessage(wsMessage)
+    sendWsMessage(wsMessage, {
+      resolveCondition: (data) => data.type === WSMessage.ENTER_ROOM_SUCCESS,
+      rejectCondition: (data) => data.type === WSMessage.ENTER_ROOM_FAILURE,
+    })
       .then((result) => {
         if (article_id) {
           navigation.navigate(AppRoutes.ChattingRoom, {

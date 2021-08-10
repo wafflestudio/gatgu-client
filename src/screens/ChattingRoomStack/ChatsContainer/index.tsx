@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import _ from 'lodash';
 import { DateTime } from 'luxon';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -10,6 +11,7 @@ import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
@@ -26,13 +28,13 @@ export interface IWSChatMessage {
 }
 
 function ChattingRoom(): JSX.Element {
-  const { sendWsMessage } = GatguWebsocket.useMessage();
   const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
   const dispatch = useDispatch();
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
   const roomID = route.params.id;
-
+  const [nextCursor, setCursor] = useState<string | null>();
+  const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
   const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
   const [input, setInput] = useState<IMessageImage>({
@@ -40,24 +42,34 @@ function ChattingRoom(): JSX.Element {
     imgUrl: emptyURL,
   } as IMessageImage);
   const [refresh, setRefresh] = useState(true);
-
-  useEffect(() => {
+  const getChattingMessages = (option: string | null | undefined) => {
+    setFetchingMessages(true);
     chatAPI
-      .getChattingMessages(roomID)
+      .getChattingMessages(roomID, option)
       .then((chattingList) => {
         // TODO: change with pagination
-        const tempChatList = chattingList.data.results.reverse().map((chat) => {
+        setCursor(chattingList.data.next);
+        const tempChatList = chattingList.data.results.map((chat) => {
           return {
             message: chat,
             repeat: false,
           };
         });
-        setChatList(tempChatList);
+        setChatList((prev) => [...prev, ...tempChatList]);
       })
-      .catch((e) => {
-        console.debug('GET CHATTING MESSAGES', e);
-      });
-  }, [roomID]);
+      .finally(() => setFetchingMessages(false));
+  };
+  const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
+    onmessage: (socket) => {
+      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
+        getChattingMessages('next');
+      }
+    },
+  });
+
+  useEffect(() => {
+    getChattingMessages('first');
+  }, []);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
     // reset input
@@ -95,7 +107,7 @@ function ChattingRoom(): JSX.Element {
             // updated_at: currentUser.userprofile.updated_at.getTime()/1000,
             // withdrew_at: currentUser.userprofile.withdrew_at.getTime()/1000
           },
-          sent_at: `${DateTime.now()}`,
+          sent_at: Date.now(),
           system: false,
           type: 'non-system',
         },
@@ -122,7 +134,12 @@ function ChattingRoom(): JSX.Element {
         },
         websocket_id: websocket_id, // tempID used for internal purposes
       };
-      sendWsMessage(wsMessage)
+      sendWsMessage(wsMessage, {
+        resolveCondition: (data) =>
+          data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
+        rejectCondition: (data) =>
+          data.type === WSMessage.RECEIVE_MESSAGE_FAILURE,
+      })
         .then((result) => {
           // add to chatList
           setChatList((prev) => [
@@ -179,6 +196,11 @@ function ChattingRoom(): JSX.Element {
     />
   );
 
+  const handleEndReach = () => {
+    if (!nextCursor || fetchingMessages) return;
+    getChattingMessages(nextCursor);
+  };
+
   return (
     <View
       style={{
@@ -186,14 +208,24 @@ function ChattingRoom(): JSX.Element {
         height: '93%',
       }}
     >
-      <FlatList
-        data={[...chatList, ...pendingList]}
-        renderItem={renderItem}
-        style={styles.msgContainer}
-        keyExtractor={(_, ind) => `${ind}`}
-        extraData={refresh}
-        ListHeaderComponentStyle={{ borderWidth: 10 }}
-      />
+      {
+        // (
+        //   <Flex height="100%">
+        //     <Spinner paddingTop="50%" />
+        //   </Flex>
+        // )
+        <FlatList
+          data={[...chatList, ...pendingList]}
+          renderItem={renderItem}
+          style={styles.msgContainer}
+          keyExtractor={(_, ind) => `${ind}`}
+          extraData={refresh}
+          inverted={true}
+          onEndReached={handleEndReach}
+          onEndReachedThreshold={0.1}
+          ListHeaderComponentStyle={{ borderWidth: 10 }}
+        />
+      }
       <InputBar
         input={input}
         setInput={setInput}

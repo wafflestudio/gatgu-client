@@ -25,8 +25,8 @@ const getToken = (res: any) => {
 };
 
 export const getArticles = (
-  url?: string | null,
-  keyword?: string
+  keyword?: string,
+  url?: string | null
 ): Promise<AxiosResponse<IGetArticlesResponse>> => {
   // keyword가 있고, url이 없으면 search 쿼리 생성
   const searchObj = !url && keyword && { title: keyword };
@@ -43,7 +43,6 @@ export const getArticles = (
 
 // for article POST
 export const create = (article: IPostArticle): Promise<AxiosResponse> => {
-  console.log('POST ARTICLE', article);
   return requester.post('articles/', article);
 };
 

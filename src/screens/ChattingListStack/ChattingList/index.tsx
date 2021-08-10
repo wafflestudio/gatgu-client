@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Alert, FlatList } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 
@@ -41,7 +41,7 @@ function ChattingList(): JSX.Element {
 
   const navigateToChatRoom = (resendKey: string, articleID: number) => {
     // check if resend
-    const isResent = !(parseInt(resendKey) === -1);
+    const isResent = parseInt(resendKey) !== -1;
     // set timeout and fix websocket appropriately
     const websocket_id = isResent ? resendKey : `${DateTime.now()}`;
 
@@ -53,7 +53,10 @@ function ChattingList(): JSX.Element {
       },
       websocket_id: websocket_id,
     };
-    sendWsMessage(wsMessage)
+    sendWsMessage(wsMessage, {
+      resolveCondition: (data) => data.type === WSMessage.ENTER_ROOM_SUCCESS,
+      rejectCondition: (data) => data.type === WSMessage.ENTER_ROOM_FAILURE,
+    })
       .then(() => {
         if (articleID) {
           navigation.navigate('ChattingRoom', {
@@ -76,22 +79,8 @@ function ChattingList(): JSX.Element {
   };
 
   return (
-    // fix design: rendering infinitely many, even though list has ended
-    // inside CursorFlatList
-    // const handleEndReached = (info: {distanceFromEnd: number}) => {
-    //   console.log('handle', info)
-    //   // () => getItems('next')
-    // }
     <View>
-      <CursorFlatList
-        items={items}
-        isFirstPage={isFirstPage}
-        renderItem={renderItem}
-        getItems={getItems}
-        fetching={fetching}
-        horizontal={false}
-        ListEmptyComponent={<Text>Empty...</Text>}
-      />
+      <FlatList data={items} renderItem={renderItem} />
     </View>
   );
 }

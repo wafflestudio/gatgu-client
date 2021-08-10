@@ -1,9 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View, Text, FlatList, Image, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
-import { Button, Checkbox } from 'native-base';
+import { Checkbox } from 'native-base';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
 
@@ -39,7 +46,7 @@ function Drawer(): JSX.Element {
   // 0+: id of clicked user (modal open)
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [user, setUser] = useState<IChatUserProps>();
-  const [pictureUrls, setPictureUrls] = useState<any>([]);
+  const [pictureUrls, setPictureUrls] = useState<string[]>([]);
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
@@ -59,8 +66,7 @@ function Drawer(): JSX.Element {
   useEffect(() => {
     // fetch all images
     chatAPI.getChatPictures(roomID).then((res) => {
-      console.log(res.data);
-      setPictureUrls(res.data);
+      setPictureUrls(res.data.map((img) => img.img_url));
     });
   }, [roomID]);
 
@@ -134,12 +140,9 @@ function Drawer(): JSX.Element {
         {renderedParticipants}
       </View>
       <View style={styles.optionContainer}>
-        <Button
-          onPress={handlePressExit}
-          colorScheme="rgba(255, 255, 255, 1.0)"
-        >
+        <TouchableOpacity onPress={handlePressExit}>
           <Text style={styles.smallLabelText}>나가기</Text>
-        </Button>
+        </TouchableOpacity>
       </View>
       {modalOpen ? (
         <StatusModal

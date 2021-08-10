@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Button, View, Alert, Text } from 'react-native';
+import { ScrollView, Button, View, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  KeyboardAvoidingView,
-  Spinner,
-  useStyledSystemPropsResolver,
-} from 'native-base';
-import { marginRight } from 'styled-system';
+import { KeyboardAvoidingView, Spinner } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -65,10 +60,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const dispatch = useDispatch();
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
-  const { uploadMultipleImages, uploadSingleImage } = useImageUpload(
-    APItype.article,
-    id
-  );
+  const { uploadMultipleImages } = useImageUpload(APItype.article, id);
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {

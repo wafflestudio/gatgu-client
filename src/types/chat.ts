@@ -63,7 +63,7 @@ export interface IChatMessage {
     updated_at: number;
     withdrew_at: number | null;
   };
-  sent_at: string;
+  sent_at: number;
   type: string;
   system?: boolean;
 }
@@ -83,4 +83,9 @@ export interface ISendMessage {
 export interface IMessageImage {
   text: string;
   imgUrl: string;
+}
+
+export interface IApiImage {
+  id: number;
+  img_url: string;
 }
