@@ -17,7 +17,7 @@ import { GSpace } from '@/components/Gatgu/GSpace';
 import { GText } from '@/components/Gatgu/GText';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
-import { setAccessToken } from '@/store/userSlice';
+import { setLoginState } from '@/store/userSlice';
 import { palette } from '@/styles';
 
 import styles from './Login.style';
@@ -36,8 +36,8 @@ function LoginTemplate(): JSX.Element {
     try {
       const loginResponse = await login(id, pw);
       const { access, refresh } = loginResponse.data.token;
-      dispatch(setAccessToken(access));
       setRequesterToken(access);
+      dispatch(setLoginState(false));
 
       ObjectStorage.addObject(asyncStoragekey.ACCESS_TOKEN, {
         data: access,

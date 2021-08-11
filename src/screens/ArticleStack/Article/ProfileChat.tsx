@@ -33,7 +33,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
 
   const currentUser = useUserDetail().data;
 
-  const isLogined = !!useShallowSelector((state) => state.user.accessToken);
+  const isLogined = !!useShallowSelector((state) => state.user.isLogined);
 
   const isChattingButtonDisabled =
     !isLogined || orderStatus.progress_status > ArticleStatus.Dealing;

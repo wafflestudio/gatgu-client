@@ -27,7 +27,7 @@ function ArticlePage(): JSX.Element {
   const dispatch = useDispatch();
   const navigation = useAppNavigation();
 
-  const islogined = !!useSelector((state: RootState) => state.user.accessToken);
+  const islogined = !!useSelector((state: RootState) => state.user.isLogined);
 
   const {
     currentArticle,
