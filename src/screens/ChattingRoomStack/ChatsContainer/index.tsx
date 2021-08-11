@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList, KeyboardAvoidingView } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import _ from 'lodash';
@@ -202,7 +202,7 @@ function ChattingRoom(): JSX.Element {
   };
 
   return (
-    <View
+    <KeyboardAvoidingView
       style={{
         justifyContent: 'flex-end',
         height: '93%',
@@ -233,7 +233,7 @@ function ChattingRoom(): JSX.Element {
         id={currentUser?.id}
         article_id={roomID}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

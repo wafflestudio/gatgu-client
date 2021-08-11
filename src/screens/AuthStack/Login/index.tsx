@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 
@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 import { setRequesterToken } from '@/apis/BaseInstance';
 import { login } from '@/apis/UserApi';
 import Logo from '@/assets/icons/Logo';
-import { Button } from '@/components';
 import { GButton } from '@/components/Gatgu/GButton';
 import { GSpace } from '@/components/Gatgu/GSpace';
 import { GText } from '@/components/Gatgu/GText';
@@ -68,7 +67,9 @@ function LoginTemplate(): JSX.Element {
     <Flex alignItems="center" style={styles.container}>
       <Flex width="262" alignItems="center">
         <Logo.subLogo style={styles.logo} />
-        <View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
           <TextInput
             style={styles.input}
             value={id}
@@ -84,7 +85,7 @@ function LoginTemplate(): JSX.Element {
             onChangeText={setPW}
             placeholderTextColor={palette.gray}
           />
-        </View>
+        </KeyboardAvoidingView>
         <GButton
           width="full"
           size="large"

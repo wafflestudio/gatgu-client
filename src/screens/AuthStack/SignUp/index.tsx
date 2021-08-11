@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { View, ScrollView, Text, Alert } from 'react-native';
+import { View, Text, Alert } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { AxiosError } from 'axios';
 import { Formik } from 'formik';
@@ -148,7 +149,7 @@ const SignUp: React.FC = () => {
       validate={validate}
     >
       {({ values, handleChange, setFieldValue, handleSubmit, errors }) => (
-        <ScrollView style={styles.container}>
+        <KeyboardAwareScrollView style={styles.container}>
           <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
           <Input
             title="아이디"
@@ -341,7 +342,7 @@ const SignUp: React.FC = () => {
             textStyle={styles.confirmBtnText}
             onPress={handleSubmit}
           />
-        </ScrollView>
+        </KeyboardAwareScrollView>
       )}
     </Formik>
   );

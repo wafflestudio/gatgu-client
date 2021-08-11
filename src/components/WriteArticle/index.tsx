@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { KeyboardAvoidingView, Spinner } from 'native-base';
@@ -223,13 +224,13 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           </AppLoadingTemplate>
         </View>
       ) : (
-        <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
+        <View style={{ backgroundColor: 'white', height: '100%' }}>
           {hasError ? (
             Error(pageStatus, () => {
               Alert.alert('Need to fix this part');
             })
           ) : (
-            <KeyboardAvoidingView>
+            <KeyboardAwareScrollView>
               {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
               <DueDate dueDate={dueDate} setDueDate={setDueDate} />
               <AddImage images={images} setImages={setImages} />
@@ -241,9 +242,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
                 description={description}
                 setDescription={setDescription}
               />
-            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
           )}
-        </ScrollView>
+        </View>
       )}
     </View>
   );

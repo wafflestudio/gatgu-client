@@ -6,6 +6,7 @@ import {
   GestureResponderEvent,
   Image,
   ActivityIndicator,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
@@ -142,7 +143,7 @@ function InputBar({
           </View>
         </TouchableOpacity>
       </View>
-      <View style={styles.inputWrapper}>
+      <KeyboardAvoidingView style={styles.inputWrapper}>
         <TextInput
           placeholderTextColor={palette.gray}
           placeholder="메시지를 입력하세요"
@@ -157,7 +158,7 @@ function InputBar({
             <Icon name="send" size={20} />
           </View>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
       {input.imgUrl !== emptyURL &&
         (imageIsLoading ? (
           <View>
@@ -179,7 +180,7 @@ function InputBar({
             <Modal.Header>희망 금액</Modal.Header>
 
             <Modal.Body height="100%">
-              <View style={styles.modalBox}>
+              <KeyboardAvoidingView style={styles.modalBox}>
                 <TextInput
                   placeholder="제출하고 싶은 희망 금액을 입력해주세요."
                   placeholderTextColor={palette.gray}
@@ -191,7 +192,7 @@ function InputBar({
                   keyboardType="number-pad"
                 />
                 <Text>원</Text>
-              </View>
+              </KeyboardAvoidingView>
 
               <Button
                 isLoading={submitIsLoading}

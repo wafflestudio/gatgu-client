@@ -1,5 +1,11 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { ImageBackground, View, Text, Alert } from 'react-native';
+import {
+  ImageBackground,
+  View,
+  Text,
+  Alert,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { useIsMutating, useMutation, useQueryClient } from 'react-query';
 
 import { useFormik } from 'formik';
@@ -115,7 +121,7 @@ const ProfileModify: React.FC = () => {
           <ModifyButton style={styles.imgPickBtn} />
         </View>
       </View>
-      <View style={styles.inputContainer}>
+      <KeyboardAvoidingView style={styles.inputContainer}>
         <StringInput
           style={styles.input}
           placeholderStyle={styles.input}
@@ -141,7 +147,7 @@ const ProfileModify: React.FC = () => {
           placeholder="주 거래 지역"
         />
         <Text>{!!isMutating && '수정사항을 반영중입니다.'}</Text>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

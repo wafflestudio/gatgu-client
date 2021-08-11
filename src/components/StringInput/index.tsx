@@ -25,6 +25,7 @@ function StringInput({
 
   return (
     <TextInput
+      autoFocus={true}
       onChangeText={(inp) => {
         handleInput(inp);
       }}
