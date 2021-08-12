@@ -10,9 +10,11 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
+import { APItype } from '@/enums/image';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { useUserDetail } from '@/helpers/hooks/api';
+import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
 import { ChattingDrawerParamList } from '@/types/navigation';
@@ -33,6 +35,10 @@ function ChattingRoom(): JSX.Element {
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
   const roomID = route.params.id;
+  const { uploadMultipleImages, uploadSingleImage } = useImageUpload(
+    APItype.chat,
+    userID
+  );
   const [nextCursor, setCursor] = useState<string | null>();
   const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
@@ -90,7 +96,7 @@ function ChattingRoom(): JSX.Element {
       // add to pendingList
       const message = {
         message: {
-          text: input.text,
+          text: input.imgUrl === emptyURL ? input.text : '',
           image: [
             {
               id: 0, // @juimdpp TODO
@@ -121,52 +127,66 @@ function ChattingRoom(): JSX.Element {
       }
       setRefresh(!refresh);
 
-      // send websocket message to server
-      const wsMessage = {
-        type: WSMessage.SEND_MESSAGE,
-        data: {
-          room_id: roomID,
-          user_id: userID,
-          message: {
-            text: input.text,
-            image: input.imgUrl === emptyURL ? '' : input.imgUrl,
-          },
-        },
-        websocket_id: websocket_id, // tempID used for internal purposes
-      };
-      sendWsMessage(wsMessage, {
-        resolveCondition: (data) =>
-          data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
-        rejectCondition: (data) =>
-          data.type === WSMessage.RECEIVE_MESSAGE_FAILURE,
-      })
-        .then((result) => {
-          // add to chatList
-          setChatList((prev) => [
-            ...prev,
-            { message: result.data, repeat: false },
-          ]);
+      const checkImage =
+        input.imgUrl !== emptyURL
+          ? uploadSingleImage({
+              mime: 'jpeg',
+              path: input.imgUrl,
+            })
+          : new Promise<string>((resolve) => resolve(emptyURL));
 
-          // remove from pendingList
-          setPendingList((prev) =>
-            prev.filter(
-              (message) => message.websocket_id !== result.websocket_id
-            )
-          );
-          setRefresh(!refresh);
+      checkImage
+        .then((img: any) => {
+          // send websocket message to server
+          const wsMessage = {
+            type: WSMessage.SEND_MESSAGE,
+            data: {
+              room_id: 150, //roomID,
+              user_id: userID,
+              message: {
+                // text: input.text,
+                text: input.imgUrl === emptyURL ? input.text : '',
+                image: input.imgUrl === emptyURL ? '' : img,
+              },
+            },
+            websocket_id: websocket_id, // tempID used for internal purposes
+          };
 
-          // trigger chatting list update
-          dispatch(refetchChattingList);
+          sendWsMessage(wsMessage, {
+            resolveCondition: (data) =>
+              data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
+            rejectCondition: (data) =>
+              data.type === WSMessage.RECEIVE_MESSAGE_FAILURE,
+          })
+            .then((result) => {
+              // add to chatList
+              setChatList((prev) => [
+                ...prev,
+                { message: result.data, repeat: false },
+              ]);
+
+              // remove from pendingList
+              setPendingList((prev) =>
+                prev.filter(
+                  (message) => message.websocket_id !== result.websocket_id
+                )
+              );
+              setRefresh(!refresh);
+
+              // trigger chatting list update
+              dispatch(refetchChattingList);
+            })
+            .catch((e) => {
+              // mark delete or resend in pendingList
+              const tempPendingList = pendingList.map((chat) =>
+                chat.websocket_id === e.websocket_id
+                  ? { ...chat, repeat: true }
+                  : chat
+              );
+              setPendingList(tempPendingList);
+            });
         })
-        .catch((e) => {
-          // mark delete or resend in pendingList
-          const tempPendingList = pendingList.map((chat) =>
-            chat.websocket_id === e.websocket_id
-              ? { ...chat, repeat: true }
-              : chat
-          );
-          setPendingList(tempPendingList);
-        });
+        .catch((e) => console.error('ERR', e));
     }
   };
 
@@ -229,7 +249,7 @@ function ChattingRoom(): JSX.Element {
       <InputBar
         input={input}
         setInput={setInput}
-        handleSendMessage={() => handleSendMessage(input, '-1')}
+        handleSendMessage={handleSendMessage}
         id={currentUser?.id}
         article_id={roomID}
       />
