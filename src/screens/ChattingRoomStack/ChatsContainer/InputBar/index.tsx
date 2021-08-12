@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  GestureResponderEvent,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
+import { View, TextInput, Text, Image, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -53,6 +46,8 @@ function InputBar({
   const [wishPrice, setWishPrice] = useState<string>('');
   const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
+  const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
+  const [inputHeight, setInputHeight] = useState<number>(0);
 
   const pickFromGallery = () => {
     setImageIsLoading(true);
@@ -127,39 +122,69 @@ function InputBar({
   };
   return (
     <View style={styles.bar}>
-      <View style={styles.iconBar}>
-        <TouchableOpacity onPress={handleCamera}>
-          <View style={styles.inputIcon}>
-            <Icon name="camera-alt" size={25} />
+      {optionsOpen ? (
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          <View style={styles.iconBar}>
+            <TouchableOpacity onPress={handleCamera}>
+              <View style={styles.inputIcon}>
+                <Icon name="camera-alt" size={25} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={pickFromGallery}>
+              <View style={styles.inputIcon}>
+                <Icon name="image-search" size={25} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setModalOpen(true)}>
+              <View style={styles.inputIcon}>
+                <Icon name="attach-money" size={25} />
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={pickFromGallery}>
-          <View style={styles.inputIcon}>
-            <Icon name="image-search" size={25} />
+          <TouchableOpacity onPress={() => setOptionsOpen(false)}>
+            <View style={styles.inputIcon}>
+              <Icon name="close" size={25} />
+            </View>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.inputWrapper}>
+          <TouchableOpacity onPress={() => setOptionsOpen(true)}>
+            <View style={styles.inputIcon}>
+              <Icon name="add" size={25} />
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              borderBottomColor: palette.borderGray,
+              borderBottomWidth: 1,
+              width: '88%',
+              marginBottom: 10,
+              marginTop: 7,
+            }}
+          >
+            <TextInput
+              placeholderTextColor={palette.gray}
+              placeholder="메시지를 입력하세요"
+              style={{ height: inputHeight + 10 }}
+              multiline={true}
+              numberOfLines={4}
+              value={input.text}
+              onChangeText={(txt) =>
+                setInput({ text: txt, imgUrl: input.imgUrl })
+              }
+              onContentSizeChange={(event) =>
+                setInputHeight(event.nativeEvent.contentSize.height)
+              }
+            />
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setModalOpen(true)}>
-          <View style={styles.inputIcon}>
-            <Icon name="attach-money" size={25} />
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.inputWrapper}>
-        <TextInput
-          placeholderTextColor={palette.gray}
-          placeholder="메시지를 입력하세요"
-          style={styles.input}
-          multiline={true}
-          numberOfLines={4}
-          value={input.text}
-          onChangeText={(txt) => setInput({ text: txt, imgUrl: input.imgUrl })}
-        />
-        <TouchableOpacity onPress={() => handleSendMessage(input, '-1')}>
-          <View style={styles.inputIcon}>
-            <Icon name="send" size={20} />
-          </View>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={() => handleSendMessage(input, '-1')}>
+            <View style={styles.inputIcon}>
+              <Icon name="send" size={20} />
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
       {input.imgUrl !== emptyURL &&
         (imageIsLoading ? (
           <View>

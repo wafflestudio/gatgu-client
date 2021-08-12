@@ -19,21 +19,14 @@ const InputBarStyle = StyleSheet.create({
     // height: 50,
     padding: 0,
   },
-  input: {
-    height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: palette.gray,
-    // width: mobile.width - 150,
-    width: '88%',
-  },
   inputIcon: {
     ...commonStyle.Icon,
   },
   inputWrapper: {
-    paddingBottom: 8,
-    paddingLeft: 15,
+    width: '88%',
     alignContent: 'center',
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   image: {
     height: 100,
