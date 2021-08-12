@@ -49,7 +49,7 @@ function ChatBox({
 
   // 00:00 format
   const sentTime = useMemo(() => {
-    return DateTime.fromMillis(sent_at).toFormat('hh:mm');
+    return sent_at ? DateTime.fromMillis(sent_at).toFormat('hh:mm') : '';
   }, [sent_at]);
 
   // message + time
