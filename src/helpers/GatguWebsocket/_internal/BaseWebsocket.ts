@@ -157,10 +157,13 @@ class BaseWebsocket {
       default: {
         const promise = this.promiseByWsID.get(message.websocket_id);
         if (promise) {
-          if (promise.resolveCondition) {
+          if (promise.resolveCondition && promise.resolveCondition(message)) {
             promise.resolve(message);
             this.promiseByWsID.delete(message.websocket_id);
-          } else if (promise.rejectCondition) {
+          } else if (
+            promise.rejectCondition &&
+            promise.rejectCondition(message)
+          ) {
             promise.reject(message);
             this.promiseByWsID.delete(message.websocket_id);
           } else {
