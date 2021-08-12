@@ -27,7 +27,7 @@ import styles from './InputBar.style';
 interface IInputBarInterface {
   input: IMessageImage;
   setInput: (value: IMessageImage) => void;
-  handleSendMessage: (event: GestureResponderEvent) => void;
+  handleSendMessage: (input: IMessageImage, img: string) => void;
   id?: number;
   article_id: number;
 }
@@ -62,6 +62,7 @@ function InputBar({
           uploadSingleImage({ mime: img.mime, path: img.path })
             .then((url) => {
               setInput({ text: input.text, imgUrl: url });
+              handleSendMessage({ text: input.text, imgUrl: url }, '-1');
             })
             .catch((e) => {
               console.log(e);
@@ -91,6 +92,7 @@ function InputBar({
           uploadSingleImage({ mime: img.mime, path: img.path })
             .then((url) => {
               setInput({ text: input.text, imgUrl: url });
+              handleSendMessage(input, '-1');
             })
             .catch((e) => {
               console.log(e);
@@ -152,7 +154,7 @@ function InputBar({
           value={input.text}
           onChangeText={(txt) => setInput({ text: txt, imgUrl: input.imgUrl })}
         />
-        <TouchableOpacity onPress={handleSendMessage}>
+        <TouchableOpacity onPress={() => handleSendMessage(input, '-1')}>
           <View style={styles.inputIcon}>
             <Icon name="send" size={20} />
           </View>
