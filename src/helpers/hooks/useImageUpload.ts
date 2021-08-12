@@ -10,7 +10,7 @@ const fieldNames = [
   'x-amz-credential',
 
   'x-amz-date',
-  'x-amz-security-token',
+  // 'x-amz-security-token',
   'policy',
   'x-amz-signature',
 ];
@@ -48,10 +48,13 @@ const useImageUpload = (type: APItype, id?: number) => {
 
         // send file to s3
         return await fetch(url, {
-          method: 'POST',
+          method: 'PUT',
           body: body,
         }).then((r: any) => {
-          return r.headers['map']['location'];
+          if (r['ok']) return r.headers['map']['location'];
+          else {
+            return image.path;
+          }
         });
       })
       .catch((err) => {
