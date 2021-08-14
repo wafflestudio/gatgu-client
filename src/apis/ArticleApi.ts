@@ -12,17 +12,7 @@ import {
   IGetArticlesResponse,
 } from '@/types/article';
 
-import requester from './BaseInstance';
-import gatguAxios from './gatguAxios';
-
-const getToken = (res: any) => {
-  const token = res['token'];
-  const headers = {
-    'Content-type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-  return headers;
-};
+import apiClient from './apiClient';
 
 export const getArticles = (
   keyword?: string,
@@ -38,23 +28,23 @@ export const getArticles = (
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
   url = `articles/${url ? `${url}&` : '?'}`;
-  return requester.get(`${url}${query}`);
+  return apiClient.get(`${url}${query}`);
 };
 
 // for article POST
 export const create = (article: IPostArticle): Promise<AxiosResponse> => {
-  return requester.post('articles/', article);
+  return apiClient.post('articles/', article);
 };
 
 // get a single article with its id
 export const getSingleArticle = (
   id: number
 ): Promise<AxiosResponse<IArticleProps>> => {
-  return requester.get(`articles/${id}/`);
+  return apiClient.get(`articles/${id}/`);
 };
 
 export const deleteArticle = (id: number): Promise<AxiosResponse> => {
-  return requester.delete(`articles/${id}/`);
+  return apiClient.delete(`articles/${id}/`);
 };
 
 export const editArticle = (
@@ -62,7 +52,7 @@ export const editArticle = (
   body: IPostArticle
 ): Promise<AxiosResponse> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
-    return requester.patch(`articles/${id}/`, body);
+    return apiClient.patch(`articles/${id}/`, body);
   });
 };
 
@@ -79,7 +69,7 @@ export const getUserArticles = (
     page_size: `${PAGE_SIZE}`,
   });
 
-  return gatguAxios.get(
+  return apiClient.get(
     defaultUrl +
       (cursorSearchParams ? `${cursorSearchParams}&` : '?') +
       searchParams
@@ -88,7 +78,7 @@ export const getUserArticles = (
 
 // 글 신고하기
 export const postArticleReport = (articleId: number, contents: string) => {
-  return requester.post('reports/', {
+  return apiClient.post('reports/', {
     article_id: articleId,
     contents,
   });

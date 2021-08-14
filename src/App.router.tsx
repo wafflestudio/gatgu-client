@@ -30,7 +30,7 @@ export type TAppStackParamList = {
 const AppStack = createGatguStackNavigator<TAppStackParamList>();
 
 const AppRouter: React.FC = () => {
-  const userQuery = useUserDetail({});
+  const userQuery = useUserDetail();
 
   GatguWebsocket.useInit({
     url: `ws://e2b808ab505c.ngrok.io/ws/chat/${userQuery.data?.id}/`,
