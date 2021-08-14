@@ -9,7 +9,7 @@ import { refreshAccessToken } from '@/apis/UserApi';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import store from '@/store/rootStore';
-import { setAccessToken } from '@/store/userSlice';
+import { setLoginState } from '@/store/userSlice';
 import { DataWithExpiry } from '@/types/asyncStorage';
 
 const useAutoLogin = () => {
@@ -51,14 +51,14 @@ const useAutoLogin = () => {
         accessTokenWithExpiry.expiry > DateTime.now().toSeconds()
       ) {
         setRequesterToken(accessTokenWithExpiry.data);
-        store.dispatch(setAccessToken(accessTokenWithExpiry.data));
+        store.dispatch(setLoginState(true));
         updateAccessToken();
       } else {
         const accessToken = await updateAccessToken();
         if (!accessToken) return;
 
         setRequesterToken(accessToken);
-        store.dispatch(setAccessToken(accessToken));
+        store.dispatch(setLoginState(true));
       }
     } catch (err) {
       switch (err.response.data.error_code) {

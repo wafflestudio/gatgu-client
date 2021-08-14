@@ -8,7 +8,7 @@ import { removeRequesterToken } from '@/apis/BaseInstance';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { useToaster } from '@/helpers/hooks';
-import { clearAccessToken } from '@/store/userSlice';
+import { setLoginState } from '@/store/userSlice';
 import { palette } from '@/styles';
 
 import { ConfigLayout, IConfigLayoutItem } from '../components/ConfigLayout';
@@ -22,7 +22,7 @@ const Configs: React.FC = () => {
   const handleLogout = async () => {
     try {
       await userAPI.logout();
-      dispatch(clearAccessToken());
+      dispatch(setLoginState(false));
       removeRequesterToken();
       ObjectStorage.removeObject(asyncStoragekey.ACCESS_TOKEN);
       ObjectStorage.removeObject(asyncStoragekey.REFRESH_TOKEN);

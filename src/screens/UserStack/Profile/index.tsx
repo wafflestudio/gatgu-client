@@ -13,9 +13,7 @@ import UnLoggedProfile from './UnLogged';
 
 function Profile(): JSX.Element {
   const [show, setShow] = useState<boolean>(false);
-  const isTokenExists = useSelector(
-    (state: RootState) => !!state.user.accessToken
-  );
+  const isLogined = useSelector((state: RootState) => state.user.isLogined);
 
   const navigation = useNavigation();
 
@@ -25,7 +23,7 @@ function Profile(): JSX.Element {
       headerTitleAlign: 'center',
       // eslint-disable-next-line react/display-name
       headerRight: () =>
-        isTokenExists ? (
+        isLogined ? (
           <TouchableOpacity
             style={{ position: 'relative' }}
             onPress={() => navigation.navigate(AppRoutes.Configs)}
@@ -38,9 +36,9 @@ function Profile(): JSX.Element {
           </TouchableOpacity>
         ) : null,
     });
-  }, [isTokenExists, navigation, show]);
+  }, [isLogined, navigation, show]);
 
-  return isTokenExists ? <LoggedProfile /> : <UnLoggedProfile />;
+  return isLogined ? <LoggedProfile /> : <UnLoggedProfile />;
 }
 
 export default Profile;
