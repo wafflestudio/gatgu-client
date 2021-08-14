@@ -1,12 +1,9 @@
 import React from 'react';
-import { Alert, View } from 'react-native';
-import { useQuery } from 'react-query';
+import { ActivityIndicator, View } from 'react-native';
 
-import { Flex } from 'native-base';
+import { Flex, VStack } from 'native-base';
 
-import { getMyData } from '@/apis/UserApi';
-import { USER_DETAIL } from '@/queryKeys';
-import { IUserDetail } from '@/types/user';
+import { useUserDetail } from '@/helpers/hooks/api';
 
 import FootTerms from '../../components/FootTerms';
 import Force from './Force';
@@ -15,29 +12,17 @@ import Info from './Information';
 
 // Profile Component
 const ProfileTemplate: React.FC = () => {
-  const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  );
+  const { isLoading, isError, data: info } = useUserDetail();
 
-  if (userQuery.isLoading || userQuery.isError) return null;
-  if (!userQuery.data) {
-    Alert.alert('유저 데이터를 불러오는 데 실패했습니다.');
-    return null;
+  if (isLoading || isError) return null;
+
+  if (!info) {
+    return (
+      <VStack flex="1" justifyContent="center" alignItems="center">
+        <ActivityIndicator />
+      </VStack>
+    );
   }
-
-  const info = userQuery.data;
-
-  /*
-  FIXME: @woohm402
-    todo: 현재 버전에서는 안 쓰는 코드
-    when: 이거 생길때,,
-
-  const { point } = info.userprofile;
-
-  const myColor = useMemo(() => {
-    return `#555555`;
-  }, [point]);
-  */
 
   return (
     <Flex justifyContent="space-between" h="100%">

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import requester from '@/apis/BaseInstance';
+import apiClient from '@/apis/apiClient';
 import { APItype } from '@/enums/image';
 import { TShortImage } from '@/types/shared';
 
@@ -22,7 +22,7 @@ const fieldNames = [
 const useImageUpload = (type: APItype, id?: number) => {
   const createPresignedPost = (id?: number): Promise<AxiosResponse> => {
     const ID = type === APItype.user ? '' : `${id}/`;
-    return requester.put(`${type}/${ID}create_presigned_post/`);
+    return apiClient.put(`${type}/${ID}create_presigned_post/`);
   };
 
   const uploadSingleImage = async (image: TShortImage) => {

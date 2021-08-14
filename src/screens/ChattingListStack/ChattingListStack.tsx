@@ -1,6 +1,10 @@
 import React from 'react';
 
+import { useIsFocused } from '@react-navigation/core';
+
+import { UnAuthorizedModal } from '@/components/UnAuthorizedModal';
 import { createGatguStackNavigator } from '@/helpers/functions/navigation';
+import { useSelector } from '@/helpers/hooks';
 
 import ChattingList from './ChattingList';
 
@@ -15,16 +19,22 @@ export type TChattingListStackParamList = {
 const ChattingListStack = createGatguStackNavigator<TChattingListStackParamList>();
 
 const ChattingListStackScreen: React.FC = () => {
+  const isLogined = useSelector((state) => state.user.isLogined);
+  const isScreenFocused = useIsFocused();
+
   return (
-    <ChattingListStack.Navigator>
-      <ChattingListStack.Screen
-        name={EChattingListStackScreens.ChattingList}
-        component={ChattingList}
-        options={{
-          headerTitleAlign: 'center',
-        }}
-      />
-    </ChattingListStack.Navigator>
+    <>
+      <ChattingListStack.Navigator>
+        <ChattingListStack.Screen
+          name={EChattingListStackScreens.ChattingList}
+          component={ChattingList}
+          options={{
+            headerTitleAlign: 'center',
+          }}
+        />
+      </ChattingListStack.Navigator>
+      <UnAuthorizedModal isOpen={isScreenFocused && !isLogined} />
+    </>
   );
 };
 

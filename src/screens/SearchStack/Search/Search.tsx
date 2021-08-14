@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Keyboard } from 'react-native';
 
 import { Box, Divider, SearchIcon, VStack } from 'native-base';
 
@@ -68,14 +69,17 @@ const Search: React.FC = () => {
       backgroundColor={palette.white}
       justifyContent="flex-start"
       flex={1}
+      onTouchEnd={Keyboard.dismiss}
     >
       <Box paddingX="20px" paddingY="10px">
         <GInput
+          noBorder
           width="full"
           theme="gray"
           value={searchInput}
           placeholder="키워드로 검색"
           InputLeftElement={<SearchIcon m={2} />}
+          onTouchEnd={(e) => e.stopPropagation()} // for prevent keyboard dismissing when click input
           onFocus={() => setSearchResultStage(false)}
           onChangeText={setSearchInput}
           onSubmitEditing={() => handleSearch(searchInput)}

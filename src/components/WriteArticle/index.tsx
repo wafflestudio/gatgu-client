@@ -74,9 +74,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return state.article.WriteArticleHasError;
   });
 
-  const isUserLoggedIn = !!useSelector(
-    (state: RootState) => state.user.accessToken
-  );
+  const isLogined = useSelector((state: RootState) => state.user.isLogined);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -131,7 +129,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   const submit = () => {
     setLoading(true);
-    if (!isUserLoggedIn) {
+    if (!isLogined) {
       Alert.alert('로그인을 해주세요');
       /* TODO @juimdpp
         로그인 페이지로 redirect 되는 페이지 구현

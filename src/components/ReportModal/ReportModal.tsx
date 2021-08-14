@@ -27,7 +27,7 @@ const ReportModal: React.FC<IReportModalProps> = ({
   };
 
   return (
-    <Modal isOpen avoidKeyboard onClose={onHide}>
+    <Modal isOpen avoidKeyboard closeOnOverlayClick={false} onClose={onHide}>
       <Modal.Content>
         <Modal.CloseButton _pressed={{ backgroundColor: palette.whiteGray }} />
         <Modal.Header>신고하기</Modal.Header>
@@ -45,6 +45,7 @@ const ReportModal: React.FC<IReportModalProps> = ({
           </Select>
 
           <TextArea
+            _focus={{ borderColor: palette.blue }}
             placeholder="신고 이유를 적어주세요"
             value={reportContent}
             maxLength={1000}

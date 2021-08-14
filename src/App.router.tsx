@@ -12,31 +12,26 @@ import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
 import GatguWebsocket from './helpers/GatguWebsocket/GatguWebsocket';
 import { createGatguStackNavigator } from './helpers/functions/navigation';
 import { useUserDetail } from './helpers/hooks/api';
-import AuthStackScreen, {
-  TAuthStackParamList,
-} from './screens/AuthStack/AuthStack';
 import ChattingRoomStackScreen, {
   TChattingRoomStackParamList,
 } from './screens/ChattingRoomStack/ChattingRoomStack';
 
 export enum EAppStackScreens {
-  AuthStack = 'AuthStack',
   MainStack = 'MainStack',
   ChattingRoomStack = 'ChattingRoomStack',
 }
 
 export type TAppStackParamList = {
-  [EAppStackScreens.AuthStack]: NavigatorScreenParams<TAuthStackParamList>;
   [EAppStackScreens.MainStack]: NavigatorScreenParams<TMainTabsParamList>;
   [EAppStackScreens.ChattingRoomStack]: NavigatorScreenParams<TChattingRoomStackParamList>;
-} & TAuthStackParamList &
-  TMainTabsParamList &
+} & TMainTabsParamList &
   TChattingRoomStackParamList;
 
 const AppStack = createGatguStackNavigator<TAppStackParamList>();
 
 const AppRouter: React.FC = () => {
   const userQuery = useUserDetail();
+
   GatguWebsocket.useInit({
     // url: `ws://d6f2505199db.ngrok.io/ws/chat/${userQuery.data?.id}/`,
     url: `ws://d6f2505199db.ngrok.io/ws/chat/2/`,
@@ -64,11 +59,11 @@ const AppRouter: React.FC = () => {
             component={ChattingRoomStackScreen}
             options={{ headerShown: false }}
           />
-          <AppStack.Screen
+          {/* <AppStack.Screen
             name={EAppStackScreens.AuthStack}
             component={AuthStackScreen}
             options={{ headerShown: false }}
-          />
+          /> */}
         </AppStack.Navigator>
       </SafeAreaView>
     </NavigationContainer>

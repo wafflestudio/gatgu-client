@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { Text, Image } from 'react-native';
 
 import { Flex } from 'native-base';
 
 import { GButton } from '@/components/Gatgu/GButton';
-import { GSpace } from '@/components/Gatgu/GSpace';
 import { GText } from '@/components/Gatgu/GText';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
+import { AppRoutes } from '@/helpers/routes';
 
 import FootTerms from '../../components/FootTerms';
 import styles from './UnLogged.style';
@@ -35,9 +35,7 @@ function ProfileTemplate(): JSX.Element {
           <GButton
             width="full"
             size="large"
-            onPress={() =>
-              navigation.navigate('AuthStack', { screen: 'Login' })
-            }
+            onPress={() => navigation.navigate(AppRoutes.Login)}
           >
             로그인
           </GButton>
@@ -47,9 +45,7 @@ function ProfileTemplate(): JSX.Element {
             color="gray"
             textDecorationLine="underline"
             style={{ marginTop: 10 }}
-            onPress={() =>
-              navigation.navigate('AuthStack', { screen: 'SignUp' })
-            }
+            onPress={() => navigation.navigate(AppRoutes.SignUp)}
           >
             회원가입
           </GText>

@@ -24,7 +24,12 @@ const Check: React.FC<ICheckProps> = ({
   const navigation = useNavigation();
 
   const goToTOS = () => {
-    navigation.navigate('ServiceTerm', { title, checked, isOptional, onPress });
+    navigation.navigate('ServiceTerms', {
+      title,
+      checked,
+      isOptional,
+      onPress,
+    });
   };
 
   return (
