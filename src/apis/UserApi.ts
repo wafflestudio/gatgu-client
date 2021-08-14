@@ -12,15 +12,18 @@ export const modifyMyInfo = ({
   password,
   nickname,
   trading_address,
+  picture,
 }: {
   password?: string;
   nickname?: string;
   trading_address?: string;
+  picture?: string;
 }): Promise<AxiosResponse> => {
   return gatguAxios.patch('users/me/', {
     password: password || undefined,
     nickname,
     trading_address,
+    picture,
   });
 };
 
