@@ -77,10 +77,13 @@ function ChattingList(): JSX.Element {
       </TouchableHighlight>
     );
   };
-
   return (
     <View>
-      <FlatList data={items} renderItem={renderItem} />
+      <FlatList
+        data={items}
+        renderItem={renderItem}
+        keyExtractor={(_, ind) => `${ind}`}
+      />
     </View>
   );
 }

@@ -115,7 +115,7 @@ function ChatBox({
           {renderedName}
           {renderedBubbleTime}
           {repeat ? (
-            <View>
+            <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() =>
                   resend(
@@ -124,10 +124,10 @@ function ChatBox({
                   )
                 }
               >
-                <FAIcon name="repeat" size={16} color="#0000" />
+                <FAIcon name="repeat" size={13} />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
-                <MCIcon name="delete" size={16} color="#0000" />
+                <MCIcon name="delete" size={16} />
               </TouchableOpacity>
             </View>
           ) : null}

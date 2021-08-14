@@ -141,7 +141,7 @@ function ChattingRoom(): JSX.Element {
           const wsMessage = {
             type: WSMessage.SEND_MESSAGE,
             data: {
-              room_id: 150, //roomID,
+              room_id: roomID,
               user_id: userID,
               message: {
                 // text: input.text,
