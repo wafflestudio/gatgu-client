@@ -95,7 +95,7 @@ function MainTabs(): JSX.Element {
         }}
       />
       <Tab.Screen
-        name={AppRoutes.Profile}
+        name={AppRoutes.UserStack}
         component={UserStackScreen}
         options={{
           tabBarIcon: ({ color }: any): JSX.Element =>

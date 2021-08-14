@@ -13,6 +13,7 @@ import { getTs } from '@/helpers/functions/time';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useShallowSelector from '@/helpers/hooks/useSelector';
+import useSelector from '@/helpers/hooks/useSelector';
 import { AppRoutes } from '@/helpers/routes';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { IArticleProps, IArticleStatus } from '@/types/article';
@@ -30,10 +31,9 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const article_id = article.article_id;
   const dispatch = useDispatch();
   const { sendWsMessage } = GatguWebsocket.useMessage();
+  const isLogined = useSelector((state) => state.user.isLogined);
 
-  const currentUser = useUserDetail().data;
-
-  const isLogined = !!useShallowSelector((state) => state.user.isLogined);
+  const currentUser = useUserDetail({ enabled: isLogined }).data;
 
   const isChattingButtonDisabled =
     !isLogined || orderStatus.progress_status > ArticleStatus.Dealing;

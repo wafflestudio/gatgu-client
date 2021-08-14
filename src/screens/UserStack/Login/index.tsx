@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 import { setRequesterToken } from '@/apis/BaseInstance';
 import { login } from '@/apis/UserApi';
 import Logo from '@/assets/icons/Logo';
-import { Button } from '@/components';
 import { GButton } from '@/components/Gatgu/GButton';
 import { GSpace } from '@/components/Gatgu/GSpace';
 import { GText } from '@/components/Gatgu/GText';
@@ -22,7 +21,7 @@ import { palette } from '@/styles';
 
 import styles from './Login.style';
 
-function LoginTemplate(): JSX.Element {
+function Login(): JSX.Element {
   const [id, setID] = useState('');
   // FIXME: @woohm402
   //   todo: pw는 암호화해야 함
@@ -37,7 +36,7 @@ function LoginTemplate(): JSX.Element {
       const loginResponse = await login(id, pw);
       const { access, refresh } = loginResponse.data.token;
       setRequesterToken(access);
-      dispatch(setLoginState(false));
+      dispatch(setLoginState(true));
 
       ObjectStorage.addObject(asyncStoragekey.ACCESS_TOKEN, {
         data: access,
@@ -108,4 +107,4 @@ function LoginTemplate(): JSX.Element {
   );
 }
 
-export default LoginTemplate;
+export default Login;

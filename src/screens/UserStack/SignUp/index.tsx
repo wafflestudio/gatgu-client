@@ -18,7 +18,7 @@ import {
   isValidPasswordConfirm,
   isValidPassword,
 } from '@/helpers/functions/validate';
-import Input from '@/screens/AuthStack/SignUp/Input';
+import Input from '@/screens/UserStack/SignUp/Input';
 import { flexRow } from '@/styles/wrapper';
 
 import Check from './Check';
