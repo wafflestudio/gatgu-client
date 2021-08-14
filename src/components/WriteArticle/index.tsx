@@ -74,7 +74,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     return state.article.WriteArticleHasError;
   });
 
-  const isLogined = !!useSelector((state: RootState) => state.user.isLogined);
+  const isLogined = useSelector((state: RootState) => state.user.isLogined);
 
   const [loading, setLoading] = useState<boolean>(false);
 
