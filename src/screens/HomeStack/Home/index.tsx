@@ -10,6 +10,8 @@ import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
 import { IArticleSummary } from '@/types/article';
 
+import HomeShimmer from '../components/HomeShimmer';
+
 const Home: React.FC = () => {
   const navigation = useAppNavigation();
 
@@ -48,6 +50,10 @@ const Home: React.FC = () => {
     ({ item }: { item: IArticleSummary }) => <ArticleBox {...item} />,
     []
   );
+
+  if (firstFetching) {
+    return <HomeShimmer />;
+  }
 
   return (
     <CursorFlatList
