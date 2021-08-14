@@ -1,12 +1,9 @@
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { useQuery } from 'react-query';
 
 import { Flex, VStack } from 'native-base';
 
-import { getMyData } from '@/apis/UserApi';
-import { USER_DETAIL } from '@/queryKeys';
-import { IUserDetail } from '@/types/user';
+import { useUserDetail } from '@/helpers/hooks/api';
 
 import FootTerms from '../../components/FootTerms';
 import Force from './Force';
@@ -15,10 +12,7 @@ import Info from './Information';
 
 // Profile Component
 const ProfileTemplate: React.FC = () => {
-  const { isLoading, isError, data: info } = useQuery<IUserDetail>(
-    [USER_DETAIL],
-    () => getMyData().then((response) => response.data)
-  );
+  const { isLoading, isError, data: info } = useUserDetail();
 
   if (isLoading || isError) return null;
 

@@ -39,7 +39,7 @@ const axiosProxyHandler = async (request: Request) => {
   } catch (err) {
     const error_code = err?.response?.data?.error_code;
 
-    if (error_code === ErrorCode.UnAuthorized || error_code === 100) {
+    if (error_code === ErrorCode.UnAuthorized) {
       return await retryRequest(request, err);
     }
     return err;
