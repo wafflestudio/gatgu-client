@@ -1,37 +1,36 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { DateTime } from 'luxon';
 import { Flex } from 'native-base';
 
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 import { setRequesterToken } from '@/apis/BaseInstance';
 import { login } from '@/apis/UserApi';
 import Logo from '@/assets/icons/Logo';
+import { GInput } from '@/components/Gatgu';
 import { GButton } from '@/components/Gatgu/GButton';
 import { GSpace } from '@/components/Gatgu/GSpace';
 import { GText } from '@/components/Gatgu/GText';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { setLoginState } from '@/store/userSlice';
-import { palette } from '@/styles';
 
 import styles from './Login.style';
 
 function Login(): JSX.Element {
   const [id, setID] = useState('');
-  // FIXME: @woohm402
-  //   todo: pw는 암호화해야 함
-  //   when: user 최최최종 마무리 PR에서 하겠습니다
   const [pw, setPW] = useState('');
+
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const loginReq = useCallback(async () => {
+    setLoading(true);
     try {
       const loginResponse = await login(id, pw);
       const { access, refresh } = loginResponse.data.token;
@@ -46,6 +45,7 @@ function Login(): JSX.Element {
         data: refresh,
         expiry: DateTime.now().plus({ day: 30 }).toSeconds(),
       });
+      navigation.dispatch(StackActions.popToTop());
       navigation.navigate('Home');
     } catch (err) {
       switch (err.response.data.error_code) {
@@ -56,6 +56,8 @@ function Login(): JSX.Element {
           // cannot reach here
           break;
       }
+    } finally {
+      setLoading(false);
     }
   }, [id, pw, dispatch, navigation]);
 
@@ -65,29 +67,31 @@ function Login(): JSX.Element {
 
   return (
     <Flex alignItems="center" style={styles.container}>
-      <Flex width="262" alignItems="center">
+      <Flex width="262px" alignItems="center">
         <Logo.subLogo style={styles.logo} />
-        <View>
-          <TextInput
-            style={styles.input}
+        <Flex width="100%" mb="40px">
+          <GInput
+            width="full"
+            theme="white"
             value={id}
             placeholder="아이디"
             onChangeText={setID}
-            placeholderTextColor={palette.gray}
           />
-          <TextInput
-            style={styles.input}
-            textContentType={'password'}
+          <GSpace h={10} />
+          <GInput
+            width="full"
+            theme="white"
+            type="password"
             value={pw}
             placeholder="비밀번호"
             onChangeText={setPW}
-            placeholderTextColor={palette.gray}
           />
-        </View>
+        </Flex>
         <GButton
           width="full"
           size="large"
           textProps={{ bold: true }}
+          isLoading={loading}
           onPress={loginReq}
         >
           로그인

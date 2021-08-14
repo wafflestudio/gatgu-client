@@ -24,7 +24,7 @@ const gInputThemes: Record<GInputTheme, keyof typeof palette> = {
 };
 
 const gInputHeight: Record<GInputSize, string> = {
-  default: '45px',
+  default: '46px',
 };
 
 const GInput: React.FC<GInputProps> = ({
@@ -39,6 +39,9 @@ const GInput: React.FC<GInputProps> = ({
       isFullWidth={width === 'full'}
       _focus={gInputStyles._focus}
       height={gInputHeight[size]}
+      borderWidth="1px"
+      borderRadius="11px"
+      borderColor={palette.gray}
       backgroundColor={palette[gInputThemes[theme]]}
       variant={variant}
       {...inputProps}

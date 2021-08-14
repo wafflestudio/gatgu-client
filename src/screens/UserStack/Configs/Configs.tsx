@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import { Flex } from 'native-base';
 
+import { StackActions, useNavigation } from '@react-navigation/core';
+
 import { userAPI } from '@/apis';
 import { removeRequesterToken } from '@/apis/BaseInstance';
 import { asyncStoragekey } from '@/constants/asyncStorage';
@@ -15,6 +17,7 @@ import { ConfigLayout, IConfigLayoutItem } from '../components/ConfigLayout';
 import { LogoutModal } from '../components/LogoutModal';
 
 const Configs: React.FC = () => {
+  const navigation = useNavigation();
   const [isLogoutModalOpen, setLogoutModalOpen] = React.useState(false);
   const dispatch = useDispatch();
   const toaster = useToaster();
@@ -26,6 +29,9 @@ const Configs: React.FC = () => {
       removeRequesterToken();
       ObjectStorage.removeObject(asyncStoragekey.ACCESS_TOKEN);
       ObjectStorage.removeObject(asyncStoragekey.REFRESH_TOKEN);
+
+      setLogoutModalOpen(false);
+      navigation.dispatch(StackActions.popToTop());
 
       toaster.info('로그아웃되었습니다.');
     } catch {
