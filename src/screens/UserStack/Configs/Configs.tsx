@@ -6,7 +6,7 @@ import { Flex } from 'native-base';
 import { StackActions, useNavigation } from '@react-navigation/core';
 
 import { userAPI } from '@/apis';
-import { removeRequesterToken } from '@/apis/BaseInstance';
+import { removeRequesterToken } from '@/apis/apiClient';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { useToaster } from '@/helpers/hooks';

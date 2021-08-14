@@ -7,8 +7,8 @@ import { Flex } from 'native-base';
 
 import { StackActions, useNavigation } from '@react-navigation/native';
 
-import { setRequesterToken } from '@/apis/BaseInstance';
 import { login } from '@/apis/UserApi';
+import { setRequesterToken } from '@/apis/apiClient';
 import Logo from '@/assets/icons/Logo';
 import { GInput } from '@/components/Gatgu';
 import { GButton } from '@/components/Gatgu/GButton';
