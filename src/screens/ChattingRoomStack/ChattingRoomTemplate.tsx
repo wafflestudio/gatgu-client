@@ -1,14 +1,21 @@
 import React from 'react';
 import { KeyboardAvoidingView, Platform, Text } from 'react-native';
 
-import { DrawerActions, useNavigation } from '@react-navigation/native';
+import {
+  DrawerActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
 import { Header } from '@/components';
+import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChatsContainer from './ChatsContainer';
 
 export default function ChattingRoom(): JSX.Element {
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
 
   return (
     <KeyboardAvoidingView

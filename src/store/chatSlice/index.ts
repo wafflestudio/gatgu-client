@@ -92,12 +92,11 @@ export const getChatInfo = (id: number | undefined): AppThunk => (dispatch) => {
     });
 };
 
-export const changeOrderStatus = (
-  id: number,
-  orderStatus: number
-): AppThunk => (dispatch) => {
+export const changeOrderStatus = (id: number, payStatus: number): AppThunk => (
+  dispatch
+) => {
   chatAPI
-    .changeStatus(id, { order_status: orderStatus })
+    .changeParticipantStatus(id, { pay_status: payStatus, participant_id: id })
     .then((response: AxiosResponse) => {
       dispatch(setCurrentChatInfo(response.data)); // TODO: @juimdpp
       // todo: json server returns entire object, but backend returns status string --> must update to setOrderStatus(response.data)

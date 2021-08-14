@@ -8,7 +8,6 @@ import { DateTime } from 'luxon';
 import { useNavigation } from '@react-navigation/core';
 
 import { chatAPI } from '@/apis';
-import { CursorFlatList } from '@/components';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useCursorPagination } from '@/helpers/hooks';
