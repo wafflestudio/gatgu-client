@@ -8,9 +8,9 @@ import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { APItype } from '@/enums/image';
-import { createError } from '@/helpers/functions';
 import { getTs } from '@/helpers/functions/time';
 import { validateLink } from '@/helpers/functions/validate';
+import { useToaster } from '@/helpers/hooks';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { AppRoutes } from '@/helpers/routes';
 import { AppThunk, RootState } from '@/store';
@@ -41,7 +41,6 @@ import Title from './Title/Title';
  when: 기획 잡히면:
   - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
 */
-const [Error] = createError();
 interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
 }
@@ -58,20 +57,13 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
   const { id } = isEdit ? route.params : { id: 0 };
   const dispatch = useDispatch();
-  const [pageStatus, setPageStatus] = useState<number>(-100);
-  const [hasError, setErrorStatus] = useState<boolean>(false);
   const { uploadMultipleImages } = useImageUpload(APItype.article, id);
+  const toaster = useToaster();
 
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
     if (isEdit) return state.article.currentArticle;
     else return null;
-  });
-  const _pageStatus = useSelector((state: RootState) => {
-    return state.article.WriteArticleErrorStatus;
-  });
-  const _errorState = useSelector((state: RootState) => {
-    return state.article.WriteArticleHasError;
   });
 
   const isLogined = useSelector((state: RootState) => state.user.isLogined);
@@ -82,11 +74,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (inp === 'NaN') setPrice('');
     else setPrice(inp);
   };
-
-  useEffect(() => {
-    setPageStatus(_pageStatus);
-    setErrorStatus(_errorState);
-  }, [_pageStatus, _errorState]);
 
   useEffect(() => {
     if (isEdit) dispatch(getSingleArticle(id));
@@ -139,7 +126,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     }
     const res = checkInput();
     if (res != '') {
-      Alert.alert(res);
+      toaster.info('링크가 잘못 되었습니다. 확인해주세요.');
+      setLoading(false);
       return;
     }
     const checkImages =
@@ -168,6 +156,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
                   id: newID,
                 },
               });
+            } else {
+              console.log('ERROR');
+              toaster.error('에러가 발생했습니다. 다시 시도해주세요');
             }
           });
         } else {
@@ -180,12 +171,16 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
                   id: newID,
                 },
               });
+            } else {
+              console.log('ERROR');
+              toaster.error('에러가 발생했습니다. 다시 시도해주세요');
             }
           });
         }
       })
       .catch((e) => {
         console.log('ERROR', e);
+        toaster.error('에러가 발생했습니다. 다시 시도해주세요');
       })
       .finally(() => {
         setLoading(false);
@@ -222,25 +217,19 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         </View>
       ) : (
         <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
-          {hasError ? (
-            Error(pageStatus, () => {
-              Alert.alert('Need to fix this part');
-            })
-          ) : (
-            <KeyboardAvoidingView>
-              {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
-              <DueDate dueDate={dueDate} setDueDate={setDueDate} />
-              <AddImage images={images} setImages={setImages} />
-              <Title title={title} setTitle={setTitle} />
-              <Recruiting needPrice={need_price} setPrice={handlePrice} />
-              <Location location={location} setLocation={setLocation} />
-              <Link link={link} setLink={setLink} />
-              <Description
-                description={description}
-                setDescription={setDescription}
-              />
-            </KeyboardAvoidingView>
-          )}
+          <KeyboardAvoidingView>
+            {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
+            <DueDate dueDate={dueDate} setDueDate={setDueDate} />
+            <AddImage images={images} setImages={setImages} />
+            <Title title={title} setTitle={setTitle} />
+            <Recruiting needPrice={need_price} setPrice={handlePrice} />
+            <Location location={location} setLocation={setLocation} />
+            <Link link={link} setLink={setLink} />
+            <Description
+              description={description}
+              setDescription={setDescription}
+            />
+          </KeyboardAvoidingView>
         </ScrollView>
       )}
     </View>
