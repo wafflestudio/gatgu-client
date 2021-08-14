@@ -39,7 +39,7 @@ class BaseWebsocket {
   >;
 
   constructor(url: string, options: IBaseWebsocketOption) {
-    console.log('Websocket');
+    console.log('Websocket', url);
     this._ws = new ReconnectingWebsocket(url);
 
     this._pingpongCount = 0;
