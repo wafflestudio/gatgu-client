@@ -124,10 +124,10 @@ function ChatBox({
                   )
                 }
               >
-                <FAIcon name="repeat" size={16} color="#00000" />
+                <FAIcon name="repeat" size={16} color="#0000" />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
-                <MCIcon name="delete" size={16} color="#00000" />
+                <MCIcon name="delete" size={16} color="#0000" />
               </TouchableOpacity>
             </View>
           ) : null}

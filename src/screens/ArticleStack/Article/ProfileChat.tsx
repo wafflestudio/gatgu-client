@@ -42,10 +42,10 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
 
   const handleChattingButtonClick = (resendKey: string) => {
     ///
-    navigation.navigate(AppRoutes.ChattingRoom, {
-      screen: 'ChattingRoom',
-      params: { id: article_id },
-    });
+    // navigation.navigate(AppRoutes.ChattingRoom, {
+    //   screen: 'ChattingRoom',
+    //   params: { id: article_id },
+    // });
     ////
     const isResent = parseInt(resendKey) !== -1;
     const websocket_id = isResent ? resendKey : `${getTs()}`;
