@@ -16,6 +16,7 @@ export interface GInputProps extends OmittedInputProps {
   width?: GInputWidth;
   size?: GInputSize;
   theme?: GInputTheme;
+  noBorder?: boolean;
 }
 
 const gInputThemes: Record<GInputTheme, keyof typeof palette> = {
@@ -28,6 +29,7 @@ const gInputHeight: Record<GInputSize, string> = {
 };
 
 const GInput: React.FC<GInputProps> = ({
+  noBorder,
   theme = 'white',
   width = 'default',
   size = 'default',
@@ -41,7 +43,7 @@ const GInput: React.FC<GInputProps> = ({
       height={gInputHeight[size]}
       borderWidth="1px"
       borderRadius="11px"
-      borderColor={palette.gray}
+      borderColor={noBorder ? undefined : palette.gray}
       backgroundColor={palette[gInputThemes[theme]]}
       variant={variant}
       {...inputProps}
