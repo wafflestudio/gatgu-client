@@ -14,9 +14,7 @@ const commonStyle = StyleSheet.create({
 
 const InputBarStyle = StyleSheet.create({
   bar: {
-    // flexDirection: 'row',
     backgroundColor: palette.white,
-    // height: 50,
     padding: 0,
   },
   inputIcon: {

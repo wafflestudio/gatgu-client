@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import _ from 'lodash';
@@ -60,7 +61,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
       if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
-        // getChattingMessages('next');
+        // getChattingMessages('next'); // TODO NOW: when message is received
       }
     },
   });
@@ -213,13 +214,8 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   };
 
   return (
-    <View
-      style={{
-        justifyContent: 'flex-end',
-        height: '93%',
-      }}
-    >
-      {
+    <View>
+      <View style={{ height: '94.22%' }}>
         <FlatList
           data={[...pendingList, ...chatList]}
           renderItem={renderItem}
@@ -231,14 +227,16 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           onEndReachedThreshold={0.1}
           ListHeaderComponentStyle={{ borderWidth: 10 }}
         />
-      }
-      <InputBar
-        input={input}
-        setInput={setInput}
-        handleSendMessage={handleSendMessage}
-        id={currentUser?.id}
-        article_id={roomID}
-      />
+      </View>
+      <View style={{ flex: 1 }}>
+        <InputBar
+          input={input}
+          setInput={setInput}
+          handleSendMessage={handleSendMessage}
+          id={currentUser?.id}
+          article_id={roomID}
+        />
+      </View>
     </View>
   );
 }
