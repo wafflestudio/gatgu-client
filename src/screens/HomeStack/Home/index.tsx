@@ -1,4 +1,5 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect } from 'react';
+import { FlatList, Text } from 'react-native';
 
 import { View } from 'native-base';
 
@@ -48,36 +49,35 @@ const Home: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderArticle = React.useCallback(
-    ({ item }: { item: IArticleSummary }) => <ArticleBox {...item} />,
-    []
-  );
-
-  if (error) {
-    return (
-      <Error
-        title="오류 발생"
-        description="모집글들을 불러오지 못했습니다. 다시 시도해주세요"
-        loading={fetching}
-        errCallback={() => getItems('first')}
-      />
-    );
-  }
-
-  if (firstFetching) {
-    return <HomeShimmer />;
-  }
+  const renderArticle = useCallback(({ item }: { item: IArticleSummary }) => {
+    return <ArticleBox {...item} />;
+  }, []);
 
   return (
-    <CursorFlatList
-      items={items}
-      loading={firstFetching && isFirstPage}
-      isFirstPage={isFirstPage}
-      isLastPage={isLastPage}
-      fetching={fetching}
-      getItems={getItems}
-      renderItem={renderArticle}
-    />
+    <View>
+      {error ? (
+        <View>
+          <Error
+            title={'Hello'}
+            description={'descirption'}
+            errCallback={() => getItems('first')}
+          />
+        </View>
+      ) : (
+        <View>
+          <CursorFlatList
+            items={items}
+            loading={firstFetching && isFirstPage}
+            isFirstPage={isFirstPage}
+            isLastPage={isLastPage}
+            fetching={fetching}
+            getItems={getItems}
+            renderItem={renderArticle}
+          />
+          {/* <FlatList data={items} renderItem={renderArticle}/> */}
+        </View>
+      )}
+    </View>
   );
 };
 
