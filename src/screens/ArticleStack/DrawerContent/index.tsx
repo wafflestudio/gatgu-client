@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -56,8 +56,8 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         toaster.success('삭제가 완료되었습니다.');
         navigation.navigate('Home');
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((e) => {
+        console.error('DrawerContent', e);
         toaster.error('삭제하는데 실패했습니다.');
       });
   };

@@ -42,21 +42,22 @@ const ArticleBox: React.FC<IArticleSummary> = ({
           fallbackSource={require('@/assets/images/defaultThumnail.png')}
           loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
           alt="article thumnail"
+          borderRadius="13px"
         />
       </AspectRatio>
       <View style={styles.articleBox}>
         <Flex>
-          <Flex direction="row">
-            <Text style={styles.Head}>{title}</Text>
-          </Flex>
+          <Text style={styles.Head}>{title}</Text>
           <View style={styles.infoWrapper}>
-            <Text style={styles.description}>
+            <Text
+              style={styles.description}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
               {getPassedTime(updated_at)}&nbsp; · &nbsp;
-            </Text>
-            <Text style={styles.description}>
               {getRemainTime(time_in)}&nbsp; · &nbsp;
+              {trading_place}
             </Text>
-            <Text style={styles.description}>{trading_place}</Text>
           </View>
         </Flex>
         <Flex direction="row" justify="flex-end">
