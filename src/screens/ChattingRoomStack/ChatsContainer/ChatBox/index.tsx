@@ -65,7 +65,9 @@ function ChatBox({
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
         <View>
-          {text.length != 0 ? <Bubble message={text} isSelf={isSelf} /> : null}
+          {text && text.length != 0 ? (
+            <Bubble message={text} isSelf={isSelf} />
+          ) : null}
           {image.length > 0 && image[0].img_url !== emptyURL && (
             <Image
               source={{ uri: image[0].img_url }}
