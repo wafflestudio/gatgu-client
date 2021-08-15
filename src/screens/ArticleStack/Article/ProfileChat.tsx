@@ -10,6 +10,7 @@ import { GButton } from '@/components/Gatgu/GButton';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { getTs } from '@/helpers/functions/time';
+import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useSelector from '@/helpers/hooks/useSelector';
@@ -32,7 +33,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const dispatch = useDispatch();
   const { sendWsMessage } = GatguWebsocket.useMessage();
   const isLogined = useSelector((state) => state.user.isLogined);
-
+  const toaster = useToaster();
   const currentUser = useUserDetail().data;
 
   const isChattingButtonDisabled =
@@ -74,7 +75,9 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
         }
       })
       .catch(() => {
-        Alert.alert("Can't access chatroom. Check your connection");
+        toaster.error(
+          '채팅방에 입장하지 못 했습니다. 네트워크 연결을 확인해주세요.'
+        );
       });
   };
 
