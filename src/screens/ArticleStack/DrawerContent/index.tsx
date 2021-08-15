@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import {
   DrawerContentComponentProps,
@@ -11,17 +11,14 @@ import { articleAPI } from '@/apis';
 import { ReportModal } from '@/components';
 import { GText } from '@/components/Gatgu/';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
-import { OrderStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
-import { changeOrderStatus } from '@/store/chatSlice';
 
 import styles, { StyledArticleDrawerMenuText } from './Drawer.style';
 
 const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const navigation = props.navigation;
-  const dispatch = useDispatch();
   const toaster = useToaster();
 
   const currentUser = useUserDetail().data;
@@ -33,21 +30,6 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
 
   const [isReportModalOpen, setReportModalOpen] = useState(false);
   const [isReportModalSubmitting, setReportModalSubmitting] = useState(false);
-
-  const toggleStatus = () => {
-    // change status
-    const temp =
-      order_chat.order_status <= OrderStatus.Complete
-        ? OrderStatus.Complete
-        : OrderStatus.Pending;
-    // TODO: @juimdpp
-    // todo: 추후에 쓸 수 있을 듯
-    // when: api 고칠 때 보기
-    // const body = { ...chatInfo, orderStatus: temp };
-    dispatch(changeOrderStatus(order_chat.id, temp));
-
-    // Alert.alert(`"${temp}"으로 성공적으로 상태를 바꿨습니다!`);
-  };
 
   const delArticle = () => {
     articleAPI
@@ -102,7 +84,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
                 touchable
                 size="huge"
                 color="blue"
-                onPress={toggleStatus}
+                // onPress={toggleStatus}
               >
                 모집 완료하기
               </StyledArticleDrawerMenuText>
