@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import { Modal } from 'native-base';
+
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -9,8 +11,9 @@ import {
 
 import { articleAPI } from '@/apis';
 import { ReportModal } from '@/components';
-import { GText } from '@/components/Gatgu/';
+import { GButton, GSpace, GText } from '@/components/Gatgu/';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
+import { ArticleStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
@@ -20,10 +23,9 @@ import styles, { StyledArticleDrawerMenuText } from './Drawer.style';
 const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const navigation = props.navigation;
   const toaster = useToaster();
-
   const currentUser = useUserDetail().data;
 
-  const { order_chat, writer_id, article_id } = useSelector(
+  const { writer_id, article_id, article_status } = useSelector(
     (state: RootState) => state.article.currentArticle
   );
   const isMyArticle = writer_id === currentUser?.id;
@@ -31,15 +33,46 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const [isReportModalOpen, setReportModalOpen] = useState(false);
   const [isReportModalSubmitting, setReportModalSubmitting] = useState(false);
 
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
+
+  const [isStatusChangeModalOpen, setStatusChangeModalOpen] = useState(false);
+  const [isStatusChanging, setStatusChanging] = useState(false);
+
+  const changeArticleStatus = () => {
+    setStatusChanging(true);
+
+    articleAPI
+      .patchArticle(article_id, {
+        article_status: ArticleStatus.Complete,
+      })
+      .then(() => {
+        setStatusChangeModalOpen(false);
+        toaster.success('글 상태 변경을 완료되었습니다.');
+      })
+      .catch(() => {
+        toaster.error('글 상태 변경에 실패했습니다.');
+      })
+      .finally(() => {
+        setStatusChanging(false);
+      });
+  };
+
   const delArticle = () => {
+    setDeleting(true);
+
     articleAPI
       .deleteArticle(article_id)
       .then(() => {
         toaster.success('삭제가 완료되었습니다.');
+        setDeleteModalOpen(false);
         navigation.navigate('Home');
       })
       .catch(() => {
         toaster.error('삭제하는데 실패했습니다.');
+      })
+      .finally(() => {
+        setDeleting(false);
       });
   };
 
@@ -66,12 +99,94 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
       });
   };
 
+  const renderDeleteModal = () => {
+    return (
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+      >
+        <Modal.Content>
+          <Modal.Header>글을 삭제하시겠습니까?</Modal.Header>
+          <Modal.Footer pr={6}>
+            <GButton
+              width="full"
+              variant="outlined"
+              size="large"
+              style={{ flex: 1 }}
+              onPress={() => setDeleteModalOpen(false)}
+            >
+              취소
+            </GButton>
+            <GSpace w={10} />
+            <GButton
+              width="full"
+              size="large"
+              style={{ flex: 1 }}
+              isLoading={isDeleting}
+              onPress={delArticle}
+            >
+              삭제하기
+            </GButton>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
+    );
+  };
+
+  const renderStatusChangeModal = () => {
+    return (
+      <Modal
+        isOpen={isStatusChangeModalOpen}
+        onClose={() => setStatusChangeModalOpen(false)}
+      >
+        <Modal.CloseButton />
+        <Modal.Content>
+          <Modal.Header>거래 완료하시겠습니까?</Modal.Header>
+          <Modal.Footer pr={6} justifyContent="space-between">
+            <GButton
+              width="full"
+              variant="outlined"
+              size="large"
+              style={{ flex: 1 }}
+              onPress={() => setStatusChangeModalOpen(false)}
+            >
+              취소
+            </GButton>
+            <GSpace w={10} />
+            <GButton
+              width="full"
+              size="large"
+              style={{ flex: 1 }}
+              isLoading={isStatusChanging}
+              onPress={changeArticleStatus}
+            >
+              거래 완료하기
+            </GButton>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
+    );
+  };
+
+  const renderArticleStatusChangeText = () => {
+    if (article_status.progress_status === ArticleStatus.Complete) {
+      return null;
+    }
+
+    return (
+      <StyledArticleDrawerMenuText
+        touchable
+        size="huge"
+        color="blue"
+        onPress={() => setStatusChangeModalOpen(true)}
+      >
+        거래 완료하기
+      </StyledArticleDrawerMenuText>
+    );
+  };
+
   const renderParticipants = () => {
-    /**
-     * TODO:
-     * order_chat.participant_profile 타입이 정해지면 구현하겠습니다.
-     */
-    return order_chat.participant_profile.map(() => <></>);
+    // return order_chat.participant_profile.map(() => <></>);
   };
 
   return (
@@ -80,14 +195,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         <View style={styles.upperContainer}>
           {isMyArticle ? (
             <>
-              <StyledArticleDrawerMenuText
-                touchable
-                size="huge"
-                color="blue"
-                // onPress={toggleStatus}
-              >
-                모집 완료하기
-              </StyledArticleDrawerMenuText>
+              {renderArticleStatusChangeText()}
               <StyledArticleDrawerMenuText
                 touchable
                 size="huge"
@@ -98,7 +206,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
               <StyledArticleDrawerMenuText
                 touchable
                 size="huge"
-                onPress={delArticle}
+                onPress={() => setDeleteModalOpen(true)}
               >
                 삭제하기
               </StyledArticleDrawerMenuText>
@@ -122,6 +230,9 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
           onSubmit={handleReportSubmit}
         />
       ) : null}
+
+      {renderStatusChangeModal()}
+      {renderDeleteModal()}
     </DrawerContentScrollView>
   );
 };

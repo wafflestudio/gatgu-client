@@ -6,11 +6,11 @@
  */
 export enum ArticleStatus {
   /** 모집중 */
-  Gathering = 1,
+  Gathering = 0,
   /** 거래중 */
-  Dealing = 2,
+  Dealing = 1,
   /** 거래 완료 */
-  Complete = 3,
+  Complete = 2,
   /** 기간 만료 */
-  Expire = 4,
+  Expire = 3,
 }
