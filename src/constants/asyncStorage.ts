@@ -10,4 +10,6 @@ export enum asyncStoragekey {
 
   USER = 'USER',
   NOTIFICATION_CONFIG = 'NOTIFICATION_CONFIG',
+  // 해당 채팅룸의 마지막으로 읽은 메시지 아이디
+  RECENT_MESSAGE_OF_ROOM = 'RECENT_MESSAGE_OF_ROOM',
 }

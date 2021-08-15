@@ -17,6 +17,7 @@ import { Profile } from '@/components';
 import { ParticipantStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
+import { removeRecentlyReadMessageId } from '@/helpers/functions/chat';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
@@ -83,6 +84,8 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
         if (roomID) {
           dispatch(fetchingParticipants(roomID));
         }
+
+        removeRecentlyReadMessageId(roomID);
       })
       .catch(() => {
         Alert.alert("Can't access chatroom. Check your connection");

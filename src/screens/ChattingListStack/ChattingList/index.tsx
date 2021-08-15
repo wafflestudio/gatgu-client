@@ -1,42 +1,46 @@
-import React, { useEffect } from 'react';
-import { View, Alert, FlatList } from 'react-native';
+import React from 'react';
+import { Alert, FlatList } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
 
-import { useNavigation } from '@react-navigation/core';
+import { useFocusEffect, useNavigation } from '@react-navigation/core';
 
-import { chatAPI } from '@/apis';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
-import { useCursorPagination } from '@/helpers/hooks';
+import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
+import { useSelector } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';
 
+import useChattingRoomList from '../hooks/useChattingRoomList';
 import ChattingBox from './ChattingBox';
 
 function ChattingList(): JSX.Element {
   const navigation = useNavigation();
-  const {
-    items,
-    firstFetching,
-    isFirstPage,
-    isLastPage,
-    fetching,
-    getItems,
-  } = useCursorPagination<IChatListSinglePreview>({
-    fetchFunc: chatAPI.getMyChattingList,
+  const isLogined = useSelector((state) => state.user.isLogined);
+
+  const { items, updateChattingRoomList } = useChattingRoomList();
+
+  const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
+    onmessage: (msg) => {
+      console.log(msg);
+      if (msg.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
+        updateChattingRoomList();
+        console.log('__\nupdated\n__');
+      }
+    },
   });
-  const { sendWsMessage } = GatguWebsocket.useMessage();
 
-  const toggle = useSelector((state: RootState) => state.chat.toggleChatList);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!isLogined) return;
+
+      updateChattingRoomList();
+    }, [isLogined, updateChattingRoomList])
+  );
+
   const currentUser = useUserDetail().data;
-
-  useEffect(() => {
-    getItems('first');
-  }, [toggle]);
 
   const navigateToChatRoom = (resendKey: string, articleID: number) => {
     // check if resend
@@ -77,13 +81,11 @@ function ChattingList(): JSX.Element {
     );
   };
   return (
-    <View>
-      <FlatList
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(_, ind) => `${ind}`}
-      />
-    </View>
+    <FlatList
+      data={items}
+      renderItem={renderItem}
+      keyExtractor={(_, ind) => `${ind}`}
+    />
   );
 }
 

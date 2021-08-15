@@ -89,3 +89,7 @@ export interface IApiImage {
   id: number;
   img_url: string;
 }
+
+export interface IRecentMessageIdOfRoom {
+  id: number;
+}
