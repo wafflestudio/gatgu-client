@@ -42,34 +42,31 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   const [today, setToday] = useState(new Date());
   const [initWeek, setInitWeek] = useState(returnArrayDate(today));
   const [modalVisible, setModalVisible] = useState(false);
-  const [date, setDate] = useState(today);
   const [dayArr, setDayArr] = useState(initWeek);
 
-  const handleChange = (event: any, selectedDate: Date | undefined) => {
-    setDate(selectedDate ? selectedDate : date);
-  };
   const showDatePicker = () => {
     setModalVisible(!modalVisible);
     setToday(new Date());
     setInitWeek(returnArrayDate(new Date()));
   };
   const selectDay = (indx: number) => {
+    console.log('select');
     const temp = _.cloneDeep(initWeek);
     temp[indx].selected = true;
     setDayArr(temp);
+
+    const res = new Date();
+    // set time
+    res.setHours(23, 59);
+
+    // find chosen day
+    // set to chosen day
+    res.setDate(res.getDate() + indx);
+
+    setDueDate(res);
   };
   const handleComplete = () => {
     setModalVisible(false);
-    const res = new Date();
-    // set time
-    res.setHours(date.getHours());
-    res.setMinutes(date.getMinutes());
-    // find chosen day
-    const index = dayArr.findIndex((item) => item.selected);
-    // set to chosen day
-    res.setDate(res.getDate() + index);
-
-    setDueDate(res);
   };
 
   const renderDates = dayArr.map((item, indx) => (
@@ -104,7 +101,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   }, [dueDate]);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <View style={styles.labelContainer}>
         <TouchableHighlight
           onPress={() => showDatePicker()}
@@ -116,40 +113,21 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
           </View>
         </TouchableHighlight>
       </View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}
-      >
+      {modalVisible ? (
         <View style={styles.modalView}>
           <View style={styles.headerContainer}>
             <View style={styles.titleContainer}>
               <Text style={{ ...typo.bigTitle }}>모집기한</Text>
             </View>
-            <GButton size="small" onPress={() => handleComplete()}>
+            <GButton size="small" onPress={handleComplete}>
               완료
             </GButton>
           </View>
           <View style={styles.scrollDayContainer}>
             <ScrollView horizontal={true}>{renderDates}</ScrollView>
           </View>
-          <View style={{ width: '100%', height: '100%' }}>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={'time'}
-              is24Hour={true}
-              display="spinner"
-              minuteInterval={30}
-              onChange={handleChange}
-            />
-          </View>
         </View>
-      </Modal>
+      ) : null}
     </View>
   );
 }
