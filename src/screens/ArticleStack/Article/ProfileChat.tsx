@@ -10,6 +10,7 @@ import { GButton } from '@/components/Gatgu/GButton';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { getTs } from '@/helpers/functions/time';
+import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useSelector from '@/helpers/hooks/useSelector';
@@ -27,6 +28,7 @@ interface IProfileChat {
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const navigation = useAppNavigation();
+  const toaster = useToaster();
   const article_id = article.article_id;
   const dispatch = useDispatch();
   const { sendWsMessage } = GatguWebsocket.useMessage();
@@ -40,11 +42,11 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const [writer, setWriter] = useState<IUserSimple>();
 
   const handleChattingButtonClick = (resendKey: string) => {
-    ///
-    navigation.navigate(AppRoutes.ChattingRoom, {
-      screen: 'ChattingRoom',
-      params: { id: article_id },
-    });
+    ////
+    // navigation.navigate(AppRoutes.ChattingRoom, {
+    //   screen: 'ChattingRoom',
+    //   params: { id: article_id },
+    // });
     ////
     const isResent = parseInt(resendKey) !== -1;
     const websocket_id = isResent ? resendKey : `${getTs()}`;
@@ -74,7 +76,9 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
         }
       })
       .catch(() => {
-        Alert.alert("Can't access chatroom. Check your connection");
+        toaster.error(
+          '채팅방에 입장하지 못 했습니다. 네트워크 연결을 다시 확인해주세요.'
+        );
       });
   };
 

@@ -18,6 +18,7 @@ import {
   isValidPasswordConfirm,
   isValidPassword,
 } from '@/helpers/functions/validate';
+import { useToaster } from '@/helpers/hooks';
 import Input from '@/screens/UserStack/SignUp/Input';
 import { flexRow } from '@/styles/wrapper';
 
@@ -41,6 +42,7 @@ export interface ISignUpValues {
 
 const SignUp: React.FC = () => {
   const navigation = useNavigation();
+  const toaster = useToaster();
   const [emailEndsAt, setEmailEndsAt] = useState<DateTime | null>(null);
 
   const signUp = useCallback(
@@ -54,30 +56,31 @@ const SignUp: React.FC = () => {
           values.trade_address
         )
         .then(() => {
-          Alert.alert('회원가입이 완료되었습니다.');
+          toaster.success('회원가입이 완료되었습니다.');
           navigation.navigate('Login');
         })
         .catch((error: AxiosError) => {
           if (error.response) {
+            console.error('SignUp/index.tsx');
             // 서버에서 2xx 가 아닌 response를 내려줌
             switch (error.response.status) {
               case 400:
                 // 무슨 메세지가 있을거임
-                Alert.alert(get(error, ['response', 'data', 'error']));
+                toaster.error(get(error, ['response', 'data', 'error']));
                 break;
               case 403:
                 // csrf error
-                Alert.alert(get(error, ['response', 'data', 'detail']));
+                toaster.error(get(error, ['response', 'data', 'detail']));
                 break;
               default:
                 // 예상치 못한 에러 코드
-                Alert.alert(
+                toaster.error(
                   '예상치 못한 에러가 발생했습니다. 고객센터로 문의해주시기 바랍니다.'
                 );
             }
           } else if (error.request) {
             // 서버에서 response 자체가 안 옴
-            Alert.alert('서버와 연결할 수 없습니다.');
+            toaster.error('서버와 연결할 수 없습니다.');
           }
           // 디버깅 용도
           console.debug(error.config);
@@ -190,11 +193,13 @@ const SignUp: React.FC = () => {
               userAPI
                 .sendConfirmCodeMail(values.email + '@snu.ac.kr')
                 .then(() => {
-                  Alert.alert('인증 메일을 발송하였습니다.');
+                  toaster.info('인증 메일을 발송하였습니다.');
                   setEmailEndsAt(DateTime.local().plus({ minute: 3 }));
                 })
                 .catch((error) => {
-                  Alert.alert('인증 메일 발송에 실패하였습니다.');
+                  toaster.error(
+                    '인증 메일 발송에 실패하였습니다. 네트워크 연결을 확인해주세요.'
+                  );
                   console.debug(error.config);
                 })
             }
@@ -212,9 +217,9 @@ const SignUp: React.FC = () => {
                   values.email + '@snu.ac.kr',
                   values.emailConfirm
                 )
-                .then(() => Alert.alert('인증되었습니다.'))
+                .then(() => toaster.success('인증되었습니다.'))
                 .catch(() => {
-                  Alert.alert('잘못된 코드입니다.');
+                  toaster.error('잘못된 코드입니다.');
                 })
             }
             marginBottom={6}

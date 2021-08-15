@@ -16,6 +16,7 @@ import { GSpace } from '@/components/Gatgu/GSpace';
 import { GText } from '@/components/Gatgu/GText';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
+import { useToaster } from '@/helpers/hooks';
 import { setLoginState } from '@/store/userSlice';
 
 import styles from './Login.style';
@@ -27,6 +28,7 @@ function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
+  const toaster = useToaster();
   const dispatch = useDispatch();
 
   const loginReq = useCallback(async () => {
@@ -48,9 +50,10 @@ function Login(): JSX.Element {
       navigation.dispatch(StackActions.popToTop());
       navigation.navigate('Home');
     } catch (err) {
+      console.error('Login/index.tsx', err);
       switch (err.response.data.error_code) {
         case 106:
-          Alert.alert(err.response.data.detail);
+          toaster.error(err.response.data.detail);
           break;
         default:
           // cannot reach here

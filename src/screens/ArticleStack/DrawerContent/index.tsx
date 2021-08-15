@@ -53,11 +53,12 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
     articleAPI
       .deleteArticle(article_id)
       .then(() => {
-        Alert.alert('삭제가 완료되었습니다.');
+        toaster.success('삭제가 완료되었습니다.');
         navigation.navigate('Home');
       })
-      .catch(() => {
-        Alert.alert('삭제하는데 실패했습니다.');
+      .catch((err) => {
+        console.error(err);
+        toaster.error('삭제하는데 실패했습니다.');
       });
   };
 

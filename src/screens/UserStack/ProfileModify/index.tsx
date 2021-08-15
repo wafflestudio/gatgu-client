@@ -13,6 +13,7 @@ import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImag
 import { StringInput } from '@/components';
 import { GButton } from '@/components/Gatgu';
 import { isValidNickname } from '@/helpers/functions/validate';
+import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { USER_DETAIL } from '@/queryKeys';
 
@@ -25,6 +26,7 @@ export interface IUserModify {
 }
 
 const ProfileModify: React.FC = () => {
+  const toaster = useToaster();
   const {
     values,
     handleChange,
@@ -50,7 +52,7 @@ const ProfileModify: React.FC = () => {
     },
     onSubmit: async (values) => {
       if (!isEmpty(errors)) {
-        Alert.alert('올바른 정보를 입력해 주세요.');
+        toaster.info('올바른 정보를 입력해 주세요.');
         return;
       }
 
@@ -94,7 +96,9 @@ const ProfileModify: React.FC = () => {
 
   if (userQuery.isLoading || userQuery.isError) return null;
   if (!info) {
-    Alert.alert('유저 데이터를 불러오는 데 실패했습니다.');
+    toaster.error(
+      '유저 데이터를 불러오는 데 실패했습니다. 네트워크 연결을 확인해주세요'
+    );
     return null;
   }
 

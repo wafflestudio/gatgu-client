@@ -64,11 +64,11 @@ function InputBar({
               setInput({ text: input.text, imgUrl: url });
             })
             .catch((e) => {
-              console.log(e);
+              console.error(e);
             });
       })
       .catch((e) => {
-        console.log(e);
+        console.error(e);
       })
       .finally(() => {
         setImageIsLoading(false);
@@ -93,7 +93,10 @@ function InputBar({
               setInput({ text: input.text, imgUrl: url });
             })
             .catch((e) => {
-              console.log(e);
+              console.error(e);
+              toaster.error(
+                '이미지를 업로드하는데 실패하였습니다. 다시 시도해주세요.'
+              );
             });
       })
       .catch((e) => {
@@ -116,7 +119,7 @@ function InputBar({
         setModalOpen(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
       })
       .finally(() => {

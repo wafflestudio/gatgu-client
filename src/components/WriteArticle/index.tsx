@@ -117,7 +117,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const submit = () => {
     setLoading(true);
     if (!isLogined) {
-      Alert.alert('로그인을 해주세요');
+      toaster.info('로그인을 해주세요');
+      setLoading(false);
       /* TODO @juimdpp
         로그인 페이지로 redirect 되는 페이지 구현
         디자인 나오면...?
