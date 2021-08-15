@@ -86,3 +86,11 @@ export const postArticleReport = (articleId: number, contents: string) => {
     contents,
   });
 };
+
+// 글 상태 수정하기
+export const patchArticle = (
+  articleId: number,
+  body: { article_status: ArticleStatus }
+) => {
+  return apiClient.patch(`articles/${articleId}`, body);
+};

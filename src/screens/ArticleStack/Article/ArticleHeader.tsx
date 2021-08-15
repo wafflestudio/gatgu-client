@@ -44,7 +44,7 @@ const ArticleHeader: React.FC<TArticleHeaderProps> = ({
           marginRight={15}
           bold
         >
-          {StringArticleStatus[article_status.progress_status]}
+          {StringArticleStatus[article_status.progress_status - 1]}
         </Text>
         <Text style={typo.bigTitle} color={palette.dark} bold>
           {title}
