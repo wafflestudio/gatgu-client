@@ -54,7 +54,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {error ? (
         <View>
           <Error
@@ -64,18 +64,15 @@ const Home: React.FC = () => {
           />
         </View>
       ) : (
-        <View>
-          <CursorFlatList
-            items={items}
-            loading={firstFetching && isFirstPage}
-            isFirstPage={isFirstPage}
-            isLastPage={isLastPage}
-            fetching={fetching}
-            getItems={getItems}
-            renderItem={renderArticle}
-          />
-          {/* <FlatList data={items} renderItem={renderArticle}/> */}
-        </View>
+        <CursorFlatList
+          items={items}
+          loading={firstFetching && isFirstPage}
+          isFirstPage={isFirstPage}
+          isLastPage={isLastPage}
+          fetching={fetching}
+          getItems={getItems}
+          renderItem={renderArticle}
+        />
       )}
     </View>
   );
