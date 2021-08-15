@@ -24,10 +24,8 @@ function ChattingList(): JSX.Element {
 
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (msg) => {
-      console.log(msg);
       if (msg.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
         updateChattingRoomList();
-        console.log('__\nupdated\n__');
       }
     },
   });
