@@ -11,7 +11,7 @@ import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
 import { IArticleSummary } from '@/types/article';
 
-import HomeShimmer from '../components/HomeShimmer';
+import HomeShimmer from '../../../components/Shimmer/HomeShimmer';
 
 const Home: React.FC = () => {
   const navigation = useAppNavigation();

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { articleAPI } from '@/apis';
 import { ArticleBox, CursorFlatList } from '@/components';
+import HomeShimmer from '@/components/Shimmer/HomeShimmer';
 import { PAGE_SIZE } from '@/constants/article';
 import { UserArticleActivity } from '@/enums';
 import { useCursorPagination } from '@/helpers/hooks';
@@ -32,6 +33,10 @@ const UserGatguList: React.FC<IUserGatguListProps> = ({ type }) => {
   const renderArticle = ({ item }: { item: IArticleSummary }) => (
     <ArticleBox {...item} />
   );
+
+  if (fetching) {
+    return <HomeShimmer />;
+  }
 
   return (
     <CursorFlatList

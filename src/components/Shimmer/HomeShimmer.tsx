@@ -11,7 +11,7 @@ const HomeShimmer: React.FC = () => {
   return (
     <VStack h="100%" backgroundColor="white">
       {new Array(boxCount).fill(null).map((_, idx) => (
-        <ArticleBoxShimmer key={idx} />
+        <ArticleBoxShimmer key={`${idx}`} />
       ))}
     </VStack>
   );
