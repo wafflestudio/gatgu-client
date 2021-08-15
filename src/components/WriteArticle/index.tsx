@@ -79,7 +79,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handlePrice = (inp: string) => {
-    if (inp === 'NaN') setPrice('');
+    if (inp === 'NaN' || !parseInt(inp)) setPrice('');
     else setPrice(inp);
   };
 
