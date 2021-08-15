@@ -84,7 +84,11 @@ function ChattingList(): JSX.Element {
 
   return (
     <View>
-      <FlatList data={items} renderItem={renderItem} />
+      <FlatList
+        data={items}
+        renderItem={renderItem}
+        keyExtractor={(_, idx) => `${idx}`}
+      />
     </View>
   );
 }
