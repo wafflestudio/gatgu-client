@@ -25,7 +25,8 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     options: IBaseWebsocketOption;
   }) => {
     if (wsRef.current) {
-      wsRef.current.close();
+      // wsRef.current.close();
+      return;
     }
     // if (isNaN(token)) return;
 

@@ -16,6 +16,7 @@ import { useUserDetail } from '@/helpers/hooks/api';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
+import { IUserDetail } from '@/types/user';
 
 import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
@@ -61,10 +62,15 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
       if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
-        // getChattingMessages('next'); // TODO NOW: when message is received
+        setChatList((prev) => [
+          { message: socket.data, repeat: false },
+          ...prev,
+        ]);
       }
     },
   });
+
+  console.log(chatList.length);
 
   useEffect(() => {
     getChattingMessages('first');
@@ -127,6 +133,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
               path: input.imgUrl,
             })
           : new Promise<string>((resolve) => resolve(emptyURL));
+      console.log('INPUT IMAGE', input.imgUrl);
 
       checkImage
         .then((img: any) => {
@@ -152,8 +159,8 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
             .then((result) => {
               // add to chatList
               setChatList((prev) => [
-                ...prev,
                 { message: result.data, repeat: false },
+                ...prev,
               ]);
 
               // remove from pendingList

@@ -10,7 +10,7 @@ const fieldNames = [
   'x-amz-credential',
 
   'x-amz-date',
-  // 'x-amz-security-token',
+  'x-amz-security-token',
   'policy',
   'x-amz-signature',
 ];
@@ -26,6 +26,7 @@ const useImageUpload = (type: APItype, id?: number) => {
   };
 
   const uploadSingleImage = async (image: TShortImage) => {
+    console.log('UPLOAD');
     return await createPresignedPost(id)
       .then(async (res) => {
         const filename = res.data.response.fields.key;
@@ -48,9 +49,10 @@ const useImageUpload = (type: APItype, id?: number) => {
 
         // send file to s3
         return await fetch(url, {
-          method: 'PUT',
+          method: 'POST',
           body: body,
         }).then((r: any) => {
+          console.log(r);
           if (r['ok']) return r.headers['map']['location'];
           else {
             return image.path;
