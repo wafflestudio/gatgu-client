@@ -178,9 +178,16 @@ function InputBar({
               }
             />
           </View>
-          <TouchableOpacity onPress={() => handleSendMessage(input, '-1')}>
+          <TouchableOpacity
+            onPress={() => handleSendMessage(input, '-1')}
+            disabled={input.text.length === 0}
+          >
             <View style={styles.inputIcon}>
-              <Icon name="send" size={20} />
+              <Icon
+                name="send"
+                size={20}
+                color={input.text.length === 0 ? palette.gray : palette.dark}
+              />
             </View>
           </TouchableOpacity>
         </View>
