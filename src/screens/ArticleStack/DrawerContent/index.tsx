@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from 'native-base';
 
@@ -17,10 +17,12 @@ import { ArticleStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
+import { getSingleArticle } from '@/store/articleSlice';
 
 import styles, { StyledArticleDrawerMenuText } from './Drawer.style';
 
 const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
+  const dispatch = useDispatch();
   const navigation = props.navigation;
   const toaster = useToaster();
   const currentUser = useUserDetail().data;
@@ -39,6 +41,10 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const [isStatusChangeModalOpen, setStatusChangeModalOpen] = useState(false);
   const [isStatusChanging, setStatusChanging] = useState(false);
 
+  const refreshArticle = () => {
+    dispatch(getSingleArticle(article_id));
+  };
+
   const changeArticleStatus = () => {
     setStatusChanging(true);
 
@@ -49,6 +55,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
       .then(() => {
         setStatusChangeModalOpen(false);
         toaster.success('글 상태 변경을 완료되었습니다.');
+        refreshArticle();
       })
       .catch(() => {
         toaster.error('글 상태 변경에 실패했습니다.');
