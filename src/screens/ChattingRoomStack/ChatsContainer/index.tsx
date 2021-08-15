@@ -47,7 +47,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
       .then((chattingList) => {
         // TODO: change with pagination
         setCursor(chattingList.data.next);
-        const tempChatList = chattingList.data.results.reverse().map((chat) => {
+        const tempChatList = chattingList.data.results.map((chat) => {
           return {
             message: chat,
             repeat: false,
@@ -60,7 +60,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
       if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
-        getChattingMessages('next');
+        // getChattingMessages('next');
       }
     },
   });
@@ -114,7 +114,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
       };
       if (firstSend) {
         const tempPendingList = pendingList;
-        tempPendingList.push(message);
+        tempPendingList.unshift(message);
         setPendingList(tempPendingList);
       }
       setRefresh(!refresh);
@@ -142,7 +142,6 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
             },
             websocket_id: websocket_id, // tempID used for internal purposes
           };
-
           sendWsMessage(wsMessage, {
             resolveCondition: (data) =>
               data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
@@ -169,12 +168,13 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
             })
             .catch((e) => {
               // mark delete or resend in pendingList
-              const tempPendingList = pendingList.map((chat) =>
-                chat.websocket_id === e.websocket_id
-                  ? { ...chat, repeat: true }
-                  : chat
+              setPendingList((prev) =>
+                prev.map((chat) =>
+                  chat.websocket_id === e.websocket_id
+                    ? { ...chat, repeat: true }
+                    : chat
+                )
               );
-              setPendingList(tempPendingList);
             });
         })
         .catch((e) => console.error('ERR', e));
@@ -221,12 +221,12 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
     >
       {
         <FlatList
-          data={[...chatList, ...pendingList]}
+          data={[...pendingList, ...chatList]}
           renderItem={renderItem}
           style={styles.msgContainer}
           keyExtractor={(_, ind) => `${ind}`}
           extraData={refresh}
-          // inverted={true}
+          inverted={true}
           onEndReached={handleEndReach}
           onEndReachedThreshold={0.1}
           ListHeaderComponentStyle={{ borderWidth: 10 }}
