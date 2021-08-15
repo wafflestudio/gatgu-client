@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Open from '@/assets/icons/Open/open.svg';
-import Part from '@/assets/icons/Participate/participate.svg';
 import { IUserDetail } from '@/types/user';
 
 import styles from './Force.style';
@@ -32,16 +31,16 @@ function Force({ profile }: ForceProps): JSX.Element {
       </View>
       <View style={styles.bodyView}>
         <View style={styles.bodyElem}>
-          <Open style={styles.bodyIcon} />
+          <Ionicons name="add-circle-outline" size={18} />
           <Text style={styles.bodyText}>
-            모집횟수&nbsp;
+            &nbsp;모집횟수&nbsp;
             <Text style={{ fontWeight: 'bold' }}>{profile.hosted_count}</Text>회
           </Text>
         </View>
         <View style={styles.bodyElem}>
-          <Part style={styles.bodyIcon} />
+          <Ionicons name="chatbubble-outline" size={18} />
           <Text style={styles.bodyText}>
-            참여횟수&nbsp;
+            &nbsp;참여횟수&nbsp;
             <Text style={{ fontWeight: 'bold' }}>
               {profile.participated_count}
             </Text>

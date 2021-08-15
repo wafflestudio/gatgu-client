@@ -8,3 +8,4 @@ export { default as WriteArticle } from './WriteArticle';
 export { default as CursorFlatList } from './CursorFlatList/CursorFlatList';
 export { default as ProfileBox } from './ProfileBox';
 export { default as ReportModal } from './ReportModal/ReportModal';
+export { default as EmptyTemplate } from './Empty/EmptyTemplate';
