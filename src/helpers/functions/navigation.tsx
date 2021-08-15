@@ -29,6 +29,9 @@ export const createGatguStackNavigator = (<
           <BackIcon />
         </StyledHeaderLeft>
       ),
+      headerRightContainerStyle: {
+        marginRight: 6,
+      },
     },
   };
 

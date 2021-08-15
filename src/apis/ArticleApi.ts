@@ -4,7 +4,7 @@ import qs from 'querystring';
 
 import { PAGE_SIZE } from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { UserArticleActivity } from '@/enums';
+import { ArticleStatus, UserArticleActivity } from '@/enums';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
@@ -15,8 +15,8 @@ import {
 import apiClient from './apiClient';
 
 export const getArticles = (
-  keyword?: string,
-  url?: string | null
+  url?: string | null,
+  keyword?: string
 ): Promise<AxiosResponse<IGetArticlesResponse>> => {
   // keyword가 있고, url이 없으면 search 쿼리 생성
   const searchObj = !url && keyword && { title: keyword };
@@ -24,9 +24,12 @@ export const getArticles = (
   const query = qs.stringify({
     ...searchObj,
     page_size: PAGE_SIZE,
+    // status: [ArticleStatus.Dealing,ArticleStatus.Gathering],
   });
+
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
+  console.log(query);
   url = `articles/${url ? `${url}&` : '?'}`;
   return apiClient.get(`${url}${query}`);
 };
@@ -82,4 +85,12 @@ export const postArticleReport = (articleId: number, contents: string) => {
     article_id: articleId,
     contents,
   });
+};
+
+// 글 상태 수정하기
+export const patchArticle = (
+  articleId: number,
+  body: { article_status: ArticleStatus }
+) => {
+  return apiClient.patch(`articles/${articleId}`, body);
 };

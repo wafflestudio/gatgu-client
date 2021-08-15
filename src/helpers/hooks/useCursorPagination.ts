@@ -107,7 +107,7 @@ const useCursorPagination = <T>({
         setFetching(false);
       }
     },
-    [cursorUrl, fetchFunc, handleItems, isLastPage]
+    [cursorUrl, fetchFunc, handleItems, isLastPage, input]
   );
 
   return {

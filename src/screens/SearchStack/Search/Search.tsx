@@ -6,6 +6,7 @@ import { Box, Divider, SearchIcon, VStack } from 'native-base';
 import { articleAPI } from '@/apis';
 import { ArticleBox, CursorFlatList } from '@/components';
 import { GInput } from '@/components/Gatgu';
+import HomeShimmer from '@/components/Shimmer/HomeShimmer';
 import { useCursorPagination } from '@/helpers/hooks';
 import { palette } from '@/styles';
 import { IArticleSummary } from '@/types/article';
@@ -64,6 +65,25 @@ const Search: React.FC = () => {
     []
   );
 
+  const renderArticles = () => {
+    if (fetching) {
+      return <HomeShimmer />;
+    }
+
+    return (
+      <CursorFlatList
+        items={items}
+        isFirstPage={isFirstPage}
+        isLastPage={isLastPage}
+        fetching={fetching}
+        loading={firstFetching}
+        ListEmptyComponent={<SearchResultEmpty searchKeyword={searchKeyword} />}
+        getItems={getItems}
+        renderItem={renderArticle}
+      />
+    );
+  };
+
   return (
     <VStack
       backgroundColor={palette.white}
@@ -87,18 +107,7 @@ const Search: React.FC = () => {
       </Box>
       <Divider />
       {isSearchResultStage ? (
-        <CursorFlatList
-          items={items}
-          isFirstPage={isFirstPage}
-          isLastPage={isLastPage}
-          fetching={fetching}
-          loading={firstFetching}
-          ListEmptyComponent={
-            <SearchResultEmpty searchKeyword={searchKeyword} />
-          }
-          getItems={getItems}
-          renderItem={renderArticle}
-        />
+        renderArticles()
       ) : (
         <VStack>
           <RecentSearch

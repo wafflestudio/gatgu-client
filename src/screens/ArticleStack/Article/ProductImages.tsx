@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Image } from 'native-base';
 import styled from 'styled-components/native';
 
+import { GText } from '@/components/Gatgu';
 import { ArticleStatus } from '@/enums';
 import { palette } from '@/styles';
 import { IArticleStatus } from '@/types/article';
@@ -31,6 +32,19 @@ const StyledImageViewerCloseButton = styled.TouchableHighlight`
 
 const StyledImage = styled(Image)<{ isEnd?: boolean }>`
   opacity: ${(props) => (props.isEnd ? 0.3 : 1)};
+`;
+
+const StyledFlag = styled.View`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60px;
+  height: 20px;
+  transform: translate(-30px, -10px);
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background-color: ${palette.gray};
 `;
 
 function ProductImages({
@@ -79,8 +93,24 @@ function ProductImages({
       ))
     );
 
+  const renderArticeStatusFlag = () => {
+    if (!isArticleStatusAboveComplete) return null;
+
+    const statusText =
+      articleStatus.progress_status === ArticleStatus.Complete
+        ? '거래 완료'
+        : '기간 만료';
+
+    return (
+      <StyledFlag>
+        <GText color="white">{statusText}</GText>
+      </StyledFlag>
+    );
+  };
+
   return (
     <View>
+      {renderArticeStatusFlag()}
       <Swiper
         index={currentIndex}
         style={styles.swiper}

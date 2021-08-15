@@ -10,10 +10,11 @@ const ARTICLE_BOX_HORIZONTAL_PADDING = 20;
 
 const PostBoxStyles = StyleSheet.create({
   articleBox: {
-    width: mobile.width - 142 - 2 * ARTICLE_BOX_HORIZONTAL_PADDING,
+    flex: 1,
     marginLeft: IMAGE_RIGHT_MARGIN,
     flexDirection: 'column',
     justifyContent: 'space-between',
+    overflow: 'hidden',
   },
   Head: {
     ...typo.semiTitle,
@@ -22,6 +23,9 @@ const PostBoxStyles = StyleSheet.create({
   description: {
     ...typo.info,
     color: palette.gray,
+    minHeight: 40,
+    flex: 1,
+    width: '100%',
   },
   priceText: {
     ...typo.info,
@@ -38,7 +42,6 @@ const PostBoxStyles = StyleSheet.create({
     backgroundColor: palette.white,
   },
   infoWrapper: {
-    height: 16,
     marginTop: 11,
     flexWrap: 'wrap',
   },

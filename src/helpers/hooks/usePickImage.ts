@@ -1,6 +1,6 @@
 import ImagePicker from 'react-native-image-crop-picker';
 
-const usePickImage = (options: Record<string, unknown>) => {
+const usePickImage = (options?: Record<string, unknown>) => {
   const pickSingleImage = () =>
     ImagePicker.openPicker({
       ...options,
