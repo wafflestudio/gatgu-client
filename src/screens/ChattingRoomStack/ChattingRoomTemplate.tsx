@@ -13,9 +13,12 @@ import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChatsContainer from './ChatsContainer';
 
-export default function ChattingRoom(): JSX.Element {
+export default function ChattingRoom({
+  roomID,
+}: {
+  roomID: number;
+}): JSX.Element {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
 
   return (
     <KeyboardAvoidingView
@@ -36,7 +39,7 @@ export default function ChattingRoom(): JSX.Element {
           navigation.goBack();
         }}
       />
-      <ChatsContainer />
+      <ChatsContainer roomID={roomID} />
     </KeyboardAvoidingView>
   );
 }

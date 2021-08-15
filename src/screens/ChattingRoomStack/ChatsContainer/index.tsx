@@ -5,8 +5,6 @@ import { useDispatch } from 'react-redux';
 import _ from 'lodash';
 import { DateTime } from 'luxon';
 
-import { RouteProp, useRoute } from '@react-navigation/native';
-
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
@@ -17,7 +15,6 @@ import { useUserDetail } from '@/helpers/hooks/api';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
-import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
@@ -29,16 +26,11 @@ export interface IWSChatMessage {
   repeat: boolean;
 }
 
-function ChattingRoom(): JSX.Element {
-  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   const dispatch = useDispatch();
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
-  const roomID = route.params.id;
-  const { uploadMultipleImages, uploadSingleImage } = useImageUpload(
-    APItype.chat,
-    userID
-  );
+  const { uploadSingleImage } = useImageUpload(APItype.chat, userID);
   const [nextCursor, setCursor] = useState<string | null>();
   const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
@@ -55,7 +47,7 @@ function ChattingRoom(): JSX.Element {
       .then((chattingList) => {
         // TODO: change with pagination
         setCursor(chattingList.data.next);
-        const tempChatList = chattingList.data.results.map((chat) => {
+        const tempChatList = chattingList.data.results.reverse().map((chat) => {
           return {
             message: chat,
             repeat: false,
@@ -144,7 +136,6 @@ function ChattingRoom(): JSX.Element {
               room_id: roomID,
               user_id: userID,
               message: {
-                // text: input.text,
                 text: input.imgUrl === emptyURL ? input.text : '',
                 image: input.imgUrl === emptyURL ? '' : img,
               },
@@ -229,18 +220,13 @@ function ChattingRoom(): JSX.Element {
       }}
     >
       {
-        // (
-        //   <Flex height="100%">
-        //     <Spinner paddingTop="50%" />
-        //   </Flex>
-        // )
         <FlatList
           data={[...chatList, ...pendingList]}
           renderItem={renderItem}
           style={styles.msgContainer}
           keyExtractor={(_, ind) => `${ind}`}
           extraData={refresh}
-          inverted={true}
+          // inverted={true}
           onEndReached={handleEndReach}
           onEndReachedThreshold={0.1}
           ListHeaderComponentStyle={{ borderWidth: 10 }}
