@@ -41,12 +41,15 @@ function ArticlePage(): JSX.Element {
   }, [dispatch, id]);
 
   const ErrorModal = useCallback(() => {
-    return Error({
-      errMsg: `${articleErrorStatus}`,
-      errCallback: () => {
-        console.log('ERROR');
-      },
-    });
+    return (
+      <Error
+        title="에러 발생"
+        description={`${articleErrorStatus}`}
+        errCallback={() => {
+          console.log('ERROR');
+        }}
+      />
+    );
   }, [articleErrorStatus]);
 
   if (articleIsLoading) {

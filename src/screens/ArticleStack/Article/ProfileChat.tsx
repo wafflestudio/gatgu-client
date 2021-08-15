@@ -99,6 +99,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
     <Flex
       direction="row"
       justify="space-between"
+      alignItems="center"
       style={[
         styles.profileChatContainer,
         !isLogined && {
