@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { DateTime } from 'luxon';
+import { Image } from 'native-base';
 
 import { emptyURL } from '@/constants/image';
 import { IMessageImage } from '@/types/chat';
@@ -36,8 +37,9 @@ function ChatBox({
 }: IChatBoxProps): JSX.Element {
   const { message, repeat, websocket_id } = current;
   const { text, image, type, sent_at, sent_by } = message;
-  const prevItem = previous?.message;
-  const nextItem = next?.message;
+  const nextItem = previous?.message; // because chat is in inversed
+  const prevItem = next?.message;
+
   const system = type === 'system' ? true : false;
 
   const isSameUser = sent_by?.id === prevItem?.sent_by?.id;
@@ -45,7 +47,11 @@ function ChatBox({
   const isSelf = selfId === sent_by?.id;
 
   const isSameTime =
-    sent_at === nextItem?.sent_at && (nextItem?.type == 'system') === false;
+    nextItem?.sent_at &&
+    DateTime.fromMillis(sent_at).toFormat('hh:mm') ===
+      DateTime.fromMillis(nextItem?.sent_at).toFormat('hh:mm') &&
+    (nextItem?.type == 'system') === false &&
+    sent_by.id === nextItem?.sent_by.id;
 
   // 00:00 format
   const sentTime = useMemo(() => {
@@ -66,12 +72,16 @@ function ChatBox({
         )}
         <View>
           {text && text.length != 0 ? (
-            <Bubble message={text} isSelf={isSelf} />
+            <View style={!isSelf && { paddingRight: 10 }}>
+              <Bubble message={text} isSelf={isSelf} />
+            </View>
           ) : null}
           {image.length > 0 && image[0].img_url !== emptyURL && (
             <Image
               source={{ uri: image[0].img_url }}
               style={styles.messageImage}
+              fallbackSource={require('@/assets/images/defaultThumnail.png')}
+              alt="pic"
             />
           )}
         </View>
@@ -95,8 +105,14 @@ function ChatBox({
     () =>
       !isSelf && (
         <Image
-          source={{ uri: !isSameUser ? sent_by?.picture : undefined }}
+          source={
+            sent_by?.picture
+              ? { uri: !isSameUser ? sent_by?.picture : undefined }
+              : require('@/assets/images/defaultProfile.png')
+          }
           style={styles.avatar}
+          fallbackSource={require('@/assets/images/defaultProfile.png')}
+          alt="profile pic"
         />
       ),
     [sent_by, isSameUser, isSelf]
@@ -113,26 +129,30 @@ function ChatBox({
     >
       <View style={styles.row}>
         {renderedProfile}
-        <View style={{ flexDirection: 'row-reverse', alignItems: 'flex-end' }}>
+        <View style={{}}>
           {renderedName}
-          {renderedBubbleTime}
-          {repeat ? (
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity
-                onPress={() =>
-                  resend(
-                    { text: text, imgUrl: image[0].img_url },
-                    `${websocket_id}`
-                  )
-                }
-              >
-                <FAIcon name="repeat" size={13} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
-                <MCIcon name="delete" size={16} />
-              </TouchableOpacity>
-            </View>
-          ) : null}
+          <View
+            style={{ flexDirection: 'row-reverse', alignItems: 'flex-end' }}
+          >
+            {renderedBubbleTime}
+            {repeat ? (
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                  onPress={() =>
+                    resend(
+                      { text: text, imgUrl: image[0].img_url },
+                      `${websocket_id}`
+                    )
+                  }
+                >
+                  <FAIcon name="repeat" size={13} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
+                  <MCIcon name="delete" size={16} />
+                </TouchableOpacity>
+              </View>
+            ) : null}
+          </View>
         </View>
       </View>
     </View>

@@ -70,8 +70,6 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
     },
   });
 
-  console.log(chatList.length);
-
   useEffect(() => {
     getChattingMessages('first');
   }, []);
@@ -133,7 +131,6 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
               path: input.imgUrl,
             })
           : new Promise<string>((resolve) => resolve(emptyURL));
-      console.log('INPUT IMAGE', input.imgUrl);
 
       checkImage
         .then((img: any) => {

@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import apiClient from '@/apis/apiClient';
+import { emptyURL } from '@/constants/image';
 import { APItype } from '@/enums/image';
 import { TShortImage } from '@/types/shared';
 
@@ -55,7 +56,7 @@ const useImageUpload = (type: APItype, id?: number) => {
           console.log(r);
           if (r['ok']) return r.headers['map']['location'];
           else {
-            return image.path;
+            return emptyURL;
           }
         });
       })
