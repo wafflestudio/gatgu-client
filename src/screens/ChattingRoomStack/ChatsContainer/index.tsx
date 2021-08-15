@@ -215,7 +215,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
 
   return (
     <View>
-      <View style={{ height: '94.22%' }}>
+      <View style={{ height: '99.25%' }}>
         <FlatList
           data={[...pendingList, ...chatList]}
           renderItem={renderItem}
@@ -228,7 +228,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           ListHeaderComponentStyle={{ borderWidth: 10 }}
         />
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginTop: -40 }}>
         <InputBar
           input={input}
           setInput={setInput}

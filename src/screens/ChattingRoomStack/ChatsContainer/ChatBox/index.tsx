@@ -113,7 +113,7 @@ function ChatBox({
     >
       <View style={styles.row}>
         {renderedProfile}
-        <View>
+        <View style={{ flexDirection: 'row-reverse', alignItems: 'flex-end' }}>
           {renderedName}
           {renderedBubbleTime}
           {repeat ? (
