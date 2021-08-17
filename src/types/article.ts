@@ -38,7 +38,11 @@ export interface IReqPresignedURL {
 }
 
 export interface IArticleProps {
-  writer_id: number;
+  writer: {
+    id: number;
+    nickname: string;
+    profile_img: string;
+  };
   article_id: number;
   title: string;
   description: string;
