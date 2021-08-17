@@ -64,9 +64,9 @@ export interface IUserProps {
 }
 
 export interface IUserSumProps {
-  profile_id?: number;
-  picture?: string;
-  nickname?: string;
+  id: number;
+  profile_img: string;
+  nickname: string;
 }
 
 export interface IChatUserProps {
