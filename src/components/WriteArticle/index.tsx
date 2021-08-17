@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { KeyboardAvoidingView, Spinner, useToast } from 'native-base';
@@ -26,7 +28,7 @@ import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
 import AppLoadingTemplate from '../AppLoading';
-import { GText } from '../Gatgu';
+import { GButton, GText } from '../Gatgu';
 import Header from '../Header';
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -201,24 +203,35 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <View>
+          {!isEdit ? (
+            <TouchableHighlight
+              onPress={() => navigation.goBack()}
+              style={{ marginLeft: 11 }}
+            >
+              <Icon name="chevron-back" size={38} />
+            </TouchableHighlight>
+          ) : null}
+        </View>
+      ),
       // eslint-disable-next-line react/display-name
       headerRight: () => (
-        <GText touchable onPress={submit}>
+        <GButton
+          onPress={submit}
+          width="default"
+          size="small"
+          style={{ marginRight: 3, marginBottom: 2 }}
+        >
           완료
-        </GText>
+        </GButton>
       ),
+      headerTitle: '글쓰기',
     });
   });
 
   return (
     <View>
-      {isEdit ? (
-        <Header
-          title="글 수정하기"
-          left={<Button title="취소" onPress={() => navigation.goBack()} />}
-          right={<Button title="완료" onPress={submit} />}
-        />
-      ) : null}
       {loading ? (
         <View style={{ height: '100%' }}>
           <AppLoadingTemplate>
