@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {
   View,
   Image,
@@ -56,54 +62,57 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
     setImages(tempArrSend);
   };
 
-  const previews =
-    images.length > 0 &&
-    images.map(
-      (item, key): JSX.Element => (
-        <View
-          style={
-            loading[key]
-              ? styles.loading
-              : key == 0
-              ? styles.thumbnailContainer
-              : styles.photoContainer
-          }
-          key={key}
-        >
-          <Image
+  const previews = useMemo(() => {
+    return (
+      images.length > 0 &&
+      images.map(
+        (item, key): JSX.Element => (
+          <View
             style={
-              !loading[key] && (key == 0 ? styles.thumbnail : styles.photo)
+              loading[key]
+                ? styles.loading
+                : key == 0
+                ? styles.thumbnailContainer
+                : styles.photoContainer
             }
-            source={{ uri: item.path }}
-            onLoadStart={() => {
-              const prev = _.cloneDeep(loading);
-              prev[key] = true;
-              setLoading(prev);
-            }}
-            onLoadEnd={() => {
-              const prev = _.cloneDeep(loading);
-              prev[key] = false;
-              setLoading(prev);
-            }}
-          />
-          {loading[key] && <ActivityIndicator />}
-          {!loading[key] && (
-            <TouchableHighlight
+            key={key}
+          >
+            <Image
               style={
-                key == 0
-                  ? styles.thumbnailButtonContainer
-                  : styles.buttonContainer
+                !loading[key] && (key == 0 ? styles.thumbnail : styles.photo)
               }
-              onPress={() => deleteImage(key)}
-            >
-              <View style={styles.button}>
-                <XSign />
-              </View>
-            </TouchableHighlight>
-          )}
-        </View>
+              source={{ uri: item.path }}
+              onLoadStart={() => {
+                const prev = _.cloneDeep(loading);
+                prev[key] = true;
+                setLoading(prev);
+              }}
+              onLoadEnd={() => {
+                const prev = _.cloneDeep(loading);
+                prev[key] = false;
+                setLoading(prev);
+              }}
+            />
+            {loading[key] && <ActivityIndicator />}
+            {!loading[key] && (
+              <TouchableHighlight
+                style={
+                  key == 0
+                    ? styles.thumbnailButtonContainer
+                    : styles.buttonContainer
+                }
+                onPress={() => deleteImage(key)}
+              >
+                <View style={styles.button}>
+                  <XSign />
+                </View>
+              </TouchableHighlight>
+            )}
+          </View>
+        )
       )
     );
+  }, [images]);
 
   return (
     <View style={styles.container}>

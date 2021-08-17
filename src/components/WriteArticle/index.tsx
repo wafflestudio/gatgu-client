@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { KeyboardAvoidingView, Spinner } from 'native-base';
+import { KeyboardAvoidingView, Spinner, useToast } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -11,6 +13,7 @@ import { APItype } from '@/enums/image';
 import { createError } from '@/helpers/functions';
 import { getTs } from '@/helpers/functions/time';
 import { validateLink } from '@/helpers/functions/validate';
+import { useToaster } from '@/helpers/hooks';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { AppRoutes } from '@/helpers/routes';
 import { AppThunk, RootState } from '@/store';
@@ -25,7 +28,7 @@ import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
 import AppLoadingTemplate from '../AppLoading';
-import { GText } from '../Gatgu';
+import { GButton, GText } from '../Gatgu';
 import Header from '../Header';
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -50,7 +53,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<TShortImage[]>([]);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
-  const [dueDate, setDueDate] = useState<Date>(new Date());
+  const [dueDate, setDueDate] = useState<Date>(
+    new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+  );
   const [description, setDescription] = useState<string>('');
   const [link, setLink] = useState<string>('');
   const [location, setLocation] = useState<string>('');
@@ -61,7 +66,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
   const { uploadMultipleImages } = useImageUpload(APItype.article, id);
-
+  const toaster = useToaster();
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
     if (isEdit) return state.article.currentArticle;
@@ -79,7 +84,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handlePrice = (inp: string) => {
-    if (inp === 'NaN') setPrice('');
+    if (inp === 'NaN' || !parseInt(inp)) setPrice('');
     else setPrice(inp);
   };
 
@@ -122,9 +127,12 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   }, [currentArticle]);
 
   const checkInput = (): string => {
-    let str = '';
-    if (!validateLink(link)) str += 'Link is invalid.\n';
-    return str;
+    if (!title.length) return '제목을 입력해주세요.\n';
+    else if (!need_price.length) return '희망 구매액을 입력해주세요.\n';
+    else if (!location.length) return '희망 거래 지역을 입력해주세요.\n';
+    else if (!validateLink(link)) return 'Link is invalid.\n';
+    else if (!description.length) return '글의 세부사항을 입력해주세요.\n';
+    else return '';
   };
 
   const submit = () => {
@@ -139,7 +147,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     }
     const res = checkInput();
     if (res != '') {
-      Alert.alert(res);
+      toaster.warning(res);
+      setLoading(false);
       return;
     }
     const checkImages =
@@ -194,24 +203,35 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <View>
+          {!isEdit ? (
+            <TouchableHighlight
+              onPress={() => navigation.goBack()}
+              style={{ marginLeft: 11 }}
+            >
+              <Icon name="chevron-back" size={38} />
+            </TouchableHighlight>
+          ) : null}
+        </View>
+      ),
       // eslint-disable-next-line react/display-name
       headerRight: () => (
-        <GText touchable onPress={submit}>
+        <GButton
+          onPress={submit}
+          width="default"
+          size="small"
+          style={{ marginRight: 3, marginBottom: 2 }}
+        >
           완료
-        </GText>
+        </GButton>
       ),
+      headerTitle: '글쓰기',
     });
   });
 
   return (
     <View>
-      {isEdit ? (
-        <Header
-          title="글 수정하기"
-          left={<Button title="취소" onPress={() => navigation.goBack()} />}
-          right={<Button title="완료" onPress={submit} />}
-        />
-      ) : null}
       {loading ? (
         <View style={{ height: '100%' }}>
           <AppLoadingTemplate>
