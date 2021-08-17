@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Center, HamburgerIcon, Progress } from 'native-base';
@@ -7,14 +7,17 @@ import { Center, HamburgerIcon, Progress } from 'native-base';
 import { DrawerActions, RouteProp, useRoute } from '@react-navigation/native';
 
 import { TAppStackParamList } from '@/App.router';
+import { articleAPI } from '@/apis';
 import { Header } from '@/components';
 import Error from '@/components/Error';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
+import { IArticleProps } from '@/types/article';
 
 import { EArticleStackScreens } from '../ArticleStack';
 import ArticleHeader from './ArticleHeader';
+import ArticleShimmer from './ArticleShimmer/ArticleShimmer';
 import Desc from './Desc';
 import ProductImages from './ProductImages';
 import ProfileChat from './ProfileChat';
@@ -26,49 +29,57 @@ function ArticlePage(): JSX.Element {
   const id = route.params.id;
   const dispatch = useDispatch();
   const navigation = useAppNavigation();
-
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+  const [currentArticle, setCurrentArticle] = useState<IArticleProps>({});
   const islogined = !!useSelector((state: RootState) => state.user.isLogined);
 
-  const {
-    currentArticle,
-    articleIsLoading,
-    articleHasError,
-    articleErrorStatus,
-  } = useSelector((state: RootState) => state.article);
+  // const {
+  //   currentArticle,
+  //   articleIsLoading,
+  //   articleHasError,
+  //   articleErrorStatus,
+  // } = useSelector((state: RootState) => state.article);
 
   useEffect(() => {
-    dispatch(getSingleArticle(id));
-  }, [dispatch, id]);
+    setLoading(true);
+    console.log('BEF');
+    articleAPI
+      .getSingleArticle(id)
+      .then((res) => {
+        for (let j, i = 0; i < 1000000000; i++) j = 0;
+        return res;
+      })
+      .then((res) => {
+        setCurrentArticle(res.data);
+      })
+      .finally(() => {
+        setLoading(false);
+        console.log('AFT');
+      });
+  }, []);
 
   const ErrorModal = useCallback(() => {
     return (
       <Error
         title="에러 발생"
-        description={`${articleErrorStatus}`}
+        description={`${error}`}
         errCallback={() => {
-          console.log('ERROR');
+          console.error('ERROR');
         }}
       />
     );
-  }, [articleErrorStatus]);
+  }, []);
 
-  if (articleIsLoading) {
-    console.log('loading');
-    let i = 0,
-      j;
-    for (i = 0; i < 10000000000; i++) j = 0;
-    return (
-      <Center>
-        {console.log('loading2')}
-        <Progress />
-      </Center>
-    );
-  }
-
-  if (articleHasError) {
+  if (error) {
     return <ErrorModal />;
   }
 
+  if (!loading) {
+    return <ArticleShimmer />;
+  }
+
+  console.log(loading);
   return (
     <View style={styles.container}>
       <Header
@@ -76,7 +87,6 @@ function ArticlePage(): JSX.Element {
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         left={<Header.BackButton />}
       />
-      {console.log('rendered')}
       <ScrollView>
         <ProductImages
           image_urls={currentArticle.images}
