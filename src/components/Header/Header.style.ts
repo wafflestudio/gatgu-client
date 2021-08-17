@@ -14,7 +14,7 @@ const HeaderStyles = StyleSheet.create({
     width: '100%',
     height: 44,
     borderBottomWidth: 1,
-    borderBottomColor: palette.borderGray,
+    borderBottomColor: palette.whiteGray,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: palette.white,
@@ -29,12 +29,12 @@ const HeaderStyles = StyleSheet.create({
   },
   leftButton: {
     ...commonStyle.button,
-    marginLeft: 13,
+    marginLeft: 6,
     justifyContent: 'center',
   },
   rightButton: {
     ...commonStyle.button,
-    marginRight: 13,
+    marginRight: 6,
     justifyContent: 'center',
   },
 });

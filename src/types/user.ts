@@ -25,9 +25,13 @@ export interface IUserProfileDetail {
 
 // 다른 사람 정보
 export interface IUserSimple {
-  userprofile: IUserProfileSimple;
+  grade: number;
   participated_count: number;
   hosted_count: number;
+  nickname: string;
+  picture: string;
+  id: number;
+  trading_address: string;
 }
 
 export interface IUserProfileSimple {

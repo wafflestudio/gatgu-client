@@ -1,14 +1,11 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
+import { View, Text, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { useNavigation } from '@react-navigation/core';
 
 import styles from './Header.style';
+import HeaderBackButton from './HeaderBackButton';
 
 // need to pass functions for the buttons
 export interface IHeaderProps {
@@ -29,7 +26,7 @@ export interface IHeaderProps {
   rightContainerStyle?: StyleProp<ViewStyle>;
 }
 
-function Header({
+const Header: React.FC<IHeaderProps> = ({
   title,
   left,
   right,
@@ -39,16 +36,26 @@ function Header({
   leftContainerStyle,
   rightContainerStyle,
   titleContainerStyle,
-}: IHeaderProps): JSX.Element {
+}) => {
+  const navigation = useNavigation();
+
+  const handleBackButtonClick = () => {
+    if (typeof leftCallback === 'function') {
+      return leftCallback();
+    }
+
+    return navigation.goBack();
+  };
+
   return (
     <View style={styles.header}>
       {left ? (
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.leftButton, leftContainerStyle]}
-          onPress={leftCallback}
+          onPress={handleBackButtonClick}
         >
           {left}
-        </TouchableHighlight>
+        </TouchableOpacity>
       ) : (
         <View style={[styles.leftButton, leftContainerStyle]} />
       )}
@@ -58,17 +65,19 @@ function Header({
         )}
       </View>
       {right ? (
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.rightButton, rightContainerStyle]}
           onPress={rightCallback}
         >
           {right}
-        </TouchableHighlight>
+        </TouchableOpacity>
       ) : (
         <View style={[styles.rightButton, rightContainerStyle]} />
       )}
     </View>
   );
-}
+};
 
-export default Header;
+export default Object.assign(Header, {
+  BackButton: HeaderBackButton,
+});
