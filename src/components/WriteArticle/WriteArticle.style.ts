@@ -10,6 +10,7 @@ const WriteArticleStyles = StyleSheet.create({
     paddingLeft: 20,
     paddingBottom: 9,
     width: 100,
+    paddingTop: 20,
   },
 
   placeHolder: {
