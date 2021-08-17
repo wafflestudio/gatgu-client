@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ArrowBackIcon, Center, HamburgerIcon, Progress } from 'native-base';
+import { Center, HamburgerIcon, Progress } from 'native-base';
 
 import { DrawerActions, RouteProp, useRoute } from '@react-navigation/native';
 
@@ -69,10 +69,7 @@ function ArticlePage(): JSX.Element {
       <Header
         right={islogined ? <HamburgerIcon /> : null}
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        left={<ArrowBackIcon />}
-        leftCallback={() => {
-          navigation.goBack();
-        }}
+        left={<Header.BackButton />}
       />
 
       <ScrollView>

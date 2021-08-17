@@ -8,7 +8,6 @@ import { DateTime } from 'luxon';
 import { useNavigation } from '@react-navigation/core';
 
 import { chatAPI } from '@/apis';
-import { CursorFlatList } from '@/components';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { useCursorPagination, useToaster } from '@/helpers/hooks';
@@ -81,13 +80,12 @@ function ChattingList(): JSX.Element {
       </TouchableHighlight>
     );
   };
-
   return (
     <View>
       <FlatList
         data={items}
         renderItem={renderItem}
-        keyExtractor={(_, idx) => `${idx}`}
+        keyExtractor={(_, ind) => `${ind}`}
       />
     </View>
   );

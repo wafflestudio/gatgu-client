@@ -22,16 +22,22 @@ const ProfileModifyStyles = StyleSheet.create({
   profileImg: {
     width: '100%',
     height: '100%',
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: palette.borderGray,
   },
-  imgPickBtn: {
+  imgCont: {
     position: 'absolute',
-    width: 44,
-    height: 44,
     right: 0,
     bottom: 0,
     borderRadius: 22,
     borderColor: palette.borderGray,
     borderWidth: 1,
+  },
+
+  imgPickBtn: {
+    width: 44,
+    height: 44,
   },
   // inputs
   inputContainer: {

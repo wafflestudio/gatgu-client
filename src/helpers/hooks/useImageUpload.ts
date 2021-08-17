@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import apiClient from '@/apis/apiClient';
+import { emptyURL } from '@/constants/image';
 import { APItype } from '@/enums/image';
 import { TShortImage } from '@/types/shared';
 
@@ -26,6 +27,7 @@ const useImageUpload = (type: APItype, id?: number) => {
   };
 
   const uploadSingleImage = async (image: TShortImage) => {
+    console.log('UPLOAD');
     return await createPresignedPost(id)
       .then(async (res) => {
         const filename = res.data.response.fields.key;
@@ -51,7 +53,11 @@ const useImageUpload = (type: APItype, id?: number) => {
           method: 'POST',
           body: body,
         }).then((r: any) => {
-          return r.headers['map']['location'];
+          console.log(r);
+          if (r['ok']) return r.headers['map']['location'];
+          else {
+            return emptyURL;
+          }
         });
       })
       .catch((err) => {
