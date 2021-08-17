@@ -16,6 +16,7 @@ type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
 
 function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
   const navigation = useNavigation();
+
   return (
     <View style={styles.profile}>
       <TouchableOpacity

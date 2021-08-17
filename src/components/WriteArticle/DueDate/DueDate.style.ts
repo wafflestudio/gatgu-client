@@ -20,12 +20,17 @@ const DescriptionStyle = StyleSheet.create({
   },
 
   modalView: {
-    height: '45%',
-    width: '100%',
+    // height: '15%',
+    // width: '100%',
+
     marginTop: 'auto',
+    marginBottom: 'auto',
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    paddingTop: 35,
+    paddingBottom: 35,
+    padding: 20,
+    margin: 10,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {

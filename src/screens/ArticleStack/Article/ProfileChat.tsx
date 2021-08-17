@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Flex } from 'native-base';
 
-import { userAPI } from '@/apis';
 import { Profile } from '@/components';
 import { GButton } from '@/components/Gatgu/GButton';
 import { ArticleStatus, WSMessage } from '@/enums';
@@ -14,11 +12,10 @@ import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useSelector from '@/helpers/hooks/useSelector';
-import { AppRoutes } from '@/helpers/routes';
 import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { IArticleProps, IArticleStatus } from '@/types/article';
-import { IUserSimple } from '@/types/user';
+import { IUserSumProps } from '@/types/user';
 
 import styles from './ProfileChat.style';
 
@@ -39,7 +36,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const isChattingButtonDisabled =
     !isLogined || orderStatus.progress_status > ArticleStatus.Dealing;
 
-  const [writer, setWriter] = useState<IUserSimple>();
+  const [writer, setWriter] = useState<IUserSumProps>();
 
   const handleChattingButtonClick = (resendKey: string) => {
     ///
@@ -83,10 +80,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
 
   useEffect(() => {
     if (!isLogined) return;
-
-    userAPI.getOtherUserData(article.writer_id).then((res) => {
-      setWriter(res.data);
-    });
+    setWriter(article.writer);
     // eslint-disable-next-line
   }, []);
 
@@ -94,7 +88,6 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
     if (!isLogined) {
       return null;
     }
-
     return <Profile {...(writer as any)} />;
   };
 

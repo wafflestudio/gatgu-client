@@ -27,7 +27,7 @@ const initialState: IArticleSlice = {
   errorStatus: -100,
   isLoading: false,
   currentArticle: {
-    writer_id: 0,
+    writer: { id: 0, profile_img: '', nickname: '' },
     article_id: 0,
     title: '',
     description: '',
@@ -36,7 +36,6 @@ const initialState: IArticleSlice = {
     price_min: 0,
     time_in: new Date().getTime(),
     images: [],
-    tag: [],
     created_at: new Date().getTime(), // should be date but json server doesn't accept Date
     updated_at: new Date().getTime(),
     article_status: {

@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
 import { StringInput } from '@/components';
 
@@ -17,11 +17,11 @@ function Description({
 }: DescriptionProps): JSX.Element {
   return (
     <View style={styles.bigContainer}>
-      <StringInput
+      <TextInput
         value={description}
         style={waStyles.text}
         placeholder="내용"
-        placeholderStyle={styles.placeHolder}
+        // placeholderStyle={styles.placeHolder}
         onChangeText={setDescription}
         multiline={true}
       />

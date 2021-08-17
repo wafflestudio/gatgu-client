@@ -3,6 +3,7 @@ import * as Enums from '@/enums';
 
 import { IOrderChat } from './chat';
 import { ICursorPaginationResponse } from './shared';
+import { IUserSumProps } from './user';
 
 export interface IArticleImage {
   id: number;
@@ -38,7 +39,7 @@ export interface IReqPresignedURL {
 }
 
 export interface IArticleProps {
-  writer_id: number;
+  writer: IUserSumProps;
   article_id: number;
   title: string;
   description: string;
@@ -47,7 +48,7 @@ export interface IArticleProps {
   price_min: number;
   time_in: number;
   images: IArticleImage[]; // 확실하지 않음... api에 타입이 안 적혀있음
-  tag: number[];
+  // tag?: number[];
   created_at: number; // should be date but json server doesn't accept Date
   updated_at: number;
   article_status: IArticleStatus;
