@@ -9,6 +9,7 @@ const WriteArticleStyles = StyleSheet.create({
     color: 'black',
     paddingLeft: 20,
     paddingBottom: 9,
+    width: 100,
   },
 
   placeHolder: {

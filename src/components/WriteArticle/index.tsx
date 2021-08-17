@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, Button, View, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { KeyboardAvoidingView, Spinner } from 'native-base';
+import { KeyboardAvoidingView, Spinner, useToast } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -11,6 +11,7 @@ import { APItype } from '@/enums/image';
 import { createError } from '@/helpers/functions';
 import { getTs } from '@/helpers/functions/time';
 import { validateLink } from '@/helpers/functions/validate';
+import { useToaster } from '@/helpers/hooks';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { AppRoutes } from '@/helpers/routes';
 import { AppThunk, RootState } from '@/store';
@@ -61,7 +62,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [pageStatus, setPageStatus] = useState<number>(-100);
   const [hasError, setErrorStatus] = useState<boolean>(false);
   const { uploadMultipleImages } = useImageUpload(APItype.article, id);
-
+  const toaster = useToaster();
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
     if (isEdit) return state.article.currentArticle;
@@ -122,9 +123,12 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   }, [currentArticle]);
 
   const checkInput = (): string => {
-    let str = '';
-    if (!validateLink(link)) str += 'Link is invalid.\n';
-    return str;
+    if (!title.length) return '제목을 입력해주세요.\n';
+    else if (!need_price.length) return '희망 구매액을 입력해주세요.\n';
+    else if (!location.length) return '희망 거래 지역을 입력해주세요.\n';
+    else if (!validateLink(link)) return 'Link is invalid.\n';
+    else if (!description.length) return '글의 세부사항을 입력해주세요.\n';
+    else return '';
   };
 
   const submit = () => {
@@ -139,7 +143,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     }
     const res = checkInput();
     if (res != '') {
-      Alert.alert(res);
+      toaster.warning(res);
+      setLoading(false);
       return;
     }
     const checkImages =
