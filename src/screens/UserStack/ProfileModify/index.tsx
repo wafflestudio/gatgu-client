@@ -148,10 +148,7 @@ const ProfileModify: React.FC = () => {
           </View>
           <View style={styles.imgCont}>
             <TouchableHighlight onPress={handlePress}>
-              <Image
-                source={require('@/assets/images/modifyButton.png')}
-                style={styles.imgPickBtn}
-              />
+              <ModifyButton style={styles.imgPickBtn} />
             </TouchableHighlight>
           </View>
         </View>

@@ -39,7 +39,7 @@ class BaseWebsocket {
   >;
 
   constructor(url: string, options: IBaseWebsocketOption) {
-    console.log('Websocket');
+    console.log('Websocket', url);
     this._ws = new ReconnectingWebsocket(url);
 
     this._pingpongCount = 0;
@@ -117,7 +117,7 @@ class BaseWebsocket {
 
   private _onmessage(e: WebsocketEventMap['onmessage']) {
     const message = JSON.parse(e.data) as TWsMessage;
-    console.log('-------------', message);
+    console.log('-----', JSON.stringify(message, null, 2));
 
     switch (message.type) {
       case 'PONG':
@@ -157,15 +157,19 @@ class BaseWebsocket {
       default: {
         const promise = this.promiseByWsID.get(message.websocket_id);
         if (promise) {
-          if (promise.resolveCondition) {
+          if (promise.resolveCondition && promise.resolveCondition(message)) {
             promise.resolve(message);
             this.promiseByWsID.delete(message.websocket_id);
-          } else if (promise.rejectCondition) {
+          } else if (
+            promise.rejectCondition &&
+            promise.rejectCondition(message)
+          ) {
             promise.reject(message);
             this.promiseByWsID.delete(message.websocket_id);
           } else {
             promise.reject(message);
           }
+          break;
         }
 
         if (this.onmessage) {
