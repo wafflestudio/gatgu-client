@@ -53,8 +53,13 @@ function ArticlePage(): JSX.Element {
   }, [articleErrorStatus]);
 
   if (articleIsLoading) {
+    console.log('loading');
+    let i = 0,
+      j;
+    for (i = 0; i < 10000000000; i++) j = 0;
     return (
       <Center>
+        {console.log('loading2')}
         <Progress />
       </Center>
     );
@@ -71,7 +76,7 @@ function ArticlePage(): JSX.Element {
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         left={<Header.BackButton />}
       />
-
+      {console.log('rendered')}
       <ScrollView>
         <ProductImages
           image_urls={currentArticle.images}
