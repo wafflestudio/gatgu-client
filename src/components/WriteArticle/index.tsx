@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Button, View, Alert } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { ScrollView, View, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -28,7 +28,7 @@ import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
 import AppLoadingTemplate from '../AppLoading';
-import { GButton, GText } from '../Gatgu';
+import { GButton } from '../Gatgu';
 import Header from '../Header';
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
@@ -205,13 +205,13 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     navigation.setOptions({
       headerLeft: () => (
         <View>
-          {!isEdit ? (
-            <TouchableHighlight
+          {isEdit ? (
+            <TouchableOpacity
               onPress={() => navigation.goBack()}
               style={{ marginLeft: 11 }}
             >
               <Icon name="chevron-back" size={38} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           ) : null}
         </View>
       ),
