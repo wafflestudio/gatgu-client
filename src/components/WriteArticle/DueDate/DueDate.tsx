@@ -50,14 +50,13 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
     setInitWeek(returnArrayDate(new Date()));
   };
   const selectDay = (indx: number) => {
-    console.log('select');
     const temp = _.cloneDeep(initWeek);
     temp[indx].selected = true;
     setDayArr(temp);
 
     const res = new Date();
     // set time
-    res.setHours(23, 59);
+    // res.setHours(23, 59);
 
     // find chosen day
     // set to chosen day
@@ -96,7 +95,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   ));
 
   const parsedDate = useMemo(() => {
-    const iso = DateTime.fromJSDate(dueDate).toFormat(`yyyy-MM-dd hh:mm`);
+    const iso = DateTime.fromJSDate(dueDate).toFormat(`yyyy-MM-dd`);
     return iso;
   }, [dueDate]);
 
@@ -109,7 +108,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
         >
           <View style={styles.timeContainer}>
             <Text style={styles.label}>모집기한</Text>
-            <Text style={styles.label}>{parsedDate}</Text>
+            <Text style={styles.label}>{parsedDate} 23:59 까지</Text>
           </View>
         </TouchableHighlight>
       </View>

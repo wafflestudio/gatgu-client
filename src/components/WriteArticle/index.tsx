@@ -51,7 +51,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [images, setImages] = useState<TShortImage[]>([]);
   const [need_price, setPrice] = useState<string>('');
   const [title, setTitle] = useState<string>('');
-  const [dueDate, setDueDate] = useState<Date>(new Date());
+  const [dueDate, setDueDate] = useState<Date>(
+    new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+  );
   const [description, setDescription] = useState<string>('');
   const [link, setLink] = useState<string>('');
   const [location, setLocation] = useState<string>('');
