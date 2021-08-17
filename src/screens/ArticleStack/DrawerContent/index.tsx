@@ -27,10 +27,10 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const toaster = useToaster();
   const currentUser = useUserDetail().data;
 
-  const { writer_id, article_id, article_status } = useSelector(
+  const { writer, article_id, article_status } = useSelector(
     (state: RootState) => state.article.currentArticle
   );
-  const isMyArticle = writer_id === currentUser?.id;
+  const isMyArticle = writer?.id === currentUser?.id;
 
   const [isReportModalOpen, setReportModalOpen] = useState(false);
   const [isReportModalSubmitting, setReportModalSubmitting] = useState(false);
