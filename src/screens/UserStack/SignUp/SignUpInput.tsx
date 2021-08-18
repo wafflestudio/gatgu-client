@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { Button, StringInput } from '@/components';
 import { GInput, GInputProps, GSpace } from '@/components/Gatgu';
-import { palette } from '@/styles';
 
 import styles from './Input.style';
 
@@ -34,7 +32,6 @@ const SignUpInput: React.FC<IInputProps> = ({
       </View>
       <GSpace h={4} />
       <GInput
-        noBorder
         value={value}
         onChangeText={onChangeText}
         placeholder={title}

@@ -1,7 +1,5 @@
 import React from 'react';
-import { ButtonProps, ViewStyle } from 'react-native';
-
-import { Spinner } from 'native-base';
+import { ActivityIndicator, ButtonProps, ViewStyle } from 'react-native';
 
 import { palette } from '@/styles';
 
@@ -62,7 +60,7 @@ const GButton: React.FC<GButtonProps> = ({
   const renderButtonInner = () => {
     if (isLoading) {
       return (
-        <Spinner
+        <ActivityIndicator
           color={palette[buttonInnerTextProps[theme][variant].color ?? 'white']}
         />
       );

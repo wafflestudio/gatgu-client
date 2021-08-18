@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
-import { HStack, KeyboardAvoidingView, VStack } from 'native-base';
+import { HStack, KeyboardAvoidingView, Modal, VStack } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -23,6 +23,7 @@ import {
 import { useToaster } from '@/helpers/hooks';
 import SignUpInput from '@/screens/UserStack/SignUp/SignUpInput';
 
+import FindAddressWebview from '../components/FindAddressWebview/FindAddressWebview';
 import TokenTimer from '../components/TokenTimer/TokenTimer';
 import Check from './Check';
 import checkStyles from './Check.style';
@@ -69,9 +70,16 @@ const SignUp: React.FC = () => {
   const toaster = useToaster();
   const navigation = useNavigation();
 
-  const [emailTokenExpireTs, setEmailTokenExpireTs] = useState<number>();
+  const [isEmailSending, setEmailSending] = useState(false);
+  const [isEmailSent, setEmailSent] = useState(false);
+
+  const [isTokenValidating, setTokenValidating] = useState(false);
   const [isTokenConfirmDisabled, setTokenConfirmDisabled] = useState(true);
+  const [emailTokenExpireTs, setEmailTokenExpireTs] = useState<number>();
   const [isTokenValid, setTokenValid] = useState(false);
+
+  const [isAddressModalOpen, setAddressModalOpen] = useState(false);
+
   const [signUpErrors, setSignUpErrors] = useState<SignUpErrors>({});
 
   const handleSignUpError = (errorCode: number) => {
@@ -94,7 +102,7 @@ const SignUp: React.FC = () => {
 
   const handleEmailErrorCode = (errorCode: number) => {
     switch (errorCode) {
-      case 104:
+      case 103:
         setErrors({ emailConfirm: '인증 코드가 일치하지 않습니다.' });
         break;
       case 114:
@@ -111,7 +119,7 @@ const SignUp: React.FC = () => {
           values.password,
           values.email + '@snu.ac.kr',
           values.nickname,
-          values.tradingAddress + ' ' + values.tradingAddressDetail
+          values.tradingAddress + ' ' + values.tradingAddressDetail.trim()
         )
         .then(() => {
           toaster.success('회원가입이 완료되었습니다.');
@@ -190,20 +198,26 @@ const SignUp: React.FC = () => {
   });
 
   const handleEmailSend = () => {
+    setEmailSending(true);
     userAPI
       .sendConfirmCodeMail(values.email + '@snu.ac.kr')
       .then(() => {
         toaster.info('인증 메일을 발송하였습니다.');
         setTokenConfirmDisabled(false);
         setEmailTokenExpireTs(getTs(DateTime.now().plus({ minute: 3 })));
+        setEmailSent(true);
       })
       .catch((error) => {
         toaster.error('인증 메일 발송에 실패하였습니다.');
         console.debug(error.config);
+      })
+      .finally(() => {
+        setEmailSending(false);
       });
   };
 
   const handleEmailCodeChecking = (email: string, code: string) => {
+    setTokenValidating(true);
     userAPI
       .confirmMailCode(email + '@snu.ac.kr', code)
       .then(() => {
@@ -212,7 +226,15 @@ const SignUp: React.FC = () => {
       })
       .catch((error: AxiosError) => {
         handleEmailErrorCode(error.response?.data?.error_code);
+      })
+      .finally(() => {
+        setTokenValidating(false);
       });
+  };
+
+  const handleAddressSelect = (address: string) => {
+    setAddressModalOpen(false);
+    setFieldValue('tradingAddress', address);
   };
 
   return (
@@ -255,7 +277,6 @@ const SignUp: React.FC = () => {
         <SignUpInput
           value={values.email}
           title="이메일"
-          marginBottom={14}
           errorStr={errors.email}
           InputRightElement={
             <HStack alignItems="center">
@@ -264,10 +285,14 @@ const SignUp: React.FC = () => {
               <GButton
                 variant="outlined"
                 width="fit"
+                isLoading={isEmailSending}
                 disabled={values.email.length === 0}
+                textProps={{
+                  size: 'big',
+                }}
                 onPress={handleEmailSend}
               >
-                인증
+                {isEmailSent ? '재발송' : '코드 인증'}
               </GButton>
             </HStack>
           }
@@ -277,23 +302,28 @@ const SignUp: React.FC = () => {
           <SignUpInput
             value={values.emailConfirm}
             title="인증번호"
-            marginBottom={12}
+            marginBottom={14}
             isDisabled={isTokenValid || isTokenConfirmDisabled}
             errorStr={errors.emailConfirm}
             maxLength={6}
             InputRightElement={
-              <HStack>
+              <HStack alignItems="center">
                 <TokenTimer
                   endTs={emailTokenExpireTs}
+                  isStop={isTokenValid}
                   onTimeEnd={() => setTokenConfirmDisabled(true)}
                 />
                 {emailTokenExpireTs ? <GSpace w={10} /> : null}
                 <GButton
                   variant="outlined"
                   width="fit"
+                  isLoading={isTokenValidating}
                   disabled={
                     values.emailConfirm.length === 0 || isTokenConfirmDisabled
                   }
+                  textProps={{
+                    size: 'big',
+                  }}
                   onPress={() =>
                     handleEmailCodeChecking(values.email, values.emailConfirm)
                   }
@@ -304,27 +334,39 @@ const SignUp: React.FC = () => {
             }
             onChangeText={handleChange('emailConfirm')}
           />
-
-          <View style={styles.emailControl}>
-            <Button
-              title="재발송"
-              textStyle={checkStyles.contentBtn}
-              onPress={handleEmailSend}
-            />
-            <View style={{ width: 30 }} />
-            <Button
-              title="시간연장"
-              textStyle={checkStyles.contentBtn}
-              onPress={() => Alert.alert('not implemented')}
-            />
-          </View>
         </VStack>
-        <VStack>
-          <HStack></HStack>
-          <GInput isDisabled value="" />
-          <GInput />
+        <VStack mt="15px">
+          <GText bold style={{ marginLeft: 11 }}>
+            주거래지역
+          </GText>
+          <HStack width="100%" marginY="5px">
+            <GButton
+              width="fit"
+              variant="outlined"
+              size="large"
+              textProps={{
+                size: 'big',
+              }}
+              onPress={() => setAddressModalOpen(true)}
+            >
+              주소 찾기
+            </GButton>
+            <GSpace w={4} />
+            <GInput
+              isDisabled
+              flex={1}
+              width="full"
+              placeholder="주소를 찾아주세요"
+              value={values.tradingAddress}
+            />
+          </HStack>
+          <GInput
+            placeholder="상세주소(선택)"
+            value={values.tradingAddressDetail}
+            onChangeText={(v) => setFieldValue('tradingAddressDetail', v)}
+          />
         </VStack>
-
+        <GSpace h={25} />
         <View style={checkStyles.titleContainer}>
           <Button
             title=""
@@ -407,7 +449,8 @@ const SignUp: React.FC = () => {
           disabled={
             Object.keys(errors).length > 0 ||
             !values.isAllCheckboxesSelected ||
-            !isTokenValid
+            !isTokenValid ||
+            values.tradingAddress.length === 0
           }
           isLoading={isSubmitting}
           onPress={() => handleSubmit()}
@@ -415,6 +458,20 @@ const SignUp: React.FC = () => {
           가입하기
         </GButton>
       </KeyboardAvoidingView>
+      {
+        <Modal
+          isOpen={isAddressModalOpen}
+          onClose={() => setAddressModalOpen(false)}
+        >
+          <Modal.Content width="100%" pr={0} pl={0}>
+            <Modal.CloseButton />
+            <Modal.Header pl={5}>주소 찾기</Modal.Header>
+            <Modal.Body padding={0} style={{ flex: 1, height: 610 }}>
+              <FindAddressWebview onSelect={handleAddressSelect} />
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+      }
     </ScrollView>
   );
 };

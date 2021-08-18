@@ -7,10 +7,11 @@ import { getTs } from '@/helpers/functions/time';
 
 interface ITimerProps {
   endTs?: number;
+  isStop?: boolean;
   onTimeEnd: () => void;
 }
 
-const TokenTimer: React.FC<ITimerProps> = ({ endTs, onTimeEnd }) => {
+const TokenTimer: React.FC<ITimerProps> = ({ endTs, isStop, onTimeEnd }) => {
   const intervalIdRef = React.useRef<number>();
 
   const [remainTime, setRemainTime] = useState<number>();
@@ -22,10 +23,15 @@ const TokenTimer: React.FC<ITimerProps> = ({ endTs, onTimeEnd }) => {
     setRemainTime(endTs - getTs());
 
     intervalIdRef.current = setInterval(() => {
+      if (isStop) {
+        clearInterval(intervalIdRef.current);
+        return;
+      }
+
       setRemainTime((prev) => {
         const next = prev ? prev - 1000 : prev;
 
-        if (next && next <= 0) {
+        if (typeof next === 'number' && next <= 0) {
           clearInterval(intervalIdRef.current);
           onTimeEnd();
 
@@ -39,14 +45,14 @@ const TokenTimer: React.FC<ITimerProps> = ({ endTs, onTimeEnd }) => {
     return () => {
       clearInterval(intervalIdRef.current);
     };
-  }, [endTs, onTimeEnd]);
+  }, [endTs, isStop, onTimeEnd]);
 
   if (remainTime === undefined) {
     return null;
   }
 
   return (
-    <GText color="warnRed">
+    <GText color={isStop ? 'blue' : 'warnRed'}>
       {DateTime.fromMillis(remainTime).toFormat('mm:ss')}
     </GText>
   );
