@@ -1,17 +1,12 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { Flex, HamburgerIcon, VStack } from 'native-base';
+import { HamburgerIcon, VStack } from 'native-base';
 import styled from 'styled-components/native';
 
 import { Header } from '@/components';
 import { palette } from '@/styles';
-import { IArticleProps } from '@/types/article';
 
-import ArticleHeader from '../ArticleHeader';
-import Desc from '../Desc';
-import ProductImages from '../ProductImages';
-import ProfileChat from '../ProfileChat';
 import styles from './ArticleShimmer.style';
 
 const StyledImage = styled.View`

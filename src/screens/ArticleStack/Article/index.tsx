@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Center, HamburgerIcon, Progress } from 'native-base';
+import { HamburgerIcon } from 'native-base';
 
 import { DrawerActions, RouteProp, useRoute } from '@react-navigation/native';
 
@@ -12,7 +12,6 @@ import { Header } from '@/components';
 import Error from '@/components/Error';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { RootState } from '@/store';
-import { getSingleArticle } from '@/store/articleSlice';
 import { IArticleProps } from '@/types/article';
 
 import { EArticleStackScreens } from '../ArticleStack';
@@ -27,23 +26,16 @@ function ArticlePage(): JSX.Element {
     RouteProp<TAppStackParamList, EArticleStackScreens.Article>
   >();
   const id = route.params.id;
-  const dispatch = useDispatch();
   const navigation = useAppNavigation();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [currentArticle, setCurrentArticle] = useState<IArticleProps>({});
+  const [currentArticle, setCurrentArticle] = useState<IArticleProps>(
+    {} as IArticleProps
+  );
   const islogined = !!useSelector((state: RootState) => state.user.isLogined);
 
-  // const {
-  //   currentArticle,
-  //   articleIsLoading,
-  //   articleHasError,
-  //   articleErrorStatus,
-  // } = useSelector((state: RootState) => state.article);
-
-  useEffect(() => {
+  const fetchArticle = () => {
     setLoading(true);
-    console.log('BEF');
     articleAPI
       .getSingleArticle(id)
       .then((res) => {
@@ -53,20 +45,25 @@ function ArticlePage(): JSX.Element {
       .then((res) => {
         setCurrentArticle(res.data);
       })
+      .catch((e) => {
+        setError(true);
+      })
       .finally(() => {
         setLoading(false);
-        console.log('AFT');
       });
+  };
+
+  useEffect(() => {
+    fetchArticle();
   }, []);
 
   const ErrorModal = useCallback(() => {
     return (
       <Error
         title="에러 발생"
-        description={`${error}`}
-        errCallback={() => {
-          console.error('ERROR');
-        }}
+        description="네트워크 연결을 다시 시도주세요."
+        errCallback={fetchArticle}
+        navigation={navigation}
       />
     );
   }, []);
@@ -75,11 +72,10 @@ function ArticlePage(): JSX.Element {
     return <ErrorModal />;
   }
 
-  if (!loading) {
+  if (loading) {
     return <ArticleShimmer />;
   }
 
-  console.log(loading);
   return (
     <View style={styles.container}>
       <Header
