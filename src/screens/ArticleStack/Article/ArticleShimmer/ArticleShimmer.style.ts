@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { palette, typo } from '@/styles';
+import { palette } from '@/styles';
 
 const ArticleShimmerStyles = StyleSheet.create({
   box: {

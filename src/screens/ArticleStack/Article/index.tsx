@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import { HamburgerIcon } from 'native-base';
 
@@ -38,10 +38,6 @@ function ArticlePage(): JSX.Element {
     setLoading(true);
     articleAPI
       .getSingleArticle(id)
-      .then((res) => {
-        for (let j, i = 0; i < 1000000000; i++) j = 0;
-        return res;
-      })
       .then((res) => {
         setCurrentArticle(res.data);
       })
