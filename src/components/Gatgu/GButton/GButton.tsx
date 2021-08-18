@@ -8,7 +8,7 @@ import { palette } from '@/styles';
 import { GText, GTextProps } from '../GText';
 import { StyledButtonWrapper } from './GButton.styled';
 
-export type GButtonWidth = 'default' | 'full';
+export type GButtonWidth = 'default' | 'full' | 'fit';
 export type GButtonSize = 'small' | 'default' | 'large';
 export type GButtonVariant = 'filled' | 'outlined';
 export type GButtonTheme = 'primary' | 'gray';

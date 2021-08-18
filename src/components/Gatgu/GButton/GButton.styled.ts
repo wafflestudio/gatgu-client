@@ -42,6 +42,7 @@ const cssButtonWidths: Record<GButtonSize, Record<GButtonWidth, any>> = {
     full: css`
       width: 100%;
     `,
+    fit: css``,
   },
   default: {
     default: css`
@@ -50,6 +51,7 @@ const cssButtonWidths: Record<GButtonSize, Record<GButtonWidth, any>> = {
     full: css`
       width: 100%;
     `,
+    fit: css``,
   },
   large: {
     default: css`
@@ -58,6 +60,7 @@ const cssButtonWidths: Record<GButtonSize, Record<GButtonWidth, any>> = {
     full: css`
       width: 100%;
     `,
+    fit: css``,
   },
 };
 
