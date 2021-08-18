@@ -2,11 +2,12 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { Button, StringInput } from '@/components';
+import { GInput, GInputProps, GSpace } from '@/components/Gatgu';
 import { palette } from '@/styles';
 
 import styles from './Input.style';
 
-export interface IInputProps {
+export interface IInputProps extends GInputProps {
   value: string;
   onChangeText: (e: string) => void;
   title: string;
@@ -17,14 +18,13 @@ export interface IInputProps {
   marginBottom?: number;
 }
 
-const Input: React.FC<IInputProps> = ({
+const SignUpInput: React.FC<IInputProps> = ({
   value,
-  onChangeText,
   title,
-  buttonString,
-  buttonOnPress,
   marginBottom = 24,
   errorStr,
+  onChangeText,
+  ...inputProps
 }: IInputProps) => {
   return (
     <View style={{ ...styles.container, marginBottom }}>
@@ -32,27 +32,16 @@ const Input: React.FC<IInputProps> = ({
         <Text style={styles.title}>{title}</Text>
         {errorStr && <Text style={styles.warnText}>{errorStr}</Text>}
       </View>
-      <StringInput
+      <GSpace h={4} />
+      <GInput
+        noBorder
         value={value}
         onChangeText={onChangeText}
         placeholder={title}
-        style={styles.inputBox}
-        placeholderStyle={styles.inputBox}
-        placeholderTextColor={palette.gray}
+        {...inputProps}
       />
-      {title.localeCompare('이메일') ? null : (
-        <Text style={styles.emailPostfix}>@snu.ac.kr</Text>
-      )}
-      {buttonString && buttonOnPress && (
-        <Button
-          title={buttonString}
-          onPress={buttonOnPress}
-          style={styles.inputButton}
-          textStyle={styles.inputButtonText}
-        />
-      )}
     </View>
   );
 };
 
-export default Input;
+export default SignUpInput;
