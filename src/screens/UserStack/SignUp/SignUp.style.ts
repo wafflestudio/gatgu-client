@@ -41,8 +41,8 @@ const SignUpStyles = StyleSheet.create({
   emailControl: {
     flexDirection: 'row',
     height: 20,
+    justifyContent: 'flex-end',
     marginBottom: 40,
-    justifyContent: 'space-between',
   },
 });
 

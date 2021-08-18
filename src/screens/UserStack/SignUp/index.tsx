@@ -1,16 +1,18 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { View, ScrollView, Text, Alert } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, ScrollView, Text, Alert, Platform } from 'react-native';
 
 import { AxiosError } from 'axios';
-import { Formik } from 'formik';
+import { useFormik } from 'formik';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
+import { HStack, KeyboardAvoidingView, VStack } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { userAPI } from '@/apis';
 import { Button } from '@/components';
-import Timer from '@/components/Common/Timer';
+import { GButton, GInput, GSpace, GText } from '@/components/Gatgu';
+import { getTs } from '@/helpers/functions/time';
 import {
   isValidEmail,
   isValidUsername,
@@ -18,9 +20,10 @@ import {
   isValidPasswordConfirm,
   isValidPassword,
 } from '@/helpers/functions/validate';
-import Input from '@/screens/UserStack/SignUp/Input';
-import { flexRow } from '@/styles/wrapper';
+import { useToaster } from '@/helpers/hooks';
+import SignUpInput from '@/screens/UserStack/SignUp/SignUpInput';
 
+import TokenTimer from '../components/TokenTimer/TokenTimer';
 import Check from './Check';
 import checkStyles from './Check.style';
 import styles from './SignUp.style';
@@ -30,7 +33,8 @@ export interface ISignUpValues {
   password: string;
   nickname: string;
   email: string;
-  trade_address: string;
+  tradingAddress: string;
+  tradingAddressDetail: string;
   passwordConfirm: string;
   emailConfirm: string;
   isAllCheckboxesSelected: boolean;
@@ -39,11 +43,67 @@ export interface ISignUpValues {
   checkbox3IsSelected: boolean;
 }
 
-const SignUp: React.FC = () => {
-  const navigation = useNavigation();
-  const [emailEndsAt, setEmailEndsAt] = useState<DateTime | null>(null);
+const DEFAULT_FORM_VALUE = {
+  // values
+  username: '',
+  password: '',
+  nickname: '',
+  email: '',
+  tradingAddress: '',
+  tradingAddressDetail: '',
 
-  const signUp = useCallback(
+  // fake values
+  emailConfirm: '',
+  passwordConfirm: '',
+
+  // checkBoxes
+  isAllCheckboxesSelected: false,
+  checkbox1IsSelected: false,
+  checkbox2IsSelected: false,
+  checkbox3IsSelected: false,
+};
+
+type SignUpErrors = Partial<Record<keyof ISignUpValues, string>>;
+
+const SignUp: React.FC = () => {
+  const toaster = useToaster();
+  const navigation = useNavigation();
+
+  const [emailTokenExpireTs, setEmailTokenExpireTs] = useState<number>();
+  const [isTokenConfirmDisabled, setTokenConfirmDisabled] = useState(true);
+  const [isTokenValid, setTokenValid] = useState(false);
+  const [signUpErrors, setSignUpErrors] = useState<SignUpErrors>({});
+
+  const handleSignUpError = (errorCode: number) => {
+    const _signUpErrors: SignUpErrors = {};
+
+    switch (errorCode) {
+      case 103:
+        _signUpErrors['email'] = '인증되지 않은 이메일입니다.';
+        break;
+      case 104:
+        _signUpErrors['nickname'] = '이미 사용중인 닉네임입니다.';
+        break;
+      case 105:
+        _signUpErrors['username'] = '이미 사용중인 아이디입니다.';
+        break;
+      // no default
+    }
+    setSignUpErrors(_signUpErrors);
+  };
+
+  const handleEmailErrorCode = (errorCode: number) => {
+    switch (errorCode) {
+      case 104:
+        setErrors({ emailConfirm: '인증 코드가 일치하지 않습니다.' });
+        break;
+      case 114:
+        setErrors({ emailConfirm: '시간이 초과되었습니다.' });
+        break;
+    }
+  };
+
+  const handleFormSubmit = useCallback(
     (values: ISignUpValues) => {
       userAPI
         .signUp(
@@ -51,23 +111,19 @@ const SignUp: React.FC = () => {
           values.password,
           values.email + '@snu.ac.kr',
           values.nickname,
-          values.trade_address
+          values.tradingAddress + ' ' + values.tradingAddressDetail
         )
         .then(() => {
-          Alert.alert('회원가입이 완료되었습니다.');
+          toaster.success('회원가입이 완료되었습니다.');
           navigation.navigate('Login');
         })
         .catch((error: AxiosError) => {
           if (error.response) {
-            // 서버에서 2xx 가 아닌 response를 내려줌
             switch (error.response.status) {
+              // 인증되지 않은 이메일, 필수 항목 누락, 닉네임 중복, 아이디 중복
               case 400:
-                // 무슨 메세지가 있을거임
-                Alert.alert(get(error, ['response', 'data', 'error']));
-                break;
-              case 403:
-                // csrf error
-                Alert.alert(get(error, ['response', 'data', 'detail']));
+                toaster.error(get(error, ['response', 'data', 'detail']));
+                handleSignUpError(error.response.data?.error_code);
                 break;
               default:
                 // 예상치 못한 에러 코드
@@ -83,29 +139,7 @@ const SignUp: React.FC = () => {
           console.debug(error.config);
         });
     },
-    [navigation]
-  );
-
-  const signUpInitialValues = useMemo(
-    () => ({
-      // values
-      username: '',
-      password: '',
-      nickname: '',
-      email: '',
-      trade_address: '',
-
-      // fake values
-      emailConfirm: '',
-      passwordConfirm: '',
-
-      // checkBoxes
-      isAllCheckboxesSelected: false,
-      checkbox1IsSelected: false,
-      checkbox2IsSelected: false,
-      checkbox3IsSelected: false,
-    }),
-    []
+    [navigation, toaster]
   );
 
   const validate = (values: ISignUpValues) => {
@@ -138,212 +172,250 @@ const SignUp: React.FC = () => {
     if (email) Object.assign(errors, { email });
     // trade address & email confirm : pass
 
-    return errors;
+    return { ...signUpErrors, ...errors };
+  };
+
+  const {
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    setFieldValue,
+    handleSubmit,
+    setErrors,
+  } = useFormik({
+    initialValues: DEFAULT_FORM_VALUE,
+    onSubmit: handleFormSubmit,
+    validate,
+  });
+
+  const handleEmailSend = () => {
+    userAPI
+      .sendConfirmCodeMail(values.email + '@snu.ac.kr')
+      .then(() => {
+        toaster.info('인증 메일을 발송하였습니다.');
+        setTokenConfirmDisabled(false);
+        setEmailTokenExpireTs(getTs(DateTime.now().plus({ minute: 3 })));
+      })
+      .catch((error) => {
+        toaster.error('인증 메일 발송에 실패하였습니다.');
+        console.debug(error.config);
+      });
+  };
+
+  const handleEmailCodeChecking = (email: string, code: string) => {
+    userAPI
+      .confirmMailCode(email + '@snu.ac.kr', code)
+      .then(() => {
+        setTokenValid(true);
+        toaster.success('인증되었습니다.');
+      })
+      .catch((error: AxiosError) => {
+        handleEmailErrorCode(error.response?.data?.error_code);
+      });
   };
 
   return (
-    <Formik<ISignUpValues>
-      initialValues={signUpInitialValues}
-      onSubmit={signUp}
-      validate={validate}
-    >
-      {({ values, handleChange, setFieldValue, handleSubmit, errors }) => (
-        <ScrollView style={styles.container}>
-          <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
-          <Input
-            title="아이디"
-            onChangeText={handleChange('username')}
-            value={values.username}
-            errorStr={errors.username}
-          />
-          <Input
-            title="비밀번호"
-            marginBottom={6}
-            value={values.password}
-            onChangeText={handleChange('password')}
-            errorStr={errors.password}
-          />
-          <Input
-            title="비밀번호 확인"
-            value={values.passwordConfirm}
-            onChangeText={handleChange('passwordConfirm')}
-            errorStr={errors.passwordConfirm}
-          />
-          <Input
-            value={values.nickname}
-            onChangeText={handleChange('nickname')}
-            title="닉네임"
-            errorStr={errors.nickname}
-          />
-          <Input
-            value={values.trade_address}
-            onChangeText={handleChange('trade_address')}
-            title="주 거래 지역"
-            errorStr={errors.trade_address}
-          />
-          <Input
-            value={values.email}
-            onChangeText={handleChange('email')}
-            title="이메일"
-            buttonString="인증"
-            buttonOnPress={() =>
-              userAPI
-                .sendConfirmCodeMail(values.email + '@snu.ac.kr')
-                .then(() => {
-                  Alert.alert('인증 메일을 발송하였습니다.');
-                  setEmailEndsAt(DateTime.local().plus({ minute: 3 }));
-                })
-                .catch((error) => {
-                  Alert.alert('인증 메일 발송에 실패하였습니다.');
-                  console.debug(error.config);
-                })
-            }
-            marginBottom={6}
-            errorStr={errors.email}
-          />
-          <Input
+    <ScrollView style={styles.container}>
+      <KeyboardAvoidingView
+        h={{
+          base: '1000px',
+          lg: 'auto',
+        }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
+        <SignUpInput
+          title="아이디"
+          onChangeText={handleChange('username')}
+          value={values.username}
+          errorStr={errors.username}
+        />
+        <SignUpInput
+          title="비밀번호"
+          marginBottom={14}
+          value={values.password}
+          type="password"
+          errorStr={errors.password}
+          onChangeText={handleChange('password')}
+        />
+        <SignUpInput
+          title="비밀번호 확인"
+          value={values.passwordConfirm}
+          type="password"
+          errorStr={errors.passwordConfirm}
+          onChangeText={handleChange('passwordConfirm')}
+        />
+        <SignUpInput
+          value={values.nickname}
+          onChangeText={handleChange('nickname')}
+          title="닉네임"
+          errorStr={errors.nickname}
+        />
+        <SignUpInput
+          value={values.email}
+          title="이메일"
+          marginBottom={14}
+          errorStr={errors.email}
+          InputRightElement={
+            <HStack alignItems="center">
+              <GText size="big">@snu.ac.kr</GText>
+              <GSpace w={10} />
+              <GButton
+                variant="outlined"
+                width="fit"
+                disabled={values.email.length === 0}
+                onPress={handleEmailSend}
+              >
+                인증
+              </GButton>
+            </HStack>
+          }
+          onChangeText={handleChange('email')}
+        />
+        <VStack>
+          <SignUpInput
             value={values.emailConfirm}
-            onChangeText={handleChange('emailConfirm')}
             title="인증번호"
-            buttonString="확인"
-            buttonOnPress={() =>
-              userAPI
-                .confirmMailCode(
-                  values.email + '@snu.ac.kr',
-                  values.emailConfirm
-                )
-                .then(() => Alert.alert('인증되었습니다.'))
-                .catch(() => {
-                  Alert.alert('잘못된 코드입니다.');
-                })
-            }
-            marginBottom={6}
+            marginBottom={12}
+            isDisabled={isTokenValid || isTokenConfirmDisabled}
             errorStr={errors.emailConfirm}
+            maxLength={6}
+            InputRightElement={
+              <HStack>
+                <TokenTimer
+                  endTs={emailTokenExpireTs}
+                  onTimeEnd={() => setTokenConfirmDisabled(true)}
+                />
+                {emailTokenExpireTs ? <GSpace w={10} /> : null}
+                <GButton
+                  variant="outlined"
+                  width="fit"
+                  disabled={
+                    values.emailConfirm.length === 0 || isTokenConfirmDisabled
+                  }
+                  onPress={() =>
+                    handleEmailCodeChecking(values.email, values.emailConfirm)
+                  }
+                >
+                  확인
+                </GButton>
+              </HStack>
+            }
+            onChangeText={handleChange('emailConfirm')}
           />
 
           <View style={styles.emailControl}>
-            {emailEndsAt && (
-              <Timer
-                style={{ color: 'red' }}
-                endAt={emailEndsAt}
-                options={{
-                  format: 'mm:ss',
-                }}
-                onEnd={() => setEmailEndsAt(null)}
-              />
-            )}
-            <View style={{ ...flexRow }}>
-              <Button
-                title="재발송"
-                textStyle={checkStyles.contentBtn}
-                onPress={() => Alert.alert('not implemented')}
-              />
-              <View style={{ width: 30 }} />
-              <Button
-                title="시간연장"
-                textStyle={checkStyles.contentBtn}
-                onPress={() => Alert.alert('not implemented')}
-              />
-            </View>
-          </View>
-          <View style={checkStyles.titleContainer}>
             <Button
-              title=""
-              style={
-                values.isAllCheckboxesSelected
-                  ? checkStyles.buttonTrue
-                  : checkStyles.buttonFalse
-              }
-              onPress={() => {
-                setFieldValue(
-                  'isAllCheckboxesSelected',
-                  !values.isAllCheckboxesSelected
-                );
-                setFieldValue(
-                  'checkbox1IsSelected',
-                  !values.isAllCheckboxesSelected
-                );
-                setFieldValue(
-                  'checkbox2IsSelected',
-                  !values.isAllCheckboxesSelected
-                );
-                setFieldValue(
-                  'checkbox3IsSelected',
-                  !values.isAllCheckboxesSelected
-                );
-              }}
+              title="재발송"
+              textStyle={checkStyles.contentBtn}
+              onPress={handleEmailSend}
             />
-            <View style={checkStyles.textWrapper}>
-              <Text style={checkStyles.allTitle}>
-                같구 이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에
-                모두 동의합니다.
-              </Text>
-            </View>
-          </View>
-          <View>
-            <Check
-              checked={values.checkbox1IsSelected}
-              title="같구 이용약관 동의"
-              onPress={() => {
-                setFieldValue(
-                  'checkbox1IsSelected',
-                  !values.checkbox1IsSelected
-                );
-                setFieldValue(
-                  'isAllCheckboxesSelected',
-                  !values.checkbox1IsSelected &&
-                    values.checkbox2IsSelected &&
-                    values.checkbox3IsSelected
-                );
-              }}
-            />
-            <Check
-              checked={values.checkbox2IsSelected}
-              title="개인정보 수집 및 이용 동의"
-              onPress={() => {
-                setFieldValue(
-                  'checkbox2IsSelected',
-                  !values.checkbox2IsSelected
-                );
-                setFieldValue(
-                  'isAllCheckboxesSelected',
-                  values.checkbox1IsSelected &&
-                    !values.checkbox2IsSelected &&
-                    values.checkbox3IsSelected
-                );
-              }}
-            />
-            <Check
-              checked={values.checkbox3IsSelected}
-              title="위치정보 이용약관 동의"
-              onPress={() => {
-                setFieldValue(
-                  'checkbox3IsSelected',
-                  !values.checkbox3IsSelected
-                );
-                setFieldValue(
-                  'isAllCheckboxesSelected',
-                  values.checkbox1IsSelected &&
-                    values.checkbox2IsSelected &&
-                    !values.checkbox3IsSelected
-                );
-              }}
-              isOptional={true}
+            <View style={{ width: 30 }} />
+            <Button
+              title="시간연장"
+              textStyle={checkStyles.contentBtn}
+              onPress={() => Alert.alert('not implemented')}
             />
           </View>
+        </VStack>
+        <VStack>
+          <HStack></HStack>
+          <GInput isDisabled value="" />
+          <GInput />
+        </VStack>
+
+        <View style={checkStyles.titleContainer}>
           <Button
-            title="가입하기"
+            title=""
             style={
               values.isAllCheckboxesSelected
-                ? styles.confirmBtnConO
-                : styles.confirmBtnConX
+                ? checkStyles.buttonTrue
+                : checkStyles.buttonFalse
             }
-            textStyle={styles.confirmBtnText}
-            onPress={handleSubmit}
+            onPress={() => {
+              setFieldValue(
+                'isAllCheckboxesSelected',
+                !values.isAllCheckboxesSelected
+              );
+              setFieldValue(
+                'checkbox1IsSelected',
+                !values.isAllCheckboxesSelected
+              );
+              setFieldValue(
+                'checkbox2IsSelected',
+                !values.isAllCheckboxesSelected
+              );
+              setFieldValue(
+                'checkbox3IsSelected',
+                !values.isAllCheckboxesSelected
+              );
+            }}
           />
-        </ScrollView>
-      )}
-    </Formik>
+          <View style={checkStyles.textWrapper}>
+            <Text style={checkStyles.allTitle}>
+              같구 이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에
+              모두 동의합니다.
+            </Text>
+          </View>
+        </View>
+        <View>
+          <Check
+            checked={values.checkbox1IsSelected}
+            title="같구 이용약관 동의"
+            onPress={() => {
+              setFieldValue('checkbox1IsSelected', !values.checkbox1IsSelected);
+              setFieldValue(
+                'isAllCheckboxesSelected',
+                !values.checkbox1IsSelected &&
+                  values.checkbox2IsSelected &&
+                  values.checkbox3IsSelected
+              );
+            }}
+          />
+          <Check
+            checked={values.checkbox2IsSelected}
+            title="개인정보 수집 및 이용 동의"
+            onPress={() => {
+              setFieldValue('checkbox2IsSelected', !values.checkbox2IsSelected);
+              setFieldValue(
+                'isAllCheckboxesSelected',
+                values.checkbox1IsSelected &&
+                  !values.checkbox2IsSelected &&
+                  values.checkbox3IsSelected
+              );
+            }}
+          />
+          <Check
+            checked={values.checkbox3IsSelected}
+            title="위치정보 이용약관 동의"
+            onPress={() => {
+              setFieldValue('checkbox3IsSelected', !values.checkbox3IsSelected);
+              setFieldValue(
+                'isAllCheckboxesSelected',
+                values.checkbox1IsSelected &&
+                  values.checkbox2IsSelected &&
+                  !values.checkbox3IsSelected
+              );
+            }}
+            isOptional={true}
+          />
+        </View>
+        <GSpace h={10} />
+        <GButton
+          size="large"
+          disabled={
+            Object.keys(errors).length > 0 ||
+            !values.isAllCheckboxesSelected ||
+            !isTokenValid
+          }
+          isLoading={isSubmitting}
+          onPress={() => handleSubmit()}
+        >
+          가입하기
+        </GButton>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
