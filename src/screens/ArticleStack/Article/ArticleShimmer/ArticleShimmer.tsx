@@ -16,16 +16,16 @@ const StyledImage = styled.View`
   border-radius: 4px;
 `;
 const StyledProfile = styled.View`
-  borderradius: 50;
+  border-radius: 50;
   width: 50px;
   height: 50px;
-  marginleft: 20px;
+  margin-left: 20px;
   background-color: ${palette.whiteGray};
 `;
 const SytledWriter = styled.View`
   width: 64px;
   height: 26px;
-  marginleft: 13px;
+  margin-left: 13px;
   border-radius: 5px;
   background-color: ${palette.whiteGray};
 `;
@@ -33,7 +33,7 @@ const StyledChat = styled.View`
   background-color: ${palette.whiteGray};
   width: 150;
   height: 40;
-  marginright: 20px;
+  margin-right: 20px;
   border-radius: 15;
 `;
 const StyledTitle = styled.View`
@@ -47,27 +47,27 @@ const StyledLocation = styled.View`
   background-color: ${palette.whiteGray};
   width: 200px;
   height: 26px;
-  margintop: 8px;
+  margin-top: 8px;
   border-radius: 4px;
 `;
 const StyledPrice = styled.View`
   background-color: ${palette.whiteGray};
   width: 140px;
   height: 26px;
-  margintop: 8px;
+  margin-top: 8px;
 `;
 const StyledLink = styled.View`
   background-color: ${palette.whiteGray};
   width: auto;
   height: 26px;
-  margintop: 20px;
+  margin-top: 20px;
   border-radius: 4px;
 `;
 const StyledDescription = styled.View`
   background-color: ${palette.whiteGray};
   width: auto;
   height: 130px;
-  margintop: 8px;
+  margin-top: 8px;
   border-radius: 4px;
 `;
 

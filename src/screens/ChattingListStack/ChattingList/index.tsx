@@ -16,6 +16,7 @@ import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';
 
 import ChattingBox from './ChattingBox';
+import ChattingListShimmer from './ChattingListShimmer/ChattingListShimmer';
 
 function ChattingList(): JSX.Element {
   const navigation = useNavigation();
@@ -80,6 +81,8 @@ function ChattingList(): JSX.Element {
       </TouchableHighlight>
     );
   };
+  if (!firstFetching) return <ChattingListShimmer />;
+
   return (
     <View>
       <FlatList
