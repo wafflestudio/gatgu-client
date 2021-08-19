@@ -1,14 +1,12 @@
 import React from 'react';
-import { ButtonProps, ViewStyle } from 'react-native';
-
-import { Spinner } from 'native-base';
+import { ActivityIndicator, ButtonProps, ViewStyle } from 'react-native';
 
 import { palette } from '@/styles';
 
 import { GText, GTextProps } from '../GText';
 import { StyledButtonWrapper } from './GButton.styled';
 
-export type GButtonWidth = 'default' | 'full';
+export type GButtonWidth = 'default' | 'full' | 'fit';
 export type GButtonSize = 'small' | 'default' | 'large';
 export type GButtonVariant = 'filled' | 'outlined';
 export type GButtonTheme = 'primary' | 'gray';
@@ -62,7 +60,7 @@ const GButton: React.FC<GButtonProps> = ({
   const renderButtonInner = () => {
     if (isLoading) {
       return (
-        <Spinner
+        <ActivityIndicator
           color={palette[buttonInnerTextProps[theme][variant].color ?? 'white']}
         />
       );

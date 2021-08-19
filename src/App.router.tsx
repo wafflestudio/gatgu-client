@@ -33,7 +33,9 @@ const AppRouter: React.FC = () => {
   const userQuery = useUserDetail();
 
   GatguWebsocket.useInit({
-    url: `ws://d6f2505199db.ngrok.io/ws/chat/${userQuery.data?.id}/`,
+    // url: `ws://d6f2505199db.ngrok.io/ws/chat/${userQuery.data?.id}/`,
+    url: `ws://c063d2a13d74.ngrok.io/ws/chat/4/`,
+    // url: `ws://c063d2a13d74.ngrok.io${userQuery.}`,
     // url: 'ws://67063aea84d4.ngrok.io/ws/chat',
     token: '',
     options: { debug: true },
