@@ -9,6 +9,7 @@ import { KeyboardAvoidingView, Spinner, useToast } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import { articleAPI } from '@/apis';
 import { APItype } from '@/enums/image';
 import { getTs } from '@/helpers/functions/time';
 import { validateLink } from '@/helpers/functions/validate';
@@ -115,9 +116,20 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (!title.length) return '제목을 입력해주세요.\n';
     else if (!need_price.length) return '희망 구매액을 입력해주세요.\n';
     else if (!location.length) return '희망 거래 지역을 입력해주세요.\n';
-    else if (!validateLink(link)) return 'Link is invalid.\n';
+    else if (!validateLink(link)) return '링크를 다시 한번 확인해주세요.\n';
     else if (!description.length) return '글의 세부사항을 입력해주세요.\n';
     else return '';
+  };
+
+  const finishSubmit = () => {
+    setLoading(false);
+    setTitle('');
+    setDescription('');
+    setPrice('');
+    setLink('');
+    setLocation('');
+    setImages([]);
+    setDueDate(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
   };
 
   const submit = () => {
@@ -131,18 +143,18 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       */
       return;
     }
-    // const res = checkInput();
-    // if (res != '') {
-    //   toaster.warning(res);
-    //   setLoading(false);
-    //   return;
-    // }
+    const res = checkInput();
+    if (res != '') {
+      toaster.warning(res);
+      setLoading(false);
+      return;
+    }
     const checkImages =
       images.length > 0
         ? uploadMultipleImages(images)
         : new Promise<string[]>((resolve) => resolve([]));
     checkImages
-      .then(async (urls: any) => {
+      .then((urls: any) => {
         const tempArticle = {
           title: title,
           description: description,
@@ -153,39 +165,41 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         } as IPostArticle;
         if (urls.length > 0) tempArticle.img_urls = urls;
         if (isEdit && currentArticle) {
-          const pr = dispatch(editSingleArticle(id, tempArticle));
-          Promise.resolve(pr).then((newID: AppThunk) => {
-            if (newID.toString() != '-1') {
-              setLoading(false);
+          articleAPI
+            .editArticle(id, tempArticle)
+            .then((res) => {
+              finishSubmit();
+              const newID = res.data.article_id;
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
                   id: newID,
                 },
               });
-            } else {
+            })
+            .catch((e) => {
               setLoading(false);
-              console.log('ERROR');
+              console.log('ERROR', e);
               toaster.error('에러가 발생했습니다. 다시 시도해주세요');
-            }
-          });
+            });
         } else {
-          const pr = dispatch(createSingleArticle(tempArticle));
-          Promise.resolve(pr).then((newID: AppThunk) => {
-            if (newID.toString() != '-1') {
-              setLoading(false);
+          articleAPI
+            .create(tempArticle)
+            .then((res) => {
+              const newID = res.data.article_id;
+              finishSubmit();
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
                   id: newID,
                 },
               });
-            } else {
+            })
+            .catch((e) => {
               setLoading(false);
-              console.log('ERROR');
+              console.log('ERROR', e);
               toaster.error('에러가 발생했습니다. 다시 시도해주세요');
-            }
-          });
+            });
         }
       })
       .catch((e) => {
@@ -222,7 +236,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       ),
       headerTitle: '글쓰기',
     });
-  }, [loading]);
+  }, [loading, submit]);
 
   return (
     <ScrollView
