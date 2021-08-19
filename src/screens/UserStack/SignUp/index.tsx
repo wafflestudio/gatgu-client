@@ -225,6 +225,7 @@ const SignUp: React.FC = () => {
         toaster.success('인증되었습니다.');
       })
       .catch((error: AxiosError) => {
+        toaster.error('인증 코드가 일치하지 않습니다.');
         handleEmailErrorCode(error.response?.data?.error_code);
       })
       .finally(() => {

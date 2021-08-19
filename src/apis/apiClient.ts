@@ -7,7 +7,7 @@ import { loginWithAccessToken } from '@/helpers/functions/auth';
 type Request = () => AxiosPromise;
 
 export const requester = axios.create({
-  baseURL: 'http://api.gatgu.site/v1/',
+  baseURL: 'http://gatgu-api.wafflestudio.com/v1/',
 });
 
 // set user auth token
@@ -42,7 +42,7 @@ const axiosProxyHandler = async (request: Request) => {
     if (error_code === ErrorCode.UnAuthorized) {
       return await retryRequest(request, err);
     }
-    return err;
+    throw err;
   }
 };
 
