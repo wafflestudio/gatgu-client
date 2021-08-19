@@ -16,14 +16,14 @@ const StyledWriter = styled.View`
   background-color: ${palette.whiteGray};
   width: 150;
   height: 18;
-  marginbottom: 3;
+  margin-bottom: 3;
   border-radius: 4px;
 `;
 const StyledRecentMessage = styled.View`
   background-color: ${palette.whiteGray};
   height: 18px;
   width: 100;
-  marginbottom: 3;
+  margin-bottom: 3;
   border-radius: 4px;
 `;
 const StyledTime = styled.View`
@@ -35,7 +35,7 @@ const StyledTime = styled.View`
 const StyledTitle = styled.View`
   background-color: ${palette.whiteGray};
   width: 140px;
-  marginbottom: 3;
+  margin-bottom: 3;
   height: 18px;
 `;
 

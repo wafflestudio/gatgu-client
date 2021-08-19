@@ -40,7 +40,7 @@ const StyledTitle = styled.View`
   background-color: ${palette.whiteGray};
   height: 52px;
   width: auto;
-  margintop: 20px;
+  margin-top: 20px;
   border-radius: 4px;
 `;
 const StyledLocation = styled.View`
