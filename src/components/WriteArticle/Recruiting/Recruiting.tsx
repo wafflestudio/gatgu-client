@@ -9,11 +9,16 @@ import waStyles from '../WriteArticle.style';
 interface RecruitingProps {
   needPrice: string;
   setPrice: (inp: string) => void;
+  editable: boolean;
 }
 
 // TODO @juimdpp
 // Check if this works correctly after API works
-function Recruiting({ needPrice, setPrice }: RecruitingProps): JSX.Element {
+function Recruiting({
+  needPrice,
+  setPrice,
+  editable,
+}: RecruitingProps): JSX.Element {
   const Input = (str: string, maxL: number) => {
     return (
       <View style={waStyles.subContainer}>
@@ -25,6 +30,7 @@ function Recruiting({ needPrice, setPrice }: RecruitingProps): JSX.Element {
           onChangeText={(txt: string) => setPrice(txt)}
           value={`${needPrice}`}
           maxLength={maxL}
+          editable={editable}
         />
         <Text style={{ ...typo.semiTitle, flex: 1, paddingLeft: 10 }}>원</Text>
       </View>

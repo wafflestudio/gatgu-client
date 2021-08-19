@@ -26,9 +26,10 @@ import styles from './AddImage.style';
 interface AddImageProps {
   images: TShortImage[];
   setImages: Dispatch<SetStateAction<TShortImage[]>>;
+  editable: boolean;
 }
 
-function AddImage({ images, setImages }: AddImageProps): JSX.Element {
+function AddImage({ images, setImages, editable }: AddImageProps): JSX.Element {
   const [loading, setLoading] = useState<boolean[]>(
     new Array(images.length).fill(false)
   );
@@ -96,12 +97,8 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
             {loading[key] && <ActivityIndicator />}
             {!loading[key] && (
               <TouchableHighlight
-                style={
-                  key == 0
-                    ? styles.thumbnailButtonContainer
-                    : styles.buttonContainer
-                }
-                onPress={() => deleteImage(key)}
+                style={styles.buttonContainer}
+                onPress={() => editable && deleteImage(key)}
               >
                 <View style={styles.button}>
                   <XSign />
@@ -112,13 +109,13 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
         )
       )
     );
-  }, [images]);
+  }, [images, editable]);
 
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
         <ScrollView horizontal scrollEnabled={true}>
-          <TouchableHighlight onPress={pickImage}>
+          <TouchableHighlight onPress={() => editable && pickImage()}>
             <View style={styles.plusSignCon}>
               <PlusSign style={styles.defaultPhoto} />
             </View>

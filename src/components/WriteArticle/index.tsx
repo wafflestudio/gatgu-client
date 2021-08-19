@@ -131,19 +131,18 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       */
       return;
     }
-    const res = checkInput();
-    if (res != '') {
-      toaster.warning(res);
-      setLoading(false);
-      return;
-    }
+    // const res = checkInput();
+    // if (res != '') {
+    //   toaster.warning(res);
+    //   setLoading(false);
+    //   return;
+    // }
     const checkImages =
       images.length > 0
         ? uploadMultipleImages(images)
         : new Promise<string[]>((resolve) => resolve([]));
-
     checkImages
-      .then((urls: any) => {
+      .then(async (urls: any) => {
         const tempArticle = {
           title: title,
           description: description,
@@ -157,6 +156,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           const pr = dispatch(editSingleArticle(id, tempArticle));
           Promise.resolve(pr).then((newID: AppThunk) => {
             if (newID.toString() != '-1') {
+              setLoading(false);
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
@@ -164,6 +164,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
                 },
               });
             } else {
+              setLoading(false);
               console.log('ERROR');
               toaster.error('에러가 발생했습니다. 다시 시도해주세요');
             }
@@ -172,6 +173,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           const pr = dispatch(createSingleArticle(tempArticle));
           Promise.resolve(pr).then((newID: AppThunk) => {
             if (newID.toString() != '-1') {
+              setLoading(false);
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
@@ -179,6 +181,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
                 },
               });
             } else {
+              setLoading(false);
               console.log('ERROR');
               toaster.error('에러가 발생했습니다. 다시 시도해주세요');
             }
@@ -186,11 +189,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         }
       })
       .catch((e) => {
+        setLoading(false);
         console.log('ERROR', e);
         toaster.error('에러가 발생했습니다. 다시 시도해주세요');
-      })
-      .finally(() => {
-        setLoading(false);
       });
   };
 
@@ -214,43 +215,50 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           onPress={submit}
           width="default"
           size="small"
-          style={{ marginRight: 3, marginBottom: 2 }}
+          isLoading={loading}
         >
           완료
         </GButton>
       ),
       headerTitle: '글쓰기',
     });
-  });
+  }, [loading]);
 
   return (
-    <View>
-      {loading ? (
-        <View style={{ height: '100%' }}>
-          <AppLoadingTemplate>
-            <View style={{ margin: 100 }}>
-              <Spinner color={palette.blue} size="large" />
-            </View>
-          </AppLoadingTemplate>
-        </View>
-      ) : (
-        <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
-          <KeyboardAvoidingView>
-            {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
-            <DueDate dueDate={dueDate} setDueDate={setDueDate} />
-            <AddImage images={images} setImages={setImages} />
-            <Title title={title} setTitle={setTitle} />
-            <Recruiting needPrice={need_price} setPrice={handlePrice} />
-            <Location location={location} setLocation={setLocation} />
-            <Link link={link} setLink={setLink} />
-            <Description
-              description={description}
-              setDescription={setDescription}
-            />
-          </KeyboardAvoidingView>
-        </ScrollView>
-      )}
-    </View>
+    <ScrollView
+      style={{
+        backgroundColor: 'white',
+        height: '100%',
+        opacity: loading ? 0.4 : 1,
+      }}
+    >
+      <KeyboardAvoidingView>
+        {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
+        <DueDate
+          dueDate={dueDate}
+          setDueDate={setDueDate}
+          editable={!loading}
+        />
+        <AddImage images={images} setImages={setImages} editable={!loading} />
+        <Title title={title} setTitle={setTitle} editable={!loading} />
+        <Recruiting
+          needPrice={need_price}
+          setPrice={handlePrice}
+          editable={!loading}
+        />
+        <Location
+          location={location}
+          setLocation={setLocation}
+          editable={!loading}
+        />
+        <Link link={link} setLink={setLink} editable={!loading} />
+        <Description
+          description={description}
+          setDescription={setDescription}
+          editable={!loading}
+        />
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 

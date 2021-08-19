@@ -19,6 +19,7 @@ import styles from './DueDate.style';
 interface DueDateProps {
   dueDate: Date;
   setDueDate: Dispatch<SetStateAction<Date>>;
+  editable: boolean;
 }
 const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const returnArrayDate = (today: Date) => {
@@ -38,7 +39,7 @@ const returnArrayDate = (today: Date) => {
   return arr;
 };
 
-function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
+function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
   const [today, setToday] = useState(new Date());
   const [initWeek, setInitWeek] = useState(returnArrayDate(today));
   const [modalVisible, setModalVisible] = useState(false);
@@ -103,7 +104,7 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
     <View style={{ flex: 1 }}>
       <View style={styles.labelContainer}>
         <TouchableHighlight
-          onPress={() => showDatePicker()}
+          onPress={() => editable && showDatePicker()}
           underlayColor={palette.whiteGray}
         >
           <View style={styles.timeContainer}>
