@@ -13,12 +13,15 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Image as TImage } from 'react-native-image-crop-picker';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import _ from 'lodash';
+import { borderRadius } from 'styled-system';
 
 import XSign from '@/assets/icons/CrossSign';
 import PlusSign from '@/assets/icons/PlusSign';
 import usePickImage from '@/helpers/hooks/usePickImage';
+import { palette } from '@/styles';
 import { TShortImage } from '@/types/shared';
 
 import styles from './AddImage.style';
@@ -117,7 +120,19 @@ function AddImage({ images, setImages, editable }: AddImageProps): JSX.Element {
         <ScrollView horizontal scrollEnabled={true}>
           <TouchableHighlight onPress={() => editable && pickImage()}>
             <View style={styles.plusSignCon}>
-              <PlusSign style={styles.defaultPhoto} />
+              <View
+                style={{
+                  borderRadius: 50,
+                  width: 35,
+                  height: 35,
+                  backgroundColor: palette.borderGray,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Icon name="plus" size={30} color={palette.white} />
+              </View>
+              {/* <PlusSign style={styles.defaultPhoto} /> */}
             </View>
           </TouchableHighlight>
           {images.length > 0 && previews}
