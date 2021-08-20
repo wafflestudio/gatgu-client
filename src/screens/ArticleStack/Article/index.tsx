@@ -28,6 +28,7 @@ function ArticlePage(): JSX.Element {
   const id = route.params.id;
   const navigation = useAppNavigation();
   const [loading, setLoading] = useState<boolean>(true);
+  const [chatLoading, setChatLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [currentArticle, setCurrentArticle] = useState<IArticleProps>(
     {} as IArticleProps
@@ -59,7 +60,6 @@ function ArticlePage(): JSX.Element {
         title="에러 발생"
         description="네트워크 연결을 다시 시도주세요."
         errCallback={fetchArticle}
-        navigation={navigation}
       />
     );
   }, []);
@@ -76,7 +76,9 @@ function ArticlePage(): JSX.Element {
     <View style={styles.container}>
       <Header
         right={islogined ? <HamburgerIcon /> : null}
-        rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+        rightCallback={() =>
+          !chatLoading && navigation.dispatch(DrawerActions.toggleDrawer())
+        }
         left={<Header.BackButton />}
       />
       <ScrollView>
@@ -87,6 +89,8 @@ function ArticlePage(): JSX.Element {
         <ProfileChat
           article={currentArticle}
           orderStatus={currentArticle.article_status}
+          chatLoading={chatLoading}
+          setChatLoading={setChatLoading}
         />
         <ArticleHeader
           title={currentArticle.title}

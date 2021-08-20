@@ -22,9 +22,16 @@ import styles from './ProfileChat.style';
 interface IProfileChat {
   article: IArticleProps;
   orderStatus: IArticleStatus;
+  chatLoading: boolean;
+  setChatLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
+function ProfileChat({
+  article,
+  orderStatus,
+  chatLoading,
+  setChatLoading,
+}: IProfileChat): JSX.Element {
   const navigation = useAppNavigation();
   const toaster = useToaster();
   const article_id = article.article_id;
@@ -44,6 +51,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
     //   name: EChattingRoomStackScreens.ChattingRoom,
     //   params:  { id: article_id }});
     // ////
+    setChatLoading(true);
     const isResent = parseInt(resendKey) !== -1;
     const websocket_id = isResent ? resendKey : `${getTs()}`;
 
@@ -70,14 +78,16 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
             dispatch(fetchingParticipants(article_id));
           }
         }
+        setChatLoading(false);
       })
       .catch(() => {
         toaster.error(
           '채팅방에 입장하지 못 했습니다. 네트워크 연결을 확인해주세요.'
         );
+        setChatLoading(false);
       });
   };
-
+  console.log(chatLoading);
   useEffect(() => {
     if (!isLogined) return;
     setWriter(article.writer);
@@ -107,6 +117,8 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       <GButton
         disabled={isChattingButtonDisabled}
         onPress={() => handleChattingButtonClick('-1')}
+        isLoading={chatLoading}
+        style={{ width: 170 }}
       >
         구매 채팅으로 가기
       </GButton>
