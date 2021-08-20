@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
 import { StringInput } from '@/components';
 
@@ -14,11 +14,11 @@ interface TitleProps {
 function Title({ title, setTitle, editable }: TitleProps): JSX.Element {
   return (
     <View style={waStyles.subContainer}>
-      <StringInput
+      <TextInput
         value={title}
         style={styles.text}
         placeholder="제목"
-        placeholderStyle={styles.placeHolder}
+        // placeholderStyle={styles.placeHolder}
         onChangeText={setTitle}
         editable={editable}
         maxLength={40}

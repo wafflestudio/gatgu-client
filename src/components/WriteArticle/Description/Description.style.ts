@@ -15,6 +15,7 @@ const DescriptionStyle = StyleSheet.create({
     borderBottomColor: palette.borderGray,
     maxHeight: 500,
     minHeight: 175,
+    marginTop: 10,
   },
 });
 

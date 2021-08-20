@@ -188,9 +188,10 @@ function InputBar({
               multiline={true}
               numberOfLines={4}
               value={input.text}
-              onChangeText={(txt) =>
-                setInput({ text: txt, imgUrl: input.imgUrl })
-              }
+              onChangeText={(txt) => {
+                if (inputHeight < 200)
+                  setInput({ text: txt, imgUrl: input.imgUrl });
+              }}
               autoCorrect={false}
               onContentSizeChange={(event) =>
                 setInputHeight(event.nativeEvent.contentSize.height)

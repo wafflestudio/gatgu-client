@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 
+import { paddingLeft } from 'styled-system';
+
 import { StringInput } from '@/components';
 import { typo } from '@/styles';
 
@@ -22,8 +24,9 @@ function Recruiting({
   const Input = (str: string, maxL: number) => {
     return (
       <View style={waStyles.subContainer}>
+        <Text style={{ ...typo.semiTitle, paddingLeft: 20 }}>₩</Text>
         <TextInput
-          style={waStyles.text}
+          style={[waStyles.text, { paddingLeft: 10 }]}
           // placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
@@ -32,7 +35,6 @@ function Recruiting({
           maxLength={maxL}
           editable={editable}
         />
-        <Text style={{ ...typo.semiTitle, flex: 1, paddingLeft: 10 }}>원</Text>
       </View>
     );
   };

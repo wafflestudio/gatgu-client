@@ -11,7 +11,8 @@ const WriteArticleStyles = StyleSheet.create({
     paddingRight: 20,
     paddingBottom: 9,
     width: '100%',
-    paddingTop: 20,
+    // paddingTop: 20,
+    alignSelf: 'center',
   },
 
   placeHolder: {
