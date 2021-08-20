@@ -21,6 +21,7 @@ function Title({ title, setTitle, editable }: TitleProps): JSX.Element {
         placeholderStyle={styles.placeHolder}
         onChangeText={setTitle}
         editable={editable}
+        maxLength={40}
       />
     </View>
   );

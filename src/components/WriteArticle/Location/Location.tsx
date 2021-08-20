@@ -25,6 +25,7 @@ function Location({
         placeholderStyle={styles.placeHolder}
         onChangeText={setLocation}
         editable={editable}
+        maxLength={40}
       />
     </View>
   );
