@@ -28,6 +28,7 @@ function ArticlePage(): JSX.Element {
   const id = route.params.id;
   const navigation = useAppNavigation();
   const [loading, setLoading] = useState<boolean>(true);
+  const [chatLoading, setChatLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [currentArticle, setCurrentArticle] = useState<IArticleProps>(
     {} as IArticleProps
@@ -60,7 +61,6 @@ function ArticlePage(): JSX.Element {
         title="에러 발생"
         description="네트워크 연결을 다시 시도주세요."
         errCallback={fetchArticle}
-        navigation={navigation}
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,7 +78,9 @@ function ArticlePage(): JSX.Element {
     <View style={styles.container}>
       <Header
         right={islogined ? <Octicons name="three-bars" size={28} /> : null}
-        rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+        rightCallback={() =>
+          !chatLoading && navigation.dispatch(DrawerActions.toggleDrawer())
+        }
         title="같구 모집글"
         left={<Header.BackButton />}
       />
@@ -90,6 +92,8 @@ function ArticlePage(): JSX.Element {
         <ProfileChat
           article={currentArticle}
           orderStatus={currentArticle.article_status}
+          chatLoading={chatLoading}
+          setChatLoading={setChatLoading}
         />
         <ArticleHeader
           title={currentArticle.title}

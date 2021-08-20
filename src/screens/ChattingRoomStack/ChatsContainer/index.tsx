@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Platform } from 'react-native';
+import {
+  KeyboardAwareFlatList,
+  KeyboardAwareScrollView,
+  KeyboardAwareSectionList,
+} from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
+import { KeyboardAvoidingView } from 'native-base';
 
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
@@ -17,7 +23,6 @@ import { useUserDetail } from '@/helpers/hooks/api';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
-import { IUserDetail } from '@/types/user';
 
 import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
@@ -221,8 +226,17 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   };
 
   return (
-    <View>
-      <View style={{ height: '99.25%' }}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{
+        justifyContent: 'space-between',
+        flexDirection: 'column',
+        height: '100%',
+      }}
+      extraScrollHeight={40}
+      scrollEnabled={false}
+      keyboardOpeningTime={10}
+    >
+      <View style={{ height: '92%' }}>
         <FlatList
           data={[...pendingList, ...chatList]}
           renderItem={renderItem}
@@ -235,7 +249,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           ListHeaderComponentStyle={{ borderWidth: 10 }}
         />
       </View>
-      <View style={{ flex: 1, marginTop: -40 }}>
+      <View style={{ flex: 1, marginTop: -35 }}>
         <InputBar
           input={input}
           setInput={setInput}
@@ -244,7 +258,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           article_id={roomID}
         />
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
