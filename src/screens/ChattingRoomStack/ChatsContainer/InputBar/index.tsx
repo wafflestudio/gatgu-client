@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   TextInput,
@@ -136,7 +136,7 @@ function InputBar({
       });
   };
   return (
-    <View style={styles.bar}>
+    <View style={[styles.bar]}>
       {optionsOpen ? (
         <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <View style={styles.iconBar}>
@@ -188,6 +188,7 @@ function InputBar({
               onChangeText={(txt) =>
                 setInput({ text: txt, imgUrl: input.imgUrl })
               }
+              autoCorrect={false}
               onContentSizeChange={(event) =>
                 setInputHeight(event.nativeEvent.contentSize.height)
               }
