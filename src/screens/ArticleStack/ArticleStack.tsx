@@ -2,6 +2,7 @@ import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import { useSelector } from '@/helpers/hooks';
 import DrawerTemplate from '@/screens/ArticleStack/DrawerContent';
 
 import ArticlePage from './Article';
@@ -22,6 +23,8 @@ export type TArticleStackScreenParamList = {
 const ArticleDrawer = createDrawerNavigator<TArticleStackScreenParamList>();
 
 const ArticleStackScreen = () => {
+  const isLogined = useSelector((state) => state.user.isLogined);
+
   return (
     <ArticleDrawer.Navigator
       drawerPosition="right"
@@ -31,11 +34,12 @@ const ArticleStackScreen = () => {
       <ArticleDrawer.Screen
         name={EArticleStackScreens.Article}
         component={ArticlePage}
+        options={{ swipeEnabled: isLogined }}
       />
       <ArticleDrawer.Screen
         name={EArticleStackScreens.EditArticle}
         component={EditArticleTemplate}
-        options={{ swipeEnabled: false }}
+        options={{ swipeEnabled: isLogined }}
       />
     </ArticleDrawer.Navigator>
   );

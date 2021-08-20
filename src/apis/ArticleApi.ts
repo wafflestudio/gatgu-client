@@ -4,7 +4,7 @@ import qs from 'querystring';
 
 import { PAGE_SIZE } from '@/constants/article';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { UserArticleActivity } from '@/enums';
+import { ArticleStatus, UserArticleActivity } from '@/enums';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
   IArticleProps,
@@ -12,17 +12,7 @@ import {
   IGetArticlesResponse,
 } from '@/types/article';
 
-import requester from './BaseInstance';
-import gatguAxios from './gatguAxios';
-
-const getToken = (res: any) => {
-  const token = res['token'];
-  const headers = {
-    'Content-type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-  return headers;
-};
+import apiClient from './apiClient';
 
 export const getArticles = (
   url?: string | null,
@@ -34,27 +24,30 @@ export const getArticles = (
   const query = qs.stringify({
     ...searchObj,
     page_size: PAGE_SIZE,
+    // status: [ArticleStatus.Dealing,ArticleStatus.Gathering],
   });
+
   // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
   // article로 request
+  console.log(query);
   url = `articles/${url ? `${url}&` : '?'}`;
-  return requester.get(`${url}${query}`);
+  return apiClient.get(`${url}${query}`);
 };
 
 // for article POST
 export const create = (article: IPostArticle): Promise<AxiosResponse> => {
-  return requester.post('articles/', article);
+  return apiClient.post('articles/', article);
 };
 
 // get a single article with its id
 export const getSingleArticle = (
   id: number
 ): Promise<AxiosResponse<IArticleProps>> => {
-  return requester.get(`articles/${id}/`);
+  return apiClient.get(`articles/${id}/`);
 };
 
 export const deleteArticle = (id: number): Promise<AxiosResponse> => {
-  return requester.delete(`articles/${id}/`);
+  return apiClient.delete(`articles/${id}/`);
 };
 
 export const editArticle = (
@@ -62,31 +55,8 @@ export const editArticle = (
   body: IPostArticle
 ): Promise<AxiosResponse> => {
   return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
-    const headers = getToken(res);
-    return requester.put(`articles/${id}/`, body, { headers });
+    return apiClient.patch(`articles/${id}/`, body);
   });
-};
-
-export const getPresignedURL = (
-  id: number,
-  file_name: string
-): Promise<AxiosResponse> => {
-  const body = {
-    method: 'get',
-    file_name: file_name,
-  };
-  return requester.put(`users/get_presigned_url/`, body);
-};
-
-export const putPresignedURL = (
-  id: number,
-  file_name: string
-): Promise<AxiosResponse> => {
-  const body = {
-    method: 'put',
-    file_name: file_name,
-  };
-  return requester.put(`users/get_presigned_url/`, body);
 };
 
 // 유저 같구 리스트
@@ -102,9 +72,25 @@ export const getUserArticles = (
     page_size: `${PAGE_SIZE}`,
   });
 
-  return gatguAxios.get(
+  return apiClient.get(
     defaultUrl +
       (cursorSearchParams ? `${cursorSearchParams}&` : '?') +
       searchParams
   );
+};
+
+// 글 신고하기
+export const postArticleReport = (articleId: number, contents: string) => {
+  return apiClient.post('reports/', {
+    article_id: articleId,
+    contents,
+  });
+};
+
+// 글 상태 수정하기
+export const patchArticle = (
+  articleId: number,
+  body: { article_status: ArticleStatus }
+) => {
+  return apiClient.patch(`articles/${articleId}`, body);
 };

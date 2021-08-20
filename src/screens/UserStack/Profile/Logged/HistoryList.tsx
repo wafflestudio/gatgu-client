@@ -1,7 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { Button } from '@/components';
+import { GText } from '@/components/Gatgu/GText';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 
 import styles from './HistoryList.style';
@@ -15,15 +15,15 @@ function HistoryList(): JSX.Element {
   };
 
   return (
-    <View style={styles.container}>
-      <Button
-        color="black"
-        title="거래내역 목록"
-        onPress={goToHistory}
-        style={styles.historyBtn}
-        textStyle={styles.historyBtnText}
-      />
-    </View>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      style={styles.container}
+      onPress={goToHistory}
+    >
+      <GText size="huge" bold>
+        거래내역 목록
+      </GText>
+    </TouchableOpacity>
   );
 }
 

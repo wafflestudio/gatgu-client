@@ -1,20 +1,29 @@
 import React, { useMemo } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import FAIcon from 'react-native-vector-icons/FontAwesome';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { IChatMessage } from '@/types/chat';
+import { DateTime } from 'luxon';
+import { Image } from 'native-base';
 
+import { emptyURL } from '@/constants/image';
+import { IMessageImage } from '@/types/chat';
+
+import { IWSChatMessage } from '..';
 import ChatContainerStyle from '../ChatContainer.style';
 import Bubble from './Bubble';
 import styles from './ChatBox.style';
 import SystemMessage from './SystemMessage';
 
 interface IChatBoxProps {
-  current: IChatMessage;
-  previous?: IChatMessage;
-  next?: IChatMessage;
-
+  current: IWSChatMessage;
+  previous?: IWSChatMessage;
+  next?: IWSChatMessage;
   // user nickname that decide left,right posision
-  selfNickname: string;
+  selfId?: number;
+  resend: (input: IMessageImage, resend: string) => void;
+  erase: (resend: string) => void;
 }
 
 // one line of message
@@ -22,20 +31,31 @@ function ChatBox({
   current,
   previous,
   next,
-  selfNickname,
+  selfId,
+  resend,
+  erase,
 }: IChatBoxProps): JSX.Element {
-  const { message, system, sent_at, image, sent_by } = current;
+  const { message, repeat, websocket_id } = current;
+  const { text, image, type, sent_at, sent_by } = message;
+  const nextItem = previous?.message; // because chat is in inversed
+  const prevItem = next?.message;
 
-  const isSameUser = sent_by?.nickname === previous?.sent_by?.nickname;
+  const system = type === 'system' ? true : false;
 
-  const isSelf = selfNickname === sent_by?.nickname;
+  const isSameUser = sent_by?.id === prevItem?.sent_by?.id;
 
-  const isSameTime = sent_at === next?.sent_at && next?.system === false;
+  const isSelf = selfId === sent_by?.id;
+
+  const isSameTime =
+    nextItem?.sent_at &&
+    DateTime.fromMillis(sent_at).toFormat('hh:mm') ===
+      DateTime.fromMillis(nextItem?.sent_at).toFormat('hh:mm') &&
+    (nextItem?.type == 'system') === false &&
+    sent_by.id === nextItem?.sent_by.id;
 
   // 00:00 format
   const sentTime = useMemo(() => {
-    const fullDate = new Date(sent_at);
-    return `${fullDate.getHours()}:${fullDate.getMinutes()}`;
+    return sent_at ? DateTime.fromMillis(sent_at).toFormat('hh:mm') : '';
   }, [sent_at]);
 
   // message + time
@@ -50,10 +70,24 @@ function ChatBox({
         {!isSameTime && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
-        <Bubble message={message} isSelf={isSelf} />
+        <View>
+          {text && text.length != 0 ? (
+            <View style={!isSelf && { paddingRight: 10 }}>
+              <Bubble message={text} isSelf={isSelf} />
+            </View>
+          ) : null}
+          {image.length > 0 && image[0].img_url !== emptyURL && (
+            <Image
+              source={{ uri: image[0].img_url }}
+              style={styles.messageImage}
+              fallbackSource={require('@/assets/images/defaultThumnail.png')}
+              alt="pic"
+            />
+          )}
+        </View>
       </View>
     ),
-    [isSelf, isSameTime, message, sentTime]
+    [isSelf, isSameTime, text, sentTime, image]
   );
 
   const renderedName = useMemo(
@@ -71,15 +105,21 @@ function ChatBox({
     () =>
       !isSelf && (
         <Image
-          source={{ uri: !isSameUser ? sent_by?.picture : undefined }}
+          source={
+            sent_by?.picture
+              ? { uri: !isSameUser ? sent_by?.picture : undefined }
+              : require('@/assets/images/defaultProfile.png')
+          }
           style={styles.avatar}
+          fallbackSource={require('@/assets/images/defaultProfile.png')}
+          alt="profile pic"
         />
       ),
     [sent_by, isSameUser, isSelf]
   );
 
   return system ? (
-    <SystemMessage message={message} previousSystem={previous?.system} />
+    <SystemMessage message={text} previousSystem={prevItem?.type == 'system'} />
   ) : (
     <View
       style={[
@@ -89,13 +129,30 @@ function ChatBox({
     >
       <View style={styles.row}>
         {renderedProfile}
-        <View>
+        <View style={{}}>
           {renderedName}
-          {image.length ? (
-            <Image source={{ uri: image }} style={styles.messageImage} />
-          ) : (
-            renderedBubbleTime
-          )}
+          <View
+            style={{ flexDirection: 'row-reverse', alignItems: 'flex-end' }}
+          >
+            {renderedBubbleTime}
+            {repeat ? (
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                  onPress={() =>
+                    resend(
+                      { text: text, imgUrl: image[0].img_url },
+                      `${websocket_id}`
+                    )
+                  }
+                >
+                  <FAIcon name="repeat" size={13} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
+                  <MCIcon name="delete" size={16} />
+                </TouchableOpacity>
+              </View>
+            ) : null}
+          </View>
         </View>
       </View>
     </View>

@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Keyboard } from 'react-native';
 
-import { Box, Divider, Input, SearchIcon, VStack } from 'native-base';
+import { Box, Divider, SearchIcon, VStack } from 'native-base';
 
 import { articleAPI } from '@/apis';
 import { ArticleBox, CursorFlatList } from '@/components';
+import { GInput } from '@/components/Gatgu';
+import HomeShimmer from '@/components/Shimmer/HomeShimmer';
 import { useCursorPagination } from '@/helpers/hooks';
 import { palette } from '@/styles';
 import { IArticleSummary } from '@/types/article';
@@ -22,6 +25,7 @@ const Search: React.FC = () => {
     firstFetching,
     fetching,
     isFirstPage,
+    isLastPage,
     getItems,
   } = useCursorPagination<IArticleSummary>({
     fetchFunc: (url) => articleAPI.getArticles(url, searchKeyword),
@@ -56,19 +60,46 @@ const Search: React.FC = () => {
     [handleSearch]
   );
 
-  const renderArticle = ({ item }: { item: IArticleSummary }) => (
-    <ArticleBox {...item} />
+  const renderArticle = React.useCallback(
+    ({ item }: { item: IArticleSummary }) => <ArticleBox {...item} />,
+    []
   );
 
+  const renderArticles = () => {
+    if (fetching) {
+      return <HomeShimmer />;
+    }
+
+    return (
+      <CursorFlatList
+        items={items}
+        isFirstPage={isFirstPage}
+        isLastPage={isLastPage}
+        fetching={fetching}
+        loading={firstFetching}
+        ListEmptyComponent={<SearchResultEmpty searchKeyword={searchKeyword} />}
+        getItems={getItems}
+        renderItem={renderArticle}
+      />
+    );
+  };
+
   return (
-    <VStack backgroundColor={palette.white}>
+    <VStack
+      backgroundColor={palette.white}
+      justifyContent="flex-start"
+      flex={1}
+      onTouchEnd={Keyboard.dismiss}
+    >
       <Box paddingX="20px" paddingY="10px">
-        <Input
+        <GInput
+          noBorder
+          width="full"
+          theme="gray"
           value={searchInput}
           placeholder="키워드로 검색"
-          w="100%"
-          variant="filled"
           InputLeftElement={<SearchIcon m={2} />}
+          onTouchEnd={(e) => e.stopPropagation()} // for prevent keyboard dismissing when click input
           onFocus={() => setSearchResultStage(false)}
           onChangeText={setSearchInput}
           onSubmitEditing={() => handleSearch(searchInput)}
@@ -76,17 +107,7 @@ const Search: React.FC = () => {
       </Box>
       <Divider />
       {isSearchResultStage ? (
-        <CursorFlatList
-          items={items}
-          isFirstPage={isFirstPage}
-          fetching={fetching}
-          loading={firstFetching}
-          ListEmptyComponent={
-            <SearchResultEmpty searchKeyword={searchKeyword} />
-          }
-          getItems={getItems}
-          renderItem={renderArticle}
-        />
+        renderArticles()
       ) : (
         <VStack>
           <RecentSearch

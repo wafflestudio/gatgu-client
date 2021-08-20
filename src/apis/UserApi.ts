@@ -1,26 +1,29 @@
 import { AxiosResponse } from 'axios';
 
-import gatguAxios from '@/apis/gatguAxios';
+import apiClient, { requester } from '@/apis/apiClient';
 import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
 
 // 내 정보 받아오기
 export const getMyData = (): Promise<AxiosResponse<IUserDetail>> => {
-  return gatguAxios.get('users/me/');
+  return apiClient.get('users/me/');
 };
 
 export const modifyMyInfo = ({
   password,
   nickname,
   trading_address,
+  picture,
 }: {
   password?: string;
   nickname?: string;
   trading_address?: string;
+  picture?: string;
 }): Promise<AxiosResponse> => {
-  return gatguAxios.patch('users/me/', {
+  return apiClient.patch('users/me/', {
     password: password || undefined,
     nickname,
     trading_address,
+    picture,
   });
 };
 
@@ -28,7 +31,7 @@ export const modifyMyInfo = ({
 export const getOtherUserData = (
   userId: number
 ): Promise<AxiosResponse<IUserSimple>> => {
-  return gatguAxios.get(`users/${userId}/`);
+  return apiClient.get(`users/${userId}/`);
 };
 
 // 로그인
@@ -36,7 +39,7 @@ export const login = (
   username: string,
   password: string
 ): Promise<AxiosResponse<ILoginResponse>> => {
-  return gatguAxios.put(`users/login/`, {
+  return apiClient.put(`users/login/`, {
     username,
     password,
   });
@@ -44,7 +47,7 @@ export const login = (
 
 // 로그아웃
 export const logout = (): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('users/logout/');
+  return apiClient.put('users/logout/');
 };
 
 // 회원가입
@@ -55,7 +58,7 @@ export const signUp = (
   nickname: string,
   trading_address: string
 ): Promise<AxiosResponse<IUserDetail>> => {
-  return gatguAxios.post(`users/`, {
+  return apiClient.post(`users/`, {
     username,
     password,
     email,
@@ -68,7 +71,7 @@ export const signUp = (
 export const sendConfirmCodeMail = (
   email: string
 ): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('users/confirm/', {
+  return apiClient.put('users/confirm/', {
     email,
   });
 };
@@ -78,7 +81,7 @@ export const confirmMailCode = (
   email: string,
   code: string
 ): Promise<AxiosResponse<{ message: string }>> => {
-  return gatguAxios.put('users/activate/', {
+  return apiClient.put('users/activate/', {
     email,
     code,
   });
@@ -88,7 +91,7 @@ export const confirmMailCode = (
 export const refreshAccessToken = (
   refresh: string
 ): Promise<AxiosResponse<{ access: string; refresh: string }>> => {
-  return gatguAxios.post('token/refresh/', {
+  return requester.post('token/refresh/', {
     refresh,
   });
 };

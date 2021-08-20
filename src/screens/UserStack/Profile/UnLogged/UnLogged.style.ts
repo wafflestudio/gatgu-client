@@ -6,6 +6,8 @@ const UnLoggedStyle = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingTop: 58,
+    flex: 1,
+    paddingBottom: 20,
   },
   title: {
     ...typo.bigTitle,

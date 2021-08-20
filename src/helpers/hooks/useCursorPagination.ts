@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { AxiosError, AxiosResponse } from 'axios';
 import _ from 'lodash';
@@ -8,13 +8,15 @@ import { ICursorPaginationResponse, TPageType } from '@/types/shared';
 interface IUserCursorPaginationOption {
   countPerFetch?: number;
   maxItemCount?: number;
-  fetchFunc: (url: string | null) => Promise<AxiosResponse<unknown>>;
+  fetchFunc: (...args: any[]) => Promise<AxiosResponse<unknown>>;
+  [key: string]: any;
 }
 
 const useCursorPagination = <T>({
   countPerFetch = 20,
   maxItemCount = 500,
   fetchFunc,
+  ...input
 }: IUserCursorPaginationOption) => {
   const [items, setItems] = useState<T[]>([]);
   const [firstFetching, setFirstFetching] = useState(false);
@@ -73,6 +75,10 @@ const useCursorPagination = <T>({
 
   const getItems = useCallback(
     async (pageType: TPageType) => {
+      if (pageType === 'next' && isLastPage) {
+        return;
+      }
+
       const url = pageType !== 'first' ? cursorUrl[pageType] : null;
       setFetching(true);
       setError(undefined);
@@ -81,16 +87,17 @@ const useCursorPagination = <T>({
       }
 
       try {
-        const res = (await fetchFunc(url)) as AxiosResponse<
-          ICursorPaginationResponse<T>
-        >;
+        const res = (await fetchFunc(
+          ...Object.values(input),
+          url
+        )) as AxiosResponse<ICursorPaginationResponse<T>>;
 
         const { results, next, previous } = res.data;
         handleItems(pageType, results);
         setCursorUrl({ next, previous });
 
-        setIsLastPage(Boolean(next));
-        setIsFirstPage(Boolean(previous));
+        setIsLastPage(!next);
+        setIsFirstPage(!previous);
 
         return res.data;
       } catch (err) {
@@ -100,7 +107,7 @@ const useCursorPagination = <T>({
         setFetching(false);
       }
     },
-    [cursorUrl, fetchFunc, handleItems]
+    [cursorUrl, fetchFunc, handleItems, isLastPage, input]
   );
 
   return {

@@ -4,6 +4,7 @@ import { Flex, Text } from 'native-base';
 
 import { StringArticleStatus } from '@/constants/article';
 import { ArticleStatus } from '@/enums';
+import { getPassedTime, getRemainTime } from '@/helpers/functions/time';
 import { palette, typo } from '@/styles';
 import { IArticleProps } from '@/types/article';
 
@@ -16,7 +17,7 @@ type TArticleHeaderProps = Pick<
   | 'trading_place'
   | 'price_min'
   | 'article_status'
-  | 'created_at'
+  | 'updated_at'
 >;
 
 const StatusColorMap = {
@@ -29,7 +30,7 @@ const StatusColorMap = {
 const ArticleHeader: React.FC<TArticleHeaderProps> = ({
   title,
   time_in,
-  created_at,
+  updated_at,
   article_status,
   trading_place,
   price_min,
@@ -43,7 +44,7 @@ const ArticleHeader: React.FC<TArticleHeaderProps> = ({
           marginRight={15}
           bold
         >
-          {StringArticleStatus[article_status.progress_status]}
+          {StringArticleStatus[article_status.progress_status - 1]}
         </Text>
         <Text style={typo.bigTitle} color={palette.dark} bold>
           {title}
@@ -52,9 +53,11 @@ const ArticleHeader: React.FC<TArticleHeaderProps> = ({
       <Flex>
         <Flex direction="row" mb="8px">
           <Text style={ArticleHeaderStyle.infoText}>
-            {created_at} 분 전 &nbsp;· &nbsp;
+            {getPassedTime(updated_at)}&nbsp; · &nbsp;
           </Text>
-          <Text style={ArticleHeaderStyle.infoText}>{time_in} 남음 </Text>
+          <Text style={ArticleHeaderStyle.infoText}>
+            {getRemainTime(time_in)}
+          </Text>
         </Flex>
         <Flex direction="row" mb="8px">
           <Text marginRight="16px" style={ArticleHeaderStyle.infoText}>

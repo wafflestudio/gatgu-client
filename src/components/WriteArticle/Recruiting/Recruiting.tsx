@@ -1,33 +1,38 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-
-import { Input as SInput } from 'native-base';
+import { View, Text, TextInput } from 'react-native';
 
 import { StringInput } from '@/components';
+import { typo } from '@/styles';
 
 import waStyles from '../WriteArticle.style';
 
 interface RecruitingProps {
   needPrice: string;
   setPrice: (inp: string) => void;
+  editable: boolean;
 }
 
 // TODO @juimdpp
 // Check if this works correctly after API works
-function Recruiting({ needPrice, setPrice }: RecruitingProps): JSX.Element {
+function Recruiting({
+  needPrice,
+  setPrice,
+  editable,
+}: RecruitingProps): JSX.Element {
   const Input = (str: string, maxL: number) => {
     return (
       <View style={waStyles.subContainer}>
-        <StringInput
+        <TextInput
           style={waStyles.text}
-          placeholderStyle={waStyles.placeHolder}
+          // placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
           onChangeText={(txt: string) => setPrice(txt)}
           value={`${needPrice}`}
           maxLength={maxL}
+          editable={editable}
         />
-        <Text>원</Text>
+        <Text style={{ ...typo.semiTitle, flex: 1, paddingLeft: 10 }}>원</Text>
       </View>
     );
   };

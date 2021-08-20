@@ -3,12 +3,15 @@ import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import _ from 'lodash';
+import { DateTime } from 'luxon';
 import { Button } from 'native-base';
 
+// import { Label } from 'native-base';
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
 // npm i react-native-modal-datetime-picker @react-native-community/datetimepicker
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { GButton } from '@/components/Gatgu/GButton';
 import { palette, typo } from '@/styles';
 
 import styles from './DueDate.style';
@@ -16,6 +19,7 @@ import styles from './DueDate.style';
 interface DueDateProps {
   dueDate: Date;
   setDueDate: Dispatch<SetStateAction<Date>>;
+  editable: boolean;
 }
 const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const returnArrayDate = (today: Date) => {
@@ -35,16 +39,12 @@ const returnArrayDate = (today: Date) => {
   return arr;
 };
 
-function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
+function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
   const [today, setToday] = useState(new Date());
   const [initWeek, setInitWeek] = useState(returnArrayDate(today));
   const [modalVisible, setModalVisible] = useState(false);
-  const [date, setDate] = useState(today);
   const [dayArr, setDayArr] = useState(initWeek);
 
-  const handleChange = (event: any, selectedDate: Date | undefined) => {
-    setDate(selectedDate ? selectedDate : date);
-  };
   const showDatePicker = () => {
     setModalVisible(!modalVisible);
     setToday(new Date());
@@ -54,19 +54,19 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
     const temp = _.cloneDeep(initWeek);
     temp[indx].selected = true;
     setDayArr(temp);
+
+    const res = new Date();
+    // set time
+    // res.setHours(23, 59);
+
+    // find chosen day
+    // set to chosen day
+    res.setDate(res.getDate() + indx);
+
+    setDueDate(res);
   };
   const handleComplete = () => {
     setModalVisible(false);
-    const res = new Date();
-    // set time
-    res.setHours(date.getHours());
-    res.setMinutes(date.getMinutes());
-    // find chosen day
-    const index = dayArr.findIndex((item) => item.selected);
-    // set to chosen day
-    res.setDate(res.getDate() + index);
-
-    setDueDate(res);
   };
 
   const renderDates = dayArr.map((item, indx) => (
@@ -96,60 +96,38 @@ function DueDate({ dueDate, setDueDate }: DueDateProps): JSX.Element {
   ));
 
   const parsedDate = useMemo(() => {
-    const iso = dueDate.toISOString().split('T');
-    return `${iso[0]}  ${iso[1].split(':')[0]}:${iso[1].split(':')[1]} `;
+    const iso = DateTime.fromJSDate(dueDate).toFormat(`yyyy-MM-dd`);
+    return iso;
   }, [dueDate]);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <View style={styles.labelContainer}>
         <TouchableHighlight
-          onPress={() => showDatePicker()}
+          onPress={() => editable && showDatePicker()}
           underlayColor={palette.whiteGray}
         >
           <View style={styles.timeContainer}>
             <Text style={styles.label}>모집기한</Text>
-            <Text style={styles.label}>{parsedDate}</Text>
+            <Text style={styles.label}>{parsedDate} 23:59 까지</Text>
           </View>
         </TouchableHighlight>
       </View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}
-      >
+      {modalVisible ? (
         <View style={styles.modalView}>
           <View style={styles.headerContainer}>
             <View style={styles.titleContainer}>
               <Text style={{ ...typo.bigTitle }}>모집기한</Text>
             </View>
-            <Button
-              style={styles.completeButton}
-              onPress={() => handleComplete()}
-            >
-              <Text style={styles.buttonText}>완료</Text>
-            </Button>
+            <GButton size="small" onPress={handleComplete}>
+              완료
+            </GButton>
           </View>
           <View style={styles.scrollDayContainer}>
             <ScrollView horizontal={true}>{renderDates}</ScrollView>
           </View>
-          <View style={{ width: '100%', height: '100%' }}>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={'time'}
-              is24Hour={true}
-              display="spinner"
-              minuteInterval={30}
-              onChange={handleChange}
-            />
-          </View>
         </View>
-      </Modal>
+      ) : null}
     </View>
   );
 }

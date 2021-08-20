@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createGatguStackNavigator } from '@/helpers/functions/navigation';
 
 import { Search } from './Search';
 
@@ -11,15 +11,11 @@ export type TSearchStackParamList = {
   [ESearchStackScreens.Search]: undefined;
 };
 
-const SearchStack = createStackNavigator<TSearchStackParamList>();
+const SearchStack = createGatguStackNavigator<TSearchStackParamList>();
 
 const SearchStackScreen: React.FC = () => {
   return (
-    <SearchStack.Navigator
-      screenOptions={{
-        headerStatusBarHeight: 0,
-      }}
-    >
+    <SearchStack.Navigator>
       <SearchStack.Screen
         name={ESearchStackScreens.Search}
         component={Search}

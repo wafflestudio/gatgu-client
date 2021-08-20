@@ -1,7 +1,20 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { View, Image, TouchableHighlight, Alert } from 'react-native';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import {
+  View,
+  Image,
+  TouchableHighlight,
+  ActivityIndicator,
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import ImagePicker, { Image as TImage } from 'react-native-image-crop-picker';
+import { Image as TImage } from 'react-native-image-crop-picker';
+
+import _ from 'lodash';
 
 import XSign from '@/assets/icons/CrossSign';
 import PlusSign from '@/assets/icons/PlusSign';
@@ -13,10 +26,13 @@ import styles from './AddImage.style';
 interface AddImageProps {
   images: TShortImage[];
   setImages: Dispatch<SetStateAction<TShortImage[]>>;
+  editable: boolean;
 }
 
-function AddImage({ images, setImages }: AddImageProps): JSX.Element {
-  const [prev, setPrev] = useState<TShortImage[]>([]);
+function AddImage({ images, setImages, editable }: AddImageProps): JSX.Element {
+  const [loading, setLoading] = useState<boolean[]>(
+    new Array(images.length).fill(false)
+  );
 
   const { pickMultipleImage } = usePickImage({
     width: 300,
@@ -28,53 +44,78 @@ function AddImage({ images, setImages }: AddImageProps): JSX.Element {
   });
 
   const pickImage = () => {
-    const tempArrPrev: TShortImage[] = [];
-    const tempArrSend: TShortImage[] = [];
+    const tempArrSend: TShortImage[] = _.cloneDeep(images);
 
     pickMultipleImage()
       .then((imgs) => {
         imgs &&
           imgs.forEach((item: TImage) => {
-            tempArrPrev.push({ mime: item.mime, path: item.path });
             tempArrSend.push({ mime: item.mime, path: item.path });
           });
       })
       .then(() => {
-        setPrev(tempArrPrev);
         setImages(tempArrSend);
       });
   };
 
   const deleteImage = (key: number) => {
     const tempArrSend = images.filter((_, ind) => ind !== key);
-    const tempArrPrev = prev.filter((_, ind) => ind !== key);
     setImages(tempArrSend);
-    setPrev(tempArrPrev);
   };
 
-  const previews =
-    images.length > 0 &&
-    prev.map(
-      (item, key): JSX.Element => (
-        <View style={styles.photoContainer} key={key}>
-          <Image style={styles.photo} source={{ uri: item.path }} />
-          <TouchableHighlight
-            style={styles.buttonContainer}
-            onPress={() => deleteImage(key)}
+  const previews = useMemo(() => {
+    return (
+      images.length > 0 &&
+      images.map(
+        (item, key): JSX.Element => (
+          <View
+            style={
+              loading[key]
+                ? styles.loading
+                : key == 0
+                ? styles.thumbnailContainer
+                : styles.photoContainer
+            }
+            key={key}
           >
-            <View style={styles.button}>
-              <XSign />
-            </View>
-          </TouchableHighlight>
-        </View>
+            <Image
+              style={
+                !loading[key] && (key == 0 ? styles.thumbnail : styles.photo)
+              }
+              source={{ uri: item.path }}
+              onLoadStart={() => {
+                const prev = _.cloneDeep(loading);
+                prev[key] = true;
+                setLoading(prev);
+              }}
+              onLoadEnd={() => {
+                const prev = _.cloneDeep(loading);
+                prev[key] = false;
+                setLoading(prev);
+              }}
+            />
+            {loading[key] && <ActivityIndicator />}
+            {!loading[key] && (
+              <TouchableHighlight
+                style={styles.buttonContainer}
+                onPress={() => editable && deleteImage(key)}
+              >
+                <View style={styles.button}>
+                  <XSign />
+                </View>
+              </TouchableHighlight>
+            )}
+          </View>
+        )
       )
     );
+  }, [images, editable]);
 
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
         <ScrollView horizontal scrollEnabled={true}>
-          <TouchableHighlight onPress={pickImage}>
+          <TouchableHighlight onPress={() => editable && pickImage()}>
             <View style={styles.plusSignCon}>
               <PlusSign style={styles.defaultPhoto} />
             </View>

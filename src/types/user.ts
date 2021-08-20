@@ -14,20 +14,24 @@ export interface IUserDetail {
 }
 
 export interface IUserProfileDetail {
-  profile_id: number;
+  user_id: number;
   picture: string;
   nickname: string;
   point: number;
-  updated_at: Date; // TODO 확인필요: string 일 수도
-  withdrew_at: Date;
+  updated_at: number; // TODO 확인필요: string 일 수도
+  withdrew_at: number;
   trading_address: string;
 }
 
 // 다른 사람 정보
 export interface IUserSimple {
-  userprofile: IUserProfileSimple;
+  grade: number;
   participated_count: number;
   hosted_count: number;
+  nickname: string;
+  picture: string;
+  id: number;
+  trading_address: string;
 }
 
 export interface IUserProfileSimple {
@@ -36,6 +40,11 @@ export interface IUserProfileSimple {
   nickname: string;
   trading_address: string;
 }
+
+export type IUserListPreview = Omit<IUserProfileDetail, 'user_id'> & {
+  grade: number;
+  id: number;
+};
 
 // TODO: this type is deprecated
 export interface IUserProps {
@@ -55,15 +64,15 @@ export interface IUserProps {
 }
 
 export interface IUserSumProps {
-  profile_id?: number;
-  picture?: string;
-  nickname?: string;
+  id: number;
+  profile_img: string;
+  nickname: string;
 }
 
 export interface IChatUserProps {
   id: number;
   joined_at: any; // should be time
-  pay_status: boolean;
+  pay_status: number;
   wish_price: number;
 
   // TODO: @ssu1018

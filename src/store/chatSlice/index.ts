@@ -7,11 +7,14 @@ import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
 import { IGetFailPayload } from '@/types/article';
 import { IChattingRoom } from '@/types/chat';
+import { IChatUserProps } from '@/types/user';
 
 export interface IChatSlice {
   hasError: boolean;
   errorStatus: number;
   currentChatInfo: IChattingRoom;
+  participantsList: IChatUserProps[];
+  toggleChatList: boolean;
 }
 
 const initialState: IChatSlice = {
@@ -30,6 +33,8 @@ const initialState: IChatSlice = {
     time: 0,
     nickName: '',
   },
+  participantsList: [],
+  toggleChatList: false,
 };
 
 const chatSlice = createSlice({
@@ -48,10 +53,26 @@ const chatSlice = createSlice({
       state.hasError = true;
       state.errorStatus = payload.errorStatus;
     },
+
+    setParticipantsList: (
+      state,
+      { payload }: PayloadAction<IChatUserProps[]>
+    ) => {
+      state.participantsList = payload;
+    },
+
+    setToggle: (state) => {
+      state.toggleChatList = !state.toggleChatList;
+    },
   },
 });
 
-const { setCurrentChatInfo, failSetCurrentChatInfo } = chatSlice.actions;
+const {
+  setCurrentChatInfo,
+  failSetCurrentChatInfo,
+  setParticipantsList,
+  setToggle,
+} = chatSlice.actions;
 
 // get chat info
 export const getChatInfo = (id: number | undefined): AppThunk => (dispatch) => {
@@ -71,23 +92,40 @@ export const getChatInfo = (id: number | undefined): AppThunk => (dispatch) => {
     });
 };
 
-export const changeOrderStatus = (
-  id: number,
-  orderStatus: number
-): AppThunk => (dispatch) => {
+export const changeOrderStatus = (id: number, payStatus: number): AppThunk => (
+  dispatch
+) => {
   chatAPI
-    .changeStatus(id, { order_status: orderStatus })
+    .changeParticipantStatus(id, { participant_id: id, pay_status: payStatus })
     .then((response: AxiosResponse) => {
       dispatch(setCurrentChatInfo(response.data)); // TODO: @juimdpp
       // todo: json server returns entire object, but backend returns status string --> must update to setOrderStatus(response.data)
       // when: 서버 잘 되면 (json-server에서는 저렇게 하는 수 밖에 없어서...)
     })
     .catch((err: AxiosError) => {
-      console.log(err);
+      console.error(err);
       // TODO: @juimdpp
       // todo: handle error
       // when: 로딩 페이지 구현할 때 같이 할게요
     });
+};
+
+export const fetchingParticipants = (roomId: number): AppThunk => (
+  dispatch
+) => {
+  console.log('fetching participants');
+  chatAPI
+    .getChatParticipants(roomId)
+    .then((response: AxiosResponse) => {
+      dispatch(setParticipantsList(response.data));
+    })
+    .catch((err: AxiosError) => {
+      console.error('FETCHING PARTICIPANTS', err);
+    });
+};
+
+export const refetchChattingList = (): AppThunk => (dispatch) => {
+  dispatch(setToggle);
 };
 
 export default chatSlice.reducer;

@@ -1,6 +1,8 @@
 import ReconnectingWebsocket from 'reconnecting-websocket';
 
-import { WebsocketEventMap } from './types';
+import { WSMessage } from '@/enums';
+
+import { TWsMessage, WebsocketEventMap } from './types';
 
 export interface IBaseWebsocketOption {
   maxRetryCount?: number;
@@ -24,8 +26,21 @@ class BaseWebsocket {
   private _pongCheckingIntervalId?: number;
   private _retryCount: number;
 
+  public promiseByWsID: Map<
+    any,
+    {
+      resolve: any;
+      reject: any;
+      count: number;
+      timeoutID: number;
+      resolveCondition?: (data: TWsMessage) => boolean;
+      rejectCondition?: (data: TWsMessage) => boolean;
+    }
+  >;
+
   constructor(url: string, options: IBaseWebsocketOption) {
-    this._ws = new ReconnectingWebsocket(`${url}`);
+    console.log('Websocket', url);
+    this._ws = new ReconnectingWebsocket(url);
 
     this._pingpongCount = 0;
     this._retryCount = 0;
@@ -34,6 +49,8 @@ class BaseWebsocket {
       ...DEFAULT_WEBSOCKET_OPTION,
       ...options,
     } as Required<IBaseWebsocketOption>;
+
+    this.promiseByWsID = new Map();
 
     this._ws.onopen = this._onopen.bind(this);
     this._ws.onmessage = this._onmessage.bind(this);
@@ -49,6 +66,7 @@ class BaseWebsocket {
       this.send({
         type: 'PING',
         data: Date.now(),
+        pp: this._pingpongCount,
       });
 
       this._pingpongCount += 1;
@@ -98,7 +116,8 @@ class BaseWebsocket {
   }
 
   private _onmessage(e: WebsocketEventMap['onmessage']) {
-    const message = JSON.parse(e.data);
+    const message = JSON.parse(e.data) as TWsMessage;
+    console.log('-----', JSON.stringify(message, null, 2));
 
     switch (message.type) {
       case 'PONG':
@@ -106,14 +125,61 @@ class BaseWebsocket {
         this._log(message);
         break;
 
-      default:
+      // // success cases
+      // case WSMessage.ENTER_ROOM_SUCCESS:
+      // case WSMessage.RECEIVE_MESSAGE_SUCCESS: {
+      //   const promise = this.promiseByWsID.get(message.websocket_id);
+      //   if (promise) {
+      //     promise.resolve(message);
+      //     this.promiseByWsID.delete(message.websocket_id);
+      //   }
+      //   if (this.onmessage) {
+      //     this.onmessage({ ...e, data: message });
+      //   }
+      //   return;
+      // }
+
+      // // failure cases
+      // case WSMessage.ENTER_ROOM_FAILURE:
+      // case WSMessage.RECEIVE_MESSAGE_FAILURE: {
+      //   const promise = this.promiseByWsID.get(message.websocket_id);
+      //   if (promise) {
+      //     promise.reject(message);
+      //     this.promiseByWsID.delete(message.websocket_id);
+      //   }
+      //   if (this.onmessage) {
+      //     this.onmessage({ ...e, data: message });
+      //   }
+      //   return;
+      // }
+
+      // other cases
+      default: {
+        const promise = this.promiseByWsID.get(message.websocket_id);
+        if (promise) {
+          if (promise.resolveCondition && promise.resolveCondition(message)) {
+            promise.resolve(message);
+            this.promiseByWsID.delete(message.websocket_id);
+          } else if (
+            promise.rejectCondition &&
+            promise.rejectCondition(message)
+          ) {
+            promise.reject(message);
+            this.promiseByWsID.delete(message.websocket_id);
+          } else {
+            promise.reject(message);
+          }
+          break;
+        }
+
         if (this.onmessage) {
           this.onmessage({ ...e, data: message });
         }
+      }
     }
   }
 
-  private _log(message: string) {
+  private _log(message: any) {
     if (this._options.debug) {
       console.debug(message);
     }

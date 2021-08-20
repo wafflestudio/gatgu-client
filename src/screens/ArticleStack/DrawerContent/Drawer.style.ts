@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
+import styled from 'styled-components/native';
+
+import { GText } from '@/components/Gatgu';
 import { palette, typo } from '@/styles';
+
+export const StyledArticleDrawerMenuText = styled(GText)`
+  margin-bottom: 16px;
+`;
 
 const DrawerStyles = StyleSheet.create({
   upperContainer: {

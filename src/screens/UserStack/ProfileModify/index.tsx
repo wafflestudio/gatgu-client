@@ -1,24 +1,27 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import { ImageBackground, View, Text, Alert } from 'react-native';
-import {
-  useIsMutating,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { ImageBackground, View, Text, Alert, Image } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { useIsMutating, useMutation, useQueryClient } from 'react-query';
 
 import { useFormik } from 'formik';
 import isEmpty from 'lodash/isEmpty';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { getMyData, modifyMyInfo } from '@/apis/UserApi';
+import { modifyMyInfo } from '@/apis/UserApi';
 import ModifyButton from '@/assets/icons/ModifyButton/modifyButton.svg';
 import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
-import { Button, StringInput } from '@/components';
+import { StringInput } from '@/components';
+import { GButton } from '@/components/Gatgu';
+import { emptyURL } from '@/constants/image';
+import { APItype } from '@/enums/image';
 import { isValidNickname } from '@/helpers/functions/validate';
+import { useToaster } from '@/helpers/hooks';
+import { useUserDetail } from '@/helpers/hooks/api';
+import useImageUpload from '@/helpers/hooks/useImageUpload';
+import usePickImage from '@/helpers/hooks/usePickImage';
 import { USER_DETAIL } from '@/queryKeys';
-import { IUserDetail } from '@/types/user';
+import { TShortImage } from '@/types/shared';
 
 import styles from './ProfileModify.styles';
 
@@ -26,9 +29,13 @@ export interface IUserModify {
   nickname: string;
   password: string;
   trading_address: string;
+  picture: string;
 }
 
 const ProfileModify: React.FC = () => {
+  const toaster = useToaster();
+  const { uploadSingleImage } = useImageUpload(APItype.user);
+  const [img, setImg] = useState<TShortImage>({ mime: 'jpeg', path: emptyURL });
   const {
     values,
     handleChange,
@@ -40,6 +47,7 @@ const ProfileModify: React.FC = () => {
       nickname: '',
       password: '',
       trading_address: '',
+      picture: '',
     },
     validate: (values: IUserModify) => {
       const errors = {};
@@ -54,19 +62,21 @@ const ProfileModify: React.FC = () => {
     },
     onSubmit: async (values) => {
       if (!isEmpty(errors)) {
-        Alert.alert('올바른 정보를 입력해 주세요.');
+        toaster.info('올바른 정보를 입력해 주세요.');
         return;
       }
-
+      if (img.path !== emptyURL) {
+        const tempUrl = await uploadSingleImage(img);
+        values.picture = tempUrl;
+      }
       await modifyUserProfileMutation.mutateAsync(values);
       navigation.navigate('Profile');
       await queryClient.invalidateQueries(USER_DETAIL);
     },
   });
 
-  const userQuery = useQuery<IUserDetail>([USER_DETAIL], () =>
-    getMyData().then((response) => response.data)
-  );
+  const userQuery = useUserDetail();
+  const { pickSingleImage } = usePickImage();
 
   const navigation = useNavigation();
   const info = userQuery.data;
@@ -90,31 +100,61 @@ const ProfileModify: React.FC = () => {
     navigation.setOptions({
       headerTitleAlign: 'center',
       // eslint-disable-next-line react/display-name
-      headerRight: () => <Button title="완료" onPress={handleSubmit} />,
+      headerRight: () => (
+        <GButton size="small" onPress={() => handleSubmit()}>
+          완료
+        </GButton>
+      ),
     });
   }, [handleSubmit, navigation]);
 
   if (userQuery.isLoading || userQuery.isError) return null;
   if (!info) {
-    Alert.alert('유저 데이터를 불러오는 데 실패했습니다.');
+    toaster.error(
+      '유저 데이터를 불러오는 데 실패했습니다. 네트워크 연결을 확인해주세요'
+    );
     return null;
   }
-
-  const profileImgExists = !!info.userprofile.picture;
+  const handlePress = () => {
+    pickSingleImage()
+      .then((img) => {
+        setImg({
+          mime: img.mime,
+          path: img.path,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const profileImgExists = !!info.userprofile.picture || img?.path !== emptyURL;
 
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
         <View style={styles.profileImgWrap}>
-          {profileImgExists ? (
-            <ImageBackground
-              source={{ uri: info.userprofile.picture }}
-              style={styles.profileImg}
-            />
-          ) : (
-            <ProfileDummyImage width="121" height="121" />
-          )}
-          <ModifyButton style={styles.imgPickBtn} />
+          <View style={{ borderRadius: 22 }}>
+            {profileImgExists ? (
+              <Image
+                source={{
+                  uri:
+                    img?.path === emptyURL
+                      ? info.userprofile.picture
+                      : img.path,
+                }}
+                style={styles.profileImg}
+              />
+            ) : (
+              <View>
+                <ProfileDummyImage width="121" height="121" />
+              </View>
+            )}
+          </View>
+          <View style={styles.imgCont}>
+            <TouchableHighlight onPress={handlePress}>
+              <ModifyButton style={styles.imgPickBtn} />
+            </TouchableHighlight>
+          </View>
         </View>
       </View>
       <View style={styles.inputContainer}>

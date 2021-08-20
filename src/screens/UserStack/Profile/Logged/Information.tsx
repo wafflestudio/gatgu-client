@@ -1,7 +1,15 @@
 import React from 'react';
-import { View, Text, ImageBackground } from 'react-native';
+import { View, ImageBackground } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { VStack } from 'native-base';
+
+import { useNavigation } from '@react-navigation/core';
 
 import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
+import { GSpace, GText } from '@/components/Gatgu';
+import { emptyURL } from '@/constants/image';
+import { AppRoutes } from '@/helpers/routes';
 import { IUserDetail } from '@/types/user';
 
 import styles from './Information.style';
@@ -12,7 +20,9 @@ interface IInfoProps {
 
 // Info JSX: 유저 이름 ~ 인증 여부
 function Info({ profile }: IInfoProps): JSX.Element {
-  const profileImgExist = !!profile.userprofile.picture;
+  const navigation = useNavigation();
+
+  const profileImgExist = profile.userprofile.picture !== emptyURL;
   const profileImg = profileImgExist ? (
     <ImageBackground
       source={{ uri: profile.userprofile.picture }}
@@ -24,14 +34,21 @@ function Info({ profile }: IInfoProps): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <View
+      <TouchableOpacity
         style={{
           ...styles.profileImgInnerWrapper,
         }}
+        onPress={() => navigation.navigate(AppRoutes.ProfileModify)}
       >
         {profileImg}
-      </View>
-      <Text style={styles.detailNameText}>{profile.userprofile.nickname}</Text>
+      </TouchableOpacity>
+      <VStack justifyContent="center">
+        <GText size="huge" bold>
+          {profile.userprofile.nickname}
+        </GText>
+        <GSpace h={10} />
+        <GText>{profile.userprofile.trading_address}</GText>
+      </VStack>
     </View>
   );
 }

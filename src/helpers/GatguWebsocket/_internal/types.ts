@@ -23,6 +23,7 @@ export type WebsocketEventMap<T = any> = {
 export interface TWsMessage {
   type: string;
   data?: any;
+  websocket_id?: string;
 }
 
 export type TWsInit = ({
@@ -35,7 +36,15 @@ export type TWsInit = ({
   options?: IBaseWebsocketOption;
 }) => void;
 
-export type TSendWsMessage = (msg: TWsMessage) => void;
+export type PromiseConditions = {
+  resolveCondition?: (data: TWsMessage) => boolean;
+  rejectCondition?: (data: TWsMessage) => boolean;
+};
+
+export type TSendWsMessage = (
+  data: TWsMessage,
+  postOptions?: PromiseConditions
+) => Promise<TWsMessage>;
 
 export type WsContextValue = {
   sendWsMessage: TSendWsMessage;

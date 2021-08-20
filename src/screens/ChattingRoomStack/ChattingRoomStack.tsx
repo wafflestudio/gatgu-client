@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { RouteProp, useRoute } from '@react-navigation/core';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { RootState } from '@/store';
-import { getChatInfo } from '@/store/chatSlice';
 import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChattingRoomTemplate from './ChattingRoomTemplate';
@@ -36,15 +34,13 @@ const mockUrls = [
 // when: when api becomes stable
 
 function ChattingRoomStackScreen(): JSX.Element {
-  // const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
-  // const id = route.params.id;
-
-  const dispatch = useDispatch();
-
   const currentChatInfo = useSelector(
     (state: RootState) => state.chat.currentChatInfo
   );
-
+  const route = useRoute<
+    RouteProp<ChattingDrawerParamList, EChattingRoomStackScreens.ChattingRoom>
+  >();
+  const roomID = route.params.id;
   useEffect(() => {
     // dispatch(getChatInfo(id));
     // handle error case
@@ -60,12 +56,12 @@ function ChattingRoomStackScreen(): JSX.Element {
   return (
     <Drawer.Navigator
       drawerPosition="right"
-      drawerContent={() => <RightDrawer pictureUrls={urls} users={[]} />}
+      drawerContent={() => <RightDrawer roomID={roomID} />}
       drawerStyle={{ width: '57%' }}
     >
       <Drawer.Screen
         name={EChattingRoomStackScreens.ChattingRoom}
-        component={ChattingRoomTemplate}
+        component={() => <ChattingRoomTemplate roomID={roomID} />}
       />
     </Drawer.Navigator>
   );

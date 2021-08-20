@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 
 import { AspectRatio, Flex, Image, Text } from 'native-base';
 
-import { remainTime } from '@/helpers/functions/time';
+import { getPassedTime, getRemainTime } from '@/helpers/functions/time';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
 import { IArticleSummary } from '@/types/article';
@@ -18,6 +18,7 @@ const ArticleBox: React.FC<IArticleSummary> = ({
   images,
   price_min,
   article_status,
+  updated_at,
 }) => {
   const navigation = useAppNavigation();
 
@@ -41,19 +42,22 @@ const ArticleBox: React.FC<IArticleSummary> = ({
           fallbackSource={require('@/assets/images/defaultThumnail.png')}
           loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
           alt="article thumnail"
+          borderRadius="13px"
         />
       </AspectRatio>
       <View style={styles.articleBox}>
         <Flex>
-          <Flex direction="row">
-            <Text style={styles.Head}>{title}</Text>
-          </Flex>
+          <Text style={styles.Head}>{title}</Text>
           <View style={styles.infoWrapper}>
-            <Text style={styles.description}>{1} 분 전</Text>
-            <Text style={styles.description}>
-              {remainTime(time_in)} &nbsp; · &nbsp;
+            <Text
+              style={styles.description}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
+              {getPassedTime(updated_at)}&nbsp; · &nbsp;
+              {getRemainTime(time_in)}&nbsp; · &nbsp;
+              {trading_place}
             </Text>
-            <Text style={styles.description}>{trading_place}</Text>
           </View>
         </Flex>
         <Flex direction="row" justify="flex-end">

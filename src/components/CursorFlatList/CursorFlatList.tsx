@@ -18,6 +18,8 @@ interface ICursorFlatListProps {
   items: any[];
   /** is First page of cursor pagination */
   isFirstPage: boolean;
+  /** is Last page of cursor pagination */
+  isLastPage: boolean;
   /** max count of items state can have */
   maxItemCount?: number;
   /** is FlatList horizontal */
@@ -38,6 +40,7 @@ const CursorFlatList: React.FC<ICursorFlatListProps> = ({
   items,
   maxItemCount = 500,
   isFirstPage,
+  isLastPage,
   horizontal,
   fetching,
   loading,
@@ -53,8 +56,31 @@ const CursorFlatList: React.FC<ICursorFlatListProps> = ({
     if (items.length < maxItemCount || distFromTop !== 0 || isFirstPage) {
       return;
     }
-
     _.throttle(() => getItems('previous'), 300)();
+  };
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    getItems('first').then(() => {
+      setRefreshing(false);
+    });
+  };
+
+  const handleEndReach = () => {
+    if (isLastPage || fetching) return;
+    getItems('next');
+  };
+
+  const renderFooterComponent = () => {
+    if (!fetching || isLastPage) {
+      return null;
+    }
+
+    return (
+      <Flex justify="center" height="142px">
+        <Spinner color={palette.blue} />
+      </Flex>
+    );
   };
 
   if (loading) {
@@ -73,18 +99,13 @@ const CursorFlatList: React.FC<ICursorFlatListProps> = ({
       refreshing={refreshing}
       scrollEventThrottle={0.5}
       renderItem={renderItem}
-      onRefresh={() => {
-        setRefreshing(true);
-        getItems('first').then(() => {
-          setRefreshing(false);
-        });
-      }}
-      onEndReached={() => getItems('next')}
+      onRefresh={handleRefresh}
+      onEndReached={handleEndReach}
       onEndReachedThreshold={0.1}
       onScroll={handleScroll}
-      ListFooterComponent={fetching ? <Spinner /> : null}
+      ListFooterComponent={renderFooterComponent()}
       ListEmptyComponent={ListEmptyComponent}
-      style={{ backgroundColor: palette.white, height: '100%' }}
+      style={{ backgroundColor: palette.white, flex: 1 }}
     />
   );
 };

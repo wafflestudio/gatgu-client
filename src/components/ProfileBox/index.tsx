@@ -5,26 +5,27 @@ import { Image, View } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { AppRoutes } from '@/helpers/routes';
+import { EUserStackScreens } from '@/screens/UserStack/UserStack';
 import { typo } from '@/styles';
 import { IUserSimple } from '@/types/user';
 
 import styles from './Profile.style';
 
-type IProfileProps = Pick<
-  IUserSimple['userprofile'],
-  'profile_id' | 'nickname' | 'picture'
->;
+type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
 
-function Profile({
-  profile_id,
-  picture,
-  nickname,
-}: IProfileProps): JSX.Element {
+function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
   const navigation = useNavigation();
+
   return (
     <View style={styles.profile}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Profile', { params: profile_id })}
+        onPress={() =>
+          navigation.navigate(AppRoutes.UserStack, {
+            screen: EUserStackScreens.Profile,
+            params: { id: id },
+          })
+        }
       >
         <Image
           alt="profile"
@@ -44,4 +45,4 @@ function Profile({
     </View>
   );
 }
-export default Profile;
+export default ProfileBox;
