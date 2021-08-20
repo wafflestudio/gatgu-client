@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Image, ActivityIndicator } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  Image,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
