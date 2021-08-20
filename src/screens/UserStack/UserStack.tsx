@@ -47,10 +47,16 @@ const UserStackScreen: React.FC = () => {
       <UserStack.Screen
         name={EUserStackScreens.ProfileModify}
         component={ProfileModify}
+        options={{
+          headerTitle: '프로필 수정',
+        }}
       />
       <UserStack.Screen
         name={EUserStackScreens.UserGatgu}
         component={UserGatgu}
+        options={{
+          headerTitle: '나의 같구',
+        }}
       />
       <UserStack.Screen
         name={EUserStackScreens.Configs}

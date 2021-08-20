@@ -20,16 +20,12 @@ function ProfileTemplate(): JSX.Element {
       <Flex alignItems="center">
         <Text style={styles.title}>로그인으로</Text>
         <Text style={styles.title}>더 다양한 기능을 사용하세요.</Text>
-        <Text style={styles.info}>
+        <GText size={15} color="gray">
           채팅을 통해 거래하거나 나의 등급 등을 알 수 있어요.
-        </Text>
+        </GText>
         <Image
           style={styles.image}
           source={require('@/assets/images/ProfilePageImage1.png')}
-        />
-        <Image
-          style={styles.image}
-          source={require('@/assets/images/ProfilePageImage2.png')}
         />
         <Flex width="245px" alignItems="center">
           <GButton
@@ -41,7 +37,7 @@ function ProfileTemplate(): JSX.Element {
           </GButton>
           <GText
             touchable
-            size="big"
+            size={15}
             color="gray"
             textDecorationLine="underline"
             style={{ marginTop: 10 }}

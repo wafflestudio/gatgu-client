@@ -6,7 +6,7 @@ import { palette } from '@/styles';
 
 import { StyledText } from './GText.styled';
 
-export type GTextSizes = 'tiny' | 'small' | 'default' | 'big' | 'huge';
+export type GTextSizes = 11 | 12 | 13 | 14 | 15 | 17 | 18 | 22;
 export type GTextColors = keyof typeof palette;
 
 export interface GTextProps extends TextProps {
@@ -22,7 +22,7 @@ const GText: React.FC<GTextProps> = ({
   touchable,
   textDecorationLine,
   bold,
-  size = 'default',
+  size = 13,
   color = 'dark',
   onPress,
   ...textProps

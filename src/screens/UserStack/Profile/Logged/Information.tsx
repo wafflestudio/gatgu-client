@@ -43,7 +43,7 @@ function Info({ profile }: IInfoProps): JSX.Element {
         {profileImg}
       </TouchableOpacity>
       <VStack justifyContent="center">
-        <GText size="huge" bold>
+        <GText size={18} bold>
           {profile.userprofile.nickname}
         </GText>
         <GSpace h={10} />

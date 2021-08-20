@@ -102,7 +102,7 @@ function Login(): JSX.Element {
         <GSpace h={20} />
         <GText
           touchable
-          size="big"
+          size={15}
           color="gray"
           textDecorationLine="underline"
           onPress={signUp}

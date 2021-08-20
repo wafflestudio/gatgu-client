@@ -133,6 +133,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+
     defaultConfig {
         applicationId 'com.wafflestudio.gatgu'
         minSdkVersion rootProject.ext.minSdkVersion
@@ -184,6 +185,11 @@ android {
 
         }
     }
+
+    dexOptions {
+       javaMaxHeapSize "3g"
+    }
+    
 }
 
 dependencies {

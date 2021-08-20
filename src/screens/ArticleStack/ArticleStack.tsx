@@ -34,12 +34,12 @@ const ArticleStackScreen = () => {
       <ArticleDrawer.Screen
         name={EArticleStackScreens.Article}
         component={ArticlePage}
-        options={{ swipeEnabled: isLogined }}
+        options={{ swipeEnabled: isLogined, title: '같구 모집' }}
       />
       <ArticleDrawer.Screen
         name={EArticleStackScreens.EditArticle}
         component={EditArticleTemplate}
-        options={{ swipeEnabled: isLogined }}
+        options={{ swipeEnabled: isLogined, title: '글 수정' }}
       />
     </ArticleDrawer.Navigator>
   );
