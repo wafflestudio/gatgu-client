@@ -15,7 +15,6 @@ import useSelector from '@/helpers/hooks/useSelector';
 import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { IArticleProps, IArticleStatus } from '@/types/article';
-import { IUserSumProps } from '@/types/user';
 
 import styles from './ProfileChat.style';
 

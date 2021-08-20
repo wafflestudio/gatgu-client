@@ -35,7 +35,9 @@ const HeaderStyles = StyleSheet.create({
   rightButton: {
     ...commonStyle.button,
     marginRight: 6,
+    display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

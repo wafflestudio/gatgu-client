@@ -10,7 +10,7 @@ type PickedTextProps = DeepNonNullable<Pick<GTextProps, 'color' | 'size'>> &
 
 export const StyledText = styled.Text<PickedTextProps>`
   color: ${(props) => palette[props.color]};
-  font-size: ${(props) => props.size};
+  font-size: ${(props) => props.size}px;
   font-weight: ${(props) => (props.bold ? 'bold' : 'normal')};
   text-decoration-line: ${(props) => props.textDecorationLine ?? 'none'};
   text-align: ${(props) => props.textAlign || 'auto'};

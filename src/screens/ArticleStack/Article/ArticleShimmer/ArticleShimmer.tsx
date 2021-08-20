@@ -79,7 +79,7 @@ const ArticleShimmer: React.FC = () => {
   return (
     <VStack h="100%" backgroundColor="white">
       <Header
-        right={isLogined ? <Octicons name="three-bars" /> : null}
+        right={isLogined ? <Octicons name="three-bars" size={28} /> : null}
         left={<Header.BackButton />}
       />
       <ScrollView>

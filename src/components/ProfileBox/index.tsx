@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { Image, View } from 'native-base';
+import { HStack, Image, View } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -22,7 +22,7 @@ function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
 
   const renderProfileContent = () => {
     return (
-      <>
+      <HStack alignItems="center">
         <Image
           alt="profile"
           source={
@@ -37,7 +37,7 @@ function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
           style={styles.profileImg}
         />
         <GText size={16}>{nickname}</GText>
-      </>
+      </HStack>
     );
   };
 

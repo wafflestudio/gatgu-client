@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform, StatusBar } from 'react-native';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -29,7 +30,10 @@ const ArticleStackScreen = () => {
     <ArticleDrawer.Navigator
       drawerPosition="right"
       drawerContent={(props) => <DrawerTemplate {...props} />}
-      drawerStyle={{ width: '57%' }}
+      drawerStyle={{
+        width: '57%',
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+      }}
     >
       <ArticleDrawer.Screen
         name={EArticleStackScreens.Article}
@@ -42,7 +46,7 @@ const ArticleStackScreen = () => {
       <ArticleDrawer.Screen
         name={EArticleStackScreens.EditArticle}
         component={EditArticleTemplate}
-        options={{ swipeEnabled: isLogined, title: '글 수정' }}
+        options={{ swipeEnabled: false, title: '글 수정' }}
       />
     </ArticleDrawer.Navigator>
   );

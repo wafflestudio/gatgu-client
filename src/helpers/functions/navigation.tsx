@@ -9,6 +9,8 @@ import BackIcon from '@/assets/icons/BackIcon/BackIcon.svg';
 const StyledHeaderLeft = styled.View`
   width: 38px;
   height: 38px;
+  display: flex;
+  justify-content: center;
   align-items: center;
 `;
 

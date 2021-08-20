@@ -41,6 +41,8 @@ const GInput: React.FC<GInputProps> = ({
       isFullWidth={width === 'full'}
       _focus={gInputStyles._focus}
       height={gInputHeight[size]}
+      autoCorrect={false}
+      autoCapitalize="none"
       borderWidth="1px"
       borderRadius="11px"
       borderColor={noBorder ? undefined : palette.gray}

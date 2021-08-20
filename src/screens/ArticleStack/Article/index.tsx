@@ -24,6 +24,7 @@ function ArticlePage(): JSX.Element {
   const route = useRoute<
     RouteProp<TAppStackParamList, EArticleStackScreens.Article>
   >();
+
   const id = route.params.id;
   const navigation = useAppNavigation();
   const [loading, setLoading] = useState<boolean>(true);
@@ -76,7 +77,7 @@ function ArticlePage(): JSX.Element {
   return (
     <View style={styles.container}>
       <Header
-        right={islogined ? <Octicons name="three-bars" /> : null}
+        right={islogined ? <Octicons name="three-bars" size={28} /> : null}
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         title="같구 모집글"
         left={<Header.BackButton />}
