@@ -1,7 +1,6 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { HamburgerIcon, VStack } from 'native-base';
 import styled from 'styled-components/native';
 
 import { palette } from '@/styles';
@@ -39,7 +38,7 @@ const StyledTitle = styled.View`
   height: 18px;
 `;
 
-const ChattingBoxShimmer: React.FC = () => {
+export const ChattingBoxShimmer: React.FC = () => {
   return (
     <View
       style={{

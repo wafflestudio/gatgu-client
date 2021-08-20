@@ -17,6 +17,7 @@ import { Profile } from '@/components';
 import { ParticipantStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
+import { removeRecentlyReadMessageId } from '@/helpers/functions/chat';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
@@ -85,6 +86,8 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
         if (roomID) {
           dispatch(fetchingParticipants(roomID));
         }
+
+        removeRecentlyReadMessageId(roomID);
       })
       .catch(() => {
         toaster.error(

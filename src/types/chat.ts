@@ -19,12 +19,17 @@ export interface IChattingRoom {
 
 export interface IChatListSinglePreview {
   id: number;
-  order_status: number;
   tracking_number: string;
   recent_message: IChatMessagePreview;
+  article: {
+    title: string;
+    image: string;
+  };
 }
 
-export type IChatListAllPreview = ICursorPaginationResponse<IChatListSinglePreview>;
+export type IChatListAllPreview = ICursorPaginationResponse<IChatListSinglePreview> & {
+  count: number;
+};
 
 export interface IChatMessagePreview {
   id: number;
@@ -88,4 +93,8 @@ export interface IMessageImage {
 export interface IApiImage {
   id: number;
   img_url: string;
+}
+
+export interface IRecentMessageIdOfRoom {
+  id: number;
 }

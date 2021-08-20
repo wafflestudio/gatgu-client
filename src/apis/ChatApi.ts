@@ -1,5 +1,6 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
+import queryString from 'querystring';
 
 import {
   IChattingRoom,
@@ -40,10 +41,14 @@ export const getChattingMessages = (
   return apiClient.get(`chattings/${roomId}/messages/${url}page_size=15`);
 };
 
-export const getMyChattingList = (): Promise<
-  AxiosResponse<IChatListAllPreview>
-> => {
-  return apiClient.get(`users/me/chattings/`);
+export const getMyChattingList = (
+  offset: number
+): Promise<AxiosResponse<IChatListAllPreview>> => {
+  const searchParams = queryString.stringify({
+    offset,
+  });
+
+  return apiClient.get(`users/me/chattings/?${searchParams}`);
 };
 
 export const getChatParticipants = (

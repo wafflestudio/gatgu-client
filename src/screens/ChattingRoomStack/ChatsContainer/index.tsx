@@ -12,6 +12,7 @@ import { WSMessage } from '@/enums';
 import { APItype } from '@/enums/image';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
+import { storeRecentlyReadMessageId } from '@/helpers/functions/chat';
 import { useUserDetail } from '@/helpers/hooks/api';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { refetchChattingList } from '@/store/chatSlice';
@@ -66,6 +67,8 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           { message: socket.data, repeat: false },
           ...prev,
         ]);
+
+        storeRecentlyReadMessageId(roomID, socket.data?.id);
       }
     },
   });

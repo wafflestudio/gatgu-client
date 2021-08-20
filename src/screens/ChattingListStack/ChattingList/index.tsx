@@ -1,44 +1,60 @@
-import React, { useEffect } from 'react';
-import { View, Alert, FlatList } from 'react-native';
+import React from 'react';
+import { FlatList } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
 
-import { useNavigation } from '@react-navigation/core';
+import { useFocusEffect, useNavigation } from '@react-navigation/core';
 
-import { chatAPI } from '@/apis';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
-import { useCursorPagination, useToaster } from '@/helpers/hooks';
+import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
+import { useSelector, useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';
 
+import useChattingRoomList from '../hooks/useChattingRoomList';
 import ChattingBox from './ChattingBox';
-import ChattingListShimmer from './ChattingListShimmer/ChattingListShimmer';
+import ChattingListShimmer, {
+  ChattingBoxShimmer,
+} from './ChattingListShimmer/ChattingListShimmer';
 
 function ChattingList(): JSX.Element {
   const navigation = useNavigation();
+
   const toaster = useToaster();
+
+  const isLogined = useSelector((state) => state.user.isLogined);
+
   const {
     items,
-    firstFetching,
-    isFirstPage,
-    isLastPage,
-    fetching,
-    getItems,
-  } = useCursorPagination<IChatListSinglePreview>({
-    fetchFunc: chatAPI.getMyChattingList,
+    updateChattingRoomList,
+    isLoading,
+    setLoading,
+  } = useChattingRoomList();
+
+  const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
+    onmessage: (msg) => {
+      if (msg.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
+        updateChattingRoomList();
+      }
+    },
   });
-  const { sendWsMessage } = GatguWebsocket.useMessage();
 
-  const toggle = useSelector((state: RootState) => state.chat.toggleChatList);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!isLogined) return;
+
+      updateChattingRoomList();
+
+      return () => {
+        setLoading(true);
+      };
+      // eslint-disable-next-line
+    }, [isLogined])
+  );
+
   const currentUser = useUserDetail().data;
-
-  useEffect(() => {
-    getItems('first');
-  }, [toggle]);
 
   const navigateToChatRoom = (resendKey: string, articleID: number) => {
     // check if resend
@@ -81,16 +97,18 @@ function ChattingList(): JSX.Element {
       </TouchableHighlight>
     );
   };
-  if (!firstFetching) return <ChattingListShimmer />;
+
+  if (isLoading) return <ChattingListShimmer />;
 
   return (
-    <View>
-      <FlatList
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(_, ind) => `${ind}`}
-      />
-    </View>
+    <FlatList
+      data={items}
+      renderItem={renderItem}
+      keyExtractor={(_, ind) => `${ind}`}
+      onEndReached={() => updateChattingRoomList('next')}
+      onEndReachedThreshold={0.3}
+      ListFooterComponent={<ChattingBoxShimmer />}
+    />
   );
 }
 
