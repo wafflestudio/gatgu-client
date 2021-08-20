@@ -87,7 +87,6 @@ function ProfileChat({
         setChatLoading(false);
       });
   };
-  console.log(chatLoading);
   useEffect(() => {
     if (!isLogined) return;
     setWriter(article.writer);
