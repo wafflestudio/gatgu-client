@@ -1,10 +1,7 @@
 import React from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  NavigationContainer,
-  NavigatorScreenParams,
-} from '@react-navigation/native';
+import { NavigatorScreenParams } from '@react-navigation/native';
 
 import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
 
@@ -34,36 +31,14 @@ const AppRouter: React.FC = () => {
 
   GatguWebsocket.useInit({
     // url: `ws://d6f2505199db.ngrok.io/ws/chat/${userQuery.data?.id}/`,
-    url: `ws://8a62b80b1d39.ngrok.io/ws/chat/2/`,
+    url: `ws://8a62b80b1d39.ngrok.io/ws/chat/4/`,
     // url: `ws://c063d2a13d74.ngrok.io${userQuery.}`,
     // url: 'ws://67063aea84d4.ngrok.io/ws/chat',
     token: '',
-    options: { debug: true },
+    options: { debug: false },
   });
 
   return (
-<<<<<<< HEAD
-    <NavigationContainer>
-      <SafeAreaView
-        style={{
-          flex: 1,
-        }}
-      >
-        <AppStack.Navigator>
-          <AppStack.Screen
-            name={EAppStackScreens.MainStack}
-            component={MainStack}
-            options={{ headerShown: false }}
-          />
-          <AppStack.Screen
-            name="ChattingRoom"
-            component={ChattingRoomStackScreen}
-            options={{ headerShown: false }}
-          />
-        </AppStack.Navigator>
-      </SafeAreaView>
-    </NavigationContainer>
-=======
     <AppStack.Navigator>
       <AppStack.Screen
         name={EAppStackScreens.MainStack}
@@ -71,17 +46,11 @@ const AppRouter: React.FC = () => {
         options={{ headerShown: false }}
       />
       <AppStack.Screen
-        name={EAppStackScreens.ChattingRoomStack}
+        name="ChattingRoom"
         component={ChattingRoomStackScreen}
         options={{ headerShown: false }}
       />
-      <AppStack.Screen
-        name={EAppStackScreens.AuthStack}
-        component={AuthStackScreen}
-        options={{ headerShown: false }}
-      />
     </AppStack.Navigator>
->>>>>>> 2abd3705 (initialize ios local push notification)
   );
 };
 

@@ -2,10 +2,8 @@ import PushNotification, {
   PushNotificationObject,
 } from 'react-native-push-notification';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
 
-import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ANDROID_NOTIFICATION_CHANNEL } from '@/constants/notification';
 
 const usePushNotification = () => {
@@ -25,15 +23,8 @@ const usePushNotification = () => {
 
   const getFcmToken = async () => {
     try {
-      const storedFcmToken = await AsyncStorage.getItem(
-        asyncStoragekey.FCM_TOKEN
-      );
       const fetchedFcmToken = await messaging().getToken();
       console.debug('fcm_Token:', fetchedFcmToken);
-
-      if (storedFcmToken !== fetchedFcmToken) {
-        AsyncStorage.setItem(asyncStoragekey.FCM_TOKEN, fetchedFcmToken);
-      }
 
       return fetchedFcmToken;
     } catch (err) {
