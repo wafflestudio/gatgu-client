@@ -30,6 +30,7 @@ const ChattingListStackScreen: React.FC = () => {
           component={ChattingList}
           options={{
             headerTitleAlign: 'center',
+            title: '채팅 리스트',
           }}
         />
       </ChattingListStack.Navigator>

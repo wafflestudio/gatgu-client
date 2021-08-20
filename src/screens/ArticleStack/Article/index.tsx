@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
+import Octicons from 'react-native-vector-icons/Octicons';
 import { useSelector } from 'react-redux';
-
-import { HamburgerIcon } from 'native-base';
 
 import { DrawerActions, RouteProp, useRoute } from '@react-navigation/native';
 
@@ -25,6 +24,7 @@ function ArticlePage(): JSX.Element {
   const route = useRoute<
     RouteProp<TAppStackParamList, EArticleStackScreens.Article>
   >();
+
   const id = route.params.id;
   const navigation = useAppNavigation();
   const [loading, setLoading] = useState<boolean>(true);
@@ -42,7 +42,7 @@ function ArticlePage(): JSX.Element {
       .then((res) => {
         setCurrentArticle(res.data);
       })
-      .catch((e) => {
+      .catch(() => {
         setError(true);
       })
       .finally(() => {
@@ -52,6 +52,7 @@ function ArticlePage(): JSX.Element {
 
   useEffect(() => {
     fetchArticle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const ErrorModal = useCallback(() => {
@@ -62,6 +63,7 @@ function ArticlePage(): JSX.Element {
         errCallback={fetchArticle}
       />
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (error) {
@@ -75,10 +77,11 @@ function ArticlePage(): JSX.Element {
   return (
     <View style={styles.container}>
       <Header
-        right={islogined ? <HamburgerIcon /> : null}
+        right={islogined ? <Octicons name="three-bars" size={28} /> : null}
         rightCallback={() =>
           !chatLoading && navigation.dispatch(DrawerActions.toggleDrawer())
         }
+        title="같구 모집글"
         left={<Header.BackButton />}
       />
       <ScrollView>

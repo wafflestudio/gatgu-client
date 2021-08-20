@@ -32,7 +32,7 @@ const ConfigLayout: React.FC<IConfigLayoutProps> = ({ title, items }) => {
   const renderItems = () => {
     return items.map((item, idx) => (
       <StyledConfigItem key={idx} onPress={item.onPress}>
-        <GText size="huge">{item.label}</GText>
+        <GText size={18}>{item.label}</GText>
       </StyledConfigItem>
     ));
   };
@@ -40,7 +40,7 @@ const ConfigLayout: React.FC<IConfigLayoutProps> = ({ title, items }) => {
   return (
     <StyledConfigLayout>
       <Box paddingLeft="20px">
-        <GText bold size="huge">
+        <GText bold size={18}>
           {title}
         </GText>
       </Box>

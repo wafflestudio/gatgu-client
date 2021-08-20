@@ -20,7 +20,7 @@ function HistoryList(): JSX.Element {
       style={styles.container}
       onPress={goToHistory}
     >
-      <GText size="huge" bold>
+      <GText size={18} bold>
         거래내역 목록
       </GText>
     </TouchableOpacity>

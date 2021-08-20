@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, Alert, Pressable } from 'react-native';
+import { View } from 'react-native';
 
-import { Button, Modal } from 'native-base';
+import { Modal } from 'native-base';
 
 import { GButton } from '../Gatgu';
-import styles from './Error.style';
 
 interface IErrorProps {
   title: string;

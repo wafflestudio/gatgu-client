@@ -46,7 +46,6 @@ const AppRouter: React.FC = () => {
       <SafeAreaView
         style={{
           flex: 1,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         }}
       >
         <AppStack.Navigator>
@@ -60,11 +59,6 @@ const AppRouter: React.FC = () => {
             component={ChattingRoomStackScreen}
             options={{ headerShown: false }}
           />
-          {/* <AppStack.Screen
-            name={EAppStackScreens.AuthStack}
-            component={AuthStackScreen}
-            options={{ headerShown: false }}
-          /> */}
         </AppStack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
