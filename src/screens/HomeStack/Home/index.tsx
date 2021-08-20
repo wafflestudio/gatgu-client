@@ -53,6 +53,7 @@ const Home: React.FC = () => {
   );
 
   if (error) {
+    console.error(error);
     return (
       <Error
         title="오류 발생"
