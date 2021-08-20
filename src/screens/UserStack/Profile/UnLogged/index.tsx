@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, Image } from 'react-native';
+import { Image } from 'react-native';
 
 import { Flex } from 'native-base';
 
+import { GSpace } from '@/components/Gatgu';
 import { GButton } from '@/components/Gatgu/GButton';
 import { GText } from '@/components/Gatgu/GText';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
@@ -18,16 +19,19 @@ function ProfileTemplate(): JSX.Element {
   return (
     <Flex justifyContent="space-between" style={styles.container}>
       <Flex alignItems="center">
-        <Text style={styles.title}>로그인으로</Text>
-        <Text style={styles.title}>더 다양한 기능을 사용하세요.</Text>
-        <GText size={15} color="gray">
-          채팅을 통해 거래하거나 나의 등급 등을 알 수 있어요.
+        <GText bold textAlign="center" size={22}>
+          {'로그인으로\n더 다양한 기능을 사용하세요.'}
         </GText>
+        <GSpace h={8} />
+        <GText size={16} color="gray">
+          채팅을 통해 거래할 수 있어요
+        </GText>
+        <GSpace h={30} />
         <Image
           style={styles.image}
           source={require('@/assets/images/ProfilePageImage1.png')}
         />
-        <Flex width="245px" alignItems="center">
+        <Flex width="245px" alignItems="center" marginTop="60px">
           <GButton
             width="full"
             size="large"

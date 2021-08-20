@@ -9,8 +9,6 @@ interface GModalContext {
   type: '';
 }
 
-const GModalContext = React.createContext<GModalContext>({});
-
 const GModal: React.FC = ({ children }) => {
   return (
     <Modal>
