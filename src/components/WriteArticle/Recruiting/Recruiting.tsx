@@ -26,7 +26,7 @@ function Recruiting({
       <View style={waStyles.subContainer}>
         <Text style={{ ...typo.semiTitle, paddingLeft: 20 }}>₩</Text>
         <TextInput
-          style={[waStyles.text, { paddingLeft: 10 }]}
+          style={[waStyles.text, { paddingLeft: 10, paddingBottom: 8 }]}
           // placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
