@@ -50,7 +50,7 @@ function StatusModal({ onClose, isAuthor, roomID, user }: IStatusModalProps) {
           onClose();
         })
         .catch((err) => {
-          console.log('DRAWER MODAL', err);
+          console.error('DRAWER MODAL', err);
           toaster.error('에러가 발생했습니다. 다시 시도해주세요');
         })
         .finally(() => {

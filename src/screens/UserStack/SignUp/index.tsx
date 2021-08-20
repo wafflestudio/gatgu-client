@@ -135,13 +135,13 @@ const SignUp: React.FC = () => {
                 break;
               default:
                 // 예상치 못한 에러 코드
-                Alert.alert(
+                toaster.error(
                   '예상치 못한 에러가 발생했습니다. 고객센터로 문의해주시기 바랍니다.'
                 );
             }
           } else if (error.request) {
             // 서버에서 response 자체가 안 옴
-            Alert.alert('서버와 연결할 수 없습니다.');
+            toaster.error('서버와 연결할 수 없습니다.');
           }
           // 디버깅 용도
           console.debug(error.config);

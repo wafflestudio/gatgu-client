@@ -17,6 +17,7 @@ import { Profile } from '@/components';
 import { ParticipantStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
+import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
@@ -27,6 +28,7 @@ import StatusModal from './Modal';
 
 function Drawer({ roomID }: { roomID: number }): JSX.Element {
   const dispatch = useDispatch();
+  const toaster = useToaster();
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
@@ -85,7 +87,9 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
         }
       })
       .catch(() => {
-        Alert.alert("Can't access chatroom. Check your connection");
+        toaster.error(
+          '채팅방에서 나가지 못 했습니다. 네트워크 연결을 확인해주세요.'
+        );
       });
   };
 

@@ -26,11 +26,11 @@ interface IProfileChat {
 
 function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const navigation = useAppNavigation();
+  const toaster = useToaster();
   const article_id = article.article_id;
   const dispatch = useDispatch();
   const { sendWsMessage } = GatguWebsocket.useMessage();
   const isLogined = useSelector((state) => state.user.isLogined);
-  const toaster = useToaster();
   const currentUser = useUserDetail().data;
 
   const isChattingButtonDisabled =

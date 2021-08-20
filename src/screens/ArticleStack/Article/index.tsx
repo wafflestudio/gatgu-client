@@ -1,20 +1,22 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Center, HamburgerIcon, Progress } from 'native-base';
+import { HamburgerIcon } from 'native-base';
 
 import { DrawerActions, RouteProp, useRoute } from '@react-navigation/native';
 
 import { TAppStackParamList } from '@/App.router';
+import { articleAPI } from '@/apis';
 import { Header } from '@/components';
 import Error from '@/components/Error';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { RootState } from '@/store';
-import { getSingleArticle } from '@/store/articleSlice';
+import { IArticleProps } from '@/types/article';
 
 import { EArticleStackScreens } from '../ArticleStack';
 import ArticleHeader from './ArticleHeader';
+import ArticleShimmer from './ArticleShimmer/ArticleShimmer';
 import Desc from './Desc';
 import ProductImages from './ProductImages';
 import ProfileChat from './ProfileChat';
@@ -24,44 +26,50 @@ function ArticlePage(): JSX.Element {
     RouteProp<TAppStackParamList, EArticleStackScreens.Article>
   >();
   const id = route.params.id;
-  const dispatch = useDispatch();
   const navigation = useAppNavigation();
-
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+  const [currentArticle, setCurrentArticle] = useState<IArticleProps>(
+    {} as IArticleProps
+  );
   const islogined = !!useSelector((state: RootState) => state.user.isLogined);
 
-  const {
-    currentArticle,
-    articleIsLoading,
-    articleHasError,
-    articleErrorStatus,
-  } = useSelector((state: RootState) => state.article);
+  const fetchArticle = () => {
+    setLoading(true);
+    articleAPI
+      .getSingleArticle(id)
+      .then((res) => {
+        setCurrentArticle(res.data);
+      })
+      .catch((e) => {
+        setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
-    dispatch(getSingleArticle(id));
-  }, [dispatch, id]);
+    fetchArticle();
+  }, []);
 
   const ErrorModal = useCallback(() => {
     return (
       <Error
         title="에러 발생"
-        description={`${articleErrorStatus}`}
-        errCallback={() => {
-          console.log('ERROR');
-        }}
+        description="네트워크 연결을 다시 시도주세요."
+        errCallback={fetchArticle}
+        navigation={navigation}
       />
     );
-  }, [articleErrorStatus]);
+  }, []);
 
-  if (articleIsLoading) {
-    return (
-      <Center>
-        <Progress />
-      </Center>
-    );
+  if (error) {
+    return <ErrorModal />;
   }
 
-  if (articleHasError) {
-    return <ErrorModal />;
+  if (loading) {
+    return <ArticleShimmer />;
   }
 
   return (
@@ -71,7 +79,6 @@ function ArticlePage(): JSX.Element {
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         left={<Header.BackButton />}
       />
-
       <ScrollView>
         <ProductImages
           image_urls={currentArticle.images}

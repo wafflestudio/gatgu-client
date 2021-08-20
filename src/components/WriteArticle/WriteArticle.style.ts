@@ -8,8 +8,9 @@ const WriteArticleStyles = StyleSheet.create({
     flexWrap: 'wrap',
     color: 'black',
     paddingLeft: 20,
+    paddingRight: 20,
     paddingBottom: 9,
-    width: 100,
+    width: '100%',
     paddingTop: 20,
   },
 

@@ -9,8 +9,8 @@ import { KeyboardAvoidingView, Spinner, useToast } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import { articleAPI } from '@/apis';
 import { APItype } from '@/enums/image';
-import { createError } from '@/helpers/functions';
 import { getTs } from '@/helpers/functions/time';
 import { validateLink } from '@/helpers/functions/validate';
 import { useToaster } from '@/helpers/hooks';
@@ -44,7 +44,6 @@ import Title from './Title/Title';
  when: 기획 잡히면:
   - 위치 입력을 우편번호, 상세주소 형태로 받기 --> api
 */
-const [Error] = createError();
 interface IWriteArticleProps {
   isEdit: boolean; // true: edit 창, false: write 창
 }
@@ -63,20 +62,12 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
   const { id } = isEdit ? route.params : { id: 0 };
   const dispatch = useDispatch();
-  const [pageStatus, setPageStatus] = useState<number>(-100);
-  const [hasError, setErrorStatus] = useState<boolean>(false);
   const { uploadMultipleImages } = useImageUpload(APItype.article, id);
   const toaster = useToaster();
   // if edit, get article and send them to other subcomponents
   const currentArticle = useSelector((state: RootState) => {
     if (isEdit) return state.article.currentArticle;
     else return null;
-  });
-  const _pageStatus = useSelector((state: RootState) => {
-    return state.article.WriteArticleErrorStatus;
-  });
-  const _errorState = useSelector((state: RootState) => {
-    return state.article.WriteArticleHasError;
   });
 
   const isLogined = useSelector((state: RootState) => state.user.isLogined);
@@ -87,11 +78,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (inp === 'NaN' || !parseInt(inp)) setPrice('');
     else setPrice(inp);
   };
-
-  useEffect(() => {
-    setPageStatus(_pageStatus);
-    setErrorStatus(_errorState);
-  }, [_pageStatus, _errorState]);
 
   useEffect(() => {
     if (isEdit) dispatch(getSingleArticle(id));
@@ -130,15 +116,27 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (!title.length) return '제목을 입력해주세요.\n';
     else if (!need_price.length) return '희망 구매액을 입력해주세요.\n';
     else if (!location.length) return '희망 거래 지역을 입력해주세요.\n';
-    else if (!validateLink(link)) return 'Link is invalid.\n';
+    else if (!validateLink(link)) return '링크를 다시 한번 확인해주세요.\n';
     else if (!description.length) return '글의 세부사항을 입력해주세요.\n';
     else return '';
+  };
+
+  const finishSubmit = () => {
+    setLoading(false);
+    setTitle('');
+    setDescription('');
+    setPrice('');
+    setLink('');
+    setLocation('');
+    setImages([]);
+    setDueDate(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
   };
 
   const submit = () => {
     setLoading(true);
     if (!isLogined) {
-      Alert.alert('로그인을 해주세요');
+      toaster.info('로그인을 해주세요');
+      setLoading(false);
       /* TODO @juimdpp
         로그인 페이지로 redirect 되는 페이지 구현
         디자인 나오면...?
@@ -155,7 +153,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       images.length > 0
         ? uploadMultipleImages(images)
         : new Promise<string[]>((resolve) => resolve([]));
-
     checkImages
       .then((urls: any) => {
         const tempArticle = {
@@ -168,36 +165,47 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         } as IPostArticle;
         if (urls.length > 0) tempArticle.img_urls = urls;
         if (isEdit && currentArticle) {
-          const pr = dispatch(editSingleArticle(id, tempArticle));
-          Promise.resolve(pr).then((newID: AppThunk) => {
-            if (newID.toString() != '-1') {
+          articleAPI
+            .editArticle(id, tempArticle)
+            .then((res) => {
+              finishSubmit();
+              const newID = res.data.article_id;
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
                   id: newID,
                 },
               });
-            }
-          });
+            })
+            .catch((e) => {
+              setLoading(false);
+              console.log('ERROR', e);
+              toaster.error('에러가 발생했습니다. 다시 시도해주세요');
+            });
         } else {
-          const pr = dispatch(createSingleArticle(tempArticle));
-          Promise.resolve(pr).then((newID: AppThunk) => {
-            if (newID.toString() != '-1') {
+          articleAPI
+            .create(tempArticle)
+            .then((res) => {
+              const newID = res.data.article_id;
+              finishSubmit();
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
                   id: newID,
                 },
               });
-            }
-          });
+            })
+            .catch((e) => {
+              setLoading(false);
+              console.log('ERROR', e);
+              toaster.error('에러가 발생했습니다. 다시 시도해주세요');
+            });
         }
       })
       .catch((e) => {
-        console.log('ERROR', e);
-      })
-      .finally(() => {
         setLoading(false);
+        console.log('ERROR', e);
+        toaster.error('에러가 발생했습니다. 다시 시도해주세요');
       });
   };
 
@@ -221,49 +229,50 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           onPress={submit}
           width="default"
           size="small"
-          style={{ marginRight: 3, marginBottom: 2 }}
+          isLoading={loading}
         >
           완료
         </GButton>
       ),
       headerTitle: '글쓰기',
     });
-  });
+  }, [loading, submit]);
 
   return (
-    <View>
-      {loading ? (
-        <View style={{ height: '100%' }}>
-          <AppLoadingTemplate>
-            <View style={{ margin: 100 }}>
-              <Spinner color={palette.blue} size="large" />
-            </View>
-          </AppLoadingTemplate>
-        </View>
-      ) : (
-        <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
-          {hasError ? (
-            Error(pageStatus, () => {
-              Alert.alert('Need to fix this part');
-            })
-          ) : (
-            <KeyboardAvoidingView>
-              {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
-              <DueDate dueDate={dueDate} setDueDate={setDueDate} />
-              <AddImage images={images} setImages={setImages} />
-              <Title title={title} setTitle={setTitle} />
-              <Recruiting needPrice={need_price} setPrice={handlePrice} />
-              <Location location={location} setLocation={setLocation} />
-              <Link link={link} setLink={setLink} />
-              <Description
-                description={description}
-                setDescription={setDescription}
-              />
-            </KeyboardAvoidingView>
-          )}
-        </ScrollView>
-      )}
-    </View>
+    <ScrollView
+      style={{
+        backgroundColor: 'white',
+        height: '100%',
+        opacity: loading ? 0.4 : 1,
+      }}
+    >
+      <KeyboardAvoidingView>
+        {/* <Tags tags={tags} toggleTags={toggleTags} /> */}
+        <DueDate
+          dueDate={dueDate}
+          setDueDate={setDueDate}
+          editable={!loading}
+        />
+        <AddImage images={images} setImages={setImages} editable={!loading} />
+        <Title title={title} setTitle={setTitle} editable={!loading} />
+        <Recruiting
+          needPrice={need_price}
+          setPrice={handlePrice}
+          editable={!loading}
+        />
+        <Location
+          location={location}
+          setLocation={setLocation}
+          editable={!loading}
+        />
+        <Link link={link} setLink={setLink} editable={!loading} />
+        <Description
+          description={description}
+          setDescription={setDescription}
+          editable={!loading}
+        />
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 

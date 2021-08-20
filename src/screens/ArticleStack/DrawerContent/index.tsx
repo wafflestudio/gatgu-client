@@ -75,7 +75,8 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         setDeleteModalOpen(false);
         navigation.navigate('Home');
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error('DrawerContent', e);
         toaster.error('삭제하는데 실패했습니다.');
       })
       .finally(() => {

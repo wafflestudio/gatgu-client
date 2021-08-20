@@ -16,6 +16,7 @@ import { GButton } from '@/components/Gatgu';
 import { emptyURL } from '@/constants/image';
 import { APItype } from '@/enums/image';
 import { isValidNickname } from '@/helpers/functions/validate';
+import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import usePickImage from '@/helpers/hooks/usePickImage';
@@ -32,6 +33,7 @@ export interface IUserModify {
 }
 
 const ProfileModify: React.FC = () => {
+  const toaster = useToaster();
   const { uploadSingleImage } = useImageUpload(APItype.user);
   const [img, setImg] = useState<TShortImage>({ mime: 'jpeg', path: emptyURL });
   const {
@@ -60,7 +62,7 @@ const ProfileModify: React.FC = () => {
     },
     onSubmit: async (values) => {
       if (!isEmpty(errors)) {
-        Alert.alert('올바른 정보를 입력해 주세요.');
+        toaster.info('올바른 정보를 입력해 주세요.');
         return;
       }
       if (img.path !== emptyURL) {
@@ -108,7 +110,9 @@ const ProfileModify: React.FC = () => {
 
   if (userQuery.isLoading || userQuery.isError) return null;
   if (!info) {
-    Alert.alert('유저 데이터를 불러오는 데 실패했습니다.');
+    toaster.error(
+      '유저 데이터를 불러오는 데 실패했습니다. 네트워크 연결을 확인해주세요'
+    );
     return null;
   }
   const handlePress = () => {
