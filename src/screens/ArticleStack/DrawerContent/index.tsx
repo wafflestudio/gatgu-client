@@ -197,6 +197,10 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
     // return order_chat.participant_profile.map(() => <></>);
   };
 
+  console.log(isMyArticle);
+  console.log(writer.id);
+  console.log('current_user:', currentUser.id);
+
   return (
     <DrawerContentScrollView {...props}>
       <View>
