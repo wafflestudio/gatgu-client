@@ -36,14 +36,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const isChattingButtonDisabled =
     !isLogined || orderStatus.progress_status > ArticleStatus.Dealing;
 
-  const [writer, setWriter] = useState<IUserSumProps>();
-
   const handleChattingButtonClick = (resendKey: string) => {
-    ///
-    // navigation.navigate({
-    //   name: EChattingRoomStackScreens.ChattingRoom,
-    //   params:  { id: article_id }});
-    // ////
     const isResent = parseInt(resendKey) !== -1;
     const websocket_id = isResent ? resendKey : `${getTs()}`;
 
@@ -78,17 +71,9 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       });
   };
 
-  useEffect(() => {
-    if (!isLogined) return;
-    setWriter(article.writer);
-    // eslint-disable-next-line
-  }, []);
-
   const renderProfile = () => {
-    if (!isLogined) {
-      return null;
-    }
-    return <Profile {...(writer as any)} />;
+    const { nickname, profile_img, id } = article.writer;
+    return <Profile id={id} nickname={nickname} picture={profile_img} />;
   };
 
   return (
@@ -96,12 +81,7 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       direction="row"
       justify="space-between"
       alignItems="center"
-      style={[
-        styles.profileChatContainer,
-        !isLogined && {
-          justifyContent: 'flex-end',
-        },
-      ]}
+      style={[styles.profileChatContainer]}
     >
       {renderProfile()}
       <GButton

@@ -22,7 +22,7 @@ export const createGatguStackNavigator = (<
   Navigator.defaultProps = {
     screenOptions: {
       headerStyle: {
-        minHeight: 50,
+        height: 50,
       },
       headerBackTitleVisible: false,
       headerStatusBarHeight: 0,

@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
+import Octicons from 'react-native-vector-icons/Octicons';
 import { useSelector } from 'react-redux';
-
-import { HamburgerIcon } from 'native-base';
 
 import { DrawerActions, RouteProp, useRoute } from '@react-navigation/native';
 
@@ -41,7 +40,7 @@ function ArticlePage(): JSX.Element {
       .then((res) => {
         setCurrentArticle(res.data);
       })
-      .catch((e) => {
+      .catch(() => {
         setError(true);
       })
       .finally(() => {
@@ -51,6 +50,7 @@ function ArticlePage(): JSX.Element {
 
   useEffect(() => {
     fetchArticle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const ErrorModal = useCallback(() => {
@@ -62,6 +62,7 @@ function ArticlePage(): JSX.Element {
         navigation={navigation}
       />
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (error) {
@@ -75,8 +76,9 @@ function ArticlePage(): JSX.Element {
   return (
     <View style={styles.container}>
       <Header
-        right={islogined ? <HamburgerIcon /> : null}
+        right={islogined ? <Octicons name="three-bars" /> : null}
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+        title="같구 모집글"
         left={<Header.BackButton />}
       />
       <ScrollView>

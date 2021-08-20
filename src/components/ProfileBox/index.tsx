@@ -1,15 +1,16 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 import { Image, View } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { useSelector } from '@/helpers/hooks';
 import { AppRoutes } from '@/helpers/routes';
 import { EUserStackScreens } from '@/screens/UserStack/UserStack';
-import { typo } from '@/styles';
 import { IUserSimple } from '@/types/user';
 
+import { GText } from '../Gatgu';
 import styles from './Profile.style';
 
 type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
@@ -17,16 +18,11 @@ type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
 function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
   const navigation = useNavigation();
 
-  return (
-    <View style={styles.profile}>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate(AppRoutes.UserStack, {
-            screen: EUserStackScreens.Profile,
-            params: { id: id },
-          })
-        }
-      >
+  const isLogined = useSelector((state) => state.user.isLogined);
+
+  const renderProfileContent = () => {
+    return (
+      <>
         <Image
           alt="profile"
           source={
@@ -40,8 +36,27 @@ function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
           defaultSource={require('@/assets/images/defaultProfile.png')}
           style={styles.profileImg}
         />
-      </TouchableOpacity>
-      <Text style={{ ...typo.semiTitle }}>{nickname}</Text>
+        <GText size={16}>{nickname}</GText>
+      </>
+    );
+  };
+
+  return (
+    <View style={styles.profile}>
+      {isLogined ? (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate(AppRoutes.UserStack, {
+              screen: EUserStackScreens.Profile,
+              params: { id: id },
+            })
+          }
+        >
+          {renderProfileContent()}
+        </TouchableOpacity>
+      ) : (
+        renderProfileContent()
+      )}
     </View>
   );
 }

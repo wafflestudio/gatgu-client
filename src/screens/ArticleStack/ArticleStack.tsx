@@ -34,7 +34,10 @@ const ArticleStackScreen = () => {
       <ArticleDrawer.Screen
         name={EArticleStackScreens.Article}
         component={ArticlePage}
-        options={{ swipeEnabled: isLogined, title: '같구 모집' }}
+        options={{
+          swipeEnabled: isLogined,
+          title: '같구 모집',
+        }}
       />
       <ArticleDrawer.Screen
         name={EArticleStackScreens.EditArticle}
