@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   NavigationContainer,
   NavigatorScreenParams,
@@ -26,12 +27,15 @@ export type TAppStackParamList = {
   TChattingRoomStackParamList;
 
 const AppStack = createGatguStackNavigator<TAppStackParamList>();
+// AsyncStorage.clear();
 
 const AppRouter: React.FC = () => {
   const userQuery = useUserDetail();
 
   GatguWebsocket.useInit({
-    url: `ws://e2b808ab505c.ngrok.io/ws/chat/${userQuery.data?.id}/`,
+    // url: `ws://d6f2505199db.ngrok.io/ws/chat/${userQuery.data?.id}/`,
+    url: `ws://8a62b80b1d39.ngrok.io/ws/chat/2/`,
+    // url: `ws://c063d2a13d74.ngrok.io${userQuery.}`,
     // url: 'ws://67063aea84d4.ngrok.io/ws/chat',
     token: '',
     options: { debug: true },
@@ -43,7 +47,6 @@ const AppRouter: React.FC = () => {
       <SafeAreaView
         style={{
           flex: 1,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         }}
       >
         <AppStack.Navigator>
@@ -57,11 +60,6 @@ const AppRouter: React.FC = () => {
             component={ChattingRoomStackScreen}
             options={{ headerShown: false }}
           />
-          {/* <AppStack.Screen
-            name={EAppStackScreens.AuthStack}
-            component={AuthStackScreen}
-            options={{ headerShown: false }}
-          /> */}
         </AppStack.Navigator>
       </SafeAreaView>
     </NavigationContainer>

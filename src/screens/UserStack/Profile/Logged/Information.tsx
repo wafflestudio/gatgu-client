@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/core';
 
 import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
 import { GSpace, GText } from '@/components/Gatgu';
+import { emptyURL } from '@/constants/image';
 import { AppRoutes } from '@/helpers/routes';
 import { IUserDetail } from '@/types/user';
 
@@ -21,7 +22,7 @@ interface IInfoProps {
 function Info({ profile }: IInfoProps): JSX.Element {
   const navigation = useNavigation();
 
-  const profileImgExist = !!profile.userprofile.picture;
+  const profileImgExist = profile.userprofile.picture !== emptyURL;
   const profileImg = profileImgExist ? (
     <ImageBackground
       source={{ uri: profile.userprofile.picture }}
@@ -42,7 +43,7 @@ function Info({ profile }: IInfoProps): JSX.Element {
         {profileImg}
       </TouchableOpacity>
       <VStack justifyContent="center">
-        <GText size="huge" bold>
+        <GText size={18} bold>
           {profile.userprofile.nickname}
         </GText>
         <GSpace h={10} />

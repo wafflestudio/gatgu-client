@@ -8,6 +8,7 @@ const commonStyle = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 9,
     marginTop: 5,
+    maxWidth: 280,
   },
 });
 

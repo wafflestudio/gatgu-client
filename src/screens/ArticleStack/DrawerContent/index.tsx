@@ -27,10 +27,10 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const toaster = useToaster();
   const currentUser = useUserDetail().data;
 
-  const { writer_id, article_id, article_status } = useSelector(
+  const { writer, article_id, article_status } = useSelector(
     (state: RootState) => state.article.currentArticle
   );
-  const isMyArticle = writer_id === currentUser?.id;
+  const isMyArticle = writer?.id === currentUser?.id;
 
   const [isReportModalOpen, setReportModalOpen] = useState(false);
   const [isReportModalSubmitting, setReportModalSubmitting] = useState(false);
@@ -75,7 +75,8 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         setDeleteModalOpen(false);
         navigation.navigate('Home');
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error('DrawerContent', e);
         toaster.error('삭제하는데 실패했습니다.');
       })
       .finally(() => {
@@ -183,7 +184,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
     return (
       <StyledArticleDrawerMenuText
         touchable
-        size="huge"
+        size={18}
         color="blue"
         onPress={() => setStatusChangeModalOpen(true)}
       >
@@ -196,6 +197,10 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
     // return order_chat.participant_profile.map(() => <></>);
   };
 
+  console.log(isMyArticle);
+  console.log(writer.id);
+  console.log('current_user:', currentUser.id);
+
   return (
     <DrawerContentScrollView {...props}>
       <View>
@@ -205,21 +210,21 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
               {renderArticleStatusChangeText()}
               <StyledArticleDrawerMenuText
                 touchable
-                size="huge"
+                size={18}
                 onPress={editArticle}
               >
                 수정하기
               </StyledArticleDrawerMenuText>
               <StyledArticleDrawerMenuText
                 touchable
-                size="huge"
+                size={18}
                 onPress={() => setDeleteModalOpen(true)}
               >
                 삭제하기
               </StyledArticleDrawerMenuText>
             </>
           ) : null}
-          <GText touchable size="huge" onPress={() => setReportModalOpen(true)}>
+          <GText touchable size={18} onPress={() => setReportModalOpen(true)}>
             신고하기
           </GText>
         </View>

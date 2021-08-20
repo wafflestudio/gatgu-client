@@ -14,7 +14,7 @@ function FootTerms(): JSX.Element {
   return (
     <Flex alignItems="center" style={styles.smalls}>
       <GText
-        size="tiny"
+        size={11}
         color="gray"
         onPress={() => Alert.alert('not implemented')}
       >
@@ -22,7 +22,7 @@ function FootTerms(): JSX.Element {
       </GText>
       <Text style={styles.smallText}>|</Text>
       <GText
-        size="tiny"
+        size={11}
         color="gray"
         onPress={() => Alert.alert('not implemented')}
       >

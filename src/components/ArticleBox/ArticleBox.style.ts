@@ -28,7 +28,7 @@ const PostBoxStyles = StyleSheet.create({
     width: '100%',
   },
   priceText: {
-    ...typo.info,
+    ...typo.semiTitle,
     color: palette.dark,
   },
   postBox: {

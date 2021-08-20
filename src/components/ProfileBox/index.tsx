@@ -1,31 +1,28 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
-import { Image, View } from 'native-base';
+import { HStack, Image, View } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { typo } from '@/styles';
+import { useSelector } from '@/helpers/hooks';
+import { AppRoutes } from '@/helpers/routes';
+import { EUserStackScreens } from '@/screens/UserStack/UserStack';
 import { IUserSimple } from '@/types/user';
 
+import { GText } from '../Gatgu';
 import styles from './Profile.style';
 
-type IProfileProps = Pick<
-  IUserSimple['userprofile'],
-  'profile_id' | 'nickname' | 'picture'
->;
+type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
 
-function Profile({
-  profile_id,
-  picture,
-  nickname,
-}: IProfileProps): JSX.Element {
+function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
   const navigation = useNavigation();
-  return (
-    <View style={styles.profile}>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Profile', { params: profile_id })}
-      >
+
+  const isLogined = useSelector((state) => state.user.isLogined);
+
+  const renderProfileContent = () => {
+    return (
+      <HStack alignItems="center">
         <Image
           alt="profile"
           source={
@@ -39,9 +36,28 @@ function Profile({
           defaultSource={require('@/assets/images/defaultProfile.png')}
           style={styles.profileImg}
         />
-      </TouchableOpacity>
-      <Text style={{ ...typo.semiTitle }}>{nickname}</Text>
+        <GText size={16}>{nickname}</GText>
+      </HStack>
+    );
+  };
+
+  return (
+    <View style={styles.profile}>
+      {isLogined ? (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate(AppRoutes.UserStack, {
+              screen: EUserStackScreens.Profile,
+              params: { id: id },
+            })
+          }
+        >
+          {renderProfileContent()}
+        </TouchableOpacity>
+      ) : (
+        renderProfileContent()
+      )}
     </View>
   );
 }
-export default Profile;
+export default ProfileBox;

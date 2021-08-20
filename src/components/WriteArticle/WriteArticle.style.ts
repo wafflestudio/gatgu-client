@@ -7,7 +7,10 @@ const WriteArticleStyles = StyleSheet.create({
     ...typo.semiTitle,
     flexWrap: 'wrap',
     color: 'black',
-    padding: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 9,
+    width: '100%',
     paddingTop: 20,
   },
 
@@ -24,6 +27,7 @@ const WriteArticleStyles = StyleSheet.create({
     minHeight: 60,
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
   },
 });
 

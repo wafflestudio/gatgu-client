@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
-import { StringInput } from '@/components';
+import { palette } from '@/styles';
 
 import waStyles from '../WriteArticle.style';
 import styles from './Description.style';
@@ -9,21 +9,24 @@ import styles from './Description.style';
 interface DescriptionProps {
   description: string;
   setDescription: Dispatch<SetStateAction<string>>;
+  editable: boolean;
 }
 
 function Description({
   description,
   setDescription,
+  editable,
 }: DescriptionProps): JSX.Element {
   return (
     <View style={styles.bigContainer}>
-      <StringInput
+      <TextInput
         value={description}
         style={waStyles.text}
         placeholder="내용"
-        placeholderStyle={styles.placeHolder}
+        // placeholderStyle={styles.placeHolder}
         onChangeText={setDescription}
         multiline={true}
+        editable={editable}
       />
     </View>
   );

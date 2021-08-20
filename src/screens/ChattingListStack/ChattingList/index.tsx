@@ -8,18 +8,19 @@ import { DateTime } from 'luxon';
 import { useNavigation } from '@react-navigation/core';
 
 import { chatAPI } from '@/apis';
-import { CursorFlatList } from '@/components';
 import { WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
-import { useCursorPagination } from '@/helpers/hooks';
+import { useCursorPagination, useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { IChatListSinglePreview } from '@/types/chat';
 
 import ChattingBox from './ChattingBox';
+import ChattingListShimmer from './ChattingListShimmer/ChattingListShimmer';
 
 function ChattingList(): JSX.Element {
   const navigation = useNavigation();
+  const toaster = useToaster();
   const {
     items,
     firstFetching,
@@ -65,8 +66,11 @@ function ChattingList(): JSX.Element {
           });
         }
       })
-      .catch(() => {
-        Alert.alert("Can't access chatroom. Check your connection.");
+      .catch((e) => {
+        toaster.error(
+          '채팅방에 입장하지 못 했습니다. 네트워크 연결을 다시 확인해주세요.'
+        );
+        console.error('ChattingList/index.tsx', e);
       });
   };
 
@@ -77,6 +81,7 @@ function ChattingList(): JSX.Element {
       </TouchableHighlight>
     );
   };
+  if (!firstFetching) return <ChattingListShimmer />;
 
   return (
     <View>

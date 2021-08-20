@@ -12,28 +12,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DateTime } from 'luxon';
 import { Checkbox } from 'native-base';
 
-import { RouteProp, useRoute } from '@react-navigation/native';
-
 import { chatAPI } from '@/apis';
 import { Profile } from '@/components';
 import { ParticipantStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
+import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
-import { ChattingDrawerParamList } from '@/types/navigation';
 import { IChatUserProps } from '@/types/user';
 
 import styles from './Drawer.style';
 import StatusModal from './Modal';
 
-function Drawer(): JSX.Element {
-  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+function Drawer({ roomID }: { roomID: number }): JSX.Element {
   const dispatch = useDispatch();
+  const toaster = useToaster();
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
-  const roomID = route.params.params.id; // TODO @juimdpp to debug
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
       // refetch participant list when a status has been updated
@@ -90,7 +87,9 @@ function Drawer(): JSX.Element {
         }
       })
       .catch(() => {
-        Alert.alert("Can't access chatroom. Check your connection");
+        toaster.error(
+          '채팅방에서 나가지 못 했습니다. 네트워크 연결을 확인해주세요.'
+        );
       });
   };
 
@@ -102,7 +101,7 @@ function Drawer(): JSX.Element {
   const renderedParticipants = participants.map((user, ind) => (
     <View key={ind} style={styles.profileBox}>
       <Profile
-        profile_id={user.participant.user_id}
+        id={user.participant.user_id}
         picture={user.participant.picture}
         nickname={user.participant.nickname}
       />

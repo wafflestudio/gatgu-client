@@ -9,8 +9,9 @@ import styles from './Title.style';
 interface TitleProps {
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
+  editable: boolean;
 }
-function Title({ title, setTitle }: TitleProps): JSX.Element {
+function Title({ title, setTitle, editable }: TitleProps): JSX.Element {
   return (
     <View style={waStyles.subContainer}>
       <StringInput
@@ -19,6 +20,7 @@ function Title({ title, setTitle }: TitleProps): JSX.Element {
         placeholder="제목"
         placeholderStyle={styles.placeHolder}
         onChangeText={setTitle}
+        editable={editable}
       />
     </View>
   );

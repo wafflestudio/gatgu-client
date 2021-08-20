@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { View, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { useNavigation } from '@react-navigation/core';
 
+import { GText } from '../Gatgu';
 import styles from './Header.style';
 import HeaderBackButton from './HeaderBackButton';
 
@@ -30,7 +31,6 @@ const Header: React.FC<IHeaderProps> = ({
   title,
   left,
   right,
-  titleStyle,
   leftCallback,
   rightCallback,
   leftContainerStyle,
@@ -61,7 +61,9 @@ const Header: React.FC<IHeaderProps> = ({
       )}
       <View style={[styles.titleContainer, titleContainerStyle]}>
         {title && (
-          <Text style={[styles.basicTitleText, titleStyle]}>{title}</Text>
+          <GText bold size={18}>
+            {title}
+          </GText>
         )}
       </View>
       {right ? (

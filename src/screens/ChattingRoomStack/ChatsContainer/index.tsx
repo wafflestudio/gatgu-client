@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
 
-import { RouteProp, useRoute } from '@react-navigation/native';
-
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
+import { APItype } from '@/enums/image';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { useUserDetail } from '@/helpers/hooks/api';
+import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
-import { ChattingDrawerParamList } from '@/types/navigation';
+import { IUserDetail } from '@/types/user';
 
 import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
@@ -27,12 +28,11 @@ export interface IWSChatMessage {
   repeat: boolean;
 }
 
-function ChattingRoom(): JSX.Element {
-  const route = useRoute<RouteProp<ChattingDrawerParamList, 'ChattingRoom'>>();
+function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   const dispatch = useDispatch();
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
-  const roomID = route.params.id;
+  const { uploadSingleImage } = useImageUpload(APItype.chat, userID);
   const [nextCursor, setCursor] = useState<string | null>();
   const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
   const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
@@ -62,7 +62,10 @@ function ChattingRoom(): JSX.Element {
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
       if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
-        getChattingMessages('next');
+        setChatList((prev) => [
+          { message: socket.data, repeat: false },
+          ...prev,
+        ]);
       }
     },
   });
@@ -90,7 +93,7 @@ function ChattingRoom(): JSX.Element {
       // add to pendingList
       const message = {
         message: {
-          text: input.text,
+          text: input.imgUrl === emptyURL ? input.text : '',
           image: [
             {
               id: 0, // @juimdpp TODO
@@ -116,57 +119,70 @@ function ChattingRoom(): JSX.Element {
       };
       if (firstSend) {
         const tempPendingList = pendingList;
-        tempPendingList.push(message);
+        tempPendingList.unshift(message);
         setPendingList(tempPendingList);
       }
       setRefresh(!refresh);
 
-      // send websocket message to server
-      const wsMessage = {
-        type: WSMessage.SEND_MESSAGE,
-        data: {
-          room_id: roomID,
-          user_id: userID,
-          message: {
-            text: input.text,
-            image: input.imgUrl === emptyURL ? '' : input.imgUrl,
-          },
-        },
-        websocket_id: websocket_id, // tempID used for internal purposes
-      };
-      sendWsMessage(wsMessage, {
-        resolveCondition: (data) =>
-          data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
-        rejectCondition: (data) =>
-          data.type === WSMessage.RECEIVE_MESSAGE_FAILURE,
-      })
-        .then((result) => {
-          // add to chatList
-          setChatList((prev) => [
-            ...prev,
-            { message: result.data, repeat: false },
-          ]);
+      const checkImage =
+        input.imgUrl !== emptyURL
+          ? uploadSingleImage({
+              mime: 'jpeg',
+              path: input.imgUrl,
+            })
+          : new Promise<string>((resolve) => resolve(emptyURL));
 
-          // remove from pendingList
-          setPendingList((prev) =>
-            prev.filter(
-              (message) => message.websocket_id !== result.websocket_id
-            )
-          );
-          setRefresh(!refresh);
+      checkImage
+        .then((img: any) => {
+          // send websocket message to server
+          const wsMessage = {
+            type: WSMessage.SEND_MESSAGE,
+            data: {
+              room_id: roomID,
+              user_id: userID,
+              message: {
+                text: input.imgUrl === emptyURL ? input.text : '',
+                image: input.imgUrl === emptyURL ? '' : img,
+              },
+            },
+            websocket_id: websocket_id, // tempID used for internal purposes
+          };
+          sendWsMessage(wsMessage, {
+            resolveCondition: (data) =>
+              data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
+            rejectCondition: (data) =>
+              data.type === WSMessage.RECEIVE_MESSAGE_FAILURE,
+          })
+            .then((result) => {
+              // add to chatList
+              setChatList((prev) => [
+                { message: result.data, repeat: false },
+                ...prev,
+              ]);
 
-          // trigger chatting list update
-          dispatch(refetchChattingList);
+              // remove from pendingList
+              setPendingList((prev) =>
+                prev.filter(
+                  (message) => message.websocket_id !== result.websocket_id
+                )
+              );
+              setRefresh(!refresh);
+
+              // trigger chatting list update
+              dispatch(refetchChattingList);
+            })
+            .catch((e) => {
+              // mark delete or resend in pendingList
+              setPendingList((prev) =>
+                prev.map((chat) =>
+                  chat.websocket_id === e.websocket_id
+                    ? { ...chat, repeat: true }
+                    : chat
+                )
+              );
+            });
         })
-        .catch((e) => {
-          // mark delete or resend in pendingList
-          const tempPendingList = pendingList.map((chat) =>
-            chat.websocket_id === e.websocket_id
-              ? { ...chat, repeat: true }
-              : chat
-          );
-          setPendingList(tempPendingList);
-        });
+        .catch((e) => console.error('ERR', e));
     }
   };
 
@@ -202,20 +218,10 @@ function ChattingRoom(): JSX.Element {
   };
 
   return (
-    <View
-      style={{
-        justifyContent: 'flex-end',
-        height: '93%',
-      }}
-    >
-      {
-        // (
-        //   <Flex height="100%">
-        //     <Spinner paddingTop="50%" />
-        //   </Flex>
-        // )
+    <View>
+      <View style={{ height: '99.25%' }}>
         <FlatList
-          data={[...chatList, ...pendingList]}
+          data={[...pendingList, ...chatList]}
           renderItem={renderItem}
           style={styles.msgContainer}
           keyExtractor={(_, ind) => `${ind}`}
@@ -225,14 +231,16 @@ function ChattingRoom(): JSX.Element {
           onEndReachedThreshold={0.1}
           ListHeaderComponentStyle={{ borderWidth: 10 }}
         />
-      }
-      <InputBar
-        input={input}
-        setInput={setInput}
-        handleSendMessage={() => handleSendMessage(input, '-1')}
-        id={currentUser?.id}
-        article_id={roomID}
-      />
+      </View>
+      <View style={{ flex: 1, marginTop: -40 }}>
+        <InputBar
+          input={input}
+          setInput={setInput}
+          handleSendMessage={handleSendMessage}
+          id={currentUser?.id}
+          article_id={roomID}
+        />
+      </View>
     </View>
   );
 }
