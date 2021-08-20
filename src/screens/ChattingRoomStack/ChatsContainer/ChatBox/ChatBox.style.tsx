@@ -31,8 +31,8 @@ const ChatBoxStyle = StyleSheet.create({
     marginTop: 5,
     borderRadius: 15.5,
     marginRight: 10,
-    borderWidth: 1,
-    borderColor: palette.borderGray,
+    // borderWidth: 1,
+    // borderColor: palette.borderGray,
   },
   nameText: {
     ...typo.info,

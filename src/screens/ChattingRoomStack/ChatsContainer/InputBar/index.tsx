@@ -30,6 +30,8 @@ interface IInputBarInterface {
   handleSendMessage: (input: IMessageImage, img: string) => void;
   id?: number;
   article_id: number;
+  inputHeight: number;
+  setInputHeight: (n: number) => void;
 }
 
 function InputBar({
@@ -38,6 +40,8 @@ function InputBar({
   handleSendMessage,
   id,
   article_id,
+  inputHeight,
+  setInputHeight,
 }: IInputBarInterface): JSX.Element {
   const toaster = useToaster();
   const { pickSingleImage } = usePickImage({
@@ -54,7 +58,6 @@ function InputBar({
   const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
   const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
-  const [inputHeight, setInputHeight] = useState<number>(0);
 
   const pickFromGallery = () => {
     setImageIsLoading(true);
@@ -192,6 +195,7 @@ function InputBar({
               onContentSizeChange={(event) =>
                 setInputHeight(event.nativeEvent.contentSize.height)
               }
+              maxLength={1000}
             />
           </View>
           <TouchableOpacity

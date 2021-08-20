@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, Platform } from 'react-native';
+import { View, FlatList, Platform, Dimensions } from 'react-native';
 import {
   KeyboardAwareFlatList,
   KeyboardAwareScrollView,
@@ -47,6 +47,8 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
     imgUrl: emptyURL,
   } as IMessageImage);
   const [refresh, setRefresh] = useState(true);
+  const [inputHeight, setInputHeight] = useState<number>(0);
+
   const getChattingMessages = (option: string | null | undefined) => {
     setFetchingMessages(true);
     chatAPI
@@ -222,22 +224,33 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
     getChattingMessages(nextCursor);
   };
 
+  const windowHeight = Dimensions.get('window').height;
+  console.log(windowHeight);
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
         justifyContent: 'space-between',
-        flexDirection: 'column',
-        height: '100%',
+        height: windowHeight,
       }}
       extraScrollHeight={40}
       scrollEnabled={false}
-      keyboardOpeningTime={10}
+      keyboardOpeningTime={250}
     >
-      <View style={{ height: '92%' }}>
+      <View
+        style={{
+          justifyContent: 'flex-start',
+          height: windowHeight - (inputHeight + 160),
+          position: 'absolute',
+          top: 0,
+          width: '100%',
+          paddingBottom: 10,
+        }}
+      >
         <FlatList
           data={[...pendingList, ...chatList]}
           renderItem={renderItem}
-          style={styles.msgContainer}
+          style={[styles.msgContainer]}
           keyExtractor={(_, ind) => `${ind}`}
           extraData={refresh}
           inverted={true}
@@ -246,13 +259,23 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           ListHeaderComponentStyle={{ borderWidth: 10 }}
         />
       </View>
-      <View style={{ flex: 1, marginTop: -35 }}>
+      <View
+        style={{
+          justifyContent: 'flex-end',
+          height: inputHeight + 160,
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+        }}
+      >
         <InputBar
           input={input}
           setInput={setInput}
           handleSendMessage={handleSendMessage}
           id={currentUser?.id}
           article_id={roomID}
+          inputHeight={inputHeight}
+          setInputHeight={setInputHeight}
         />
       </View>
     </KeyboardAwareScrollView>
@@ -260,3 +283,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
 }
 
 export default ChattingRoom;
+
+{
+  /* <View style={{ justifyContent: 'flex-end', backgroundColor:'blue', }}> */
+}
