@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { DrawerActions, RouteProp, useRoute } from '@react-navigation/native';
 
@@ -11,6 +11,7 @@ import { Header } from '@/components';
 import Error from '@/components/Error';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { RootState } from '@/store';
+import { getSingleArticle } from '@/store/articleSlice';
 import { IArticleProps } from '@/types/article';
 
 import { EArticleStackScreens } from '../ArticleStack';
@@ -25,6 +26,8 @@ function ArticlePage(): JSX.Element {
     RouteProp<TAppStackParamList, EArticleStackScreens.Article>
   >();
 
+  const dispatch = useDispatch();
+
   const id = route.params.id;
   const navigation = useAppNavigation();
   const [loading, setLoading] = useState<boolean>(true);
@@ -36,6 +39,8 @@ function ArticlePage(): JSX.Element {
   const islogined = !!useSelector((state: RootState) => state.user.isLogined);
 
   const fetchArticle = () => {
+    dispatch(getSingleArticle(id));
+
     setLoading(true);
     articleAPI
       .getSingleArticle(id)

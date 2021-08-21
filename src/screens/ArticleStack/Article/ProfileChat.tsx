@@ -99,7 +99,7 @@ function ProfileChat({
         isLoading={chatLoading}
         style={{ width: 170 }}
       >
-        구매 채팅으로 가기
+        채팅으로 이동
       </GButton>
     </Flex>
   );

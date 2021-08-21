@@ -30,6 +30,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const { writer, article_id, article_status } = useSelector(
     (state: RootState) => state.article.currentArticle
   );
+
   const isMyArticle = writer?.id === currentUser?.id;
 
   const [isReportModalOpen, setReportModalOpen] = useState(false);
