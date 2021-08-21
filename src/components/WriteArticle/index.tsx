@@ -169,6 +169,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           Promise.resolve(pr).then((newID: AppThunk) => {
             if (newID && newID.toString() != '-1') {
               setLoading(false);
+              finishSubmit();
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
@@ -177,6 +178,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
               });
             } else {
               setLoading(false);
+              finishSubmit();
               console.log('ERROR');
               toaster.error('에러가 발생했습니다. 다시 시도해주세요');
             }
@@ -187,6 +189,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
             console.log('newID', newID);
             if (newID && newID.toString() != '-1') {
               setLoading(false);
+              finishSubmit();
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
@@ -195,6 +198,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
               });
             } else {
               setLoading(false);
+              finishSubmit();
               console.log('ERROR');
               toaster.error('에러가 발생했습니다. 다시 시도해주세요');
             }
@@ -203,6 +207,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       })
       .catch((e) => {
         setLoading(false);
+        finishSubmit();
         console.log('ERROR', e);
         toaster.error('에러가 발생했습니다. 다시 시도해주세요');
       });

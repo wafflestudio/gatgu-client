@@ -33,7 +33,6 @@ const AppStack = createGatguStackNavigator<TAppStackParamList>();
 
 const AppRouter: React.FC = () => {
   const userQuery = useUserDetail();
-  console.log(userQuery.data?.id);
   GatguWebsocket.useInit({
     url: `ws://8a62b80b1d39.ngrok.io/ws/chat/${userQuery.data?.id}/`,
     token: '',
