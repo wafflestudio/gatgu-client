@@ -168,13 +168,13 @@ const ProfileModify: React.FC = () => {
         {errors.nickname && (
           <Text style={styles.text}>사용 불가능한 닉네임입니다.</Text>
         )}
-        <StringInput
+        {/* <StringInput
           style={styles.input}
           placeholderStyle={styles.input}
           value={values.password}
           onChangeText={handleChange('password')}
           placeholder="비밀번호"
-        />
+        /> */}
         <StringInput
           style={styles.input}
           placeholderStyle={styles.input}

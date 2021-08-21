@@ -25,7 +25,7 @@ const UnAuthorizedModal: React.FC<IUnAuthorizedModalProps> = ({ isOpen }) => {
           로그인 필요
         </Modal.Header>
         <Modal.Body>
-          <GText size="huge">로그인 이후 사용 가능한 기능입니다.</GText>
+          <GText size={18}>로그인 이후 사용 가능한 기능입니다.</GText>
         </Modal.Body>
         <Modal.Footer pr={6}>
           <GButton

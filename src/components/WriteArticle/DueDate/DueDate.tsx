@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
+import { View, TouchableHighlight, Text, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
-import { Button } from 'native-base';
+import { Modal } from 'native-base';
 
 // import { Label } from 'native-base';
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -113,21 +113,27 @@ function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
           </View>
         </TouchableHighlight>
       </View>
-      {modalVisible ? (
-        <View style={styles.modalView}>
-          <View style={styles.headerContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={{ ...typo.bigTitle }}>모집기한</Text>
-            </View>
-            <GButton size="small" onPress={handleComplete}>
-              완료
-            </GButton>
-          </View>
-          <View style={styles.scrollDayContainer}>
-            <ScrollView horizontal={true}>{renderDates}</ScrollView>
-          </View>
-        </View>
-      ) : null}
+      {modalVisible && (
+        <Modal isOpen>
+          <Modal.Content style={{ height: 200, width: '100%' }}>
+            <Modal.Header>
+              <View style={[styles.headerContainer, { padding: 20 }]}>
+                <View style={styles.titleContainer}>
+                  <Text style={{ ...typo.bigTitle }}>모집기한</Text>
+                </View>
+                <GButton size="small" onPress={handleComplete}>
+                  완료
+                </GButton>
+              </View>
+            </Modal.Header>
+            <Modal.Body>
+              <View style={styles.scrollDayContainer}>
+                <ScrollView horizontal={true}>{renderDates}</ScrollView>
+              </View>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+      )}
     </View>
   );
 }

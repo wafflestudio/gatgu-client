@@ -35,7 +35,6 @@ const HomeStackScreen: React.FC = () => {
           headerTitle: () => (
             <logo.subLogo style={{ width: 94.4, height: 25 }} />
           ),
-          headerRightContainerStyle: { paddingRight: 10, paddingTop: 5 },
           headerTitleAlign: 'center',
         }}
       />

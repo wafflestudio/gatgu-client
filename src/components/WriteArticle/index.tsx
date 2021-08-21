@@ -165,28 +165,30 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         } as IPostArticle;
         if (urls.length > 0) tempArticle.img_urls = urls;
         if (isEdit && currentArticle) {
-          articleAPI
-            .editArticle(id, tempArticle)
-            .then((res) => {
+          const pr = dispatch(editSingleArticle(id, tempArticle));
+          Promise.resolve(pr).then((newID: AppThunk) => {
+            if (newID && newID.toString() != '-1') {
+              setLoading(false);
               finishSubmit();
-              const newID = res.data.article_id;
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
                 params: {
                   id: newID,
                 },
               });
-            })
-            .catch((e) => {
+            } else {
               setLoading(false);
-              console.log('ERROR', e);
+              finishSubmit();
+              console.log('ERROR');
               toaster.error('에러가 발생했습니다. 다시 시도해주세요');
-            });
+            }
+          });
         } else {
-          articleAPI
-            .create(tempArticle)
-            .then((res) => {
-              const newID = res.data.article_id;
+          const pr = dispatch(createSingleArticle(tempArticle));
+          Promise.resolve(pr).then((newID: AppThunk) => {
+            console.log('newID', newID);
+            if (newID && newID.toString() != '-1') {
+              setLoading(false);
               finishSubmit();
               navigation.navigate(AppRoutes.ArticleStack, {
                 screen: AppRoutes.Article,
@@ -194,16 +196,18 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
                   id: newID,
                 },
               });
-            })
-            .catch((e) => {
+            } else {
               setLoading(false);
-              console.log('ERROR', e);
+              finishSubmit();
+              console.log('ERROR');
               toaster.error('에러가 발생했습니다. 다시 시도해주세요');
-            });
+            }
+          });
         }
       })
       .catch((e) => {
         setLoading(false);
+        finishSubmit();
         console.log('ERROR', e);
         toaster.error('에러가 발생했습니다. 다시 시도해주세요');
       });

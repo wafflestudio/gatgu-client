@@ -184,7 +184,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
     return (
       <StyledArticleDrawerMenuText
         touchable
-        size="huge"
+        size={18}
         color="blue"
         onPress={() => setStatusChangeModalOpen(true)}
       >
@@ -206,21 +206,21 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
               {renderArticleStatusChangeText()}
               <StyledArticleDrawerMenuText
                 touchable
-                size="huge"
+                size={18}
                 onPress={editArticle}
               >
                 수정하기
               </StyledArticleDrawerMenuText>
               <StyledArticleDrawerMenuText
                 touchable
-                size="huge"
+                size={18}
                 onPress={() => setDeleteModalOpen(true)}
               >
                 삭제하기
               </StyledArticleDrawerMenuText>
             </>
           ) : null}
-          <GText touchable size="huge" onPress={() => setReportModalOpen(true)}>
+          <GText touchable size={18} onPress={() => setReportModalOpen(true)}>
             신고하기
           </GText>
         </View>

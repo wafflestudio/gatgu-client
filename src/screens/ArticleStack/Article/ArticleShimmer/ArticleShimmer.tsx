@@ -1,10 +1,12 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
+import Octicons from 'react-native-vector-icons/Octicons';
 
-import { HamburgerIcon, VStack } from 'native-base';
+import { VStack } from 'native-base';
 import styled from 'styled-components/native';
 
 import { Header } from '@/components';
+import { useSelector } from '@/helpers/hooks';
 import { palette } from '@/styles';
 
 import styles from './ArticleShimmer.style';
@@ -72,9 +74,14 @@ const StyledDescription = styled.View`
 `;
 
 const ArticleShimmer: React.FC = () => {
+  const isLogined = useSelector((state) => state.user.isLogined);
+
   return (
     <VStack h="100%" backgroundColor="white">
-      <Header right={<HamburgerIcon />} left={<Header.BackButton />} />
+      <Header
+        right={isLogined ? <Octicons name="three-bars" size={28} /> : null}
+        left={<Header.BackButton />}
+      />
       <ScrollView>
         <StyledImage />
         <View style={styles.profile}>

@@ -67,11 +67,7 @@ const GButton: React.FC<GButtonProps> = ({
     }
 
     return (
-      <GText
-        size="huge"
-        {...buttonInnerTextProps[theme][variant]}
-        {...textProps}
-      >
+      <GText size={18} {...buttonInnerTextProps[theme][variant]} {...textProps}>
         {children}
       </GText>
     );

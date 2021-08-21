@@ -14,6 +14,7 @@ const DescriptionStyle = StyleSheet.create({
   label: {
     ...typo.bigTitle,
     marginLeft: 20,
+    fontWeight: '500',
   },
   timeContainer: {
     flexDirection: 'row',

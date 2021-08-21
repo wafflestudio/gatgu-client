@@ -18,6 +18,7 @@ const ForceStyle = StyleSheet.create({
   headerText: {
     ...typo.bigTitle,
     fontWeight: 'bold',
+    color: palette.dark,
   },
 
   // body
@@ -28,6 +29,7 @@ const ForceStyle = StyleSheet.create({
   },
   bodyText: {
     ...typo.semiTitle,
+    color: palette.dark,
   },
 
   bodyElem: {

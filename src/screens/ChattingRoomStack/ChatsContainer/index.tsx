@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Platform, Dimensions } from 'react-native';
+import {
+  KeyboardAwareFlatList,
+  KeyboardAwareScrollView,
+  KeyboardAwareSectionList,
+} from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
+import { KeyboardAvoidingView } from 'native-base';
 
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
@@ -16,7 +22,6 @@ import { useUserDetail } from '@/helpers/hooks/api';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
-import { IUserDetail } from '@/types/user';
 
 import ChatBox from './ChatBox';
 import styles from './ChatContainer.style';
@@ -42,26 +47,36 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
     imgUrl: emptyURL,
   } as IMessageImage);
   const [refresh, setRefresh] = useState(true);
-  const getChattingMessages = (option: string | null | undefined) => {
+  const [inputHeight, setInputHeight] = useState<number>(0);
+  const [first, setFirst] = useState<boolean>(false);
+
+  const getChattingMessages = (
+    option: string | null | undefined,
+    first?: boolean
+  ) => {
     setFetchingMessages(true);
     chatAPI
       .getChattingMessages(roomID, option)
       .then((chattingList) => {
+        const temp = chattingList.data.results;
         // TODO: change with pagination
         setCursor(chattingList.data.next);
-        const tempChatList = chattingList.data.results.map((chat) => {
+        const tempChatList = temp.map((chat) => {
           return {
             message: chat,
             repeat: false,
           };
         });
         setChatList((prev) => [...prev, ...tempChatList]);
+        console.log('getChattingMessage');
       })
       .finally(() => setFetchingMessages(false));
   };
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
-      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
+      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS && !first) {
+        console.log('SYSTEM', socket.data.type, socket.data.id);
+        // check if there is this message in chatList
         setChatList((prev) => [
           { message: socket.data, repeat: false },
           ...prev,
@@ -71,7 +86,8 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   });
 
   useEffect(() => {
-    getChattingMessages('first');
+    getChattingMessages('first', true);
+    setFirst(true);
   }, []);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
@@ -217,13 +233,32 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
     getChattingMessages(nextCursor);
   };
 
+  const windowHeight = Dimensions.get('window').height;
+
   return (
-    <View>
-      <View style={{ height: '99.25%' }}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{
+        justifyContent: 'space-between',
+        height: windowHeight,
+      }}
+      extraScrollHeight={40}
+      scrollEnabled={false}
+      keyboardOpeningTime={250}
+    >
+      <View
+        style={{
+          justifyContent: 'flex-start',
+          height: windowHeight - (inputHeight + 160),
+          position: 'absolute',
+          top: 0,
+          width: '100%',
+          paddingBottom: 10,
+        }}
+      >
         <FlatList
           data={[...pendingList, ...chatList]}
           renderItem={renderItem}
-          style={styles.msgContainer}
+          style={[styles.msgContainer]}
           keyExtractor={(_, ind) => `${ind}`}
           extraData={refresh}
           inverted={true}
@@ -232,17 +267,31 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           ListHeaderComponentStyle={{ borderWidth: 10 }}
         />
       </View>
-      <View style={{ flex: 1, marginTop: -40 }}>
+      <View
+        style={{
+          justifyContent: 'flex-end',
+          height: inputHeight + 160,
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+        }}
+      >
         <InputBar
           input={input}
           setInput={setInput}
           handleSendMessage={handleSendMessage}
           id={currentUser?.id}
           article_id={roomID}
+          inputHeight={inputHeight}
+          setInputHeight={setInputHeight}
         />
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
 export default ChattingRoom;
+
+{
+  /* <View style={{ justifyContent: 'flex-end', backgroundColor:'blue', }}> */
+}

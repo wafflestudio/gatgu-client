@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { View, TextInput, Text, Image, ActivityIndicator } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  View,
+  TextInput,
+  Text,
+  Image,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -23,6 +30,8 @@ interface IInputBarInterface {
   handleSendMessage: (input: IMessageImage, img: string) => void;
   id?: number;
   article_id: number;
+  inputHeight: number;
+  setInputHeight: (n: number) => void;
 }
 
 function InputBar({
@@ -31,6 +40,8 @@ function InputBar({
   handleSendMessage,
   id,
   article_id,
+  inputHeight,
+  setInputHeight,
 }: IInputBarInterface): JSX.Element {
   const toaster = useToaster();
   const { pickSingleImage } = usePickImage({
@@ -47,7 +58,6 @@ function InputBar({
   const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
   const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
-  const [inputHeight, setInputHeight] = useState<number>(0);
 
   const pickFromGallery = () => {
     setImageIsLoading(true);
@@ -58,15 +68,18 @@ function InputBar({
             .then((url) => {
               setInput({ text: input.text, imgUrl: url });
               handleSendMessage({ text: input.text, imgUrl: url }, '-1');
+              setModalOpen(false);
+              setImageIsLoading(false);
             })
             .catch((e) => {
               console.error(e);
+              setModalOpen(false);
+              setImageIsLoading(false);
             });
       })
       .catch((e) => {
         console.error(e);
-      })
-      .finally(() => {
+        setModalOpen(false);
         setImageIsLoading(false);
       });
   };
@@ -88,18 +101,21 @@ function InputBar({
             .then((url) => {
               setInput({ text: input.text, imgUrl: url });
               handleSendMessage(input, '-1');
+              setModalOpen(false);
+              setImageIsLoading(false);
             })
             .catch((e) => {
               console.error(e);
+              setModalOpen(false);
+              setImageIsLoading(false);
               toaster.error(
                 '이미지를 업로드하는데 실패하였습니다. 다시 시도해주세요.'
               );
             });
       })
       .catch((e) => {
+        setModalOpen(false);
         console.error('CAMERA', e);
-      })
-      .finally(() => {
         setImageIsLoading(false);
       });
   };
@@ -114,17 +130,16 @@ function InputBar({
       .then(() => {
         toaster.success('상태가 바뀌었습니다.');
         setModalOpen(false);
+        setSubmitIsLoading(false);
       })
       .catch((err) => {
         console.error(err);
         toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
-      })
-      .finally(() => {
         setSubmitIsLoading(false);
       });
   };
   return (
-    <View style={styles.bar}>
+    <View style={[styles.bar]}>
       {optionsOpen ? (
         <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <View style={styles.iconBar}>
@@ -173,12 +188,15 @@ function InputBar({
               multiline={true}
               numberOfLines={4}
               value={input.text}
-              onChangeText={(txt) =>
-                setInput({ text: txt, imgUrl: input.imgUrl })
-              }
+              onChangeText={(txt) => {
+                if (inputHeight < 200)
+                  setInput({ text: txt, imgUrl: input.imgUrl });
+              }}
+              autoCorrect={false}
               onContentSizeChange={(event) =>
                 setInputHeight(event.nativeEvent.contentSize.height)
               }
+              maxLength={1000}
             />
           </View>
           <TouchableOpacity

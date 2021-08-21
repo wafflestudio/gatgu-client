@@ -281,7 +281,7 @@ const SignUp: React.FC = () => {
           errorStr={errors.email}
           InputRightElement={
             <HStack alignItems="center">
-              <GText size="big">@snu.ac.kr</GText>
+              <GText size={15}>@snu.ac.kr</GText>
               <GSpace w={10} />
               <GButton
                 variant="outlined"
@@ -289,7 +289,7 @@ const SignUp: React.FC = () => {
                 isLoading={isEmailSending}
                 disabled={values.email.length === 0}
                 textProps={{
-                  size: 'big',
+                  size: 15,
                 }}
                 onPress={handleEmailSend}
               >
@@ -323,7 +323,7 @@ const SignUp: React.FC = () => {
                     values.emailConfirm.length === 0 || isTokenConfirmDisabled
                   }
                   textProps={{
-                    size: 'big',
+                    size: 18,
                   }}
                   onPress={() =>
                     handleEmailCodeChecking(values.email, values.emailConfirm)
@@ -346,7 +346,7 @@ const SignUp: React.FC = () => {
               variant="outlined"
               size="large"
               textProps={{
-                size: 'big',
+                size: 18,
               }}
               onPress={() => setAddressModalOpen(true)}
             >

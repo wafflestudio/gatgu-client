@@ -16,6 +16,7 @@ const InputBarStyle = StyleSheet.create({
   bar: {
     backgroundColor: palette.white,
     padding: 0,
+    height: '100%',
   },
   inputIcon: {
     ...commonStyle.Icon,

@@ -1,11 +1,10 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 
-import { View } from 'native-base';
-
 import { articleAPI } from '@/apis';
 import NotifcationIcon from '@/assets/icons/Notification/notification.svg';
 import { ArticleBox, CursorFlatList } from '@/components';
 import Error from '@/components/Error';
+import GIconButton from '@/components/Gatgu/GIconButton/GIconButton';
 import { useCursorPagination } from '@/helpers/hooks';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
@@ -31,13 +30,13 @@ const Home: React.FC = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View
-          onTouchEnd={() => {
+        <GIconButton
+          onPress={() => {
             navigation.navigate(AppRoutes.Notification);
           }}
         >
           <NotifcationIcon />
-        </View>
+        </GIconButton>
       ),
     });
   }, [navigation]);
@@ -54,6 +53,7 @@ const Home: React.FC = () => {
   );
 
   if (error) {
+    console.error(error);
     return (
       <Error
         title="오류 발생"
