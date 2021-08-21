@@ -95,3 +95,8 @@ export const refreshAccessToken = (
     refresh,
   });
 };
+
+// fcn 토큰 등록
+export const postFcmToken = (token: string): Promise<AxiosResponse> => {
+  return apiClient.post('fcm/', { token });
+};
