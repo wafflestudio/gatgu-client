@@ -92,7 +92,11 @@ function ChattingList(): JSX.Element {
 
   const renderItem = ({ item }: { item: IChatListSinglePreview }) => {
     return (
-      <TouchableHighlight onPress={() => navigateToChatRoom('-1', item.id)}>
+      <TouchableHighlight
+        onPress={() =>
+          item.article?.id && navigateToChatRoom('-1', item.article?.id)
+        }
+      >
         <ChattingBox item={item} />
       </TouchableHighlight>
     );

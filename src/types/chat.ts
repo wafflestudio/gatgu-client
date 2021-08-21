@@ -24,6 +24,7 @@ export interface IChatListSinglePreview {
   article: {
     title: string;
     image: string;
+    id: number;
   };
 }
 
