@@ -48,27 +48,35 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   } as IMessageImage);
   const [refresh, setRefresh] = useState(true);
   const [inputHeight, setInputHeight] = useState<number>(0);
+  const [first, setFirst] = useState<boolean>(false);
 
-  const getChattingMessages = (option: string | null | undefined) => {
+  const getChattingMessages = (
+    option: string | null | undefined,
+    first?: boolean
+  ) => {
     setFetchingMessages(true);
     chatAPI
       .getChattingMessages(roomID, option)
       .then((chattingList) => {
+        const temp = chattingList.data.results;
         // TODO: change with pagination
         setCursor(chattingList.data.next);
-        const tempChatList = chattingList.data.results.map((chat) => {
+        const tempChatList = temp.map((chat) => {
           return {
             message: chat,
             repeat: false,
           };
         });
         setChatList((prev) => [...prev, ...tempChatList]);
+        console.log('getChattingMessage');
       })
       .finally(() => setFetchingMessages(false));
   };
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
-      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
+      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS && !first) {
+        console.log('SYSTEM', socket.data.type, socket.data.id);
+        // check if there is this message in chatList
         setChatList((prev) => [
           { message: socket.data, repeat: false },
           ...prev,
@@ -78,7 +86,8 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   });
 
   useEffect(() => {
-    getChattingMessages('first');
+    getChattingMessages('first', true);
+    setFirst(true);
   }, []);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
@@ -225,7 +234,6 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   };
 
   const windowHeight = Dimensions.get('window').height;
-  console.log(windowHeight);
 
   return (
     <KeyboardAwareScrollView
