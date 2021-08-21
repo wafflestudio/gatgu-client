@@ -42,7 +42,9 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
 
   React.useEffect(() => {
     getRecentlyReadMessageId(id).then((res) => {
-      setRecentMessageUnread(res !== recent_message.id);
+      setRecentMessageUnread(
+        Boolean(recent_message?.id) && Boolean(res) && res !== recent_message.id
+      );
     });
   }, [id, recent_message]);
 

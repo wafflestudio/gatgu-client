@@ -39,15 +39,15 @@ const Configs: React.FC = () => {
     }
   };
   const userItems: IConfigLayoutItem[] = [
-    { label: '계정 관리', onPress: () => toaster.info('노노노~') },
-    { label: '신고 내역', onPress: () => toaster.info('노노노~') },
+    // { label: '계정 관리', onPress: () => toaster.info('노노노~') },
+    // { label: '신고 내역', onPress: () => toaster.info('다음 기회에') },
   ];
 
   const etcItems: IConfigLayoutItem[] = [
-    { label: '개발자 괴롭히기', onPress: () => toaster.info('노노노~') },
-    { label: '버전', onPress: () => toaster.info('노노노~') },
+    // { label: '개발자 괴롭히기', onPress: () => toaster.info('노노노~') },
+    // { label: '버전', onPress: () => toaster.info('노노노~') },
     { label: '로그아웃', onPress: () => setLogoutModalOpen(true) },
-    { label: '탈퇴하기', onPress: () => toaster.info('노노노~') },
+    // { label: '탈퇴하기', onPress: () => toaster.info('노노노~') },
   ];
 
   const renderLogoutModal = () => {

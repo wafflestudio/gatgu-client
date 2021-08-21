@@ -29,15 +29,15 @@ const Home: React.FC = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <GIconButton
-          onPress={() => {
-            navigation.navigate(AppRoutes.Notification);
-          }}
-        >
-          <NotifcationIcon />
-        </GIconButton>
-      ),
+      // headerRight: () => (
+      //   <GIconButton
+      //     onPress={() => {
+      //       navigation.navigate(AppRoutes.Notification);
+      //     }}
+      //   >
+      //     <NotifcationIcon />
+      //   </GIconButton>
+      // ),
     });
   }, [navigation]);
 
