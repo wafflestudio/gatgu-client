@@ -76,8 +76,8 @@ function ChattingList(): JSX.Element {
     })
       .then(() => {
         if (articleID) {
-          navigation.navigate('ChattingRoom', {
-            screen: 'ChattingRoom',
+          navigation.navigate({
+            name: 'ChattingRoom',
             params: { id: articleID },
           });
         }
