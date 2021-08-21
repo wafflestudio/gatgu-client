@@ -41,7 +41,7 @@ export interface ISignUpValues {
   isAllCheckboxesSelected: boolean;
   checkbox1IsSelected: boolean;
   checkbox2IsSelected: boolean;
-  checkbox3IsSelected: boolean;
+  // checkbox3IsSelected: boolean;
 }
 
 const DEFAULT_FORM_VALUE = {
@@ -61,7 +61,7 @@ const DEFAULT_FORM_VALUE = {
   isAllCheckboxesSelected: false,
   checkbox1IsSelected: false,
   checkbox2IsSelected: false,
-  checkbox3IsSelected: false,
+  // checkbox3IsSelected: false,
 };
 
 type SignUpErrors = Partial<Record<keyof ISignUpValues, string>>;
@@ -241,11 +241,8 @@ const SignUp: React.FC = () => {
   return (
     <ScrollView style={styles.container}>
       <KeyboardAvoidingView
-        h={{
-          base: '1000px',
-          lg: 'auto',
-        }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={-60}
       >
         <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
         <SignUpInput
@@ -389,10 +386,10 @@ const SignUp: React.FC = () => {
                 'checkbox2IsSelected',
                 !values.isAllCheckboxesSelected
               );
-              setFieldValue(
-                'checkbox3IsSelected',
-                !values.isAllCheckboxesSelected
-              );
+              // setFieldValue(
+              //   'checkbox3IsSelected',
+              //   !values.isAllCheckboxesSelected
+              // );
             }}
           />
           <View style={checkStyles.textWrapper}>
@@ -410,9 +407,8 @@ const SignUp: React.FC = () => {
               setFieldValue('checkbox1IsSelected', !values.checkbox1IsSelected);
               setFieldValue(
                 'isAllCheckboxesSelected',
-                !values.checkbox1IsSelected &&
-                  values.checkbox2IsSelected &&
-                  values.checkbox3IsSelected
+                !values.checkbox1IsSelected && values.checkbox2IsSelected
+                // values.checkbox3IsSelected
               );
             }}
           />
@@ -423,13 +419,12 @@ const SignUp: React.FC = () => {
               setFieldValue('checkbox2IsSelected', !values.checkbox2IsSelected);
               setFieldValue(
                 'isAllCheckboxesSelected',
-                values.checkbox1IsSelected &&
-                  !values.checkbox2IsSelected &&
-                  values.checkbox3IsSelected
+                values.checkbox1IsSelected && !values.checkbox2IsSelected
+                // values.checkbox3IsSelected
               );
             }}
           />
-          <Check
+          {/* <Check
             checked={values.checkbox3IsSelected}
             title="위치정보 이용약관 동의"
             onPress={() => {
@@ -442,7 +437,7 @@ const SignUp: React.FC = () => {
               );
             }}
             isOptional={true}
-          />
+          /> */}
         </View>
         <GSpace h={10} />
         <GButton

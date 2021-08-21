@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import { Platform, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
 
@@ -8,7 +7,7 @@ import { Flex, VStack } from 'native-base';
 
 import { StackActions, useNavigation } from '@react-navigation/native';
 
-import { login } from '@/apis/UserApi';
+import { login, postFcmToken } from '@/apis/UserApi';
 import { setRequesterToken } from '@/apis/apiClient';
 import Logo from '@/assets/icons/Logo';
 import { GInput } from '@/components/Gatgu';
@@ -28,6 +27,8 @@ function Login(): JSX.Element {
 
   const [loading, setLoading] = useState(false);
 
+  // const {getFcmToken} = usePushNotification();
+
   const navigation = useNavigation();
   const toaster = useToaster();
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function Login(): JSX.Element {
     setLoading(true);
     try {
       const loginResponse = await login(id, pw);
+
       const { access, refresh } = loginResponse.data.token;
       setRequesterToken(access);
       dispatch(setLoginState(true));
@@ -48,6 +50,10 @@ function Login(): JSX.Element {
         data: refresh,
         expiry: DateTime.now().plus({ day: 30 }).toSeconds(),
       });
+
+      // const fcmToken = await getFcmToken()
+      // postFcmToken(fcmToken)
+
       navigation.dispatch(StackActions.popToTop());
       navigation.navigate('Home');
     } catch (err) {
