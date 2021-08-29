@@ -80,7 +80,7 @@ apply plugin: 'com.google.gms.google-services'
  */
 
 project.ext.react = [
-    enableHermes: false
+    enableHermes: true
 ]
 
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
