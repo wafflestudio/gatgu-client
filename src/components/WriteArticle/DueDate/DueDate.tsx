@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { View, TouchableHighlight, Text, Alert } from 'react-native';
+import { View, TouchableHighlight, Text, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import _ from 'lodash';
@@ -70,7 +70,7 @@ function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
   };
 
   const renderDates = dayArr.map((item, indx) => (
-    <TouchableHighlight key={indx} onPress={() => selectDay(indx)}>
+    <TouchableOpacity key={indx} onPress={() => selectDay(indx)}>
       <View
         style={[
           styles.dayContainer,
@@ -92,7 +92,7 @@ function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
           {item.date}
         </Text>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   ));
 
   const parsedDate = useMemo(() => {
@@ -102,17 +102,16 @@ function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.labelContainer}>
-        <TouchableHighlight
-          onPress={() => editable && showDatePicker()}
-          underlayColor={palette.whiteGray}
-        >
-          <View style={styles.timeContainer}>
-            <Text style={styles.label}>모집기한</Text>
-            <Text style={styles.label}>{parsedDate} 23:59 까지</Text>
-          </View>
-        </TouchableHighlight>
-      </View>
+      <TouchableHighlight
+        onPress={() => editable && showDatePicker()}
+        underlayColor={palette.whiteGray}
+        style={styles.labelContainer}
+      >
+        <View style={styles.timeContainer}>
+          <Text style={styles.label}>모집기한</Text>
+          <Text style={styles.label}>{parsedDate} 23:59 까지</Text>
+        </View>
+      </TouchableHighlight>
       {modalVisible && (
         <Modal isOpen>
           <Modal.Content style={{ height: 200, width: '100%' }}>

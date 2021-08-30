@@ -138,7 +138,7 @@ function AddImage({ images, setImages, editable }: AddImageProps): JSX.Element {
                 alignItems: 'center',
               }}
             >
-              <Icon name="back" size={30} color={palette.white} />
+              <Icon name="plus" size={30} color={palette.white} />
             </View>
           </TouchableOpacity>
           {images.length > 0 && previews}
