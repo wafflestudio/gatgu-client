@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AxiosResponse } from 'axios';
@@ -11,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { articleAPI } from '@/apis';
+import { RESET_SCREEN } from '@/constants/navigateOption';
 import { APItype } from '@/enums/image';
 import { getTs } from '@/helpers/functions/time';
 import { validateLink } from '@/helpers/functions/validate';
@@ -24,6 +24,7 @@ import { EditArticleParamList } from '@/types/navigation';
 import { TShortImage } from '@/types/shared';
 
 import { GButton } from '../Gatgu';
+import Header from '../Header';
 import AddImage from './AddImage/AddImage';
 import Description from './Description/Description';
 import DueDate from './DueDate/DueDate';
@@ -82,7 +83,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       setLocation(currentArticle.trading_place);
       setLink(currentArticle.product_url);
       handlePrice(currentArticle.price_min);
-      setDueDate(new Date());
+      setDueDate(new Date(currentArticle.time_in));
       // optional:
       if (currentArticle.images.length > 0) {
         setImages(
@@ -121,6 +122,18 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     setLocation('');
     setImages([]);
     setDueDate(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
+  };
+
+  const navigateToArticle = (articleId?: number) => {
+    if (!articleId) return;
+
+    navigation.navigate(AppRoutes.ArticleStack, {
+      screen: AppRoutes.Article,
+      params: {
+        id: articleId,
+        navigateFlag: RESET_SCREEN,
+      },
+    });
   };
 
   const submit = async () => {
@@ -164,12 +177,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       }
 
       if (res.data.article_id) {
-        navigation.navigate(AppRoutes.ArticleStack, {
-          screen: AppRoutes.Article,
-          params: {
-            id: res.data.article_id,
-          },
-        });
+        navigateToArticle(res.data.article_id);
         finishSubmit();
       } else {
         navigation.navigate(AppRoutes.Home);
@@ -188,10 +196,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         <View>
           {isEdit ? (
             <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={{ marginLeft: 11 }}
+              onPress={() => navigateToArticle(currentArticle?.article_id)}
             >
-              <Icon name="chevron-back" size={38} />
+              <Header.BackButton />
             </TouchableOpacity>
           ) : null}
         </View>
@@ -208,9 +215,9 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           완료
         </GButton>
       ),
-      headerTitle: '글쓰기',
+      headerTitle: isEdit ? '글수정' : '글쓰기',
     });
-  }, [loading, submit]);
+  }, [loading, submit, isEdit]);
 
   return (
     <ScrollView

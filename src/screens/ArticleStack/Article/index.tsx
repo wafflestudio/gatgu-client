@@ -9,6 +9,7 @@ import { TAppStackParamList } from '@/App.router';
 import { articleAPI } from '@/apis';
 import { Header } from '@/components';
 import Error from '@/components/Error';
+import { RESET_SCREEN } from '@/constants/navigateOption';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
@@ -29,6 +30,7 @@ function ArticlePage(): JSX.Element {
   const dispatch = useDispatch();
 
   const id = route.params.id;
+
   const navigation = useAppNavigation();
   const [loading, setLoading] = useState<boolean>(true);
   const [chatLoading, setChatLoading] = useState<boolean>(false);
@@ -59,6 +61,13 @@ function ArticlePage(): JSX.Element {
     fetchArticle();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (route.params.navigateFlag === RESET_SCREEN) {
+      fetchArticle();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.params.navigateFlag]);
 
   const ErrorModal = useCallback(() => {
     return (
