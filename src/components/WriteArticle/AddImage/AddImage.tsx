@@ -1,25 +1,18 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import {
   View,
   Image,
   TouchableHighlight,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Image as TImage } from 'react-native-image-crop-picker';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import _ from 'lodash';
-import { borderRadius } from 'styled-system';
 
 import XSign from '@/assets/icons/CrossSign';
-import PlusSign from '@/assets/icons/PlusSign';
 import usePickImage from '@/helpers/hooks/usePickImage';
 import { palette } from '@/styles';
 import { TShortImage } from '@/types/shared';
@@ -61,55 +54,68 @@ function AddImage({ images, setImages, editable }: AddImageProps): JSX.Element {
       });
   };
 
+  /**
+   * make selected image main thumnail
+   */
+  const handleImagePress = (imageIdx: number) => {
+    setImages((prev) => {
+      const selectedImage = prev[imageIdx];
+
+      return [selectedImage, ...prev.filter((_, i) => i !== imageIdx)];
+    });
+  };
+
   const deleteImage = (key: number) => {
     const tempArrSend = images.filter((_, ind) => ind !== key);
     setImages(tempArrSend);
   };
 
   const previews = useMemo(() => {
-    return (
-      images.length > 0 &&
-      images.map(
-        (item, key): JSX.Element => (
-          <View
+    if (images.length === 0) {
+      return null;
+    }
+
+    return images.map(
+      (item, key): JSX.Element => (
+        <TouchableOpacity
+          key={key}
+          style={
+            loading[key]
+              ? styles.loading
+              : key == 0
+              ? styles.thumbnailContainer
+              : styles.photoContainer
+          }
+          onPress={() => handleImagePress(key)}
+        >
+          <Image
             style={
-              loading[key]
-                ? styles.loading
-                : key == 0
-                ? styles.thumbnailContainer
-                : styles.photoContainer
+              !loading[key] && (key == 0 ? styles.thumbnail : styles.photo)
             }
-            key={key}
-          >
-            <Image
-              style={
-                !loading[key] && (key == 0 ? styles.thumbnail : styles.photo)
-              }
-              source={{ uri: item.path }}
-              onLoadStart={() => {
-                const prev = _.cloneDeep(loading);
-                prev[key] = true;
-                setLoading(prev);
-              }}
-              onLoadEnd={() => {
-                const prev = _.cloneDeep(loading);
-                prev[key] = false;
-                setLoading(prev);
-              }}
-            />
-            {loading[key] && <ActivityIndicator />}
-            {!loading[key] && (
-              <TouchableHighlight
-                style={styles.buttonContainer}
-                onPress={() => editable && deleteImage(key)}
-              >
-                <View style={styles.button}>
-                  <XSign />
-                </View>
-              </TouchableHighlight>
-            )}
-          </View>
-        )
+            source={{ uri: item.path }}
+            onLoadStart={() => {
+              const prev = _.cloneDeep(loading);
+              prev[key] = true;
+              setLoading(prev);
+            }}
+            onLoadEnd={() => {
+              const prev = _.cloneDeep(loading);
+              prev[key] = false;
+              setLoading(prev);
+            }}
+          />
+          {loading[key] && <ActivityIndicator />}
+          {!loading[key] && (
+            <TouchableHighlight
+              style={styles.buttonContainer}
+              onPress={() => editable && deleteImage(key)}
+            >
+              <View style={styles.button}>
+                <XSign />
+              </View>
+            </TouchableHighlight>
+          )}
+        </TouchableOpacity>
       )
     );
   }, [images, editable]);
@@ -118,23 +124,23 @@ function AddImage({ images, setImages, editable }: AddImageProps): JSX.Element {
     <View style={styles.container}>
       <View style={styles.subContainer}>
         <ScrollView horizontal scrollEnabled={true}>
-          <TouchableHighlight onPress={() => editable && pickImage()}>
-            <View style={styles.plusSignCon}>
-              <View
-                style={{
-                  borderRadius: 50,
-                  width: 35,
-                  height: 35,
-                  backgroundColor: palette.borderGray,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Icon name="plus" size={30} color={palette.white} />
-              </View>
-              {/* <PlusSign style={styles.defaultPhoto} /> */}
+          <TouchableOpacity
+            style={styles.plusSignCon}
+            onPress={() => editable && pickImage()}
+          >
+            <View
+              style={{
+                borderRadius: 50,
+                width: 35,
+                height: 35,
+                backgroundColor: palette.borderGray,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Icon name="plus" size={30} color={palette.white} />
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
           {images.length > 0 && previews}
         </ScrollView>
       </View>

@@ -30,7 +30,7 @@ const useCursorPagination = <T>({
   const [error, setError] = useState<AxiosError<unknown>>();
   const [isFirstPage, setIsFirstPage] = useState(true);
   const [isLastPage, setIsLastPage] = useState(false);
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
   const handleItems = useCallback(
     (pageType: TPageType, newItems: T[]) => {

@@ -1,16 +1,13 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 
-import { paddingLeft } from 'styled-system';
-
-import { StringInput } from '@/components';
 import { typo } from '@/styles';
 
 import waStyles from '../WriteArticle.style';
 
 interface RecruitingProps {
-  needPrice: string;
-  setPrice: (inp: string) => void;
+  needPrice: number | null;
+  setPrice: (inp: number | null) => void;
   editable: boolean;
 }
 
@@ -21,7 +18,25 @@ function Recruiting({
   setPrice,
   editable,
 }: RecruitingProps): JSX.Element {
+  const handlePrice = (price: string) => {
+    if (price.length === 0) {
+      setPrice(null);
+      return;
+    }
+
+    setPrice(parseInt(price.replaceAll(',', '')));
+  };
+
   const Input = (str: string, maxL: number) => {
+    const formattedPrice = needPrice
+      ? Intl.NumberFormat('ko', {
+          style: 'currency',
+          currency: 'KRW',
+        })
+          .format(needPrice)
+          .replace('₩', '')
+      : '';
+
     return (
       <View style={waStyles.subContainer}>
         <Text style={{ ...typo.semiTitle, paddingLeft: 20 }}>₩</Text>
@@ -30,8 +45,8 @@ function Recruiting({
           // placeholderStyle={waStyles.placeHolder}
           keyboardType="number-pad"
           placeholder={str}
-          onChangeText={(txt: string) => setPrice(txt)}
-          value={`${needPrice}`}
+          onChangeText={handlePrice}
+          value={formattedPrice}
           maxLength={maxL}
           editable={editable}
         />

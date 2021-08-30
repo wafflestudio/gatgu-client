@@ -30,8 +30,13 @@ export const getTimeDiffWithUnit = (startTs: number, endTs: number) => {
     'milliseconds'
   );
 
+  if (tsDiff === 0) {
+    return '방금';
+  }
+
   while (units[++unitIdx]) {
     const timeDiff = Math.floor(duration.as(units[unitIdx]));
+
     if (timeDiff) {
       return `${timeDiff}${koUnits[unitIdx]}`;
     }

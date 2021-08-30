@@ -1,10 +1,10 @@
 import React from 'react';
 import { Platform, StatusBar } from 'react-native';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
+import { createGatguDrawerNavigator } from '@/helpers/functions/navigation';
 import { useSelector } from '@/helpers/hooks';
 import DrawerTemplate from '@/screens/ArticleStack/DrawerContent';
+import { TNavigateFlag } from '@/types/shared';
 
 import ArticlePage from './Article';
 import EditArticleTemplate from './EditArticle';
@@ -17,11 +17,11 @@ export enum EArticleStackScreens {
 export type TArticleStackScreenParamList = {
   [EArticleStackScreens.Article]: {
     id: number;
-  };
+  } & TNavigateFlag;
   [EArticleStackScreens.EditArticle]: undefined;
 };
 
-const ArticleDrawer = createDrawerNavigator<TArticleStackScreenParamList>();
+const ArticleDrawer = createGatguDrawerNavigator<TArticleStackScreenParamList>();
 
 const ArticleStackScreen = () => {
   const isLogined = useSelector((state) => state.user.isLogined);
@@ -46,7 +46,7 @@ const ArticleStackScreen = () => {
       <ArticleDrawer.Screen
         name={EArticleStackScreens.EditArticle}
         component={EditArticleTemplate}
-        options={{ swipeEnabled: false, title: '글 수정' }}
+        options={{ swipeEnabled: false, title: '글 수정', headerShown: true }}
       />
     </ArticleDrawer.Navigator>
   );

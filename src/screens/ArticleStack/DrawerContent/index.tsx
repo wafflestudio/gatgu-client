@@ -13,6 +13,7 @@ import { articleAPI } from '@/apis';
 import { ReportModal } from '@/components';
 import { GButton, GSpace, GText } from '@/components/Gatgu/';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
+import { RESET_SCREEN } from '@/constants/navigateOption';
 import { ArticleStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
@@ -27,7 +28,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const toaster = useToaster();
   const currentUser = useUserDetail().data;
 
-  const { writer, article_id, article_status } = useSelector(
+  const { writer, article_id, article_status, order_chat } = useSelector(
     (state: RootState) => state.article.currentArticle
   );
 
@@ -74,7 +75,9 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
       .then(() => {
         toaster.success('삭제가 완료되었습니다.');
         setDeleteModalOpen(false);
-        navigation.navigate('Home');
+        navigation.navigate('Home', {
+          navigateFlag: RESET_SCREEN,
+        });
       })
       .catch((e) => {
         console.error('DrawerContent', e);
@@ -195,7 +198,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   };
 
   const renderParticipants = () => {
-    // return order_chat.participant_profile.map(() => <></>);
+    return order_chat?.participant_profile.map(() => <></>);
   };
 
   return (

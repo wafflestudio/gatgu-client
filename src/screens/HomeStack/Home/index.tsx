@@ -1,19 +1,28 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 
+import { RouteProp, useRoute } from '@react-navigation/native';
+
+import { TAppStackParamList } from '@/App.router';
 import { articleAPI } from '@/apis';
 import NotifcationIcon from '@/assets/icons/Notification/notification.svg';
 import { ArticleBox, CursorFlatList } from '@/components';
 import Error from '@/components/Error';
 import GIconButton from '@/components/Gatgu/GIconButton/GIconButton';
+import { RESET_SCREEN } from '@/constants/navigateOption';
 import { useCursorPagination } from '@/helpers/hooks';
 import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
 import { IArticleSummary } from '@/types/article';
 
 import HomeShimmer from '../../../components/Shimmer/HomeShimmer';
+import { EHomeStackScreens, THomeStackParamList } from '../HomeStack';
 
 const Home: React.FC = () => {
   const navigation = useAppNavigation();
+
+  const route = useRoute<
+    RouteProp<TAppStackParamList, EHomeStackScreens.Home>
+  >();
 
   const {
     items,
@@ -46,6 +55,13 @@ const Home: React.FC = () => {
     getItems('first');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (route.params?.navigateFlag === RESET_SCREEN) {
+      getItems('first');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route]);
 
   const renderArticle = React.useCallback(
     ({ item }: { item: IArticleSummary }) => <ArticleBox {...item} />,
