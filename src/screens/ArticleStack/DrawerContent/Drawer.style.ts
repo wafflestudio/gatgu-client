@@ -25,6 +25,7 @@ const DrawerStyles = StyleSheet.create({
   upperLabelText: {
     ...typo.bigInfo,
     paddingTop: 5,
+    color: palette.dark,
   },
 
   lowerLabelText: {
@@ -32,6 +33,7 @@ const DrawerStyles = StyleSheet.create({
     paddingBottom: '9%',
     ...typo.bigTitle,
     fontWeight: 'bold',
+    color: palette.dark,
   },
 
   image: {
