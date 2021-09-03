@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, Platform, Dimensions } from 'react-native';
-import {
-  KeyboardAwareFlatList,
-  KeyboardAwareScrollView,
-  KeyboardAwareSectionList,
-} from 'react-native-keyboard-aware-scroll-view';
+import { View, FlatList, Platform, Dimensions, ScrollView } from 'react-native';
+// import {
+//   KeyboardAwareFlatList,
+//   KeyboardAwareScrollView,
+//   KeyboardAwareSectionList,
+// } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
@@ -239,14 +239,14 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   const windowHeight = Dimensions.get('window').height;
 
   return (
-    <KeyboardAwareScrollView
+    <ScrollView
       contentContainerStyle={{
         justifyContent: 'space-between',
         height: windowHeight,
       }}
-      extraScrollHeight={40}
+      // extraScrollHeight={40}
       scrollEnabled={false}
-      keyboardOpeningTime={250}
+      // keyboardOpeningTime={250}
     >
       <View
         style={{
@@ -289,7 +289,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           setInputHeight={setInputHeight}
         />
       </View>
-    </KeyboardAwareScrollView>
+    </ScrollView>
   );
 }
 

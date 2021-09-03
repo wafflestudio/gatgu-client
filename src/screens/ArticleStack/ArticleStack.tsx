@@ -1,7 +1,9 @@
 import React from 'react';
 import { Platform, StatusBar } from 'react-native';
 
-import { createGatguDrawerNavigator } from '@/helpers/functions/navigation';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+// import { createGatguDrawerNavigator } from '@/helpers/functions/navigation';
 import { useSelector } from '@/helpers/hooks';
 import DrawerTemplate from '@/screens/ArticleStack/DrawerContent';
 import { TNavigateFlag } from '@/types/shared';
@@ -21,7 +23,7 @@ export type TArticleStackScreenParamList = {
   [EArticleStackScreens.EditArticle]: undefined;
 };
 
-const ArticleDrawer = createGatguDrawerNavigator<TArticleStackScreenParamList>();
+const ArticleDrawer = createDrawerNavigator<TArticleStackScreenParamList>();
 
 const ArticleStackScreen = () => {
   const isLogined = useSelector((state) => state.user.isLogined);
