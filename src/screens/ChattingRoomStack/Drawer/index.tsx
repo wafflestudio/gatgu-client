@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DateTime } from 'luxon';
 import { Checkbox } from 'native-base';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { chatAPI } from '@/apis';
 import { Profile } from '@/components';
 import { ParticipantStatus, WSMessage } from '@/enums';
@@ -29,6 +31,7 @@ import StatusModal from './Modal';
 
 function Drawer({ roomID }: { roomID: number }): JSX.Element {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const toaster = useToaster();
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
@@ -81,13 +84,16 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
       },
       websocket_id: `${DateTime.now()}`,
     };
-    sendWsMessage(wsMessage)
+    sendWsMessage(wsMessage, {
+      resolveCondition: (data) => data.type === WSMessage.EXIT_ROOM_SUCCESS,
+      rejectCondition: (data) => data.type === WSMessage.EXIT_ROOM_FAILURE,
+    })
       .then(() => {
         if (roomID) {
           dispatch(fetchingParticipants(roomID));
         }
-
         removeRecentlyReadMessageId(roomID);
+        navigation.goBack();
       })
       .catch(() => {
         toaster.error(
