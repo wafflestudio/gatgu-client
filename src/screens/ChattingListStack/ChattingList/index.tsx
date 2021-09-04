@@ -90,17 +90,21 @@ function ChattingList(): JSX.Element {
       });
   };
 
-  const renderItem = ({ item }: { item: IChatListSinglePreview }) => {
-    return (
-      <TouchableHighlight
-        onPress={() =>
-          item.article?.id && navigateToChatRoom('-1', item.article?.id)
-        }
-      >
-        <ChattingBox item={item} />
-      </TouchableHighlight>
-    );
-  };
+  const renderItem = React.useCallback(
+    ({ item }: { item: IChatListSinglePreview }) => {
+      return (
+        <TouchableHighlight
+          onPress={() =>
+            item.article?.id && navigateToChatRoom('-1', item.article?.id)
+          }
+        >
+          <ChattingBox item={item} />
+        </TouchableHighlight>
+      );
+    },
+    []
+  );
+  const renderKey = React.useCallback((_, ind) => `${ind}`, []);
 
   if (isLoading) return <ChattingListShimmer />;
 
@@ -108,7 +112,7 @@ function ChattingList(): JSX.Element {
     <FlatList
       data={items}
       renderItem={renderItem}
-      keyExtractor={(_, ind) => `${ind}`}
+      keyExtractor={renderKey}
       onEndReached={() => updateChattingRoomList('next')}
       onEndReachedThreshold={0.3}
       ListFooterComponent={<ChattingBoxShimmer />}
