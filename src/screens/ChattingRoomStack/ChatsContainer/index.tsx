@@ -221,18 +221,19 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
 
   const renderItem = useCallback(
     ({ item, index }: { item: IWSChatMessage; index: number }) => {
+      const list = [...pendingList, ...chatList];
       return (
         <ChatBox
           current={item}
-          previous={chatList[index - 1]}
-          next={chatList[index + 1]}
+          previous={list[index + 1]}
+          next={list[index - 1]}
           selfId={currentUser?.id}
           resend={handleSendMessage}
           erase={handleErase}
         />
       );
     },
-    []
+    [pendingList, chatList]
   );
   const renderKey = useCallback((_, ind) => `${ind}`, []);
 

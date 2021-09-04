@@ -37,8 +37,8 @@ function ChatBox({
 }: IChatBoxProps): JSX.Element {
   const { message, repeat, websocket_id, pending } = current;
   const { text, image, type, sent_at, sent_by } = message;
-  const nextItem = previous?.message; // because chat is in inversed
-  const prevItem = next?.message;
+  const nextItem = next?.message; // because chat is in inversed
+  const prevItem = previous?.message;
 
   const system = type === 'system' ? true : false;
 
@@ -69,6 +69,7 @@ function ChatBox({
         {!isSameTime && !pending && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
+        {/* <Text>{sent_at}, {nextItem?.sent_at}, {index}</Text> */}
         <View>
           {text && text.length != 0 ? (
             <View style={!isSelf && { paddingRight: 10 }}>
@@ -163,4 +164,4 @@ function ChatBox({
   );
 }
 
-export default ChatBox;
+export default React.memo(ChatBox);
