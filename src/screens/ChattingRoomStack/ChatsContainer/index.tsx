@@ -75,7 +75,10 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   };
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
-      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS && !first) {
+      if (
+        socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS &&
+        !socket.data.text.includes('entered')
+      ) {
         console.log('SYSTEM', socket.data.type, socket.data.id);
         // check if there is this message in chatList
         setChatList((prev) => [
@@ -89,8 +92,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   });
 
   useEffect(() => {
-    getChattingMessages('first', true);
-    setFirst(true);
+    getChattingMessages('first');
   }, []);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
