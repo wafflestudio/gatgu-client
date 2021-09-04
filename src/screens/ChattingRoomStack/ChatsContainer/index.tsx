@@ -1,16 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { View, FlatList, Platform, Dimensions, ScrollView } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { View, FlatList, Dimensions } from 'react-native';
+import {
+  getBottomSpace,
+  getStatusBarHeight,
+} from 'react-native-iphone-x-helper';
 // import {
 //   KeyboardAwareFlatList,
 //   KeyboardAwareScrollView,
 //   KeyboardAwareSectionList,
 // } from 'react-native-keyboard-aware-scroll-view';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
-import { KeyboardAvoidingView } from 'native-base';
 
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
@@ -35,7 +37,13 @@ export interface IWSChatMessage {
   pending: boolean;
 }
 
-function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
+function ChattingRoom({
+  roomID,
+  headerHeight,
+}: {
+  roomID: number;
+  headerHeight: number;
+}): JSX.Element {
   const dispatch = useDispatch();
   const currentUser = useUserDetail().data;
   const userID = currentUser?.id;
@@ -50,28 +58,27 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
   } as IMessageImage);
   const [refresh, setRefresh] = useState(true);
   const [inputHeight, setInputHeight] = useState<number>(0);
-  const [first, setFirst] = useState<boolean>(false);
+  const [firstNextCursor, setFirstNextCursor] = useState<string | null>(
+    'cursor_not_empty'
+  );
 
-  const getChattingMessages = (
-    option: string | null | undefined,
-    first?: boolean
-  ) => {
+  const getChattingMessages = (option: string | null | undefined) => {
     setFetchingMessages(true);
     chatAPI
       .getChattingMessages(roomID, option)
       .then((chattingList) => {
         const temp = chattingList.data.results;
         // TODO: change with pagination
+        if (option === 'first') setFirstNextCursor(chattingList.data.next);
         setCursor(chattingList.data.next);
         const tempChatList = temp.map((chat) => {
           return {
             message: chat,
             repeat: false,
             pending: false,
-          };
+          } as IWSChatMessage;
         });
         setChatList((prev) => [...prev, ...tempChatList]);
-        console.log('getChattingMessage');
       })
       .finally(() => setFetchingMessages(false));
   };
@@ -200,7 +207,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
               setPendingList((prev) =>
                 prev.map((chat) =>
                   chat.websocket_id === e.websocket_id
-                    ? { ...chat, repeat: true }
+                    ? { ...chat, repeat: true, pending: false }
                     : chat
                 )
               );
@@ -242,22 +249,27 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
     getChattingMessages(nextCursor);
   };
 
-  const windowHeight = Dimensions.get('window').height;
+  const hhh = useMemo(
+    () =>
+      Dimensions.get('window').height -
+      headerHeight -
+      getStatusBarHeight() -
+      getBottomSpace(),
+    [Dimensions, headerHeight, getStatusBarHeight, getBottomSpace]
+  );
+  const firstCursor = useMemo(() => {
+    const HEIGHT = 37; // minimum height of ChatBox
+    if (firstNextCursor) return true;
+    if (chatList.length * HEIGHT > hhh - inputHeight) return true;
+    else return false;
+  }, [chatList]);
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        justifyContent: 'space-between',
-        height: windowHeight,
-      }}
-      // extraScrollHeight={40}
-      scrollEnabled={false}
-      // keyboardOpeningTime={250}
-    >
+    <View style={{ height: hhh, width: '100%' }}>
       <View
         style={{
           justifyContent: 'flex-start',
-          height: windowHeight - (inputHeight + 160),
+          height: hhh - inputHeight,
           position: 'absolute',
           top: 0,
           width: '100%',
@@ -271,6 +283,9 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           keyExtractor={renderKey}
           extraData={refresh}
           inverted={true}
+          contentContainerStyle={
+            firstCursor ? {} : { flexGrow: 1, justifyContent: 'flex-end' }
+          }
           onEndReached={handleEndReach}
           onEndReachedThreshold={0.1}
           ListHeaderComponentStyle={{ borderWidth: 10 }}
@@ -279,7 +294,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
       <View
         style={{
           justifyContent: 'flex-end',
-          height: inputHeight + 160,
+          height: inputHeight,
           position: 'absolute',
           bottom: 0,
           width: '100%',
@@ -295,7 +310,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           setInputHeight={setInputHeight}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

@@ -58,6 +58,7 @@ function InputBar({
   const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
   const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
+  const [height, setHeight] = useState<number>(0);
 
   const pickFromGallery = () => {
     setImageIsLoading(true);
@@ -166,7 +167,16 @@ function InputBar({
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={styles.inputWrapper}>
+        <View
+          style={styles.inputWrapper}
+          onLayout={(event) =>
+            setInputHeight(
+              height > event.nativeEvent.layout.height
+                ? height + 17
+                : event.nativeEvent.layout.height
+            )
+          }
+        >
           <TouchableOpacity onPress={() => setOptionsOpen(true)}>
             <View style={styles.inputIcon}>
               <Icon name="add" size={25} />
@@ -184,7 +194,7 @@ function InputBar({
             <TextInput
               placeholderTextColor={palette.gray}
               placeholder="메시지를 입력하세요"
-              style={{ height: inputHeight + 10 }}
+              style={{ height: height + 10 }}
               multiline={true}
               numberOfLines={4}
               value={input.text}
@@ -194,7 +204,7 @@ function InputBar({
               }}
               autoCorrect={false}
               onContentSizeChange={(event) =>
-                setInputHeight(event.nativeEvent.contentSize.height)
+                setHeight(event.nativeEvent.contentSize.height)
               }
               maxLength={1000}
             />
