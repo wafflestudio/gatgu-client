@@ -216,22 +216,22 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
     setRefresh(!refresh);
   };
 
-  const renderItem = ({
-    item,
-    index,
-  }: {
-    item: IWSChatMessage;
-    index: number;
-  }) => (
-    <ChatBox
-      current={item}
-      previous={chatList[index - 1]}
-      next={chatList[index + 1]}
-      selfId={currentUser?.id}
-      resend={handleSendMessage}
-      erase={handleErase}
-    />
+  const renderItem = useCallback(
+    ({ item, index }: { item: IWSChatMessage; index: number }) => {
+      return (
+        <ChatBox
+          current={item}
+          previous={chatList[index - 1]}
+          next={chatList[index + 1]}
+          selfId={currentUser?.id}
+          resend={handleSendMessage}
+          erase={handleErase}
+        />
+      );
+    },
+    []
   );
+  const renderKey = useCallback((_, ind) => `${ind}`, []);
 
   const handleEndReach = () => {
     if (!nextCursor || fetchingMessages) return;
@@ -264,7 +264,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           data={[...pendingList, ...chatList]}
           renderItem={renderItem}
           style={[styles.msgContainer]}
-          keyExtractor={(_, ind) => `${ind}`}
+          keyExtractor={renderKey}
           extraData={refresh}
           inverted={true}
           onEndReached={handleEndReach}
