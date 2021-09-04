@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -35,7 +35,7 @@ function ChatBox({
   resend,
   erase,
 }: IChatBoxProps): JSX.Element {
-  const { message, repeat, websocket_id } = current;
+  const { message, repeat, websocket_id, pending } = current;
   const { text, image, type, sent_at, sent_by } = message;
   const nextItem = previous?.message; // because chat is in inversed
   const prevItem = next?.message;
@@ -45,7 +45,6 @@ function ChatBox({
   const isSameUser = sent_by?.id === prevItem?.sent_by?.id;
 
   const isSelf = selfId === sent_by?.id;
-
   const isSameTime =
     nextItem?.sent_at &&
     DateTime.fromMillis(sent_at).toFormat('hh:mm') ===
@@ -67,7 +66,7 @@ function ChatBox({
           isSelf ? styles.row : styles.row_reverse,
         ]}
       >
-        {!isSameTime && (
+        {!isSameTime && !pending && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
         <View>
@@ -135,6 +134,11 @@ function ChatBox({
             style={{ flexDirection: 'row-reverse', alignItems: 'flex-end' }}
           >
             {renderedBubbleTime}
+            {pending && (
+              <View style={{ marginRight: 8, marginBottom: 3 }}>
+                <ActivityIndicator size={'small'} />
+              </View>
+            )}
             {repeat ? (
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity

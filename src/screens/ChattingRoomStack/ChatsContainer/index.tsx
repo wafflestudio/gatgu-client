@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, FlatList, Platform, Dimensions, ScrollView } from 'react-native';
 // import {
 //   KeyboardAwareFlatList,
@@ -32,6 +32,7 @@ export interface IWSChatMessage {
   message: IChatMessage;
   websocket_id?: string;
   repeat: boolean;
+  pending: boolean;
 }
 
 function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
@@ -66,6 +67,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
           return {
             message: chat,
             repeat: false,
+            pending: false,
           };
         });
         setChatList((prev) => [...prev, ...tempChatList]);
@@ -82,7 +84,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
         console.log('SYSTEM', socket.data.type, socket.data.id);
         // check if there is this message in chatList
         setChatList((prev) => [
-          { message: socket.data, repeat: false },
+          { message: socket.data, repeat: false, pending: false },
           ...prev,
         ]);
 
@@ -137,6 +139,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
         },
         websocket_id: websocket_id,
         repeat: false,
+        pending: true,
       };
       if (firstSend) {
         const tempPendingList = pendingList;
@@ -177,7 +180,7 @@ function ChattingRoom({ roomID }: { roomID: number }): JSX.Element {
             .then((result) => {
               // add to chatList
               setChatList((prev) => [
-                { message: result.data, repeat: false },
+                { message: result.data, repeat: false, pending: false },
                 ...prev,
               ]);
 
