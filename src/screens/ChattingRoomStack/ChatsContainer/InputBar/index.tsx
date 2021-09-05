@@ -121,24 +121,25 @@ function InputBar({
       });
   };
 
-  const handleUpdateStatusRequest = () => {
-    setSubmitIsLoading(true);
-    chatAPI
-      .changeParticipantStatus(article_id, {
-        wish_price: parseInt(wishPrice),
-        participant_id: selfId,
-      })
-      .then(() => {
-        toaster.success('상태가 바뀌었습니다.');
-        setModalOpen(false);
-        setSubmitIsLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
-        setSubmitIsLoading(false);
-      });
-  };
+  // const handleUpdateStatusRequest = () => {
+  //   setSubmitIsLoading(true);
+  //   chatAPI
+  //     .changeParticipantStatus(article_id, {
+  //       wish_price: parseInt(wishPrice),
+  //       participant_id: selfId,
+  //     })
+  //     .then(() => {
+  //       toaster.success('상태가 바뀌었습니다.');
+  //       setModalOpen(false);
+  //       setSubmitIsLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
+  //       setSubmitIsLoading(false);
+  //     });
+  // };
+
   return (
     <View style={[styles.bar]}>
       {optionsOpen ? (
@@ -154,11 +155,11 @@ function InputBar({
                 <Icon name="image-search" size={25} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setModalOpen(true)}>
+            {/* <TouchableOpacity onPress={() => setModalOpen(true)}>
               <View style={styles.inputIcon}>
                 <Icon name="attach-money" size={25} />
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <TouchableOpacity onPress={() => setOptionsOpen(false)}>
             <View style={styles.inputIcon}>
@@ -237,7 +238,7 @@ function InputBar({
           </View>
         ))}
 
-      {modalOpen ? (
+      {/* {modalOpen ? (
         <Modal isOpen size="lg" onClose={() => setModalOpen(false)}>
           <Modal.Content>
             <Modal.CloseButton />
@@ -270,7 +271,7 @@ function InputBar({
             <Modal.Footer></Modal.Footer>
           </Modal.Content>
         </Modal>
-      ) : null}
+      ) : null} */}
     </View>
   );
 }
