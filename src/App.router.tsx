@@ -1,8 +1,6 @@
 import React from 'react';
-import { Platform, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   NavigationContainer,
   NavigatorScreenParams,
@@ -16,15 +14,18 @@ import { useUserDetail } from './helpers/hooks/api';
 import ChattingRoomStackScreen, {
   TChattingRoomStackParamList,
 } from './screens/ChattingRoomStack/ChattingRoomStack';
+import SubStackScreen from './screens/SubStack/SubStack';
 
 export enum EAppStackScreens {
   MainStack = 'MainStack',
   ChattingRoomStack = 'ChattingRoomStack',
+  SubStack = 'SubStack',
 }
 
 export type TAppStackParamList = {
   [EAppStackScreens.MainStack]: NavigatorScreenParams<TMainTabsParamList>;
   [EAppStackScreens.ChattingRoomStack]: NavigatorScreenParams<TChattingRoomStackParamList>;
+  [EAppStackScreens.SubStack]: undefined;
 } & TMainTabsParamList &
   TChattingRoomStackParamList;
 
@@ -56,6 +57,11 @@ const AppRouter: React.FC = () => {
           <AppStack.Screen
             name="ChattingRoom"
             component={ChattingRoomStackScreen}
+            options={{ headerShown: false }}
+          />
+          <AppStack.Screen
+            name={EAppStackScreens.SubStack}
+            component={SubStackScreen}
             options={{ headerShown: false }}
           />
         </AppStack.Navigator>
