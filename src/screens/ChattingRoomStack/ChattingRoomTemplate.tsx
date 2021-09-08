@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text } from 'react-native';
 
 import { ArrowBackIcon, HamburgerIcon } from 'native-base';
@@ -14,13 +14,13 @@ import { Header } from '@/components';
 
 import ChatsContainer from './ChatsContainer';
 
-export default function ChattingRoom({
+export default function ChattingRoomTemplate({
   roomID,
 }: {
   roomID: number;
 }): JSX.Element {
   const navigation = useNavigation();
-
+  const [height, setHeight] = useState<number>(0);
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -34,8 +34,9 @@ export default function ChattingRoom({
         leftCallback={() => {
           navigation.goBack();
         }}
+        setHeight={setHeight}
       />
-      <ChatsContainer roomID={roomID} />
+      <ChatsContainer roomID={roomID} headerHeight={height} />
     </KeyboardAvoidingView>
   );
 }

@@ -58,6 +58,7 @@ function InputBar({
   const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
   const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
+  const [height, setHeight] = useState<number>(0);
 
   const pickFromGallery = () => {
     setImageIsLoading(true);
@@ -120,24 +121,25 @@ function InputBar({
       });
   };
 
-  const handleUpdateStatusRequest = () => {
-    setSubmitIsLoading(true);
-    chatAPI
-      .changeParticipantStatus(article_id, {
-        wish_price: parseInt(wishPrice),
-        participant_id: selfId,
-      })
-      .then(() => {
-        toaster.success('상태가 바뀌었습니다.');
-        setModalOpen(false);
-        setSubmitIsLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
-        setSubmitIsLoading(false);
-      });
-  };
+  // const handleUpdateStatusRequest = () => {
+  //   setSubmitIsLoading(true);
+  //   chatAPI
+  //     .changeParticipantStatus(article_id, {
+  //       wish_price: parseInt(wishPrice),
+  //       participant_id: selfId,
+  //     })
+  //     .then(() => {
+  //       toaster.success('상태가 바뀌었습니다.');
+  //       setModalOpen(false);
+  //       setSubmitIsLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
+  //       setSubmitIsLoading(false);
+  //     });
+  // };
+
   return (
     <View style={[styles.bar]}>
       {optionsOpen ? (
@@ -153,11 +155,11 @@ function InputBar({
                 <Icon name="image-search" size={25} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setModalOpen(true)}>
+            {/* <TouchableOpacity onPress={() => setModalOpen(true)}>
               <View style={styles.inputIcon}>
                 <Icon name="attach-money" size={25} />
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <TouchableOpacity onPress={() => setOptionsOpen(false)}>
             <View style={styles.inputIcon}>
@@ -166,7 +168,16 @@ function InputBar({
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={styles.inputWrapper}>
+        <View
+          style={styles.inputWrapper}
+          onLayout={(event) =>
+            setInputHeight(
+              height >= event.nativeEvent.layout.height
+                ? height + 17
+                : event.nativeEvent.layout.height
+            )
+          }
+        >
           <TouchableOpacity onPress={() => setOptionsOpen(true)}>
             <View style={styles.inputIcon}>
               <Icon name="add" size={25} />
@@ -184,7 +195,7 @@ function InputBar({
             <TextInput
               placeholderTextColor={palette.gray}
               placeholder="메시지를 입력하세요"
-              style={{ height: inputHeight + 10 }}
+              style={{ height: height + 10 }}
               multiline={true}
               numberOfLines={4}
               value={input.text}
@@ -194,7 +205,7 @@ function InputBar({
               }}
               autoCorrect={false}
               onContentSizeChange={(event) =>
-                setInputHeight(event.nativeEvent.contentSize.height)
+                setHeight(event.nativeEvent.contentSize.height)
               }
               maxLength={1000}
             />
@@ -227,7 +238,7 @@ function InputBar({
           </View>
         ))}
 
-      {modalOpen ? (
+      {/* {modalOpen ? (
         <Modal isOpen size="lg" onClose={() => setModalOpen(false)}>
           <Modal.Content>
             <Modal.CloseButton />
@@ -260,7 +271,7 @@ function InputBar({
             <Modal.Footer></Modal.Footer>
           </Modal.Content>
         </Modal>
-      ) : null}
+      ) : null} */}
     </View>
   );
 }

@@ -26,7 +26,7 @@ const StyledNewMessageFlag = styled.View`
 function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
   const { data: currentUser } = useUserDetail();
 
-  const myNickname = currentUser.userprofile.nickname;
+  const myNickname = currentUser?.userprofile.nickname;
 
   const [isRecentMessageUnread, setRecentMessageUnread] = React.useState(false);
 
@@ -45,7 +45,7 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
       setRecentMessageUnread(
         Boolean(recent_message?.id) &&
           res !== recent_message.id &&
-          sent_by.id !== currentUser.userprofile.id
+          sent_by.id !== currentUser?.userprofile.user_id
       );
     });
   }, [id, recent_message, currentUser, sent_by]);

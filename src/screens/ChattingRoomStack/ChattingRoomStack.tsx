@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import _ from 'lodash';
+
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
@@ -39,6 +41,10 @@ function ChattingRoomStackScreen(): JSX.Element {
     // handle error case
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const ChattingRoomScreen = React.useCallback(
+    () => <ChattingRoomTemplate roomID={roomID} />,
+    [roomID]
+  );
 
   return (
     <Drawer.Navigator
@@ -48,7 +54,7 @@ function ChattingRoomStackScreen(): JSX.Element {
     >
       <Drawer.Screen
         name={EChattingRoomStackScreens.ChattingRoom}
-        component={() => <ChattingRoomTemplate roomID={roomID} />}
+        component={ChattingRoomScreen}
       />
     </Drawer.Navigator>
   );
