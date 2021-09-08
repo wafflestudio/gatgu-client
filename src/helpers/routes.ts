@@ -4,6 +4,7 @@ import { EChattingListStackScreens } from '@/screens/ChattingListStack/ChattingL
 import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { EHomeStackScreens } from '@/screens/HomeStack/HomeStack';
 import { ESearchStackScreens } from '@/screens/SearchStack/SearchStack';
+import { ESubStackScreens } from '@/screens/SubStack/SubStack';
 import { EUserStackScreens } from '@/screens/UserStack/UserStack';
 import { EWriteArticleStackScreens } from '@/screens/WriteArticleStack/WriteArticleStack';
 
@@ -16,4 +17,5 @@ export const AppRoutes = Object.freeze({
   ...EUserStackScreens,
   ...EWriteArticleStackScreens,
   ...EAppStackScreens,
+  ...ESubStackScreens,
 });
