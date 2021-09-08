@@ -27,8 +27,15 @@ const ProfileTemplate: React.FC = () => {
   return (
     <Flex justifyContent="space-between" h="100%">
       <View>
-        <Info profile={info} />
-        <Force profile={info} />
+        <Info
+          nickname={info.userprofile.nickname}
+          picture={info.userprofile.picture}
+          trading_address={info.userprofile.trading_address}
+        />
+        <Force
+          hosted_count={info.hosted_count}
+          participated_count={info.participated_count}
+        />
         <History />
       </View>
       <View
