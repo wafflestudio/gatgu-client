@@ -3,7 +3,6 @@ import { Platform, StatusBar } from 'react-native';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-// import { createGatguDrawerNavigator } from '@/helpers/functions/navigation';
 import { useSelector } from '@/helpers/hooks';
 import DrawerTemplate from '@/screens/ArticleStack/DrawerContent';
 import { TNavigateFlag } from '@/types/shared';

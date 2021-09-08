@@ -6,7 +6,9 @@ import { HStack, Image, View } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import { useSelector } from '@/helpers/hooks';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { AppRoutes } from '@/helpers/routes';
+import { ESubStackScreens } from '@/screens/SubStack/SubStack';
 import { EUserStackScreens } from '@/screens/UserStack/UserStack';
 import { IUserSimple } from '@/types/user';
 
@@ -17,8 +19,22 @@ type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
 
 function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
   const navigation = useNavigation();
-
+  const { data } = useUserDetail();
   const isLogined = useSelector((state) => state.user.isLogined);
+
+  const handleProfilePress = () => {
+    if (data?.id !== id) {
+      navigation.navigate(AppRoutes.SubStack, {
+        screen: ESubStackScreens.UserProfile,
+      });
+      return;
+    }
+
+    navigation.navigate(AppRoutes.UserStack, {
+      screen: EUserStackScreens.Profile,
+      params: { id: id },
+    });
+  };
 
   const renderProfileContent = () => {
     return (
@@ -44,14 +60,7 @@ function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
   return (
     <View style={styles.profile}>
       {isLogined ? (
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(AppRoutes.UserStack, {
-              screen: EUserStackScreens.Profile,
-              params: { id: id },
-            })
-          }
-        >
+        <TouchableOpacity onPress={handleProfilePress}>
           {renderProfileContent()}
         </TouchableOpacity>
       ) : (

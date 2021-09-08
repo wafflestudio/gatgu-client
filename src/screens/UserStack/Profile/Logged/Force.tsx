@@ -6,12 +6,10 @@ import { IUserDetail } from '@/types/user';
 
 import styles from './Force.style';
 
-interface ForceProps {
-  profile: IUserDetail;
-}
+type ForceProps = Pick<IUserDetail, 'hosted_count' | 'participated_count'>;
 
 // Gragde JSX: 등급 있는 그 칸
-function Force({ profile }: ForceProps): JSX.Element {
+function Force({ hosted_count, participated_count }: ForceProps): JSX.Element {
   /*
   FIXME: @woohm402
     todo: 현재 버전에서는 일단 없는 함수입니다
@@ -34,17 +32,14 @@ function Force({ profile }: ForceProps): JSX.Element {
           <Ionicons name="add-circle-outline" size={18} />
           <Text style={styles.bodyText}>
             &nbsp;모집횟수&nbsp;
-            <Text style={{ fontWeight: 'bold' }}>{profile.hosted_count}</Text>회
+            <Text style={{ fontWeight: 'bold' }}>{hosted_count}</Text>회
           </Text>
         </View>
         <View style={styles.bodyElem}>
           <Ionicons name="chatbubble-outline" size={18} />
           <Text style={styles.bodyText}>
             &nbsp;참여횟수&nbsp;
-            <Text style={{ fontWeight: 'bold' }}>
-              {profile.participated_count}
-            </Text>
-            회
+            <Text style={{ fontWeight: 'bold' }}>{participated_count}</Text>회
           </Text>
         </View>
       </View>
