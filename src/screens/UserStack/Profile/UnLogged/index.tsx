@@ -18,7 +18,7 @@ function ProfileTemplate(): JSX.Element {
 
   return (
     <Flex justifyContent="space-between" style={styles.container}>
-      <Flex alignItems="center">
+      <Flex alignItems="center" justifyContent="center" pb={100} flex={1}>
         <GText bold textAlign="center" size={22}>
           {'로그인으로\n더 다양한 기능을 사용하세요.'}
         </GText>
