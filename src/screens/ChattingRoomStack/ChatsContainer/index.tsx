@@ -4,15 +4,11 @@ import {
   getBottomSpace,
   getStatusBarHeight,
 } from 'react-native-iphone-x-helper';
-// import {
-//   KeyboardAwareFlatList,
-//   KeyboardAwareScrollView,
-//   KeyboardAwareSectionList,
-// } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
+import { KeyboardAvoidingView } from 'native-base';
 
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
@@ -265,7 +261,12 @@ function ChattingRoom({
   }, [chatList]);
 
   return (
-    <View style={{ height: hhh, width: '100%' }}>
+    <KeyboardAvoidingView
+      behavior="position"
+      contentContainerStyle={{ height: hhh, width: '100%' }}
+      keyboardVerticalOffset={20}
+      enabled
+    >
       <View
         style={{
           justifyContent: 'flex-start',
@@ -310,7 +311,7 @@ function ChattingRoom({
           setInputHeight={setInputHeight}
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

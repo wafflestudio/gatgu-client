@@ -172,7 +172,7 @@ function InputBar({
           style={styles.inputWrapper}
           onLayout={(event) =>
             setInputHeight(
-              height > event.nativeEvent.layout.height
+              height >= event.nativeEvent.layout.height
                 ? height + 17
                 : event.nativeEvent.layout.height
             )
