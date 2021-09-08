@@ -22,6 +22,7 @@ const SubStackScreen: React.FC = () => {
         component={UserProfile}
         options={{
           headerTitleAlign: 'center',
+          headerTitle: '유저 프로필',
         }}
       />
     </SubStack.Navigator>
