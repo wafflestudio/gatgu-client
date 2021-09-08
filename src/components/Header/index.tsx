@@ -25,6 +25,7 @@ export interface IHeaderProps {
   right?: React.ReactNode;
   rightCallback?: any;
   rightContainerStyle?: StyleProp<ViewStyle>;
+  setHeight?: (n: number) => void;
 }
 
 const Header: React.FC<IHeaderProps> = ({
@@ -36,6 +37,7 @@ const Header: React.FC<IHeaderProps> = ({
   leftContainerStyle,
   rightContainerStyle,
   titleContainerStyle,
+  setHeight,
 }) => {
   const navigation = useNavigation();
 
@@ -48,7 +50,12 @@ const Header: React.FC<IHeaderProps> = ({
   };
 
   return (
-    <View style={styles.header}>
+    <View
+      style={styles.header}
+      onLayout={(event) => {
+        setHeight && setHeight(event.nativeEvent.layout.height);
+      }}
+    >
       {left ? (
         <TouchableOpacity
           style={[styles.leftButton, leftContainerStyle]}
