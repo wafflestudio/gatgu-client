@@ -32,7 +32,7 @@ export type TWsInit = ({
   options,
 }: {
   url: string;
-  token: string;
+  token?: string | number;
   options?: IBaseWebsocketOption;
 }) => void;
 

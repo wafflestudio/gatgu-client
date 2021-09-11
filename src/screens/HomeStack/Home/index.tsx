@@ -4,22 +4,16 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { TAppStackParamList } from '@/App.router';
 import { articleAPI } from '@/apis';
-import NotifcationIcon from '@/assets/icons/Notification/notification.svg';
 import { ArticleBox, CursorFlatList } from '@/components';
 import Error from '@/components/Error';
-import GIconButton from '@/components/Gatgu/GIconButton/GIconButton';
 import { RESET_SCREEN } from '@/constants/navigateOption';
 import { useCursorPagination } from '@/helpers/hooks';
-import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
-import { AppRoutes } from '@/helpers/routes';
 import { IArticleSummary } from '@/types/article';
 
 import HomeShimmer from '../../../components/Shimmer/HomeShimmer';
-import { EHomeStackScreens, THomeStackParamList } from '../HomeStack';
+import { EHomeStackScreens } from '../HomeStack';
 
 const Home: React.FC = () => {
-  const navigation = useAppNavigation();
-
   const route = useRoute<
     RouteProp<TAppStackParamList, EHomeStackScreens.Home>
   >();
@@ -35,20 +29,6 @@ const Home: React.FC = () => {
   } = useCursorPagination<IArticleSummary>({
     fetchFunc: articleAPI.getArticles,
   });
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      // headerRight: () => (
-      //   <GIconButton
-      //     onPress={() => {
-      //       navigation.navigate(AppRoutes.Notification);
-      //     }}
-      //   >
-      //     <NotifcationIcon />
-      //   </GIconButton>
-      // ),
-    });
-  }, [navigation]);
 
   // 초기 렌더링
   useEffect(() => {
