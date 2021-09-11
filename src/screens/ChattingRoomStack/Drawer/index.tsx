@@ -114,7 +114,7 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
         picture={user.participant.picture}
         nickname={user.participant.nickname}
       />
-      {/* <View style={styles.infoWrapper}>
+      <View style={styles.infoWrapper}>
         <Checkbox
           aria-label={`${ind}`}
           value={`${ind}_${user.pay_status}`}
@@ -128,7 +128,7 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
             {user.wish_price.toLocaleString()}원
           </Text>
         </View>
-      </View> */}
+      </View>
     </View>
   ));
 
