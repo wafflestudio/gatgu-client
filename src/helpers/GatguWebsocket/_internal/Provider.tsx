@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useRef } from 'react';
 import { DeviceEventEmitter } from 'react-native';
 
-import BaseWebsocket, { IBaseWebsocketOption } from './BaseWebsocket';
+import BaseWebsocket from './BaseWebsocket';
 import {
   PromiseConditions,
   TWsInit,
@@ -18,9 +18,10 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
+        wsRef.current = undefined;
       }
     };
-  });
+  }, []);
 
   const init = ({ url, token, options }: Parameters<TWsInit>[0]) => {
     if (!token || tokenRef.current === token) return;
@@ -30,7 +31,7 @@ const getWsProvider = (Context: any): React.FC => ({ children }) => {
     }
 
     tokenRef.current = token;
-    const ws = new BaseWebsocket(url + token, options);
+    const ws = new BaseWebsocket(url + token + '/', options);
 
     ws.onopen = (e) => DeviceEventEmitter.emit(WebsocketCustomEvent.Open, e);
     ws.onmessage = (e) =>

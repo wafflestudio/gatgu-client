@@ -37,7 +37,6 @@ class BaseWebsocket {
   >;
 
   constructor(url: string, options?: IBaseWebsocketOption) {
-    console.log('Websocket connected >', url);
     this._ws = new ReconnectingWebsocket(url);
 
     this._pingpongCount = 0;
@@ -95,6 +94,7 @@ class BaseWebsocket {
     this._startHeartBeat();
 
     if (this.onopen) {
+      console.log('Websocket connected');
       this.onopen(e);
     }
   }
