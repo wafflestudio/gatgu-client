@@ -147,11 +147,13 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
         <Text style={styles.bigLabelText}>참여 인원 목록</Text>
         {renderedParticipants}
       </View>
-      <View style={styles.optionContainer}>
-        <TouchableOpacity onPress={handlePressExit}>
-          <Text style={styles.smallLabelText}>나가기</Text>
-        </TouchableOpacity>
-      </View>
+      {!isAuthor && (
+        <View style={styles.optionContainer}>
+          <TouchableOpacity onPress={handlePressExit}>
+            <Text style={styles.smallLabelText}>나가기</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       {modalOpen ? (
         <StatusModal
           onClose={() => setModalOpen(false)}
