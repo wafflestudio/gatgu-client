@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Modal } from 'native-base';
+import { IModalProps } from 'native-base/lib/typescript/components/composites/Modal/types';
 
 type GModalSize = 'small' | 'default' | 'big';
 
@@ -9,9 +10,9 @@ interface GModalContext {
   type: '';
 }
 
-const GModal: React.FC = ({ children }) => {
+const GModal: React.FC<IModalProps> = ({ children, ...props }) => {
   return (
-    <Modal>
+    <Modal isOpen {...props}>
       <Modal.Content>{children}</Modal.Content>
     </Modal>
   );
@@ -26,7 +27,7 @@ const GModalBody: React.FC = ({ children }) => {
 };
 
 const GModalFooter: React.FC = ({ children }) => {
-  return <Modal.Content>{children}</Modal.Content>;
+  return <Modal.Footer pr={6}>{children}</Modal.Footer>;
 };
 
 export default Object.assign(GModal, {
