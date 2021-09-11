@@ -37,7 +37,7 @@ const AppRouter: React.FC = () => {
   GatguWebsocket.useInit({
     url: `ws://gatgu-api.wafflestudio.com/ws/chat/${userQuery.data?.id}/`,
     token: '',
-    options: { debug: true },
+    options: { debug: false },
   });
 
   return (

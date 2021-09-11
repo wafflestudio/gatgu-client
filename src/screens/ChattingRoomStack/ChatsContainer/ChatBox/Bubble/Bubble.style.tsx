@@ -5,8 +5,8 @@ import { palette } from '@/styles';
 const commonStyle = StyleSheet.create({
   chatBox: {
     borderRadius: 11,
-    paddingVertical: 5,
-    paddingHorizontal: 9,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
     marginTop: 5,
     maxWidth: 280,
   },
@@ -23,7 +23,7 @@ const BubbleStyle = StyleSheet.create({
   },
   chatText: {
     color: palette.dark,
-    fontSize: 15,
+    fontSize: 16,
     lineHeight: 22,
   },
 });
