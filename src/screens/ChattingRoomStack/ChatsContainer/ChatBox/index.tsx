@@ -90,32 +90,38 @@ function ChatBox({
     [isSelf, isSameTime, text, sentTime, image]
   );
 
+  // 카카오톡과 동일함
+  const isProfileShown = !(isSelf || (isSameUser && isSameTime));
+
   const renderedName = useMemo(
     () =>
-      !isSelf &&
-      !isSameUser && (
+      isProfileShown && (
         <View>
           <Text style={styles.nameText}>{sent_by?.nickname}</Text>
         </View>
       ),
-    [sent_by, isSelf, isSameUser]
+    [sent_by, isProfileShown]
   );
 
   const renderedProfile = useMemo(
     () =>
-      !isSelf && (
-        <Image
-          source={
-            sent_by?.picture
-              ? { uri: !isSameUser ? sent_by?.picture : undefined }
-              : require('@/assets/images/defaultProfile.png')
-          }
-          style={styles.avatar}
-          fallbackSource={require('@/assets/images/defaultProfile.png')}
-          alt="profile pic"
-        />
+      isProfileShown ? (
+        <>
+          <Image
+            source={
+              sent_by?.picture
+                ? { uri: sent_by?.picture }
+                : require('@/assets/images/defaultProfile.png')
+            }
+            style={[styles.avatar, { marginBottom: 10 }]}
+            fallbackSource={require('@/assets/images/defaultProfile.png')}
+            alt="profile pic"
+          />
+        </>
+      ) : (
+        <View style={styles.avatar} />
       ),
-    [sent_by, isSameUser, isSelf]
+    [sent_by, isProfileShown]
   );
 
   return system ? (
@@ -129,7 +135,7 @@ function ChatBox({
     >
       <View style={styles.row}>
         {renderedProfile}
-        <View style={{}}>
+        <View style={isProfileShown && { marginTop: 15 }}>
           {renderedName}
           <View
             style={{ flexDirection: 'row-reverse', alignItems: 'flex-end' }}

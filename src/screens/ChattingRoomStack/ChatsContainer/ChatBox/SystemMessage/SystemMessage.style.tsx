@@ -5,15 +5,16 @@ import { palette } from '@/styles';
 const SystemStyle = StyleSheet.create({
   systemText: {
     color: palette.white,
-    fontSize: 10,
+    fontSize: 15,
     lineHeight: 18,
   },
   systemWrapper: { alignItems: 'center' },
   box: {
     backgroundColor: palette.dark,
-    paddingHorizontal: 10,
+    paddingHorizontal: 13,
+    paddingVertical: 6,
     borderRadius: 9,
-    height: 18,
+    // height: 18,
     marginTop: 24,
     alignItems: 'center',
   },

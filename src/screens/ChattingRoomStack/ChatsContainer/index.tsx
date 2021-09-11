@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { View, FlatList, Dimensions } from 'react-native';
+import { View, FlatList, Dimensions, Keyboard } from 'react-native';
 import {
   getBottomSpace,
   getStatusBarHeight,
@@ -42,6 +42,7 @@ function ChattingRoom({
 }): JSX.Element {
   const dispatch = useDispatch();
   const currentUser = useUserDetail().data;
+
   const userID = currentUser?.id;
   const { uploadSingleImage } = useImageUpload(APItype.chat, userID);
   const [nextCursor, setCursor] = useState<string | null>();
@@ -96,8 +97,21 @@ function ChattingRoom({
     },
   });
 
+  const [isKeyboardShown, setKeyboardShown] = React.useState(false);
+
   useEffect(() => {
     getChattingMessages('first');
+
+    const handleKeyboardShown = () => setKeyboardShown(true);
+    const handleKeyboardHide = () => setKeyboardShown(false);
+
+    Keyboard.addListener('keyboardDidShow', handleKeyboardHide);
+    Keyboard.addListener('keyboardDidHide', handleKeyboardShown);
+
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', handleKeyboardHide);
+      Keyboard.removeListener('keyboardDidHide', handleKeyboardShown);
+    };
   }, []);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
@@ -253,6 +267,7 @@ function ChattingRoom({
       getBottomSpace(),
     [Dimensions, headerHeight, getStatusBarHeight, getBottomSpace]
   );
+
   const firstCursor = useMemo(() => {
     const HEIGHT = 37; // minimum height of ChatBox
     if (firstNextCursor) return true;
@@ -260,11 +275,16 @@ function ChattingRoom({
     else return false;
   }, [chatList]);
 
+  console.log('\n\n', isKeyboardShown, '\n\n');
+
   return (
     <KeyboardAvoidingView
       behavior="position"
-      contentContainerStyle={{ height: hhh, width: '100%' }}
-      keyboardVerticalOffset={20}
+      contentContainerStyle={{
+        height: hhh,
+        width: '100%',
+      }}
+      keyboardVerticalOffset={isKeyboardShown ? 20 : 0}
       enabled
     >
       <View

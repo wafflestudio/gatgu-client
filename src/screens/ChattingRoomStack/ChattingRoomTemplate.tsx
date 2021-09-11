@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Text } from 'react-native';
+import { KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 
 import { ArrowBackIcon, HamburgerIcon } from 'native-base';
 
@@ -22,8 +22,12 @@ export default function ChattingRoomTemplate({
   const navigation = useNavigation();
   const [height, setHeight] = useState<number>(0);
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <View
+      // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{
+        backgroundColor: 'yellow',
+        justifyContent: 'space-between',
+      }}
     >
       <Header
         title="채팅방"
@@ -37,6 +41,6 @@ export default function ChattingRoomTemplate({
         setHeight={setHeight}
       />
       <ChatsContainer roomID={roomID} headerHeight={height} />
-    </KeyboardAvoidingView>
+    </View>
   );
 }
