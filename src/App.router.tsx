@@ -35,7 +35,7 @@ const AppStack = createGatguStackNavigator<TAppStackParamList>();
 const AppRouter: React.FC = () => {
   const userQuery = useUserDetail();
   GatguWebsocket.useInit({
-    url: `ws://b775bba97a46.ngrok.io/ws/chat/${userQuery.data?.id}/`,
+    url: `ws://gatgu-api.wafflestudio.com/ws/chat/${userQuery.data?.id}/`,
     token: '',
     options: { debug: true },
   });
