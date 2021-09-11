@@ -43,6 +43,8 @@ function ChattingRoom({
   const dispatch = useDispatch();
   const currentUser = useUserDetail().data;
 
+  const isRecentMsgStoredRef = React.useRef(false);
+
   const userID = currentUser?.id;
   const { uploadSingleImage } = useImageUpload(APItype.chat, userID);
   const [nextCursor, setCursor] = useState<string | null>();
@@ -113,6 +115,16 @@ function ChattingRoom({
       Keyboard.removeListener('keyboardDidHide', handleKeyboardShown);
     };
   }, []);
+
+  React.useEffect(() => {
+    if (isRecentMsgStoredRef.current) return;
+
+    const lastMessageId = chatList[0]?.message.id;
+    if (lastMessageId) {
+      storeRecentlyReadMessageId(roomID, lastMessageId);
+      isRecentMsgStoredRef.current = true;
+    }
+  }, [roomID, chatList]);
 
   const handleSendMessage = (input: IMessageImage, resend: string) => {
     // reset input
@@ -274,8 +286,6 @@ function ChattingRoom({
     if (chatList.length * HEIGHT > hhh - inputHeight) return true;
     else return false;
   }, [chatList]);
-
-  console.log('\n\n', isKeyboardShown, '\n\n');
 
   return (
     <KeyboardAvoidingView
