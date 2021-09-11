@@ -37,6 +37,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="com.wafflestudio.gatgu"/>
         <data android:scheme="gatgu"/>
+        <data android:scheme="article"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>

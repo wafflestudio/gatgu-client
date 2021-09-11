@@ -11,6 +11,7 @@ import {
 } from '@react-navigation/native';
 
 import { Header } from '@/components';
+import { AppRoutes } from '@/helpers/routes';
 
 import ChatsContainer from './ChatsContainer';
 
@@ -36,7 +37,9 @@ export default function ChattingRoomTemplate({
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         left={<ArrowBackIcon />}
         leftCallback={() => {
-          navigation.goBack();
+          navigation.navigate('MainStack', {
+            screen: 'ChattingList',
+          });
         }}
         setHeight={setHeight}
       />

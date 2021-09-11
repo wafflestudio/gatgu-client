@@ -36,6 +36,7 @@ function ChattingRoomStackScreen(): JSX.Element {
     RouteProp<ChattingDrawerParamList, EChattingRoomStackScreens.ChattingRoom>
   >();
   const roomID = route.params.id;
+
   useEffect(() => {
     // dispatch(getChatInfo(id));
     // handle error case

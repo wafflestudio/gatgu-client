@@ -9,6 +9,8 @@ import {
 import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
 
 import GatguWebsocket from './helpers/GatguWebsocket/GatguWebsocket';
+import { navigationRef } from './helpers/bootstrap/rootNavigation';
+import { linking } from './helpers/bootstrap/utils/navigation';
 import { createGatguStackNavigator } from './helpers/functions/navigation';
 import { useUserDetail } from './helpers/hooks/api';
 import ChattingRoomStackScreen, {
@@ -40,12 +42,12 @@ const AppRouter: React.FC = () => {
   });
 
   return (
-    <NavigationContainer>
-      <SafeAreaView
-        style={{
-          flex: 1,
-        }}
-      >
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
+      <NavigationContainer ref={navigationRef} linking={linking}>
         <AppStack.Navigator>
           <AppStack.Screen
             name={EAppStackScreens.MainStack}
@@ -63,8 +65,8 @@ const AppRouter: React.FC = () => {
             options={{ headerShown: false }}
           />
         </AppStack.Navigator>
-      </SafeAreaView>
-    </NavigationContainer>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 };
 

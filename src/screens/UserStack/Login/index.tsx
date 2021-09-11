@@ -49,6 +49,7 @@ function Login(): JSX.Element {
         .catch(console.error);
 
       const { access, refresh } = loginResponse.data.token;
+
       setRequesterToken(access);
       dispatch(setLoginState(true));
 
@@ -60,9 +61,6 @@ function Login(): JSX.Element {
         data: refresh,
         expiry: DateTime.now().plus({ day: 30 }).toSeconds(),
       });
-
-      // const fcmToken = await getFcmToken()
-      // postFcmToken(fcmToken)
 
       navigation.dispatch(StackActions.popToTop());
       navigation.navigate('Home');

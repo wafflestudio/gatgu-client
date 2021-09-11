@@ -29,7 +29,7 @@ function ArticlePage(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const id = route.params.id;
+  const id = route.params?.id;
 
   const navigation = useAppNavigation();
   const [loading, setLoading] = useState<boolean>(true);
@@ -63,11 +63,11 @@ function ArticlePage(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (route.params.navigateFlag === RESET_SCREEN) {
+    if (route.params?.navigateFlag === RESET_SCREEN) {
       fetchArticle();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [route.params.navigateFlag]);
+  }, [route.params?.navigateFlag]);
 
   const ErrorModal = useCallback(() => {
     return (

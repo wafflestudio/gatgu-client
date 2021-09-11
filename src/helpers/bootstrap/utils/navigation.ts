@@ -1,9 +1,10 @@
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
+import NativeIntentAndroid from 'react-native/Libraries/Linking/NativeIntentAndroid';
 
 import { firebase } from '@react-native-firebase/messaging';
 import { LinkingOptions } from '@react-navigation/native';
 
-import { AppRoutes } from '@/helpers/routes';
+const NativeLinking = Platform.OS === 'android' ? NativeIntentAndroid : Linking;
 
 export const parseNotifcationNavigationData = (
   path: string,
@@ -43,20 +44,21 @@ export const parseNotifcationNavigationData = (
 // Deep links
 const deepLinksConf: LinkingOptions['config'] = {
   screens: {
-    [AppRoutes.MainStack]: {
+    MainStack: {
       screens: {
-        [AppRoutes.ArticleStack]: 'article/:id',
-        [AppRoutes.ChattingList]: 'chatting',
+        Home: {
+          screens: {
+            ArticleStack: { screens: { Article: 'article/:id' } },
+          },
+        },
       },
     },
-    [AppRoutes.AuthStack]: {
+    SubStack: {
       screens: {
-        [AppRoutes.Login]: 'login',
+        UserProfile: 'user-profile',
       },
     },
-    [AppRoutes.AuthStack]: {
-      path: 'login',
-    },
+    ChattingRoom: 'chatting-room/:id',
   },
 };
 
@@ -69,8 +71,7 @@ export const linking: LinkingOptions = {
      * 😂😂😂  this is not working in expo-ejected app.
      * bare react-native로 이전해야 합니다. ㅠ
      */
-    const url = await Linking.getInitialURL();
-
+    const url = await NativeLinking.getInitialURL();
     if (url != null) return url;
 
     const message = await firebase.messaging().getInitialNotification();
