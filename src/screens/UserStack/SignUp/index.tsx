@@ -162,7 +162,7 @@ const SignUp: React.FC = () => {
     const password =
       values.password &&
       !isValidPassword(values.password) &&
-      '8자~16자 영문 대소문자, 숫자를 모두 사용하세요.';
+      '8자~16자 영문자, 숫자를 모두 사용하세요. (특수문자는 사용하지 마세요)';
     if (password) Object.assign(errors, { password });
     // password confirm
     const passwordConfirm =

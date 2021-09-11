@@ -24,16 +24,14 @@ const getUseMessage = (wsContext: WsContext) => <T>({
     }
 
     const handleOnmessage = (e: any) => onmessage(e.data);
-    DeviceEventEmitter.addListener(
+    const emitterSubscription = DeviceEventEmitter.addListener(
       WebsocketCustomEvent.Message,
       handleOnmessage
     );
 
     return () => {
-      DeviceEventEmitter.removeListener(
-        WebsocketCustomEvent.Message,
-        handleOnmessage
-      );
+      // please verify if below is right
+      emitterSubscription.remove();
     };
   }, [onmessage]);
 
@@ -43,13 +41,14 @@ const getUseMessage = (wsContext: WsContext) => <T>({
     }
 
     const handleOnerror = (e: any) => onerror(e.detail);
-    DeviceEventEmitter.addListener(WebsocketCustomEvent.Error, handleOnerror);
+    const emitterSubscription = DeviceEventEmitter.addListener(
+      WebsocketCustomEvent.Error,
+      handleOnerror
+    );
 
-    return () =>
-      DeviceEventEmitter.removeListener(
-        WebsocketCustomEvent.Error,
-        handleOnerror
-      );
+    return () => {
+      emitterSubscription.remove();
+    };
   }, [onerror]);
 
   useEffect(() => {
@@ -58,13 +57,14 @@ const getUseMessage = (wsContext: WsContext) => <T>({
     }
 
     const handleOnopen = (e: any) => onopen(e.detail);
-    DeviceEventEmitter.addListener(WebsocketCustomEvent.Open, handleOnopen);
+    const emitterSubscription = DeviceEventEmitter.addListener(
+      WebsocketCustomEvent.Open,
+      handleOnopen
+    );
 
-    return () =>
-      DeviceEventEmitter.removeListener(
-        WebsocketCustomEvent.Open,
-        handleOnopen
-      );
+    return () => {
+      emitterSubscription.remove();
+    };
   }, [onopen]);
 
   useEffect(() => {
@@ -73,13 +73,14 @@ const getUseMessage = (wsContext: WsContext) => <T>({
     }
 
     const handleOnclose = (e: any) => onclose(e.detail);
-    DeviceEventEmitter.addListener(WebsocketCustomEvent.Close, handleOnclose);
+    const emitterSubscription = DeviceEventEmitter.addListener(
+      WebsocketCustomEvent.Close,
+      handleOnclose
+    );
 
-    return () =>
-      DeviceEventEmitter.removeListener(
-        WebsocketCustomEvent.Close,
-        handleOnclose
-      );
+    return () => {
+      emitterSubscription.remove();
+    };
   }, [onclose]);
 
   return { sendWsMessage };

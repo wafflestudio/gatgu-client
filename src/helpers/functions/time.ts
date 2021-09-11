@@ -41,6 +41,7 @@ export const getTimeDiffWithUnit = (startTs: number, endTs: number) => {
       return `${timeDiff}${koUnits[unitIdx]}`;
     }
   }
+  return '방금';
 };
 
 export const getPassedTime = (ts: number) => {
