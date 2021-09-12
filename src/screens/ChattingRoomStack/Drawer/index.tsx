@@ -1,16 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
-import { Checkbox } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -24,6 +17,7 @@ import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
+import { palette } from '@/styles';
 import { IChatUserProps } from '@/types/user';
 
 import styles from './Drawer.style';
@@ -115,14 +109,27 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
         nickname={user.participant.nickname}
       />
       <View style={styles.infoWrapper}>
-        <Checkbox
-          aria-label={`${ind}`}
-          value={`${ind}_${user.pay_status}`}
-          onChange={() => handleCheck(user)}
-          defaultIsChecked={false}
-          isDisabled={user.pay_status === ParticipantStatus.pay_checked}
-          // isDisabled={true}
-        />
+        <TouchableOpacity
+          disabled={
+            user.pay_status === ParticipantStatus.pay_checked ||
+            (!isAuthor &&
+              (user.participant.user_id !== userID ||
+                user.pay_status === ParticipantStatus.request_check_pay))
+          }
+          onPress={() => handleCheck(user)}
+        >
+          {user.pay_status === ParticipantStatus.pay_checked ? (
+            <Icon name="checkbox-marked" size={25} />
+          ) : user.pay_status === ParticipantStatus.before_pay ? (
+            <Icon name="checkbox-blank-outline" size={25} />
+          ) : (
+            <Icon
+              name="checkbox-blank-outline"
+              size={25}
+              color={palette.yellow}
+            />
+          )}
+        </TouchableOpacity>
         <View>
           <Text style={styles.priceText}>
             {user.wish_price.toLocaleString()}원
@@ -156,7 +163,7 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
       )}
       {modalOpen ? (
         <StatusModal
-          onClose={() => setModalOpen(false)}
+          onModalOpen={setModalOpen}
           isAuthor={isAuthor}
           roomID={roomID}
           user={user}
