@@ -84,7 +84,8 @@ function ChattingRoom({
     onmessage: (socket) => {
       if (
         socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS &&
-        !socket.data.text.includes('entered')
+        !socket.data.text.includes('entered') &&
+        socket.room_id === roomID
       ) {
         console.log('SYSTEM', socket.data.type, socket.data.id);
         // check if there is this message in chatList
