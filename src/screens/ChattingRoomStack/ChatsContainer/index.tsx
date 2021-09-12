@@ -36,9 +36,11 @@ export interface IWSChatMessage {
 function ChattingRoom({
   roomID,
   headerHeight,
+  author_id,
 }: {
   roomID: number;
   headerHeight: number;
+  author_id: number;
 }): JSX.Element {
   const dispatch = useDispatch();
   const currentUser = useUserDetail().data;
@@ -309,6 +311,7 @@ function ChattingRoom({
           article_id={roomID}
           inputHeight={inputHeight}
           setInputHeight={setInputHeight}
+          author_id={author_id}
         />
       </View>
     </KeyboardAvoidingView>

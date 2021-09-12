@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import _ from 'lodash';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { RootState } from '@/store';
 import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChattingRoomTemplate from './ChattingRoomTemplate';
@@ -19,6 +17,7 @@ export enum EChattingRoomStackScreens {
 export type TChattingRoomStackParamList = {
   [EChattingRoomStackScreens.ChattingRoom]: {
     id: number;
+    author_id: number;
   };
 };
 
@@ -29,20 +28,19 @@ const Drawer = createDrawerNavigator<TChattingRoomStackParamList>();
 // when: when api becomes stable
 
 function ChattingRoomStackScreen(): JSX.Element {
-  const currentChatInfo = useSelector(
-    (state: RootState) => state.chat.currentChatInfo
-  );
   const route = useRoute<
     RouteProp<ChattingDrawerParamList, EChattingRoomStackScreens.ChattingRoom>
   >();
   const roomID = route.params.id;
+  const author_id = route.params.author_id;
+
   useEffect(() => {
     // dispatch(getChatInfo(id));
     // handle error case
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const ChattingRoomScreen = React.useCallback(
-    () => <ChattingRoomTemplate roomID={roomID} />,
+    () => <ChattingRoomTemplate roomID={roomID} author_id={author_id} />,
     [roomID]
   );
 

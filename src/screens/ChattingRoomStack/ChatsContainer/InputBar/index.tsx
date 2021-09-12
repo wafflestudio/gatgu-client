@@ -10,6 +10,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch } from 'react-redux';
 
 import { Button, Modal } from 'native-base';
 
@@ -19,6 +20,7 @@ import { APItype } from '@/enums/image';
 import { useToaster } from '@/helpers/hooks';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import usePickImage from '@/helpers/hooks/usePickImage';
+import { fetchingParticipants } from '@/store/chatSlice';
 import { palette } from '@/styles';
 import { IMessageImage } from '@/types/chat';
 
@@ -32,6 +34,7 @@ interface IInputBarInterface {
   article_id: number;
   inputHeight: number;
   setInputHeight: (n: number) => void;
+  author_id: number;
 }
 
 function InputBar({
@@ -42,6 +45,7 @@ function InputBar({
   article_id,
   inputHeight,
   setInputHeight,
+  author_id,
 }: IInputBarInterface): JSX.Element {
   const toaster = useToaster();
   const { pickSingleImage } = usePickImage({
@@ -59,6 +63,7 @@ function InputBar({
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
   const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
   const [height, setHeight] = useState<number>(0);
+  const dispatch = useDispatch();
 
   const pickFromGallery = () => {
     setImageIsLoading(true);
@@ -126,18 +131,22 @@ function InputBar({
     chatAPI
       .changeParticipantStatus(article_id, {
         wish_price: parseInt(wishPrice),
-        participant_id: selfId,
       })
       .then(() => {
         toaster.success('상태가 바뀌었습니다.');
         setModalOpen(false);
         setSubmitIsLoading(false);
+        dispatch(fetchingParticipants(article_id));
+        setWishPrice('');
+        setOptionsOpen(false);
       })
       .catch((err) => {
         console.error(err);
         toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
         setModalOpen(false);
         setSubmitIsLoading(false);
+        setWishPrice('');
+        setOptionsOpen(false);
       });
   };
 
@@ -156,11 +165,13 @@ function InputBar({
                 <Icon name="image-search" size={25} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setModalOpen(true)}>
-              <View style={styles.inputIcon}>
-                <Icon name="attach-money" size={25} />
-              </View>
-            </TouchableOpacity>
+            {author_id !== selfId && (
+              <TouchableOpacity onPress={() => setModalOpen(true)}>
+                <View style={styles.inputIcon}>
+                  <Icon name="attach-money" size={25} />
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
           <TouchableOpacity onPress={() => setOptionsOpen(false)}>
             <View style={styles.inputIcon}>
@@ -259,7 +270,6 @@ function InputBar({
                 />
                 <Text>원</Text>
               </View>
-
               <Button
                 isLoading={submitIsLoading}
                 onPress={handleUpdateStatusRequest}

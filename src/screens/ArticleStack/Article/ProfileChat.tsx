@@ -63,7 +63,7 @@ function ProfileChat({
         if (article_id) {
           navigation.navigate({
             name: EChattingRoomStackScreens.ChattingRoom,
-            params: { id: article_id },
+            params: { id: article_id, author_id: article.writer.id },
           });
           // trigger fetch to change store's participantsList -> affect chatting drawer
           if (result.data == 201) {
