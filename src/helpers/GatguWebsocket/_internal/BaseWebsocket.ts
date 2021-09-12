@@ -1,7 +1,5 @@
 import ReconnectingWebsocket from 'reconnecting-websocket';
 
-import { WSMessage } from '@/enums';
-
 import { TWsMessage, WebsocketEventMap } from './types';
 
 export interface IBaseWebsocketOption {
@@ -38,8 +36,7 @@ class BaseWebsocket {
     }
   >;
 
-  constructor(url: string, options: IBaseWebsocketOption) {
-    console.log('Websocket', url);
+  constructor(url: string, options?: IBaseWebsocketOption) {
     this._ws = new ReconnectingWebsocket(url);
 
     this._pingpongCount = 0;
@@ -97,6 +94,7 @@ class BaseWebsocket {
     this._startHeartBeat();
 
     if (this.onopen) {
+      console.log('Websocket connected');
       this.onopen(e);
     }
   }

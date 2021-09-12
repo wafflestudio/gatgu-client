@@ -30,7 +30,7 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
 
   const [isRecentMessageUnread, setRecentMessageUnread] = React.useState(false);
 
-  const { recent_message, id } = item;
+  const { recent_message, id: roomId } = item;
 
   const { sent_by } = recent_message;
 
@@ -41,14 +41,14 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
   }, [recent_message]);
 
   React.useEffect(() => {
-    getRecentlyReadMessageId(id).then((res) => {
+    getRecentlyReadMessageId(roomId).then((res) => {
       setRecentMessageUnread(
         Boolean(recent_message?.id) &&
           res !== recent_message.id &&
           sent_by.id !== currentUser?.userprofile.user_id
       );
     });
-  }, [id, recent_message, currentUser, sent_by]);
+  }, [roomId, recent_message, currentUser, sent_by]);
 
   const renderNewMessageFlag = () => {
     if (!isRecentMessageUnread) return null;

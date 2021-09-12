@@ -20,7 +20,7 @@ export type TSubStackParamList = {
 
 const SubStack = createGatguStackNavigator<TSubStackParamList>();
 
-const SubStackScreen: React.FC = () => {
+const SubStackScreen = () => {
   return (
     <SubStack.Navigator>
       <SubStack.Screen
@@ -47,7 +47,6 @@ const SubStackScreen: React.FC = () => {
           headerTitle: '개인 정보',
         }}
       />
-      ß
     </SubStack.Navigator>
   );
 };

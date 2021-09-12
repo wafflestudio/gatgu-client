@@ -2,35 +2,36 @@ import React from 'react';
 import { useEffect, useRef } from 'react';
 import { DeviceEventEmitter } from 'react-native';
 
-import BaseWebsocket, { IBaseWebsocketOption } from './BaseWebsocket';
-import { PromiseConditions, TWsMessage, WebsocketCustomEvent } from './types';
+import BaseWebsocket from './BaseWebsocket';
+import {
+  PromiseConditions,
+  TWsInit,
+  TWsMessage,
+  WebsocketCustomEvent,
+} from './types';
 
 const getWsProvider = (Context: any): React.FC => ({ children }) => {
   const wsRef = useRef<BaseWebsocket>();
+  const tokenRef = useRef<string | number>();
 
   useEffect(() => {
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
+        wsRef.current = undefined;
       }
     };
-  });
+  }, []);
 
-  const init = ({
-    url,
-    options,
-  }: {
-    url: string;
-    token: string;
-    options: IBaseWebsocketOption;
-  }) => {
+  const init = ({ url, token, options }: Parameters<TWsInit>[0]) => {
+    if (!token || tokenRef.current === token) return;
+
     if (wsRef.current) {
       wsRef.current.close();
-      // return;
     }
-    // if (isNaN(token)) return;
 
-    const ws = new BaseWebsocket(url, options);
+    tokenRef.current = token;
+    const ws = new BaseWebsocket(url + token + '/', options);
 
     ws.onopen = (e) => DeviceEventEmitter.emit(WebsocketCustomEvent.Open, e);
     ws.onmessage = (e) =>

@@ -18,7 +18,7 @@ const StyledImage = styled.View`
   border-radius: 4px;
 `;
 const StyledProfile = styled.View`
-  border-radius: 50;
+  border-radius: 50px;
   width: 50px;
   height: 50px;
   margin-left: 20px;
@@ -33,10 +33,10 @@ const SytledWriter = styled.View`
 `;
 const StyledChat = styled.View`
   background-color: ${palette.whiteGray};
-  width: 150;
-  height: 40;
+  width: 150px;
+  height: 40px;
   margin-right: 20px;
-  border-radius: 15;
+  border-radius: 15px;
 `;
 const StyledTitle = styled.View`
   background-color: ${palette.whiteGray};

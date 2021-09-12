@@ -10,7 +10,7 @@ import {
 } from '@react-navigation/drawer';
 
 import { articleAPI } from '@/apis';
-import { Profile, ProfileBox, ReportModal } from '@/components';
+import { Profile, ReportModal } from '@/components';
 import { GButton, GSpace, GText } from '@/components/Gatgu/';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
 import { RESET_SCREEN } from '@/constants/navigateOption';
@@ -198,8 +198,8 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   };
 
   const renderParticipants = () => {
-    return order_chat?.participant_profile.map((user, ind) => (
-      <View key={ind} style={styles.profileBox}>
+    return order_chat?.participant_profile.map((user) => (
+      <View key={user.id} style={{ marginBottom: 10 }}>
         <Profile
           id={user.participant.user_id}
           picture={user.participant.picture}
@@ -237,7 +237,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
           </GText>
         </View>
         <View style={styles.lowerContainer}>
-          <Text style={styles.lowerLabelText}>모집 인원 목록</Text>
+          <Text style={styles.lowerLabelText}>참여 인원 목록</Text>
           {renderParticipants()}
         </View>
       </View>

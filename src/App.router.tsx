@@ -18,7 +18,7 @@ import SubStackScreen from './screens/SubStack/SubStack';
 
 export enum EAppStackScreens {
   MainStack = 'MainStack',
-  ChattingRoomStack = 'ChattingRoomStack',
+  ChattingRoomStack = 'ChattingRoom',
   SubStack = 'SubStack',
 }
 
@@ -30,14 +30,13 @@ export type TAppStackParamList = {
   TChattingRoomStackParamList;
 
 const AppStack = createGatguStackNavigator<TAppStackParamList>();
-// AsyncStorage.clear();
 
 const AppRouter: React.FC = () => {
   const userQuery = useUserDetail();
   GatguWebsocket.useInit({
-    url: `ws://gatgu-api.wafflestudio.com/ws/chat/${userQuery.data?.id}/`,
-    token: '',
-    options: { debug: true },
+    url: `ws://gatgu-api.wafflestudio.com/ws/chat/`,
+    token: userQuery.data?.id,
+    options: { debug: false },
   });
 
   return (
@@ -54,7 +53,7 @@ const AppRouter: React.FC = () => {
             options={{ headerShown: false }}
           />
           <AppStack.Screen
-            name="ChattingRoom"
+            name={EAppStackScreens.ChattingRoomStack}
             component={ChattingRoomStackScreen}
             options={{ headerShown: false }}
           />

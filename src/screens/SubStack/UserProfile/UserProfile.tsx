@@ -1,12 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
 
 import styled from 'styled-components/native';
 
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 import { getOtherUserData } from '@/apis/UserApi';
-import { GText } from '@/components/Gatgu';
 import Force from '@/screens/UserStack/Profile/Logged/Force';
 import Info from '@/screens/UserStack/Profile/Logged/Information';
 import { IUserSimple } from '@/types/user';
