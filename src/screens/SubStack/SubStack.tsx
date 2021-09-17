@@ -2,8 +2,8 @@ import React from 'react';
 
 import { createGatguStackNavigator } from '@/helpers/functions/navigation';
 
-import ServiceTerms from '../UserStack/ServiceTerms';
 import PrivateInfo from './PrivateInfo/PrivateInfo';
+import ServiceTerms from './ServiceTerms/ServiceTerms';
 import UserProfile from './UserProfile/UserProfile';
 
 export enum ESubStackScreens {
