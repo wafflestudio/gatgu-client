@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Keyboard } from 'react-native';
+import useUpdateEffect from 'react-use/lib/useUpdateEffect';
 
 import { Box, Divider, SearchIcon, VStack } from 'native-base';
 
@@ -27,6 +28,7 @@ const Search: React.FC = () => {
     isFirstPage,
     isLastPage,
     getItems,
+    setFetching,
   } = useCursorPagination<IArticleSummary>({
     fetchFunc: (url) => articleAPI.getArticles(url, searchKeyword),
   });
@@ -37,19 +39,18 @@ const Search: React.FC = () => {
     deleteRecentSearchKeyword,
   } = useRecentSearch();
 
-  // 초기 렌더링
-  useEffect(() => {
+  useUpdateEffect(() => {
     getItems('first');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchKeyword]);
 
   const handleSearch = useCallback(
     (keyword?: string) => {
       setSearchKeyword(keyword ?? searchInput);
       setSearchResultStage(true);
+      setFetching(true);
       addRecentSearchKeyword(keyword ?? searchInput);
     },
-    [addRecentSearchKeyword, searchInput]
+    [addRecentSearchKeyword, setFetching, searchInput]
   );
 
   const handleKeywordPress = useCallback(
@@ -66,7 +67,7 @@ const Search: React.FC = () => {
   );
 
   const renderArticles = () => {
-    if (fetching) {
+    if (firstFetching || fetching) {
       return <HomeShimmer />;
     }
 
