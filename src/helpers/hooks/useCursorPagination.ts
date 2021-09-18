@@ -120,6 +120,7 @@ const useCursorPagination = <T>({
     fetching,
     handleItems,
     getItems,
+    setFetching,
   };
 };
 
