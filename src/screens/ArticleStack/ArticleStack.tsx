@@ -47,7 +47,12 @@ const ArticleStackScreen = () => {
       <ArticleDrawer.Screen
         name={EArticleStackScreens.EditArticle}
         component={EditArticleTemplate}
-        options={{ swipeEnabled: false, title: '글 수정', headerShown: true }}
+        options={{
+          swipeEnabled: false,
+          title: '글 수정',
+          headerShown: true,
+          headerTitleAlign: 'center',
+        }}
       />
     </ArticleDrawer.Navigator>
   );

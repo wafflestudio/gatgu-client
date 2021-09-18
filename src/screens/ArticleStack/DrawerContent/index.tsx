@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Modal, Image } from 'native-base';
+import { Modal } from 'native-base';
 
 import {
   DrawerContentComponentProps,
@@ -59,7 +59,8 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         toaster.success('글 상태 변경을 완료되었습니다.');
         refreshArticle();
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         toaster.error('글 상태 변경에 실패했습니다.');
       })
       .finally(() => {
