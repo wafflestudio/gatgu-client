@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 
-import { ArrowBackIcon, HamburgerIcon } from 'native-base';
+import { HamburgerIcon } from 'native-base';
 
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 
@@ -17,31 +17,18 @@ export default function ChattingRoomTemplate({
   author_id: number;
 }): JSX.Element {
   const navigation = useNavigation();
-  const [height, setHeight] = useState<number>(0);
   return (
-    <View
-      // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{
-        backgroundColor: 'yellow',
-        justifyContent: 'space-between',
-      }}
-    >
+    <View style={{ flex: 1 }}>
       <Header
         title="채팅방"
-        titleStyle={{ fontSize: 20 }}
         right={<HamburgerIcon />}
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        left={<ArrowBackIcon />}
+        left={<Header.BackButton />}
         leftCallback={() => {
           navigation.goBack();
         }}
-        setHeight={setHeight}
       />
-      <ChatsContainer
-        roomID={roomID}
-        headerHeight={height}
-        author_id={author_id}
-      />
+      <ChatsContainer roomID={roomID} author_id={author_id} />
     </View>
   );
 }

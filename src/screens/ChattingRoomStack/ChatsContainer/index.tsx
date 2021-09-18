@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { View, FlatList, Dimensions, Keyboard } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  getBottomSpace,
-  getStatusBarHeight,
-} from 'react-native-iphone-x-helper';
+  FlatList,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import _ from 'lodash';
 import { DateTime } from 'luxon';
-import { KeyboardAvoidingView } from 'native-base';
+import { View } from 'native-base';
 
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
@@ -35,11 +35,9 @@ export interface IWSChatMessage {
 
 function ChattingRoom({
   roomID,
-  headerHeight,
   author_id,
 }: {
   roomID: number;
-  headerHeight: number;
   author_id: number;
 }): JSX.Element {
   const dispatch = useDispatch();
@@ -48,41 +46,49 @@ function ChattingRoom({
   const isRecentMsgStoredRef = React.useRef(false);
 
   const userID = currentUser?.id;
+
   const { uploadSingleImage } = useImageUpload(APItype.chat, userID);
-  const [nextCursor, setCursor] = useState<string | null>();
+
   const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
-  const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
-  const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
+  const [refresh, setRefresh] = useState(true);
+
   const [input, setInput] = useState<IMessageImage>({
     text: '',
     imgUrl: emptyURL,
-  } as IMessageImage);
-  const [refresh, setRefresh] = useState(true);
-  const [inputHeight, setInputHeight] = useState<number>(0);
-  const [firstNextCursor, setFirstNextCursor] = useState<string | null>(
-    'cursor_not_empty'
-  );
+  });
 
-  const getChattingMessages = (option: string | null | undefined) => {
-    setFetchingMessages(true);
-    chatAPI
-      .getChattingMessages(roomID, option)
-      .then((chattingList) => {
-        const temp = chattingList.data.results;
-        // TODO: change with pagination
-        if (option === 'first') setFirstNextCursor(chattingList.data.next);
-        setCursor(chattingList.data.next);
-        const tempChatList = temp.map((chat) => {
-          return {
+  const [chatList, setChatList] = useState<IWSChatMessage[]>([]);
+  const [pendingList, setPendingList] = useState<IWSChatMessage[]>([]);
+
+  const [nextCursor, setCursor] = useState<string | null>();
+
+  //
+  // for style
+  //
+  const [isKeyboardShown, setKeyboardShown] = React.useState(true);
+
+  const getChattingMessages = React.useCallback(
+    (option: string | null | undefined) => {
+      setFetchingMessages(true);
+
+      chatAPI
+        .getChattingMessages(roomID, option)
+        .then((chattingList) => {
+          setCursor(chattingList.data.next);
+
+          const chats = chattingList.data.results.map((chat) => ({
             message: chat,
             repeat: false,
             pending: false,
-          } as IWSChatMessage;
-        });
-        setChatList((prev) => [...prev, ...tempChatList]);
-      })
-      .finally(() => setFetchingMessages(false));
-  };
+          }));
+
+          setChatList((prev) => [...prev, ...chats]);
+        })
+        .finally(() => setFetchingMessages(false));
+    },
+    [roomID]
+  );
+
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
       if (
@@ -91,6 +97,7 @@ function ChattingRoom({
         socket.room_id === roomID
       ) {
         console.log('SYSTEM', socket.data.type, socket.data.id);
+
         // check if there is this message in chatList
         setChatList((prev) => [
           { message: socket.data, repeat: false, pending: false },
@@ -102,8 +109,6 @@ function ChattingRoom({
     },
   });
 
-  const [isKeyboardShown, setKeyboardShown] = React.useState(false);
-
   useEffect(() => {
     getChattingMessages('first');
 
@@ -114,11 +119,19 @@ function ChattingRoom({
     Keyboard.addListener('keyboardDidHide', handleKeyboardShown);
 
     return () => {
+      setChatList([]);
+
+      if (!Keyboard?.removeListener) return;
+
       Keyboard.removeListener('keyboardDidShow', handleKeyboardHide);
       Keyboard.removeListener('keyboardDidHide', handleKeyboardShown);
     };
+    //eslint-disable-next-line
   }, []);
 
+  //
+  // store recently read message id for chatting list unread flag
+  //
   React.useEffect(() => {
     if (isRecentMsgStoredRef.current) return;
 
@@ -129,23 +142,56 @@ function ChattingRoom({
     }
   }, [roomID, chatList]);
 
-  const handleSendMessage = (input: IMessageImage, resend: string) => {
-    // reset input
-    setInput({ text: '', imgUrl: emptyURL } as IMessageImage);
+  const sendChatMessage = React.useCallback(
+    (message: TWsMessage) => {
+      return sendWsMessage(message, {
+        resolveCondition: (data) =>
+          data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
+        rejectCondition: (data) =>
+          data.type === WSMessage.RECEIVE_MESSAGE_FAILURE,
+      })
+        .then((result) => {
+          // add to chatList
+          setChatList((prev) => [
+            { message: result.data, repeat: false, pending: false },
+            ...prev,
+          ]);
 
-    if (currentUser) {
+          // remove from pendingList
+          setPendingList((prev) =>
+            prev.filter(
+              (message) => message.websocket_id !== result.websocket_id
+            )
+          );
+
+          // trigger chatting list update
+          dispatch(refetchChattingList);
+        })
+        .catch((e) => {
+          console.log(e);
+          // mark delete or resend in pendingList
+          setPendingList((prev) =>
+            prev.map((chat) =>
+              chat.websocket_id === e.websocket_id
+                ? { ...chat, repeat: true, pending: false }
+                : chat
+            )
+          );
+        });
+    },
+    [dispatch, sendWsMessage]
+  );
+
+  const handleSendMessage = React.useCallback(
+    (input: IMessageImage, resend: string) => {
+      if (!currentUser) return;
+
+      // reset input
+      setInput({ text: '', imgUrl: emptyURL });
+
       const firstSend = parseInt(resend) === -1;
       const websocket_id = firstSend ? `${DateTime.now()}` : resend;
 
-      // if resend --> set as repeat false
-      if (!firstSend) {
-        const tempPendingList = pendingList.map((chat) =>
-          chat.websocket_id === websocket_id ? { ...chat, repeat: false } : chat
-        );
-        setPendingList(tempPendingList);
-      }
-
-      // add to pendingList
       const message = {
         message: {
           text: input.imgUrl === emptyURL ? input.text : '',
@@ -173,12 +219,18 @@ function ChattingRoom({
         repeat: false,
         pending: true,
       };
+
       if (firstSend) {
-        const tempPendingList = pendingList;
-        tempPendingList.unshift(message);
+        setPendingList((prev) => [message, ...prev]);
+      } else {
+        // if resend --> set as repeat false
+        const tempPendingList = pendingList.map((chat) =>
+          chat.websocket_id === websocket_id ? { ...chat, repeat: false } : chat
+        );
+
         setPendingList(tempPendingList);
+        setRefresh(!refresh);
       }
-      setRefresh(!refresh);
 
       const checkImage =
         input.imgUrl !== emptyURL
@@ -203,57 +255,32 @@ function ChattingRoom({
             },
             websocket_id: websocket_id, // tempID used for internal purposes
           };
-          sendWsMessage(wsMessage, {
-            resolveCondition: (data) =>
-              data.type === WSMessage.RECEIVE_MESSAGE_SUCCESS,
-            rejectCondition: (data) =>
-              data.type === WSMessage.RECEIVE_MESSAGE_FAILURE,
-          })
-            .then((result) => {
-              // add to chatList
-              setChatList((prev) => [
-                { message: result.data, repeat: false, pending: false },
-                ...prev,
-              ]);
 
-              // remove from pendingList
-              setPendingList((prev) =>
-                prev.filter(
-                  (message) => message.websocket_id !== result.websocket_id
-                )
-              );
-              setRefresh(!refresh);
-
-              // trigger chatting list update
-              dispatch(refetchChattingList);
-            })
-            .catch((e) => {
-              // mark delete or resend in pendingList
-              setPendingList((prev) =>
-                prev.map((chat) =>
-                  chat.websocket_id === e.websocket_id
-                    ? { ...chat, repeat: true, pending: false }
-                    : chat
-                )
-              );
-            });
+          sendChatMessage(wsMessage);
         })
         .catch((e) => console.error('ERR', e));
-    }
-  };
+    },
+    [
+      currentUser,
+      pendingList,
+      refresh,
+      userID,
+      roomID,
+      sendChatMessage,
+      uploadSingleImage,
+    ]
+  );
 
-  const handleErase = (resend: string) => {
+  const handleErase = React.useCallback((resend: string) => {
     setPendingList((prev) =>
-      prev.filter((message) => {
-        return message.websocket_id !== resend;
-      })
+      prev.filter((message) => message.websocket_id !== resend)
     );
-    setRefresh(!refresh);
-  };
+  }, []);
 
   const renderItem = useCallback(
     ({ item, index }: { item: IWSChatMessage; index: number }) => {
       const list = [...pendingList, ...chatList];
+
       return (
         <ChatBox
           current={item}
@@ -265,74 +292,54 @@ function ChattingRoom({
         />
       );
     },
-    [pendingList, chatList]
+    [pendingList, chatList, handleSendMessage, handleErase, currentUser?.id]
   );
-  const renderKey = useCallback((_, ind) => `${ind}`, []);
 
-  const handleEndReach = () => {
+  const handleEndReach = React.useCallback(() => {
     if (!nextCursor || fetchingMessages) return;
     getChattingMessages(nextCursor);
-  };
+  }, [nextCursor, fetchingMessages, getChattingMessages]);
 
-  const hhh = useMemo(
-    () =>
-      Dimensions.get('window').height -
-      headerHeight -
-      getStatusBarHeight() -
-      getBottomSpace(),
-    [Dimensions, headerHeight, getStatusBarHeight, getBottomSpace]
-  );
+  const renderedFlatList = React.useMemo(() => {
+    return (
+      <FlatList
+        inverted
+        data={[...pendingList, ...chatList]}
+        renderItem={renderItem}
+        style={[
+          styles.msgContainer,
+          {
+            width: '100%',
+            flex: 1,
+          },
+        ].filter(Boolean)}
+        keyExtractor={(_, ind) => `${ind}`}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'flex-end',
+        }}
+        onEndReached={handleEndReach}
+        onEndReachedThreshold={0.1}
+      />
+    );
+  }, [pendingList, chatList]);
 
-  const firstCursor = useMemo(() => {
-    const HEIGHT = 37; // minimum height of ChatBox
-    if (firstNextCursor) return true;
-    if (chatList.length * HEIGHT > hhh - inputHeight) return true;
-    else return false;
-  }, [chatList]);
+  // return renderedFlatList;
 
   return (
-    <KeyboardAvoidingView
-      behavior="position"
-      contentContainerStyle={{
-        height: hhh,
-        width: '100%',
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'space-between',
       }}
-      keyboardVerticalOffset={isKeyboardShown ? 20 : 0}
-      enabled
     >
-      <View
+      {renderedFlatList}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{
-          justifyContent: 'flex-start',
-          height: hhh - inputHeight,
-          position: 'absolute',
-          top: 0,
-          width: '100%',
-          paddingBottom: 10,
+          marginTop: 10,
         }}
-      >
-        <FlatList
-          data={[...pendingList, ...chatList]}
-          renderItem={renderItem}
-          style={[styles.msgContainer]}
-          keyExtractor={renderKey}
-          extraData={refresh}
-          inverted={true}
-          contentContainerStyle={
-            firstCursor ? {} : { flexGrow: 1, justifyContent: 'flex-end' }
-          }
-          onEndReached={handleEndReach}
-          onEndReachedThreshold={0.1}
-          ListHeaderComponentStyle={{ borderWidth: 10 }}
-        />
-      </View>
-      <View
-        style={{
-          justifyContent: 'flex-end',
-          height: inputHeight,
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-        }}
+        keyboardVerticalOffset={500}
       >
         <InputBar
           input={input}
@@ -340,17 +347,11 @@ function ChattingRoom({
           handleSendMessage={handleSendMessage}
           id={currentUser?.id}
           article_id={roomID}
-          inputHeight={inputHeight}
-          setInputHeight={setInputHeight}
           author_id={author_id}
         />
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
 export default ChattingRoom;
-
-{
-  /* <View style={{ justifyContent: 'flex-end', backgroundColor:'blue', }}> */
-}

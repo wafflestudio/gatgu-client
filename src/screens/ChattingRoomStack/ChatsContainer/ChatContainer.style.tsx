@@ -6,7 +6,6 @@ const ChatContainerStyle = StyleSheet.create({
   msgContainer: {
     backgroundColor: palette.whiteGray,
     paddingHorizontal: 20,
-    // marginBottom: 50,
   },
   timeText: {
     ...typo.smallText,

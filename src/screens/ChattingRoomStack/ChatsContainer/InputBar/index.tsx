@@ -1,20 +1,15 @@
-import React, { useRef, useState } from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  Image,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Image, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch } from 'react-redux';
 
-import { Button, Modal } from 'native-base';
+import { Modal } from 'native-base';
+import styled from 'styled-components/native';
 
 import { chatAPI } from '@/apis';
+import { GButton, GInput, GModal } from '@/components/Gatgu';
 import { emptyURL } from '@/constants/image';
 import { APItype } from '@/enums/image';
 import { useToaster } from '@/helpers/hooks';
@@ -26,16 +21,21 @@ import { IMessageImage } from '@/types/chat';
 
 import styles from './InputBar.style';
 
+export const CHATTING_ROOM_INPUT_HEIGHT = 31;
+export const CHATTING_ROOM_INPUT_BAR_HEIGHT = 68 + 7;
+
 interface IInputBarInterface {
   input: IMessageImage;
   setInput: (value: IMessageImage) => void;
   handleSendMessage: (input: IMessageImage, img: string) => void;
   id?: number;
   article_id: number;
-  inputHeight: number;
-  setInputHeight: (n: number) => void;
   author_id: number;
 }
+
+const StyledTouchableIcon = styled.TouchableOpacity`
+  margin-bottom: 10px;
+`;
 
 function InputBar({
   input,
@@ -43,11 +43,10 @@ function InputBar({
   handleSendMessage,
   id,
   article_id,
-  inputHeight,
-  setInputHeight,
   author_id,
 }: IInputBarInterface): JSX.Element {
   const toaster = useToaster();
+
   const { pickSingleImage } = usePickImage({
     width: 300,
     height: 400,
@@ -62,7 +61,6 @@ function InputBar({
   const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
   const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
-  const [height, setHeight] = useState<number>(0);
   const dispatch = useDispatch();
 
   const pickFromGallery = () => {
@@ -133,7 +131,7 @@ function InputBar({
         wish_price: parseInt(wishPrice),
       })
       .then(() => {
-        toaster.success('상태가 바뀌었습니다.');
+        toaster.success('희망금액 변경 요청이 완료되었습니다.');
         setModalOpen(false);
         setSubmitIsLoading(false);
         dispatch(fetchingParticipants(article_id));
@@ -141,7 +139,7 @@ function InputBar({
         setOptionsOpen(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error(JSON.stringify(err, null, 2));
         toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
         setModalOpen(false);
         setSubmitIsLoading(false);
@@ -180,49 +178,33 @@ function InputBar({
           </TouchableOpacity>
         </View>
       ) : (
-        <View
-          style={styles.inputWrapper}
-          onLayout={(event) =>
-            setInputHeight(
-              height >= event.nativeEvent.layout.height
-                ? height + 17
-                : event.nativeEvent.layout.height
-            )
-          }
-        >
-          <TouchableOpacity onPress={() => setOptionsOpen(true)}>
+        <View style={styles.inputWrapper}>
+          <StyledTouchableIcon onPress={() => setOptionsOpen(true)}>
             <View style={styles.inputIcon}>
               <Icon name="add" size={25} />
             </View>
-          </TouchableOpacity>
-          <View
+          </StyledTouchableIcon>
+          <TextInput
+            placeholderTextColor={palette.gray}
+            placeholder="메시지를 입력하세요"
             style={{
+              maxHeight: CHATTING_ROOM_INPUT_HEIGHT + 87,
               borderBottomColor: palette.borderGray,
               borderBottomWidth: 1,
               width: '88%',
               marginBottom: 10,
               marginTop: 7,
             }}
-          >
-            <TextInput
-              placeholderTextColor={palette.gray}
-              placeholder="메시지를 입력하세요"
-              style={{ height: height + 10 }}
-              multiline={true}
-              numberOfLines={4}
-              value={input.text}
-              onChangeText={(txt) => {
-                if (inputHeight < 200)
-                  setInput({ text: txt, imgUrl: input.imgUrl });
-              }}
-              autoCorrect={false}
-              onContentSizeChange={(event) =>
-                setHeight(event.nativeEvent.contentSize.height)
-              }
-              maxLength={1000}
-            />
-          </View>
-          <TouchableOpacity
+            multiline={true}
+            numberOfLines={1}
+            value={input.text}
+            onChangeText={(txt) => {
+              setInput({ text: txt, imgUrl: input.imgUrl });
+            }}
+            autoCorrect={false}
+            maxLength={1000}
+          />
+          <StyledTouchableIcon
             onPress={() => handleSendMessage(input, '-1')}
             disabled={input.text.length === 0}
           >
@@ -233,7 +215,7 @@ function InputBar({
                 color={input.text.length === 0 ? palette.gray : palette.dark}
               />
             </View>
-          </TouchableOpacity>
+          </StyledTouchableIcon>
         </View>
       )}
       {input.imgUrl !== emptyURL &&
@@ -255,31 +237,27 @@ function InputBar({
           <Modal.Content>
             <Modal.CloseButton />
             <Modal.Header>희망 금액</Modal.Header>
-
-            <Modal.Body height="100%">
-              <View style={styles.modalBox}>
-                <TextInput
-                  placeholder="제출하고 싶은 희망 금액을 입력해주세요."
-                  placeholderTextColor={palette.gray}
-                  value={wishPrice}
-                  maxLength={10}
-                  onChangeText={(txt) =>
-                    setWishPrice(txt.replace(/[^0-9]/g, ''))
-                  }
-                  keyboardType="number-pad"
-                />
-                <Text>원</Text>
-              </View>
-              <Button
-                isLoading={submitIsLoading}
-                onPress={handleUpdateStatusRequest}
-                style={styles.button}
-              >
-                제출하기
-              </Button>
+            <Modal.Body>
+              <GInput
+                placeholder="제출하고 싶은 희망 금액을 입력해주세요."
+                placeholderTextColor={palette.gray}
+                value={wishPrice}
+                maxLength={10}
+                onChangeText={(txt) => setWishPrice(txt.replace(/[^0-9]/g, ''))}
+                keyboardType="number-pad"
+              />
             </Modal.Body>
 
-            <Modal.Footer></Modal.Footer>
+            <GModal.Footer>
+              <GButton
+                width="full"
+                size="large"
+                isLoading={submitIsLoading}
+                onPress={handleUpdateStatusRequest}
+              >
+                제출하기
+              </GButton>
+            </GModal.Footer>
           </Modal.Content>
         </Modal>
       ) : null}

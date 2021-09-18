@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,12 +23,23 @@ import { IChatUserProps } from '@/types/user';
 import styles from './Drawer.style';
 import StatusModal from './Modal';
 
-function Drawer({ roomID }: { roomID: number }): JSX.Element {
+function Drawer({
+  roomID,
+  authorId,
+}: {
+  roomID: number;
+  authorId: number;
+}): JSX.Element {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const toaster = useToaster();
+
   const currentUser = useUserDetail().data;
+
   const userID = currentUser?.id;
+
+  const isAuthor = authorId === userID;
+
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (socket) => {
       // refetch participant list when a status has been updated
@@ -37,6 +48,7 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
       }
     },
   });
+
   // -1: undefined (modal closed)
   // 0+: id of clicked user (modal open)
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -46,18 +58,12 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
   );
-  const isAuthor = useMemo(() => {
-    return (
-      participants.filter((person) => {
-        return person.participant.user_id === userID;
-      }).length === 0
-    );
-  }, [participants, userID]);
 
   useEffect(() => {
     // fetch participants' info
     dispatch(fetchingParticipants(roomID));
   }, [roomID, dispatch]);
+
   useEffect(() => {
     // fetch all images
     chatAPI.getChatPictures(roomID).then((res) => {

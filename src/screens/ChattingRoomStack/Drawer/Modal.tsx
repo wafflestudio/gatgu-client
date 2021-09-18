@@ -48,7 +48,7 @@ function StatusModal({
       setIsSubmitting(true);
       chatAPI
         .changeParticipantStatus(roomID, {
-          user_id: user.participant.user_id,
+          user_id: user?.id,
           pay_status: isAuthor
             ? ParticipantStatus.pay_checked
             : ParticipantStatus.request_check_pay,
