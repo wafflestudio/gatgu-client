@@ -12,7 +12,7 @@ const infoStyle = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     borderColor: palette.borderGray,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     backgroundColor: palette.white,
     overflow: 'hidden',
   },
