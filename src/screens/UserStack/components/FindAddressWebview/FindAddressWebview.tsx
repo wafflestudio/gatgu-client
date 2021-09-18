@@ -10,7 +10,7 @@ const FindAddressWebview: React.FC<IMapWebviewProps> = ({ onSelect }) => {
     <WebView
       source={{
         uri:
-          'https://gatgubucket.s3.ap-northeast-2.amazonaws.com/webview/findAddress.html',
+          'http://gatgu.s3.ap-northeast-2.amazonaws.com/WEBVIEW/findAddress.html',
       }}
       scalesPageToFit
       overScrollMode="content"
