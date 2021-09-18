@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import { KeyboardAvoidingView } from 'native-base';
 
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { articleAPI } from '@/apis';
@@ -17,6 +17,8 @@ import { validateLink } from '@/helpers/functions/validate';
 import { useToaster } from '@/helpers/hooks';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { AppRoutes } from '@/helpers/routes';
+import { EArticleStackScreens } from '@/screens/ArticleStack/ArticleStack';
+import { EHomeStackScreens } from '@/screens/HomeStack/HomeStack';
 import { RootState } from '@/store';
 import { getSingleArticle } from '@/store/articleSlice';
 import { IPostArticle } from '@/types/article';
@@ -127,13 +129,18 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const navigateToArticle = (articleId?: number) => {
     if (!articleId) return;
 
-    navigation.navigate(AppRoutes.ArticleStack, {
-      screen: AppRoutes.Article,
-      params: {
-        id: articleId,
-        navigateFlag: RESET_SCREEN,
-      },
-    });
+    navigation.dispatch(
+      StackActions.replace('MainStack', {
+        screen: 'Home',
+        params: {
+          screen: EHomeStackScreens.ArticleStack,
+          params: {
+            screen: EArticleStackScreens.Article,
+            params: { id: articleId, navigateFlag: RESET_SCREEN },
+          },
+        },
+      })
+    );
   };
 
   const submit = async () => {
@@ -176,8 +183,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
         res = await articleAPI.create(articleContents);
       }
 
-      if (res.data.article_id) {
-        navigateToArticle(res.data.article_id);
+      if (res.data.article_id || id) {
+        navigateToArticle(res.data.article_id || id);
         finishSubmit();
       } else {
         navigation.navigate(AppRoutes.Home);
@@ -195,9 +202,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       headerLeft: () => (
         <View>
           {isEdit ? (
-            <TouchableOpacity
-              onPress={() => navigateToArticle(currentArticle?.article_id)}
-            >
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Header.BackButton />
             </TouchableOpacity>
           ) : null}
@@ -217,7 +222,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       ),
       headerTitle: isEdit ? '글수정' : '글쓰기',
     });
-  }, [loading, submit, isEdit]);
+  }, [loading, isEdit, navigation]);
 
   return (
     <ScrollView
