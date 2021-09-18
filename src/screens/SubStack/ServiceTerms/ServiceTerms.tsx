@@ -3,8 +3,6 @@ import { Text, View } from 'react-native';
 
 import styled from 'styled-components/native';
 
-import { palette } from '@/styles';
-
 const contents = `
 같이구매 서비스를 이용해주셔서 감사합니다. 지역 기반 공동구매 서비스를 제공하는 "같이구매"의 이용약관은 다음과 같습니다.
 
