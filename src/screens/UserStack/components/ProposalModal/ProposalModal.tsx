@@ -57,7 +57,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
             _focus={{ borderColor: palette.blue }}
             placeholder="건의 내용을 적어주세요"
             maxLength={1000}
-            totalLines={5}
+            maxHeight={205}
             onChangeText={setContent}
           />
         </Modal.Body>
