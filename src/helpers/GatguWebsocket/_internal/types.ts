@@ -24,6 +24,7 @@ export interface TWsMessage {
   type: string;
   data?: any;
   websocket_id?: string;
+  room_id?: number;
 }
 
 export type TWsInit = ({

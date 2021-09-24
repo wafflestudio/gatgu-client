@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, ScrollView, Text, Alert, Platform } from 'react-native';
+import { View, ScrollView, Text, Platform } from 'react-native';
 
 import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
@@ -10,8 +10,7 @@ import { HStack, KeyboardAvoidingView, Modal, VStack } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import { userAPI } from '@/apis';
-import { Button } from '@/components';
-import { GButton, GInput, GSpace, GText } from '@/components/Gatgu';
+import { GButton, GCheckbox, GInput, GSpace, GText } from '@/components/Gatgu';
 import { getTs } from '@/helpers/functions/time';
 import {
   isValidEmail,
@@ -21,6 +20,7 @@ import {
   isValidPassword,
 } from '@/helpers/functions/validate';
 import { useToaster } from '@/helpers/hooks';
+import { ESubStackScreens } from '@/screens/SubStack/SubStack';
 import SignUpInput from '@/screens/UserStack/SignUp/SignUpInput';
 
 import FindAddressWebview from '../components/FindAddressWebview/FindAddressWebview';
@@ -209,7 +209,7 @@ const SignUp: React.FC = () => {
       })
       .catch((error) => {
         toaster.error('인증 메일 발송에 실패하였습니다.');
-        console.debug(error.config);
+        console.debug(error);
       })
       .finally(() => {
         setEmailSending(false);
@@ -222,6 +222,7 @@ const SignUp: React.FC = () => {
       .confirmMailCode(email + '@snu.ac.kr', code)
       .then(() => {
         setTokenValid(true);
+        setTokenConfirmDisabled(true);
         toaster.success('인증되었습니다.');
       })
       .catch((error: AxiosError) => {
@@ -366,13 +367,8 @@ const SignUp: React.FC = () => {
         </VStack>
         <GSpace h={25} />
         <View style={checkStyles.titleContainer}>
-          <Button
-            title=""
-            style={
-              values.isAllCheckboxesSelected
-                ? checkStyles.buttonTrue
-                : checkStyles.buttonFalse
-            }
+          <GCheckbox
+            checked={values.isAllCheckboxesSelected}
             onPress={() => {
               setFieldValue(
                 'isAllCheckboxesSelected',
@@ -386,12 +382,9 @@ const SignUp: React.FC = () => {
                 'checkbox2IsSelected',
                 !values.isAllCheckboxesSelected
               );
-              // setFieldValue(
-              //   'checkbox3IsSelected',
-              //   !values.isAllCheckboxesSelected
-              // );
             }}
           />
+          <GSpace w={10} />
           <View style={checkStyles.textWrapper}>
             <Text style={checkStyles.allTitle}>
               같구 이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에
@@ -408,8 +401,12 @@ const SignUp: React.FC = () => {
               setFieldValue(
                 'isAllCheckboxesSelected',
                 !values.checkbox1IsSelected && values.checkbox2IsSelected
-                // values.checkbox3IsSelected
               );
+            }}
+            onPressTerm={() => {
+              navigation.navigate('SubStack', {
+                screen: ESubStackScreens.ServiceTerms,
+              });
             }}
           />
           <Check
@@ -420,24 +417,14 @@ const SignUp: React.FC = () => {
               setFieldValue(
                 'isAllCheckboxesSelected',
                 values.checkbox1IsSelected && !values.checkbox2IsSelected
-                // values.checkbox3IsSelected
               );
+            }}
+            onPressTerm={() => {
+              navigation.navigate('SubStack', {
+                screen: ESubStackScreens.PrivateInfo,
+              });
             }}
           />
-          {/* <Check
-            checked={values.checkbox3IsSelected}
-            title="위치정보 이용약관 동의"
-            onPress={() => {
-              setFieldValue('checkbox3IsSelected', !values.checkbox3IsSelected);
-              setFieldValue(
-                'isAllCheckboxesSelected',
-                values.checkbox1IsSelected &&
-                  values.checkbox2IsSelected &&
-                  !values.checkbox3IsSelected
-              );
-            }}
-            isOptional={true}
-          /> */}
         </View>
         <GSpace h={10} />
         <GButton

@@ -5,8 +5,9 @@ import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { DateTime } from 'luxon';
-import { Image } from 'native-base';
+import { Flex, Image } from 'native-base';
 
+import { GSpace } from '@/components/Gatgu';
 import { emptyURL } from '@/constants/image';
 import { IMessageImage } from '@/types/chat';
 
@@ -58,8 +59,10 @@ function ChatBox({
   }, [sent_at]);
 
   // message + time
-  const renderedBubbleTime = useMemo(
-    () => (
+  const renderedBubbleTime = useMemo(() => {
+    const isImageShown = image.length > 0 && image[0].img_url !== emptyURL;
+
+    return (
       <View
         style={[
           { alignItems: 'flex-end' },
@@ -69,26 +72,23 @@ function ChatBox({
         {!isSameTime && !pending && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
-        {/* <Text>{sent_at}, {nextItem?.sent_at}, {index}</Text> */}
         <View>
-          {text && text.length != 0 ? (
-            <View style={!isSelf && { paddingRight: 10 }}>
-              <Bubble message={text} isSelf={isSelf} />
-            </View>
-          ) : null}
-          {image.length > 0 && image[0].img_url !== emptyURL && (
+          {isImageShown ? (
             <Image
               source={{ uri: image[0].img_url }}
               style={styles.messageImage}
               fallbackSource={require('@/assets/images/defaultThumnail.png')}
               alt="pic"
             />
+          ) : (
+            <View style={!isSelf && { paddingRight: 10 }}>
+              <Bubble message={text} isSelf={isSelf} />
+            </View>
           )}
         </View>
       </View>
-    ),
-    [isSelf, isSameTime, text, sentTime, image]
-  );
+    );
+  }, [isSelf, isSameTime, text, sentTime, image]);
 
   // 카카오톡과 동일함
   const isProfileShown = !(isSelf || (isSameUser && isSameTime));
@@ -124,6 +124,26 @@ function ChatBox({
     [sent_by, isProfileShown]
   );
 
+  const renderResendIcons = () => {
+    if (!repeat) return;
+
+    return (
+      <Flex direction="row" align="center">
+        <TouchableOpacity
+          onPress={() =>
+            resend({ text: text, imgUrl: image[0].img_url }, `${websocket_id}`)
+          }
+        >
+          <FAIcon name="repeat" size={13} />
+        </TouchableOpacity>
+        <GSpace w={5} />
+        <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
+          <MCIcon name="delete" size={16} />
+        </TouchableOpacity>
+      </Flex>
+    );
+  };
+
   return system ? (
     <SystemMessage message={text} previousSystem={prevItem?.type == 'system'} />
   ) : (
@@ -135,7 +155,14 @@ function ChatBox({
     >
       <View style={styles.row}>
         {renderedProfile}
-        <View style={isProfileShown && { marginTop: 15 }}>
+        <View
+          style={
+            isProfileShown && {
+              marginTop: 15,
+              alignItems: 'flex-start',
+            }
+          }
+        >
           {renderedName}
           <View
             style={{ flexDirection: 'row-reverse', alignItems: 'flex-end' }}
@@ -146,23 +173,7 @@ function ChatBox({
                 <ActivityIndicator size={'small'} />
               </View>
             )}
-            {repeat ? (
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity
-                  onPress={() =>
-                    resend(
-                      { text: text, imgUrl: image[0].img_url },
-                      `${websocket_id}`
-                    )
-                  }
-                >
-                  <FAIcon name="repeat" size={13} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
-                  <MCIcon name="delete" size={16} />
-                </TouchableOpacity>
-              </View>
-            ) : null}
+            {renderResendIcons()}
           </View>
         </View>
       </View>

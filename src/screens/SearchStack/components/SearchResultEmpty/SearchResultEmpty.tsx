@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Box, Image, Text, VStack } from 'native-base';
+import { Box, Flex, Image, Text } from 'native-base';
 
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
+import { mobile } from '@/helpers/mobile';
 import { palette, typo } from '@/styles';
 
 interface ISearchResultEmptyProps {
@@ -16,8 +17,8 @@ const SearchResultEmpty: React.FC<ISearchResultEmptyProps> = ({
   const bottomTabBarHeight = useBottomTabBarHeight();
 
   return (
-    <VStack
-      minHeight="100%"
+    <Flex
+      h={mobile.height}
       justifyContent="center"
       alignItems="center"
       backgroundColor={palette.whiteGray}
@@ -40,7 +41,7 @@ const SearchResultEmpty: React.FC<ISearchResultEmptyProps> = ({
           다른 검색어를 입력하거나, 보다 더 포괄적인 키워드로 검색해보세요.
         </Text>
       </Box>
-    </VStack>
+    </Flex>
   );
 };
 

@@ -6,7 +6,6 @@ import { Configs } from './Configs';
 import Login from './Login';
 import Profile from './Profile';
 import ProfileModify from './ProfileModify';
-import ServiceTerms from './ServiceTerms';
 import SignUp from './SignUp';
 import UserGatgu from './UserGatgu';
 
@@ -23,14 +22,12 @@ export enum EUserStackScreens {
   // auth
   Login = 'Login',
   SignUp = 'SignUp',
-  ServiceTerms = 'ServiceTerms',
 }
 
 export type TUserStackParamList = {
   [EUserStackScreens.UserStack]: undefined;
   [EUserStackScreens.Login]: undefined;
   [EUserStackScreens.SignUp]: undefined;
-  [EUserStackScreens.ServiceTerms]: undefined;
   [EUserStackScreens.Profile]: undefined;
   [EUserStackScreens.ProfileModify]: undefined;
   [EUserStackScreens.UserGatgu]: undefined;
@@ -80,14 +77,6 @@ const UserStackScreen: React.FC = () => {
         component={SignUp}
         options={{
           title: '회원가입',
-          headerTitleAlign: 'center',
-        }}
-      />
-      <UserStack.Screen
-        name={EUserStackScreens.ServiceTerms}
-        component={ServiceTerms}
-        options={{
-          title: '약관 동의',
           headerTitleAlign: 'center',
         }}
       />

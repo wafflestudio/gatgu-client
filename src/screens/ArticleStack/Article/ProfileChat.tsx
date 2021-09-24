@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import { Flex } from 'native-base';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { Profile } from '@/components';
 import { GButton } from '@/components/Gatgu/GButton';
 import { ArticleStatus, WSMessage } from '@/enums';
@@ -10,7 +12,6 @@ import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { getTs } from '@/helpers/functions/time';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useSelector from '@/helpers/hooks/useSelector';
 import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { fetchingParticipants } from '@/store/chatSlice';
@@ -31,7 +32,7 @@ function ProfileChat({
   chatLoading,
   setChatLoading,
 }: IProfileChat): JSX.Element {
-  const navigation = useAppNavigation();
+  const navigation = useNavigation();
   const toaster = useToaster();
   const article_id = article.article_id;
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ function ProfileChat({
         if (article_id) {
           navigation.navigate({
             name: EChattingRoomStackScreens.ChattingRoom,
-            params: { id: article_id },
+            params: { id: article_id, author_id: article.writer.id },
           });
           // trigger fetch to change store's participantsList -> affect chatting drawer
           if (result.data == 201) {

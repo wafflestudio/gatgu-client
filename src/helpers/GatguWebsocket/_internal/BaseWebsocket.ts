@@ -167,7 +167,7 @@ class BaseWebsocket {
           } else {
             promise.reject(message);
           }
-          break;
+          return;
         }
 
         if (this.onmessage) {

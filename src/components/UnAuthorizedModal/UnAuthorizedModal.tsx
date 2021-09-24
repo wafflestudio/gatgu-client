@@ -4,8 +4,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Modal } from 'native-base';
 
 import { useNavigation } from '@react-navigation/core';
+import { StackActions } from '@react-navigation/native';
 
-import { AppRoutes } from '@/helpers/routes';
+import { EUserStackScreens } from '@/screens/UserStack/UserStack';
 
 import { GButton, GSpace, GText } from '../Gatgu';
 
@@ -32,7 +33,18 @@ const UnAuthorizedModal: React.FC<IUnAuthorizedModalProps> = ({ isOpen }) => {
             width="full"
             size="large"
             onPress={() => {
-              navigation.navigate(AppRoutes.UserStack, { screen: 'Login' });
+              navigation.dispatch(
+                StackActions.push('MainStack', {
+                  screen: 'UserStack',
+                })
+              );
+
+              navigation.navigate('MainStack', {
+                screen: 'UserStack',
+                params: {
+                  screen: EUserStackScreens.Login,
+                },
+              });
             }}
           >
             로그인 하러 가기

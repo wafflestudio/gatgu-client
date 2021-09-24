@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native';
 
 import { DateTime } from 'luxon';
 
@@ -56,53 +55,57 @@ function ChattingList(): JSX.Element {
 
   const currentUser = useUserDetail().data;
 
-  const navigateToChatRoom = (resendKey: string, articleID: number) => {
-    // check if resend
-    const isResent = parseInt(resendKey) !== -1;
-    // set timeout and fix websocket appropriately
-    const websocket_id = isResent ? resendKey : `${DateTime.now()}`;
+  const navigateToChatRoom = React.useCallback(
+    (resendKey: string, articleID: number) => {
+      console.log(articleID);
+      // check if resend
+      const isResent = parseInt(resendKey) !== -1;
+      // set timeout and fix websocket appropriately
+      const websocket_id = isResent ? resendKey : `${DateTime.now()}`;
 
-    const wsMessage = {
-      type: WSMessage.ENTER_ROOM,
-      data: {
-        room_id: articleID,
-        user_id: currentUser?.id,
-      },
-      websocket_id: websocket_id,
-    };
-    sendWsMessage(wsMessage, {
-      resolveCondition: (data) => data.type === WSMessage.ENTER_ROOM_SUCCESS,
-      rejectCondition: (data) => data.type === WSMessage.ENTER_ROOM_FAILURE,
-    })
-      .then(() => {
-        if (articleID) {
-          navigation.navigate({
-            name: 'ChattingRoom',
-            params: { id: articleID },
-          });
-        }
+      const wsMessage = {
+        type: WSMessage.ENTER_ROOM,
+        data: {
+          room_id: articleID,
+          user_id: currentUser?.id,
+        },
+        websocket_id: websocket_id,
+      };
+      sendWsMessage(wsMessage, {
+        resolveCondition: (data) => data.type === WSMessage.ENTER_ROOM_SUCCESS,
+        rejectCondition: (data) => data.type === WSMessage.ENTER_ROOM_FAILURE,
       })
-      .catch((e) => {
-        toaster.error(
-          '채팅방에 입장하지 못 했습니다. 네트워크 연결을 다시 확인해주세요.'
-        );
-        console.error('ChattingList/index.tsx', e);
-      });
-  };
+        .then(() => {
+          if (articleID) {
+            navigation.navigate({
+              name: 'ChattingRoom',
+              params: { id: articleID },
+            });
+          }
+        })
+        .catch((e) => {
+          toaster.error(
+            '채팅방에 입장하지 못 했습니다. 네트워크 연결을 다시 확인해주세요.'
+          );
+          console.error('ChattingList/index.tsx', e);
+        });
+    },
+    [currentUser?.id, sendWsMessage, toaster, navigation]
+  );
 
   const renderItem = React.useCallback(
     ({ item }: { item: IChatListSinglePreview }) => {
       return (
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() =>
             item.article?.id && navigateToChatRoom('-1', item.article?.id)
           }
         >
           <ChattingBox item={item} />
-        </TouchableHighlight>
+        </TouchableOpacity>
       );
     },
-    []
+    [navigateToChatRoom]
   );
   const renderKey = React.useCallback((_, ind) => `${ind}`, []);
 

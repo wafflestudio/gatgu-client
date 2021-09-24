@@ -9,6 +9,8 @@ import styles from './Header.style';
 import HeaderBackButton from './HeaderBackButton';
 
 // need to pass functions for the buttons
+
+export const HEADER_HEIGHT = 50;
 export interface IHeaderProps {
   // 헤더 한가운데 들어갈 타이틀 텍스트
   title?: string;
@@ -25,7 +27,7 @@ export interface IHeaderProps {
   right?: React.ReactNode;
   rightCallback?: any;
   rightContainerStyle?: StyleProp<ViewStyle>;
-  setHeight?: (n: number) => void;
+  fixed?: boolean;
 }
 
 const Header: React.FC<IHeaderProps> = ({
@@ -37,7 +39,7 @@ const Header: React.FC<IHeaderProps> = ({
   leftContainerStyle,
   rightContainerStyle,
   titleContainerStyle,
-  setHeight,
+  fixed,
 }) => {
   const navigation = useNavigation();
 
@@ -51,10 +53,14 @@ const Header: React.FC<IHeaderProps> = ({
 
   return (
     <View
-      style={styles.header}
-      onLayout={(event) => {
-        setHeight && setHeight(event.nativeEvent.layout.height);
-      }}
+      style={[
+        fixed && {
+          position: 'absolute',
+          top: 0,
+          zIndex: 10,
+        },
+        styles.header,
+      ]}
     >
       {left ? (
         <TouchableOpacity

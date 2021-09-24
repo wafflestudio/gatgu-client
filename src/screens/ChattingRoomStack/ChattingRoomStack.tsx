@@ -1,12 +1,8 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
-import _ from 'lodash';
+import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { RootState } from '@/store';
 import { ChattingDrawerParamList } from '@/types/navigation';
 
 import ChattingRoomTemplate from './ChattingRoomTemplate';
@@ -19,37 +15,28 @@ export enum EChattingRoomStackScreens {
 export type TChattingRoomStackParamList = {
   [EChattingRoomStackScreens.ChattingRoom]: {
     id: number;
+    author_id: number;
   };
 };
 
 const Drawer = createDrawerNavigator<TChattingRoomStackParamList>();
 
-// TODO: @juimdpp
-// todo: 아래 FIXME로 적혀있는것들
-// when: when api becomes stable
-
 function ChattingRoomStackScreen(): JSX.Element {
-  const currentChatInfo = useSelector(
-    (state: RootState) => state.chat.currentChatInfo
-  );
   const route = useRoute<
     RouteProp<ChattingDrawerParamList, EChattingRoomStackScreens.ChattingRoom>
   >();
   const roomID = route.params.id;
-  useEffect(() => {
-    // dispatch(getChatInfo(id));
-    // handle error case
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const author_id = route.params.author_id;
+
   const ChattingRoomScreen = React.useCallback(
-    () => <ChattingRoomTemplate roomID={roomID} />,
-    [roomID]
+    () => <ChattingRoomTemplate roomID={roomID} author_id={author_id} />,
+    [roomID, author_id]
   );
 
   return (
     <Drawer.Navigator
       drawerPosition="right"
-      drawerContent={() => <RightDrawer roomID={roomID} />}
+      drawerContent={() => <RightDrawer roomID={roomID} authorId={author_id} />}
       drawerStyle={{ width: '57%' }}
     >
       <Drawer.Screen

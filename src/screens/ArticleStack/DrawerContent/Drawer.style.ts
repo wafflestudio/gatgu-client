@@ -40,6 +40,15 @@ const DrawerStyles = StyleSheet.create({
     width: 30,
     height: 30,
   },
+
+  profileBox: {
+    marginBottom: 20,
+    flexDirection: 'row',
+    width: '95%',
+    marginRight: 20,
+    paddingRight: 10,
+    alignItems: 'center',
+  },
 });
 
 export default DrawerStyles;

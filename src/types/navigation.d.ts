@@ -23,5 +23,6 @@ export type SignUpStackParamList = {
 export type ChattingDrawerParamList = {
   ChattingRoom: {
     id: number;
+    author_id: number;
   };
 };
