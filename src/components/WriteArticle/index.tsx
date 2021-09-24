@@ -46,6 +46,21 @@ interface IWriteArticleProps {
 }
 
 function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const toaster = useToaster();
+
+  const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
+  const { id } = isEdit ? route.params : { id: 0 };
+
+  const { uploadMultipleImages } = useImageUpload(APItype.article, id);
+
+  // if edit, get article and send them to other subcomponents
+  const currentArticle = useSelector((state: RootState) => {
+    if (isEdit) return state.article.currentArticle;
+    else return null;
+  });
+
   const [images, setImages] = useState<TShortImage[]>([]);
   const [need_price, setPrice] = useState<number | null>(null);
   const [title, setTitle] = useState<string>('');
@@ -55,18 +70,6 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
   const [description, setDescription] = useState<string>('');
   const [link, setLink] = useState<string>('');
   const [location, setLocation] = useState<string>('');
-  const navigation = useNavigation();
-  const route = useRoute<RouteProp<EditArticleParamList, 'EditArticle'>>();
-  const { id } = isEdit ? route.params : { id: 0 };
-  const dispatch = useDispatch();
-  const { uploadMultipleImages } = useImageUpload(APItype.article, id);
-  const toaster = useToaster();
-  // if edit, get article and send them to other subcomponents
-  const currentArticle = useSelector((state: RootState) => {
-    if (isEdit) return state.article.currentArticle;
-    else return null;
-  });
-
   const [loading, setLoading] = useState<boolean>(false);
 
   const handlePrice = (inp: number | null) => {
@@ -106,16 +109,16 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentArticle]);
 
-  const checkInput = (): string => {
+  const checkInput = React.useCallback((): string => {
     if (!title.length) return '제목을 입력해주세요.';
     else if (need_price === null) return '희망 구매액을 입력해주세요.';
     else if (!location.length) return '희망 거래 지역을 입력해주세요.';
     else if (!validateLink(link)) return '링크를 다시 한번 확인해주세요.';
     else if (!description.length) return '글의 세부사항을 입력해주세요.';
     else return '';
-  };
+  }, [title, need_price, location, description, link]);
 
-  const finishSubmit = () => {
+  const finishSubmit = React.useCallback(() => {
     setLoading(false);
     setTitle('');
     setDescription('');
@@ -124,26 +127,29 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     setLocation('');
     setImages([]);
     setDueDate(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
-  };
+  }, []);
 
-  const navigateToArticle = (articleId?: number) => {
-    if (!articleId) return;
+  const navigateToArticle = React.useCallback(
+    (articleId?: number) => {
+      if (!articleId) return;
 
-    navigation.dispatch(
-      StackActions.replace('MainStack', {
-        screen: 'Home',
-        params: {
-          screen: EHomeStackScreens.ArticleStack,
+      navigation.dispatch(
+        StackActions.replace('MainStack', {
+          screen: 'Home',
           params: {
-            screen: EArticleStackScreens.Article,
-            params: { id: articleId, navigateFlag: RESET_SCREEN },
+            screen: EHomeStackScreens.ArticleStack,
+            params: {
+              screen: EArticleStackScreens.Article,
+              params: { id: articleId, navigateFlag: RESET_SCREEN },
+            },
           },
-        },
-      })
-    );
-  };
+        })
+      );
+    },
+    [navigation]
+  );
 
-  const submit = async () => {
+  const submit = React.useCallback(async () => {
     //
     // check input valid and get error message
     //
@@ -195,7 +201,24 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    isEdit,
+    currentArticle,
+    description,
+    dueDate,
+    id,
+    images,
+    link,
+    location,
+    navigation,
+    need_price,
+    title,
+    toaster,
+    finishSubmit,
+    checkInput,
+    navigateToArticle,
+    uploadMultipleImages,
+  ]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -222,7 +245,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       ),
       headerTitle: isEdit ? '글수정' : '글쓰기',
     });
-  }, [loading, isEdit, navigation]);
+  }, [loading, isEdit, navigation, submit]);
 
   return (
     <ScrollView
