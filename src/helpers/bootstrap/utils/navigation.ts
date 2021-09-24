@@ -6,41 +6,6 @@ import { LinkingOptions } from '@react-navigation/native';
 
 const NativeLinking = Platform.OS === 'android' ? NativeIntentAndroid : Linking;
 
-export const parseNotifcationNavigationData = (
-  path: string,
-  payload?: string
-) => {
-  let stackName = '';
-  let navigateParams = {};
-
-  try {
-    const splittedPath: string[] = path.split('/');
-    stackName = splittedPath.shift() ?? '';
-
-    navigateParams = splittedPath.reduce((x, p, idx) => {
-      const params: any = {
-        screen: p,
-      };
-
-      if (idx === splittedPath.length - 1 && payload) {
-        params['params'] = JSON.parse(payload)?.params;
-      }
-
-      return {
-        ...x,
-        params,
-      };
-    }, {});
-  } catch (err) {
-    console.error(err);
-  }
-
-  return {
-    stackName,
-    navigateParams,
-  };
-};
-
 // Deep links
 const deepLinksConf: LinkingOptions['config'] = {
   screens: {

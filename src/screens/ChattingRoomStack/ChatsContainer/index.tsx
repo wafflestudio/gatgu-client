@@ -93,8 +93,7 @@ function ChattingRoom({
     onmessage: (socket) => {
       if (
         socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS &&
-        !socket.data.text.includes('entered') &&
-        socket.room_id === roomID
+        !socket.data.text.includes('entered')
       ) {
         console.log('SYSTEM', socket.data.type, socket.data.id);
 

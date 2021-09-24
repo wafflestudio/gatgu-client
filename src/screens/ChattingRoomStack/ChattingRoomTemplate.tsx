@@ -18,6 +18,8 @@ export default function ChattingRoomTemplate({
   author_id: number;
 }): JSX.Element {
   const navigation = useNavigation();
+
+  console.log('roomId:', roomID);
   return (
     <View style={{ flex: 1 }}>
       <Header

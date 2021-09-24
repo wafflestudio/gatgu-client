@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Linking } from 'react-native';
 import PushNotification from 'react-native-push-notification';
 
 import PushNotificationIos from '@react-native-community/push-notification-ios';
@@ -11,22 +12,16 @@ import usePushNotification from '@/helpers/hooks/usePushNotification';
 import { AppRoutes } from '@/helpers/routes';
 import { TNotificationData } from '@/types/Notification';
 
-import rootNavigation, { navigationRef } from '../rootNavigation';
-import { parseNotifcationNavigationData } from '../utils/navigation';
+import { navigationRef } from '../rootNavigation';
 
 PushNotification.configure({
   // processing back/foreground notificaiton
   onNotification: function (notification) {
     const data = notification.data;
 
-    const { stackName, navigateParams } = parseNotifcationNavigationData(
-      data.path,
-      data.payload
-    );
+    console.log('fore/background notificaiton:', notification.data);
 
-    console.log('fore/background notificaiton:', notification);
-
-    rootNavigation.navigate(stackName, navigateParams);
+    Linking.openURL(data.link);
 
     notification.finish(PushNotificationIos.FetchResult.NoData);
   },
