@@ -14,6 +14,7 @@ export const updateAccessToken = async () => {
   const refreshTokenWithExpiry = await ObjectStorage.getObject<DataWithExpiry>(
     asyncStoragekey.REFRESH_TOKEN
   );
+
   if (!refreshTokenWithExpiry) return;
   if (refreshTokenWithExpiry.expiry < getTs()) {
     ObjectStorage.removeObject(asyncStoragekey.REFRESH_TOKEN);
@@ -46,7 +47,7 @@ export const loginWithAccessToken = async () => {
 
   if (
     accessTokenWithExpiry &&
-    accessTokenWithExpiry.expiry > DateTime.now().toSeconds()
+    accessTokenWithExpiry.expiry > DateTime.now().toMillis()
   ) {
     setRequesterToken(accessTokenWithExpiry.data);
     store.dispatch(setLoginState(true));
