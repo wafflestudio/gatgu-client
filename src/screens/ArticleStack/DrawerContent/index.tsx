@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from 'native-base';
@@ -59,7 +59,8 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         toaster.success('글 상태 변경을 완료되었습니다.');
         refreshArticle();
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         toaster.error('글 상태 변경에 실패했습니다.');
       })
       .finally(() => {
@@ -198,15 +199,19 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   };
 
   const renderParticipants = () => {
-    return order_chat?.participant_profile.map((user) => (
-      <View key={user.id} style={{ marginBottom: 10 }}>
-        <Profile
-          id={user.participant.user_id}
-          picture={user.participant.picture}
-          nickname={user.participant.nickname}
-        />
-      </View>
-    ));
+    return (
+      <ScrollView>
+        {order_chat?.participant_profile.map((user) => (
+          <View key={user.id} style={{ marginBottom: 10 }}>
+            <Profile
+              id={user.participant.user_id}
+              picture={user.participant.picture}
+              nickname={user.participant.nickname}
+            />
+          </View>
+        ))}
+      </ScrollView>
+    );
   };
 
   return (

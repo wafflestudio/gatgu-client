@@ -41,7 +41,6 @@ const ArticleBox: React.FC<IArticleSummary> = ({
             uri: images[0]?.img_url,
           }}
           fallbackSource={require('@/assets/images/defaultThumnail.png')}
-          loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
           alt="article thumnail"
           borderRadius="13px"
         />

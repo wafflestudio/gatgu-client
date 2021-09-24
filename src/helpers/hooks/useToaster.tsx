@@ -22,13 +22,15 @@ const useToaster = () => {
           render: (props) => (
             <Alert
               {...props}
-              maxWidth="90%"
               alignSelf="center"
               status={status ?? 'info'}
-              paddingRight={11}
+              flexDir="row"
+              display="flex"
+              _text={{
+                flexDir: 'row',
+              }}
             >
               <Alert.Icon />
-              {/* FIXME: I don't know alert height */}
               <Alert.Title
                 _text={{
                   overflow: 'visible',

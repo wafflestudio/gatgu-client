@@ -13,8 +13,8 @@ const HeaderStyles = StyleSheet.create({
   header: {
     width: '100%',
     height: 50,
-    borderBottomWidth: 1,
-    borderBottomColor: palette.whiteGray,
+    borderBottomWidth: 0.5,
+    borderBottomColor: palette.borderGray,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: palette.white,

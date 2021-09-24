@@ -1,8 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { TextInput, View } from 'react-native';
 
-import { StringInput } from '@/components';
-
 import waStyles from '../WriteArticle.style';
 import styles from './Title.style';
 
@@ -18,7 +16,6 @@ function Title({ title, setTitle, editable }: TitleProps): JSX.Element {
         value={title}
         style={styles.text}
         placeholder="제목"
-        // placeholderStyle={styles.placeHolder}
         onChangeText={setTitle}
         editable={editable}
         maxLength={40}

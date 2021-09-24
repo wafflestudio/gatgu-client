@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Text, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 
-import { ArrowBackIcon, HamburgerIcon } from 'native-base';
+import { HamburgerIcon } from 'native-base';
 
-import {
-  DrawerActions,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 import { Header } from '@/components';
 import { AppRoutes } from '@/helpers/routes';
@@ -17,33 +12,26 @@ import ChatsContainer from './ChatsContainer';
 
 export default function ChattingRoomTemplate({
   roomID,
+  author_id,
 }: {
   roomID: number;
+  author_id: number;
 }): JSX.Element {
   const navigation = useNavigation();
-  const [height, setHeight] = useState<number>(0);
   return (
-    <View
-      // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{
-        backgroundColor: 'yellow',
-        justifyContent: 'space-between',
-      }}
-    >
+    <View style={{ flex: 1 }}>
       <Header
         title="채팅방"
-        titleStyle={{ fontSize: 20 }}
         right={<HamburgerIcon />}
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        left={<ArrowBackIcon />}
+        left={<Header.BackButton />}
         leftCallback={() => {
           navigation.navigate('MainStack', {
             screen: 'ChattingList',
           });
         }}
-        setHeight={setHeight}
       />
-      <ChatsContainer roomID={roomID} headerHeight={height} />
+      <ChatsContainer roomID={roomID} author_id={author_id} />
     </View>
   );
 }

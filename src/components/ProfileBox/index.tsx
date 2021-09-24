@@ -20,12 +20,12 @@ type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
 function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
   const navigation = useNavigation();
 
-  const { data } = useUserDetail();
+  const { data: currentUser } = useUserDetail();
   const isLogined = useSelector((state) => state.user.isLogined);
 
   const handleProfilePress = () => {
-    if (data?.id !== id) {
-      navigation.navigate(AppRoutes.SubStack, {
+    if (currentUser?.id !== id) {
+      navigation.navigate('SubStack', {
         screen: ESubStackScreens.UserProfile,
         params: { id: id },
       });

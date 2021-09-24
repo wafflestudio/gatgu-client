@@ -91,5 +91,5 @@ export const patchArticle = (
   articleId: number,
   body: { article_status: ArticleStatus }
 ) => {
-  return apiClient.patch(`articles/${articleId}`, body);
+  return apiClient.patch(`articles/${articleId}/`, body);
 };

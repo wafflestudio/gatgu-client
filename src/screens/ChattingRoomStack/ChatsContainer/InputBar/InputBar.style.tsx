@@ -16,14 +16,15 @@ const InputBarStyle = StyleSheet.create({
   bar: {
     backgroundColor: palette.white,
     padding: 0,
-    height: '100%',
+    width: '100%',
+    maxHeight: 75 + 87,
   },
   inputIcon: {
     ...commonStyle.Icon,
   },
   inputWrapper: {
     width: '88%',
-    alignContent: 'center',
+    alignItems: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

@@ -26,9 +26,6 @@ export const changeParticipantStatus = (
   body: IChangeStatusProps
 ): Promise<AxiosResponse<IChangeStatusProps>> => {
   return apiClient.patch(`chattings/${id}/participants/`, body);
-  // TODO: @juimdpp
-  // todo: apiClient.put(`chat/${id}/`, body); url ends with: /set_status/
-  // when: api 고칠 때
 };
 
 export const getChattingMessages = (
@@ -37,8 +34,7 @@ export const getChattingMessages = (
 ): Promise<AxiosResponse<IAllMessagesResponse>> => {
   url = url === 'first' ? '?' : url ? `${url}&` : '?';
 
-  console.log(`chattings/${roomId}/messages/${url}page_size=5`);
-  return apiClient.get(`chattings/${roomId}/messages/${url}page_size=15`);
+  return apiClient.get(`chattings/${roomId}/messages/${url}page_size=25`);
 };
 
 export const getMyChattingList = (

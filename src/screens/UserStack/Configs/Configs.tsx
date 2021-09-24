@@ -49,7 +49,7 @@ const Configs: React.FC = () => {
   ];
 
   const etcItems: IConfigLayoutItem[] = [
-    { label: '버전', rightText: '0.0.1' },
+    { label: '버전', rightText: '1.0.0' },
     { label: '개발자 괴롭히기', onPress: () => setProposalModalOpen(true) },
     { label: '로그아웃', onPress: () => setLogoutModalOpen(true) },
   ];

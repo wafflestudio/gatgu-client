@@ -55,11 +55,11 @@ function Login(): JSX.Element {
 
       ObjectStorage.addObject(asyncStoragekey.ACCESS_TOKEN, {
         data: access,
-        expiry: DateTime.now().plus({ day: 1 }).toSeconds(),
+        expiry: DateTime.now().plus({ day: 1 }).toMillis(),
       });
       ObjectStorage.addObject(asyncStoragekey.REFRESH_TOKEN, {
         data: refresh,
-        expiry: DateTime.now().plus({ day: 30 }).toSeconds(),
+        expiry: DateTime.now().plus({ day: 30 }).toMillis(),
       });
 
       navigation.dispatch(StackActions.popToTop());
