@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,8 +14,9 @@ import { DateTime } from 'luxon';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { chatAPI } from '@/apis';
+import { chatAPI, userAPI } from '@/apis';
 import { Profile } from '@/components';
+import { GSpace } from '@/components/Gatgu';
 import { ParticipantStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
@@ -18,7 +26,7 @@ import { useUserDetail } from '@/helpers/hooks/api';
 import { RootState } from '@/store';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { palette } from '@/styles';
-import { IChatUserProps } from '@/types/user';
+import { IChatUserProps, IUserSimple } from '@/types/user';
 
 import styles from './Drawer.style';
 import StatusModal from './Modal';
@@ -55,6 +63,8 @@ function Drawer({
   const [user, setUser] = useState<IChatUserProps>();
   const [pictureUrls, setPictureUrls] = useState<string[]>([]);
 
+  const [author, setAuthor] = useState<IUserSimple | null>(null);
+
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
   );
@@ -62,7 +72,12 @@ function Drawer({
   useEffect(() => {
     // fetch participants' info
     dispatch(fetchingParticipants(roomID));
-  }, [roomID, dispatch]);
+
+    // fetch author
+    userAPI.getOtherUserData(authorId).then((res) => {
+      setAuthor(res.data);
+    });
+  }, [roomID, authorId, dispatch]);
 
   useEffect(() => {
     // fetch all images
@@ -158,7 +173,19 @@ function Drawer({
       </View>
       <View style={styles.userContainer}>
         <Text style={styles.bigLabelText}>참여 인원 목록</Text>
-        {renderedParticipants}
+        <ScrollView style={{ width: '100%' }}>
+          {author ? (
+            <>
+              <Profile
+                id={author.id}
+                picture={author.picture}
+                nickname={author.nickname}
+              />
+              <GSpace h={20} />
+            </>
+          ) : null}
+          {renderedParticipants}
+        </ScrollView>
       </View>
       {!isAuthor && (
         <View style={styles.optionContainer}>
