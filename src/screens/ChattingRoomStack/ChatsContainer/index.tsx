@@ -13,12 +13,10 @@ import { View } from 'native-base';
 import { chatAPI } from '@/apis';
 import { emptyURL } from '@/constants/image';
 import { WSMessage } from '@/enums';
-import { APItype } from '@/enums/image';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { storeRecentlyReadMessageId } from '@/helpers/functions/chat';
 import { useUserDetail } from '@/helpers/hooks/api';
-import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { refetchChattingList } from '@/store/chatSlice';
 import { IChatMessage, IMessageImage } from '@/types/chat';
 
@@ -46,8 +44,6 @@ function ChattingRoom({
   const isRecentMsgStoredRef = React.useRef(false);
 
   const userID = currentUser?.id;
-
-  const { uploadSingleImage } = useImageUpload(APItype.chat, userID);
 
   const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
   const [refresh, setRefresh] = useState(true);
@@ -206,9 +202,6 @@ function ChattingRoom({
             picture: currentUser.userprofile.picture,
             updated_at: 20210716,
             withdrew_at: null,
-            // TODO: remove comments before pushing
-            // updated_at: currentUser.userprofile.updated_at.getTime()/1000,
-            // withdrew_at: currentUser.userprofile.withdrew_at.getTime()/1000
           },
           sent_at: Date.now(),
           system: false,
@@ -219,8 +212,12 @@ function ChattingRoom({
         pending: true,
       };
 
+      const isValidMessage = input.imgUrl !== emptyURL || input.text.length > 0;
+
       if (firstSend) {
-        setPendingList((prev) => [message, ...prev]);
+        if (isValidMessage) {
+          setPendingList((prev) => [message, ...prev]);
+        }
       } else {
         // if resend --> set as repeat false
         const tempPendingList = pendingList.map((chat) =>
@@ -231,43 +228,22 @@ function ChattingRoom({
         setRefresh(!refresh);
       }
 
-      const checkImage =
-        input.imgUrl !== emptyURL
-          ? uploadSingleImage({
-              mime: 'jpeg',
-              path: input.imgUrl,
-            })
-          : new Promise<string>((resolve) => resolve(emptyURL));
+      const wsMessage = {
+        type: WSMessage.SEND_MESSAGE,
+        data: {
+          room_id: roomID,
+          user_id: userID,
+          message: {
+            text: input.imgUrl === emptyURL ? input.text : '',
+            image: input.imgUrl === emptyURL ? '' : input.imgUrl,
+          },
+        },
+        websocket_id: websocket_id, // tempID used for internal purposes
+      };
 
-      checkImage
-        .then((img: any) => {
-          // send websocket message to server
-          const wsMessage = {
-            type: WSMessage.SEND_MESSAGE,
-            data: {
-              room_id: roomID,
-              user_id: userID,
-              message: {
-                text: input.imgUrl === emptyURL ? input.text : '',
-                image: input.imgUrl === emptyURL ? '' : img,
-              },
-            },
-            websocket_id: websocket_id, // tempID used for internal purposes
-          };
-
-          sendChatMessage(wsMessage);
-        })
-        .catch((e) => console.error('ERR', e));
+      sendChatMessage(wsMessage);
     },
-    [
-      currentUser,
-      pendingList,
-      refresh,
-      userID,
-      roomID,
-      sendChatMessage,
-      uploadSingleImage,
-    ]
+    [currentUser, pendingList, refresh, userID, roomID, sendChatMessage]
   );
 
   const handleErase = React.useCallback((resend: string) => {

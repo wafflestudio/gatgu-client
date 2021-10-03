@@ -5,7 +5,6 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch } from 'react-redux';
 
-import { Modal } from 'native-base';
 import styled from 'styled-components/native';
 
 import { chatAPI } from '@/apis';
@@ -70,6 +69,7 @@ function InputBar({
         img &&
           uploadSingleImage({ mime: img.mime, path: img.path })
             .then((url) => {
+              console.log('image upload success');
               setInput({ text: input.text, imgUrl: url });
               handleSendMessage({ text: input.text, imgUrl: url }, '-1');
               setModalOpen(false);
@@ -233,33 +233,29 @@ function InputBar({
         ))}
 
       {modalOpen ? (
-        <Modal isOpen size="lg" onClose={() => setModalOpen(false)}>
-          <Modal.Content>
-            <Modal.CloseButton />
-            <Modal.Header>희망 금액</Modal.Header>
-            <Modal.Body>
-              <GInput
-                placeholder="제출하고 싶은 희망 금액을 입력해주세요."
-                placeholderTextColor={palette.gray}
-                value={wishPrice}
-                maxLength={10}
-                onChangeText={(txt) => setWishPrice(txt.replace(/[^0-9]/g, ''))}
-                keyboardType="number-pad"
-              />
-            </Modal.Body>
-
-            <GModal.Footer>
-              <GButton
-                width="full"
-                size="large"
-                isLoading={submitIsLoading}
-                onPress={handleUpdateStatusRequest}
-              >
-                제출하기
-              </GButton>
-            </GModal.Footer>
-          </Modal.Content>
-        </Modal>
+        <GModal onClose={() => setModalOpen(false)}>
+          <GModal.Header>희망 금액</GModal.Header>
+          <GModal.Body>
+            <GInput
+              placeholder="제출하고 싶은 희망 금액을 입력해주세요."
+              placeholderTextColor={palette.gray}
+              value={wishPrice}
+              maxLength={10}
+              onChangeText={(txt) => setWishPrice(txt.replace(/[^0-9]/g, ''))}
+              keyboardType="number-pad"
+            />
+          </GModal.Body>
+          <GModal.Footer>
+            <GButton
+              width="full"
+              size="large"
+              isLoading={submitIsLoading}
+              onPress={handleUpdateStatusRequest}
+            >
+              제출하기
+            </GButton>
+          </GModal.Footer>
+        </GModal>
       ) : null}
     </View>
   );
