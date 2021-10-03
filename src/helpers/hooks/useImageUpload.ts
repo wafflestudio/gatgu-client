@@ -53,7 +53,6 @@ const useImageUpload = (type: APItype, id?: number) => {
           method: 'POST',
           body: body,
         }).then((r: any) => {
-          console.log(r.headers['map']['location']);
           if (r['ok']) return r.headers['map']['location'];
           else {
             return emptyURL;
@@ -61,7 +60,7 @@ const useImageUpload = (type: APItype, id?: number) => {
         });
       })
       .catch((err) => {
-        console.log('IMAGE UPLOAD ERROR', err);
+        console.error('IMAGE UPLOAD ERROR', err.message);
       });
   };
 
