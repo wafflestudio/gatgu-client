@@ -45,7 +45,7 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
       setRecentMessageUnread(
         Boolean(recent_message?.id) &&
           res !== recent_message.id &&
-          sent_by.id !== currentUser?.userprofile.user_id
+          sent_by.id !== currentUser?.id
       );
     });
   }, [roomId, recent_message, currentUser, sent_by]);
