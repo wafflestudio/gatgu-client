@@ -6,6 +6,7 @@ import { HamburgerIcon } from 'native-base';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 import { Header } from '@/components';
+import { AppRoutes } from '@/helpers/routes';
 
 import ChatsContainer from './ChatsContainer';
 
@@ -17,6 +18,8 @@ export default function ChattingRoomTemplate({
   author_id: number;
 }): JSX.Element {
   const navigation = useNavigation();
+
+  console.log('roomId:', roomID);
   return (
     <View style={{ flex: 1 }}>
       <Header
@@ -25,7 +28,9 @@ export default function ChattingRoomTemplate({
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         left={<Header.BackButton />}
         leftCallback={() => {
-          navigation.goBack();
+          navigation.navigate('MainStack', {
+            screen: 'ChattingList',
+          });
         }}
       />
       <ChatsContainer roomID={roomID} author_id={author_id} />

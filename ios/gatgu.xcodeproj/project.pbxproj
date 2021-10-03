@@ -16,6 +16,7 @@
 		65BB25D14D4B4C99B52D16A7 /* NotoSansKR-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 08FCAE55D3204A3CB705E89F /* NotoSansKR-Thin.otf */; };
 		7D6625513E184CC5A95B1E69 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ECC336D4CB5D43FA8A309D53 /* NotoSansKR-Regular.otf */; };
 		8CB67EEF2674EE2F00B85A01 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		8CFD411026A2664A00B05A6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8CFD410F26A2664A00B05A6E /* GoogleService-Info.plist */; };
 		96905EF65AED1B983A6B3ABC /* libPods-gatgu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-gatgu.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		DD63ABAFF44145E6AF3045FE /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 435F549035EF416299A0E3E0 /* NotoSansKR-Black.otf */; };
@@ -56,6 +57,7 @@
 		7EC1FD65F29347DB903FD0D2 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		86A603784BA24C2F8FBD17CB /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		8BFBAE79BB89443B96930B59 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		8CFD410F26A2664A00B05A6E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		934C9255BA25458C8FF62DA7 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = gatgu/SplashScreen.storyboard; sourceTree = "<group>"; };
 		AA67C1B80C944D8F8CF6A442 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 		13B07FAE1A68108700A75B9A /* gatgu */ = {
 			isa = PBXGroup;
 			children = (
+				8CFD410F26A2664A00B05A6E /* GoogleService-Info.plist */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -284,6 +287,7 @@
 				035BF6FE4ABC436EBF0E5DB6 /* NotoSansKR-Bold.otf in Resources */,
 				1CD1C6DDFC8147AFBC281B96 /* NotoSansKR-Light.otf in Resources */,
 				F3A447DF8F7B4276A2AD0B56 /* NotoSansKR-Medium.otf in Resources */,
+				8CFD411026A2664A00B05A6E /* GoogleService-Info.plist in Resources */,
 				7D6625513E184CC5A95B1E69 /* NotoSansKR-Regular.otf in Resources */,
 				65BB25D14D4B4C99B52D16A7 /* NotoSansKR-Thin.otf in Resources */,
 			);
@@ -445,7 +449,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C2E3173556A471DD304B334 /* Pods-gatgu.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = gatgu/android.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
@@ -526,7 +529,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7A4D352CD337FB3A3BF06240 /* Pods-gatgu.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = gatgu/android.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
