@@ -2,7 +2,7 @@ export const isValidUsername = (id: string): boolean =>
   /^[a-z0-9]{5,20}$/.test(id);
 
 export const isValidPassword = (pw: string): boolean =>
-  /^(?=.*[0-9])(?=.*[a-z]+)(?=.*[A-Z]+).{8,16}$/.test(pw);
+  /^(?=.*[a-zA-Z]+)(?=.*[0-9]+).{6,16}$/.test(pw);
 
 export const isValidPasswordConfirm = (pw: string, pc: string): boolean =>
   pw === pc && pw.length >= 1;

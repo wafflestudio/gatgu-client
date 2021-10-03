@@ -25,6 +25,7 @@ const DrawerStyles = StyleSheet.create({
   upperLabelText: {
     ...typo.bigInfo,
     paddingTop: 5,
+    color: palette.dark,
   },
 
   lowerLabelText: {
@@ -32,11 +33,21 @@ const DrawerStyles = StyleSheet.create({
     paddingBottom: '9%',
     ...typo.bigTitle,
     fontWeight: 'bold',
+    color: palette.dark,
   },
 
   image: {
     width: 30,
     height: 30,
+  },
+
+  profileBox: {
+    marginBottom: 20,
+    flexDirection: 'row',
+    width: '95%',
+    marginRight: 20,
+    paddingRight: 10,
+    alignItems: 'center',
   },
 });
 

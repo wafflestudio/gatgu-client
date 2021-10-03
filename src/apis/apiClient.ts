@@ -8,6 +8,7 @@ type Request = () => AxiosPromise;
 
 export const requester = axios.create({
   baseURL: 'http://gatgu-api.wafflestudio.com/v1/',
+  // baseURL: 'http://api.gatgu.site/v1/',
 });
 
 // set user auth token

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Platform, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
@@ -10,20 +9,25 @@ import {
 import MainStack, { TMainTabsParamList } from '@/screens/MainTabs';
 
 import GatguWebsocket from './helpers/GatguWebsocket/GatguWebsocket';
+import { navigationRef } from './helpers/bootstrap/rootNavigation';
+import { linking } from './helpers/bootstrap/utils/navigation';
 import { createGatguStackNavigator } from './helpers/functions/navigation';
 import { useUserDetail } from './helpers/hooks/api';
 import ChattingRoomStackScreen, {
   TChattingRoomStackParamList,
 } from './screens/ChattingRoomStack/ChattingRoomStack';
+import SubStackScreen from './screens/SubStack/SubStack';
 
 export enum EAppStackScreens {
   MainStack = 'MainStack',
-  ChattingRoomStack = 'ChattingRoomStack',
+  ChattingRoomStack = 'ChattingRoom',
+  SubStack = 'SubStack',
 }
 
 export type TAppStackParamList = {
   [EAppStackScreens.MainStack]: NavigatorScreenParams<TMainTabsParamList>;
   [EAppStackScreens.ChattingRoomStack]: NavigatorScreenParams<TChattingRoomStackParamList>;
+  [EAppStackScreens.SubStack]: undefined;
 } & TMainTabsParamList &
   TChattingRoomStackParamList;
 
@@ -31,24 +35,19 @@ const AppStack = createGatguStackNavigator<TAppStackParamList>();
 
 const AppRouter: React.FC = () => {
   const userQuery = useUserDetail();
-
   GatguWebsocket.useInit({
-    // url: `ws://d6f2505199db.ngrok.io/ws/chat/${userQuery.data?.id}/`,
-    url: `ws://c063d2a13d74.ngrok.io/ws/chat/4/`,
-    // url: `ws://c063d2a13d74.ngrok.io${userQuery.}`,
-    // url: 'ws://67063aea84d4.ngrok.io/ws/chat',
-    token: '',
-    options: { debug: true },
+    url: `ws://gatgu-api.wafflestudio.com/ws/chat/`,
+    token: userQuery.data?.id,
+    options: { debug: false },
   });
 
   return (
-    <NavigationContainer>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        }}
-      >
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
+      <NavigationContainer ref={navigationRef} linking={linking}>
         <AppStack.Navigator>
           <AppStack.Screen
             name={EAppStackScreens.MainStack}
@@ -56,18 +55,18 @@ const AppRouter: React.FC = () => {
             options={{ headerShown: false }}
           />
           <AppStack.Screen
-            name="ChattingRoom"
+            name={EAppStackScreens.ChattingRoomStack}
             component={ChattingRoomStackScreen}
             options={{ headerShown: false }}
           />
-          {/* <AppStack.Screen
-            name={EAppStackScreens.AuthStack}
-            component={AuthStackScreen}
+          <AppStack.Screen
+            name={EAppStackScreens.SubStack}
+            component={SubStackScreen}
             options={{ headerShown: false }}
-          /> */}
+          />
         </AppStack.Navigator>
-      </SafeAreaView>
-    </NavigationContainer>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 };
 

@@ -77,5 +77,5 @@ export interface ITagType {
 }
 
 export interface IGetFailPayload {
-  errorStatus: number;
+  error: any;
 }

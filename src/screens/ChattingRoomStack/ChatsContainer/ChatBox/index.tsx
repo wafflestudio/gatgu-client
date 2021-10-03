@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { DateTime } from 'luxon';
-import { Image } from 'native-base';
+import { Flex, Image } from 'native-base';
 
+import { GSpace } from '@/components/Gatgu';
 import { emptyURL } from '@/constants/image';
 import { IMessageImage } from '@/types/chat';
 
@@ -35,17 +36,16 @@ function ChatBox({
   resend,
   erase,
 }: IChatBoxProps): JSX.Element {
-  const { message, repeat, websocket_id } = current;
+  const { message, repeat, websocket_id, pending } = current;
   const { text, image, type, sent_at, sent_by } = message;
-  const nextItem = previous?.message; // because chat is in inversed
-  const prevItem = next?.message;
+  const nextItem = next?.message; // because chat is in inversed
+  const prevItem = previous?.message;
 
   const system = type === 'system' ? true : false;
 
   const isSameUser = sent_by?.id === prevItem?.sent_by?.id;
 
   const isSelf = selfId === sent_by?.id;
-
   const isSameTime =
     nextItem?.sent_at &&
     DateTime.fromMillis(sent_at).toFormat('hh:mm') ===
@@ -59,64 +59,90 @@ function ChatBox({
   }, [sent_at]);
 
   // message + time
-  const renderedBubbleTime = useMemo(
-    () => (
+  const renderedBubbleTime = useMemo(() => {
+    const isImageShown = image.length > 0 && image[0].img_url !== emptyURL;
+
+    return (
       <View
         style={[
           { alignItems: 'flex-end' },
           isSelf ? styles.row : styles.row_reverse,
         ]}
       >
-        {!isSameTime && (
+        {!isSameTime && !pending && (
           <Text style={ChatContainerStyle.timeText}>{sentTime}</Text>
         )}
         <View>
-          {text && text.length != 0 ? (
-            <View style={!isSelf && { paddingRight: 10 }}>
-              <Bubble message={text} isSelf={isSelf} />
-            </View>
-          ) : null}
-          {image.length > 0 && image[0].img_url !== emptyURL && (
+          {isImageShown ? (
             <Image
               source={{ uri: image[0].img_url }}
               style={styles.messageImage}
               fallbackSource={require('@/assets/images/defaultThumnail.png')}
               alt="pic"
             />
+          ) : (
+            <View style={!isSelf && { paddingRight: 10 }}>
+              <Bubble message={text} isSelf={isSelf} />
+            </View>
           )}
         </View>
       </View>
-    ),
-    [isSelf, isSameTime, text, sentTime, image]
-  );
+    );
+  }, [isSelf, isSameTime, text, sentTime, image]);
+
+  // 카카오톡과 동일함
+  const isProfileShown = !(isSelf || (isSameUser && isSameTime));
 
   const renderedName = useMemo(
     () =>
-      !isSelf &&
-      !isSameUser && (
+      isProfileShown && (
         <View>
           <Text style={styles.nameText}>{sent_by?.nickname}</Text>
         </View>
       ),
-    [sent_by, isSelf, isSameUser]
+    [sent_by, isProfileShown]
   );
 
   const renderedProfile = useMemo(
     () =>
-      !isSelf && (
-        <Image
-          source={
-            sent_by?.picture
-              ? { uri: !isSameUser ? sent_by?.picture : undefined }
-              : require('@/assets/images/defaultProfile.png')
-          }
-          style={styles.avatar}
-          fallbackSource={require('@/assets/images/defaultProfile.png')}
-          alt="profile pic"
-        />
+      isProfileShown ? (
+        <>
+          <Image
+            source={
+              sent_by?.picture
+                ? { uri: sent_by?.picture }
+                : require('@/assets/images/defaultProfile.png')
+            }
+            style={[styles.avatar, { marginBottom: 10 }]}
+            fallbackSource={require('@/assets/images/defaultProfile.png')}
+            alt="profile pic"
+          />
+        </>
+      ) : (
+        <View style={styles.avatar} />
       ),
-    [sent_by, isSameUser, isSelf]
+    [sent_by, isProfileShown]
   );
+
+  const renderResendIcons = () => {
+    if (!repeat) return;
+
+    return (
+      <Flex direction="row" align="center">
+        <TouchableOpacity
+          onPress={() =>
+            resend({ text: text, imgUrl: image[0].img_url }, `${websocket_id}`)
+          }
+        >
+          <FAIcon name="repeat" size={13} />
+        </TouchableOpacity>
+        <GSpace w={5} />
+        <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
+          <MCIcon name="delete" size={16} />
+        </TouchableOpacity>
+      </Flex>
+    );
+  };
 
   return system ? (
     <SystemMessage message={text} previousSystem={prevItem?.type == 'system'} />
@@ -129,29 +155,25 @@ function ChatBox({
     >
       <View style={styles.row}>
         {renderedProfile}
-        <View style={{}}>
+        <View
+          style={
+            isProfileShown && {
+              marginTop: 15,
+              alignItems: 'flex-start',
+            }
+          }
+        >
           {renderedName}
           <View
             style={{ flexDirection: 'row-reverse', alignItems: 'flex-end' }}
           >
             {renderedBubbleTime}
-            {repeat ? (
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity
-                  onPress={() =>
-                    resend(
-                      { text: text, imgUrl: image[0].img_url },
-                      `${websocket_id}`
-                    )
-                  }
-                >
-                  <FAIcon name="repeat" size={13} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => erase(`${websocket_id}`)}>
-                  <MCIcon name="delete" size={16} />
-                </TouchableOpacity>
+            {pending && (
+              <View style={{ marginRight: 8, marginBottom: 3 }}>
+                <ActivityIndicator size={'small'} />
               </View>
-            ) : null}
+            )}
+            {renderResendIcons()}
           </View>
         </View>
       </View>
@@ -159,4 +181,4 @@ function ChatBox({
   );
 }
 
-export default ChatBox;
+export default React.memo(ChatBox);

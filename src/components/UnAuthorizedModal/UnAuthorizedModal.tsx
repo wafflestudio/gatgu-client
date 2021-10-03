@@ -4,8 +4,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Modal } from 'native-base';
 
 import { useNavigation } from '@react-navigation/core';
+import { StackActions } from '@react-navigation/native';
 
-import { AppRoutes } from '@/helpers/routes';
+import { EUserStackScreens } from '@/screens/UserStack/UserStack';
 
 import { GButton, GSpace, GText } from '../Gatgu';
 
@@ -25,14 +26,25 @@ const UnAuthorizedModal: React.FC<IUnAuthorizedModalProps> = ({ isOpen }) => {
           로그인 필요
         </Modal.Header>
         <Modal.Body>
-          <GText size="huge">로그인 이후 사용 가능한 기능입니다.</GText>
+          <GText size={18}>로그인 이후 사용 가능한 기능입니다.</GText>
         </Modal.Body>
         <Modal.Footer pr={6}>
           <GButton
             width="full"
             size="large"
             onPress={() => {
-              navigation.navigate(AppRoutes.UserStack, { screen: 'Login' });
+              navigation.dispatch(
+                StackActions.push('MainStack', {
+                  screen: 'UserStack',
+                })
+              );
+
+              navigation.navigate('MainStack', {
+                screen: 'UserStack',
+                params: {
+                  screen: EUserStackScreens.Login,
+                },
+              });
             }}
           >
             로그인 하러 가기

@@ -1,7 +1,6 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { HamburgerIcon, VStack } from 'native-base';
 import styled from 'styled-components/native';
 
 import { palette } from '@/styles';
@@ -14,16 +13,16 @@ const StyledImage = styled.View`
 `;
 const StyledWriter = styled.View`
   background-color: ${palette.whiteGray};
-  width: 150;
-  height: 18;
-  margin-bottom: 3;
+  width: 150px;
+  height: 18px;
+  margin-bottom: 3px;
   border-radius: 4px;
 `;
 const StyledRecentMessage = styled.View`
   background-color: ${palette.whiteGray};
   height: 18px;
-  width: 100;
-  margin-bottom: 3;
+  width: 100px;
+  margin-bottom: 3px;
   border-radius: 4px;
 `;
 const StyledTime = styled.View`
@@ -35,11 +34,11 @@ const StyledTime = styled.View`
 const StyledTitle = styled.View`
   background-color: ${palette.whiteGray};
   width: 140px;
-  margin-bottom: 3;
+  margin-bottom: 3px;
   height: 18px;
 `;
 
-const ChattingBoxShimmer: React.FC = () => {
+export const ChattingBoxShimmer: React.FC = () => {
   return (
     <View
       style={{

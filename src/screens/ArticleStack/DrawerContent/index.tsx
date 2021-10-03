@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from 'native-base';
@@ -10,9 +10,10 @@ import {
 } from '@react-navigation/drawer';
 
 import { articleAPI } from '@/apis';
-import { ReportModal } from '@/components';
+import { Profile, ReportModal } from '@/components';
 import { GButton, GSpace, GText } from '@/components/Gatgu/';
 import { ARTICLE_REPORT_REASONS } from '@/constants/article';
+import { RESET_SCREEN } from '@/constants/navigateOption';
 import { ArticleStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
@@ -27,9 +28,10 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   const toaster = useToaster();
   const currentUser = useUserDetail().data;
 
-  const { writer, article_id, article_status } = useSelector(
+  const { writer, article_id, article_status, order_chat } = useSelector(
     (state: RootState) => state.article.currentArticle
   );
+
   const isMyArticle = writer?.id === currentUser?.id;
 
   const [isReportModalOpen, setReportModalOpen] = useState(false);
@@ -57,7 +59,8 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         toaster.success('글 상태 변경을 완료되었습니다.');
         refreshArticle();
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         toaster.error('글 상태 변경에 실패했습니다.');
       })
       .finally(() => {
@@ -73,7 +76,9 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
       .then(() => {
         toaster.success('삭제가 완료되었습니다.');
         setDeleteModalOpen(false);
-        navigation.navigate('Home');
+        navigation.navigate('Home', {
+          navigateFlag: RESET_SCREEN,
+        });
       })
       .catch((e) => {
         console.error('DrawerContent', e);
@@ -184,7 +189,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
     return (
       <StyledArticleDrawerMenuText
         touchable
-        size="huge"
+        size={18}
         color="blue"
         onPress={() => setStatusChangeModalOpen(true)}
       >
@@ -194,7 +199,19 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
   };
 
   const renderParticipants = () => {
-    // return order_chat.participant_profile.map(() => <></>);
+    return (
+      <ScrollView>
+        {order_chat?.participant_profile.map((user) => (
+          <View key={user.id} style={{ marginBottom: 10 }}>
+            <Profile
+              id={user.participant.user_id}
+              picture={user.participant.picture}
+              nickname={user.participant.nickname}
+            />
+          </View>
+        ))}
+      </ScrollView>
+    );
   };
 
   return (
@@ -206,26 +223,26 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
               {renderArticleStatusChangeText()}
               <StyledArticleDrawerMenuText
                 touchable
-                size="huge"
+                size={18}
                 onPress={editArticle}
               >
                 수정하기
               </StyledArticleDrawerMenuText>
               <StyledArticleDrawerMenuText
                 touchable
-                size="huge"
+                size={18}
                 onPress={() => setDeleteModalOpen(true)}
               >
                 삭제하기
               </StyledArticleDrawerMenuText>
             </>
           ) : null}
-          <GText touchable size="huge" onPress={() => setReportModalOpen(true)}>
+          <GText touchable size={18} onPress={() => setReportModalOpen(true)}>
             신고하기
           </GText>
         </View>
         <View style={styles.lowerContainer}>
-          <Text style={styles.lowerLabelText}>모집 인원 목록</Text>
+          <Text style={styles.lowerLabelText}>참여 인원 목록</Text>
           {renderParticipants()}
         </View>
       </View>

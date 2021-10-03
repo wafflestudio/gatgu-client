@@ -5,10 +5,13 @@ import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import BackIcon from '@/assets/icons/BackIcon/BackIcon.svg';
+import { palette } from '@/styles';
 
 const StyledHeaderLeft = styled.View`
-  margin-left: 6px;
   width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -21,9 +24,17 @@ export const createGatguStackNavigator = (<
 
   Navigator.defaultProps = {
     screenOptions: {
+      headerStyle: {
+        height: 50,
+        borderBottomWidth: 0.5,
+        borderBottomColor: palette.borderGray,
+      },
       headerBackTitleVisible: false,
       headerStatusBarHeight: 0,
-
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
       headerBackImage: () => (
         <StyledHeaderLeft>
           <BackIcon />
@@ -31,6 +42,7 @@ export const createGatguStackNavigator = (<
       ),
       headerRightContainerStyle: {
         marginRight: 6,
+        marginLeft: 6,
       },
     },
   };

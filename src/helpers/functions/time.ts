@@ -30,19 +30,26 @@ export const getTimeDiffWithUnit = (startTs: number, endTs: number) => {
     'milliseconds'
   );
 
+  if (tsDiff === 0) {
+    return '방금';
+  }
+
   while (units[++unitIdx]) {
     const timeDiff = Math.floor(duration.as(units[unitIdx]));
+
     if (timeDiff) {
       return `${timeDiff}${koUnits[unitIdx]}`;
     }
   }
+
+  return '방금';
 };
 
 export const getPassedTime = (ts: number) => {
   const currTs = getTs();
 
   if (ts > currTs) {
-    return '';
+    return '방금 전';
   }
 
   return `${getTimeDiffWithUnit(ts, currTs)} 전`;

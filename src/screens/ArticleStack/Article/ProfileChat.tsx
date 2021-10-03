@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import { Flex } from 'native-base';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { Profile } from '@/components';
 import { GButton } from '@/components/Gatgu/GButton';
 import { ArticleStatus, WSMessage } from '@/enums';
@@ -10,22 +12,27 @@ import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { getTs } from '@/helpers/functions/time';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import useSelector from '@/helpers/hooks/useSelector';
 import { EChattingRoomStackScreens } from '@/screens/ChattingRoomStack/ChattingRoomStack';
 import { fetchingParticipants } from '@/store/chatSlice';
 import { IArticleProps, IArticleStatus } from '@/types/article';
-import { IUserSumProps } from '@/types/user';
 
 import styles from './ProfileChat.style';
 
 interface IProfileChat {
   article: IArticleProps;
   orderStatus: IArticleStatus;
+  chatLoading: boolean;
+  setChatLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
-  const navigation = useAppNavigation();
+function ProfileChat({
+  article,
+  orderStatus,
+  chatLoading,
+  setChatLoading,
+}: IProfileChat): JSX.Element {
+  const navigation = useNavigation();
   const toaster = useToaster();
   const article_id = article.article_id;
   const dispatch = useDispatch();
@@ -36,14 +43,8 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
   const isChattingButtonDisabled =
     !isLogined || orderStatus.progress_status > ArticleStatus.Dealing;
 
-  const [writer, setWriter] = useState<IUserSumProps>();
-
   const handleChattingButtonClick = (resendKey: string) => {
-    ///
-    // navigation.navigate({
-    //   name: EChattingRoomStackScreens.ChattingRoom,
-    //   params:  { id: article_id }});
-    // ////
+    setChatLoading(true);
     const isResent = parseInt(resendKey) !== -1;
     const websocket_id = isResent ? resendKey : `${getTs()}`;
 
@@ -63,32 +64,26 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
         if (article_id) {
           navigation.navigate({
             name: EChattingRoomStackScreens.ChattingRoom,
-            params: { id: article_id },
+            params: { id: article_id, author_id: article.writer.id },
           });
           // trigger fetch to change store's participantsList -> affect chatting drawer
           if (result.data == 201) {
             dispatch(fetchingParticipants(article_id));
           }
         }
+        setChatLoading(false);
       })
       .catch(() => {
         toaster.error(
           '채팅방에 입장하지 못 했습니다. 네트워크 연결을 확인해주세요.'
         );
+        setChatLoading(false);
       });
   };
 
-  useEffect(() => {
-    if (!isLogined) return;
-    setWriter(article.writer);
-    // eslint-disable-next-line
-  }, []);
-
   const renderProfile = () => {
-    if (!isLogined) {
-      return null;
-    }
-    return <Profile {...(writer as any)} />;
+    const { nickname, profile_img, id } = article.writer;
+    return <Profile id={id} nickname={nickname} picture={profile_img} />;
   };
 
   return (
@@ -96,19 +91,16 @@ function ProfileChat({ article, orderStatus }: IProfileChat): JSX.Element {
       direction="row"
       justify="space-between"
       alignItems="center"
-      style={[
-        styles.profileChatContainer,
-        !isLogined && {
-          justifyContent: 'flex-end',
-        },
-      ]}
+      style={[styles.profileChatContainer]}
     >
       {renderProfile()}
       <GButton
         disabled={isChattingButtonDisabled}
         onPress={() => handleChattingButtonClick('-1')}
+        isLoading={chatLoading}
+        style={{ width: 170 }}
       >
-        구매 채팅으로 가기
+        채팅으로 이동
       </GButton>
     </Flex>
   );

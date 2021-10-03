@@ -8,6 +8,7 @@ import { useAppNavigation } from '@/helpers/hooks/useAppNavigation';
 import { AppRoutes } from '@/helpers/routes';
 import { IArticleSummary } from '@/types/article';
 
+import { GText } from '../Gatgu';
 import styles from './ArticleBox.style';
 
 const ArticleBox: React.FC<IArticleSummary> = ({
@@ -40,14 +41,13 @@ const ArticleBox: React.FC<IArticleSummary> = ({
             uri: images[0]?.img_url,
           }}
           fallbackSource={require('@/assets/images/defaultThumnail.png')}
-          loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
           alt="article thumnail"
           borderRadius="13px"
         />
       </AspectRatio>
       <View style={styles.articleBox}>
         <Flex>
-          <Text style={styles.Head}>{title}</Text>
+          <GText size={18}>{title}</GText>
           <View style={styles.infoWrapper}>
             <Text
               style={styles.description}

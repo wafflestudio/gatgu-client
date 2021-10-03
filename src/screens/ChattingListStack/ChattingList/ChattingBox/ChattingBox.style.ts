@@ -7,6 +7,7 @@ const ChattingListStyles = StyleSheet.create({
     ...typo.semiTitle,
     flexWrap: 'wrap',
     height: 22,
+    color: 'black',
   },
   Box: {
     width: '70%',

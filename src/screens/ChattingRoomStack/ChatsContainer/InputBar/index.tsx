@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Image, ActivityIndicator } from 'react-native';
+import { View, TextInput, Image, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch } from 'react-redux';
 
-import { Button, Modal } from 'native-base';
+import { Modal } from 'native-base';
+import styled from 'styled-components/native';
 
 import { chatAPI } from '@/apis';
+import { GButton, GInput, GModal } from '@/components/Gatgu';
 import { emptyURL } from '@/constants/image';
 import { APItype } from '@/enums/image';
 import { useToaster } from '@/helpers/hooks';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import usePickImage from '@/helpers/hooks/usePickImage';
+import { fetchingParticipants } from '@/store/chatSlice';
 import { palette } from '@/styles';
 import { IMessageImage } from '@/types/chat';
 
 import styles from './InputBar.style';
+
+export const CHATTING_ROOM_INPUT_HEIGHT = 31;
+export const CHATTING_ROOM_INPUT_BAR_HEIGHT = 68 + 7;
 
 interface IInputBarInterface {
   input: IMessageImage;
@@ -23,7 +30,12 @@ interface IInputBarInterface {
   handleSendMessage: (input: IMessageImage, img: string) => void;
   id?: number;
   article_id: number;
+  author_id: number;
 }
+
+const StyledTouchableIcon = styled.TouchableOpacity`
+  margin-bottom: 10px;
+`;
 
 function InputBar({
   input,
@@ -31,8 +43,10 @@ function InputBar({
   handleSendMessage,
   id,
   article_id,
+  author_id,
 }: IInputBarInterface): JSX.Element {
   const toaster = useToaster();
+
   const { pickSingleImage } = usePickImage({
     width: 300,
     height: 400,
@@ -47,7 +61,7 @@ function InputBar({
   const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(false);
   const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
-  const [inputHeight, setInputHeight] = useState<number>(0);
+  const dispatch = useDispatch();
 
   const pickFromGallery = () => {
     setImageIsLoading(true);
@@ -58,15 +72,18 @@ function InputBar({
             .then((url) => {
               setInput({ text: input.text, imgUrl: url });
               handleSendMessage({ text: input.text, imgUrl: url }, '-1');
+              setModalOpen(false);
+              setImageIsLoading(false);
             })
             .catch((e) => {
               console.error(e);
+              setModalOpen(false);
+              setImageIsLoading(false);
             });
       })
       .catch((e) => {
         console.error(e);
-      })
-      .finally(() => {
+        setModalOpen(false);
         setImageIsLoading(false);
       });
   };
@@ -88,18 +105,21 @@ function InputBar({
             .then((url) => {
               setInput({ text: input.text, imgUrl: url });
               handleSendMessage(input, '-1');
+              setModalOpen(false);
+              setImageIsLoading(false);
             })
             .catch((e) => {
               console.error(e);
+              setModalOpen(false);
+              setImageIsLoading(false);
               toaster.error(
                 '이미지를 업로드하는데 실패하였습니다. 다시 시도해주세요.'
               );
             });
       })
       .catch((e) => {
+        setModalOpen(false);
         console.error('CAMERA', e);
-      })
-      .finally(() => {
         setImageIsLoading(false);
       });
   };
@@ -109,22 +129,27 @@ function InputBar({
     chatAPI
       .changeParticipantStatus(article_id, {
         wish_price: parseInt(wishPrice),
-        participant_id: selfId,
       })
       .then(() => {
-        toaster.success('상태가 바뀌었습니다.');
+        toaster.success('희망금액 변경 요청이 완료되었습니다.');
         setModalOpen(false);
+        setSubmitIsLoading(false);
+        dispatch(fetchingParticipants(article_id));
+        setWishPrice('');
+        setOptionsOpen(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error(JSON.stringify(err, null, 2));
         toaster.error('에러가 발생했습니다. 다시 시도해주세요.');
-      })
-      .finally(() => {
+        setModalOpen(false);
         setSubmitIsLoading(false);
+        setWishPrice('');
+        setOptionsOpen(false);
       });
   };
+
   return (
-    <View style={styles.bar}>
+    <View style={[styles.bar]}>
       {optionsOpen ? (
         <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <View style={styles.iconBar}>
@@ -138,11 +163,13 @@ function InputBar({
                 <Icon name="image-search" size={25} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setModalOpen(true)}>
-              <View style={styles.inputIcon}>
-                <Icon name="attach-money" size={25} />
-              </View>
-            </TouchableOpacity>
+            {author_id !== selfId && (
+              <TouchableOpacity onPress={() => setModalOpen(true)}>
+                <View style={styles.inputIcon}>
+                  <Icon name="attach-money" size={25} />
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
           <TouchableOpacity onPress={() => setOptionsOpen(false)}>
             <View style={styles.inputIcon}>
@@ -152,36 +179,32 @@ function InputBar({
         </View>
       ) : (
         <View style={styles.inputWrapper}>
-          <TouchableOpacity onPress={() => setOptionsOpen(true)}>
+          <StyledTouchableIcon onPress={() => setOptionsOpen(true)}>
             <View style={styles.inputIcon}>
               <Icon name="add" size={25} />
             </View>
-          </TouchableOpacity>
-          <View
+          </StyledTouchableIcon>
+          <TextInput
+            placeholderTextColor={palette.gray}
+            placeholder="메시지를 입력하세요"
             style={{
+              maxHeight: CHATTING_ROOM_INPUT_HEIGHT + 87,
               borderBottomColor: palette.borderGray,
               borderBottomWidth: 1,
               width: '88%',
               marginBottom: 10,
               marginTop: 7,
             }}
-          >
-            <TextInput
-              placeholderTextColor={palette.gray}
-              placeholder="메시지를 입력하세요"
-              style={{ height: inputHeight + 10 }}
-              multiline={true}
-              numberOfLines={4}
-              value={input.text}
-              onChangeText={(txt) =>
-                setInput({ text: txt, imgUrl: input.imgUrl })
-              }
-              onContentSizeChange={(event) =>
-                setInputHeight(event.nativeEvent.contentSize.height)
-              }
-            />
-          </View>
-          <TouchableOpacity
+            multiline={true}
+            numberOfLines={1}
+            value={input.text}
+            onChangeText={(txt) => {
+              setInput({ text: txt, imgUrl: input.imgUrl });
+            }}
+            autoCorrect={false}
+            maxLength={1000}
+          />
+          <StyledTouchableIcon
             onPress={() => handleSendMessage(input, '-1')}
             disabled={input.text.length === 0}
           >
@@ -192,7 +215,7 @@ function InputBar({
                 color={input.text.length === 0 ? palette.gray : palette.dark}
               />
             </View>
-          </TouchableOpacity>
+          </StyledTouchableIcon>
         </View>
       )}
       {input.imgUrl !== emptyURL &&
@@ -214,32 +237,27 @@ function InputBar({
           <Modal.Content>
             <Modal.CloseButton />
             <Modal.Header>희망 금액</Modal.Header>
-
-            <Modal.Body height="100%">
-              <View style={styles.modalBox}>
-                <TextInput
-                  placeholder="제출하고 싶은 희망 금액을 입력해주세요."
-                  placeholderTextColor={palette.gray}
-                  value={wishPrice}
-                  maxLength={10}
-                  onChangeText={(txt) =>
-                    setWishPrice(txt.replace(/[^0-9]/g, ''))
-                  }
-                  keyboardType="number-pad"
-                />
-                <Text>원</Text>
-              </View>
-
-              <Button
-                isLoading={submitIsLoading}
-                onPress={handleUpdateStatusRequest}
-                style={styles.button}
-              >
-                제출하기
-              </Button>
+            <Modal.Body>
+              <GInput
+                placeholder="제출하고 싶은 희망 금액을 입력해주세요."
+                placeholderTextColor={palette.gray}
+                value={wishPrice}
+                maxLength={10}
+                onChangeText={(txt) => setWishPrice(txt.replace(/[^0-9]/g, ''))}
+                keyboardType="number-pad"
+              />
             </Modal.Body>
 
-            <Modal.Footer></Modal.Footer>
+            <GModal.Footer>
+              <GButton
+                width="full"
+                size="large"
+                isLoading={submitIsLoading}
+                onPress={handleUpdateStatusRequest}
+              >
+                제출하기
+              </GButton>
+            </GModal.Footer>
           </Modal.Content>
         </Modal>
       ) : null}

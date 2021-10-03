@@ -72,10 +72,10 @@ const ArticleHeader: React.FC<TArticleHeaderProps> = ({
             모집 금액
           </Text>
           <Text color={palette.blue} style={typo.info} bold>
-            {article_status.cur_price_sum}원
+            {article_status.cur_price_sum.toLocaleString()}원
           </Text>
           <Text color={palette.dark} style={typo.info}>
-            {` / ${price_min}원`}
+            {` / ${price_min.toLocaleString()}원`}
           </Text>
         </Flex>
       </Flex>

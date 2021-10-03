@@ -6,7 +6,6 @@ import { VStack } from 'native-base';
 
 import { useNavigation } from '@react-navigation/core';
 
-import ProfileDummyImage from '@/assets/icons/ProfileDummyImage/ProfileDummyImage.svg';
 import { GSpace, GText } from '@/components/Gatgu';
 import { emptyURL } from '@/constants/image';
 import { AppRoutes } from '@/helpers/routes';
@@ -14,40 +13,60 @@ import { IUserDetail } from '@/types/user';
 
 import styles from './Information.style';
 
-interface IInfoProps {
-  profile: IUserDetail;
-}
+type IInfoProps = Pick<
+  IUserDetail['userprofile'],
+  'nickname' | 'picture' | 'trading_address'
+> & {
+  isMine?: boolean;
+};
 
 // Info JSX: 유저 이름 ~ 인증 여부
-function Info({ profile }: IInfoProps): JSX.Element {
+function Info({
+  nickname,
+  picture,
+  trading_address,
+  isMine,
+}: IInfoProps): JSX.Element {
   const navigation = useNavigation();
 
-  const profileImgExist = profile.userprofile.picture !== emptyURL;
-  const profileImg = profileImgExist ? (
-    <ImageBackground
-      source={{ uri: profile.userprofile.picture }}
-      style={styles.profileImg}
-    />
-  ) : (
-    <ProfileDummyImage style={styles.profileImg} />
-  );
+  const profileImgExist = Boolean(picture) && picture !== emptyURL;
 
-  return (
-    <View style={styles.container}>
+  const renderProfileImg = () => {
+    const image = (
+      <ImageBackground
+        source={
+          profileImgExist
+            ? { uri: picture }
+            : require('@/assets/images/defaultProfile.png')
+        }
+        style={styles.profileImg}
+      />
+    );
+
+    if (!isMine)
+      return <View style={styles.profileImgInnerWrapper}>{image}</View>;
+
+    return (
       <TouchableOpacity
         style={{
           ...styles.profileImgInnerWrapper,
         }}
         onPress={() => navigation.navigate(AppRoutes.ProfileModify)}
       >
-        {profileImg}
+        {image}
       </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      {renderProfileImg()}
       <VStack justifyContent="center">
-        <GText size="huge" bold>
-          {profile.userprofile.nickname}
+        <GText size={18} bold>
+          {nickname}
         </GText>
         <GSpace h={10} />
-        <GText>{profile.userprofile.trading_address}</GText>
+        <GText>{trading_address}</GText>
       </VStack>
     </View>
   );

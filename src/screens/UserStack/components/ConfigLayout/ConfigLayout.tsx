@@ -8,7 +8,8 @@ import { palette } from '@/styles';
 
 export interface IConfigLayoutItem {
   label: string;
-  onPress: () => void;
+  rightText?: string;
+  onPress?: () => void;
 }
 
 export interface IConfigLayoutProps {
@@ -28,19 +29,40 @@ const StyledConfigItem = styled.TouchableOpacity`
   padding: 0px 20px;
 `;
 
+const StyledConfigItemView = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+
+  height: 40px;
+  padding: 0px 20px;
+`;
+
 const ConfigLayout: React.FC<IConfigLayoutProps> = ({ title, items }) => {
   const renderItems = () => {
-    return items.map((item, idx) => (
-      <StyledConfigItem key={idx} onPress={item.onPress}>
-        <GText size="huge">{item.label}</GText>
-      </StyledConfigItem>
-    ));
+    return items.map((item, idx) => {
+      if (item.rightText) {
+        return (
+          <StyledConfigItemView key={idx}>
+            <GText size={18}>{item.label}</GText>
+            <GText bold size={16}>
+              {item.rightText}
+            </GText>
+          </StyledConfigItemView>
+        );
+      }
+
+      return (
+        <StyledConfigItem key={idx} onPress={item.onPress}>
+          <GText size={18}>{item.label}</GText>
+        </StyledConfigItem>
+      );
+    });
   };
 
   return (
     <StyledConfigLayout>
       <Box paddingLeft="20px">
-        <GText bold size="huge">
+        <GText bold size={18}>
           {title}
         </GText>
       </Box>

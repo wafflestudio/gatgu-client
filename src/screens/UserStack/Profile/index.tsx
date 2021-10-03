@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useSelector } from 'react-redux';
@@ -12,7 +12,6 @@ import LoggedProfile from './Logged';
 import UnLoggedProfile from './UnLogged';
 
 function Profile(): JSX.Element {
-  const [show, setShow] = useState<boolean>(false);
   const isLogined = useSelector((state: RootState) => state.user.isLogined);
 
   const navigation = useNavigation();
@@ -31,12 +30,11 @@ function Profile(): JSX.Element {
             <FeatherIcon
               name="more-vertical"
               style={{ fontSize: 20, marginRight: 10 }}
-              onPress={() => setShow(!show)}
             />
           </TouchableOpacity>
         ) : null,
     });
-  }, [isLogined, navigation, show]);
+  }, [isLogined, navigation]);
 
   return isLogined ? <LoggedProfile /> : <UnLoggedProfile />;
 }

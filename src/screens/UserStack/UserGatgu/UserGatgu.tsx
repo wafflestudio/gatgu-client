@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWindowDimensions } from 'react-native';
-import { TabView, SceneMap, TabBarProps } from 'react-native-tab-view';
+import { TabView, SceneMap } from 'react-native-tab-view';
 import { TabBar } from 'react-native-tab-view';
 
 import { UserArticleActivity } from '@/enums';

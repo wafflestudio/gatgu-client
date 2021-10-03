@@ -1,7 +1,13 @@
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
+// import { IncomingWebhook } from '@slack/webhook';
 import apiClient, { requester } from '@/apis/apiClient';
+import { getTs } from '@/helpers/functions/time';
 import { ILoginResponse, IUserDetail, IUserSimple } from '@/types/user';
+
+// const webhook = new IncomingWebhook(
+//   'https://hooks.slack.com/services/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'
+// );
 
 // 내 정보 받아오기
 export const getMyData = (): Promise<AxiosResponse<IUserDetail>> => {
@@ -94,4 +100,71 @@ export const refreshAccessToken = (
   return requester.post('token/refresh/', {
     refresh,
   });
+};
+
+// fcn 토큰 등록
+export const postFcmToken = (token: string): Promise<AxiosResponse> => {
+  return apiClient.post('fcm/', { token });
+};
+
+// 건의사항
+
+export const sendProposal = async ({
+  content,
+  userId,
+  email,
+}: {
+  content: string;
+  userId: number;
+  email: string;
+}) => {
+  const payload = {
+    latest: getTs(),
+    blocks: [
+      {
+        type: 'section',
+        text: {
+          type: 'plain_text',
+          text: '새로운 건의사항이 도착하였습니다.',
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: '*내용*',
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: content,
+        },
+      },
+      {
+        type: 'divider',
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: '*유저 정보*',
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `id : ${userId}\nemail : ${email} 
+          `,
+        },
+      },
+    ],
+  };
+
+  return await axios.post(
+    'https://hooks.slack.com/services/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',
+    payload
+  );
 };

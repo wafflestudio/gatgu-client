@@ -31,9 +31,10 @@ const DrawerStyles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   optionContainer: {
+    ...commonStyle.container,
     paddingTop: 25,
     height: '24%',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   smallLabelText: {
     ...typo.bigInfo,
@@ -54,7 +55,7 @@ const DrawerStyles = StyleSheet.create({
     width: '95%',
     marginRight: 20,
     paddingRight: 10,
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   checkBoxWrapper: {
     alignSelf: 'flex-end',
@@ -67,7 +68,7 @@ const DrawerStyles = StyleSheet.create({
     right: 0,
     height: '100%',
     position: 'absolute',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
 });

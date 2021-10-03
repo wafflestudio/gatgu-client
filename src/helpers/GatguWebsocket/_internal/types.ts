@@ -24,6 +24,7 @@ export interface TWsMessage {
   type: string;
   data?: any;
   websocket_id?: string;
+  room_id?: number;
 }
 
 export type TWsInit = ({
@@ -32,7 +33,7 @@ export type TWsInit = ({
   options,
 }: {
   url: string;
-  token: string;
+  token?: string | number;
   options?: IBaseWebsocketOption;
 }) => void;
 

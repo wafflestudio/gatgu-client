@@ -4,28 +4,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { articleAPI } from '@/apis';
 import { UNKNOWN_ERR } from '@/constants/ErrorCode';
-import { OrderStatus } from '@/enums';
 import { AppThunk } from '@/store';
-import { IArticleProps, IGetFailPayload, IPostArticle } from '@/types/article';
+import { IArticleProps, IGetFailPayload } from '@/types/article';
 
 export interface IArticleSlice {
-  hasError: boolean;
-  errorStatus: number;
+  error: any;
   isLoading: boolean;
   currentArticle: IArticleProps;
-  articleIsLoading: boolean;
-  articleHasError: boolean;
-  articleErrorStatus: number;
-  WriteArticleHasError: boolean;
-  WriteArticleErrorStatus: number;
-  WriteArticleIsLoading: boolean;
-  newId: number;
 }
 
 const initialState: IArticleSlice = {
-  hasError: false,
-  errorStatus: -100,
-  isLoading: false,
+  error: null,
+  isLoading: true,
   currentArticle: {
     writer: { id: 0, profile_img: '', nickname: '' },
     article_id: 0,
@@ -46,16 +36,8 @@ const initialState: IArticleSlice = {
       id: 0,
       participant_profile: [],
       tracking_number: 0,
-      order_status: OrderStatus.Pending,
     },
   },
-  articleIsLoading: true,
-  articleHasError: false,
-  articleErrorStatus: -100,
-  WriteArticleHasError: false,
-  WriteArticleErrorStatus: -100,
-  WriteArticleIsLoading: false,
-  newId: -1,
 };
 
 // article store + basic action
@@ -68,50 +50,33 @@ const articleSlice = createSlice({
       { payload }: PayloadAction<IArticleProps>
     ) => {
       state.currentArticle = payload;
-      state.articleHasError = false;
-      state.articleIsLoading = false;
+      state.error = null;
+      state.isLoading = false;
     },
 
     getSingleArticleFail: (
       state,
       { payload }: PayloadAction<IGetFailPayload>
     ) => {
-      state.articleHasError = true;
-      state.articleIsLoading = false;
-      state.articleErrorStatus = payload.errorStatus;
+      state.error = payload;
+      state.isLoading = false;
     },
     getSingleArticleLoading: (state) => {
-      state.articleIsLoading = true;
+      state.isLoading = true;
     },
-
-    writeArticleFailure: (
-      state,
-      { payload }: PayloadAction<IGetFailPayload>
-    ) => {
-      state.WriteArticleErrorStatus = payload.errorStatus;
-      state.WriteArticleHasError = true;
-      state.WriteArticleIsLoading = false;
-    },
-
-    writeArticleSuccess: (state, { payload }: PayloadAction<IArticleProps>) => {
-      state.currentArticle = payload;
-      state.WriteArticleHasError = false;
-      state.WriteArticleIsLoading = false;
-    },
-
-    writeArticleLoading: (state) => {
-      state.WriteArticleIsLoading = true;
+    resetArticle: (state) => {
+      state.currentArticle = initialState.currentArticle;
+      state.isLoading = initialState.isLoading;
+      state.error = initialState.error;
     },
   },
 });
 
 const {
-  writeArticleFailure,
-  writeArticleSuccess,
-  writeArticleLoading,
   getSingleArticleSuccess,
   getSingleArticleFail,
   getSingleArticleLoading,
+  resetArticle,
 } = articleSlice.actions;
 
 // get single article
@@ -124,53 +89,13 @@ export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
     })
     .catch((err: AxiosError) => {
       if (err.response) {
-        dispatch(getSingleArticleFail({ errorStatus: err.response.status }));
+        dispatch(getSingleArticleFail({ error: err.response }));
       } else {
-        dispatch(getSingleArticleFail({ errorStatus: UNKNOWN_ERR }));
+        dispatch(getSingleArticleFail({ error: UNKNOWN_ERR }));
       }
     });
 };
 
-export const editSingleArticle = (id: number, body: IPostArticle): AppThunk => {
-  return async (dispatch) => {
-    dispatch(writeArticleLoading());
-    return articleAPI
-      .editArticle(id, body)
-      .then((res: AxiosResponse) => {
-        dispatch(writeArticleSuccess(res.data));
-        return res.data.article_id;
-      })
-      .catch((err: AxiosError) => {
-        if (err.response) {
-          dispatch(writeArticleFailure({ errorStatus: err.response.status }));
-          return -1;
-        } else {
-          dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
-          return -1;
-        }
-      });
-  };
-};
-
-export const createSingleArticle = (body: IPostArticle): AppThunk => {
-  return async (dispatch) => {
-    dispatch(writeArticleLoading());
-    return articleAPI
-      .create(body)
-      .then((res: AxiosResponse) => {
-        dispatch(writeArticleSuccess(res.data));
-        return res.data.article_id;
-      })
-      .catch((err: AxiosError) => {
-        if (err.response) {
-          dispatch(writeArticleFailure({ errorStatus: err.response.status }));
-          return -1;
-        } else {
-          dispatch(writeArticleFailure({ errorStatus: UNKNOWN_ERR }));
-          return -1;
-        }
-      });
-  };
-};
+export { resetArticle };
 
 export default articleSlice.reducer;

@@ -1,15 +1,18 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
-import { Image, View } from 'native-base';
+import { HStack, Image, View } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { useSelector } from '@/helpers/hooks';
+import { useUserDetail } from '@/helpers/hooks/api';
 import { AppRoutes } from '@/helpers/routes';
+import { ESubStackScreens } from '@/screens/SubStack/SubStack';
 import { EUserStackScreens } from '@/screens/UserStack/UserStack';
-import { typo } from '@/styles';
 import { IUserSimple } from '@/types/user';
 
+import { GText } from '../Gatgu';
 import styles from './Profile.style';
 
 type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
@@ -17,16 +20,28 @@ type IProfileBoxProps = Pick<IUserSimple, 'id' | 'picture' | 'nickname'>;
 function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
   const navigation = useNavigation();
 
-  return (
-    <View style={styles.profile}>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate(AppRoutes.UserStack, {
-            screen: EUserStackScreens.Profile,
-            params: { id: id },
-          })
-        }
-      >
+  const { data: currentUser } = useUserDetail();
+  const isLogined = useSelector((state) => state.user.isLogined);
+
+  const handleProfilePress = () => {
+    if (currentUser?.id !== id) {
+      navigation.navigate('SubStack', {
+        screen: ESubStackScreens.UserProfile,
+        params: { id: id },
+      });
+
+      return;
+    }
+
+    navigation.navigate(AppRoutes.UserStack, {
+      screen: EUserStackScreens.Profile,
+      params: { id: id },
+    });
+  };
+
+  const renderProfileContent = () => {
+    return (
+      <HStack alignItems="center">
         <Image
           alt="profile"
           source={
@@ -40,8 +55,20 @@ function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
           defaultSource={require('@/assets/images/defaultProfile.png')}
           style={styles.profileImg}
         />
-      </TouchableOpacity>
-      <Text style={{ ...typo.semiTitle }}>{nickname}</Text>
+        <GText size={16}>{nickname}</GText>
+      </HStack>
+    );
+  };
+
+  return (
+    <View style={styles.profile}>
+      {isLogined ? (
+        <TouchableOpacity onPress={handleProfilePress}>
+          {renderProfileContent()}
+        </TouchableOpacity>
+      ) : (
+        renderProfileContent()
+      )}
     </View>
   );
 }

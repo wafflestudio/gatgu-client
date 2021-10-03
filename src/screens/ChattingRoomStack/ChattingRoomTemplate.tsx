@@ -1,41 +1,39 @@
 import React from 'react';
-import { KeyboardAvoidingView, Platform, Text } from 'react-native';
+import { View } from 'react-native';
 
-import { ArrowBackIcon, HamburgerIcon } from 'native-base';
+import { HamburgerIcon } from 'native-base';
 
-import {
-  DrawerActions,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 import { Header } from '@/components';
+import { AppRoutes } from '@/helpers/routes';
 
 import ChatsContainer from './ChatsContainer';
 
-export default function ChattingRoom({
+export default function ChattingRoomTemplate({
   roomID,
+  author_id,
 }: {
   roomID: number;
+  author_id: number;
 }): JSX.Element {
   const navigation = useNavigation();
 
+  console.log('roomId:', roomID);
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <View style={{ flex: 1 }}>
       <Header
         title="채팅방"
-        titleStyle={{ fontSize: 20 }}
         right={<HamburgerIcon />}
         rightCallback={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        left={<ArrowBackIcon />}
+        left={<Header.BackButton />}
         leftCallback={() => {
-          navigation.goBack();
+          navigation.navigate('MainStack', {
+            screen: 'ChattingList',
+          });
         }}
       />
-      <ChatsContainer roomID={roomID} />
-    </KeyboardAvoidingView>
+      <ChatsContainer roomID={roomID} author_id={author_id} />
+    </View>
   );
 }

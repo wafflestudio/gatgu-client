@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ArrayStorage } from '@/helpers/functions/asyncStorage';
 
 const useRecentSearch = () => {
   const [recentSearchKeywords, setRecentSearchKeywords] = useState<string[]>(
@@ -31,16 +30,15 @@ const useRecentSearch = () => {
       }
       const targetIdx = recentSearchKeywords.indexOf(keyword);
 
-      setRecentSearchKeywords((prev) => [
-        keyword,
-        ...prev.slice(0, targetIdx),
-        ...prev.slice(targetIdx + 1),
-      ]);
-      ArrayStorage.removeElem(asyncStoragekey.RECENT_SEARCH, keyword).then(
-        () => {
-          ArrayStorage.addElem(asyncStoragekey.RECENT_SEARCH, keyword);
-        }
-      );
+      if (targetIdx === -1) {
+        setRecentSearchKeywords((prev) => [keyword, ...prev]);
+      } else {
+        setRecentSearchKeywords((prev) => [
+          keyword,
+          ...prev.slice(0, targetIdx),
+          ...prev.slice(targetIdx + 1),
+        ]);
+      }
     },
     [recentSearchKeywords]
   );
@@ -51,8 +49,14 @@ const useRecentSearch = () => {
 
       return [...prev.slice(0, targetIdx), ...prev.slice(targetIdx + 1)];
     });
-    ArrayStorage.removeElem(asyncStoragekey.RECENT_SEARCH, keyword);
   }, []);
+
+  React.useEffect(() => {
+    AsyncStorage.setItem(
+      asyncStoragekey.RECENT_SEARCH,
+      JSON.stringify(recentSearchKeywords)
+    );
+  }, [recentSearchKeywords]);
 
   return {
     recentSearchKeywords,

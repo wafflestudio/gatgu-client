@@ -12,9 +12,9 @@ const commonStyle = StyleSheet.create({
 const HeaderStyles = StyleSheet.create({
   header: {
     width: '100%',
-    height: 44,
-    borderBottomWidth: 1,
-    borderBottomColor: palette.whiteGray,
+    height: 50,
+    borderBottomWidth: 0.5,
+    borderBottomColor: palette.borderGray,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: palette.white,
@@ -35,7 +35,9 @@ const HeaderStyles = StyleSheet.create({
   rightButton: {
     ...commonStyle.button,
     marginRight: 6,
+    display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

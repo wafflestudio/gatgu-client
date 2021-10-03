@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { palette, typo } from '@/styles';
+import { palette } from '@/styles';
 
 const commonStyle = StyleSheet.create({
   container: {
@@ -28,14 +28,14 @@ const ChatBoxStyle = StyleSheet.create({
   avatar: {
     width: 31,
     height: 31,
-    marginTop: 5,
+    marginTop: 15,
     borderRadius: 15.5,
     marginRight: 10,
-    borderWidth: 1,
-    borderColor: palette.borderGray,
+    // borderWidth: 1,
+    // borderColor: palette.borderGray,
   },
   nameText: {
-    ...typo.info,
+    fontSize: 17,
     color: palette.dark,
   },
   row: {

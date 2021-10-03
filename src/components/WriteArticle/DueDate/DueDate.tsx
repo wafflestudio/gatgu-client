@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { View, TouchableHighlight, Text, Modal, Alert } from 'react-native';
+import { View, TouchableHighlight, Text, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
-import { Button } from 'native-base';
+import { Modal } from 'native-base';
 
 // import { Label } from 'native-base';
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -70,7 +70,7 @@ function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
   };
 
   const renderDates = dayArr.map((item, indx) => (
-    <TouchableHighlight key={indx} onPress={() => selectDay(indx)}>
+    <TouchableOpacity key={indx} onPress={() => selectDay(indx)}>
       <View
         style={[
           styles.dayContainer,
@@ -92,7 +92,7 @@ function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
           {item.date}
         </Text>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   ));
 
   const parsedDate = useMemo(() => {
@@ -102,32 +102,37 @@ function DueDate({ dueDate, setDueDate, editable }: DueDateProps): JSX.Element {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.labelContainer}>
-        <TouchableHighlight
-          onPress={() => editable && showDatePicker()}
-          underlayColor={palette.whiteGray}
-        >
-          <View style={styles.timeContainer}>
-            <Text style={styles.label}>모집기한</Text>
-            <Text style={styles.label}>{parsedDate} 23:59 까지</Text>
-          </View>
-        </TouchableHighlight>
-      </View>
-      {modalVisible ? (
-        <View style={styles.modalView}>
-          <View style={styles.headerContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={{ ...typo.bigTitle }}>모집기한</Text>
-            </View>
-            <GButton size="small" onPress={handleComplete}>
-              완료
-            </GButton>
-          </View>
-          <View style={styles.scrollDayContainer}>
-            <ScrollView horizontal={true}>{renderDates}</ScrollView>
-          </View>
+      <TouchableHighlight
+        onPress={() => editable && showDatePicker()}
+        underlayColor={palette.whiteGray}
+        style={styles.labelContainer}
+      >
+        <View style={styles.timeContainer}>
+          <Text style={styles.label}>모집기한</Text>
+          <Text style={styles.label}>{parsedDate} 23:59 까지</Text>
         </View>
-      ) : null}
+      </TouchableHighlight>
+      {modalVisible && (
+        <Modal isOpen>
+          <Modal.Content style={{ height: 200, width: '100%' }}>
+            <Modal.Header>
+              <View style={[styles.headerContainer, { padding: 20 }]}>
+                <View style={styles.titleContainer}>
+                  <Text style={{ ...typo.bigTitle }}>모집기한</Text>
+                </View>
+                <GButton size="small" onPress={handleComplete}>
+                  완료
+                </GButton>
+              </View>
+            </Modal.Header>
+            <Modal.Body>
+              <View style={styles.scrollDayContainer}>
+                <ScrollView horizontal={true}>{renderDates}</ScrollView>
+              </View>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+      )}
     </View>
   );
 }

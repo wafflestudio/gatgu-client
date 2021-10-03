@@ -4,6 +4,7 @@ import { NavigatorScreenParams } from '@react-navigation/core';
 
 import logo from '@/assets/icons/Logo';
 import { createGatguStackNavigator } from '@/helpers/functions/navigation';
+import { TNavigateFlag } from '@/types/shared';
 
 import ArticleStackScreen, {
   TArticleStackScreenParamList,
@@ -18,7 +19,7 @@ export enum EHomeStackScreens {
 }
 
 export type THomeStackParamList = {
-  [EHomeStackScreens.Home]: undefined;
+  [EHomeStackScreens.Home]: TNavigateFlag;
   [EHomeStackScreens.Notification]: undefined;
   [EHomeStackScreens.ArticleStack]: NavigatorScreenParams<TArticleStackScreenParamList>;
 } & TArticleStackScreenParamList;
@@ -35,7 +36,6 @@ const HomeStackScreen: React.FC = () => {
           headerTitle: () => (
             <logo.subLogo style={{ width: 94.4, height: 25 }} />
           ),
-          headerRightContainerStyle: { paddingRight: 10, paddingTop: 5 },
           headerTitleAlign: 'center',
         }}
       />

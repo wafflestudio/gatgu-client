@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, ScrollView, Text, Alert, Platform } from 'react-native';
+import { View, ScrollView, Text, Platform } from 'react-native';
 
 import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
@@ -10,8 +10,7 @@ import { HStack, KeyboardAvoidingView, Modal, VStack } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import { userAPI } from '@/apis';
-import { Button } from '@/components';
-import { GButton, GInput, GSpace, GText } from '@/components/Gatgu';
+import { GButton, GCheckbox, GInput, GSpace, GText } from '@/components/Gatgu';
 import { getTs } from '@/helpers/functions/time';
 import {
   isValidEmail,
@@ -21,6 +20,7 @@ import {
   isValidPassword,
 } from '@/helpers/functions/validate';
 import { useToaster } from '@/helpers/hooks';
+import { ESubStackScreens } from '@/screens/SubStack/SubStack';
 import SignUpInput from '@/screens/UserStack/SignUp/SignUpInput';
 
 import FindAddressWebview from '../components/FindAddressWebview/FindAddressWebview';
@@ -41,7 +41,7 @@ export interface ISignUpValues {
   isAllCheckboxesSelected: boolean;
   checkbox1IsSelected: boolean;
   checkbox2IsSelected: boolean;
-  checkbox3IsSelected: boolean;
+  // checkbox3IsSelected: boolean;
 }
 
 const DEFAULT_FORM_VALUE = {
@@ -61,7 +61,7 @@ const DEFAULT_FORM_VALUE = {
   isAllCheckboxesSelected: false,
   checkbox1IsSelected: false,
   checkbox2IsSelected: false,
-  checkbox3IsSelected: false,
+  // checkbox3IsSelected: false,
 };
 
 type SignUpErrors = Partial<Record<keyof ISignUpValues, string>>;
@@ -162,7 +162,7 @@ const SignUp: React.FC = () => {
     const password =
       values.password &&
       !isValidPassword(values.password) &&
-      '8자~16자 영문 대소문자, 숫자를 모두 사용하세요.';
+      '8자~16자 영문자, 숫자를 모두 사용하세요. (특수문자는 사용하지 마세요)';
     if (password) Object.assign(errors, { password });
     // password confirm
     const passwordConfirm =
@@ -209,7 +209,7 @@ const SignUp: React.FC = () => {
       })
       .catch((error) => {
         toaster.error('인증 메일 발송에 실패하였습니다.');
-        console.debug(error.config);
+        console.debug(error);
       })
       .finally(() => {
         setEmailSending(false);
@@ -222,6 +222,7 @@ const SignUp: React.FC = () => {
       .confirmMailCode(email + '@snu.ac.kr', code)
       .then(() => {
         setTokenValid(true);
+        setTokenConfirmDisabled(true);
         toaster.success('인증되었습니다.');
       })
       .catch((error: AxiosError) => {
@@ -241,11 +242,8 @@ const SignUp: React.FC = () => {
   return (
     <ScrollView style={styles.container}>
       <KeyboardAvoidingView
-        h={{
-          base: '1000px',
-          lg: 'auto',
-        }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={-60}
       >
         <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
         <SignUpInput
@@ -281,7 +279,7 @@ const SignUp: React.FC = () => {
           errorStr={errors.email}
           InputRightElement={
             <HStack alignItems="center">
-              <GText size="big">@snu.ac.kr</GText>
+              <GText size={15}>@snu.ac.kr</GText>
               <GSpace w={10} />
               <GButton
                 variant="outlined"
@@ -289,7 +287,7 @@ const SignUp: React.FC = () => {
                 isLoading={isEmailSending}
                 disabled={values.email.length === 0}
                 textProps={{
-                  size: 'big',
+                  size: 15,
                 }}
                 onPress={handleEmailSend}
               >
@@ -323,7 +321,7 @@ const SignUp: React.FC = () => {
                     values.emailConfirm.length === 0 || isTokenConfirmDisabled
                   }
                   textProps={{
-                    size: 'big',
+                    size: 18,
                   }}
                   onPress={() =>
                     handleEmailCodeChecking(values.email, values.emailConfirm)
@@ -346,7 +344,7 @@ const SignUp: React.FC = () => {
               variant="outlined"
               size="large"
               textProps={{
-                size: 'big',
+                size: 18,
               }}
               onPress={() => setAddressModalOpen(true)}
             >
@@ -369,13 +367,8 @@ const SignUp: React.FC = () => {
         </VStack>
         <GSpace h={25} />
         <View style={checkStyles.titleContainer}>
-          <Button
-            title=""
-            style={
-              values.isAllCheckboxesSelected
-                ? checkStyles.buttonTrue
-                : checkStyles.buttonFalse
-            }
+          <GCheckbox
+            checked={values.isAllCheckboxesSelected}
             onPress={() => {
               setFieldValue(
                 'isAllCheckboxesSelected',
@@ -389,12 +382,9 @@ const SignUp: React.FC = () => {
                 'checkbox2IsSelected',
                 !values.isAllCheckboxesSelected
               );
-              setFieldValue(
-                'checkbox3IsSelected',
-                !values.isAllCheckboxesSelected
-              );
             }}
           />
+          <GSpace w={10} />
           <View style={checkStyles.textWrapper}>
             <Text style={checkStyles.allTitle}>
               같구 이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에
@@ -410,10 +400,13 @@ const SignUp: React.FC = () => {
               setFieldValue('checkbox1IsSelected', !values.checkbox1IsSelected);
               setFieldValue(
                 'isAllCheckboxesSelected',
-                !values.checkbox1IsSelected &&
-                  values.checkbox2IsSelected &&
-                  values.checkbox3IsSelected
+                !values.checkbox1IsSelected && values.checkbox2IsSelected
               );
+            }}
+            onPressTerm={() => {
+              navigation.navigate('SubStack', {
+                screen: ESubStackScreens.ServiceTerms,
+              });
             }}
           />
           <Check
@@ -423,25 +416,14 @@ const SignUp: React.FC = () => {
               setFieldValue('checkbox2IsSelected', !values.checkbox2IsSelected);
               setFieldValue(
                 'isAllCheckboxesSelected',
-                values.checkbox1IsSelected &&
-                  !values.checkbox2IsSelected &&
-                  values.checkbox3IsSelected
+                values.checkbox1IsSelected && !values.checkbox2IsSelected
               );
             }}
-          />
-          <Check
-            checked={values.checkbox3IsSelected}
-            title="위치정보 이용약관 동의"
-            onPress={() => {
-              setFieldValue('checkbox3IsSelected', !values.checkbox3IsSelected);
-              setFieldValue(
-                'isAllCheckboxesSelected',
-                values.checkbox1IsSelected &&
-                  values.checkbox2IsSelected &&
-                  !values.checkbox3IsSelected
-              );
+            onPressTerm={() => {
+              navigation.navigate('SubStack', {
+                screen: ESubStackScreens.PrivateInfo,
+              });
             }}
-            isOptional={true}
           />
         </View>
         <GSpace h={10} />

@@ -49,7 +49,7 @@ const ReportModal: React.FC<IReportModalProps> = ({
             placeholder="신고 이유를 적어주세요"
             value={reportContent}
             maxLength={1000}
-            height="100%"
+            maxHeight={205}
             onChangeText={setReportContent}
           />
         </Modal.Body>

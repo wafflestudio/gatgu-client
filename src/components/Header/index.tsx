@@ -1,13 +1,16 @@
 import React from 'react';
-import { View, Text, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { View, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { useNavigation } from '@react-navigation/core';
 
+import { GText } from '../Gatgu';
 import styles from './Header.style';
 import HeaderBackButton from './HeaderBackButton';
 
 // need to pass functions for the buttons
+
+export const HEADER_HEIGHT = 50;
 export interface IHeaderProps {
   // 헤더 한가운데 들어갈 타이틀 텍스트
   title?: string;
@@ -24,18 +27,19 @@ export interface IHeaderProps {
   right?: React.ReactNode;
   rightCallback?: any;
   rightContainerStyle?: StyleProp<ViewStyle>;
+  fixed?: boolean;
 }
 
 const Header: React.FC<IHeaderProps> = ({
   title,
   left,
   right,
-  titleStyle,
   leftCallback,
   rightCallback,
   leftContainerStyle,
   rightContainerStyle,
   titleContainerStyle,
+  fixed,
 }) => {
   const navigation = useNavigation();
 
@@ -48,7 +52,16 @@ const Header: React.FC<IHeaderProps> = ({
   };
 
   return (
-    <View style={styles.header}>
+    <View
+      style={[
+        fixed && {
+          position: 'absolute',
+          top: 0,
+          zIndex: 10,
+        },
+        styles.header,
+      ]}
+    >
       {left ? (
         <TouchableOpacity
           style={[styles.leftButton, leftContainerStyle]}
@@ -61,7 +74,9 @@ const Header: React.FC<IHeaderProps> = ({
       )}
       <View style={[styles.titleContainer, titleContainerStyle]}>
         {title && (
-          <Text style={[styles.basicTitleText, titleStyle]}>{title}</Text>
+          <GText bold size={18}>
+            {title}
+          </GText>
         )}
       </View>
       {right ? (
