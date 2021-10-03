@@ -46,13 +46,19 @@ function StatusModal({
   const handlePress = () => {
     if (user) {
       setIsSubmitting(true);
+
+      const statusBody: { [x: string]: any } = {
+        pay_status: isAuthor
+          ? ParticipantStatus.pay_checked
+          : ParticipantStatus.request_check_pay,
+      };
+
+      if (isAuthor) {
+        statusBody.user_id = user?.id;
+      }
+
       chatAPI
-        .changeParticipantStatus(roomID, {
-          user_id: user?.id,
-          pay_status: isAuthor
-            ? ParticipantStatus.pay_checked
-            : ParticipantStatus.request_check_pay,
-        })
+        .changeParticipantStatus(roomID, statusBody)
         .then(() => {
           toaster.success('성공적으로 상태를 바꿨습니다.');
           dispatch(fetchingParticipants(roomID));
