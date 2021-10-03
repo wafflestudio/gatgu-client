@@ -7,6 +7,8 @@ import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DateTime } from 'luxon';
 import { Flex, Image } from 'native-base';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { GSpace } from '@/components/Gatgu';
 import { emptyURL } from '@/constants/image';
 import { IMessageImage } from '@/types/chat';
@@ -36,6 +38,8 @@ function ChatBox({
   resend,
   erase,
 }: IChatBoxProps): JSX.Element {
+  const navigation = useNavigation();
+
   const { message, repeat, websocket_id, pending } = current;
   const { text, image, type, sent_at, sent_by } = message;
   const nextItem = next?.message; // because chat is in inversed
@@ -106,7 +110,16 @@ function ChatBox({
   const renderedProfile = useMemo(
     () =>
       isProfileShown ? (
-        <>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SubStack', {
+              screen: 'UserProfile',
+              params: {
+                id: sent_by.id,
+              },
+            });
+          }}
+        >
           <Image
             source={
               sent_by?.picture
@@ -117,11 +130,11 @@ function ChatBox({
             fallbackSource={require('@/assets/images/defaultProfile.png')}
             alt="profile pic"
           />
-        </>
+        </TouchableOpacity>
       ) : (
         <View style={styles.avatar} />
       ),
-    [sent_by, isProfileShown]
+    [sent_by, isProfileShown, navigation]
   );
 
   const renderResendIcons = () => {
