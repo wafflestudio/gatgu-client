@@ -145,7 +145,7 @@ function ChatBox({
   };
 
   return system ? (
-    <SystemMessage message={text} previousSystem={prevItem?.type == 'system'} />
+    <SystemMessage message={text} />
   ) : (
     <View
       style={[
