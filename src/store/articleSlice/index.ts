@@ -1,30 +1,43 @@
+import { AxiosResponse, AxiosError } from 'axios';
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { articleAPI } from '@/apis';
-import { IArticleSumProps } from '@/types/article';
+import { UNKNOWN_ERR } from '@/constants/ErrorCode';
 import { AppThunk } from '@/store';
+import { IArticleProps, IGetFailPayload } from '@/types/article';
 
 export interface IArticleSlice {
-  page: number;
-  hasError: boolean;
-  data: IArticleSumProps[];
-  pageLimit: number;
-}
-
-interface IArticlePayload {
-  data: IArticleSumProps[];
-}
-
-interface IPageLimitPayload {
-  pageLimit: {
-    limit: number;
-  };
+  error: any;
+  isLoading: boolean;
+  currentArticle: IArticleProps;
 }
 
 const initialState: IArticleSlice = {
-  page: 1,
-  hasError: false,
-  data: [],
-  pageLimit: 1,
+  error: null,
+  isLoading: true,
+  currentArticle: {
+    writer: { id: 0, profile_img: '', nickname: '' },
+    article_id: 0,
+    title: '',
+    description: '',
+    trading_place: '',
+    product_url: '',
+    price_min: 0,
+    time_in: new Date().getTime(),
+    images: [],
+    created_at: new Date().getTime(), // should be date but json server doesn't accept Date
+    updated_at: new Date().getTime(),
+    article_status: {
+      progress_status: 1,
+      cur_price_sum: 0,
+    },
+    order_chat: {
+      id: 0,
+      participant_profile: [],
+      tracking_number: 0,
+    },
+  },
 };
 
 // article store + basic action
@@ -32,52 +45,57 @@ const articleSlice = createSlice({
   name: 'article',
   initialState,
   reducers: {
-    // if getting data  successfully
-    getArticleSuccess: (state, { payload }: PayloadAction<IArticlePayload>) => {
-      state.data.push(...payload.data);
-      state.hasError = false;
-      state.page += 1;
+    getSingleArticleSuccess: (
+      state,
+      { payload }: PayloadAction<IArticleProps>
+    ) => {
+      state.currentArticle = payload;
+      state.error = null;
+      state.isLoading = false;
     },
 
-    // if getting data fail, show error screen by hasError state.
-    getArticleFailure: (state) => {
-      state.hasError = true;
+    getSingleArticleFail: (
+      state,
+      { payload }: PayloadAction<IGetFailPayload>
+    ) => {
+      state.error = payload;
+      state.isLoading = false;
     },
-
-    setPageLimit: (state, { payload }: PayloadAction<IPageLimitPayload>) => {
-      state.pageLimit = payload.pageLimit.limit;
+    getSingleArticleLoading: (state) => {
+      state.isLoading = true;
+    },
+    resetArticle: (state) => {
+      state.currentArticle = initialState.currentArticle;
+      state.isLoading = initialState.isLoading;
+      state.error = initialState.error;
     },
   },
 });
 
 const {
-  getArticleSuccess,
-  getArticleFailure,
-  setPageLimit,
+  getSingleArticleSuccess,
+  getSingleArticleFail,
+  getSingleArticleLoading,
+  resetArticle,
 } = articleSlice.actions;
 
-// Asynchronous thunk action
-export const getArticlesPerPage = (page: number): AppThunk => (dispatch) => {
+// get single article
+export const getSingleArticle = (id: number): AppThunk => (dispatch) => {
+  dispatch(getSingleArticleLoading());
   articleAPI
-    .readAll(page)
-    .then((response) => {
-      dispatch(getArticleSuccess({ data: response.data }));
+    .getSingleArticle(id)
+    .then((response: AxiosResponse) => {
+      dispatch(getSingleArticleSuccess(response.data));
     })
-    .catch((err) => {
-      console.error(err);
-      dispatch(getArticleFailure());
+    .catch((err: AxiosError) => {
+      if (err.response) {
+        dispatch(getSingleArticleFail({ error: err.response }));
+      } else {
+        dispatch(getSingleArticleFail({ error: UNKNOWN_ERR }));
+      }
     });
 };
 
-// TODO: check
-// pagination하면 원래 페이지 크기도 오나요?
-export const getPageLimit = (): AppThunk => (dispatch) => {
-  articleAPI
-    .readPageLimit()
-    .then((response) => {
-      dispatch(setPageLimit(response.data));
-    })
-    .catch((err) => console.log(err));
-};
+export { resetArticle };
 
 export default articleSlice.reducer;

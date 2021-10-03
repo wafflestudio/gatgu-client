@@ -1,14 +1,49 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import ErrorStyles from './Error.style';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+
+import { Modal } from 'native-base';
+
+import { GButton } from '../Gatgu';
+
 interface IErrorProps {
-  status: number;
+  title: string;
+  description: string;
+  loading?: boolean;
+  // errCallback을 넘겨야 한다.
+  errCallback: () => void;
 }
 
-function Error({ status }: IErrorProps): JSX.Element {
+function Error({
+  title,
+  description,
+  loading,
+  errCallback,
+}: IErrorProps): JSX.Element {
   return (
-    <View style={ErrorStyles.container}>
-      <Text>{status}</Text>
+    <View>
+      <Modal isOpen size="md">
+        <Modal.Content>
+          <Modal.Header>{title}</Modal.Header>
+          <Modal.Body>{description}</Modal.Body>
+          <Modal.Footer
+            pr={6}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginBottom: 20,
+            }}
+          >
+            <GButton
+              width="default"
+              size="default"
+              isLoading={loading}
+              onPress={errCallback}
+            >
+              다시 시도
+            </GButton>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
     </View>
   );
 }

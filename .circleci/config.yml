@@ -1,0 +1,40 @@
+version: 2.1
+jobs:
+  # build:
+  # for npm install and testing --> job macos-build will require build
+  #
+  android-build:
+    working_directory: ~/gatgu-client
+    docker:
+      - image: circleci/android:api-29-node
+
+    # environement
+    steps:
+      - checkout:
+          path: ~/gatgu-client
+      - run: bundle install
+      - run: npm install
+      - run:
+          name: fastlane tests
+          command: |
+            cd android
+            bundle exec fastlane test
+  # macos-build:
+  #   working_directory: ~/gatgu-client
+  #   macos:
+  #     xcode: 11.3.0
+  #   # environement
+  #   steps:
+  #     - checkout
+  #     - run: npm install
+  #     - run:
+  #         command: pod install
+  #         working_directory: ios
+  #     - run:
+  #         command: npm run ios
+  #         working_directory: ios
+
+workflows:
+  macos:
+    jobs:
+      - android-build

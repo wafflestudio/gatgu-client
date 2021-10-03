@@ -1,31 +1,95 @@
 // thunk functions that return promises
 import { AxiosResponse } from 'axios';
-import requester from './BaseInstance';
+import qs from 'querystring';
+
+import { PAGE_SIZE } from '@/constants/article';
+import { asyncStoragekey } from '@/constants/asyncStorage';
+import { ArticleStatus, UserArticleActivity } from '@/enums';
+import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import {
-  IArticleSumProps,
-  IPageLimitRes,
   IArticleProps,
+  IPostArticle,
+  IGetArticlesResponse,
 } from '@/types/article';
 
-// for home page
-export const readAll = (
-  page: number
-): Promise<AxiosResponse<IArticleSumProps[]>> => {
-  // TODO: check
-  // pagination 이렇게 안하는데, 백엔드와 논의 필요
-  const url = `posts?_limit=7&_page=${page}`;
-  return requester.get(url);
+import apiClient from './apiClient';
+
+export const getArticles = (
+  url?: string | null,
+  keyword?: string
+): Promise<AxiosResponse<IGetArticlesResponse>> => {
+  // keyword가 있고, url이 없으면 search 쿼리 생성
+  const searchObj = !url && keyword && { title: keyword };
+
+  const query = qs.stringify({
+    ...searchObj,
+    page_size: PAGE_SIZE,
+    status: [ArticleStatus.Dealing, ArticleStatus.Gathering],
+  });
+
+  // next, previous url이 있는 경우 arguments의 url 사용, 그 외 url이 없는 경우
+  // article로 request
+  url = `articles/${url ? `${url}&` : '?'}`;
+  return apiClient.get(`${url}${query}`);
 };
 
-export const readPageLimit = (): Promise<AxiosResponse<IPageLimitRes>> => {
-  // TODO: check
-  // 이거 있는 API인가요? 없으면 차라리 자주 변하는 정보도 아니고 @/constants/에 두는 게 나을 듯
-  return requester.get('pageLimit');
+// for article POST
+export const create = (article: IPostArticle): Promise<AxiosResponse> => {
+  return apiClient.post('articles/', article);
 };
 
-// for article page
-export const create = (
-  article: IArticleProps
+// get a single article with its id
+export const getSingleArticle = (
+  id: number
 ): Promise<AxiosResponse<IArticleProps>> => {
-  return requester.post('article/', article);
+  return apiClient.get(`articles/${id}/`);
+};
+
+export const deleteArticle = (id: number): Promise<AxiosResponse> => {
+  return apiClient.delete(`articles/${id}/`);
+};
+
+export const editArticle = (
+  id: number,
+  body: IPostArticle
+): Promise<AxiosResponse> => {
+  return ObjectStorage.getObject(asyncStoragekey.USER).then((res) => {
+    return apiClient.patch(`articles/${id}/`, body);
+  });
+};
+
+// 유저 같구 리스트
+export const getUserArticles = (
+  cursorSearchParams: string | null,
+  activity: UserArticleActivity,
+  userId: number | null
+) => {
+  const defaultUrl = `users/${userId || 'me'}/articles/`;
+
+  const searchParams = new URLSearchParams({
+    activity,
+    page_size: `${PAGE_SIZE}`,
+  });
+
+  return apiClient.get(
+    defaultUrl +
+      (cursorSearchParams ? `${cursorSearchParams}&` : '?') +
+      searchParams
+  );
+};
+
+// 글 신고하기
+export const postArticleReport = (articleId: number, contents: string) => {
+  return apiClient.post('reports/', {
+    article_id: articleId,
+    contents,
+  });
+};
+
+// 글 상태 수정하기
+export const patchArticle = (
+  articleId: number,
+  body: { article_status: ArticleStatus }
+) => {
+  return apiClient.patch(`articles/${articleId}/`, body);
 };

@@ -1,16 +1,26 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, StyleProp, TextStyle } from 'react-native';
 
 interface ButtonProps {
   title: string;
   onPress: () => void;
+  textStyle?: StyleProp<TextStyle>;
   [x: string]: any;
 }
-
-function Button({ title, onPress, ...rest }: ButtonProps): JSX.Element {
+/**
+ * 💀 DO NOT USE THIS COMPONENT!!
+ *
+ * please use "Button" from **native-base**
+ */
+function Button({
+  title,
+  onPress,
+  textStyle,
+  ...rest
+}: ButtonProps): JSX.Element {
   return (
     <TouchableOpacity onPress={onPress} {...rest}>
-      <Text>{title}</Text>
+      <Text style={textStyle}>{title}</Text>
     </TouchableOpacity>
   );
 }
