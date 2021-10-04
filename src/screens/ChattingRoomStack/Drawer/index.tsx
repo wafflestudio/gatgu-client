@@ -11,20 +11,22 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DateTime } from 'luxon';
+import { Flex } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { chatAPI, userAPI } from '@/apis';
+import { userAPI } from '@/apis';
 import { Profile } from '@/components';
-import { GSpace } from '@/components/Gatgu';
+import { GSpace, GText } from '@/components/Gatgu';
 import { ParticipantStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { removeRecentlyReadMessageId } from '@/helpers/functions/chat';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
+import { mobile } from '@/helpers/mobile';
 import { RootState } from '@/store';
-import { fetchingParticipants } from '@/store/chatSlice';
+import { fetchingParticipants, updateRoomImages } from '@/store/chatSlice';
 import { palette } from '@/styles';
 import { IChatUserProps, IUserSimple } from '@/types/user';
 
@@ -48,26 +50,37 @@ function Drawer({
 
   const isAuthor = authorId === userID;
 
-  const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
-    onmessage: (socket) => {
-      // refetch participant list when a status has been updated
-      if (socket.type === WSMessage.RECEIVE_UPDATED_STATUS) {
-        dispatch(fetchingParticipants(roomID));
-      }
-    },
-  });
-
   // -1: undefined (modal closed)
   // 0+: id of clicked user (modal open)
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [user, setUser] = useState<IChatUserProps>();
-  const [pictureUrls, setPictureUrls] = useState<string[]>([]);
 
   const [author, setAuthor] = useState<IUserSimple | null>(null);
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
   );
+  const images = useSelector((state: RootState) => state.chat.images);
+
+  // fetch all images
+  const updateImages = React.useCallback(() => {
+    dispatch(updateRoomImages(roomID));
+  }, [roomID, dispatch]);
+
+  const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
+    onmessage: (socket) => {
+      // refetch participant list when a status has been updated
+      if (socket.type === WSMessage.RECEIVE_UPDATED_STATUS) {
+        dispatch(fetchingParticipants(roomID));
+      }
+
+      if (socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS) {
+        if (socket.data.image?.length > 0) {
+          updateImages();
+        }
+      }
+    },
+  });
 
   useEffect(() => {
     // fetch participants' info
@@ -77,18 +90,10 @@ function Drawer({
     userAPI.getOtherUserData(authorId).then((res) => {
       setAuthor(res.data);
     });
-  }, [roomID, authorId, dispatch]);
 
-  useEffect(() => {
-    // fetch all images
-    chatAPI.getChatPictures(roomID).then((res) => {
-      setPictureUrls(res.data.map((img) => img.img_url));
-    });
-  }, [roomID]);
-
-  const renderPicure = ({ item: uri }: { item: string }) => (
-    <Image source={{ uri }} style={styles.image} />
-  );
+    // get room images
+    updateImages();
+  }, [roomID, authorId, dispatch, updateImages]);
 
   const handlePressExit = () => {
     const wsMessage = {
@@ -163,13 +168,38 @@ function Drawer({
   return (
     <View style={styles.drawerInnerWrapper}>
       <View style={styles.pictureContainer}>
-        <Text style={styles.bigLabelText}>사진</Text>
-        <FlatList
-          data={pictureUrls}
-          renderItem={renderPicure}
-          keyExtractor={(_, ind) => `${ind}`}
-          horizontal={true}
-        />
+        <Flex
+          direction="row"
+          alignItems="baseline"
+          justifyContent="space-between"
+          mr="12px"
+        >
+          <Text style={styles.bigLabelText}>사진</Text>
+          <GText
+            touchable
+            textDecorationLine="underline"
+            size={15}
+            onPress={() => {
+              navigation.navigate('ChattingRoomImages');
+            }}
+          >
+            사진첩
+          </GText>
+        </Flex>
+
+        <Flex direction="row" justifyContent="space-between" mr="10px">
+          {images.slice(images.length - 2).map((uri) => (
+            <Image
+              key={uri}
+              source={{ uri }}
+              style={{
+                width: '47%',
+                aspectRatio: 1,
+              }}
+              resizeMethod="resize"
+            />
+          ))}
+        </Flex>
       </View>
       <View style={styles.userContainer}>
         <Text style={styles.bigLabelText}>참여 인원 목록</Text>
