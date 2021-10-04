@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,7 +17,6 @@ import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
 import { removeRecentlyReadMessageId } from '@/helpers/functions/chat';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
-import { mobile } from '@/helpers/mobile';
 import { RootState } from '@/store';
 import { fetchingParticipants, updateRoomImages } from '@/store/chatSlice';
 import { palette } from '@/styles';
