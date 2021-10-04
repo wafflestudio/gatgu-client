@@ -27,7 +27,6 @@ const useImageUpload = (type: APItype, id?: number) => {
   };
 
   const uploadSingleImage = async (image: TShortImage) => {
-    console.log('UPLOAD');
     return await createPresignedPost(id)
       .then(async (res) => {
         const filename = res.data.response.fields.key;

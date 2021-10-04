@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { userAPI } from '@/apis';
 import { Profile } from '@/components';
-import { GSpace, GText } from '@/components/Gatgu';
+import { GModal, GSpace, GText } from '@/components/Gatgu';
 import { ParticipantStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
 import { TWsMessage } from '@/helpers/GatguWebsocket/_internal/types';
@@ -48,6 +48,8 @@ function Drawer({
   const [user, setUser] = useState<IChatUserProps>();
 
   const [author, setAuthor] = useState<IUserSimple | null>(null);
+
+  const [isExitModalOpen, setExitModalOpen] = React.useState(false);
 
   const participants = useSelector(
     (state: RootState) => state.chat.participantsList
@@ -88,6 +90,13 @@ function Drawer({
   }, [roomID, authorId, dispatch, updateImages]);
 
   const handlePressExit = () => {
+    if (isAuthor) {
+      toaster.warning(
+        '글쓴이는 거래 완료 또는 참여자가 1명일 때만 나갈 수 있습니다.'
+      );
+      return;
+    }
+
     const wsMessage = {
       type: WSMessage.EXIT_ROOM,
       data: {
@@ -211,7 +220,7 @@ function Drawer({
       </View>
       {!isAuthor && (
         <View style={styles.optionContainer}>
-          <TouchableOpacity onPress={handlePressExit}>
+          <TouchableOpacity onPress={() => setExitModalOpen(true)}>
             <Text style={styles.smallLabelText}>나가기</Text>
           </TouchableOpacity>
         </View>
@@ -223,6 +232,17 @@ function Drawer({
           roomID={roomID}
           user={user}
         />
+      ) : null}
+      {isExitModalOpen ? (
+        <GModal role="small-confirm">
+          <GModal.Header>채팅방에서 나가시겠습니까?</GModal.Header>
+          <GModal.Footer
+            buttons={[
+              { onPress: () => setExitModalOpen(false), content: '취소' },
+              { onPress: handlePressExit, content: '나가기' },
+            ]}
+          ></GModal.Footer>
+        </GModal>
       ) : null}
     </View>
   );

@@ -5,7 +5,10 @@ import { IModalProps } from 'native-base/lib/typescript/components/composites/Mo
 
 import { palette } from '@/styles';
 
-type GModalSize = 'small' | 'default' | 'big';
+import { GButton } from '../GButton';
+import { GSpace } from '../GSpace';
+
+type GModalSize = 'small-confirm' | 'default' | 'big';
 
 interface GModalContext {
   role?: GModalSize;
@@ -14,6 +17,14 @@ interface GModalContext {
 type GModalProps = IModalProps & {
   role?: GModalSize;
 };
+
+interface GModalFooterProps {
+  buttons?: {
+    content: React.ReactNode | string;
+    onPress: () => void;
+    isLoading?: boolean;
+  }[];
+}
 
 const GModalContext = React.createContext<GModalContext>({});
 const useGmodalContext = () => React.useContext(GModalContext);
@@ -29,7 +40,7 @@ const GModalProvider: React.FC<GModalContext> = ({
 
 const GModal: React.FC<GModalProps> = ({ children, role, ...props }) => {
   return (
-    <GModalProvider>
+    <GModalProvider role={role}>
       <Modal isOpen size="lg" {...props}>
         <Modal.Content pb="12px">
           {typeof props.onClose === 'function' ? (
@@ -49,19 +60,66 @@ const GModal: React.FC<GModalProps> = ({ children, role, ...props }) => {
 const GModalHeader: React.FC = ({ children }) => {
   const { role } = useGmodalContext();
 
-  return <Modal.Header>{children}</Modal.Header>;
+  return (
+    <Modal.Header
+      alignItems={role === 'small-confirm' ? 'center' : 'flex-start'}
+    >
+      {children}
+    </Modal.Header>
+  );
 };
 
 const GModalBody: React.FC = ({ children }) => {
-  const { role } = useGmodalContext();
-
   return <Modal.Body pb="5px">{children}</Modal.Body>;
 };
 
-const GModalFooter: React.FC = ({ children }) => {
-  const { role } = useGmodalContext();
+const GModalFooter: React.FC<GModalFooterProps> = ({ buttons, children }) => {
+  const renderFooterChildren = () => {
+    if (buttons) {
+      if (buttons.length === 1) {
+        const { isLoading, onPress, content } = buttons[0];
+        return (
+          <GButton
+            width="full"
+            size="large"
+            isLoading={isLoading}
+            onPress={onPress}
+          >
+            {content}
+          </GButton>
+        );
+      } else if (buttons.length === 2) {
+        return (
+          <>
+            <GButton
+              theme="gray"
+              variant="outlined"
+              width="full"
+              size="large"
+              style={{ flex: 1 }}
+              isLoading={buttons[0].isLoading}
+              onPress={buttons[0].onPress}
+            >
+              {buttons[0].content}
+            </GButton>
+            <GSpace w={10} />
+            <GButton
+              width="full"
+              size="large"
+              style={{ flex: 1 }}
+              isLoading={buttons[1].isLoading}
+              onPress={buttons[1].onPress}
+            >
+              {buttons[1].content}
+            </GButton>
+          </>
+        );
+      }
+    }
+    return children;
+  };
 
-  return <Modal.Footer pr={6}>{children}</Modal.Footer>;
+  return <Modal.Footer pr={6}>{renderFooterChildren()}</Modal.Footer>;
 };
 
 export default Object.assign(GModal, {
