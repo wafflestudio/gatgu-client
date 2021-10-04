@@ -4,6 +4,7 @@ import { createGatguStackNavigator } from '@/helpers/functions/navigation';
 
 import { Configs } from './Configs';
 import Login from './Login';
+import { NotificationConfig } from './NotificationConfig';
 import Profile from './Profile';
 import ProfileModify from './ProfileModify';
 import SignUp from './SignUp';
@@ -18,6 +19,7 @@ export enum EUserStackScreens {
   ProfileModify = 'ProfileModify',
   UserGatgu = 'UserGatgu',
   Configs = 'Configs',
+  NotificationConfig = 'NotificationConfig',
 
   // auth
   Login = 'Login',
@@ -32,6 +34,7 @@ export type TUserStackParamList = {
   [EUserStackScreens.ProfileModify]: undefined;
   [EUserStackScreens.UserGatgu]: undefined;
   [EUserStackScreens.Configs]: undefined;
+  [EUserStackScreens.NotificationConfig]: undefined;
 };
 
 const UserStack = createGatguStackNavigator<TUserStackParamList>();
@@ -60,6 +63,13 @@ const UserStackScreen: React.FC = () => {
         component={Configs}
         options={{
           headerTitle: '설정',
+        }}
+      />
+      <UserStack.Screen
+        name={EUserStackScreens.NotificationConfig}
+        component={NotificationConfig}
+        options={{
+          headerTitle: '알림 설정',
         }}
       />
 

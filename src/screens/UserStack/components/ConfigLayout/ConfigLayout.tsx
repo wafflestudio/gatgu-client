@@ -8,7 +8,7 @@ import { palette } from '@/styles';
 
 export interface IConfigLayoutItem {
   label: string;
-  rightText?: string;
+  rightItem?: string | React.ReactNode;
   onPress?: () => void;
 }
 
@@ -40,13 +40,17 @@ const StyledConfigItemView = styled.View`
 const ConfigLayout: React.FC<IConfigLayoutProps> = ({ title, items }) => {
   const renderItems = () => {
     return items.map((item, idx) => {
-      if (item.rightText) {
+      if (typeof item.onPress !== 'function') {
         return (
           <StyledConfigItemView key={idx}>
             <GText size={18}>{item.label}</GText>
-            <GText bold size={16}>
-              {item.rightText}
-            </GText>
+            {typeof item.rightItem === 'string' ? (
+              <GText bold size={16}>
+                {item.rightItem}
+              </GText>
+            ) : (
+              item.rightItem
+            )}
           </StyledConfigItemView>
         );
       }
