@@ -51,11 +51,8 @@ function ArticlePage(): JSX.Element {
 
   useEffect(() => {
     fetchArticle();
-    return () => {
-      dispatch(resetArticle());
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (route.params?.navigateFlag === RESET_SCREEN) {
