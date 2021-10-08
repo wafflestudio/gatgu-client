@@ -8,7 +8,7 @@ import { StackActions } from '@react-navigation/native';
 
 import { EUserStackScreens } from '@/screens/UserStack/UserStack';
 
-import { GButton, GSpace, GText } from '../Gatgu';
+import { GButton, GModal, GSpace, GText } from '../Gatgu';
 
 interface IUnAuthorizedModalProps {
   isOpen?: boolean;
@@ -18,21 +18,19 @@ const UnAuthorizedModal: React.FC<IUnAuthorizedModalProps> = ({ isOpen }) => {
   const navigation = useNavigation();
 
   return (
-    <Modal isOpen={isOpen} size="md">
-      <Modal.Content>
-        <Modal.Header flexDirection="row" alignItems="center">
-          <AntDesign size={25} name="warning" />
-          <GSpace w={10} />
-          로그인 필요
-        </Modal.Header>
-        <Modal.Body>
-          <GText size={18}>로그인 이후 사용 가능한 기능입니다.</GText>
-        </Modal.Body>
-        <Modal.Footer pr={6}>
-          <GButton
-            width="full"
-            size="large"
-            onPress={() => {
+    <GModal isOpen={isOpen} role="notice">
+      <GModal.Header flexDirection="row" alignItems="center">
+        <AntDesign size={25} name="warning" />
+        <GSpace w={10} />
+        로그인 필요
+      </GModal.Header>
+      <GModal.Body>
+        <GText size={18}>로그인 이후 사용 가능한 기능입니다.</GText>
+      </GModal.Body>
+      <GModal.Footer
+        buttons={[
+          {
+            onPress: () => {
               navigation.dispatch(
                 StackActions.push('MainStack', {
                   screen: 'UserStack',
@@ -45,13 +43,12 @@ const UnAuthorizedModal: React.FC<IUnAuthorizedModalProps> = ({ isOpen }) => {
                   screen: EUserStackScreens.Login,
                 },
               });
-            }}
-          >
-            로그인 하러 가기
-          </GButton>
-        </Modal.Footer>
-      </Modal.Content>
-    </Modal>
+            },
+            content: '로그인 하러 가기',
+          },
+        ]}
+      />
+    </GModal>
   );
 };
 

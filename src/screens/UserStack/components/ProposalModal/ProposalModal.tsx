@@ -46,9 +46,13 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
       });
   };
 
+  if (!isOpen) {
+    return null;
+  }
+
   return (
     <Modal avoidKeyboard isOpen={isOpen} onClose={onClose}>
-      <Modal.Content>
+      <Modal.Content pb="12px">
         <Modal.CloseButton onPress={onClose} />
         <Modal.Header>개발자 괴롭히기</Modal.Header>
         <Modal.Body>
@@ -61,7 +65,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
             onChangeText={setContent}
           />
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer pr={6}>
           <GButton isLoading={submitting} onPress={handleSubmit}>
             제출하기
           </GButton>
