@@ -1,14 +1,20 @@
 import React, { useMemo } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Modal } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { DateTime } from 'luxon';
 import { Flex, Image } from 'native-base';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { GSpace } from '@/components/Gatgu';
 import { emptyURL } from '@/constants/image';
+import { StyledImageViewerCloseButton } from '@/screens/ArticleStack/Article/ProductImages';
+import { palette } from '@/styles';
 import { IMessageImage } from '@/types/chat';
 
 import { IWSChatMessage } from '..';
@@ -36,6 +42,8 @@ function ChatBox({
   resend,
   erase,
 }: IChatBoxProps): JSX.Element {
+  const navigation = useNavigation();
+
   const { message, repeat, websocket_id, pending } = current;
   const { text, image, type, sent_at, sent_by } = message;
   const nextItem = next?.message; // because chat is in inversed
@@ -58,6 +66,8 @@ function ChatBox({
     return sent_at ? DateTime.fromMillis(sent_at).toFormat('hh:mm') : '';
   }, [sent_at]);
 
+  const [isImageViewerOpen, setImageViewerOpen] = React.useState(false);
+
   // message + time
   const renderedBubbleTime = useMemo(() => {
     const isImageShown = image.length > 0 && image[0].img_url !== emptyURL;
@@ -74,12 +84,18 @@ function ChatBox({
         )}
         <View>
           {isImageShown ? (
-            <Image
-              source={{ uri: image[0].img_url }}
-              style={styles.messageImage}
-              fallbackSource={require('@/assets/images/defaultThumnail.png')}
-              alt="pic"
-            />
+            <TouchableOpacity
+              onPress={() => {
+                setImageViewerOpen(true);
+              }}
+            >
+              <Image
+                source={{ uri: image[0].img_url }}
+                style={styles.messageImage}
+                fallbackSource={require('@/assets/images/defaultThumnail.png')}
+                alt="pic"
+              />
+            </TouchableOpacity>
           ) : (
             <View style={!isSelf && { paddingRight: 10 }}>
               <Bubble message={text} isSelf={isSelf} />
@@ -106,7 +122,16 @@ function ChatBox({
   const renderedProfile = useMemo(
     () =>
       isProfileShown ? (
-        <>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SubStack', {
+              screen: 'UserProfile',
+              params: {
+                id: sent_by.id,
+              },
+            });
+          }}
+        >
           <Image
             source={
               sent_by?.picture
@@ -117,11 +142,11 @@ function ChatBox({
             fallbackSource={require('@/assets/images/defaultProfile.png')}
             alt="profile pic"
           />
-        </>
+        </TouchableOpacity>
       ) : (
         <View style={styles.avatar} />
       ),
-    [sent_by, isProfileShown]
+    [sent_by, isProfileShown, navigation]
   );
 
   const renderResendIcons = () => {
@@ -145,7 +170,7 @@ function ChatBox({
   };
 
   return system ? (
-    <SystemMessage message={text} previousSystem={prevItem?.type == 'system'} />
+    <SystemMessage message={text} />
   ) : (
     <View
       style={[
@@ -177,6 +202,23 @@ function ChatBox({
           </View>
         </View>
       </View>
+      {isImageViewerOpen ? (
+        <Modal transparent>
+          <ImageViewer
+            enableSwipeDown
+            renderIndicator={() => <View />}
+            imageUrls={[{ url: image[0].img_url }]}
+            renderHeader={() => (
+              <StyledImageViewerCloseButton
+                onPress={() => setImageViewerOpen(false)}
+              >
+                <Icon name="close" size={36} color={palette.gray} />
+              </StyledImageViewerCloseButton>
+            )}
+            onCancel={() => setImageViewerOpen(false)}
+          />
+        </Modal>
+      ) : null}
     </View>
   );
 }

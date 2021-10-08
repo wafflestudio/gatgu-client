@@ -107,6 +107,11 @@ export const postFcmToken = (token: string): Promise<AxiosResponse> => {
   return apiClient.post('fcm/', { token });
 };
 
+// 알림 on off
+export const changeNotificationStatus = (active: boolean) => {
+  return apiClient.put('fcm/activate/', { active });
+};
+
 // 건의사항
 
 export const sendProposal = async ({

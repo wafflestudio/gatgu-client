@@ -7,7 +7,6 @@ import messaging from '@react-native-firebase/messaging';
 import { Route } from '@react-navigation/native';
 
 import { ANDROID_NOTIFICATION_CHANNEL } from '@/constants/notification';
-import { PushNotificationType } from '@/enums';
 import usePushNotification from '@/helpers/hooks/usePushNotification';
 import { AppRoutes } from '@/helpers/routes';
 import { TNotificationData } from '@/types/Notification';
@@ -53,13 +52,9 @@ const usePushNotificationInit = () => {
 
   const isMessageIgnored = useCallback(
     (data: TNotificationData) => {
-      if (data.type === PushNotificationType.NewChatting) {
-        if (currentRoute?.name === AppRoutes.ChattingList) return;
-        if (
-          currentRoute?.name === AppRoutes.ChattingRoom &&
-          (currentRoute?.params as any)?.id === data.payload.params.room_id
-        )
-          return true;
+      if (data.link?.includes('chatting-room')) {
+        const ignoredRoutes = [AppRoutes.ChattingList, AppRoutes.ChattingRoom];
+        if (ignoredRoutes.includes(currentRoute?.name)) return true;
       }
 
       return false;

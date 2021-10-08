@@ -5,11 +5,13 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { ChattingDrawerParamList } from '@/types/navigation';
 
+import { ChattingRoomImages } from './ChattingRoomImages';
 import ChattingRoomTemplate from './ChattingRoomTemplate';
 import RightDrawer from './Drawer';
 
 export enum EChattingRoomStackScreens {
   ChattingRoom = 'ChattingRoom',
+  ChattingRoomImages = 'ChattingRoomImages',
 }
 
 export type TChattingRoomStackParamList = {
@@ -17,6 +19,7 @@ export type TChattingRoomStackParamList = {
     id: number;
     author_id: number;
   };
+  [EChattingRoomStackScreens.ChattingRoomImages]: undefined;
 };
 
 const Drawer = createDrawerNavigator<TChattingRoomStackParamList>();
@@ -42,6 +45,13 @@ function ChattingRoomStackScreen(): JSX.Element {
       <Drawer.Screen
         name={EChattingRoomStackScreens.ChattingRoom}
         component={ChattingRoomScreen}
+      />
+      <Drawer.Screen
+        name={EChattingRoomStackScreens.ChattingRoomImages}
+        component={ChattingRoomImages}
+        options={{
+          swipeEnabled: false,
+        }}
       />
     </Drawer.Navigator>
   );

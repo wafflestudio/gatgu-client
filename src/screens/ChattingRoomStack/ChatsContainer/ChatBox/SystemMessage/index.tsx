@@ -5,16 +5,12 @@ import styles from './SystemMessage.style';
 
 interface ISystemMessageProps {
   message: string;
-  previousSystem?: boolean;
 }
 
-function SystemMessage({
-  message,
-  previousSystem,
-}: ISystemMessageProps): JSX.Element {
+function SystemMessage({ message }: ISystemMessageProps): JSX.Element {
   return (
     <View style={styles.systemWrapper}>
-      <View style={[styles.box, !previousSystem && styles.marginBottom24]}>
+      <View style={styles.box}>
         <Text style={styles.systemText}>{message}</Text>
       </View>
     </View>

@@ -45,7 +45,7 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
       setRecentMessageUnread(
         Boolean(recent_message?.id) &&
           res !== recent_message.id &&
-          sent_by.id !== currentUser?.userprofile.user_id
+          sent_by.id !== currentUser?.id
       );
     });
   }, [roomId, recent_message, currentUser, sent_by]);
@@ -67,8 +67,9 @@ function ChattingBox({ item }: { item: IChatListSinglePreview }): JSX.Element {
         </View>
         <View style={styles.Box}>
           <Text style={styles.Head} ellipsizeMode={'tail'} numberOfLines={1}>
-            {/* fix later~ */}
-            {recent_message.text || `${myNickname}님이 입장하셨습니다.`}
+            {recent_message.image?.length > 0
+              ? '사진을 전송하였습니다'
+              : recent_message.text}
           </Text>
           <Text
             style={styles.description}

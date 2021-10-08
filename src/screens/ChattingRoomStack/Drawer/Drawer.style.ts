@@ -24,7 +24,7 @@ const DrawerStyles = StyleSheet.create({
   userContainer: {
     ...commonStyle.container,
     paddingTop: 19,
-    height: '55%',
+    flex: 1,
     borderBottomColor: palette.borderGray,
     borderBottomWidth: 1,
     flexDirection: 'column',
@@ -33,7 +33,7 @@ const DrawerStyles = StyleSheet.create({
   optionContainer: {
     ...commonStyle.container,
     paddingTop: 25,
-    height: '24%',
+    height: 70,
     alignItems: 'flex-start',
   },
   smallLabelText: {

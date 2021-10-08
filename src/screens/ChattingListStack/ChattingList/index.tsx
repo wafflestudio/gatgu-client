@@ -75,11 +75,11 @@ function ChattingList(): JSX.Element {
         resolveCondition: (data) => data.type === WSMessage.ENTER_ROOM_SUCCESS,
         rejectCondition: (data) => data.type === WSMessage.ENTER_ROOM_FAILURE,
       })
-        .then(() => {
+        .then((res) => {
           if (articleID) {
             navigation.navigate({
               name: 'ChattingRoom',
-              params: { id: articleID },
+              params: { id: articleID, author_id: res.data?.author_id },
             });
           }
         })

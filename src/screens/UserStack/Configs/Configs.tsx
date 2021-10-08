@@ -29,6 +29,7 @@ const Configs: React.FC = () => {
 
   const handleLogout = async () => {
     try {
+      userAPI.changeNotificationStatus(false);
       await userAPI.logout();
       dispatch(setLoginState(false));
       removeRequesterToken();
@@ -44,12 +45,24 @@ const Configs: React.FC = () => {
     }
   };
   const userItems: IConfigLayoutItem[] = [
-    // { label: '계정 관리', onPress: () => toaster.info('노노노~') },
-    // { label: '신고 내역', onPress: () => toaster.info('다음 기회에') },
+    {
+      label: '프로필 관리',
+      onPress: () =>
+        navigation.navigate('UserStack', {
+          screen: 'ProfileModify',
+        }),
+    },
+    {
+      label: '알림 설정',
+      onPress: () =>
+        navigation.navigate('UserStack', {
+          screen: 'NotificationConfig',
+        }),
+    },
   ];
 
   const etcItems: IConfigLayoutItem[] = [
-    { label: '버전', rightText: '1.0.0' },
+    { label: '버전', rightItem: '1.0.0' },
     { label: '개발자 괴롭히기', onPress: () => setProposalModalOpen(true) },
     { label: '로그아웃', onPress: () => setLogoutModalOpen(true) },
   ];
@@ -82,7 +95,7 @@ const Configs: React.FC = () => {
 
   return (
     <Flex flex={1} backgroundColor={palette.white}>
-      {/* <ConfigLayout title="사용자 설정" items={userItems} /> */}
+      <ConfigLayout title="사용자 설정" items={userItems} />
       <ConfigLayout title="기타" items={etcItems} />
       {renderLogoutModal()}
       {renderProposalModal()}

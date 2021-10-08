@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { Modal, Text, View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { Button } from 'native-base';
+import { Modal } from 'native-base';
 
 import { chatAPI } from '@/apis';
-import { GSpace } from '@/components/Gatgu';
+import { GButton, GSpace, GText } from '@/components/Gatgu';
 import { ParticipantStatus } from '@/enums';
 import { useToaster } from '@/helpers/hooks';
 import { fetchingParticipants } from '@/store/chatSlice';
-import { palette, typo } from '@/styles';
 import { IChatUserProps } from '@/types/user';
 
 interface IStatusModalProps {
@@ -41,18 +40,24 @@ function StatusModal({
   const toaster = useToaster();
   const dispatch = useDispatch();
   const header = isAuthor
-    ? '입급확인을 하시겠습니까? 확인을 하면 바꾸실 수 없습니다.'
-    : `입금확인 요쳥을 보내겠습니까? 요청을 보내면 다시 취소를 할 수 없습니다.`;
+    ? '입금확인을 하시겠습니까?\n확인을 하면 바꾸실 수 없습니다.'
+    : `입금확인 요쳥을 보내겠습니까?\n요청을 보내면 다시 취소를 할 수 없습니다.`;
   const handlePress = () => {
     if (user) {
       setIsSubmitting(true);
+
+      const statusBody: { [x: string]: any } = {
+        pay_status: isAuthor
+          ? ParticipantStatus.pay_checked
+          : ParticipantStatus.request_check_pay,
+      };
+
+      if (isAuthor) {
+        statusBody.user_id = user?.id;
+      }
+
       chatAPI
-        .changeParticipantStatus(roomID, {
-          user_id: user?.id,
-          pay_status: isAuthor
-            ? ParticipantStatus.pay_checked
-            : ParticipantStatus.request_check_pay,
-        })
+        .changeParticipantStatus(roomID, statusBody)
         .then(() => {
           toaster.success('성공적으로 상태를 바꿨습니다.');
           dispatch(fetchingParticipants(roomID));
@@ -69,30 +74,34 @@ function StatusModal({
     }
   };
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        visible={true}
-        onRequestClose={() => onModalOpen(false)}
-        transparent
-        animationType="slide"
-      >
-        <View style={styles.modalBox}>
-          <Text style={{ ...typo.bigTitle, color: palette.dark }}>
+    <Modal isOpen onClose={() => onModalOpen(false)}>
+      <Modal.Content pb="12px">
+        <Modal.Body>
+          <GText size={18} textAlign="center">
             {header}
-          </Text>
-          <GSpace h={15} />
-          <View style={{ flexDirection: 'row' }}>
-            <Button onPress={handlePress} isLoading={isSubmitting}>
-              <Text>확인</Text>
-            </Button>
-            <GSpace w={10} />
-            <Button onPress={() => onModalOpen(false)}>
-              <Text>취소</Text>
-            </Button>
-          </View>
-        </View>
-      </Modal>
-    </View>
+          </GText>
+        </Modal.Body>
+        <Modal.Footer flexDirection="row" pr={6}>
+          <GButton
+            size="large"
+            variant="outlined"
+            style={{ flex: 1 }}
+            onPress={() => onModalOpen(false)}
+          >
+            취소
+          </GButton>
+          <GSpace w={10} />
+          <GButton
+            size="large"
+            style={{ flex: 1 }}
+            onPress={handlePress}
+            isLoading={isSubmitting}
+          >
+            확인
+          </GButton>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal>
   );
 }
 

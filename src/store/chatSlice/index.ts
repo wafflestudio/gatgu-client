@@ -15,6 +15,7 @@ export interface IChatSlice {
   currentChatInfo: IChattingRoom;
   participantsList: IChatUserProps[];
   toggleChatList: boolean;
+  images: string[];
 }
 
 const initialState: IChatSlice = {
@@ -35,6 +36,7 @@ const initialState: IChatSlice = {
   },
   participantsList: [],
   toggleChatList: false,
+  images: [],
 };
 
 const chatSlice = createSlice({
@@ -64,6 +66,12 @@ const chatSlice = createSlice({
     setToggle: (state) => {
       state.toggleChatList = !state.toggleChatList;
     },
+    setImagesUrls: (
+      state,
+      { payload }: PayloadAction<{ images: string[] }>
+    ) => {
+      state.images = payload.images;
+    },
   },
 });
 
@@ -72,6 +80,7 @@ const {
   failSetCurrentChatInfo,
   setParticipantsList,
   setToggle,
+  setImagesUrls,
 } = chatSlice.actions;
 
 // get chat info
@@ -113,7 +122,6 @@ export const changeOrderStatus = (id: number, payStatus: number): AppThunk => (
 export const fetchingParticipants = (roomId: number): AppThunk => (
   dispatch
 ) => {
-  console.log('fetching participants');
   chatAPI
     .getChatParticipants(roomId)
     .then((response: AxiosResponse) => {
@@ -121,6 +129,17 @@ export const fetchingParticipants = (roomId: number): AppThunk => (
     })
     .catch((err: AxiosError) => {
       console.error('FETCHING PARTICIPANTS', err);
+    });
+};
+
+export const updateRoomImages = (roomId: number): AppThunk => (dispatch) => {
+  chatAPI
+    .getChatPictures(roomId)
+    .then((res) => {
+      dispatch(setImagesUrls({ images: res.data.map((img) => img.img_url) }));
+    })
+    .catch((err: AxiosError) => {
+      console.error('get room images error', err);
     });
 };
 

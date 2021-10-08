@@ -6,7 +6,6 @@ import { HamburgerIcon } from 'native-base';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 import { Header } from '@/components';
-import { AppRoutes } from '@/helpers/routes';
 
 import ChatsContainer from './ChatsContainer';
 
@@ -19,7 +18,7 @@ export default function ChattingRoomTemplate({
 }): JSX.Element {
   const navigation = useNavigation();
 
-  console.log('roomId:', roomID);
+  console.debug('roomId:', roomID);
   return (
     <View style={{ flex: 1 }}>
       <Header
