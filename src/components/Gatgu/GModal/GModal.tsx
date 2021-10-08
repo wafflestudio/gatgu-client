@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Modal } from 'native-base';
+import { IBoxProps, Modal } from 'native-base';
 import { IModalProps } from 'native-base/lib/typescript/components/composites/Modal/types';
 
 import { palette } from '@/styles';
@@ -8,7 +8,7 @@ import { palette } from '@/styles';
 import { GButton } from '../GButton';
 import { GSpace } from '../GSpace';
 
-type GModalSize = 'small-confirm' | 'default' | 'big';
+type GModalSize = 'small-confirm' | 'default' | 'notice';
 
 interface GModalContext {
   role?: GModalSize;
@@ -23,8 +23,15 @@ interface GModalFooterProps {
     content: React.ReactNode | string;
     onPress: () => void;
     isLoading?: boolean;
+    [x: string]: any;
   }[];
 }
+
+const roleSizes = {
+  'small-confirm': 'lg',
+  default: 'lg',
+  notice: 'md',
+};
 
 const GModalContext = React.createContext<GModalContext>({});
 const useGmodalContext = () => React.useContext(GModalContext);
@@ -38,10 +45,14 @@ const GModalProvider: React.FC<GModalContext> = ({
   );
 };
 
-const GModal: React.FC<GModalProps> = ({ children, role, ...props }) => {
+const GModal: React.FC<GModalProps> = ({
+  children,
+  role = 'default',
+  ...props
+}) => {
   return (
     <GModalProvider role={role}>
-      <Modal isOpen size="lg" {...props}>
+      <Modal isOpen size={roleSizes[role]} {...props}>
         <Modal.Content pb="12px">
           {typeof props.onClose === 'function' ? (
             <Modal.CloseButton
@@ -57,12 +68,13 @@ const GModal: React.FC<GModalProps> = ({ children, role, ...props }) => {
   );
 };
 
-const GModalHeader: React.FC = ({ children }) => {
+const GModalHeader: React.FC<IBoxProps> = ({ children, ...props }) => {
   const { role } = useGmodalContext();
 
   return (
     <Modal.Header
       alignItems={role === 'small-confirm' ? 'center' : 'flex-start'}
+      {...props}
     >
       {children}
     </Modal.Header>
@@ -70,7 +82,13 @@ const GModalHeader: React.FC = ({ children }) => {
 };
 
 const GModalBody: React.FC = ({ children }) => {
-  return <Modal.Body pb="5px">{children}</Modal.Body>;
+  const { role } = useGmodalContext();
+
+  return (
+    <Modal.Body pb={role === 'notice' ? undefined : '5px'}>
+      {children}
+    </Modal.Body>
+  );
 };
 
 const GModalFooter: React.FC<GModalFooterProps> = ({ buttons, children }) => {
