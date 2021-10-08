@@ -1,9 +1,13 @@
 import React from 'react';
+import { Text } from 'react-native';
+
+import styled from 'styled-components/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { BottomTabIcon } from '@/assets/BottomTabIndex';
 import { AppRoutes } from '@/helpers/routes';
+import { palette } from '@/styles';
 
 import ChattingStackScreen, {
   TChattingListStackParamList,
@@ -31,6 +35,12 @@ const tarBarOptions = {
   },
 };
 
+const StyledTabBarLabel = styled.Text<{ focused: boolean }>`
+  color: ${(p) => (p.focused ? palette.dark : palette.gray)};
+  padding-top: 2px;
+  font-size: 11px;
+`;
+
 export type TMainTabsParamList = THomeStackParamList &
   TSearchStackParamList &
   TWriteArticleStackParamList &
@@ -52,7 +62,9 @@ function MainTabs(): JSX.Element {
             ) : (
               <BottomTabIcon.home />
             ),
-          tabBarLabel: '홈',
+          tabBarLabel: ({ focused }) => (
+            <StyledTabBarLabel focused={focused}>홈</StyledTabBarLabel>
+          ),
         }}
       />
       <Tab.Screen
@@ -65,7 +77,9 @@ function MainTabs(): JSX.Element {
             ) : (
               <BottomTabIcon.search />
             ),
-          tabBarLabel: '검색',
+          tabBarLabel: ({ focused }) => (
+            <StyledTabBarLabel focused={focused}>검색</StyledTabBarLabel>
+          ),
         }}
       />
       <Tab.Screen
@@ -78,7 +92,9 @@ function MainTabs(): JSX.Element {
             ) : (
               <BottomTabIcon.write />
             ),
-          tabBarLabel: '글쓰기',
+          tabBarLabel: ({ focused }) => (
+            <StyledTabBarLabel focused={focused}>글쓰기</StyledTabBarLabel>
+          ),
         }}
       />
       <Tab.Screen
@@ -91,7 +107,9 @@ function MainTabs(): JSX.Element {
             ) : (
               <BottomTabIcon.chat />
             ),
-          tabBarLabel: '채팅',
+          tabBarLabel: ({ focused }) => (
+            <StyledTabBarLabel focused={focused}>채팅</StyledTabBarLabel>
+          ),
         }}
       />
       <Tab.Screen
@@ -104,7 +122,9 @@ function MainTabs(): JSX.Element {
             ) : (
               <BottomTabIcon.etc />
             ),
-          tabBarLabel: '더보기',
+          tabBarLabel: ({ focused }) => (
+            <StyledTabBarLabel focused={focused}>더보기</StyledTabBarLabel>
+          ),
         }}
       />
     </Tab.Navigator>
