@@ -37,9 +37,13 @@ const ArticleBox: React.FC<IArticleSummary> = ({
     >
       <AspectRatio ratio={1}>
         <Image
-          source={{
-            uri: images[0]?.img_url,
-          }}
+          source={
+            images[0]
+              ? {
+                  uri: images[0]?.img_url,
+                }
+              : require('@/assets/images/defaultThumnail.png')
+          }
           fallbackSource={require('@/assets/images/defaultThumnail.png')}
           alt="article thumnail"
           borderRadius="13px"
