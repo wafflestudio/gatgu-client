@@ -1,8 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { TextInput, View } from 'react-native';
 
-import { palette } from '@/styles';
-
 import waStyles from '../WriteArticle.style';
 import styles from './Description.style';
 
@@ -23,7 +21,6 @@ function Description({
         value={description}
         style={waStyles.text}
         placeholder="내용"
-        // placeholderStyle={styles.placeHolder}
         onChangeText={setDescription}
         multiline={true}
         editable={editable}
