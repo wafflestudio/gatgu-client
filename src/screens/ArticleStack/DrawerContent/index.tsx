@@ -118,7 +118,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         isOpen={isDeleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
       >
-        <Modal.Content>
+        <Modal.Content pb="12px">
           <Modal.Header>글을 삭제하시겠습니까?</Modal.Header>
           <Modal.Footer pr={6}>
             <GButton
@@ -153,7 +153,7 @@ const DrawerTemplate: React.FC<DrawerContentComponentProps> = (props) => {
         onClose={() => setStatusChangeModalOpen(false)}
       >
         <Modal.CloseButton />
-        <Modal.Content>
+        <Modal.Content pb="12px">
           <Modal.Header>거래 완료하시겠습니까?</Modal.Header>
           <Modal.Footer pr={6} justifyContent="space-between">
             <GButton

@@ -8,7 +8,7 @@ const LoginStyle = StyleSheet.create({
     backgroundColor: palette.white,
   },
   logo: {
-    marginTop: 133,
+    marginTop: 100,
     marginLeft: 'auto',
     marginRight: 'auto',
     width: 190,

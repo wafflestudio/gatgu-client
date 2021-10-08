@@ -278,7 +278,7 @@ const SignUp: React.FC = () => {
           title="이메일"
           errorStr={errors.email}
           InputRightElement={
-            <HStack alignItems="center">
+            <HStack alignItems="center" pr="3px">
               <GText size={15}>@snu.ac.kr</GText>
               <GSpace w={10} />
               <GButton
@@ -287,7 +287,7 @@ const SignUp: React.FC = () => {
                 isLoading={isEmailSending}
                 disabled={values.email.length === 0}
                 textProps={{
-                  size: 15,
+                  size: 16,
                 }}
                 onPress={handleEmailSend}
               >
@@ -306,7 +306,7 @@ const SignUp: React.FC = () => {
             errorStr={errors.emailConfirm}
             maxLength={6}
             InputRightElement={
-              <HStack alignItems="center">
+              <HStack alignItems="center" pr="3px">
                 <TokenTimer
                   endTs={emailTokenExpireTs}
                   isStop={isTokenValid}
@@ -321,7 +321,7 @@ const SignUp: React.FC = () => {
                     values.emailConfirm.length === 0 || isTokenConfirmDisabled
                   }
                   textProps={{
-                    size: 18,
+                    size: 16,
                   }}
                   onPress={() =>
                     handleEmailCodeChecking(values.email, values.emailConfirm)
@@ -344,7 +344,7 @@ const SignUp: React.FC = () => {
               variant="outlined"
               size="large"
               textProps={{
-                size: 18,
+                size: 16,
               }}
               onPress={() => setAddressModalOpen(true)}
             >
@@ -440,6 +440,7 @@ const SignUp: React.FC = () => {
         >
           가입하기
         </GButton>
+        <GSpace h={30} />
       </KeyboardAvoidingView>
       {
         <Modal

@@ -12,8 +12,8 @@ interface ILogoutModalProps {
 const LogoutModal: React.FC<ILogoutModalProps> = ({ onHide, onLogout }) => {
   return (
     <Modal isOpen size="lg">
-      <Modal.Content>
-        <Modal.Header>로그아웃 하시겠습니까?</Modal.Header>
+      <Modal.Content pb="12px">
+        <Modal.Header alignItems="center">로그아웃 하시겠습니까?</Modal.Header>
         <Modal.Footer justifyContent="space-between" paddingRight={6}>
           <GButton
             theme="gray"

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import { mobile } from '@/helpers/mobile';
 import { IUserDetail } from '@/types/user';
 
 import styles from './Force.style';
@@ -28,16 +29,32 @@ function Force({ hosted_count, participated_count }: ForceProps): JSX.Element {
         <Text style={styles.headerText}>추진력</Text>
       </View>
       <View style={styles.bodyView}>
-        <View style={styles.bodyElem}>
+        <View
+          style={[
+            styles.bodyElem,
+            {
+              position: 'absolute',
+              left: 20,
+            },
+          ]}
+        >
           <Ionicons name="add-circle-outline" size={18} />
-          <Text style={styles.bodyText}>
+          <Text style={[styles.bodyText]}>
             &nbsp;모집횟수&nbsp;
             <Text style={{ fontWeight: 'bold' }}>{hosted_count}</Text>회
           </Text>
         </View>
-        <View style={styles.bodyElem}>
+        <View
+          style={[
+            styles.bodyElem,
+            {
+              position: 'absolute',
+              left: mobile.width / 2 - 20,
+            },
+          ]}
+        >
           <Ionicons name="chatbubble-outline" size={18} />
-          <Text style={styles.bodyText}>
+          <Text style={[styles.bodyText]}>
             &nbsp;참여횟수&nbsp;
             <Text style={{ fontWeight: 'bold' }}>{participated_count}</Text>회
           </Text>

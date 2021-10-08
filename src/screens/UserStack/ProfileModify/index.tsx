@@ -1,6 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { ImageBackground, View, Text, Alert, Image } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableOpacity, View, Text, Image } from 'react-native';
 import { useIsMutating, useMutation, useQueryClient } from 'react-query';
 
 import { useFormik } from 'formik';
@@ -151,9 +150,9 @@ const ProfileModify: React.FC = () => {
             )}
           </View>
           <View style={styles.imgCont}>
-            <TouchableHighlight onPress={handlePress}>
+            <TouchableOpacity onPress={handlePress}>
               <ModifyButton style={styles.imgPickBtn} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

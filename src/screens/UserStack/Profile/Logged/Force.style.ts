@@ -24,7 +24,6 @@ const ForceStyle = StyleSheet.create({
   // body
   bodyView: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     padding: 0,
   },
   bodyText: {
@@ -34,7 +33,6 @@ const ForceStyle = StyleSheet.create({
 
   bodyElem: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   bodyIcon: {
