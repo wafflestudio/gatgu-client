@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity, View } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 import useUpdateEffect from 'react-use/lib/useUpdateEffect';
 
 import { Box, Divider, SearchIcon, VStack } from 'native-base';
@@ -71,6 +73,10 @@ const Search: React.FC = () => {
       return <HomeShimmer />;
     }
 
+    if (items.length === 0) {
+      return <SearchResultEmpty searchKeyword={searchKeyword} />;
+    }
+
     return (
       <CursorFlatList
         items={items}
@@ -78,7 +84,6 @@ const Search: React.FC = () => {
         isLastPage={isLastPage}
         fetching={fetching}
         loading={firstFetching}
-        ListEmptyComponent={<SearchResultEmpty searchKeyword={searchKeyword} />}
         getItems={getItems}
         renderItem={renderArticle}
       />
@@ -90,7 +95,6 @@ const Search: React.FC = () => {
       backgroundColor={palette.white}
       justifyContent="flex-start"
       flex={1}
-      onTouchEnd={Keyboard.dismiss}
     >
       <Box paddingX="20px" paddingY="10px">
         <GInput
@@ -99,7 +103,23 @@ const Search: React.FC = () => {
           theme="gray"
           value={searchInput}
           placeholder="키워드로 검색"
-          InputLeftElement={<SearchIcon m={2} />}
+          InputLeftElement={
+            <SearchIcon m={2} size="22px" ml={3} color={palette.blue} />
+          }
+          InputRightElement={
+            searchInput.length > 0 ? (
+              <TouchableOpacity
+                onPress={() => {
+                  setSearchInput('');
+                  setSearchResultStage(false);
+                }}
+                style={{ marginRight: 10 }}
+              >
+                <AntIcon name="closecircle" size={22} />
+              </TouchableOpacity>
+            ) : undefined
+          }
+          onPressOut={(e) => e.stopPropagation()}
           onTouchEnd={(e) => e.stopPropagation()} // for prevent keyboard dismissing when click input
           onFocus={() => setSearchResultStage(false)}
           onChangeText={setSearchInput}
@@ -107,17 +127,19 @@ const Search: React.FC = () => {
         />
       </Box>
       <Divider />
-      {isSearchResultStage ? (
-        renderArticles()
-      ) : (
-        <VStack>
-          <RecentSearch
-            keywords={recentSearchKeywords}
-            onKeywordDelete={deleteRecentSearchKeyword}
-            onKeywordPress={handleKeywordPress}
-          />
-        </VStack>
-      )}
+      <View style={{ flex: 1, height: '100%' }} onTouchEnd={Keyboard.dismiss}>
+        {isSearchResultStage ? (
+          renderArticles()
+        ) : (
+          <VStack style={{ flex: 1 }}>
+            <RecentSearch
+              keywords={recentSearchKeywords}
+              onKeywordDelete={deleteRecentSearchKeyword}
+              onKeywordPress={handleKeywordPress}
+            />
+          </VStack>
+        )}
+      </View>
     </VStack>
   );
 };

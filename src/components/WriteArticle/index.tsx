@@ -139,7 +139,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
           params: {
             screen: EHomeStackScreens.ArticleStack,
             params: {
-              screen: EArticleStackScreens.Article,
+              screen: 'Article',
               params: { id: articleId, navigateFlag: RESET_SCREEN },
             },
           },

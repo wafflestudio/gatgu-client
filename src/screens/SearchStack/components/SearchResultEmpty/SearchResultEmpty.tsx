@@ -1,28 +1,31 @@
 import React from 'react';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { Box, Flex, Image, Text } from 'native-base';
 
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
-import { mobile } from '@/helpers/mobile';
 import { palette, typo } from '@/styles';
 
 interface ISearchResultEmptyProps {
   searchKeyword: string;
+  height: number;
 }
 
 const SearchResultEmpty: React.FC<ISearchResultEmptyProps> = ({
   searchKeyword,
+  height,
 }) => {
   const bottomTabBarHeight = useBottomTabBarHeight();
 
   return (
     <Flex
-      h={mobile.height}
+      // height={height}
       justifyContent="center"
       alignItems="center"
       backgroundColor={palette.whiteGray}
       pb={bottomTabBarHeight}
+      flex={1}
     >
       <Image
         source={require('@/assets/images/empty.png')}

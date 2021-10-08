@@ -10,9 +10,13 @@ interface IThumbnailProps {
 function Thumbnail({ uri }: IThumbnailProps): JSX.Element {
   return (
     <Image
-      source={{
-        uri: uri,
-      }}
+      source={
+        uri
+          ? {
+              uri: uri,
+            }
+          : require('@/assets/images/defaultThumnail.png')
+      }
       fallbackSource={require('@/assets/images/defaultThumnail.png')}
       loadingIndicatorSource={require('@/assets/images/defaultThumnail.png')}
       alt="thumnail"

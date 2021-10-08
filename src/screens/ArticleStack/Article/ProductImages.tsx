@@ -21,7 +21,7 @@ interface IArticleChat {
   articleStatus: IArticleStatus;
 }
 
-const StyledImageViewerCloseButton = styled.TouchableHighlight`
+export const StyledImageViewerCloseButton = styled.TouchableHighlight`
   position: absolute;
   right: 10px;
   top: 0;

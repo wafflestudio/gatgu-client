@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-import { palette } from '@/styles';
-
 import waStyles from '../WriteArticle.style';
 
 const DescriptionStyle = StyleSheet.create({
@@ -11,8 +9,6 @@ const DescriptionStyle = StyleSheet.create({
   },
 
   bigContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: palette.borderGray,
     maxHeight: 500,
     minHeight: 175,
     marginTop: 10,

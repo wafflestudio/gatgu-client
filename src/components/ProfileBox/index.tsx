@@ -41,7 +41,7 @@ function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
 
   const renderProfileContent = () => {
     return (
-      <HStack alignItems="center">
+      <HStack alignItems="center" overflow="hidden">
         <Image
           alt="profile"
           source={
@@ -55,7 +55,16 @@ function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
           defaultSource={require('@/assets/images/defaultProfile.png')}
           style={styles.profileImg}
         />
-        <GText size={16}>{nickname}</GText>
+        <GText
+          size={16}
+          ellipsizeMode="tail"
+          style={{
+            maxWidth: '68%',
+          }}
+          numberOfLines={1}
+        >
+          {nickname}
+        </GText>
       </HStack>
     );
   };
