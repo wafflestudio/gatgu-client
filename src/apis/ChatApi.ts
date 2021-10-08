@@ -40,9 +40,7 @@ export const getChattingMessages = (
 export const getMyChattingList = (
   offset: number
 ): Promise<AxiosResponse<IChatListAllPreview>> => {
-  const searchParams = queryString.stringify({
-    offset,
-  });
+  const searchParams = queryString.stringify({ offset });
 
   return apiClient.get(`users/me/chattings/?${searchParams}`);
 };

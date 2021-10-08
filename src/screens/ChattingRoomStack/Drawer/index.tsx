@@ -92,7 +92,7 @@ function Drawer({
   const handlePressExit = () => {
     if (isAuthor) {
       toaster.warning(
-        '글쓴이는 거래 완료 또는 참여자가 1명일 때만 나갈 수 있습니다.'
+        '글쓴이는 거래 완료 또는 참여자가 없을 경우 나갈 수 있습니다.'
       );
       return;
     }
@@ -118,7 +118,7 @@ function Drawer({
       })
       .catch(() => {
         toaster.error(
-          '채팅방에서 나가지 못 했습니다. 네트워크 연결을 확인해주세요.'
+          '글쓴이는 거래 완료 또는 참여자가 없을 경우 나갈 수 있습니다.'
         );
       });
   };
