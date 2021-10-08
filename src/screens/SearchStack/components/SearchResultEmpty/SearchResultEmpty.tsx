@@ -1,5 +1,4 @@
 import React from 'react';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { Box, Flex, Image, Text } from 'native-base';
 
@@ -9,18 +8,15 @@ import { palette, typo } from '@/styles';
 
 interface ISearchResultEmptyProps {
   searchKeyword: string;
-  height: number;
 }
 
 const SearchResultEmpty: React.FC<ISearchResultEmptyProps> = ({
   searchKeyword,
-  height,
 }) => {
   const bottomTabBarHeight = useBottomTabBarHeight();
 
   return (
     <Flex
-      // height={height}
       justifyContent="center"
       alignItems="center"
       backgroundColor={palette.whiteGray}
