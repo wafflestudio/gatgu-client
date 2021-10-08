@@ -22,7 +22,6 @@ const ArticleBox: React.FC<IArticleSummary> = ({
   updated_at,
 }) => {
   const navigation = useAppNavigation();
-
   return (
     <TouchableOpacity
       style={styles.postBox}
@@ -38,9 +37,9 @@ const ArticleBox: React.FC<IArticleSummary> = ({
       <AspectRatio ratio={1}>
         <Image
           source={
-            images[0]
+            images?.img_url
               ? {
-                  uri: images[0]?.img_url,
+                  uri: images?.img_url,
                 }
               : require('@/assets/images/defaultThumnail.png')
           }
