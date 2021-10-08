@@ -18,7 +18,7 @@ const useChattingRoomList = () => {
    * get lastest chatting rooms and update chatting Room
    */
   const updateChattingRoomList = React.useCallback(
-    async (type: 'first' | 'next' = 'first') => {
+    async (type: 'first' | 'next' | 'update' = 'first') => {
       if (type === 'next' && offset >= count) {
         return;
       }
@@ -29,12 +29,16 @@ const useChattingRoomList = () => {
 
       try {
         const res = await chatAPI.getMyChattingList(
-          type === 'first' ? 0 : offset
+          type === 'first' || type === 'update' ? 0 : offset
         );
 
         setCount(res.data.count);
 
         setItems((prev) => {
+          if (type === 'first') {
+            return res.data.results;
+          }
+
           const roomIdSet = new Set();
           const chattingRooms = [...res.data.results, ...prev];
 
@@ -57,7 +61,7 @@ const useChattingRoomList = () => {
           );
         });
       } catch (err) {
-        console.error(err);
+        console.error('fail to get chatting room list:', err);
       } finally {
         setLoading(false);
       }

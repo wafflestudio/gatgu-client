@@ -91,15 +91,11 @@ function ChattingRoom({
         socket.type === WSMessage.RECEIVE_MESSAGE_SUCCESS &&
         !socket.data.text.includes('entered')
       ) {
-        console.log('SYSTEM', socket.data.type, socket.data.id);
-
         // check if there is this message in chatList
         setChatList((prev) => [
           { message: socket.data, repeat: false, pending: false },
           ...prev,
         ]);
-
-        storeRecentlyReadMessageId(roomID, socket.data?.id);
       }
     },
   });
@@ -163,7 +159,7 @@ function ChattingRoom({
           dispatch(refetchChattingList);
         })
         .catch((e) => {
-          console.log(e);
+          console.error('websocket message is failed', e);
           // mark delete or resend in pendingList
           setPendingList((prev) =>
             prev.map((chat) =>
