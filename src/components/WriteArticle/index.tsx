@@ -12,9 +12,11 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { articleAPI } from '@/apis';
 import { RESET_SCREEN } from '@/constants/navigateOption';
 import { APItype } from '@/enums/image';
+import ga from '@/helpers/functions/ga';
 import { getTs } from '@/helpers/functions/time';
 import { validateLink } from '@/helpers/functions/validate';
 import { useToaster } from '@/helpers/hooks';
+import { useUserDetail } from '@/helpers/hooks/api';
 import useImageUpload from '@/helpers/hooks/useImageUpload';
 import { AppRoutes } from '@/helpers/routes';
 import { EArticleStackScreens } from '@/screens/ArticleStack/ArticleStack';
@@ -60,6 +62,8 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     if (isEdit) return state.article.currentArticle;
     else return null;
   });
+
+  const currentUser = useUserDetail().data;
 
   const [images, setImages] = useState<TShortImage[]>([]);
   const [need_price, setPrice] = useState<number | null>(null);
@@ -192,6 +196,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
       if (res.data.article_id || id) {
         navigateToArticle(res.data.article_id || id);
         finishSubmit();
+        ga.logWriteArticle({
+          article_id: res.data.article_id,
+          userId: currentUser?.id,
+        });
       } else {
         navigation.navigate(AppRoutes.Home);
       }
@@ -214,6 +222,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     need_price,
     title,
     toaster,
+    currentUser,
     finishSubmit,
     checkInput,
     navigateToArticle,

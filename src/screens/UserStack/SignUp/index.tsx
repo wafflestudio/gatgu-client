@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { userAPI } from '@/apis';
 import { GButton, GCheckbox, GInput, GSpace, GText } from '@/components/Gatgu';
+import ga from '@/helpers/functions/ga';
 import { getTs } from '@/helpers/functions/time';
 import {
   isValidEmail,
@@ -123,6 +124,7 @@ const SignUp: React.FC = () => {
         )
         .then(() => {
           toaster.success('회원가입이 완료되었습니다.');
+          ga.logSignUp();
           navigation.navigate('Login');
         })
         .catch((error: AxiosError) => {

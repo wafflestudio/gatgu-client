@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Flex } from 'native-base';
@@ -9,6 +9,7 @@ import { Profile } from '@/components';
 import { GButton } from '@/components/Gatgu/GButton';
 import { ArticleStatus, WSMessage } from '@/enums';
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import ga from '@/helpers/functions/ga';
 import { getTs } from '@/helpers/functions/time';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
@@ -65,6 +66,10 @@ function ProfileChat({
           navigation.navigate({
             name: EChattingRoomStackScreens.ChattingRoom,
             params: { id: article_id, author_id: article.writer.id },
+          });
+          ga.logJoinArticle({
+            article_id,
+            userId: currentUser?.id,
           });
           // trigger fetch to change store's participantsList -> affect chatting drawer
           if (result.data == 201) {
