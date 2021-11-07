@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { Keyboard, TouchableOpacity, View } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import useUpdateEffect from 'react-use/lib/useUpdateEffect';
 
@@ -10,6 +9,7 @@ import { articleAPI } from '@/apis';
 import { ArticleBox, CursorFlatList } from '@/components';
 import { GInput } from '@/components/Gatgu';
 import HomeShimmer from '@/components/Shimmer/HomeShimmer';
+import ga from '@/helpers/functions/ga';
 import { useCursorPagination } from '@/helpers/hooks';
 import { palette } from '@/styles';
 import { IArticleSummary } from '@/types/article';
@@ -43,6 +43,7 @@ const Search: React.FC = () => {
 
   useUpdateEffect(() => {
     getItems('first');
+    ga.logSearchArticle(searchKeyword);
   }, [searchKeyword]);
 
   const handleSearch = useCallback(

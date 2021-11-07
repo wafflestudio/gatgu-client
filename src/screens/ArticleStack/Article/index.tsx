@@ -14,9 +14,12 @@ import { TAppStackParamList } from '@/App.router';
 import { Header } from '@/components';
 import Error from '@/components/Error';
 import { RESET_SCREEN } from '@/constants/navigateOption';
+import ga from '@/helpers/functions/ga';
+import { useUserDetail } from '@/helpers/hooks/api';
+import useConditionMetOnetimeEffect from '@/helpers/hooks/useConditionMetOnetimeEffect';
 import { EHomeStackScreens } from '@/screens/HomeStack/HomeStack';
 import { RootState } from '@/store';
-import { getSingleArticle, resetArticle } from '@/store/articleSlice';
+import { getSingleArticle } from '@/store/articleSlice';
 
 import { EArticleStackScreens } from '../ArticleStack';
 import ArticleHeader from './ArticleHeader';
@@ -36,9 +39,7 @@ function ArticlePage(): JSX.Element {
 
   const navigation = useNavigation();
   const [chatLoading, setChatLoading] = useState<boolean>(false);
-  // const [currentArticle, setCurrentArticle] = useState<IArticleProps>(
-  //   {} as IArticleProps
-  // );
+  const { data: user } = useUserDetail();
 
   const islogined = !!useSelector((state: RootState) => state.user.isLogined);
   const { currentArticle, isLoading, error } = useSelector(
@@ -53,6 +54,30 @@ function ArticlePage(): JSX.Element {
     fetchArticle();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const checkLoggingPossible = React.useCallback(() => {
+    return currentArticle.article_id > 0 && !isLoading;
+  }, [currentArticle, isLoading]);
+
+  useConditionMetOnetimeEffect(
+    () => {
+      console.log(
+        '!!\n\n!!',
+        JSON.stringify({
+          article_title: currentArticle.title,
+          article_id: currentArticle.article_id,
+          userId: user?.id,
+        })
+      );
+      ga.logAriticleView({
+        article_title: currentArticle.title,
+        article_id: currentArticle.article_id,
+        userId: user?.id,
+      });
+    },
+    [currentArticle],
+    checkLoggingPossible
+  );
 
   useEffect(() => {
     if (route.params?.navigateFlag === RESET_SCREEN) {
