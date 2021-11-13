@@ -53,9 +53,8 @@ const usePushNotification = () => {
       ...notification,
       channelId: ANDROID_NOTIFICATION_CHANNEL,
       message: notification.message ?? '',
-      smallIcon: 'ic_launcher',
-      largeIcon: 'ic_launcher',
-      bigLargeIcon: 'ic_launcher',
+      largeIcon: 'ic_launcher_foreground',
+      bigLargeIcon: 'ic_launcher_foreground',
     } as PushNotificationObject);
   };
 
