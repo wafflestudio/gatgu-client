@@ -10,7 +10,7 @@ const DescriptionStyle = StyleSheet.create({
 
   bigContainer: {
     maxHeight: 500,
-    minHeight: 175,
+    minHeight: 500,
     marginTop: 10,
   },
 });

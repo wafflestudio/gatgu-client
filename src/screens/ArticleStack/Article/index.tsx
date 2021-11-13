@@ -17,9 +17,8 @@ import { RESET_SCREEN } from '@/constants/navigateOption';
 import ga from '@/helpers/functions/ga';
 import { useUserDetail } from '@/helpers/hooks/api';
 import useConditionMetOnetimeEffect from '@/helpers/hooks/useConditionMetOnetimeEffect';
-import { EHomeStackScreens } from '@/screens/HomeStack/HomeStack';
 import { RootState } from '@/store';
-import { getSingleArticle } from '@/store/articleSlice';
+import { getSingleArticle, resetArticle } from '@/store/articleSlice';
 
 import { EArticleStackScreens } from '../ArticleStack';
 import ArticleHeader from './ArticleHeader';
@@ -52,6 +51,7 @@ function ArticlePage(): JSX.Element {
 
   useEffect(() => {
     fetchArticle();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -75,6 +75,10 @@ function ArticlePage(): JSX.Element {
     if (route.params?.navigateFlag === RESET_SCREEN) {
       fetchArticle();
     }
+
+    return () => {
+      dispatch(resetArticle());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route.params?.navigateFlag]);
 
@@ -105,10 +109,9 @@ function ArticlePage(): JSX.Element {
             route.params.navigateFlag === RESET_SCREEN ||
             !navigation.canGoBack()
           ) {
-            navigation.navigate('MainStack', {
-              screen: EHomeStackScreens.Home,
-            });
+            navigation.navigate('Home');
           } else {
+            console.log('can go back ');
             navigation.goBack();
           }
         }}

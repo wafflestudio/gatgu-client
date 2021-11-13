@@ -55,17 +55,19 @@ function Login(): JSX.Element {
 
       ObjectStorage.addObject(asyncStoragekey.ACCESS_TOKEN, {
         data: access,
-        expiry: DateTime.now().plus({ day: 1 }).toMillis(),
+        expiry: DateTime.now().plus({ days: 1 }).toMillis(),
       });
       ObjectStorage.addObject(asyncStoragekey.REFRESH_TOKEN, {
         data: refresh,
-        expiry: DateTime.now().plus({ day: 30 }).toMillis(),
+        expiry: DateTime.now().plus({ days: 30 }).toMillis(),
       });
 
       navigation.dispatch(StackActions.popToTop());
       navigation.navigate('Home');
     } catch (err) {
       console.error('Login/index.tsx', err);
+      toaster.error('아이디 또는 비밀번호가 틀렸습니다.');
+
       switch (err.response.data.error_code) {
         case 106:
           toaster.error(err.response.data.detail);
