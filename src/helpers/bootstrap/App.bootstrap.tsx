@@ -11,6 +11,7 @@ import store from '@/store/rootStore';
 
 import usePushNotification from '../hooks/usePushNotification';
 import {
+  useAppExit,
   useAutoLogin,
   useEffectOnceAfterAppLoaded,
   usePushNotificationInit,
@@ -19,6 +20,7 @@ import {
 const queryClient = new QueryClient();
 
 const AppBootstrap: React.FC = ({ children }) => {
+  useAppExit();
   usePushNotificationInit();
 
   const { authLoading } = useAutoLogin();
