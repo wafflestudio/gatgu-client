@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
+import { AxiosError } from 'axios';
 import { Flex } from 'native-base';
 
 import { StackActions, useNavigation } from '@react-navigation/core';
@@ -37,10 +38,11 @@ const Configs: React.FC = () => {
       ObjectStorage.removeObject(asyncStoragekey.REFRESH_TOKEN);
 
       setLogoutModalOpen(false);
-      navigation.dispatch(StackActions.popToTop());
 
       toaster.info('로그아웃되었습니다.');
-    } catch {
+      navigation.dispatch(StackActions.popToTop());
+    } catch (err) {
+      console.error((err as AxiosError<any>).response?.data);
       toaster.error('로그아웃에 실패했습니다.');
     }
   };

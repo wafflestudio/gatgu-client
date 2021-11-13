@@ -33,6 +33,7 @@ const tarBarOptions = {
     paddingTop: 1.6,
     fontSize: 10,
   },
+  keyboardHidesTabBar: true,
 };
 
 const StyledTabBarLabel = styled.Text<{ focused: boolean }>`

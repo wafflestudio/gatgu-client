@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { View, ScrollView, Text, Platform } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 
 import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
-import { HStack, KeyboardAvoidingView, Modal, VStack } from 'native-base';
+import { HStack, Modal, VStack } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -206,7 +206,7 @@ const SignUp: React.FC = () => {
       .then(() => {
         toaster.info('인증 메일을 발송하였습니다.');
         setTokenConfirmDisabled(false);
-        setEmailTokenExpireTs(getTs(DateTime.now().plus({ minute: 3 })));
+        setEmailTokenExpireTs(getTs(DateTime.now().plus({ minutes: 3 })));
         setEmailSent(true);
       })
       .catch((error) => {
@@ -242,208 +242,203 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={-60}
-      >
-        <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
-        <SignUpInput
-          title="아이디"
-          onChangeText={handleChange('username')}
-          value={values.username}
-          errorStr={errors.username}
-        />
-        <SignUpInput
-          title="비밀번호"
-          marginBottom={14}
-          value={values.password}
-          type="password"
-          errorStr={errors.password}
-          onChangeText={handleChange('password')}
-        />
-        <SignUpInput
-          title="비밀번호 확인"
-          value={values.passwordConfirm}
-          type="password"
-          errorStr={errors.passwordConfirm}
-          onChangeText={handleChange('passwordConfirm')}
-        />
-        <SignUpInput
-          value={values.nickname}
-          onChangeText={handleChange('nickname')}
-          title="닉네임"
-          errorStr={errors.nickname}
-        />
-        <SignUpInput
-          value={values.email}
-          title="이메일"
-          errorStr={errors.email}
-          InputRightElement={
-            <HStack alignItems="center" pr="3px">
-              <GText size={15}>@snu.ac.kr</GText>
-              <GSpace w={10} />
-              <GButton
-                variant="outlined"
-                width="fit"
-                isLoading={isEmailSending}
-                disabled={values.email.length === 0}
-                textProps={{
-                  size: 16,
-                }}
-                onPress={handleEmailSend}
-              >
-                {isEmailSent ? '재발송' : '코드 인증'}
-              </GButton>
-            </HStack>
-          }
-          onChangeText={handleChange('email')}
-        />
-        <VStack>
-          <SignUpInput
-            value={values.emailConfirm}
-            title="인증번호"
-            marginBottom={14}
-            isDisabled={isTokenValid || isTokenConfirmDisabled}
-            errorStr={errors.emailConfirm}
-            maxLength={6}
-            InputRightElement={
-              <HStack alignItems="center" pr="3px">
-                <TokenTimer
-                  endTs={emailTokenExpireTs}
-                  isStop={isTokenValid}
-                  onTimeEnd={() => setTokenConfirmDisabled(true)}
-                />
-                {emailTokenExpireTs ? <GSpace w={10} /> : null}
-                <GButton
-                  variant="outlined"
-                  width="fit"
-                  isLoading={isTokenValidating}
-                  disabled={
-                    values.emailConfirm.length === 0 || isTokenConfirmDisabled
-                  }
-                  textProps={{
-                    size: 16,
-                  }}
-                  onPress={() =>
-                    handleEmailCodeChecking(values.email, values.emailConfirm)
-                  }
-                >
-                  확인
-                </GButton>
-              </HStack>
-            }
-            onChangeText={handleChange('emailConfirm')}
-          />
-        </VStack>
-        <VStack mt="15px">
-          <GText bold style={{ marginLeft: 11 }}>
-            주거래지역
-          </GText>
-          <HStack width="100%" marginY="5px">
+    <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
+      <Text style={styles.title}>같구에 오신 것을 환영합니다.</Text>
+      <SignUpInput
+        title="아이디"
+        onChangeText={handleChange('username')}
+        value={values.username}
+        errorStr={errors.username}
+      />
+      <SignUpInput
+        title="비밀번호"
+        marginBottom={14}
+        value={values.password}
+        type="password"
+        errorStr={errors.password}
+        onChangeText={handleChange('password')}
+      />
+      <SignUpInput
+        title="비밀번호 확인"
+        value={values.passwordConfirm}
+        type="password"
+        errorStr={errors.passwordConfirm}
+        onChangeText={handleChange('passwordConfirm')}
+      />
+      <SignUpInput
+        value={values.nickname}
+        onChangeText={handleChange('nickname')}
+        title="닉네임"
+        errorStr={errors.nickname}
+      />
+      <SignUpInput
+        value={values.email}
+        title="이메일"
+        errorStr={errors.email}
+        InputRightElement={
+          <HStack alignItems="center" pr="3px">
+            <GText size={15}>@snu.ac.kr</GText>
+            <GSpace w={10} />
             <GButton
-              width="fit"
               variant="outlined"
-              size="large"
+              width="fit"
+              isLoading={isEmailSending}
+              disabled={values.email.length === 0}
               textProps={{
                 size: 16,
               }}
-              onPress={() => setAddressModalOpen(true)}
+              onPress={handleEmailSend}
             >
-              주소 찾기
+              {isEmailSent ? '재발송' : '코드 인증'}
             </GButton>
-            <GSpace w={4} />
-            <GInput
-              isDisabled
-              flex={1}
-              width="full"
-              placeholder="주소를 찾아주세요"
-              value={values.tradingAddress}
-            />
           </HStack>
-          <GInput
-            placeholder="상세주소(선택)"
-            value={values.tradingAddressDetail}
-            onChangeText={(v) => setFieldValue('tradingAddressDetail', v)}
-          />
-        </VStack>
-        <GSpace h={25} />
-        <View style={checkStyles.titleContainer}>
-          <GCheckbox
-            checked={values.isAllCheckboxesSelected}
-            onPress={() => {
-              setFieldValue(
-                'isAllCheckboxesSelected',
-                !values.isAllCheckboxesSelected
-              );
-              setFieldValue(
-                'checkbox1IsSelected',
-                !values.isAllCheckboxesSelected
-              );
-              setFieldValue(
-                'checkbox2IsSelected',
-                !values.isAllCheckboxesSelected
-              );
-            }}
-          />
-          <GSpace w={10} />
-          <View style={checkStyles.textWrapper}>
-            <Text style={checkStyles.allTitle}>
-              같구 이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에
-              모두 동의합니다.
-            </Text>
-          </View>
-        </View>
-        <View>
-          <Check
-            checked={values.checkbox1IsSelected}
-            title="같구 이용약관 동의"
-            onPress={() => {
-              setFieldValue('checkbox1IsSelected', !values.checkbox1IsSelected);
-              setFieldValue(
-                'isAllCheckboxesSelected',
-                !values.checkbox1IsSelected && values.checkbox2IsSelected
-              );
-            }}
-            onPressTerm={() => {
-              navigation.navigate('SubStack', {
-                screen: ESubStackScreens.ServiceTerms,
-              });
-            }}
-          />
-          <Check
-            checked={values.checkbox2IsSelected}
-            title="개인정보 수집 및 이용 동의"
-            onPress={() => {
-              setFieldValue('checkbox2IsSelected', !values.checkbox2IsSelected);
-              setFieldValue(
-                'isAllCheckboxesSelected',
-                values.checkbox1IsSelected && !values.checkbox2IsSelected
-              );
-            }}
-            onPressTerm={() => {
-              navigation.navigate('SubStack', {
-                screen: ESubStackScreens.PrivateInfo,
-              });
-            }}
-          />
-        </View>
-        <GSpace h={10} />
-        <GButton
-          size="large"
-          disabled={
-            Object.keys(errors).length > 0 ||
-            !values.isAllCheckboxesSelected ||
-            !isTokenValid ||
-            values.tradingAddress.length === 0
+        }
+        onChangeText={handleChange('email')}
+      />
+      <VStack>
+        <SignUpInput
+          value={values.emailConfirm}
+          title="인증번호"
+          marginBottom={14}
+          isDisabled={isTokenValid || isTokenConfirmDisabled}
+          errorStr={errors.emailConfirm}
+          maxLength={6}
+          InputRightElement={
+            <HStack alignItems="center" pr="3px">
+              <TokenTimer
+                endTs={emailTokenExpireTs}
+                isStop={isTokenValid}
+                onTimeEnd={() => setTokenConfirmDisabled(true)}
+              />
+              {emailTokenExpireTs ? <GSpace w={10} /> : null}
+              <GButton
+                variant="outlined"
+                width="fit"
+                isLoading={isTokenValidating}
+                disabled={
+                  values.emailConfirm.length === 0 || isTokenConfirmDisabled
+                }
+                textProps={{
+                  size: 16,
+                }}
+                onPress={() =>
+                  handleEmailCodeChecking(values.email, values.emailConfirm)
+                }
+              >
+                확인
+              </GButton>
+            </HStack>
           }
-          isLoading={isSubmitting}
-          onPress={() => handleSubmit()}
-        >
-          가입하기
-        </GButton>
-        <GSpace h={30} />
-      </KeyboardAvoidingView>
+          onChangeText={handleChange('emailConfirm')}
+        />
+      </VStack>
+      <VStack mt="15px">
+        <GText bold style={{ marginLeft: 11 }}>
+          주거래지역
+        </GText>
+        <HStack width="100%" marginY="5px">
+          <GButton
+            width="fit"
+            variant="outlined"
+            size="large"
+            textProps={{
+              size: 16,
+            }}
+            onPress={() => setAddressModalOpen(true)}
+          >
+            주소 찾기
+          </GButton>
+          <GSpace w={4} />
+          <GInput
+            isDisabled
+            flex={1}
+            width="full"
+            placeholder="주소를 찾아주세요"
+            value={values.tradingAddress}
+          />
+        </HStack>
+        <GInput
+          placeholder="상세주소(선택)"
+          value={values.tradingAddressDetail}
+          onChangeText={(v) => setFieldValue('tradingAddressDetail', v)}
+        />
+      </VStack>
+      <GSpace h={25} />
+      <View style={checkStyles.titleContainer}>
+        <GCheckbox
+          checked={values.isAllCheckboxesSelected}
+          onPress={() => {
+            setFieldValue(
+              'isAllCheckboxesSelected',
+              !values.isAllCheckboxesSelected
+            );
+            setFieldValue(
+              'checkbox1IsSelected',
+              !values.isAllCheckboxesSelected
+            );
+            setFieldValue(
+              'checkbox2IsSelected',
+              !values.isAllCheckboxesSelected
+            );
+          }}
+        />
+        <GSpace w={10} />
+        <View style={checkStyles.textWrapper}>
+          <Text style={checkStyles.allTitle}>
+            같구 이용약관, 개인정보 수집 및 이용, 위치정보 이용약관(선택)에 모두
+            동의합니다.
+          </Text>
+        </View>
+      </View>
+      <View>
+        <Check
+          checked={values.checkbox1IsSelected}
+          title="같구 이용약관 동의"
+          onPress={() => {
+            setFieldValue('checkbox1IsSelected', !values.checkbox1IsSelected);
+            setFieldValue(
+              'isAllCheckboxesSelected',
+              !values.checkbox1IsSelected && values.checkbox2IsSelected
+            );
+          }}
+          onPressTerm={() => {
+            navigation.navigate('SubStack', {
+              screen: ESubStackScreens.ServiceTerms,
+            });
+          }}
+        />
+        <Check
+          checked={values.checkbox2IsSelected}
+          title="개인정보 수집 및 이용 동의"
+          onPress={() => {
+            setFieldValue('checkbox2IsSelected', !values.checkbox2IsSelected);
+            setFieldValue(
+              'isAllCheckboxesSelected',
+              values.checkbox1IsSelected && !values.checkbox2IsSelected
+            );
+          }}
+          onPressTerm={() => {
+            navigation.navigate('SubStack', {
+              screen: ESubStackScreens.PrivateInfo,
+            });
+          }}
+        />
+      </View>
+      <GSpace h={10} />
+      <GButton
+        size="large"
+        disabled={
+          Object.keys(errors).length > 0 ||
+          !values.isAllCheckboxesSelected ||
+          !isTokenValid ||
+          values.tradingAddress.length === 0
+        }
+        isLoading={isSubmitting}
+        onPress={() => handleSubmit()}
+      >
+        가입하기
+      </GButton>
+      <GSpace h={30} />
       {
         <Modal
           isOpen={isAddressModalOpen}
