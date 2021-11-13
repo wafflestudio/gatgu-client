@@ -4,65 +4,66 @@ import { DateTime } from 'luxon';
 import { refreshAccessToken } from '@/apis/UserApi';
 import { setRequesterToken } from '@/apis/apiClient';
 import { asyncStoragekey } from '@/constants/asyncStorage';
-import { ObjectStorage } from '@/helpers/functions/asyncStorage';
-import { getTs } from '@/helpers/functions/time';
+import { asyncStorage, ObjectStorage } from '@/helpers/functions/asyncStorage';
 import store from '@/store/rootStore';
 import { setLoginState } from '@/store/userSlice';
 import { DataWithExpiry } from '@/types/asyncStorage';
 
-export const updateAccessToken = async () => {
-  const refreshTokenWithExpiry = await ObjectStorage.getObject<DataWithExpiry>(
+const getStoredAccessToken = async () => {
+  const data = await ObjectStorage.getObject<DataWithExpiry>(
+    asyncStoragekey.ACCESS_TOKEN
+  );
+
+  if (asyncStorage.checkDataNotExpired(data)) {
+    return data?.data;
+  } else {
+    return null;
+  }
+};
+
+const getStoredRefreshToken = async () => {
+  const data = await ObjectStorage.getObject<DataWithExpiry>(
     asyncStoragekey.REFRESH_TOKEN
   );
 
-  if (!refreshTokenWithExpiry) return;
-  if (refreshTokenWithExpiry.expiry < getTs()) {
-    ObjectStorage.removeObject(asyncStoragekey.REFRESH_TOKEN);
-    return;
+  if (asyncStorage.checkDataNotExpired(data)) {
+    return data?.data;
+  } else {
+    return null;
   }
+};
 
-  const newTokenResponse = await refreshAccessToken(
-    refreshTokenWithExpiry.data
-  );
+export const updateAccessToken = async () => {
+  const storedRefreshToken = await getStoredRefreshToken();
+  if (!storedRefreshToken) return;
 
+  const newTokenResponse = await refreshAccessToken(storedRefreshToken);
   const accessToken = get(newTokenResponse, ['data', 'access']);
-  const refreshToken = get(newTokenResponse, ['dara', 'refresh']);
+  const refreshToken = get(newTokenResponse, ['data', 'refresh']);
 
   ObjectStorage.addObject(asyncStoragekey.ACCESS_TOKEN, {
     data: accessToken,
-    expiry: DateTime.now().plus({ day: 1 }).toMillis(),
+    expiry: DateTime.now().plus({ days: 1 }).toMillis(),
   });
   ObjectStorage.addObject(asyncStoragekey.REFRESH_TOKEN, {
     data: refreshToken,
-    expiry: DateTime.now().plus({ day: 30 }).toMillis(),
+    expiry: DateTime.now().plus({ days: 30 }).toMillis(),
   });
 
   return accessToken;
 };
 
 export const loginWithAccessToken = async () => {
-  const accessTokenWithExpiry = await ObjectStorage.getObject<DataWithExpiry>(
-    asyncStoragekey.ACCESS_TOKEN
-  );
+  let accessToken = await getStoredAccessToken();
 
-  if (
-    accessTokenWithExpiry &&
-    accessTokenWithExpiry.expiry > DateTime.now().toMillis()
-  ) {
-    setRequesterToken(accessTokenWithExpiry.data);
+  if (accessToken) {
+    updateAccessToken();
+  } else {
+    accessToken = await updateAccessToken();
+  }
+
+  if (accessToken) {
+    setRequesterToken(accessToken);
     store.dispatch(setLoginState(true));
-    console.debug('login with accesstoken');
-    return await updateAccessToken();
   }
-
-  const accessToken = await updateAccessToken();
-  if (!accessToken) {
-    console.debug('fail to update Token');
-    throw new Error('fail to update Token');
-  }
-  console.debug('get new AccessToken');
-
-  setRequesterToken(accessToken);
-  store.dispatch(setLoginState(true));
-  return accessToken;
 };
