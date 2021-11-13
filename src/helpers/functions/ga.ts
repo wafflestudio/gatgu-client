@@ -23,7 +23,7 @@ const logAriticleView = async ({
   userId,
   ...rest
 }: ArticleLogging & UserLogging) => {
-  return await analytics().logEvent('view-article', {
+  return await analytics().logEvent('view_article', {
     user_id: userId,
     ...rest,
   });
@@ -37,7 +37,7 @@ const logWriteArticle = async ({
   userId,
   ...rest
 }: ArticleLogging & UserLogging) => {
-  return await analytics().logEvent('write-article', {
+  return await analytics().logEvent('write_article', {
     user_id: userId,
     ...rest,
   });
@@ -47,7 +47,7 @@ const logJoinArticle = async ({
   userId,
   ...rest
 }: ArticleLogging & UserLogging) => {
-  return await analytics().logEvent('join-article', {
+  return await analytics().logEvent('join_article', {
     user_id: userId,
     ...rest,
   });

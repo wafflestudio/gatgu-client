@@ -61,14 +61,6 @@ function ArticlePage(): JSX.Element {
 
   useConditionMetOnetimeEffect(
     () => {
-      console.log(
-        '!!\n\n!!',
-        JSON.stringify({
-          article_title: currentArticle.title,
-          article_id: currentArticle.article_id,
-          userId: user?.id,
-        })
-      );
       ga.logAriticleView({
         article_title: currentArticle.title,
         article_id: currentArticle.article_id,

@@ -8,7 +8,6 @@ import { Route } from '@react-navigation/native';
 
 import { ANDROID_NOTIFICATION_CHANNEL } from '@/constants/notification';
 import usePushNotification from '@/helpers/hooks/usePushNotification';
-import { AppRoutes } from '@/helpers/routes';
 import { TNotificationData } from '@/types/Notification';
 
 import { navigationRef } from '../rootNavigation';
@@ -53,7 +52,7 @@ const usePushNotificationInit = () => {
   const isMessageIgnored = useCallback(
     (data: TNotificationData) => {
       if (data.link?.includes('chatting-room')) {
-        const ignoredRoutes = [AppRoutes.ChattingList, AppRoutes.ChattingRoom];
+        const ignoredRoutes = ['ChattingList', 'ChattingRoom'];
         if (ignoredRoutes.includes(currentRoute?.name)) return true;
       }
 
@@ -92,6 +91,7 @@ const usePushNotificationInit = () => {
   useEffect(() => {
     const routeChangeCallback = () => {
       const route = navigationRef.current?.getCurrentRoute();
+      console.log(route);
       setCurrentRoute(route);
     };
 
