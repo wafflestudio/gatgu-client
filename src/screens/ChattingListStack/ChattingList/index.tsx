@@ -25,12 +25,7 @@ function ChattingList(): JSX.Element {
 
   const isLogined = useSelector((state) => state.user.isLogined);
 
-  const {
-    items,
-    updateChattingRoomList,
-    isLoading,
-    setLoading,
-  } = useChattingRoomList();
+  const { items, updateChattingRoomList, isLoading } = useChattingRoomList();
 
   const { sendWsMessage } = GatguWebsocket.useMessage<TWsMessage>({
     onmessage: (msg) => {
@@ -44,11 +39,8 @@ function ChattingList(): JSX.Element {
     React.useCallback(() => {
       if (!isLogined) return;
 
-      updateChattingRoomList();
+      updateChattingRoomList('update');
 
-      return () => {
-        setLoading(true);
-      };
       // eslint-disable-next-line
     }, [isLogined])
   );

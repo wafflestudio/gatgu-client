@@ -16,8 +16,8 @@ import apiClient from './apiClient';
 // for chat info
 export const getChatInfo = (
   articleId?: number
-): Promise<AxiosResponse<IChattingRoom[]>> => {
-  return apiClient.get(`chat/${articleId}/`);
+): Promise<AxiosResponse<IChattingRoom>> => {
+  return apiClient.get(`chattings/${articleId}/`);
 };
 
 // change status of order
