@@ -25,13 +25,7 @@ import { IChatUserProps, IUserSimple } from '@/types/user';
 import styles from './Drawer.style';
 import StatusModal from './Modal';
 
-function Drawer({
-  roomID,
-  authorId,
-}: {
-  roomID: number;
-  authorId: number;
-}): JSX.Element {
+function Drawer({ roomID }: { roomID: number }): JSX.Element {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const toaster = useToaster();
@@ -39,6 +33,10 @@ function Drawer({
   const currentUser = useUserDetail().data;
 
   const userID = currentUser?.id;
+
+  const authorId = useSelector(
+    (state: RootState) => state.chat.currentChatInfo.writer_id
+  );
 
   const isAuthor = authorId === userID;
 
@@ -136,27 +134,27 @@ function Drawer({
         nickname={user.participant.nickname}
       />
       <View style={styles.infoWrapper}>
-        <TouchableOpacity
-          disabled={
-            user.pay_status === ParticipantStatus.pay_checked ||
-            (!isAuthor &&
-              (user.participant.user_id !== userID ||
-                user.pay_status === ParticipantStatus.request_check_pay))
-          }
-          onPress={() => handleCheck(user)}
-        >
-          {user.pay_status === ParticipantStatus.pay_checked ? (
-            <Icon name="checkbox-marked" size={25} />
-          ) : user.pay_status === ParticipantStatus.before_pay ? (
-            <Icon name="checkbox-blank-outline" size={25} />
-          ) : (
-            <Icon
-              name="checkbox-blank-outline"
-              size={25}
-              color={palette.yellow}
-            />
-          )}
-        </TouchableOpacity>
+        {user.participant.user_id !== authorId && (
+          <TouchableOpacity
+            disabled={
+              user.pay_status === ParticipantStatus.pay_checked ||
+              (!isAuthor && user.participant.user_id !== userID)
+            }
+            onPress={() => handleCheck(user)}
+          >
+            {user.pay_status === ParticipantStatus.pay_checked ? (
+              <Icon name="checkbox-marked" size={25} />
+            ) : user.pay_status === ParticipantStatus.before_pay ? (
+              <Icon name="checkbox-blank-outline" size={25} />
+            ) : (
+              <Icon
+                name="checkbox-blank-outline"
+                size={25}
+                color={palette.yellow}
+              />
+            )}
+          </TouchableOpacity>
+        )}
         <View>
           <Text style={styles.priceText}>
             {user.wish_price.toLocaleString()}원

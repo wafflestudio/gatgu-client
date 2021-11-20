@@ -24,6 +24,8 @@ function StatusModal({
   roomID,
   user,
 }: IStatusModalProps) {
+  console.log('status modal user id:', user);
+
   /**
      * if 방장:
         2-->3:
@@ -53,7 +55,7 @@ function StatusModal({
       };
 
       if (isAuthor) {
-        statusBody.user_id = user?.id;
+        statusBody.user_id = user?.participant?.user_id;
       }
 
       chatAPI
@@ -104,31 +106,5 @@ function StatusModal({
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-
-  modalBox: {
-    margin: 20,
-    marginTop: 160,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-});
 
 export default StatusModal;

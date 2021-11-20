@@ -29,6 +29,7 @@ const usePushNotification = () => {
       return fetchedFcmToken;
     } catch (err) {
       console.error('getFcmToken:', err);
+      return '';
     }
   };
 

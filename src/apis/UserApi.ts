@@ -52,8 +52,10 @@ export const login = (
 };
 
 // 로그아웃
-export const logout = (): Promise<AxiosResponse<{ message: string }>> => {
-  return apiClient.put('users/logout/');
+export const logout = (
+  token: string
+): Promise<AxiosResponse<{ message: string }>> => {
+  return apiClient.put('users/logout/', { token });
 };
 
 // 회원가입
@@ -108,8 +110,11 @@ export const postFcmToken = (token: string): Promise<AxiosResponse> => {
 };
 
 // 알림 on off
-export const changeNotificationStatus = (active: boolean) => {
-  return apiClient.put('fcm/activate/', { active });
+export const changeNotificationStatus = (body: {
+  active: boolean;
+  token: string;
+}) => {
+  return apiClient.put('fcm/activate/', body);
 };
 
 // 건의사항

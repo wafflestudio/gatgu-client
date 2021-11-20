@@ -45,6 +45,7 @@ const initChannel = () => {
 initChannel();
 
 const usePushNotificationInit = () => {
+  const [onNavigationReady, setNaviagtionReady] = useState(false);
   const [currentRoute, setCurrentRoute] = useState<Route<any>>();
 
   const { sendLocalNotification } = usePushNotification();
@@ -80,6 +81,10 @@ const usePushNotificationInit = () => {
     });
   }, [sendLocalNotification, isMessageIgnored]);
 
+  const handleNavigationReady = () => {
+    setNaviagtionReady(true);
+  };
+
   useEffect(() => {
     const unsubscribeForegroundNotification = subscribeForegroundNotification();
 
@@ -89,18 +94,24 @@ const usePushNotificationInit = () => {
   }, [subscribeForegroundNotification]);
 
   useEffect(() => {
+    if (!onNavigationReady) return;
+
+    console.log('navigationRef:', navigationRef.current);
     const routeChangeCallback = () => {
       const route = navigationRef.current?.getCurrentRoute();
-      console.log(route);
+      console.log('route:', route);
       setCurrentRoute(route);
     };
 
     navigationRef.current?.addListener('state', routeChangeCallback);
-
+    navigationRef.current?.addListener('options', routeChangeCallback);
     return () => {
       navigationRef.current?.removeListener('state', routeChangeCallback);
+      navigationRef.current?.removeListener('options', routeChangeCallback);
     };
-  }, []);
+  }, [onNavigationReady]);
+
+  return { handleNavigationReady };
 };
 
 export default usePushNotificationInit;

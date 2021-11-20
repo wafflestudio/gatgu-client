@@ -33,6 +33,7 @@ const initialState: IChatSlice = {
     chat: '',
     time: 0,
     nickName: '',
+    writer_id: 0,
   },
   participantsList: [],
   toggleChatList: false,

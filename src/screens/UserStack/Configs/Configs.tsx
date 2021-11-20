@@ -12,6 +12,7 @@ import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { useToaster } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
+import usePushNotification from '@/helpers/hooks/usePushNotification';
 import { setLoginState } from '@/store/userSlice';
 import { palette } from '@/styles';
 
@@ -24,22 +25,21 @@ const Configs: React.FC = () => {
   const dispatch = useDispatch();
   const toaster = useToaster();
   const { data: user } = useUserDetail();
+  const { getFcmToken } = usePushNotification();
 
   const [isProposalModalOpen, setProposalModalOpen] = React.useState(false);
   const [isLogoutModalOpen, setLogoutModalOpen] = React.useState(false);
 
   const handleLogout = async () => {
     try {
-      userAPI.changeNotificationStatus(false);
-      await userAPI.logout();
+      const fcmToken = await getFcmToken();
+      await userAPI.logout(fcmToken);
       dispatch(setLoginState(false));
+      toaster.info('로그아웃되었습니다.');
+      setLogoutModalOpen(false);
       removeRequesterToken();
       ObjectStorage.removeObject(asyncStoragekey.ACCESS_TOKEN);
       ObjectStorage.removeObject(asyncStoragekey.REFRESH_TOKEN);
-
-      setLogoutModalOpen(false);
-
-      toaster.info('로그아웃되었습니다.');
       navigation.dispatch(StackActions.popToTop());
     } catch (err) {
       console.error((err as AxiosError<any>).response?.data);

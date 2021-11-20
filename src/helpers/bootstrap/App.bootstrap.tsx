@@ -6,7 +6,14 @@ import { Provider } from 'react-redux';
 
 import { NativeBaseProvider } from 'native-base';
 
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+
 import GatguWebsocket from '@/helpers/GatguWebsocket/GatguWebsocket';
+import { navigationRef } from '@/helpers/bootstrap/rootNavigation';
+import { linking } from '@/helpers/bootstrap/utils/navigation';
 import store from '@/store/rootStore';
 
 import usePushNotification from '../hooks/usePushNotification';
@@ -21,7 +28,7 @@ const queryClient = new QueryClient();
 
 const AppBootstrap: React.FC = ({ children }) => {
   useAppExit();
-  usePushNotificationInit();
+  const { handleNavigationReady } = usePushNotificationInit();
 
   const { authLoading } = useAutoLogin();
   const { handlePermission } = usePushNotification();
@@ -39,13 +46,19 @@ const AppBootstrap: React.FC = ({ children }) => {
   }, [appLoading]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <GatguWebsocket.Provider>
-          <NativeBaseProvider>{children}</NativeBaseProvider>
-        </GatguWebsocket.Provider>
-      </Provider>
-    </QueryClientProvider>
+    <NavigationContainer
+      ref={navigationRef}
+      linking={linking}
+      onReady={handleNavigationReady}
+    >
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <GatguWebsocket.Provider>
+            <NativeBaseProvider>{children}</NativeBaseProvider>
+          </GatguWebsocket.Provider>
+        </Provider>
+      </QueryClientProvider>
+    </NavigationContainer>
   );
 };
 

@@ -1,8 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import { getChatInfo } from '@/store/chatSlice';
 import { ChattingDrawerParamList } from '@/types/navigation';
 
 import { ChattingRoomImages } from './ChattingRoomImages';
@@ -29,22 +31,27 @@ function ChattingRoomStackScreen(): JSX.Element {
     RouteProp<ChattingDrawerParamList, EChattingRoomStackScreens.ChattingRoom>
   >();
   const roomID = route.params.id;
-  const author_id = route.params.author_id;
 
-  const ChattingRoomScreen = React.useCallback(
-    () => <ChattingRoomTemplate roomID={roomID} author_id={author_id} />,
-    [roomID, author_id]
+  const dispatch = useDispatch();
+
+  const ChattingRoom = React.useCallback(
+    () => <ChattingRoomTemplate roomID={roomID} />,
+    [roomID]
   );
+
+  React.useEffect(() => {
+    dispatch(getChatInfo(roomID));
+  }, [roomID, dispatch]);
 
   return (
     <Drawer.Navigator
       drawerPosition="right"
-      drawerContent={() => <RightDrawer roomID={roomID} authorId={author_id} />}
+      drawerContent={() => <RightDrawer roomID={roomID} />}
       drawerStyle={{ width: '57%' }}
     >
       <Drawer.Screen
         name={EChattingRoomStackScreens.ChattingRoom}
-        component={ChattingRoomScreen}
+        component={ChattingRoom}
       />
       <Drawer.Screen
         name={EChattingRoomStackScreens.ChattingRoomImages}

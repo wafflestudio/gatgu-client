@@ -6,10 +6,18 @@ import { GButton, GSpace } from '@/components/Gatgu';
 
 interface ILogoutModalProps {
   onHide: () => void;
-  onLogout: () => void;
+  onLogout: () => Promise<void>;
 }
 
 const LogoutModal: React.FC<ILogoutModalProps> = ({ onHide, onLogout }) => {
+  const [isLoading, setLoading] = React.useState(false);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    await onLogout();
+    setLoading(false);
+  };
+
   return (
     <Modal isOpen size="lg">
       <Modal.Content pb="12px">
@@ -30,7 +38,8 @@ const LogoutModal: React.FC<ILogoutModalProps> = ({ onHide, onLogout }) => {
             width="full"
             size="large"
             style={{ flex: 1 }}
-            onPress={onLogout}
+            isLoading={isLoading}
+            onPress={handleLogout}
           >
             로그아웃
           </GButton>
