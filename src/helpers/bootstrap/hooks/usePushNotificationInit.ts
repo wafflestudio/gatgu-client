@@ -96,7 +96,6 @@ const usePushNotificationInit = () => {
   useEffect(() => {
     if (!onNavigationReady) return;
 
-    console.log('navigationRef:', navigationRef.current);
     const routeChangeCallback = () => {
       const route = navigationRef.current?.getCurrentRoute();
       console.log('route:', route);
@@ -104,10 +103,8 @@ const usePushNotificationInit = () => {
     };
 
     navigationRef.current?.addListener('state', routeChangeCallback);
-    navigationRef.current?.addListener('options', routeChangeCallback);
     return () => {
       navigationRef.current?.removeListener('state', routeChangeCallback);
-      navigationRef.current?.removeListener('options', routeChangeCallback);
     };
   }, [onNavigationReady]);
 
