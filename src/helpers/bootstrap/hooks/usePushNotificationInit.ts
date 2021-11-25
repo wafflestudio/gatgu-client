@@ -8,20 +8,19 @@ import { Route } from '@react-navigation/native';
 
 import { ANDROID_NOTIFICATION_CHANNEL } from '@/constants/notification';
 import usePushNotification from '@/helpers/hooks/usePushNotification';
-import { AppRoutes } from '@/helpers/routes';
 import { TNotificationData } from '@/types/Notification';
 
 import { navigationRef } from '../rootNavigation';
 
 PushNotification.configure({
   // processing back/foreground notificaiton
-  onNotification: function (notification) {
+  onNotification: async function (notification) {
     const data = notification.data;
-
-    console.log('fore/background notificaiton:', notification.data);
-
-    Linking.openURL(data.link);
-
+    console.log('fore/background notificaiton:', notification.data.link);
+    const supported = await Linking.canOpenURL(data.link);
+    if (supported) {
+      Linking.openURL(data.link);
+    }
     notification.finish(PushNotificationIos.FetchResult.NoData);
   },
 
@@ -46,6 +45,7 @@ const initChannel = () => {
 initChannel();
 
 const usePushNotificationInit = () => {
+  const [onNavigationReady, setNaviagtionReady] = useState(false);
   const [currentRoute, setCurrentRoute] = useState<Route<any>>();
 
   const { sendLocalNotification } = usePushNotification();
@@ -53,7 +53,7 @@ const usePushNotificationInit = () => {
   const isMessageIgnored = useCallback(
     (data: TNotificationData) => {
       if (data.link?.includes('chatting-room')) {
-        const ignoredRoutes = [AppRoutes.ChattingList, AppRoutes.ChattingRoom];
+        const ignoredRoutes = ['ChattingList', 'ChattingRoom'];
         if (ignoredRoutes.includes(currentRoute?.name)) return true;
       }
 
@@ -81,6 +81,10 @@ const usePushNotificationInit = () => {
     });
   }, [sendLocalNotification, isMessageIgnored]);
 
+  const handleNavigationReady = () => {
+    setNaviagtionReady(true);
+  };
+
   useEffect(() => {
     const unsubscribeForegroundNotification = subscribeForegroundNotification();
 
@@ -90,17 +94,21 @@ const usePushNotificationInit = () => {
   }, [subscribeForegroundNotification]);
 
   useEffect(() => {
+    if (!onNavigationReady) return;
+
     const routeChangeCallback = () => {
       const route = navigationRef.current?.getCurrentRoute();
+      console.log('route:', route);
       setCurrentRoute(route);
     };
 
     navigationRef.current?.addListener('state', routeChangeCallback);
-
     return () => {
       navigationRef.current?.removeListener('state', routeChangeCallback);
     };
-  }, []);
+  }, [onNavigationReady]);
+
+  return { handleNavigationReady };
 };
 
 export default usePushNotificationInit;

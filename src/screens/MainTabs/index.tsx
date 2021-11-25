@@ -1,9 +1,11 @@
 import React from 'react';
-import { Text } from 'react-native';
 
 import styled from 'styled-components/native';
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  BottomTabBarOptions,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 
 import { BottomTabIcon } from '@/assets/BottomTabIndex';
 import { AppRoutes } from '@/helpers/routes';
@@ -21,10 +23,13 @@ import WriteArticleStackScreen, {
   TWriteArticleStackParamList,
 } from '../WriteArticleStack/WriteArticleStack';
 
-const tarBarOptions = {
+const tarBarOptions: BottomTabBarOptions = {
   activeTintColor: 'black',
   style: {
     height: 69,
+  },
+  tabStyle: {
+    alignItems: 'center',
     paddingTop: 14.5,
     paddingBottom: 9,
   },
@@ -33,6 +38,7 @@ const tarBarOptions = {
     paddingTop: 1.6,
     fontSize: 10,
   },
+  keyboardHidesTabBar: true,
 };
 
 const StyledTabBarLabel = styled.Text<{ focused: boolean }>`

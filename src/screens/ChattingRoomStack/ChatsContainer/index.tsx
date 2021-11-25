@@ -44,7 +44,6 @@ function ChattingRoom({
   const isRecentMsgStoredRef = React.useRef(false);
 
   const userID = currentUser?.id;
-
   const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
   const [refresh, setRefresh] = useState(true);
 

@@ -26,7 +26,6 @@ import styles from './ProfileModify.styles';
 
 export interface IUserModify {
   nickname: string;
-  password: string;
   trading_address: string;
   picture: string;
 }
@@ -44,7 +43,6 @@ const ProfileModify: React.FC = () => {
   } = useFormik<IUserModify>({
     initialValues: {
       nickname: '',
-      password: '',
       trading_address: '',
       picture: '',
     },
@@ -67,6 +65,8 @@ const ProfileModify: React.FC = () => {
       if (img.path !== emptyURL) {
         const tempUrl = await uploadSingleImage(img);
         values.picture = tempUrl;
+      } else {
+        delete (values as any).picture;
       }
       await modifyUserProfileMutation.mutateAsync(values);
       navigation.navigate('Profile');
@@ -167,13 +167,6 @@ const ProfileModify: React.FC = () => {
         {errors.nickname && (
           <Text style={styles.text}>사용 불가능한 닉네임입니다.</Text>
         )}
-        {/* <StringInput
-          style={styles.input}
-          placeholderStyle={styles.input}
-          value={values.password}
-          onChangeText={handleChange('password')}
-          placeholder="비밀번호"
-        /> */}
         <StringInput
           style={styles.input}
           placeholderStyle={styles.input}

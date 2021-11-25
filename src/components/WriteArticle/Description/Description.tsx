@@ -15,11 +15,18 @@ function Description({
   setDescription,
   editable,
 }: DescriptionProps): JSX.Element {
+  const ref = React.useRef<TextInput | null>(null);
+
+  const handleContainerTouch = () => {
+    ref.current?.focus();
+  };
+
   return (
-    <View style={styles.bigContainer}>
+    <View style={styles.bigContainer} onTouchStart={handleContainerTouch}>
       <TextInput
+        ref={ref}
         value={description}
-        style={waStyles.text}
+        style={[waStyles.text]}
         placeholder="내용"
         onChangeText={setDescription}
         multiline={true}

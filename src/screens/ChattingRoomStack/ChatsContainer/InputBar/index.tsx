@@ -29,7 +29,7 @@ interface IInputBarInterface {
   handleSendMessage: (input: IMessageImage, img: string) => void;
   id?: number;
   article_id: number;
-  author_id: number;
+  author_id?: number;
 }
 
 const StyledTouchableIcon = styled.TouchableOpacity`

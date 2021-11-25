@@ -137,8 +137,10 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     (articleId?: number) => {
       if (!articleId) return;
 
+      navigation.dispatch(StackActions.pop());
+
       navigation.dispatch(
-        StackActions.replace('MainStack', {
+        StackActions.push('MainStack', {
           screen: 'Home',
           params: {
             screen: EHomeStackScreens.ArticleStack,

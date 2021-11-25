@@ -31,15 +31,10 @@ export const linking: LinkingOptions = {
   prefixes: ['gatgu://', 'https://app.gatgu.site'],
   config: deepLinksConf,
   async getInitialURL() {
-    // Check if app was opened from a deep link
-    /**
-     * 😂😂😂  this is not working in expo-ejected app.
-     * bare react-native로 이전해야 합니다. ㅠ
-     */
     const url = await NativeLinking.getInitialURL();
     if (url != null) return url;
-
     const message = await firebase.messaging().getInitialNotification();
+    console.log('initial message', message);
     return message?.data?.link;
   },
   subscribe(listener) {

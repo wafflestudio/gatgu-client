@@ -115,7 +115,9 @@ class BaseWebsocket {
 
   private _onmessage(e: WebsocketEventMap['onmessage']) {
     const message = JSON.parse(e.data) as TWsMessage;
-    console.log('-----', JSON.stringify(message, null, 2));
+    if (this._options.debug) {
+      console.log('-----', JSON.stringify(message, null, 2));
+    }
 
     switch (message.type) {
       case 'PONG':

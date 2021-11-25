@@ -43,7 +43,7 @@ const UserGatguList: React.FC<IUserGatguListProps> = ({ type }) => {
     <ArticleBox {...item} />
   );
 
-  if (fetching) {
+  if (firstFetching) {
     return <HomeShimmer />;
   }
 

@@ -29,6 +29,7 @@ const usePushNotification = () => {
       return fetchedFcmToken;
     } catch (err) {
       console.error('getFcmToken:', err);
+      return '';
     }
   };
 
@@ -53,6 +54,8 @@ const usePushNotification = () => {
       ...notification,
       channelId: ANDROID_NOTIFICATION_CHANNEL,
       message: notification.message ?? '',
+      largeIcon: 'ic_launcher_foreground',
+      bigLargeIcon: 'ic_launcher_foreground',
     } as PushNotificationObject);
   };
 

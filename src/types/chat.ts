@@ -15,6 +15,7 @@ export interface IChattingRoom {
   chat: string;
   time: number;
   nickName: string;
+  writer_id: number;
 }
 
 export interface IChatListSinglePreview {

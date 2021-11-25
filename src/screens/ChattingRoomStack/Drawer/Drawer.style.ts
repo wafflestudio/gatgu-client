@@ -17,7 +17,6 @@ const DrawerStyles = StyleSheet.create({
     ...commonStyle.container,
     marginBottom: 10,
     paddingTop: 19,
-    height: '21%',
     borderBottomWidth: 1,
     borderBottomColor: palette.borderGray,
   },
@@ -34,6 +33,7 @@ const DrawerStyles = StyleSheet.create({
     ...commonStyle.container,
     paddingTop: 25,
     height: 70,
+    minHeight: 70,
     alignItems: 'flex-start',
   },
   smallLabelText: {

@@ -47,25 +47,23 @@ const AppRouter: React.FC = () => {
         flex: 1,
       }}
     >
-      <NavigationContainer ref={navigationRef} linking={linking}>
-        <AppStack.Navigator>
-          <AppStack.Screen
-            name={EAppStackScreens.MainStack}
-            component={MainStack}
-            options={{ headerShown: false }}
-          />
-          <AppStack.Screen
-            name={EAppStackScreens.ChattingRoomStack}
-            component={ChattingRoomStackScreen}
-            options={{ headerShown: false }}
-          />
-          <AppStack.Screen
-            name={EAppStackScreens.SubStack}
-            component={SubStackScreen}
-            options={{ headerShown: false }}
-          />
-        </AppStack.Navigator>
-      </NavigationContainer>
+      <AppStack.Navigator>
+        <AppStack.Screen
+          name={EAppStackScreens.MainStack}
+          component={MainStack}
+          options={{ headerShown: false }}
+        />
+        <AppStack.Screen
+          name={EAppStackScreens.ChattingRoomStack}
+          component={ChattingRoomStackScreen}
+          options={{ headerShown: false }}
+        />
+        <AppStack.Screen
+          name={EAppStackScreens.SubStack}
+          component={SubStackScreen}
+          options={{ headerShown: false }}
+        />
+      </AppStack.Navigator>
     </SafeAreaView>
   );
 };

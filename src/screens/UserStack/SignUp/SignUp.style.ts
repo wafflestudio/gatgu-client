@@ -14,6 +14,8 @@ const SignUpStyles = StyleSheet.create({
     marginTop: 30,
     height: 27,
     marginBottom: 14,
+    color: palette.blue,
+    fontWeight: 'bold',
   },
   confirmBtnConO: {
     height: 46,

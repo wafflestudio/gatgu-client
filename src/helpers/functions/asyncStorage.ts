@@ -1,5 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { DataWithExpiry } from '@/types/asyncStorage';
+
+import { getTs } from './time';
+
 // string을 넣고 빼는 로직
 export const StringStorage = {
   //< @brief      get value by key, 이때 값이 없거나 오류가 발생하면 에러를 출력
@@ -105,5 +109,11 @@ export const ObjectStorage = {
       );
       AsyncStorage.setItem(key, JSON.stringify(parsedValue));
     });
+  },
+};
+
+export const asyncStorage = {
+  checkDataNotExpired: (data: DataWithExpiry | null) => {
+    return !!data && data.expiry > getTs();
   },
 };
