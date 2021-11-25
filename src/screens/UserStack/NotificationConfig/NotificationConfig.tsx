@@ -9,21 +9,21 @@ import { palette } from '@/styles';
 import { ConfigLayout, IConfigLayoutItem } from '../components/ConfigLayout';
 
 const NotificationConfig: React.FC = () => {
-  const [isChatNotiOn, setChatNotiOn] = React.useState(false);
+  const [isChatNotiOn, setChatNotiOn] = React.useState(true);
 
   const { getFcmToken } = usePushNotification();
 
   const handleChattingNoti = async () => {
-    const nextNotiStatus = !isChatNotiOn;
     try {
       const fcmToken = await getFcmToken();
+      const nextNotiStatus = !isChatNotiOn;
       await userAPI.changeNotificationStatus({
         active: nextNotiStatus,
         token: fcmToken,
       });
       setChatNotiOn(nextNotiStatus);
     } catch (err) {
-      console.error(err.response);
+      console.error(err.response.data);
     }
   };
 
@@ -40,6 +40,19 @@ const NotificationConfig: React.FC = () => {
       ),
     },
   ];
+
+  React.useEffect(() => {
+    getFcmToken()
+      .then((token) => {
+        return userAPI.getNotificationStatus(token);
+      })
+      .then(({ data }) => {
+        setChatNotiOn(data.notification.chatting);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, [getFcmToken]);
 
   return (
     <Flex flex={1} backgroundColor={palette.white}>

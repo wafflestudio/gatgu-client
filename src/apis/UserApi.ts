@@ -109,6 +109,9 @@ export const postFcmToken = (token: string): Promise<AxiosResponse> => {
   return apiClient.post('fcm/', { token });
 };
 
+export const getNotificationStatus = (token: string) => {
+  return apiClient.get(`fcm/notification_switch/?token=${token}`);
+};
 // 알림 on off
 export const changeNotificationStatus = (body: {
   active: boolean;

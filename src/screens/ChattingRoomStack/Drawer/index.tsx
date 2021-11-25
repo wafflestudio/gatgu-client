@@ -185,7 +185,7 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
             사진첩
           </GText>
         </Flex>
-
+        {/* 
         <Flex direction="row" justifyContent="space-between" mr="10px">
           {images.slice(images.length - 2).map((uri) => (
             <Image
@@ -198,7 +198,7 @@ function Drawer({ roomID }: { roomID: number }): JSX.Element {
               resizeMethod="resize"
             />
           ))}
-        </Flex>
+        </Flex> */}
       </View>
       <View style={styles.userContainer}>
         <Text style={styles.bigLabelText}>참여 인원 목록</Text>

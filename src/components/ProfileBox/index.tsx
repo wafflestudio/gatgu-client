@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 
 import { HStack, Image, View } from 'native-base';
 
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 import { useSelector } from '@/helpers/hooks';
 import { useUserDetail } from '@/helpers/hooks/api';
@@ -33,10 +33,15 @@ function ProfileBox({ id, picture, nickname }: IProfileBoxProps): JSX.Element {
       return;
     }
 
-    navigation.navigate(AppRoutes.UserStack, {
-      screen: EUserStackScreens.Profile,
-      params: { id: id },
-    });
+    navigation.dispatch(
+      StackActions.push('MainStack', {
+        screen: 'UserStack',
+        params: {
+          screen: EUserStackScreens.Profile,
+          params: { id: id },
+        },
+      })
+    );
   };
 
   const renderProfileContent = () => {
