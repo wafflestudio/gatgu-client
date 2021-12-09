@@ -1,6 +1,6 @@
 {
   "project_info": {
-    "project_number": "9758139220471",
+    "project_number": "975813922047",
     "project_id": "gatgu-85b09",
     "storage_bucket": "gatgu-85b09.appspot.com"
   },
@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:975813922047:android:bca23fa0f22e798d2550ca",
         "android_client_info": {
-          "package_name": "com.wafflestudio.gatgu.debug"
+          "package_name": "com.wafflestudio.gatgu"
         }
       },
       "oauth_client": [
@@ -20,7 +20,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAUK71BOxRZQz1M6ID_EAB2jcC9UlxUJZA_debug"
+          "current_key": "AIzaSyAUK71BOxRZQz1M6ID_EAB2jcC9UlxUJZA"
         }
       ],
       "services": {
