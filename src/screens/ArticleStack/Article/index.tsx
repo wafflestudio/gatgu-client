@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   DrawerActions,
   RouteProp,
+  StackActions,
+  StackRouter,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
@@ -111,7 +113,7 @@ function ArticlePage(): JSX.Element {
           ) {
             navigation.navigate('Home');
           } else {
-            console.log('can go back ');
+            navigation.dangerouslyGetState().history;
             navigation.goBack();
           }
         }}
