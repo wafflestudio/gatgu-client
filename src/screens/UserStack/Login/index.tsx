@@ -10,10 +10,8 @@ import { StackActions, useNavigation } from '@react-navigation/native';
 import { userAPI } from '@/apis';
 import { setRequesterToken } from '@/apis/apiClient';
 import Logo from '@/assets/icons/Logo';
-import { GInput } from '@/components/Gatgu';
 import { GButton } from '@/components/Gatgu/GButton';
 import { GSpace } from '@/components/Gatgu/GSpace';
-import { GText } from '@/components/Gatgu/GText';
 import { asyncStoragekey } from '@/constants/asyncStorage';
 import { ObjectStorage } from '@/helpers/functions/asyncStorage';
 import { useToaster } from '@/helpers/hooks';
@@ -91,45 +89,20 @@ function Login(): JSX.Element {
       showsVerticalScrollIndicator={false}
     >
       <VStack width="100%" alignItems="center">
-        <Flex width="262px" alignItems="center">
-          <Logo.subLogo style={styles.logo} />
-          <Flex width="100%" mb="40px">
-            <GInput
-              width="full"
-              theme="white"
-              value={id}
-              placeholder="아이디"
-              onChangeText={setID}
-            />
-            <GSpace h={10} />
-            <GInput
-              width="full"
-              theme="white"
-              type="password"
-              value={pw}
-              placeholder="비밀번호"
-              onChangeText={setPW}
-            />
-          </Flex>
+        <Flex width="90%" alignItems="center">
+          <Logo.mainLogo style={styles.logo} />
+          <Logo.subLogo style={styles.subLogo} />
           <GButton
+            theme={'yellow'}
             width="full"
             size="large"
-            textProps={{ bold: true }}
+            textProps={{ color: 'dark' }}
             isLoading={loading}
             onPress={loginReq}
           >
-            로그인
+            카카오 로그인
           </GButton>
           <GSpace h={20} />
-          <GText
-            touchable
-            size={15}
-            color="gray"
-            textDecorationLine="underline"
-            onPress={signUp}
-          >
-            회원가입
-          </GText>
         </Flex>
       </VStack>
     </KeyboardAwareScrollView>

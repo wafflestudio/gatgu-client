@@ -8,11 +8,19 @@ const LoginStyle = StyleSheet.create({
     backgroundColor: palette.white,
   },
   logo: {
-    marginTop: 100,
+    marginTop: 60,
     marginLeft: 'auto',
     marginRight: 'auto',
     width: 190,
     height: 60,
+    marginBottom: 55.6,
+  },
+  subLogo: {
+    marginTop: 20,
+    width: 190,
+    height: 60,
+    marginLeft: 'auto',
+    marginRight: 'auto',
     marginBottom: 55.6,
   },
   input: {
