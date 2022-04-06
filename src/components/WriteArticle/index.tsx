@@ -137,7 +137,7 @@ function WriteArticleTemplate({ isEdit }: IWriteArticleProps): JSX.Element {
     (articleId?: number) => {
       if (!articleId) return;
 
-      navigation.dispatch(StackActions.pop());
+      // navigation.dispatch(StackActions.pop());
 
       navigation.dispatch(
         StackActions.push('MainStack', {
