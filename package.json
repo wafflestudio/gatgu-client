@@ -104,7 +104,7 @@
     "prettier-plugin-import-sort": "0.0.6",
     "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-test-renderer": "~16.13.1",
-    "typescript": "~4.0.0"
+    "typescript": "^4.6.3"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": "npm run lint:fix"
