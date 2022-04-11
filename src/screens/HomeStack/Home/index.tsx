@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
   // 초기 렌더링
   useEffect(() => {
-    getItems('first');
+    // getItems('first');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

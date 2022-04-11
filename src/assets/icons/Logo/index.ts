@@ -1,5 +1,5 @@
 import mainLogo from './Logo13.svg';
-import subLogo from './Logo15.svg';
+import subLogo from './subLogo.svg';
 
 const logo = { mainLogo, subLogo };
 

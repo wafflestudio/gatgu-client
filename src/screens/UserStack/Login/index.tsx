@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { Image, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
 
@@ -89,9 +90,10 @@ function Login(): JSX.Element {
       showsVerticalScrollIndicator={false}
     >
       <VStack width="100%" alignItems="center">
-        <Flex width="90%" alignItems="center">
+        <Flex width="89%" alignItems="center">
           <Logo.mainLogo style={styles.logo} />
           <Logo.subLogo style={styles.subLogo} />
+
           <GButton
             theme={'yellow'}
             width="full"
@@ -100,9 +102,11 @@ function Login(): JSX.Element {
             isLoading={loading}
             onPress={loginReq}
           >
+            <Image source={require('/assets/icons/Kakao/KakaoLogo.png')} />
             카카오 로그인
           </GButton>
-          <GSpace h={20} />
+
+          <GSpace h={'10%'} />
         </Flex>
       </VStack>
     </KeyboardAwareScrollView>
