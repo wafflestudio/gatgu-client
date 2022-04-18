@@ -100,7 +100,7 @@ function Login(): JSX.Element {
             size="large"
             textProps={{ color: 'dark' }}
             isLoading={loading}
-            onPress={loginReq}
+            onPress={signUp}
           >
             <Image source={require('/assets/icons/Kakao/KakaoLogo.png')} />
             카카오 로그인
