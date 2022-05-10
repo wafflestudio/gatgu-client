@@ -1,10 +1,10 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import {Text, View} from 'react-native';
 
 const Login = () => {
   return (
     <View>
-
+      <Text>TEST</Text>
     </View>
   );
 };
