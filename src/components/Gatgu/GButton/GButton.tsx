@@ -1,10 +1,10 @@
 import React from 'react';
-import { ActivityIndicator, ButtonProps, ViewStyle } from 'react-native';
+import {ActivityIndicator, ButtonProps, ViewStyle} from 'react-native';
 
-import { palette } from '@/styles';
+import {palette} from '@/styles';
 
-import { GText, GTextProps } from '../GText';
-import { StyledButtonWrapper } from './GButton.styled';
+import {GText, GTextProps} from '../GText';
+import {StyledButtonWrapper} from './GButton.styled';
 
 export type GButtonWidth = 'default' | 'full' | 'fit';
 export type GButtonSize = 'small' | 'default' | 'large';
@@ -89,8 +89,7 @@ const GButton: React.FC<GButtonProps> = ({
       variant={variant}
       disabled={disabled}
       style={style}
-      {...buttonProps}
-    >
+      {...buttonProps}>
       {renderButtonInner()}
     </StyledButtonWrapper>
   );

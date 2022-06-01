@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 
-import { palette } from '@/styles';
-import { DeepNonNullable } from '@/types/shared';
+import {palette} from '@/styles';
+import {DeepNonNullable} from '@/types/shared';
 
 import {
   GButtonSize,
@@ -98,11 +98,11 @@ const cssButtonThemes: Record<GButtonTheme, Record<GButtonVariant, any>> = {
 };
 
 export const StyledButtonWrapper = styled.TouchableOpacity<PickedGButtonProps>`
-  ${(props) => cssButtonThemes[props.theme as GButtonTheme][props.variant]};
-  ${(props) => cssButtonWidths[props.size][props.width]};
-  ${(props) => cssButtonSizes[props.size]};
+  ${props => cssButtonThemes[props.theme as GButtonTheme][props.variant]};
+  ${props => cssButtonWidths[props.size][props.width]};
+  ${props => cssButtonSizes[props.size]};
 
   align-items: center;
   justify-content: center;
-  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  opacity: ${props => (props.disabled ? 0.5 : 1)};
 `;
