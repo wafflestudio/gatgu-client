@@ -1,6 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {View} from 'react-native';
+import Login from '@/screens/Login';
 
 export type NavigatorParamList = {
   login: undefined;
@@ -17,7 +18,7 @@ export const AppStack = () => {
         headerShown: false,
       }}
       initialRouteName="login">
-      <Stack.Screen name="login" component={() => <View />} />
+      <Stack.Screen name="login" component={() => <Login />} />
       <Stack.Screen name="signUp" component={() => <View />} />
     </Stack.Navigator>
   );
